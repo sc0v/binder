@@ -11,35 +11,37 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130329193641) do
+ActiveRecord::Schema.define(:version => 20130330003207) do
 
-  create_table "categories", :force => true do |t|
-    t.string   "name",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
-  create_table "members", :force => true do |t|
-    t.string   "first_name",      :null => false
-    t.string   "last_name",       :null => false
-    t.string   "andrewid",        :null => false
-    t.boolean  "chair",           :null => false
+  create_table "memberships", :force => true do |t|
     t.integer  "organization_id"
+    t.integer  "participant_id"
+    t.boolean  "is_chair"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
   end
 
-  add_index "members", ["andrewid"], :name => "index_members_on_andrewid"
+  add_index "memberships", ["organization_id"], :name => "index_memberships_on_organization_id"
+  add_index "memberships", ["participant_id"], :name => "index_memberships_on_participant_id"
 
-  create_table "organizations", :force => true do |t|
-    t.string   "name",        :null => false
-    t.integer  "category_id", :null => false
-    t.datetime "created_at",  :null => false
-    t.datetime "updated_at",  :null => false
+  create_table "organization_categories", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
-  create_table "tool_types", :force => true do |t|
-    t.string   "name",       :null => false
+  create_table "organizations", :force => true do |t|
+    t.string   "name"
+    t.integer  "organization_category_id"
+    t.datetime "created_at",               :null => false
+    t.datetime "updated_at",               :null => false
+  end
+
+  add_index "organizations", ["organization_category_id"], :name => "index_organizations_on_organization_category_id"
+
+  create_table "participants", :force => true do |t|
+    t.string   "andrewid"
+    t.string   "cardnumber"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
   end

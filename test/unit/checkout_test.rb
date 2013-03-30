@@ -1,6 +1,6 @@
 require 'test_helper'
 
-class ToolTypeTest < ActiveSupport::TestCase
+class CheckoutTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end

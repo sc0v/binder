@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  organization: 
+  participant: 
+  is_chair: false
+
+two:
+  organization: 
+  participant: 
+  is_chair: false
