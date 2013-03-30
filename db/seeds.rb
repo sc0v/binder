@@ -31,6 +31,8 @@ when 'development'
   
   shift = Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now - 1.hours, ends_at: Time.now + 10.hours, required_number_of_participants: 1 })
   ShiftParticipant.create({ shift: shift, participant: chase, clocked_in_at: Time.now - 50.minutes })
+
+  Charge.create({ charge_type: ChargeType.find_by_name('Blown Breaker'), amount: 25, description: 'Delt blew their breaker all over midway', issuing_participant: chase, receiving_participant: chase, organization: dtd_org })
 when 'production'
   #blah
 end
