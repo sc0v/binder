@@ -5,6 +5,7 @@
 /* ==|== scss definitions =================================================== */
 
 /* ==|== main layout styles ================================================= */
+
 html {
   background-color: #e3f9fd;
 }
@@ -17,5 +18,141 @@ body {
   position: relative;
 }
 
+/*----------------------- header  -------------------*/
+
+
+#header {
+  background-color:white;
+  margin:0px 0px 0 0;
+}
+
+#header-right {
+  float:left;
+  margin: 65px 40px 0 120px;
+  position: absolute;
+}
+
+#logo {
+  width:150px;
+  float:left;
+  margin: 20px 0 20px 370px;
+  z-index:9009;
+}
+
+#cmu {
+  width:120px;
+  margin: 12px 0 8px 0px;
+} 
+ 
+h1 {
+  text-transform:uppercase;
+  font-size:15px;
+  font-family: 'Roboto Condensed', sans-serif;
+  font-weight: 300;
+  letter-spacing:2px;
+  margin: -25px 0 0 0;
+}
+  
+h1 a {
+  text-decoration:none;
+  color:black;
+}
+
+#date {
+  font-size:15px;
+  font-weight: 300;
+  float:right;
+  padding:75px 120px 0 0;
+}
+
+
+/*-------------------------- nav  -------------------*/
+
+
+#nav {
+  clear:both;
+  width:900px;
+  height:36px;
+  background-color:#990000;
+  position:relative;
+  
+}
+
+#nav.nav_floated {
+    position:fixed;
+    top:1px;
+    left: 0;
+    width:100%;
+    background: #EEE;
+}
+
+#nav ul {
+  position:absolute;
+  margin:0 0 0 39px;
+  padding:0;
+  font-size:.9em;
+  background-color:#990000;
+  font-family: 'Roboto Condensed', sans-serif;
+}
+
+#nav ul li {
+  display: inline;
+  list-style:none;
+  display: table-cell;
+  vertical-align: middle;
+
+}
+
+#nav ul li a {
+  text-decoration:none;
+  text-transform:uppercase;
+  color: white;
+  background-color:#990000;
+  margin-top:10px;
+  padding:10.5px 27px;
+  display: table-cell;
+  vertical-align: middle;
+
+}
+
+#nav ul li a:hover {
+  background-color:white;
+  color:black;
+  display: table-cell;
+    vertical-align: middle;
+}
+
+#nav ul li .activetop {
+  background-color:white;
+  color:black;
+  display:table-cell;
+  vertical-align:middle;
+}
+
+/*----------------------- content container  -------------------*/
+ 
+
+#content {
+  background-color:#990000;
+  width:100%;
+  float:left;
+  z-index:99;
+}
+
+/*----------------------- footer  -------------------*/
+
+
+#footer {
+  display: block;
+  width:100%;
+  clear:both;
+  background-color:white;
+  vertical-align:middle;
+  text-align: center;
+}
+
+.footnote {
+  margin:20px auto;
+}
 
 /* ==|== dashboard styles =================================================== */
