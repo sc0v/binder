@@ -1,0 +1,4 @@
+<%= form_for @checkout, :url => { :action => "create" } do |f| %>
+  <%= f.text_field :membership_id %>
+  <%= f.submit "Checkout Tool" %>
+<% end %>

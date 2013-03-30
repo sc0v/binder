@@ -1,0 +1,9 @@
+<%= link_to "New Checkout", new_tool_checkout_url(@tool) %>
+<% @tool.checkouts.each do |checkout| %>
+
+  <%= checkout.membership_id %>
+
+<% end %>
+<%= link_to "New Checkout", new_tool_checkout_url(@tool) %>
+
+

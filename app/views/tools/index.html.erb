@@ -1,0 +1,13 @@
+<div><%= link_to "Add a New Tool", new_tool_url %></div>
+
+<% @tools.each do |tool| %>
+  <li>
+    <%= link_to tool.name, tool_url(tool) %>
+    <%= link_to "Edit", edit_tool_url(tool) %>
+    <%= link_to "Delete", tool, :method => :delete, :confirm => "Are you sure ?"%>
+    <%= link_to "Checkout", new_tool_checkout_url(tool_id: tool) %>
+    <%= link_to "View Checkouts", tool_checkouts_url( tool_id: tool) %>
+  </li>
+<% end %>
+
+<div><%= link_to "Add a New Tool", new_tool_url %></div>
