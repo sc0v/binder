@@ -28,6 +28,7 @@ when 'development'
   chase_in_scc = Membership.create({ participant: chase, organization: scc_org, title: 'Logistics'})
   
   tool = Tool.create({ name: 'hammer', barcode: 7, description: 'it\'s a fucking hammer' })
+  Checkout.create({ tool: tool, membership: chase_in_dtd, checked_out_at: Time.now - 5.hours })
   
   shift = Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now - 1.hours, ends_at: Time.now + 10.hours, required_number_of_participants: 1 })
   ShiftParticipant.create({ shift: shift, participant: chase, clocked_in_at: Time.now - 50.minutes })
