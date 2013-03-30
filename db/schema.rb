@@ -112,13 +112,13 @@ ActiveRecord::Schema.define(:version => 20130330035812) do
     t.datetime "starts_at"
     t.datetime "ends_at"
     t.integer  "required_number_of_participants"
-    t.integer  "organizaion_id"
+    t.integer  "organization_id"
     t.integer  "shift_type_id"
     t.datetime "created_at",                      :null => false
     t.datetime "updated_at",                      :null => false
   end
 
-  add_index "shifts", ["organizaion_id"], :name => "index_shifts_on_organizaion_id"
+  add_index "shifts", ["organization_id"], :name => "index_shifts_on_organization_id"
 
   create_table "tools", :force => true do |t|
     t.string   "name",        :null => false
