@@ -11,18 +11,38 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130330003207) do
+ActiveRecord::Schema.define(:version => 20130330033936) do
+
+  create_table "checkouts", :force => true do |t|
+    t.integer  "membership_id"
+    t.integer  "tool_id"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "checkouts", ["membership_id"], :name => "index_checkouts_on_membership_id"
+  add_index "checkouts", ["tool_id"], :name => "index_checkouts_on_tool_id"
 
   create_table "memberships", :force => true do |t|
     t.integer  "organization_id"
     t.integer  "participant_id"
-    t.boolean  "is_chair"
     t.datetime "created_at",      :null => false
     t.datetime "updated_at",      :null => false
+    t.boolean  "is_booth_chair"
+    t.string   "title"
   end
 
   add_index "memberships", ["organization_id"], :name => "index_memberships_on_organization_id"
   add_index "memberships", ["participant_id"], :name => "index_memberships_on_participant_id"
+
+  create_table "organization_aliases", :force => true do |t|
+    t.string   "alias"
+    t.integer  "organization_id"
+    t.datetime "created_at",      :null => false
+    t.datetime "updated_at",      :null => false
+  end
+
+  add_index "organization_aliases", ["organization_id"], :name => "index_organization_aliases_on_organization_id"
 
   create_table "organization_categories", :force => true do |t|
     t.string   "name"
@@ -41,18 +61,17 @@ ActiveRecord::Schema.define(:version => 20130330003207) do
 
   create_table "participants", :force => true do |t|
     t.string   "andrewid"
-    t.string   "cardnumber"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
+    t.boolean  "has_signed_waiver"
   end
 
   create_table "tools", :force => true do |t|
-    t.string   "name",         :null => false
+    t.string   "name",        :null => false
     t.integer  "barcode"
     t.text     "description"
-    t.integer  "tool_type_id", :null => false
-    t.datetime "created_at",   :null => false
-    t.datetime "updated_at",   :null => false
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   add_index "tools", ["barcode"], :name => "index_tools_on_barcode"
