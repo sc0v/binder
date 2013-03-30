@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Trailer</title>
+  <title>SCC Trailer App</title>
   <%= stylesheet_link_tag    "application", :media => "all" %>
   <%= javascript_include_tag "application" %>
   <%= csrf_meta_tags %>
@@ -12,6 +12,9 @@
 <%= flash[:error] %>
 
 <%= yield %>
+<%= render partial: 'header' %>
 
+
+<%= render partial: 'footer' %>
 </body>
 </html>
