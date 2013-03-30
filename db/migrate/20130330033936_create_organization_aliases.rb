@@ -7,5 +7,6 @@ class CreateOrganizationAliases < ActiveRecord::Migration
       t.timestamps
     end
     add_index :organization_aliases, :organization_id
+    add_index :organization_aliases, :alias
   end
 end

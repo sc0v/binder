@@ -11,13 +11,36 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130330033936) do
+ActiveRecord::Schema.define(:version => 20130330035812) do
+
+  create_table "charge_types", :force => true do |t|
+    t.string   "name"
+    t.boolean  "requires_booth_chair_approval"
+    t.decimal  "default_amount",                :precision => 8, :scale => 2
+    t.text     "description"
+    t.datetime "created_at",                                                  :null => false
+    t.datetime "updated_at",                                                  :null => false
+  end
+
+  create_table "charges", :force => true do |t|
+    t.integer  "organization_id"
+    t.decimal  "amount",                :precision => 8, :scale => 2
+    t.text     "description"
+    t.integer  "issuing_participant"
+    t.integer  "receiving_participant"
+    t.datetime "created_at",                                          :null => false
+    t.datetime "updated_at",                                          :null => false
+  end
+
+  add_index "charges", ["organization_id"], :name => "index_charges_on_organization_id"
 
   create_table "checkouts", :force => true do |t|
     t.integer  "membership_id"
     t.integer  "tool_id"
-    t.datetime "created_at",    :null => false
-    t.datetime "updated_at",    :null => false
+    t.datetime "checked_out_at"
+    t.datetime "checked_in_at"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
   end
 
   add_index "checkouts", ["membership_id"], :name => "index_checkouts_on_membership_id"
@@ -42,6 +65,7 @@ ActiveRecord::Schema.define(:version => 20130330033936) do
     t.datetime "updated_at",      :null => false
   end
 
+  add_index "organization_aliases", ["alias"], :name => "index_organization_aliases_on_alias"
   add_index "organization_aliases", ["organization_id"], :name => "index_organization_aliases_on_organization_id"
 
   create_table "organization_categories", :force => true do |t|
@@ -65,6 +89,36 @@ ActiveRecord::Schema.define(:version => 20130330033936) do
     t.datetime "updated_at",        :null => false
     t.boolean  "has_signed_waiver"
   end
+
+  create_table "shift_participants", :force => true do |t|
+    t.integer  "shift_id"
+    t.integer  "participant_id"
+    t.datetime "clocked_in_at"
+    t.datetime "clocked_out_at"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  add_index "shift_participants", ["participant_id"], :name => "index_shift_participants_on_participant_id"
+  add_index "shift_participants", ["shift_id"], :name => "index_shift_participants_on_shift_id"
+
+  create_table "shift_types", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "shifts", :force => true do |t|
+    t.datetime "starts_at"
+    t.datetime "ends_at"
+    t.integer  "required_number_of_participants"
+    t.integer  "organizaion_id"
+    t.integer  "shift_type_id"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+  end
+
+  add_index "shifts", ["organizaion_id"], :name => "index_shifts_on_organizaion_id"
 
   create_table "tools", :force => true do |t|
     t.string   "name",        :null => false

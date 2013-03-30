@@ -1,5 +1,6 @@
 class Checkout < ActiveRecord::Base
+  attr_accessible :checked_in_at, :checked_out_at
   belongs_to :membership
   belongs_to :tool
-  # attr_accessible :title, :body
+  attr_accessible :membership_id
 end

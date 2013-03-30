@@ -1,0 +1,11 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  starts_at: 2013-03-29 23:47:08
+  ends_at: 2013-03-29 23:47:08
+  organizaion: 
+
+two:
+  starts_at: 2013-03-29 23:47:08
+  ends_at: 2013-03-29 23:47:08
+  organizaion: 

@@ -3,6 +3,8 @@ class CreateCheckouts < ActiveRecord::Migration
     create_table :checkouts do |t|
       t.references :membership
       t.references :tool
+      t.datetime :checked_out_at
+      t.datetime :checked_in_at
 
       t.timestamps
     end

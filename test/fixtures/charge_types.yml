@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  name: MyString
+  requires_booth_chair_approval: false
+  default_amount: 
+  default_amount: 
+  description: MyText
+
+two:
+  name: MyString
+  requires_booth_chair_approval: false
+  default_amount: 
+  default_amount: 
+  description: MyText
