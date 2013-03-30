@@ -5,6 +5,15 @@ Trailer::Application.routes.draw do
   resources :tools do
     resources :checkouts, :only => [:index, :show, :new, :create, :destroy]
   end
+
+  resources :organizations do
+    resources :members, :controller => :memberships
+  end
+
+  resources :participants do
+    resources :tool_checkouts, :controller => :checkouts
+    resources :memberships
+  end
   
 
   # Sample of regular route:
@@ -53,7 +62,7 @@ Trailer::Application.routes.draw do
 
   # You can have the root of your site routed with "root"
   # just remember to delete public/index.html.
-  # root :to => 'welcome#index'
+  root :to => 'dashboard#index'
 
   # See how all your routes lay out with "rake routes"
 
