@@ -27,10 +27,14 @@ when 'development'
   chase_in_dtd = Membership.create({ participant: chase, organization: dtd_org, is_booth_chair: true })
   chase_in_scc = Membership.create({ participant: chase, organization: scc_org, title: 'Logistics'})
   
-  tool = Tool.create({ name: 'hammer', barcode: 7, description: 'it\'s a fucking hammer' })
+  tool = Tool.create({ name: 'Hammer', barcode: 7, description: 'it\'s a fucking hammer' })
+  Tool.create([{name: 'Hardhat', barcode: 111, description: 'Org Hardhat'},
+    {name: 'SCC Hardhat', barcode: 112, description: 'SCC Hardhat'},
+    {name: 'Chair Hardhad', barcode: 113, description: 'Booth Chair Hardhat'}])
   Checkout.create({ tool: tool, membership: chase_in_dtd, checked_out_at: Time.now - 5.hours })
   
   shift = Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now - 1.hours, ends_at: Time.now + 10.hours, required_number_of_participants: 1 })
+  Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now - 3.hours, ends_at: Time.now - 1.hours, required_number_of_participants: 1 })
   ShiftParticipant.create({ shift: shift, participant: chase, clocked_in_at: Time.now - 50.minutes })
 
   Charge.create({ charge_type: ChargeType.find_by_name('Blown Breaker'), amount: 25, description: 'Delt blew their breaker all over midway', issuing_participant: chase, receiving_participant: chase, organization: dtd_org })
