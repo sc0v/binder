@@ -126,7 +126,7 @@ ChargeType.create([
 
 case Rails.env
 when 'development'
-  chase = Participant.create({ andrewid: 'cbrownel', has_signed_waiver: true })
+  chase = Participant.create({ andrewid: 'cbrownel' })
   chase_in_dtd = Membership.create({ participant: chase, organization: dtd_org, is_booth_chair: true })
   chase_in_scc = Membership.create({ participant: chase, organization: scc_org, title: 'Logistics'})
   
