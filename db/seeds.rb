@@ -28,10 +28,12 @@ when 'development'
   chase_in_scc = Membership.create({ participant: chase, organization: scc_org, title: 'Logistics'})
   
   tool = Tool.create({ name: 'Hammer', barcode: 7, description: 'it\'s a fucking hammer' })
-  Tool.create([{name: 'Hardhat', barcode: 111, description: 'Org Hardhat'},
-    {name: 'SCC Hardhat', barcode: 112, description: 'SCC Hardhat'},
-    {name: 'Chair Hardhad', barcode: 113, description: 'Booth Chair Hardhat'}])
+  Tool.create([{name: 'Hardhat', barcode: 111, description: 'Org Hardhat (White)'},
+    {name: 'SCC Hardhat', barcode: 112, description: 'SCC Hardhat (Blue)'},
+    {name: 'EH&S Hardhat', barcode: 115, description: 'Environmental Health and Safety Hardhat (Bright Yellow/Green)'},
+    {name: 'Chair Hardhat', barcode: 113, description: 'Booth Chair Hardhat (Orange)'}])
   Checkout.create({ tool: tool, membership: chase_in_dtd, checked_out_at: Time.now - 5.hours })
+  Checkout.create({ tool: tool, membership: chase_in_dtd, checked_out_at: Time.now - 8.hours, checked_in_at: Time.now - 7.hours })
   
   shift = Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now - 1.hours, ends_at: Time.now + 10.hours, required_number_of_participants: 1 })
   Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now - 3.hours, ends_at: Time.now - 1.hours, required_number_of_participants: 1 })
