@@ -1,9 +1,37 @@
-<%= link_to "New Checkout", new_tool_checkout_url(@tool) %>
-<% @tool.checkouts.each do |checkout| %>
+<h1><%= @tool.name %> - Barcode: <%= @tool.barcode %> - <%= link_to "Edit", edit_tool_url(@tool) %></h1>
 
-  <%= checkout.membership_id %>
-
+<p><b>
+<% if not @tool.checkouts.current.empty? %>
+  <% current = @tool.checkouts.current[0] %>
+  This tool is currently checked out to <%= link_to current.organization.name, current.organization %>. They have had the tool since <%= time current.checked_out_at %>.
+<% else %>
+  This tools is currently not checked out.
 <% end %>
-<%= link_to "New Checkout", new_tool_checkout_url(@tool) %>
+</b></p>
 
+<% if not @tool.checkouts.old.empty? %>
+  <p>
+  <h1>Previous Checkouts</h1>
+  <table>
+  <tr>
+    <th>Organization</th>
+    <th>Checked Out</th>
+    <th>Checked In</th>
+  </tr>
 
+  <% @tool.checkouts.old.each do |checkout| %>
+    <tr>
+      <td><%= link_to checkout.organization.name, checkout.organization %>
+      <td><%= time checkout.checked_out_at %>
+      <td><%= time checkout.checked_in_at %>
+    </tr>
+  <% end %>
+  </table>
+  </p>
+<% end %>
+
+<% if @tool.checkouts.current.empty? %>
+  <%= link_to "Checkout", new_tool_checkout_url(@tool) %>
+<% else %>
+  CHECKIN -- PLEASE FIX
+<% end %>

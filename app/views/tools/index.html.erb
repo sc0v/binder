@@ -1,13 +1,20 @@
 <div><%= link_to "Add a New Tool", new_tool_url %></div>
 
-<% @tools.each do |tool| %>
-  <li>
-    <%= link_to tool.name, tool_url(tool) %>
-    <%= link_to "Edit", edit_tool_url(tool) %>
-    <%= link_to "Delete", tool, :method => :delete, :confirm => "Are you sure ?"%>
-    <%= link_to "Checkout", new_tool_checkout_url(tool_id: tool) %>
-    <%= link_to "View Checkouts", tool_checkouts_url( tool_id: tool) %>
-  </li>
-<% end %>
+<table class="no-border">
+  <% @tools.each do |tool| %>
+    <tr>
+      <td><%= link_to tool.name, tool_checkouts_url(tool_id: tool) %>
+      <td><%= link_to "Edit", edit_tool_url(tool) %>
+      <td><%= link_to "Delete", tool, :method => :delete, :confirm => "Are you sure ?"%>
+      <td>
+        <% if tool.checkouts.current.empty? %>
+          <%= link_to "Checkout", new_tool_checkout_url(tool_id: tool) %>
+        <% else %>
+          CHECKIN -- PLEASE FIX
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>
 
 <div><%= link_to "Add a New Tool", new_tool_url %></div>
