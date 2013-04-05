@@ -6,7 +6,8 @@ class Checkout < ActiveRecord::Base
   has_one :organization, :through => :membership
   belongs_to :tool
   attr_accessible :membership_id
+
+  default_scope order('tool_id and checked_out_at DESC')
   scope :old, where('checked_in_at is not null')
   scope :current, where('checked_in_at is null').limit(1)
-
 end

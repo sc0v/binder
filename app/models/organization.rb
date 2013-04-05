@@ -9,4 +9,6 @@ class Organization < ActiveRecord::Base
   has_many :shifts, :dependent => :destroy
   validates :organization_category, :presence => true
   validates :name, :presence => true, :uniqueness => true
+
+  default_scope order('organization_category_id and name asc')
 end
