@@ -8,11 +8,11 @@
 
 # Organization Categories -----------------
 scc = OrganizationCategory.create({ name: 'SCC'})
-concessions = OrganizationCategory.create({ name: 'Concessions'})
 frat = OrganizationCategory.create({ name: 'Fraternity'})
 soro = OrganizationCategory.create({ name: 'Sorority'})
 indie = OrganizationCategory.create({ name: 'Independent'})
 blitz = OrganizationCategory.create({ name: 'Blitz'})
+concessions = OrganizationCategory.create({ name: 'Concessions'})
 non_building = OrganizationCategory.create({ name: 'Non-Building' })
 
 # Organizations ---------------------------
