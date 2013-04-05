@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130404195645) do
+ActiveRecord::Schema.define(:version => 20130405182245) do
 
   create_table "charge_types", :force => true do |t|
     t.string   "name"
@@ -88,6 +88,7 @@ ActiveRecord::Schema.define(:version => 20130404195645) do
     t.datetime "created_at",        :null => false
     t.datetime "updated_at",        :null => false
     t.boolean  "has_signed_waiver"
+    t.string   "phone_number"
   end
 
   create_table "shift_participants", :force => true do |t|

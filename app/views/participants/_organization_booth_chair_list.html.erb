@@ -1,0 +1,21 @@
+<% if not organization_booth_chair_list.empty? %>
+  <table>
+    <tr>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>AndrewID</th>
+      <th>Phone Number</th>
+    </tr>
+    <% organization_booth_chair_list.each do |chair| %>
+      <tr>
+        <td>FIRST - FIX</td>
+        <td>LAST - FIX</td>
+        <td><%= link_to chair.participant.andrewid, chair.participant %></td>
+        <td><%= number_to_phone chair.participant.phone_number || "N/A" %></td>
+      </tr>
+    <% end %>
+  </table>
+<% else %>
+  This organization has no booth chairs.
+<% end %>
+

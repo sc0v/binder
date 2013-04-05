@@ -76,11 +76,25 @@ mayur_org = Organization.create({ name: 'Mayur SASA', organization_category: bli
 stever_org = Organization.create({ name: 'Stever', organization_category: blitz })
 
 crew_org = Organization.create({ name: 'Crew', organization_category: non_building })
+the_os_org = Organization.create({ name: 'The Originals', organization_category: non_building })
+  OrganizationAlias.create({ organization: the_os_org, name: 'The O\'s' })
+pike_org = Organization.create({ name: 'Pi Kappa Alpha', organization_category: non_building })
+  OrganizationAlias.create({ organization: pike_org, name: 'Pike' })
+  OrganizationAlias.create({ organization: pike_org, name: 'Pika' })
+polo_org = Organization.create({ name: 'Water Polo', organization_category: non_building })
+  OrganizationAlias.create({ organization: polo_org, name: 'Polo' })
+habitat_org = Organization.create({ name: 'Habitat for Humanity', organization_category: non_building })
+  OrganizationAlias.create({ organization: habitat_org, name: 'Habitat' })
+
+tartan_org = Organization.create({ name: 'The Tartan', organization_category: non_building })
+thistle_org = Organization.create({ name: 'The Thistle', organization_category: non_building })
+senate_org = Organization.create({ name: 'Student Senate', organization_category: non_building })
+  OrganizationAlias.create({ organization: senate_org, name: 'JFC' })
 
 ShiftType.create([
-  { name: 'Watch Shift'}, 
-  {name: 'Security Shift'}, 
-  { name: 'Coordinator Shift'}])
+  { name: 'Watch Shift' }, 
+  { name: 'Security Shift' }, 
+  { name: 'Coordinator Shift' }])
 
 ChargeType.create([
   { name: 'Other', 
@@ -126,7 +140,9 @@ ChargeType.create([
 
 case Rails.env
 when 'development'
-  chase = Participant.create({ andrewid: 'cbrownel' })
+  chase = Participant.create({ andrewid: 'cbrownel', phone_number: 7173435788 })
+  merichar = Participant.create({ andrewid: 'meribyte' })
+  merichar_in_scc = Membership.create({ participant: merichar, organization: scc_org, is_booth_chair: true })
   chase_in_dtd = Membership.create({ participant: chase, organization: dtd_org, is_booth_chair: true })
   chase_in_scc = Membership.create({ participant: chase, organization: scc_org, title: 'Logistics'})
   

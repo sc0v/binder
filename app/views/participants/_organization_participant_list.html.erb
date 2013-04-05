@@ -1,0 +1,23 @@
+<% if not organization_participant_list.empty? %>
+  
+  <table id="organization_participant_list">
+    <thead>
+      <tr>
+        <th>First Name</th>
+        <th>Last Name</th>
+        <th>AndrewID</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @members.each do |member| %>
+        <tr>
+          <td>FIRST - FIX</td>
+          <td>LAST - FIX</td>
+          <td><%= link_to member.participant.andrewid, member.participant %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  This organization has no members.
+<% end %>

@@ -9,5 +9,5 @@ class Checkout < ActiveRecord::Base
 
   default_scope order('tool_id and checked_out_at DESC')
   scope :old, where('checked_in_at is not null')
-  scope :current, where('checked_in_at is null').limit(1)
+  scope :current, where('checked_in_at is null')
 end

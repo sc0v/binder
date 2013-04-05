@@ -1,0 +1,16 @@
+<h1>Organizations</h1>
+
+  <p>
+  <table class="no-border">
+<% @organization_categories.each do |organization_category| %>
+    <tr><td colspan="3" style="text-align: left"><h2><%= organization_category.name %></h2></td></td>
+    <% organization_category.organizations.each do |org| %>
+      <tr>
+        <td><%= link_to org.name, org %>
+        <td><%= link_to "Edit", edit_organization_url(org) %>
+        <td><%= link_to "Delete", org, :method => :delete, :confirm => "Are you sure ?"%>
+      </tr>
+    <% end %>
+<% end %>
+  </table>
+  </p>

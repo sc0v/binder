@@ -1,7 +1,7 @@
 <h1><%= @tool.name %> - Barcode: <%= @tool.barcode %> - <%= link_to "Edit", edit_tool_url(@tool) %></h1>
 
 <p><b>
-<% if not @tool.checkouts.current.empty? %>
+<% if @tool.is_checked_out %>
   <% current = @tool.checkouts.current[0] %>
   This tool is currently checked out to <%= link_to current.organization.name, current.organization %>. They have had the tool since <%= time current.checked_out_at %>.
 <% else %>
@@ -9,31 +9,15 @@
 <% end %>
 </b></p>
 
-<% if not @tool.checkouts.old.empty? %>
-  <p>
-  <h1>Previous Checkouts</h1>
-  <table>
-  <tr>
-    <th>Organization</th>
-    <th>Checked Out</th>
-    <th>Checked In</th>
-    <th>AndrewID</th>
-  </tr>
+<h2>Previous Checkouts</h2>
+<div id="previous_checkouts">
+  <%= render :partial => 'checkouts/tool_checkout_list', :object => @tool.checkouts.old %>
+</div>
 
-  <% @tool.checkouts.old.each do |checkout| %>
-    <tr>
-      <td><%= link_to checkout.organization.name, checkout.organization %></td>
-      <td><%= time checkout.checked_out_at %></td>
-      <td><%= time checkout.checked_in_at %></td>
-      <td><%= link_to checkout.participant.andrewid, checkout.participant %></td>
-    </tr>
+<p>
+  <% if @tool.checkouts.current.empty? %>
+    <%= link_to "Checkout", new_tool_checkout_url(@tool) %>
+  <% else %>
+    CHECKIN -- PLEASE FIX
   <% end %>
-  </table>
-  </p>
-<% end %>
-
-<% if @tool.checkouts.current.empty? %>
-  <%= link_to "Checkout", new_tool_checkout_url(@tool) %>
-<% else %>
-  CHECKIN -- PLEASE FIX
-<% end %>
+</p>
