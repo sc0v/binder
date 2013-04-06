@@ -1,0 +1,26 @@
+<% if not organization_charge_list.empty? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Charge Type</th>
+        <th>Amount</th>
+        <th>Issued At</th>
+        <th>Issued By</th>
+        <th>Issued To</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% organization_charge_list.each do |charge| %>
+        <tr>
+          <td><%= charge.charge_type.name %></td>
+          <td><%= number_to_currency charge.amount %></td>
+          <td><%= date_and_time charge.charged_at %></td>
+          <td><%= link_to charge.issuing_participant.name, charge.issuing_participant %></td>
+          <td><%= if charge.receiving_participant == nil then "N/A" else link_to charge.receiving_participant.name, charge.receiving_participant end %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  This organization has no charges.
+<% end %>

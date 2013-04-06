@@ -1,9 +1,18 @@
-<h1><%= @charge.charge_type.name %> - <%= @charge.organization.name %> - <%= @charge.created_at %></h1>
+<h1><%= @charge.charge_type.name %></h1>
+<h2><%= link_to @charge.organization.name, @charge.organization %></h2>
 
-<h2>Issued by: <%= @charge.issuing_participant.name %></h2>
-</br>
-<h2><%= if @charge.receiving_participant == nil then "Not yet signed for." else "Issued to: " + @charge.receiving_participant.name %></h2>
+<ul>
+<li>Issued at: <%= date_and_time @charge.created_at %></li>
 
-<p>
-<%= @charge.description || "No Description provided" %>
-</p>
+<li>Issued by: <%= link_to @charge.issuing_participant.name, @charge.issuing_participant %></li>
+
+<li>
+  <% if @charge.receiving_participant == nil %>
+    Not yet signed for.
+  <% else %>
+    Issued to: <%= link_to(@charge.receiving_participant.name, @charge.receiving_participant) %>
+  <% end %>
+</li>
+
+<li>Description: <%= @charge.description || "No Description provided" %></li>
+</ul>

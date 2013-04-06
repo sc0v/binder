@@ -9,6 +9,7 @@ class OrganizationsController < ApplicationController
     @members = @organization.memberships.all
     @checkouts = @organization.checkouts.current.all
     @shifts = @organization.shifts.all
+    @charges = @organization.charges.all
   end
 
   def edit
