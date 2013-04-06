@@ -24,6 +24,8 @@ end
 
 gem 'jquery-rails'
 
+gem 'activeldap', :require => 'active_ldap/railtie'
+
 # To use ActiveModel has_secure_password
 # gem 'bcrypt-ruby', '~> 3.0.0'
 
