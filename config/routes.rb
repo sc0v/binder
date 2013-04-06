@@ -8,12 +8,16 @@ Trailer::Application.routes.draw do
 
   resources :organizations do
     resources :members, :controller => :memberships
+    resources :tool_checkouts, :controller => :checkouts
+    resources :charges
   end
 
   resources :participants do
     resources :tool_checkouts, :controller => :checkouts
     resources :memberships
   end
+
+  resources :charges
   
 
   # Sample of regular route:
