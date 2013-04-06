@@ -3,16 +3,14 @@
   <table id="organization_participant_list">
     <thead>
       <tr>
-        <th>First Name</th>
-        <th>Last Name</th>
+        <th>Name</th>
         <th>AndrewID</th>
       </tr>
     </thead>
     <tbody>
       <% @members.each do |member| %>
         <tr>
-          <td>FIRST - FIXME</td>
-          <td>LAST - FIXME</td>
+          <td><%= link_to member.participant.name, member.participant %></td>
           <td><%= link_to member.participant.andrewid, member.participant %></td>
         </tr>
       <% end %>
