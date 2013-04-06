@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130405182245) do
+ActiveRecord::Schema.define(:version => 20130406194442) do
 
   create_table "charge_types", :force => true do |t|
     t.string   "name"
@@ -24,12 +24,14 @@ ActiveRecord::Schema.define(:version => 20130405182245) do
 
   create_table "charges", :force => true do |t|
     t.integer  "organization_id"
-    t.decimal  "amount",                :precision => 8, :scale => 2
+    t.integer  "charge_type_id"
+    t.decimal  "amount",                   :precision => 8, :scale => 2
     t.text     "description"
-    t.integer  "issuing_participant"
-    t.integer  "receiving_participant"
-    t.datetime "created_at",                                          :null => false
-    t.datetime "updated_at",                                          :null => false
+    t.integer  "issuing_participant_id"
+    t.integer  "receiving_participant_id"
+    t.datetime "created_at",                                             :null => false
+    t.datetime "updated_at",                                             :null => false
+    t.datetime "charged_at"
   end
 
   add_index "charges", ["organization_id"], :name => "index_charges_on_organization_id"

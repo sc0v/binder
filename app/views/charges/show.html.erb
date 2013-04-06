@@ -1,0 +1,9 @@
+<h1><%= @charge.charge_type.name %> - <%= @charge.organization.name %> - <%= @charge.created_at %></h1>
+
+<h2>Issued by: <%= @charge.issuing_participant.name %></h2>
+</br>
+<h2><%= if @charge.receiving_participant == nil then "Not yet signed for." else "Issued to: " + @charge.receiving_participant.name %></h2>
+
+<p>
+<%= @charge.description || "No Description provided" %>
+</p>
