@@ -24,6 +24,7 @@ end
 
 gem 'jquery-rails'
 
+gem 'net-ldap'
 gem 'activeldap', :require => 'active_ldap/railtie'
 
 # To use ActiveModel has_secure_password
