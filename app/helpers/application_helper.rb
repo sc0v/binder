@@ -9,7 +9,7 @@ def date(d)
 end
 
 def date_and_time(d)
-  [date(d), time(d)].compact.joins(" ")
+  [date(d), time(d)].compact.join(" ")
 end
 
 end
