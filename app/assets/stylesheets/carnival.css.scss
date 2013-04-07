@@ -111,6 +111,9 @@ body {
 
 a {
   color: #444;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -webkit-user-drag: none;
 
   &:active {
     color: $carnival-red;
