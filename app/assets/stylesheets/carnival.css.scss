@@ -50,14 +50,16 @@ body {
 
       a {
         height: 68px;
+        width: 150px;
         text-decoration:none;
         text-transform:uppercase;
+        text-align: center;
         color: white;
         background-color: $carnival-red;
         padding: auto;
         display: table-cell;
         vertical-align: middle;
-        padding: 0 30px;
+        padding: 0;
         border: 1px solid white;
 
         &:hover {
