@@ -7,12 +7,18 @@
   <%= csrf_meta_tags %>
 </head>
 <body>
-<%= flash[:success] %>
-<%= flash[:notice] %>
-<%= flash[:error] %>
-
 <div id="header">
 <%= render partial: 'layouts/header' %>
+</div>
+
+<div id="flash">
+  <% flash.each do |k,v| %>
+    <% unless v.nil?  %>
+      <section id="<%= "flash-#{k}" %>" class="<%= "flash #{k}" %>">
+        <%= v %>
+      </section>
+    <% end %>
+  <% end %>
 </div>
 
 <div id="content">
