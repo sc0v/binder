@@ -6,6 +6,8 @@ Trailer::Application.routes.draw do
     resources :checkouts, :only => [:index, :show, :new, :create, :destroy]
   end
 
+  resources :shifts
+
   resources :organizations do
     resources :members, :controller => :memberships
     resources :tool_checkouts, :controller => :checkouts

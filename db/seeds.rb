@@ -138,6 +138,11 @@ ChargeType.create([
     requires_booth_chair_approval: true, 
     default_amount: 100 }])
 
+  # Task Statuses ----------------------------------------
+  uncompleted_task = TaskStatus.create({ name: "Not Completed" })
+  completed_task = TaskStatus.create({ name: "Completed" })
+  unable_to_complete_task = TaskStatus.create({ name: "Unable to Complete" })
+
 case Rails.env
 when 'development'
   chase = Participant.create({ andrewid: 'cbrownel', phone_number: 7173435788 })
@@ -155,11 +160,16 @@ when 'development'
   Checkout.create({ tool: tool, membership: chase_in_dtd, checked_out_at: Time.now - 5.hours })
   Checkout.create({ tool: tool, membership: chase_in_dtd, checked_out_at: Time.now - 8.hours, checked_in_at: Time.now - 7.hours })
   
-  shift = Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now - 1.hours, ends_at: Time.now + 10.hours, required_number_of_participants: 1 })
-  Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now - 3.hours, ends_at: Time.now - 1.hours, required_number_of_participants: 1 })
+  shift = Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now - 1.hours, ends_at: Time.now + 1.hours, required_number_of_participants: 1 })
+  Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now - 3.hours, ends_at: Time.now - 1.hour, required_number_of_participants: 1 })
+  Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now + 1.hours, ends_at: Time.now + 15.hours, required_number_of_participants: 1 })
   ShiftParticipant.create({ shift: shift, participant: chase, clocked_in_at: Time.now - 50.minutes })
 
   Charge.create({ charge_type: ChargeType.find_by_name('Blown Breaker'), amount: 25, description: 'Delt blew their breaker all over midway', issuing_participant: merichar, receiving_participant: chase, organization: dtd_org, charged_at: Time.now })
+
+  # Tasks ---
+  Task.create([{ name: "Do me", task_status: uncompleted_task, due_at: Time.now + 1.hour, display_duration: 3.hours, description: "Many things" },
+    {name: "fuck", due_at: Time.now, display_duration: 1.hours, completed_by: chase, task_status: TaskStatus.find(1)}])
 when 'production'
   #blah
 end

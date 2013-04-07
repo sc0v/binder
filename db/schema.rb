@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130406194442) do
+ActiveRecord::Schema.define(:version => 20130406234921) do
 
   create_table "charge_types", :force => true do |t|
     t.string   "name"
@@ -122,6 +122,25 @@ ActiveRecord::Schema.define(:version => 20130406194442) do
   end
 
   add_index "shifts", ["organization_id"], :name => "index_shifts_on_organization_id"
+
+  create_table "task_statuses", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "tasks", :force => true do |t|
+    t.datetime "due_at"
+    t.time     "display_duration"
+    t.integer  "completed_by_id"
+    t.string   "name"
+    t.text     "description"
+    t.integer  "task_status_id"
+    t.datetime "created_at",       :null => false
+    t.datetime "updated_at",       :null => false
+  end
+
+  add_index "tasks", ["task_status_id"], :name => "index_tasks_on_task_status_id"
 
   create_table "tools", :force => true do |t|
     t.string   "name",        :null => false

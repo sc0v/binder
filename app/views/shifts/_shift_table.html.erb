@@ -1,0 +1,26 @@
+<% if not shift_table.empty? %>
+  <table>
+    <thead>
+      <tr>
+        <th>Shift Type</th>
+        <th>Organization</th>
+        <th>Starting Time</th>
+        <th>Ending Time</th>
+        <th>People Required</th>
+      </tr>
+    </thead>
+    </tbody>
+      <% shift_table.each do |shift| %>
+        <tr>
+          <td><%= shift.shift_type.name %></td>
+          <td><%= link_to shift.organization.name, shift.organization %></td>
+          <td><%= time shift.starts_at %></td>
+          <td><%= time shift.ends_at %></td>
+          <td><%= shift.required_number_of_participants %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  No Shifts to Display.
+<% end %>

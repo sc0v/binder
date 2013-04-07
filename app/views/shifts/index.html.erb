@@ -1,0 +1,15 @@
+<h1>Shifts</h1>
+
+<h2>Current Shifts</h2>
+
+<div id="current">
+  <%= render :partial => 'shift_table', :object => @current_shifts %>
+</div>
+
+<h2>Upcoming Shifts</h2>
+
+<div id="upcoming">
+  <%= render :partial => 'shift_table', :object => @upcoming_shifts %>
+</div>
+
+</br>
