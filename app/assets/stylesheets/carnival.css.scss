@@ -71,6 +71,31 @@ body {
   }
 }
 
+/*----------------------- flashes ------------------------------*/
+
+#flash {
+  margin: 20px;
+  padding: -24px;
+  text-align: center;
+  line-height: 30px;
+  font-weight: bold;
+
+  .notice {
+    color: black;
+    border: 2px solid black;
+  }
+
+  .success {
+    color: green;
+    border: 2px solid green;
+  }
+
+  .error {
+    color: red;
+    border: 2px solid red;
+  }
+}
+
 /*----------------------- content container  -------------------*/
  
 
@@ -144,6 +169,7 @@ table {
   border-collapse: collapse;
 
   th {
+    padding: 10px;
     font-family: 'Roboto Condensed', sans-serif;
     border-bottom: 1px solid $table-border-color;
   }
