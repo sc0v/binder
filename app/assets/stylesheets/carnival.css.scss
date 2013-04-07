@@ -45,9 +45,10 @@ body {
       list-style:none;
       display: table-cell;
       vertical-align: middle;
+      padding: 5px;
 
       a {
-        height: 80px;
+        height: 68px;
         text-decoration:none;
         text-transform:uppercase;
         color: white;
@@ -56,6 +57,7 @@ body {
         display: table-cell;
         vertical-align: middle;
         padding: 0 30px;
+        border: 1px solid white;
 
         &:hover {
           background-color:white;
