@@ -2,10 +2,14 @@
 
 <h2>Current Shifts</h2>
 
-  <%= render :partial => 'shift_table', :locals => {:shifts => @current_shifts} %>
+<div id="current">
+  <%= render :partial => 'shift_table', :object => @current_shifts %>
+</div>
 
 <h2>Upcoming Shifts</h2>
 
-  <%= render :partial => 'shift_table', :locals => {:shifts => @upcoming_shifts} %>
+<div id="upcoming">
+  <%= render :partial => 'shift_table', :object => @upcoming_shifts %>
+</div>
 
 </br>

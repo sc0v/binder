@@ -1,5 +1,5 @@
-<div>
-  <table class="no-border" id="shifts">
+<% if not shift_table.empty? %>
+  <table>
     <thead>
       <tr>
         <th>Shift Type</th>
@@ -10,17 +10,17 @@
       </tr>
     </thead>
     </tbody>
-      <% shifts.each do |shift| %>
+      <% shift_table.each do |shift| %>
         <tr>
           <td><%= shift.shift_type.name %></td>
-          <td><%= shift.organization.name %></td>
-          <td><%= date_and_time shift.starts_at %></td>
-          <td><%= date_and_time shift.ends_at %></td>
+          <td><%= link_to shift.organization.name, shift.organization %></td>
+          <td><%= time shift.starts_at %></td>
+          <td><%= time shift.ends_at %></td>
           <td><%= shift.required_number_of_participants %></td>
         </tr>
       <% end %>
     </tbody>
   </table>
-</div>
-
-
+<% else %>
+  No Shifts to Display.
+<% end %>
