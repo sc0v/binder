@@ -7,3 +7,8 @@
     <li><%= link_to "Shifts", shifts_url %></li>
   </ul>
 </div>
+<% if Rails.env.development? %>
+  <div style="width: 100%; height: 50px; background: green; vertical-align: center; text-align: center;">
+    <b>DEVELOPMENT</b>
+  </div>
+<% end %>

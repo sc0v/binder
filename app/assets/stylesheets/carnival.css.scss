@@ -139,14 +139,17 @@ table {
 
   th {
     font-family: 'Roboto Condensed', sans-serif;
-    padding: 5px 10px;
     border-bottom: 1px solid $table-border-color;
   }
 
   td {
-    padding: 5px;
     border-left: 1px solid $table-border-color;
     text-align: center;
+  }
+
+  a {
+    padding: 10px;
+    display: block; 
   }
 }
 
