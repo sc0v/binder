@@ -5,6 +5,7 @@
 /* ==|== scss definitions =================================================== */
 
 $background-color: #eeeeee;
+$carnival-red: #990000;
 $table-border-color: gray;
 
 /* ==|== main layout styles ================================================= */
@@ -31,11 +32,11 @@ body {
 
 
 #nav {
-  background-color:#990000;
+  background-color: $carnival-red;
   
   ul {
     font-size: 1.1em;
-    background-color:#990000;
+    background-color: $carnival-red;
     font-family: 'Roboto Condensed', sans-serif;
     margin: 0;
     padding: 0 40px;
@@ -52,7 +53,7 @@ body {
         text-decoration:none;
         text-transform:uppercase;
         color: white;
-        background-color:#990000;
+        background-color: $carnival-red;
         padding: auto;
         display: table-cell;
         vertical-align: middle;
@@ -61,7 +62,7 @@ body {
 
         &:hover {
           background-color:white;
-          color:black;
+          color: $carnival-red;
           display: table-cell;
           vertical-align: middle;
         }
@@ -108,16 +109,22 @@ body {
 
 /*--------------------- general ---------------------*/
 
+a {
+  color: #444;
+
+  &:active {
+    color: $carnival-red;
+    border: 2px solid $carnival-red;
+    margin: -1px;
+  }
+}
+
 h1 {
   text-transform:uppercase;
   font-size:25px;
   font-weight: 900;
   letter-spacing:2px;
   font-family: 'Roboto Condensed', sans-serif;
-
-  a {
-    color:black;
-  }
 }
 
 h2 {
@@ -126,10 +133,6 @@ h2 {
   font-weight: 300;
   letter-spacing:2px;
   font-family: 'Roboto Condensed', sans-serif;
-
-  a {
-    color:black;
-  }
 }
 
 table {
@@ -150,6 +153,12 @@ table {
   a {
     padding: 10px;
     display: block; 
+
+    &:active {
+      border: none;
+      background-color: $carnival-red;
+      color: white;
+    }
   }
 }
 
