@@ -13,10 +13,17 @@ class ToolsController < ApplicationController
   end
 
   def create
+
+    @tool = Tool.find_by_barcode(params[:tool][:barcode])
+    if @tool
+      redirect_to new_tool_checkout_url(@tool)
+    else
+
     @tool = Tool.new( params[:tool] )
     @tool.save!
     flash[:success] = "Tool created successfully"
     redirect_to new_tool_url
+    end
   rescue
     flash[:error] = "Error creating tool"
     redirect_to new_tool_url

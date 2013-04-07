@@ -1,7 +1,11 @@
 class CheckoutsController < ApplicationController
 
   def index
-    @tool = Tool.find(params[:tool_id])
+    unless params[:tool_id]
+      render 'lookup'
+    else
+      @tool = Tool.find(params[:tool_id])
+    end
   end
 
   def show
@@ -19,5 +23,7 @@ class CheckoutsController < ApplicationController
     @checkout.save!
     redirect_to tool_checkouts_url(@tool)
   end
+
+  
 
 end

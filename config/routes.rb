@@ -19,6 +19,8 @@ Trailer::Application.routes.draw do
     resources :memberships
   end
 
+  resources :checkouts, :only => [:index, :destroy]
+
   resources :charges
   
 
