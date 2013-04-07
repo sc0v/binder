@@ -34,6 +34,7 @@ namespace :deploy do
   task :stop do ; end
   task :restart, :roles => :app, :except => { :no_release => true } do
     run "#{try_sudo} touch #{File.join(current_path,'tmp','restart.txt')}"
+    run "#{try_sudo} service apache2 restart"
   end
 
   task :secret_config, :except => { :no_release => true }, :role => :app do
@@ -51,3 +52,5 @@ namespace :deploy do
 end
 after "deploy:update", "deploy:secret_config"
 after "deploy:update", "deploy:db_config"
+after "deploy:update", "deploy:assets:precompile"
+
