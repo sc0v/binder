@@ -1,0 +1,11 @@
+<h1>Shifts</h1>
+
+<h2>Current Shifts</h2>
+
+  <%= render :partial => 'shift_table', :locals => {:shifts => @current_shifts} %>
+
+<h2>Upcoming Shifts</h2>
+
+  <%= render :partial => 'shift_table', :locals => {:shifts => @upcoming_shifts} %>
+
+</br>

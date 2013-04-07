@@ -1,0 +1,26 @@
+<div>
+  <table class="no-border" id="shifts">
+    <thead>
+      <tr>
+        <th>Shift Type</th>
+        <th>Organization</th>
+        <th>Starting Time</th>
+        <th>Ending Time</th>
+        <th>People Required</th>
+      </tr>
+    </thead>
+    </tbody>
+      <% shifts.each do |shift| %>
+        <tr>
+          <td><%= shift.shift_type.name %></td>
+          <td><%= shift.organization.name %></td>
+          <td><%= date_and_time shift.starts_at %></td>
+          <td><%= date_and_time shift.ends_at %></td>
+          <td><%= shift.required_number_of_participants %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
+
