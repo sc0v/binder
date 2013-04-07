@@ -13,11 +13,3 @@
 <div id="previous_checkouts">
   <%= render :partial => 'checkouts/tool_checkout_list', :object => @tool.checkouts.old %>
 </div>
-
-<p>
-  <% if @tool.checkouts.current.empty? %>
-    <%= link_to "Checkout", new_tool_checkout_url(@tool) %>
-  <% else %>
-    CHECKIN -- PLEASE FIXME
-  <% end %>
-</p>
