@@ -45,3 +45,7 @@ gem 'activeldap', :require => 'active_ldap/railtie'
 group :development do
   gem "rails-erd"
 end
+
+group :production do
+  gem 'passenger'
+end
