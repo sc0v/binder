@@ -50,10 +50,12 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.6.1)
+    daemon_controller (1.1.1)
     erubis (2.7.0)
     execjs (1.4.0)
       multi_json (~> 1.0)
     fast_gettext (0.7.0)
+    fastthread (1.0.7)
     gettext (2.3.7)
       levenshtein
       locale
@@ -77,6 +79,11 @@ GEM
     multi_json (1.6.1)
     mysql2 (0.3.11)
     net-ldap (0.3.1)
+    passenger (3.0.19)
+      daemon_controller (>= 1.0.0)
+      fastthread (>= 1.0.1)
+      rack
+      rake (>= 0.8.1)
     polyglot (0.3.3)
     rack (1.4.5)
     rack-cache (1.2)
@@ -143,6 +150,7 @@ DEPENDENCIES
   jquery-rails
   mysql2
   net-ldap
+  passenger
   rails (= 3.2.11)
   rails-erd
   sass-rails (~> 3.2.3)
