@@ -9,7 +9,7 @@
       <tr>
         <td><%= link_to chair.participant.name, chair.participant %></td>
         <td><%= link_to chair.participant.andrewid, chair.participant %></td>
-        <td><%= number_to_phone chair.participant.phone_number || "N/A" %></td>
+        <td class="no_link"><%= number_to_phone chair.participant.phone_number || "N/A" %></td>
       </tr>
     <% end %>
   </table>
