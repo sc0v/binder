@@ -170,6 +170,11 @@ table {
   border-spacing: 0px;
   border-collapse: collapse;
 
+  h2{
+    padding: 0px;
+    margin: 0px;
+  }
+
   th {
     padding: 10px;
     font-family: 'Roboto Condensed', sans-serif;
@@ -179,16 +184,20 @@ table {
   td {
     border-left: 1px solid $table-border-color;
     text-align: center;
-  }
 
-  a {
-    padding: 10px;
-    display: block; 
+    a {
+      padding: 10px;
+      display: block; 
 
-    &:active {
-      border: none;
-      background-color: $carnival-red;
-      color: white;
+      &:active {
+        border: none;
+        background-color: $carnival-red;
+        color: white;
+      }
+    }
+
+    &.no_link {
+      padding: 10px;
     }
   }
 }
@@ -204,7 +213,6 @@ table.no-border {
     border: 0px;
   }
 }
-
 
 
 /* ==|== dashboard styles =================================================== */
