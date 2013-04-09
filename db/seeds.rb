@@ -5,6 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
+require_relative 'tool_seed.rb'
 
 # Organization Categories -----------------
 scc = OrganizationCategory.create({ name: 'SCC'})
@@ -138,10 +139,12 @@ ChargeType.create([
     requires_booth_chair_approval: true, 
     default_amount: 100 }])
 
-  # Task Statuses ----------------------------------------
-  uncompleted_task = TaskStatus.create({ name: "Not Completed" })
-  completed_task = TaskStatus.create({ name: "Completed" })
-  unable_to_complete_task = TaskStatus.create({ name: "Unable to Complete" })
+# Task Statuses ----------------------------------------
+uncompleted_task = TaskStatus.create({ name: "Not Completed" })
+completed_task = TaskStatus.create({ name: "Completed" })
+unable_to_complete_task = TaskStatus.create({ name: "Unable to Complete" })
+
+generate_tools
 
 case Rails.env
 when 'development'
