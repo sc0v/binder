@@ -9,6 +9,9 @@
 <% end %>
 </b></p>
 
+<h2>Description</h2>
+<p><%= if @tool.description.blank? then "No Description" else @tool.description end %></p>
+
 <h2>Previous Checkouts</h2>
 <div id="previous_checkouts">
   <%= render :partial => 'checkouts/tool_checkout_list', :object => @tool.checkouts.old %>
