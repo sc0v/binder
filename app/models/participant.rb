@@ -38,7 +38,8 @@ class Participant < ActiveRecord::Base
   end
 
 
-  def self.find_by_card card_number
+  def self.find_by_card full_card_number
+    card_number = full_card_number[1,9]
     lookup = ActiveSupport::JSON.decode( 
                  RestClient.get( 
                    "http://merichar-dev.eberly.cmu.edu/cgi-bin/card-lookup?card_id=#{card_number}"
