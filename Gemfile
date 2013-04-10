@@ -25,6 +25,8 @@ end
 
 gem 'jquery-rails'
 
+gem 'rest-client'
+
 gem 'net-ldap'
 gem 'activeldap', :require => 'active_ldap/railtie'
 

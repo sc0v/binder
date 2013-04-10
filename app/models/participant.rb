@@ -37,4 +37,16 @@ class Participant < ActiveRecord::Base
     ldap_reference["cmuStudentClass"]
   end
 
+
+  def self.find_by_card card_number
+    lookup = ActiveSupport::JSON.decode( 
+                 RestClient.get( 
+                   "http://merichar-dev.eberly.cmu.edu/cgi-bin/card-lookup?card_id=#{card_number}"
+                 )
+               )
+    unless lookup.nil?
+      self.find_by_andrewid lookup['andrewid']
+    end
+  end
+
 end
