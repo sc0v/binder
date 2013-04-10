@@ -12,7 +12,7 @@
 
 <h2>Members - <%= link_to_function "Toggle", "$('#members').toggle(); $('#organization_participant_list').dataTable();" %></h2>
 <div id="members" style="display: none;">
-  <%= render :partial => 'participants/organization_participant_list', :object => @members %>
+  <%= render :partial => 'participants/participant_list', :object => @members %>
 </div>
 
 <h2>Charges - <%= link_to_function "Toggle", "$('#charges').toggle()" %></h2>
