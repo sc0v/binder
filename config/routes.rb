@@ -22,6 +22,8 @@ Trailer::Application.routes.draw do
   resources :checkouts, :only => [:index, :destroy]
 
   resources :charges
+
+  resources :tasks
   
 
   # Sample of regular route:
