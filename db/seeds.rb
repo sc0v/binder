@@ -87,11 +87,6 @@ polo_org = Organization.create({ name: 'Water Polo', organization_category: non_
 habitat_org = Organization.create({ name: 'Habitat for Humanity', organization_category: non_building })
   OrganizationAlias.create({ organization: habitat_org, name: 'Habitat' })
 
-tartan_org = Organization.create({ name: 'The Tartan', organization_category: non_building })
-thistle_org = Organization.create({ name: 'The Thistle', organization_category: non_building })
-senate_org = Organization.create({ name: 'Student Senate', organization_category: non_building })
-  OrganizationAlias.create({ organization: senate_org, name: 'JFC' })
-
 ShiftType.create([
   { name: 'Watch Shift' }, 
   { name: 'Security Shift' }, 
@@ -150,9 +145,9 @@ case Rails.env
 when 'development'
   chase = Participant.create({ andrewid: 'cbrownel', phone_number: 7173435788 })
   merichar = Participant.create({ andrewid: 'meribyte' })
-  merichar_in_scc = Membership.create({ participant: merichar, organization: scc_org, is_booth_chair: true })
+  merichar_in_scc = Membership.create({ participant: merichar, organization: scc_org, is_booth_chair: true, booth_chair_order: 1 })
   chase_in_dtd = Membership.create({ participant: chase, organization: dtd_org, is_booth_chair: true })
-  chase_in_scc = Membership.create({ participant: chase, organization: scc_org, title: 'Logistics'})
+  chase_in_scc = Membership.create({ participant: chase, organization: scc_org, title: 'Logistics', is_booth_chair: true, booth_chair_order: 2 })
   
   tool = Tool.create({ name: 'Hammer', barcode: 7, description: 'it\'s a fucking hammer' })
   Tool.create([
@@ -160,8 +155,8 @@ when 'development'
     {name: 'SCC Hardhat', barcode: 112, description: 'SCC Hardhat (Blue)'},
     {name: 'EH&S Hardhat', barcode: 115, description: 'Environmental Health and Safety Hardhat (Bright Yellow/Green)'},
     {name: 'Chair Hardhat', barcode: 113, description: 'Booth Chair Hardhat (Orange)'}])
-  Checkout.create({ tool: tool, membership: chase_in_dtd, checked_out_at: Time.now - 5.hours })
-  Checkout.create({ tool: tool, membership: chase_in_dtd, checked_out_at: Time.now - 8.hours, checked_in_at: Time.now - 7.hours })
+  Checkout.create({ tool: Tool.find(2), participant: chase, organization: dtd_org, checked_out_at: Time.now - 5.hours })
+  Checkout.create({ tool: Tool.find(2), participant: chase, organization: dtd_org, checked_out_at: Time.now - 8.hours, checked_in_at: Time.now - 7.hours })
   
   shift = Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now - 1.hours, ends_at: Time.now + 1.hours, required_number_of_participants: 1 })
   Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now - 3.hours, ends_at: Time.now - 1.hour, required_number_of_participants: 1 })
@@ -172,7 +167,13 @@ when 'development'
 
   # Tasks ---
   Task.create([{ name: "todo", task_status: uncompleted_task, due_at: Time.now + 1.hour, display_duration: Time.now - 3.hours, description: "Many things" },
-    {name: "done", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
+    {name: "done0", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
+    {name: "done1", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
+    {name: "done2", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
+    {name: "done3", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
+    {name: "done4", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
+    {name: "done5", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
+    {name: "done6", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
     {name: "not done", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: unable_to_complete_task},
     {name: "late", due_at: Time.now - 30.minutes, display_duration: Time.now - 1.hours, task_status: uncompleted_task}])
 when 'production'

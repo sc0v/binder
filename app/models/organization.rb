@@ -5,8 +5,8 @@ class Organization < ActiveRecord::Base
   has_many :organization_aliases, :dependent => :destroy
   has_many :participants, :through => :memberships
   has_many :charges, :dependent => :destroy
-  has_many :tools, :through => :memberships
-  has_many :checkouts, :through => :memberships
+  has_many :tools, :through => :checkouts
+  has_many :checkouts
   has_many :shifts, :dependent => :destroy
   validates :organization_category, :presence => true
   validates :name, :presence => true, :uniqueness => true

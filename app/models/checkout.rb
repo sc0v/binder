@@ -1,11 +1,9 @@
 class Checkout < ActiveRecord::Base
-  attr_accessible :checked_in_at, :checked_out_at, :membership, :tool, :participant, :organization
-  validates :checked_out_at, :membership_id, :tool_id , :presence => true
-  belongs_to :membership
-  has_one :participant, :through => :membership
-  has_one :organization, :through => :membership
+  attr_accessible :checked_in_at, :checked_out_at, :tool, :participant, :organization
+  validates :checked_out_at, :tool_id, :presence => true
+  belongs_to :participant
+  belongs_to :organization
   belongs_to :tool
-  attr_accessible :membership_id
 
   default_scope order('tool_id and checked_out_at DESC')
   scope :old, where('checked_in_at is not null')
