@@ -1,0 +1,20 @@
+<% if not upcoming_task_list.empty? %>
+  <table>
+    <thead>
+      <th></th>
+      <th>Due At</th>
+      <th>Task</th>
+    </thead>
+    <tbody>
+      <% upcoming_task_list.each do |task| %>
+        <tr>
+          <td class="no_link">TODO</td>
+          <td class="no_link"><%= time task.due_at %></td>
+          <td class="no_link"><%= task.name %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  No Upcoming Tasks
+<% end %>
