@@ -4,6 +4,7 @@
   <table class="no-border" id="tools">
     <thead>
       <tr>
+        <th>Name</th>
         <th>Tool Name</th>
         <th>Barcode</th>
         <th>Checked Out To</th>
@@ -14,6 +15,7 @@
     </tbody>
       <% @tools.each do |tool| %>
         <tr>
+          <td><%= tool.name %>
           <td><%= link_to tool.name, tool_checkouts_url(tool_id: tool) %>
           <td class="no_link"><%= tool.barcode %>
           <td><%= if tool.is_checked_out then link_to tool.current_organization.name, tool.current_organization else "N/A" end %>
