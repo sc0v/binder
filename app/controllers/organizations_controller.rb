@@ -6,7 +6,7 @@ class OrganizationsController < ApplicationController
   def show
     @organization = Organization.find params[:id]
     @booth_chairs = @organization.memberships.booth_chairs.all
-    @members = @organization.memberships.all
+    @members = @organization.participants.all
     @checkouts = @organization.checkouts.current.all
     @shifts = @organization.shifts.all
     @charges = @organization.charges.all

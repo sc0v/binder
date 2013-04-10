@@ -3,4 +3,13 @@
 # You can use CoffeeScript in this file: http://jashkenas.github.com/coffee-script/
 
 $ ->
-  $('table#tools').dataTable();
+  $('table#tools').dataTable({
+    "aoColumns": [
+      { "bVisible": false },
+      { "sType": "html", "bSearchable": false },
+      null,
+      { "sType": "html" },
+      { "bSortable": false, "bSearchable": false},
+      { "bSortable": false, "bSearchable": false}
+    ]
+  });

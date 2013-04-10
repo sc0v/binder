@@ -158,6 +158,7 @@ h1 {
 }
 
 h2 {
+  clear: both;
   text-transform:uppercase;
   font-size:20px;
   font-weight: 300;
@@ -200,17 +201,26 @@ table {
       padding: 10px;
     }
   }
-}
 
-table.no-border {
-  border: 0px;
-
-  th {
+  &.no-border {
     border: 0px;
+
+    th {
+      border: 0px;
+    }
+
+    td {
+      border: 0px;
+    }
   }
 
-  td {
-    border: 0px;
+  &.dataTable {
+    tr.odd {
+      background-color: white;
+    }
+    tr.even {
+      background-color: white;
+    }
   }
 }
 
