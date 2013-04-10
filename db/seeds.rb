@@ -171,8 +171,10 @@ when 'development'
   Charge.create({ charge_type: ChargeType.find_by_name('Blown Breaker'), amount: 25, description: 'Delt blew their breaker all over midway', issuing_participant: merichar, receiving_participant: chase, organization: dtd_org, charged_at: Time.now })
 
   # Tasks ---
-  Task.create([{ name: "Do me", task_status: uncompleted_task, due_at: Time.now + 1.hour, display_duration: 3.hours, description: "Many things" },
-    {name: "fuck", due_at: Time.now, display_duration: 1.hours, completed_by: chase, task_status: TaskStatus.find(1)}])
+  Task.create([{ name: "todo", task_status: uncompleted_task, due_at: Time.now + 1.hour, display_duration: Time.now - 3.hours, description: "Many things" },
+    {name: "done", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
+    {name: "not done", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: unable_to_complete_task},
+    {name: "late", due_at: Time.now - 30.minutes, display_duration: Time.now - 1.hours, task_status: uncompleted_task}])
 when 'production'
   #blah
 end
