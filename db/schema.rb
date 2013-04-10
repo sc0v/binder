@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130406234921) do
+ActiveRecord::Schema.define(:version => 20130410015851) do
 
   create_table "charge_types", :force => true do |t|
     t.string   "name"
@@ -131,7 +131,7 @@ ActiveRecord::Schema.define(:version => 20130406234921) do
 
   create_table "tasks", :force => true do |t|
     t.datetime "due_at"
-    t.time     "display_duration"
+    t.datetime "display_duration"
     t.integer  "completed_by_id"
     t.string   "name"
     t.text     "description"
