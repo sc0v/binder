@@ -1,4 +1,5 @@
-<%= form_for @checkout, :url => { :action => "create" } do |f| %>
-  <%= f.text_field :membership_id %>
-  <%= f.submit "Checkout Tool" %>
+<%= form_tag(tool_checkouts_url, :method => "post") do %>
+  <%= label_tag "Scan Student ID" %>
+  <%= text_field_tag :card_number %>
+  <%= submit_tag "Checkout Tool" %>
 <% end %>
