@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130410015851) do
+ActiveRecord::Schema.define(:version => 20130410030423) do
 
   create_table "charge_types", :force => true do |t|
     t.string   "name"
@@ -51,10 +51,11 @@ ActiveRecord::Schema.define(:version => 20130410015851) do
   create_table "memberships", :force => true do |t|
     t.integer  "organization_id"
     t.integer  "participant_id"
-    t.datetime "created_at",      :null => false
-    t.datetime "updated_at",      :null => false
+    t.datetime "created_at",        :null => false
+    t.datetime "updated_at",        :null => false
     t.boolean  "is_booth_chair"
     t.string   "title"
+    t.integer  "booth_chair_order"
   end
 
   add_index "memberships", ["organization_id"], :name => "index_memberships_on_organization_id"
@@ -87,10 +88,11 @@ ActiveRecord::Schema.define(:version => 20130410015851) do
 
   create_table "participants", :force => true do |t|
     t.string   "andrewid"
-    t.datetime "created_at",        :null => false
-    t.datetime "updated_at",        :null => false
+    t.datetime "created_at",                :null => false
+    t.datetime "updated_at",                :null => false
     t.boolean  "has_signed_waiver"
     t.string   "phone_number"
+    t.boolean  "has_signed_hardhat_waiver"
   end
 
   create_table "shift_participants", :force => true do |t|
