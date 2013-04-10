@@ -15,7 +15,7 @@
       <% @tools.each do |tool| %>
         <tr>
           <td><%= link_to tool.name, tool_checkouts_url(tool_id: tool) %>
-          <td><%= link_to tool.barcode, tool_checkouts_url(tool_id: tool) %>
+          <td class="no_link"><%= tool.barcode %>
           <td><%= if tool.is_checked_out then link_to tool.current_organization.name, tool.current_organization else "N/A" end %>
           <td><%= link_to "Edit", edit_tool_url(tool) %>
           <td><%= link_to "Delete", tool, :method => :delete, :confirm => "Are you sure ?"%>
