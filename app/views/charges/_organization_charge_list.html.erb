@@ -12,9 +12,9 @@
     <tbody>
       <% organization_charge_list.each do |charge| %>
         <tr>
-          <td><%= charge.charge_type.name %></td>
-          <td><%= number_to_currency charge.amount %></td>
-          <td><%= date_and_time charge.charged_at %></td>
+          <td class="no_link"><%= charge.charge_type.name %></td>
+          <td class="no_link"><%= number_to_currency charge.amount %></td>
+          <td class="no_link"><%= date_and_time charge.charged_at %></td>
           <td><%= link_to charge.issuing_participant.name, charge.issuing_participant %></td>
           <td><%= if charge.receiving_participant == nil then "N/A" else link_to charge.receiving_participant.name, charge.receiving_participant end %></td>
         </tr>
