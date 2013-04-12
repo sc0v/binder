@@ -30,21 +30,28 @@ class ParticipantsController < ApplicationController
             # card lookup
             Participant.create( :andrewid => andrewid )
             flash[:success] = "Created new participant #{andrewid}"
-            redirect_to new_participant_url
+            redirect_to new_participant_membership_url p
           end
 
         else
           # There is a participant with this card number
-          flash[:notice] = "Participant already exists"
-          redirect_to new_participant_url
+          flash[:notice] = "Participant already exists. Add new memberships."
+          redirect_to new_participant_membership_url p
         end # p.nil?
         
       elsif params[:andrewid] != ""
         # There is an andrewid to lookup
         # TODO: verify an andrewid is valid
-        Participant.create( :andrewid => params[:andrewid] )
-        flash[:success] = "Created new participant #{andrewid}"
-        redirect_to new_participant_url
+        p = Participant.find_by_andrewid params[:andrewid]
+        if p.nil? 
+          # There is no participant with this card number
+          p = Participant.create( :andrewid => params[:andrewid] )
+          flash[:success] = "Created new participant #{andrewid}"
+          redirect_to new_participant_membership_url p
+        else
+          flash[:notice] = "Participant already exists. Add new memberships."
+          redirect_to new_participant_membership_url p
+        end
         
       else
         flash[:error] = "Must provide an andrewid or card_number"
