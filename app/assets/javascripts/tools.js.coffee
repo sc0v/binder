@@ -10,6 +10,5 @@ $ ->
       null,
       { "sType": "html" },
       { "bSortable": false, "bSearchable": false},
-      { "bSortable": false, "bSearchable": false}
     ]
   });

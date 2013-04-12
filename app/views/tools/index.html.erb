@@ -9,7 +9,6 @@
         <th>Barcode</th>
         <th>Checked Out To</th>
         <td></td>
-        <td></td>
       </tr>
     </thead>
     </tbody>
@@ -18,9 +17,16 @@
           <td><%= tool.name %>
           <td><%= link_to tool.name, tool_checkouts_url(tool_id: tool) %>
           <td class="no_link"><%= tool.barcode %>
-          <td><%= if tool.is_checked_out then link_to tool.current_organization.name, tool.current_organization else "N/A" end %>
+          <% if tool.is_checked_out %>
+            <% unless tool.current_organization.nil? %>
+              <td><%= link_to tool.current_organization.name, tool.current_organization %>
+            <% else %>
+              <td><%= link_to tool.current_participant.name, tool.current_participant %>
+            <% end %>
+          <% else %>
+            <td>N/A</td>
+          <% end %>
           <td><%= link_to "Edit", edit_tool_url(tool) %>
-          <td><%= link_to "Delete", tool, :method => :delete, :confirm => "Are you sure ?"%>
         </tr>
       <% end %>
     </tbody>
