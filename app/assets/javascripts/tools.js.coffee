@@ -8,8 +8,9 @@ $ ->
       { "bVisible": false },
       { "sType": "html", "bSearchable": false },
       null,
-      { "sType": "html" },
-      { "bSortable": false, "bSearchable": false},
+      null,
+      { "sType": "html", "bSearchable": false },
+      { "bVisible": false },
       { "bSortable": false, "bSearchable": false}
     ]
   });

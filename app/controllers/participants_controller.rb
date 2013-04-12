@@ -3,6 +3,10 @@ class ParticipantsController < ApplicationController
     @participant_list = Participant.all
   end
 
+  def show
+    @participant = Participant.find params[:id]
+  end
+
   def new
   end
 
