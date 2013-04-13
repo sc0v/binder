@@ -5,8 +5,9 @@ class Tool < ActiveRecord::Base
 
   has_many :checkouts
 
-  scope :not_hardhats, where('NAME NOT LIKE "%hardhat"')
   scope :hardhats, where('NAME LIKE "%hardhat"')
+  scope :radios, where('NAME LIKE "%radio"')
+  scope :just_tools, where('NAME NOT LIKE "%radio" AND NAME NOT LIKE "%hardhat"')
 
   def current_organization
     if not self.checkouts.current.empty?

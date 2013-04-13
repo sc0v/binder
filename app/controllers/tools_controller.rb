@@ -1,7 +1,16 @@
 class ToolsController < ApplicationController
 
   def index
-    @tools = Tool.not_hardhats.all
+    if params[:type] == "hardhats"
+      @title = "Hardhats"
+      @tools = Tool.hardhats.all
+    elsif params[:type] == "hardhats"
+      @title = "Radios"
+      @tools = Tool.radios.all
+    else
+      @title = "Tools"
+      @tools = Tool.just_tools.all
+    end
   end
 
   def show
