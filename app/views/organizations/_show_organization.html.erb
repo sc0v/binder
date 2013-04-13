@@ -7,7 +7,7 @@
 
 <h2>Tools Checked Out - <%= link_to_function "Toggle", "$('#tools').toggle()" %></h2>
 <div id="tools" style="display: none;">
-  <%= render :partial => "checkouts/organization_checkout_list", :object => @checkouts %>
+  <%= render :partial => "tools/organization_tool_list", :object => @tools %>
 </div>
 
 <h2>Members - <%= link_to_function "Toggle", "$('#members').toggle(); $('#organization_participant_list').dataTable();" %></h2>
@@ -18,4 +18,9 @@
 <h2>Charges - <%= link_to_function "Toggle", "$('#charges').toggle()" %></h2>
 <div id="charges" style="display: none;">
   <%= render :partial => "charges/organization_charge_list", :object => @charges %>
+</div>
+
+<h2>Hardhats - <%= link_to_function "Toggle", "$('#hardhats').toggle()" %></h2>
+<div id="hardhats" style="display: none;">
+  <%= render :partial => "tools/organization_tool_list", :object => @hardhats %>
 </div>

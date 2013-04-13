@@ -1,0 +1,22 @@
+<% unless organization_tool_list.empty? %>
+  <table>
+  <tr>
+    <th>Tool Name</th>
+    <th>Barcode</th>
+    <th>Checked Out</th>
+    <th>AndrewID</th>
+  </tr>
+
+  <% organization_tool_list.each do |tool| %>
+    <tr>
+      <td><%= link_to tool.name, tool %></td>
+      <td><%= link_to tool.barcode, tool %></td>
+      <td><%= time tool.checkouts.current[0].checked_out_at %></td>
+      <td><%= link_to tool.checkouts.current[0].participant.andrewid, tool.checkouts.current[0].participant %></td>
+    </tr>
+  <% end %>
+  </table>
+<% else %>
+  This organization currently has no tools checked out.
+<% end %>
+
