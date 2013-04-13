@@ -1,0 +1,27 @@
+<%= link_to 'Back to Add A New Participant', new_participant_url %><br/><br/>
+
+
+<section id="memberships">
+
+<h1>Add Memberships for <%= @participant.name %></h1>
+<ol id="unaffiliated">
+  <% @organizations.each do |o| %>
+  <li id="<%= 'organization-' + o.id.to_s %>" class="ui-widget-content"><%= link_to o.name, participant_memberships_url( @participant, :organization_id => o ), :method => :post, :remote => true %></li>
+  <% end %>
+</ol>
+
+<h2>Remove Memberships</h2>
+<ol id="affiliated">
+  <% if @participant.memberships.size > 0 %>
+  <% @participant.memberships.each do |m| %>
+   <% unless m.organization.nil? %>
+  <li id="<%= 'membership-' + m.id.to_s %>">
+    <%= link_to m.organization.name, participant_membership_url(@participant, m), :method => :delete, :remote => true %>
+
+  </li>
+    <% end %>
+  <% end %>
+  <% end %>
+</ol>
+
+</section>
