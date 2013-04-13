@@ -11,5 +11,5 @@ class Organization < ActiveRecord::Base
   validates :organization_category, :presence => true
   validates :name, :presence => true, :uniqueness => true
 
-  default_scope order('organization_category_id and name asc')
+  default_scope order('name asc')
 end
