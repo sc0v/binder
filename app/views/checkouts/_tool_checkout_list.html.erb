@@ -9,10 +9,18 @@
 
   <% tool_checkout_list.each do |checkout| %>
     <tr>
-      <td><%= link_to checkout.organization.name, checkout.organization %></td>
+      <td>
+	<% if checkout.organization %>
+	  <%= link_to checkout.organization.name, checkout.organization %>
+        <% end %>
+      </td>
       <td><%= time checkout.checked_out_at %></td>
       <td><%= time checkout.checked_in_at %></td>
-      <td><%= link_to checkout.participant.andrewid, checkout.participant %></td>
+      <td>
+	<% if checkout.participant %>
+          <%= link_to checkout.participant.andrewid, checkout.participant %>
+	<% end %>
+      </td>
     </tr>
   <% end %>
   </table>

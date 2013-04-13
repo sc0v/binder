@@ -20,11 +20,20 @@ class CheckoutsController < ApplicationController
   def create
     @tool = Tool.find(params[:tool_id])
     participant = Participant.find_by_card params[:card_number]
-    @checkout = @tool.checkouts.build(participant: participant, tool: @tool, checked_out_at: Time.now)
-    @checkout.save!
-    redirect_to tool_checkouts_url(@tool)
-  end
 
-  
+    if @tool.is_checked_out
+      @checkout = @tool.checkouts.current[0]
+      @checkout.checked_in_at = Time.now
+      @checkout.save!
+      
+      @checkout = @tool.checkouts.build(participant: participant, tool: @tool, checked_out_at: Time.now)
+      @checkout.save!
+      redirect_to tool_checkouts_url(@tool)
+    else
+      @checkout = @tool.checkouts.build(participant: participant, tool: @tool, checked_out_at: Time.now)
+      @checkout.save!
+      redirect_to tool_checkouts_url(@tool)
+    end
+  end
 
 end
