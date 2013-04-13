@@ -32,7 +32,7 @@ class ParticipantsController < ApplicationController
 
             # Create a new participant based on the andrewid returned by the
             # card lookup
-            Participant.create( :andrewid => andrewid )
+            p = Participant.create( :andrewid => andrewid )
             flash[:success] = "Created new participant #{andrewid}"
             redirect_to new_participant_membership_url p
           end
