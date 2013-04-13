@@ -18,7 +18,7 @@
           <td><%= link_to tool.name, tool_checkouts_url(tool_id: tool) %>
           <td class="no_link"><%= tool.barcode %>
           <td class="no_link"><%= tool.description %>
-          <% if tool.is_checked_out %>
+          <% if tool.is_checked_out? %>
             <% unless tool.current_organization.nil? %>
               <td><%= link_to tool.current_organization.name, tool.current_organization %>
               <td><%= tool.current_organization.name %>

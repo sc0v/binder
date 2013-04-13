@@ -23,7 +23,7 @@ class Tool < ActiveRecord::Base
     end
   end
 
-  def is_checked_out
+  def is_checked_out?
     return not(self.checkouts.current.empty?)
   end
 end
