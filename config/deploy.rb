@@ -3,12 +3,11 @@ set :stages, %w(development production)
 set :default_stage, "production"
 require 'capistrano/ext/multistage'
 
-set :use_sudo, true
+set :use_sudo, false
 set :default_shell, "/bin/bash"
 
 set :application, "trailerapp"
-set :user, "sc0v"
-set :group, "sc0v"
+set :user, "root"
 
 set :scm, 'git'
 set :branch, 'master'
@@ -44,6 +43,12 @@ namespace :deploy do
     run "cp -f #{shared_path}/config/database.yml #{current_path}/config/database.yml"
   end
 
+  namespace :bundle do
+    task :install do
+      run "cd #{current_path} && RAILS_ENV=#{rails_env} bundle install"
+    end
+  end
+
   namespace :assets do
     task :precompile do
       run "cd #{current_path} && bundle exec rake assets:precompile RAILS_ENV=#{rails_env}"
@@ -52,5 +57,6 @@ namespace :deploy do
 end
 after "deploy:update", "deploy:secret_config"
 after "deploy:update", "deploy:db_config"
+after "deploy:update", "deploy:bundle:install"
 after "deploy:update", "deploy:assets:precompile"
 
