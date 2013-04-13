@@ -36,4 +36,16 @@ class CheckoutsController < ApplicationController
     end
   end
 
+  def checkin
+    @tool = Tool.find_by_barcode params[:barcode]
+    flash[:error] = "Tool not found" unless @tool
+
+    if @tool and @tool.is_checked_out
+      @checkout = @tool.checkouts.current[0]
+      @checkout.checked_in_at = Time.now
+      @checkout.save!
+      flash[:notice] = "Successfully checked in #{@tool.name}"
+    end
+  end
+
 end
