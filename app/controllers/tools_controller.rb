@@ -4,7 +4,7 @@ class ToolsController < ApplicationController
     if params[:type] == "hardhats"
       @title = "Hardhats"
       @tools = Tool.hardhats.all
-    elsif params[:type] == "hardhats"
+    elsif params[:type] == "radios"
       @title = "Radios"
       @tools = Tool.radios.all
     else
