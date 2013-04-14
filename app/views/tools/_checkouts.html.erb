@@ -1,26 +1,22 @@
 <% if not checkouts.empty? %>
   <table>
   <tr>
-    <th>Organization</th>
+    <th>Organization or AndrewID</th>
     <th>Checked Out</th>
     <th>Checked In</th>
-    <th>AndrewID</th>
   </tr>
 
   <% checkouts.each do |checkout| %>
     <tr>
       <td>
-	<% if checkout.organization %>
-	  <%= link_to checkout.organization.name, checkout.organization %>
+        <% if checkout.organization %>
+          <%= link_to checkout.organization.name, checkout.organization %>
+        <% elsif checkout.participant %>
+          <%= link_to checkout.participant.andrewid, checkout.participant %>
         <% end %>
       </td>
-      <td><%= time checkout.checked_out_at %></td>
-      <td><%= time checkout.checked_in_at %></td>
-      <td>
-	<% if checkout.participant %>
-          <%= link_to checkout.participant.andrewid, checkout.participant %>
-	<% end %>
-      </td>
+      <td class="no_link"><%= date_and_time checkout.checked_out_at %></td>
+      <td class="no_link"><%= date_and_time checkout.checked_in_at %></td>
     </tr>
   <% end %>
   </table>
