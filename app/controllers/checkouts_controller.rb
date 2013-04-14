@@ -28,11 +28,11 @@ class CheckoutsController < ApplicationController
       
       @checkout = @tool.checkouts.build(participant: participant, tool: @tool, checked_out_at: Time.now)
       @checkout.save!
-      redirect_to tool_checkouts_url(@tool)
+      redirect_to tool_url(@tool)
     else
       @checkout = @tool.checkouts.build(participant: participant, tool: @tool, checked_out_at: Time.now)
       @checkout.save!
-      redirect_to tool_checkouts_url(@tool)
+      redirect_to tool_url(@tool)
     end
   end
 

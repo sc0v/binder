@@ -3,10 +3,12 @@
 <p><b>
 <% if @tool.is_checked_out? %>
   <% current = @tool.checkouts.current[0] %>
-  <% unless current.organization.nil? %>
-  This tool is currently checked out to <%= link_to current.organization.name, current.organization %>. They have had the tool since <%= time current.checked_out_at %>.
-  <% else %>
+  <% if not current.organization.nil? %>
+    This tool is currently checked out to <%= link_to current.organization.name, current.organization %>. They have had the tool since <%= time current.checked_out_at %>.
+  <% elsif not current.participant.nil? %>
     This tool is currently checked out to <%= link_to current.participant.name, current.participant %>. They have had the tool since <%= time current.checked_out_at %>.
+  <% else %>
+    This tools is currently terrible and has been terrible since <%= time current.checked_out_at %>.
   <% end %>
 <% else %>
   This tools is currently not checked out.
