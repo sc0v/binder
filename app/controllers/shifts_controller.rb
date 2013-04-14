@@ -5,4 +5,7 @@ class ShiftsController < ApplicationController
     @current_shifts = Shift.current
   end
 
+  def show
+    @shift = Shift.find(params[:id])
+  end
 end
