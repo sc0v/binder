@@ -26,4 +26,8 @@ class Tool < ActiveRecord::Base
   def is_checked_out?
     return not(self.checkouts.current.empty?)
   end
+
+  def self.checked_out_by_organization(organization)
+    joins(:checkouts).where(:checkouts => {:organization_id => organization }).merge(Checkout.current)
+  end
 end

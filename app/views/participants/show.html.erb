@@ -1,1 +1,8 @@
 <%= render :partial => 'show', :object => @participant %>
+
+<h2>Memberships</h2>
+<ul>
+<% @memberships.each do |membership| %>
+  <li><%= link_to membership.organization.name, membership.organization %></li>
+<% end %>
+</ul>

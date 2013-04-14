@@ -20,6 +20,11 @@
   <%= render :partial => "charges/organization_charge_list", :object => @charges %>
 </div>
 
+<h2>Shifts - <%= link_to_function "Toggle", "$('#charges').toggle()" %></h2>
+<div id="shifts" style="display: none;">
+  <%= render :partial => "shifts/shift_table.html.erb", :object => @shifts %>
+</div>
+
 <h2>Hardhats - <%= link_to_function "Toggle", "$('#hardhats').toggle()" %></h2>
 <div id="hardhats" style="display: none;">
   <%= render :partial => "tools/organization_tool_list", :object => @hardhats %>

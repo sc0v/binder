@@ -9,7 +9,7 @@
 
   <% organization_tool_list.each do |tool| %>
     <tr>
-      <td><%= link_to tool.name, tool %></td>
+      <td><%= link_to tool.name, tool_checkouts_url(:tool_id => tool) %></td>
       <td><%= link_to tool.barcode, tool %></td>
       <td><%= time tool.checkouts.current[0].checked_out_at %></td>
       <td><%= link_to tool.checkouts.current[0].participant.andrewid, tool.checkouts.current[0].participant %></td>
