@@ -22,12 +22,12 @@
             <% if not tool.current_organization.nil? %>
               <td><%= link_to tool.current_organization.name, tool.current_organization %>
               <td><%= tool.current_organization.name %>
-            <% elsif tool.current_participant.nil? %>
-              <td></td>
-              <td></td>
-            <% else %>
+            <% elsif not tool.current_participant.nil? %>
               <td><%= link_to tool.current_participant.name, tool.current_participant %>
               <td><%= tool.current_participant.name %>
+            <% else %>
+              <td></td>
+              <td></td>
             <% end %>
           <% else %>
             <td>N/A</td>
