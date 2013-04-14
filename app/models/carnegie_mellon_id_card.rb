@@ -4,7 +4,7 @@ class CarnegieMellonIDCard
     # Three track readers start with a % and then the card number 
     # followed by lots of stuff.
     # Single track readers will just spit out the card number
-    if full_card_number[0] = '%'
+    if full_card_number[0] == '%'
       card_number = full_card_number[1,9]
     else
       card_number = full_card_number
