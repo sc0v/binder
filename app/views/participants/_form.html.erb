@@ -1,0 +1,16 @@
+<%= form_for @participant do |f| %>
+  <%= debug params %>
+  <h1>Add <%= @participant.name %> as a participant</h1>
+
+  <div><label>Signed Waiver:</label> <%= f.check_box :has_signed_waiver %></div>
+  <div><label>Signed *Hardhat* Waiver:</label> <%= f.check_box :has_signed_hardhat_waiver %></div>
+  <%= f.hidden_field :andrewid %>
+
+  <%= submit_tag "Add Participant" %>
+
+  <% if params[:action] == 'new' %>
+    <%= check_box_tag 'return_url', new_participant_url, session[:return_url] == new_participant_url %>
+    <label>Keep adding more new participants</label>
+  <% end %>
+
+<% end %>

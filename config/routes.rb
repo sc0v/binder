@@ -1,10 +1,11 @@
 Trailer::Application.routes.draw do
   # The priority is based upon order of creation:
   # first created -> highest priority.
-  
+
   match 'checkouts/checkin' => 'checkouts#checkin', :as => :checkin
+  match 'tools/lookup' => 'tools#lookup', :as => :tool_lookup
   resources :tools do
-    resources :checkouts, :only => [:index, :show, :new, :create, :destroy]
+    resources :checkouts, :only => [:new, :create, :destroy]
   end
 
   resources :shifts
@@ -15,6 +16,7 @@ Trailer::Application.routes.draw do
     resources :charges
   end
 
+  match 'participants/lookup' => 'participants#lookup', :as => :participant_lookup
   resources :participants do
     resources :tool_checkouts, :controller => :checkouts
     resources :memberships
