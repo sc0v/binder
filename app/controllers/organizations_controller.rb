@@ -7,8 +7,8 @@ class OrganizationsController < ApplicationController
     @organization = Organization.find params[:id]
     @booth_chairs = @organization.memberships.booth_chairs.all
     @members = @organization.participants.all
-    @tools = @organization.tools.just_tools.all
-    @hardhats = @organization.tools.hardhats.all
+    @tools = Tool.checked_out_by_organization(@organization).just_tools.all
+    @hardhats = Tool.checked_out_by_organization(@organization).hardhats.all
     @shifts = @organization.shifts.all
     @charges = @organization.charges.all
   end
