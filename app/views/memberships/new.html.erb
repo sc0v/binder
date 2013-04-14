@@ -3,7 +3,9 @@
 
 <section id="memberships">
 
-<h1>Add Memberships for <%= @participant.name %></h1>
+<h1>Memberships for <%= @participant.name %></h1>
+
+<h2>Add Memberships</h2>
 <ol id="unaffiliated">
   <% @organizations.each do |o| %>
   <li id="<%= 'organization-' + o.id.to_s %>" class="ui-widget-content"><%= link_to o.name, participant_memberships_url( @participant, :organization_id => o ), :method => :post, :remote => true %></li>
