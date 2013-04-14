@@ -4,6 +4,12 @@ class MembershipsController < ApplicationController
     @participant = Participant.find params[:participant_id]
     @membership = @participant.memberships.build
     @organizations = Organization.all - @participant.organizations
+
+    if session[:return_url]
+      @return_url = session[:return_url]
+    else
+      @return_url = participant_url( @participant )
+    end
   end
 
   def create
