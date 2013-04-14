@@ -1,0 +1,14 @@
+<%= form_for @tool do |f| %>
+
+  <div><label>Name:</label> <%= f.text_field :name %></div>
+  <div><label>Description:</label> <%= f.text_field :description %></div>
+  <%= f.hidden_field :barcode %>
+
+  <%= submit_tag submit_text %>
+
+  <% if params[:action] == 'new' %>
+      <%= check_box_tag 'return_url', new_tool_url, session[:return_url] == new_tool_url %>
+      <label>Keep adding more new tools</label>
+  <% end %>
+
+<% end %>

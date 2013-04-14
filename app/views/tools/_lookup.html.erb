@@ -1,4 +1,9 @@
-<%= form_for Tool.new  do |f| %>
-  Tool Barcode: <%= f.text_field :barcode, :autocomplete => "off", :autofocus => "autofocus" %>
-  <%= f.submit 'Lookup Tool' %>
-<% end %>
+<div id="tool_lookup_form">
+
+  <%= form_for :tool, url: submit_url ||= tool_lookup_url do |f| %>
+    <label>Barcode:</label>
+    <%= f.text_field :barcode, :autocomplete => "off", :autofocus => "autofocus" %>
+    <%= f.submit "Lookup" %>
+  <% end %>
+
+</div>

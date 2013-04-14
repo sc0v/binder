@@ -1,5 +1,23 @@
 class ToolsController < ApplicationController
 
+  def lookup
+    # Process request if barcode is present
+    if params[:tool] and params[:tool][:barcode]
+      tool = Tool.find_by_barcode params[:tool][:barcode]
+      
+      if tool.nil? # tool does not exist
+        redirect_to new_tool_url params[:tool]
+
+      elsif tool.is_checked_out? # tool is checked out
+        redirect_to tool_url tool
+
+      else # tool is available
+        redirect_to new_tool_checkout_url tool
+      end
+    end # if params[:tool] and params[:tool][:barcode]
+  end
+
+
   def index
     if params[:type] == "hardhats"
       @title = "Hardhats"
@@ -13,46 +31,70 @@ class ToolsController < ApplicationController
     end
   end
 
+
   def show
     @tool = Tool.find params[:id]
   end
 
+
   def new
-    @tool = Tool.new(params[:tool])
+    # Perform a barcode lookup and then populate
+    # the new tool's details
+    unless params[:barcode] and params[:barcode] != ''
+      render 'lookup'
+    else
+      if params[:tool]
+        params[:tool][] << params[:barcode]
+        @tool = Tool.new params[:tool]
+      else
+        @tool = Tool.new barcode: params[:barcode]
+      end
+      render 'new'
+    end
   end
 
+
   def create
+    # Create a new tool
+    tool = Tool.new params[:tool]
+    tool.save!
+    flash[:success] = "Successfully created tool"
 
-    @tool = Tool.find_by_barcode(params[:tool][:barcode])
-    if @tool
-      redirect_to new_tool_checkout_url(@tool)
+    # Use a form parameter to determine whether to 
+    # add multiple tools sequentially or
+    # to go directly to the new tool's checkouts
+    session[:return_url] = params[:return_url]
+
+    # Create another tool or go to the newest tool's
+    # checkout page
+    if session[:return_url]
+      redirect_to session[:return_url]
     else
-
-    @tool = Tool.new( params[:tool] )
-    @tool.save!
-    flash[:success] = "Tool created successfully"
-    redirect_to new_tool_url
+      redirect_to new_tool_checkout_url tool
     end
+
   rescue
     flash[:error] = "Error creating tool"
     redirect_to new_tool_url
   end
 
+
   def edit
-    @tool = Tool.find(params[:id])
+    @tool = Tool.find params[:id]
   rescue
-    flash[:error] = "Could not find tool"
+    flash[:error] = "Tool does not exist"
     redirect_to tools_url
   end
   
+
   def update
-    @tool = Tool.find(params[:id])
-    @tool.update_attributes(params[:tool])
-    @tool.save!
-    flash[:success] = "Tool updated successfully"
+    tool = Tool.find params[:id]
+    tool.update_attributes params[:tool]
+    tool.save!
+    flash[:success] = "Successfully updated tool"
     redirect_to tools_url
   rescue
-    flash[:error] = "Tool update failed"
+    flash[:error] = "Error updating tool"
     redirect_to tools_url
   end
 
