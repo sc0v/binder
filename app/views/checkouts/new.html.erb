@@ -1,1 +1,21 @@
-<%= render partial: 'new_tool_checkout' %>
+<% if @checkout.nil? %>
+  <h1>Participant Lookup for Checkout</h1>
+  <%= render 'participants/lookup' %>
+
+<% else %>
+
+  <%= form_for @checkout, url: tool_checkouts_url do |f| %>
+    <%= f.hidden_field :participant_id %>
+    <%= f.hidden_field :tool_id %>
+    
+    <% @checkout.participant.organizations.each do |organization| %>
+      <div>
+        <%= f.radio_button :organization_id, organization.id %>
+        <label><%= organization.name %></label>
+      </div>
+    <% end %>
+
+    <%= f.submit "Checkout" %>
+  <% end %>
+
+<% end %>

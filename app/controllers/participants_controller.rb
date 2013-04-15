@@ -16,6 +16,10 @@ class ParticipantsController < ApplicationController
           flash[:error] = "Invalid card" 
         end
 
+      elsif session[:return_url] and session[:return_url] != ''
+        session[:participant_id] = participant
+        redirect_to session[:return_url]
+
       else
         redirect_to participant_url participant
       end

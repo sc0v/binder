@@ -1,0 +1,7 @@
+<h1>Checkin</h1>
+
+<% if @checkout.tool.is_checked_out? %>
+  <%= link_to "Check in #{@checkout.tool.name}", checkout_url, :method => :delete %>
+<% else %>
+  Tool returned at <%= @checkout.checked_in_at %>
+<% end %>

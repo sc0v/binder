@@ -1,51 +1,77 @@
 class CheckoutsController < ApplicationController
 
-  def index
-    unless params[:tool_id]
-      render 'lookup'
+  def lookup
+    if session[:tool_id]
+      # Tool lookup returned tool id, do a checkout
+      tool = Tool.find session[:tool_id]
+      session[:tool_id] = nil
+      session[:return_url] = nil
+
+      if tool.is_checked_out?
+        redirect_to checkout_url( tool.checkouts.current[0] )
+      else
+        redirect_to new_tool_checkout_url tool
+      end
+
     else
-      @tool = Tool.find(params[:tool_id])
+      # No tool lookup has yet occurred, do one
+      session[:return_url] = checkout_lookup_url
     end
   end
+
+
+  def index
+    #@checkouts = Checkout.all
+    redirect_to checkout_lookup_url
+  end
+
 
   def show
-    @tool = Tool.find(params[:tool_id])
+    @checkout = Checkout.find params[:id]
   end
+
 
   def new
-    @tool = Tool.find(params[:tool_id])
-    #@checkout = @tool.checkouts.build
+    @tool = Tool.find( params[:tool_id] )
+
+    # No participant lookup has yet occurred, do one
+    unless session[:participant_id] and session[:participant_id] != ''
+      session[:return_url] = new_tool_checkout_url @tool 
+
+    else
+      @checkout = @tool.checkouts.build
+      @checkout.participant = Participant.find session[:participant_id]
+      @checkout.tool = @tool
+      session[:participant_id] = nil
+      session[:return_url] = nil
+    end
+                                           
+  rescue
+    flash[:notice] = "Tool you're attempting to checkout does not exist"
+    redirect_to checkout_lookup_url
   end
+
 
   def create
-    @tool = Tool.find(params[:tool_id])
-    participant = Participant.find_by_card params[:card_number]
-
-    if @tool.is_checked_out?
-      @checkout = @tool.checkouts.current[0]
-      @checkout.checked_in_at = Time.now
-      @checkout.save!
-      
-      @checkout = @tool.checkouts.build(participant: participant, tool: @tool, checked_out_at: Time.now)
-      @checkout.save!
-      redirect_to tool_checkouts_url(@tool)
-    else
-      @checkout = @tool.checkouts.build(participant: participant, tool: @tool, checked_out_at: Time.now)
-      @checkout.save!
-      redirect_to tool_checkouts_url(@tool)
-    end
+    @checkout = Checkout.new params[:checkout]
+    @checkout.checked_out_at = Time.now
+    @checkout.save!
+    redirect_to checkout_lookup_url
   end
 
-  def checkin
-    @tool = Tool.find_by_barcode params[:barcode]
-    flash[:error] = "Tool not found" unless @tool
 
-    if @tool and @tool.is_checked_out?
-      @checkout = @tool.checkouts.current[0]
-      @checkout.checked_in_at = Time.now
-      @checkout.save!
-      flash[:notice] = "Successfully checked in #{@tool.name}"
+  def destroy
+    checkout = Checkout.find params[:id]
+    if checkout.tool.is_checked_out?
+      checkout.checked_in_at = Time.now
+      checkout.save!
+      flash[:success] = "Tool checked in"
     end
+    redirect_to checkout_lookup_url
+
+  rescue
+    flash[:error] = "Error checking in"
+    redirect_to checkout_lookup_url
   end
 
 end

@@ -7,12 +7,14 @@ class ToolsController < ApplicationController
       
       if tool.nil? # tool does not exist
         redirect_to new_tool_url params[:tool]
+        
+      elsif session[:return_url] and session[:return_url] != ''
+        session[:tool_id] = tool
+        redirect_to session[:return_url]
 
-      elsif tool.is_checked_out? # tool is checked out
+      else
         redirect_to tool_url tool
 
-      else # tool is available
-        redirect_to new_tool_checkout_url tool
       end
     end # if params[:tool] and params[:tool][:barcode]
   end
