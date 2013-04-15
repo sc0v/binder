@@ -1,0 +1,7 @@
+<h1><%= @shift.shift_type.name %> - <%= date_and_time @shift.starts_at %></h1>
+<h2><%= link_to @shift.organization.name, @shift.organization %></h2>
+
+<h2>Participants</h2>
+<div>
+<%= render :partial => 'shift_participants/shift_participant_list', :object => @shift.shift_participants%>
+</div>

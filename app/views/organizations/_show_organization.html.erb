@@ -20,7 +20,7 @@
   <%= render :partial => "charges/organization_charge_list", :object => @charges %>
 </div>
 
-<h2>Shifts - <%= link_to_function "Toggle", "$('#charges').toggle()" %></h2>
+<h2>Shifts - <%= link_to_function "Toggle", "$('#shifts').toggle()" %></h2>
 <div id="shifts" style="display: none;">
   <%= render :partial => "shifts/shift_table.html.erb", :object => @shifts %>
 </div>
