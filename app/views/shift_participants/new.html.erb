@@ -1,0 +1,11 @@
+<% if @participant.nil? %>
+  <h1>Participant Lookup for Shift Signin</h1>
+  <%= render 'participants/lookup' %>
+<% else %>
+  <h2>Check in <%= @participant.name %> for <%= @shift.organization.name %>?</h2>
+  <%= form_for @shift_participant do |f| %>
+    <%= f.hidden_field :participant_id %>
+    <%= f.hidden_field :shift_id %>
+    <%= f.submit 'Check In' %>
+  <% end %>
+<% end %>

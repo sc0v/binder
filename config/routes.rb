@@ -8,7 +8,13 @@ Trailer::Application.routes.draw do
     resources :checkouts, :only => [:new, :create]
   end
 
-  resources :shifts
+  resources :shifts do
+    resources( :participants, 
+               :controller => :shift_participants,
+               :only => [:new, :create, :checkout] ) do
+      delete 'checkout'
+    end
+  end
 
   resources :organizations do
     resources :members, :controller => :memberships

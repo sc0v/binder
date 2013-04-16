@@ -5,3 +5,7 @@
 <div>
 <%= render :partial => 'shift_participants/shift_participant_list', :object => @shift.shift_participants%>
 </div>
+
+<div style="margin-top: 30px;">
+  <%= link_to 'Sign In New Participant', new_shift_participant_url( @shift ) %>
+</div>

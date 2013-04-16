@@ -7,6 +7,7 @@
         <th>Starting Time</th>
         <th>Ending Time</th>
         <th>People Required</th>
+        <th></th>
       </tr>
     </thead>
     </tbody>
@@ -14,9 +15,10 @@
         <tr>
           <td class="no_link"><%= shift.shift_type.name %></td>
           <td><%= link_to shift.organization.name, shift.organization %></td>
-          <td><%= link_to time(shift.starts_at), shift %></td>
+          <td class="no_link"><%= time(shift.starts_at) %></td>
           <td class="no_link"><%= time shift.ends_at %></td>
           <td class="no_link"><%= shift.required_number_of_participants %></td>
+          <td><%= link_to 'Sign In/Out', shift %></td>
         </tr>
       <% end %>
     </tbody>
