@@ -1,5 +1,5 @@
 class ContactList < ActiveRecord::Base 
-   attr_accessible :participant_id, :participant
+   # attr_accessible :participant_id, :participant
 
    belongs_to :participant
    

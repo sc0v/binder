@@ -20,26 +20,21 @@ class ToolTest < ActiveSupport::TestCase
     end
 
     should "show that all factories are properly created" do
-      assert_equal 4, Tool.all.size
+      assert_equal 5, Tool.all.size
     end
-  
-    # Scopes
-    
-    # does not technically work because we do have 1 hardhat.
-    # much change something in the Tool model then - Shannon
 
     should "have a scope 'hardhats' that works" do
-       assert_equal 0, Tool.hardhats.size
+       assert_equal 1, Tool.hardhats.size
     end
 
 
     should "have a scope 'radios' that works" do
-       assert_equal 0, Tool.radios.size
+       assert_equal 1, Tool.radios.size
     end
 
 
     should "have a scope 'just_tools' that works" do
-       assert_equal 4, Tool.just_tools.size
+       assert_equal 3, Tool.just_tools.size
     end
 
     should "show that the 'current_participant' method works" do

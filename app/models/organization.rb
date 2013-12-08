@@ -1,5 +1,5 @@
 class Organization < ActiveRecord::Base
-  attr_accessible :name, :organization_category_id, :organization_category, :memberships, :organization_aliases, :charges, :tools, :checkouts, :shifts
+  # attr_accessible :name, :organization_category_id, :organization_category, :memberships, :organization_aliases, :charges, :tools, :checkouts, :shifts
 
   belongs_to :organization_category
   has_many :memberships
@@ -13,8 +13,8 @@ class Organization < ActiveRecord::Base
   validates :organization_category, :presence => true
   validates :name, :presence => true, :uniqueness => true
 
-  default_scope order('name asc')
-  scope :alphabetical, order('name')
+  default_scope { order('name asc') }
+  scope :alphabetical, -> { order('name') }
 
   scope :search, lambda { |term| where('lower(name) LIKE lower(?)', "#{term}%") }
 

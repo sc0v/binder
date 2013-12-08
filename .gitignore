@@ -19,3 +19,6 @@
 
 # Ignore ERD Diagram
 erd.pdf
+
+# Ignore Coverage reports
+/coverage

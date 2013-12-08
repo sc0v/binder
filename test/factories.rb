@@ -1,4 +1,14 @@
 FactoryGirl.define do
+  # Tool Barcodes
+  sequence :barcode do |n|
+    "123#{n}"
+  end
+
+  # Random Strings
+  sequence :random_string do |n|
+    'text' + "#{n}"
+  end
+
 
   # charge
   factory :charge do
@@ -13,18 +23,15 @@ FactoryGirl.define do
 
   # charge_type
   factory :charge_type do
-    default_amount 100.00
-    description "Missed a meeting"
-    name "Meeting"
-    requires_booth_chair_approval false
+    name { generate(:random_string) }
   end
 
   # checkout
   factory :checkout do
     checked_out_at Time.now
-    checked_in_at nil
 
     association :tool
+    association :organization
   end
 
   # contact_list
@@ -47,6 +54,7 @@ FactoryGirl.define do
   # membership
   factory :membership do
     is_booth_chair false
+
     association :organization
     association :participant
   end
@@ -83,8 +91,6 @@ FactoryGirl.define do
     ends_at Time.now - 2.days
     required_number_of_participants 3
     starts_at Time.now - 3.days
-
-    #should not require and organization association
   end
 
   # shift_participant
@@ -106,7 +112,6 @@ FactoryGirl.define do
     name "Assign rides"
 
     association :task_status
-    association :completed_by
   end
 
   # task_category
@@ -119,10 +124,9 @@ FactoryGirl.define do
     name "Test Status"
   end
 
-
   # tool
   factory :tool do
-    barcode 123780890
+    barcode { generate(:barcode) }
     description "HAMMER"
     name "Hammer"
   end
@@ -133,6 +137,7 @@ FactoryGirl.define do
     email "default_factory_andrew_id@andrew.cmu.edu"
     password "testtest"
     password_confirmation "testtest"
+
     association :participant
   end
 

@@ -2,14 +2,20 @@ class ShiftParticipant < ActiveRecord::Base
   belongs_to :shift
   belongs_to :participant
 
-  attr_accessible :clocked_in_at, :clocked_out_at, :shift, :participant
+  # attr_accessible :clocked_in_at, :clocked_out_at, :shift, :participant
 
-  # used for ID swipe forms
-  attr_accessible :card_number
-  attr_accessor :card_number
+  # For lookups
+  def card_number=( card_number )
+    @card_number = card_number
+  end
 
-  validates :shift_id, :clocked_in_at, :participant_id, :presence => true
+  def card_number
+    @card_number
+  end
 
-  scope :current, where('clocked_out_at <> NULL')
+  validates_presence_of :shift, :clocked_in_at, :participant
+  validates_associated :shift, :participant
+
+  scope :current, -> { where('clocked_out_at <> NULL') }
 
 end

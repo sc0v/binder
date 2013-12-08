@@ -1,5 +1,5 @@
 class Membership < ActiveRecord::Base
-  attr_accessible :is_booth_chair, :title, :organization, :participant, :booth_chair_order, :role_ids
+  # attr_accessible :is_booth_chair, :title, :organization, :participant, :booth_chair_order, :role_ids
 
   attr_accessor :role_ids
 
@@ -11,7 +11,7 @@ class Membership < ActiveRecord::Base
   #has_many :checkouts
   has_many :tools, :through => :checkouts
 
-  default_scope order('booth_chair_order ASC')
-  scope :booth_chairs, where(:is_booth_chair => true) 
+  default_scope { order('booth_chair_order ASC') }
+  scope :booth_chairs, -> { where(:is_booth_chair => true) }
   
 end

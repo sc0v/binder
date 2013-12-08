@@ -1,15 +1,15 @@
 class Participant < ActiveRecord::Base
   before_save :reformat_phone
   
-  attr_accessible :andrewid, :has_signed_waiver, :phone_number, :has_signed_hardhat_waiver, :memberships, :user, :organizations, :shifts, :checkouts, :tools, :shift_participants, :contact_list
+  # attr_accessible :andrewid, :has_signed_waiver, :phone_number, :has_signed_hardhat_waiver, :memberships, :user, :organizations, :shifts, :checkouts, :tools, :shift_participants, :contact_list
 
   #keep this DAMNIT. We need it for rails to allow the param access during swipes.
-  attr_accessible :card_number
-  attr_accessor :card_number
+  # attr_accessible :card_number
+  # attr_accessor :card_number
   
   validates :andrewid, :presence => true, :uniqueness => true
   validates :has_signed_waiver, :acceptance => {:accept => true}
-  validates_format_of :phone_number, :with => /^\(?\d{3}\)?[-. ]?\d{3}[-.]?\d{4}$/, :message => "should be 10 digits (area code needed) and delimited with dashes only", :allow_blank => true
+  validates_format_of :phone_number, :with => /\A\(?\d{3}\)?[-. ]?\d{3}[-.]?\d{4}\Z/, :message => "should be 10 digits (area code needed) and delimited with dashes only", :allow_blank => true
 
   has_many :organizations, :through => :memberships
   has_many :shifts, :through => :shift_participants
@@ -20,9 +20,18 @@ class Participant < ActiveRecord::Base
   has_one  :contact_list
   belongs_to :user, dependent: :destroy
 
-  default_scope order('andrewid')
+  default_scope { order('andrewid') }
   scope :search, lambda { |term| where('lower(andrewid) LIKE lower(?)', "#{term}%") }
 
+
+
+  def card_number=( card_number )
+    @card_number = card_number
+  end
+
+  def card_number
+    @card_number
+  end
   
   def name
     cached_name
@@ -115,14 +124,24 @@ class Participant < ActiveRecord::Base
     if read_attribute(:cache_updated).nil? || DateTime.now - 14.days > read_attribute(:cache_updated)
       ldap_reference ||= CarnegieMellonPerson.find_by_andrewid( self.andrewid )
       
-      write_attribute :cached_name, Array.[](ldap_reference["cn"]).flatten.last
-      write_attribute :cached_surname, ldap_reference["sn"]
-      write_attribute :cached_email, ldap_reference["mail"]
-      write_attribute :cached_department, ldap_reference["cmuDepartment"]
-      write_attribute :cached_student_class, ldap_reference["cmuStudentClass"]
-      write_attribute :cache_updated, DateTime.now
+      if !ldap_reference.nil?
+        write_attribute :cached_name, Array.[](ldap_reference["cn"]).flatten.last
+        write_attribute :cached_surname, ldap_reference["sn"]
+        write_attribute :cached_email, ldap_reference["mail"]
+        write_attribute :cached_department, ldap_reference["cmuDepartment"]
+        write_attribute :cached_student_class, ldap_reference["cmuStudentClass"]
+        write_attribute :cache_updated, DateTime.now
 
-      self.save!
+        self.save!
+      else
+        write_attribute :cached_name, "N/A"
+        write_attribute :cached_surname, "N/A"
+        write_attribute :cached_email, andrewid + "@andrew.cmu.edu"
+        write_attribute :cached_department, "N/A"
+        write_attribute :cached_student_class, "N/A"
+
+        self.save!
+      end
     end
   end
   

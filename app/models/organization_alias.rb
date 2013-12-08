@@ -1,5 +1,5 @@
 class OrganizationAlias < ActiveRecord::Base
-  attr_accessible :name, :organization, :organization_id
+  # attr_accessible :name, :organization, :organization_id
 
   validates :name, :uniqueness => true, :presence => true
   validates :organization_id, :presence => true
