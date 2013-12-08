@@ -1,7 +1,37 @@
-<h1>Checkin</h1>
-
-<% if @checkout.tool.is_checked_out? %>
-  <%= link_to "Check in #{@checkout.tool.name}", checkout_url, :method => :delete %>
+<% if can?(:read, @checkout) %>
+  <%- model_class = Checkout -%>
+  <div class="page-header">
+    <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+  </div>
+  <dl class="dl-horizontal">
+    <dt><strong><%= model_class.human_attribute_name(:tool) %>:</strong></dt>
+    <dd><%= link_to(@checkout.tool.name, tool_path(@checkout.tool)) %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:checked_out_at) %>:</strong></dt>
+    <dd><%= date_and_time(@checkout.checked_out_at) %></dd>
+    <% if(!@checkout.checked_in_at.nil?) %>
+      <dt><strong><%= model_class.human_attribute_name(:checked_in_at) %>:</strong></dt>
+      <dd><%= date_and_time(@checkout.checked_in_at) %></dd>
+    <% end %>
+    <dt><strong><%= model_class.human_attribute_name(:participant_id) %>:</strong></dt>
+    <dd><%= @checkout.participant.andrewid unless @checkout.participant.nil? %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:organization_id) %>:</strong></dt>
+    <dd><%= @checkout.organization.name unless @checkout.organization.nil? %></dd>
+  </dl>
+  <div class="form-actions">
+    <%= link_to t('.back', :default => t("helpers.links.back")),
+              checkouts_path, :class => 'btn' %>
+    <% if can?(:edit, @checkout) %>
+      <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_checkout_path(@checkout), :class => 'btn' %>
+    <% end %>
+    <% if can?(:destroy, @checkout) %>
+      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              checkout_path(@checkout),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+    <% end %>
+  </div>
 <% else %>
-  Tool returned at <%= @checkout.checked_in_at %>
+  <h3>Not Authorized!</h3>
 <% end %>

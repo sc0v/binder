@@ -1,16 +1,45 @@
-<h1>Organizations</h1>
-
-  <p>
-  <table class="no-border">
-<% @organization_categories.each do |organization_category| %>
-    <tr><td colspan="3" style="text-align: left"><h2><%= organization_category.name %></h2></td></td>
-    <% organization_category.organizations.each do |org| %>
+<% if can?(:read, Organization) %>
+  <%- model_class = Organization -%>
+  <div class="page-header">
+    <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+  </div>
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td><%= link_to org.name, org %>
-        <td><%= link_to "Edit", edit_organization_url(org) %>
-        <td><%= link_to "Delete", org, :method => :delete, :confirm => "Are you sure ?"%>
+        <th><%= model_class.human_attribute_name(:name) %></th>
+        <th><%= model_class.human_attribute_name(:organization_category) %></th>
+        <th><%=t '.actions', :default => t("helpers.actions") %></th>
       </tr>
-    <% end %>
-<% end %>
+    </thead>
+    <tbody>
+      <% @organizations.each do |organization| %>
+        <tr>
+          <td><%= link_to organization.name, organization_path(organization) %></td>
+          <td><%= organization.organization_category.name %></td>
+          <td>
+            <% if can?(:update, organization) %>
+              <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_organization_path(organization), :class => 'btn btn-mini' %>
+            <% end %>
+
+            <% if can?(:destroy, organization) %>
+              <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      organization_path(organization),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
-  </p>
+  <% if can?(:create, Organization) %>
+    <%= link_to t('.new', :default => t("helpers.links.new")),
+            new_organization_path,
+            :class => 'btn btn-primary' %>
+  <% end %>
+  
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>

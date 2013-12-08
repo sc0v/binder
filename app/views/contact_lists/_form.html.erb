@@ -1,0 +1,13 @@
+<% if can?(:update, @contact_list) %>
+  <%= simple_form_for @contact_list, :html => { :class => 'form-horizontal' } do |f| %>
+    <%= f.input :participant_id, :as => :select, :label => "Participant", :collection => Participant.all.map{|p| [p.name, p.id] } %>
+    <div class="form-actions">
+      <%= f.button :submit, :class => 'btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                contact_lists_path, :class => 'btn' %>
+    </div>
+  <% end %>
+  
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>

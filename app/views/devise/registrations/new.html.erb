@@ -1,0 +1,23 @@
+<style>
+
+html { 
+  background: url(http://farm3.staticflickr.com/2441/3923792977_35c1d04829_b.jpg) no-repeat center center fixed; 
+  -webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+}
+
+</style>
+
+<h2>Sign up</h2>
+<%= simple_form_for(resource, :as => resource_name, :url => registration_path(resource_name), :html => {:class => 'form-vertical' }) do |f| %>
+  <%= f.error_notification %>
+  <%= display_base_errors resource %>
+  <%= f.input :name, :autofocus => true %>
+  <%= f.input :email, :required => true %>
+  <%= f.input :password, :required => true %>
+  <%= f.input :password_confirmation, :required => true %>
+  <%= f.button :submit, 'Sign up', :class => 'btn-primary' %>
+<% end %>
+<%= render "devise/shared/links" %>

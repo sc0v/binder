@@ -1,0 +1,87 @@
+<% if can?(:read, Faq) %>
+  <%- model_class = Faq -%>
+  <div class="page-header">
+    <h1>FAQs</h1>
+  </div>
+
+
+<div class="accordion" id="accordion2">
+  <% @faqs.each do |faq| %>
+
+  <div class="accordion-group">
+    <div class="accordion-heading">
+      <a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion2" href="#collapseOne">
+        <%= link_to faq.question, faq_path(faq) %>
+      </a>
+    </div>
+    <div id="collapse" class="accordion-body collapse in">
+      <div class="accordion-inner">
+        <%= faq.answer %><br>
+        
+        <div align="right">
+        <% if can?(:update, faq) %>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                  edit_faq_path(faq) %>
+        <% end %> 
+        <% if can?(:destroy, faq) %>
+            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                    faq_path(faq),
+                    :method => :delete,
+                    :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) } %>
+          <% end %>
+        </div>
+
+        </div>
+    </div>
+  </div>
+
+
+  <% end %>
+</div>
+
+
+  <% if can?(:create, Faq) %>
+    <%= link_to t('.new', :default => t("helpers.links.new")),
+            new_faq_path,
+            :class => 'btn btn-primary' %>
+  <% end %>
+
+
+  
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>
+
+
+<!-- <table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:question) %></th>
+      <th><%= model_class.human_attribute_name(:answer) %></th>
+      <th><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+  
+    <% @faqs.each do |faq| %>
+      <tr>
+        <td><%= link_to faq.question, faq_path(faq) %></td>
+        <td><%= faq.answer %></td>
+        <td>
+          <% if can?(:update, faq) %>
+            <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                    edit_faq_path(faq), :class => 'btn btn-mini' %>
+          <% end %>
+
+          <% if can?(:destroy, faq) %>
+            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                    faq_path(faq),
+                    :method => :delete,
+                    :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                    :class => 'btn btn-mini btn-danger' %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table> -->

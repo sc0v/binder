@@ -1,0 +1,7 @@
+<% if can?(:update, @document) %>
+  <h1>Edit Document</h1>
+  <%= render 'form' %>
+  
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>

@@ -1,16 +1,16 @@
-<%= form_for @participant do |f| %>
-
-  <h1>Add <%= @participant.name %> as a participant</h1>
-
-  <div><label>Signed Waiver:</label> <%= f.check_box :has_signed_waiver %></div>
-  <div><label>Signed *Hardhat* Waiver:</label> <%= f.check_box :has_signed_hardhat_waiver %></div>
-  <%= f.hidden_field :andrewid %>
-
-  <%= submit_tag "Add Participant" %>
-
-  <% if params[:action] == 'new' %>
-    <%= check_box_tag 'return_url', new_participant_url, session[:return_url] == new_participant_url %>
-    <label>Keep adding more new participants</label>
+<% if can?(:update, @participant) %>
+  <%= simple_form_for @participant, :html => { :class => 'form-horizontal' } do |f| %>
+    <%= f.input :andrewid %>
+    <%= f.input :has_signed_waiver %>
+    <%= f.input :phone_number %>
+    <%= f.input :has_signed_hardhat_waiver %>
+    <div class="form-actions">
+      <%= f.button :submit, :class => 'btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                participants_path, :class => 'btn' %>
+    </div>
   <% end %>
-
+  
+<% else %>
+  <h3>Not Authorized!</h3>
 <% end %>

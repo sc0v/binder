@@ -1,0 +1,7 @@
+<% if can?(:create, @document) %>
+  <h1>New Document</h1>
+  <%= render 'form' %>
+  
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>

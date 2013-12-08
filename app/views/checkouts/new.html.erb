@@ -1,21 +1,11 @@
-<% if @checkout.nil? %>
-  <h1>Participant Lookup for Checkout</h1>
-  <%= render 'participants/lookup' %>
+<% if can?(:create, @checkout) %>
+  <%- model_class = Checkout -%>
+  <div class="page-header">
+    <h1><%=t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => model_class.model_name.human %></h1>
+  </div>
+  
+  <%= render :partial => 'form' %>
 
 <% else %>
-
-  <%= form_for @checkout, url: tool_checkouts_url do |f| %>
-    <%= f.hidden_field :participant_id %>
-    <%= f.hidden_field :tool_id %>
-    
-    <% @checkout.participant.organizations.each do |organization| %>
-      <div>
-        <%= f.radio_button :organization_id, organization.id %>
-        <label><%= organization.name %></label>
-      </div>
-    <% end %>
-
-    <%= f.submit "Checkout" %>
-  <% end %>
-
+  <h3>Not Authorized!</h3>
 <% end %>

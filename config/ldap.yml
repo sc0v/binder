@@ -7,7 +7,12 @@ test:
   host: ldap.andrew.cmu.edu
   port: 389
   base: dc=cmu,dc=edu
-
+  
+staging:
+  host: ldap.andrew.cmu.edu
+  port: 389
+  base: dc=cmu,dc=edu
+  
 production:
   host: ldap.andrew.cmu.edu
   port: 389

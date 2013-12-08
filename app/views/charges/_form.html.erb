@@ -1,0 +1,17 @@
+<% if can?([:create, :update], @charge) %>
+  <%= simple_form_for @charge, :html => { :class => 'form-horizontal' } do |f| %>
+    <%= f.input :organization_id, :as => :select, :label => "Organization", :collection => Organization.all.map{|org| [org.name, org.id] } %>
+    <%= f.input :charge_type_id, :as => :select, :label => "Charge Type", :collection => ChargeType.all.map{|ct| [ct.name, ct.id] } %>
+    <%= f.input :amount, :as => :integer %>
+    <%= f.input :description %>
+    <%= f.input :issuing_participant_id %>
+    <%= f.input :receiving_participant_id %>
+    <div class="form-actions">
+      <%= f.button :submit, :class => 'btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                charges_path, :class => 'btn' %>
+    </div>
+  <% end %>
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>

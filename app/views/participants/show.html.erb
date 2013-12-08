@@ -1,8 +1,68 @@
-<%= render :partial => 'show', :object => @participant %>
-
-<h2>Memberships</h2>
-<ul>
-<% @memberships.each do |membership| %>
-  <li><%= link_to membership.organization.name, membership.organization %></li>
+<% if can?(:read, @participant) %>
+  <%- model_class = Participant -%>
+  <div class="page-header">
+    <h1><%=t '.title', :default => @participant.name %></h1>
+  </div>
+  <p>
+    <strong><%= model_class.human_attribute_name(:andrewid) %>:</strong>
+    <%= @participant.andrewid %>
+  </p>
+  <p>
+    <strong><%= model_class.human_attribute_name(:phone_number) %>:</strong>
+    <%= @participant.formatted_phone_number %>
+  </p>
+  <p>
+    <strong><%= model_class.human_attribute_name(:department) %>:</strong>
+    <%= @participant.department %>
+  </p>
+  <p>
+    <strong><%= model_class.human_attribute_name(:student_class) %>:</strong>
+    <%= @participant.student_class %>
+  </p>
+  <p>
+    <strong><%= model_class.human_attribute_name(:has_signed_waiver) %>:</strong>
+    <%= format_boolean(@participant.has_signed_waiver?)  %>
+  </p>
+  <p>
+    <strong><%= model_class.human_attribute_name(:has_signed_hardhat_waiver) %>:</strong>
+    <%= format_boolean(@participant.has_signed_hardhat_waiver?) %>
+  </p>
+  <p>
+    <strong><%= model_class.human_attribute_name(:memberships) %></strong>
+    <% @memberships.each do |membership| %>
+      <li><%= link_to membership.organization.name, membership.organization %></li>
+    <% end %>
+  </p>
+  <p>
+    <strong><%= model_class.human_attribute_name(:user_roles) %></strong>
+    <% if @participant.user.blank? %>
+      <li>No User Associated</li>
+    <% else %>
+      <% @participant.user.roles.each do |role| %>
+        <li><%= role.name %></li>
+      <% end %>
+    <% end %>
+  </p>
+  <div class="form-actions">
+    <%= link_to t('.back', :default => t("helpers.links.back")),
+                participants_path, :class => 'btn'  %>
+    <% if can?(:update, @participant) %>
+      <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                edit_participant_path(@participant), :class => 'btn' %>
+      <%= link_to t('.add membership', :default => t("helpers.links.add membership")),
+                add_participant_memberships_given_participant_path(@participant), :class => 'btn' %>
+    <% end %>
+    <!-- This code is not right, it works for now but it's a hack and the whole block should be role checked and not appear if there is no associated user --!>
+    <a data-toggle="modal" href="#role-options-<%= @participant.user.id unless @participant.user.blank? %>" class="btn btn-mini" type="button">Change role</a>
+    <%= render "/users/user", :user => @participant.user, :redirect => participant_path(@participant) unless @participant.user.blank? %>
+    <% if can?(:destroy, @participant) %>
+      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                participant_path(@participant),
+                :method => 'delete',
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-danger' %>
+    <% end %>
+  </div>
+<% else %>
+  <h3>Not Authorized!</h3>
 <% end %>
-</ul>

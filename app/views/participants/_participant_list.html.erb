@@ -1,9 +1,7 @@
 <% if not participant_list.empty? %>
-  <table id="participant_list">
+  <table class="table table-striped" id="participant_list">
     <thead>
       <tr>
-        <th>Name</th>
-        <th>AndrewID</th>
         <th>Name</th>
         <th>AndrewID</th>
       </tr>
@@ -11,8 +9,6 @@
     <tbody>
       <% participant_list.each do |participant| %>
         <tr>
-          <td><%= participant.name %></td>
-          <td><%= participant.andrewid %></td>
           <td><%= link_to participant.name, participant %></td>
           <td><%= link_to participant.andrewid, participant %></td>
         </tr>

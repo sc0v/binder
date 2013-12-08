@@ -1,2 +1,0 @@
-$("ol#unaffiliated li#organization-<%= params[:organization_id]%>").remove();
-$("<li id=\"membership-<%= @membership.id.to_s %>\"><a href=\"<%= participant_membership_url(@participant, @membership) %>\" data-method=\"delete\" data-remote=\"true\" rel=\"nofollow\"><%= @organization.name %></a></li>").appendTo("ol#affiliated");

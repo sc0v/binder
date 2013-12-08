@@ -1,0 +1,69 @@
+<% if can?(:read, Tool) %>
+  <%- model_class = Tool -%>
+  <div class="page-header">
+    <h1>Hardhats</h1>
+  </div>
+
+  <% if can?(:create, Tool) %>
+    <%= link_to raw("Add a New Tool"), new_tool_path, :class => 'btn btn-primary' %>
+    <%= link_to raw("Checkout Tool"), new_tool_checkout_path, :class => 'btn btn-primary' %>
+  <% end %>
+  
+  <%= link_to raw("Tools"), tools_path, :class => 'btn btn-primary' %>
+  <%= link_to raw("Radios"), radios_index_path, :class => 'btn btn-primary' %>
+
+  <br>
+  <br>
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th><%= model_class.human_attribute_name(:barcode) %></th>
+        <th><%= model_class.human_attribute_name(:name) %></th>
+        <th><%= model_class.human_attribute_name(:description) %></th>
+        <th><%= model_class.human_attribute_name(:is_checked_out) %></th>
+        <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @tools.each do |tool| %>
+        <tr>
+          <td><%= link_to tool.barcode, tool_path(tool)%></td>
+          <td><%= tool.name %></td>
+          <td><%= tool.description %></td>
+          <td><%= format_boolean(tool.is_checked_out?) %></td>
+          <td>
+            <% if(tool.is_checked_out?) %>
+              <%= link_to t('.checkin', :default => t("helpers.links.checkin")),
+                              new_tool_checkin_given_tool_path(tool), :class => 'btn btn-mini' %>
+            <% else %>
+              <%= link_to t('.checkout', :default => t("helpers.links.checkout")),
+                              new_tool_checkout_given_tool_path(tool), :class => 'btn btn-mini' %>
+            <% end %>
+            <% if can?(:update, tool) %>
+              <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_tool_path(tool), :class => 'btn btn-mini' %>
+            <% end %>
+            <% if can?(:destroy, tool) %>
+              <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      tool_path(tool),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+            <% end %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  <span class="smtext">
+    <%= will_paginate @tools, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
+  </span>
+  <% if can?(:create, Tool) %>
+    <%= link_to t('.new', :default => t("helpers.links.new")),
+            new_tool_path,
+            :class => 'btn btn-primary' %>
+  <% end %>
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>
