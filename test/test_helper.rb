@@ -1,18 +1,18 @@
-require 'simplecov'
-SimpleCov.start do
-  add_group "Models", "app/models"
-  add_group "Controllers", "app/controllers"
-  add_group "Views", "app/views"
-end
+#require 'simplecov'
+#SimpleCov.start do
+#  add_group "Models", "app/models"
+#  add_group "Controllers", "app/controllers"
+#  add_group "Views", "app/views"
+#end
 
-require 'simplecov-rcov'
-class SimpleCov::Formatter::MergedFormatter
-  def format(result)
-    SimpleCov::Formatter::HTMLFormatter.new.format(result)
-    SimpleCov::Formatter::RcovFormatter.new.format(result)
-  end
-end
-SimpleCov.formatter = SimpleCov::Formatter::MergedFormatter
+#require 'simplecov-rcov'
+#class SimpleCov::Formatter::MergedFormatter
+#  def format(result)
+#    SimpleCov::Formatter::HTMLFormatter.new.format(result)
+#    SimpleCov::Formatter::RcovFormatter.new.format(result)
+#  end
+#end
+#SimpleCov.formatter = SimpleCov::Formatter::MergedFormatter
 
 require 'webmock/minitest'
 include WebMock::API
@@ -84,7 +84,7 @@ class ActiveSupport::TestCase
     @shannon_user = FactoryGirl.create(:user, :name => "Shannon Chen", :email => "shannon1_FG@andrew.cmu.edu", :participant => @shannon_participant)
     @shannon_user.add_role(:scc)
 
-    @jonathan_user = FactoryGirl.create(:user, :name => "Jonathan U Chung", :email => "jonathanc@cmu.edu", :participant => @jonathan_participant)
+    @jonathan_user = FactoryGirl.create(:user, :name => "Jonathan U Chung", :email => "jonathanc@andrew.cmu.edu", :participant => @jonathan_participant)
     @jonathan_user.add_role(:member)
 
     # Create 4 Shift Participants
@@ -99,8 +99,8 @@ class ActiveSupport::TestCase
     @member_member = FactoryGirl.create(:membership, :participant => @member_participant, :organization => @sdc)
 
     # Create 2 charge types
-    @miss_meeting = FactoryGirl.create(:charge_type, :default_amount => 100.00, :description => "Missed a meeting", :name => "Meeting", :requires_booth_chair_approval => false)
-    @trip_breaker = FactoryGirl.create(:charge_type, :default_amount => 200.00, :description => "Tripped a breaker", :name => "Breaker", :requires_booth_chair_approval => true)
+    @miss_meeting = FactoryGirl.create(:charge_type)
+    @trip_breaker = FactoryGirl.create(:charge_type, :requires_booth_chair_approval => true)
 
     # Create 2 charges
     @meeting_fine = FactoryGirl.create(:charge, :charge_type => @miss_meeting, :issuing_participant => @rachel_participant, :receiving_participant => nil, :organization => @theta, :amount => 50.00, :charged_at => Date.today, :description => "Missed 10/2 meeting")
@@ -124,10 +124,11 @@ class ActiveSupport::TestCase
     @hammer = FactoryGirl.create(:tool)
     @saw = FactoryGirl.create(:tool, :barcode => 1239043, :description => "SAW", :name => "Saw")
     @ladder = FactoryGirl.create(:tool, :barcode => 120120, :description => "LADDER", :name => "Ladder")
-    @hard_hat = FactoryGirl.create(:tool, :barcode => 1280812, :description => "HARD HAT", :name => "Hard Hat")
+    @hard_hat = FactoryGirl.create(:tool, :barcode => 1280812, :description => "HARD HAT", :name => "Hardhat")
+    @radio = FactoryGirl.create(:tool, :name => "Radio")
 
     # Create 4 checkouts
-    @hammer_checkout1 = FactoryGirl.create(:checkout, :checked_in_at => Time.now + 2.days, :tool => @hammer)
+    @hammer_checkout1 = FactoryGirl.create(:checkout, :checked_in_at => DateTime.now + 3.days, :tool => @hammer, :organization => @sdc)
     @hammer_checkout2 = FactoryGirl.create(:checkout, :tool => @hammer, :organization => @sdc)
     @saw_checkout = FactoryGirl.create(:checkout, :tool => @saw, :organization => @theta, :participant => @shannon_participant)
     @hard_hat_checkout = FactoryGirl.create(:checkout, :tool => @hard_hat, :organization => @theta)
@@ -197,12 +198,7 @@ class ActiveSupport::TestCase
     @saw.destroy
     @ladder.destroy
     @hard_hat.destroy
-
-    # Destroy 4 checkouts
-    @hammer_checkout1.destroy
-    @hammer_checkout2.destroy
-    @saw_checkout.destroy
-    @hard_hat_checkout.destroy
+    @radio.destroy
 
     # Destroy 2 charges
     @meeting_fine.destroy

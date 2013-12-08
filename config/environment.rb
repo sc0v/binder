@@ -1,5 +1,5 @@
-# Load the rails application
+# Load the Rails application.
 require File.expand_path('../application', __FILE__)
 
-# Initialize the rails application
-Boa::Application.initialize!
+# Initialize the Rails application.
+Trailerapp::Application.initialize!

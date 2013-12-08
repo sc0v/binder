@@ -2,7 +2,7 @@ class Shift < ActiveRecord::Base
   before_save :set_end_time
   belongs_to :organization
 
-  attr_accessible :ends_at, :starts_at, :required_number_of_participants, :organization, :shift_type
+  # attr_accessible :ends_at, :starts_at, :required_number_of_participants, :organization, :shift_type
 
   has_many :participants, :through => :shift_participants
   has_many :shift_participants
@@ -15,9 +15,9 @@ class Shift < ActiveRecord::Base
   scope :current, lambda { where("starts_at < ? and ends_at > ?", Time.zone.now, Time.zone.now ) }
   scope :upcoming, lambda { where("starts_at > ? and starts_at < ?", Time.zone.now, Time.zone.now + 2.hours ) }
   #scopes for each type of shift, selected by their shift_type ID
-  scope :watch_shifts, where('shift_type_id = ?', 1)
-  scope :sec_shifts, where('shift_type_id = ?', 2)
-  scope :coord_shifts, where('shift_type_id = ?', 3)
+  scope :watch_shifts, -> { where('shift_type_id = ?', 1) }
+  scope :sec_shifts, -> { where('shift_type_id = ?', 2) }
+  scope :coord_shifts, -> { where('shift_type_id = ?', 3) }
   
   private
   def set_end_time

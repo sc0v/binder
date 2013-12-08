@@ -1,119 +1,65 @@
-source 'http://rubygems.org'
-ruby '1.9.3'
-gem 'rails', '3.2.13'
-#gem 'sqlite3'
+source 'https://rubygems.org'
+ruby '2.0.0'
+gem 'rails', '4.0.2'
 
-group :assets do
-  gem 'coffee-rails', '~> 3.2.1'
-  gem 'uglifier', '>= 1.0.3'
-  gem 'therubyracer', :platform => :ruby
-  gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
-end
+gem 'sqlite3'
 
+gem 'sass-rails', '~> 4.0.0'
+gem 'uglifier', '>= 1.3.0'
+gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
+gem 'turbolinks'
+gem 'jbuilder', '~> 1.2'
+gem 'bootstrap-sass', '>= 3.0.0.0'
+gem 'simple_form'
+gem 'therubyracer', :platform=>:ruby
+gem 'thin'
 
-# ldap
-#Flip the two gems below this when trying to generate...
-#gem "twitter-bootstrap-rails"
-gem "activeldap", :require => 'active_ldap/railtie'
-gem 'net-ldap'
-
-# erd
-gem "rails-erd"
-
-# document attachments
-gem "carrierwave"
-
-# Shibboleth
-gem "omniauth"
-gem "omniauth-shibboleth"
-
-# Rest - For Card Lookup
-gem 'rest-client'
-
+# User and role management
 gem 'cancan'
 gem 'devise'
+gem 'rolify', '~> 3.3.0.rc4'
 
-gem 'figaro'
-gem 'rolify'
+# For LDAP calls to CMU's database
+gem 'net-ldap'
+gem 'activeldap', :require => 'active_ldap/railtie'
 
-gem 'simple_form'
+# For Card-lookup requests
+gem 'rest-client'
 
+# Document attachments
+gem "carrierwave"
+
+# For Pagniation
 gem 'will_paginate'
 
-#gem 'webrick', "~> 1.3.1"
-
-group :test, :development, :staging, :production do
-  gem 'pg'
-
-  gem 'ci_reporter'
-  
-  # *** Start SQL Gems ***
-  #gem 'sqlite3'
-  gem 'activerecord-postgresql-adapter'
-  # *** End SQL Gems ***
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
+  gem 'quiet_assets'
+  gem 'rails_layout'
 end
 
 group :development, :test do
- #Gems for rspec & capybara
-  gem 'rspec-rails', '~> 3.0.0.beta'
-  gem 'database_cleaner', '1.0.1'
-  gem 'launchy'
-  gem 'capybara'
-
-  # for Travis and CI
-  gem 'simplecov', :require => false #code coverage
-  gem 'simplecov-rcov', :require => false #code coverage
 end
 
 group :test do
-  #gem 'rake'
-
-  gem 'cucumber-rails', :require=>false
-  gem 'email_spec'
-  gem 'factory_girl_rails'
-
-
-  gem 'minitest-spec-rails'
+  # Functional Test Framework (Capybara with Minitest
+  #gem 'capybara'
+  #gem 'minitest-spec-rails'
   gem 'minitest-wscolor'
 
+  # Test Coverage
+  gem 'simplecov'
+  gem 'simplecov-rcov'
+
+  # For mocking Web calls
+  gem 'webmock'
+
+  # For Improved Minitest Syntax
   gem 'shoulda'
   gem 'shoulda-matchers'
 
-  # For mocking the call to cardlookup
-  gem 'webmock'
-
-  gem 'coveralls', require: false
-  # Pretty test Output
-  gem 'turn', :require => false # Pretty printed test output
-end
-
-group :development do
-  gem 'hirb' # pretty formatting for rails console
-  gem 'better_errors'
-  
-  gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
- 
-  gem 'quiet_assets'
-  gem 'rails_layout'
-  
-  gem 'spring'
-  gem "capistrano", "2.15.5"
-  # gem "ruby-activeldap-debug", "~> 0.7.4"
-
-end  
-
-group :staging do
-  gem 'hirb' # pretty formatting for rails console
-  gem 'populator3'
-  
-  gem 'passenger'
-  
-  gem 'quiet_assets'
-end 
-
-group :production do
-  gem 'better_errors'
-  gem 'passenger'
-  gem 'quiet_assets'
+  # For Factories
+  gem 'factory_girl_rails'
 end

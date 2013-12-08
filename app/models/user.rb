@@ -8,8 +8,8 @@ class User < ActiveRecord::Base
   before_save :email_downcase
   
   # Setup accessible (or protected) attributes for your model
-  attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :id, :participant
-  attr_accessible :role_ids, :as => :admin
+  # attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :id, :participant
+  # attr_accessible :role_ids, :as => :admin
   
 
   has_one :participant, dependent: :destroy
@@ -19,7 +19,7 @@ class User < ActiveRecord::Base
   # make sure required fields are present
   validates_presence_of :name, :email  
   validates_uniqueness_of :email, :allow_blank => true
-  validates_format_of :email, :with => /^[\w]([^@\s,;]+)@(([a-z0-9.-]+\.)+(com|edu|org|net|gov|mil|biz|info))$/i, :message => "is not a valid format", :allow_blank => true
+  validates_format_of :email, :with => /\A[\w]([^@\s,;]+)@andrew\.cmu\.edu\Z/i, :message => "is not a valid andrew email", :allow_blank => true
   validates_presence_of :password, :on => :create 
   validates_presence_of :password_confirmation, :on => :create 
   validates_confirmation_of :password, :message => "does not match"

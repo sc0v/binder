@@ -4,13 +4,19 @@ class CarnegieMellonPerson < ActiveLdap::Base
                :classes => ["cmuPerson"]
 
   def self.find_by_andrewid( andrewid )
-    find("cmuandrewid=#{andrewid}", :attributes => ['cmuandrewid',
-                                                    'cn', 
-                                                    'mail',
-                                                    'sn',
-                                                    'cmuDepartment',
-                                                    'cmuStudentClass'
-                                                   ]) 
+    person = find("cmuandrewid=#{andrewid}", :attributes => ['cmuandrewid',
+                                                             'cn', 
+                                                             'mail',
+                                                             'sn',
+                                                             'cmuDepartment',
+                                                             'cmuStudentClass'
+                                                            ]) 
+
+    if person['cmuDepartment'].is_a? Array
+      person['cmuDepartment'] = person['cmuDepartment'].join(', ')
+    end
+
+    return person
   end
 
 end
