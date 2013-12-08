@@ -1,0 +1,57 @@
+<% if can?(:read, Charge) %>
+  <%- model_class = Charge -%>
+  <div class="page-header">
+    <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+  </div>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th><%= model_class.human_attribute_name(:id) %></th>
+        <th><%= model_class.human_attribute_name(:organization) %></th>
+        <th><%= model_class.human_attribute_name(:charge_type) %></th>
+        <th><%= model_class.human_attribute_name(:amount) %></th>
+        <th><%= model_class.human_attribute_name(:description) %></th>
+        <th><%= model_class.human_attribute_name(:issuing_participant_id) %></th>
+        <th><%= model_class.human_attribute_name(:receiving_participant_id) %></th>
+        <th><%= model_class.human_attribute_name(:charged_at) %></th>
+        <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @charges.each do |charge| %>
+        <% if can?(:read, charge) %>
+          <tr>
+            <td><%= link_to charge.id, charge_path(charge) %></td>
+            <td><%= charge.organization.name %></td>
+            <td><%= charge.charge_type.name %></td>
+            <td><%= charge.amount %></td>
+            <td><%= charge.description %></td>
+            <td><%= charge.issuing_participant.andrewid unless charge.receiving_participant.nil? %></td>
+            <td><%= charge.receiving_participant.andrewid unless charge.receiving_participant.nil? %></td>
+            <td><%= date_and_time(charge.charged_at) %></td>
+            <td>
+              <% if can?(:update, charge) %>
+                <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                      edit_charge_path(charge), :class => 'btn btn-mini' %>
+              <% end %>
+              <% if can?(:update, charge) %>
+                <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                      charge_path(charge),
+                      :method => :delete,
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                      :class => 'btn btn-mini btn-danger' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  <% if can?(:create, Charge) %>
+    <%= link_to t('.new', :default => t("helpers.links.new")),
+            new_charge_path,
+            :class => 'btn btn-primary' %>
+  <% end %>
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130410053347) do
+ActiveRecord::Schema.define(:version => 20131117052524) do
 
   create_table "charge_types", :force => true do |t|
     t.string   "name"
@@ -47,6 +47,27 @@ ActiveRecord::Schema.define(:version => 20130410053347) do
   end
 
   add_index "checkouts", ["tool_id"], :name => "index_checkouts_on_tool_id"
+
+  create_table "contact_lists", :force => true do |t|
+    t.integer  "participant_id"
+    t.datetime "created_at",     :null => false
+    t.datetime "updated_at",     :null => false
+  end
+
+  create_table "documents", :force => true do |t|
+    t.integer  "document_id"
+    t.string   "name"
+    t.string   "url"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "faqs", :force => true do |t|
+    t.text     "question"
+    t.text     "answer"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
 
   create_table "memberships", :force => true do |t|
     t.integer  "organization_id"
@@ -93,7 +114,25 @@ ActiveRecord::Schema.define(:version => 20130410053347) do
     t.boolean  "has_signed_waiver"
     t.string   "phone_number"
     t.boolean  "has_signed_hardhat_waiver"
+    t.integer  "user_id"
+    t.string   "cached_name"
+    t.string   "cached_surname"
+    t.string   "cached_email"
+    t.string   "cached_department"
+    t.string   "cached_student_class"
+    t.datetime "cache_updated"
   end
+
+  create_table "roles", :force => true do |t|
+    t.string   "name"
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
+  end
+
+  add_index "roles", ["name", "resource_type", "resource_id"], :name => "index_roles_on_name_and_resource_type_and_resource_id"
+  add_index "roles", ["name"], :name => "index_roles_on_name"
 
   create_table "shift_participants", :force => true do |t|
     t.integer  "shift_id"
@@ -125,6 +164,12 @@ ActiveRecord::Schema.define(:version => 20130410053347) do
 
   add_index "shifts", ["organization_id"], :name => "index_shifts_on_organization_id"
 
+  create_table "task_categories", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
   create_table "task_statuses", :force => true do |t|
     t.string   "name"
     t.datetime "created_at", :null => false
@@ -133,13 +178,16 @@ ActiveRecord::Schema.define(:version => 20130410053347) do
 
   create_table "tasks", :force => true do |t|
     t.datetime "due_at"
-    t.datetime "display_duration"
     t.integer  "completed_by_id"
     t.string   "name"
     t.text     "description"
     t.integer  "task_status_id"
     t.datetime "created_at",       :null => false
     t.datetime "updated_at",       :null => false
+    t.datetime "display_duration"
+    t.integer  "created_by"
+    t.integer  "assigned_person"
+    t.integer  "task_category_id"
   end
 
   add_index "tasks", ["task_status_id"], :name => "index_tasks_on_task_status_id"
@@ -153,5 +201,31 @@ ActiveRecord::Schema.define(:version => 20130410053347) do
   end
 
   add_index "tools", ["barcode"], :name => "index_tools_on_barcode"
+
+  create_table "users", :force => true do |t|
+    t.string   "email",                  :default => "", :null => false
+    t.string   "encrypted_password",     :default => "", :null => false
+    t.string   "reset_password_token"
+    t.datetime "reset_password_sent_at"
+    t.datetime "remember_created_at"
+    t.integer  "sign_in_count",          :default => 0,  :null => false
+    t.datetime "current_sign_in_at"
+    t.datetime "last_sign_in_at"
+    t.string   "current_sign_in_ip"
+    t.string   "last_sign_in_ip"
+    t.datetime "created_at",                             :null => false
+    t.datetime "updated_at",                             :null => false
+    t.string   "name"
+  end
+
+  add_index "users", ["email"], :name => "index_users_on_email", :unique => true
+  add_index "users", ["reset_password_token"], :name => "index_users_on_reset_password_token", :unique => true
+
+  create_table "users_roles", :id => false, :force => true do |t|
+    t.integer "user_id"
+    t.integer "role_id"
+  end
+
+  add_index "users_roles", ["user_id", "role_id"], :name => "index_users_roles_on_user_id_and_role_id"
 
 end

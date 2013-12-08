@@ -1,11 +1,61 @@
-<h1><%= @shift.shift_type.name %> - <%= date_and_time @shift.starts_at %></h1>
-<h2><%= link_to @shift.organization.name, @shift.organization %></h2>
+<% if can?(:read, @shift) %>
+  <%- model_class = Shift -%>
+  <div class="page-header">
+    <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+  </div>
+  <dl class="dl-horizontal">
+    <dt><strong><%= model_class.human_attribute_name(:starts_at) %>:</strong></dt>
+    <dd><%= date_and_time(@shift.starts_at) %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:ends_at) %>:</strong></dt>
+    <dd><%= date_and_time(@shift.ends_at) %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:required_number_of_participants) %>:</strong></dt>
+    <dd><%= @shift.required_number_of_participants %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:organization) %>:</strong></dt>
+    <dd><%= unless @shift.organization.blank? then link_to(@shift.organization.name, @shift.organization) else 'N/A' end %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:shift_type) %>:</strong></dt>
+    <dd><%= @shift.shift_type.name %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:shift_participants) %>:</strong></dt>
+    <dd><ul>
+        <% @shift_participants.each do |shift_participant| %>
+          <li><%= shift_participant.participant.name %>
+            (Clocked in at:
+            <%= date_and_time(shift_participant.clocked_in_at) %>
+            <% if !shift_participant.clocked_out_at.nil? %>
+              Clocked out at:
+              <%= date_and_time(shift_participant.clocked_out_at) %>
+            <% end %>
+            )
+            <% if shift_participant.clocked_out_at.nil? %>
+              <%= link_to t('.new_shift_clock_out', :default => t("helpers.links.clock_out_shift")),
+                              new_shift_clock_out_path(shift_participant), :class => 'btn btn-mini' %>
+            <% end %>
+          </li>
+        <% end %>
+        <% @number_spots_left.times do %>
+          <li>Person Not Checked In:
+            <%= link_to t('.new_shift_clock_in', :default => t("helpers.links.clock_in")),
+              new_shift_clock_in_path,
+              :class => 'btn btn-primary' %></li>
+        <% end %>
+      </ul>
+    </dd>
+  </dl>
+  <div class="form-actions">
+    <%= link_to t('.back', :default => t("helpers.links.back")),
+              shifts_path, :class => 'btn' %>
+    <% if can?(:update, @shift) %>
+      <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_shift_path(@shift), :class => 'btn' %>
+    <% end %>
+    <% if can?(:destroy, @shift) %>
+      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              shift_path(@shift),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+    <% end %>
+  </div>
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>
 
-<h2>Participants</h2>
-<div>
-<%= render :partial => 'shift_participants/shift_participant_list', :object => @shift.shift_participants%>
-</div>
-
-<div style="margin-top: 30px;">
-  <%= link_to 'Sign In New Participant', new_shift_participant_url( @shift ) %>
-</div>

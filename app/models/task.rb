@@ -1,8 +1,11 @@
 class Task < ActiveRecord::Base
-  attr_accessible :completed_by, :description, :display_duration, :due_at, :name, :task_status
+  attr_accessible :completed_by, :description, :display_duration, :due_at, :name, :task_status, :task_status
+
   validates :name, :due_at, :task_status_id, :presence => true
   #validates :completed_by, :presence => true, :unless => :is_uncompleted?
+
   belongs_to :task_status
+  belongs_to :task_category
   belongs_to :completed_by, :class_name => "Participant"
 
   default_scope order('due_at DESC')

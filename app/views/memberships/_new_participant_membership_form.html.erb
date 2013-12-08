@@ -1,0 +1,16 @@
+<% if can?(:create, @membership) %>
+  <%= simple_form_for @membership, :html => { :class => 'form-horizontal' }, :url => create_participant_membership_path do |f| %>
+    <%= f.input :participant_id, label: 'Participant ID Card Code' %>
+    <%= f.input :organization_id, :as => :select, :label => "Organization", :collection => Organization.all.map{|o| [o.name, o.id] } %>
+
+    <div class="form-actions">
+      <%= f.button :submit, :class => 'btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                participants_path, :class => 'btn' %>
+    </div>
+  <% end %>
+  
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>
+

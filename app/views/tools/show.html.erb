@@ -1,24 +1,51 @@
-<h1><%= @tool.name %> - Barcode: <%= @tool.barcode %> - <%= link_to "Edit", edit_tool_url(@tool) %></h1>
-
-<p><b>
-<% if @tool.is_checked_out? %>
-  <% current = @tool.checkouts.current[0] %>
-  <% if not current.organization.nil? %>
-    This tool is currently checked out to <%= link_to current.organization.name, current.organization %>. They have had the tool since <%= time current.checked_out_at %>.
-  <% elsif not current.participant.nil? %>
-    This tool is currently checked out to <%= link_to current.participant.name, current.participant %>. They have had the tool since <%= time current.checked_out_at %>.
-  <% else %>
-    This tools is currently terrible and has been terrible since <%= time current.checked_out_at %>.
-  <% end %>
+<% if can?(:read, @tool) %>
+  <%- model_class = Tool -%>
+  <div class="page-header">
+    <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+  </div>
+  <p>
+    <strong><%= model_class.human_attribute_name(:name) %>:</strong>
+    <%= @tool.name %>
+  </p>
+  <p>
+    <strong><%= model_class.human_attribute_name(:barcode) %>:</strong>
+    <%= @tool.barcode %>
+  </p>
+  <p>
+    <strong><%= model_class.human_attribute_name(:description) %>:</strong>
+    <%= @tool.description %>
+  </p>
+  <p>
+    <strong><%= model_class.human_attribute_name(:is_checked_out) %>:</strong>
+    <%= format_boolean(@tool.is_checked_out?) %>
+  </p>
+  <p>
+    <% if(@tool.is_checked_out?) %>
+      <strong>Checked out by:</strong> <%= link_to(@tool.current_participant.name, participant_path(@tool.current_participant)) %> <%= "(" + @tool.current_organization.name + ")" unless @tool.current_organization.nil? %>
+    <% end %>
+  </p>
+  <div class="form-actions">
+    <%= link_to t('.back', :default => t("helpers.links.back")),
+              tools_path, :class => 'btn'  %>
+    <% if(@tool.is_checked_out?) %>
+      <%= link_to t('.checkin', :default => t("helpers.links.checkin")),
+                      new_tool_checkin_given_tool_path(@tool), :class => 'btn' %>
+    <% else %>
+      <%= link_to t('.checkout', :default => t("helpers.links.checkout")),
+                      new_tool_checkout_given_tool_path(@tool), :class => 'btn' %>
+    <% end %>
+    <% if can?(:update, @tool) %>
+      <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_tool_path(@tool), :class => 'btn' %>
+    <% end %>
+    <% if can?(:destroy, @tool) %>
+      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              tool_path(@tool),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+    <% end %>
+  </div>
 <% else %>
-  This tools is currently not checked out.
+  <h3>Not Authorized!</h3>
 <% end %>
-</b></p>
-
-<h2>Description</h2>
-<p><%= if @tool.description.blank? then "No Description" else @tool.description end %></p>
-
-<h2>Previous Checkouts</h2>
-<div id="previous_checkouts">
-  <%= render partial: 'checkouts', :object => @tool.checkouts.old %>
-</div>

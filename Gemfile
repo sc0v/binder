@@ -1,55 +1,119 @@
-source 'https://rubygems.org'
+source 'http://rubygems.org'
+ruby '1.9.3'
+gem 'rails', '3.2.13'
+#gem 'sqlite3'
 
-gem 'rails', '3.2.11'
-gem 'capistrano'
-
-# Bundle edge Rails instead:
-# gem 'rails', :git => 'git://github.com/rails/rails.git'
-
-gem 'mysql2'
-
-
-# Gems used only for assets and not required
-# in production environments by default.
 group :assets do
-  gem 'sass-rails',   '~> 3.2.3'
   gem 'coffee-rails', '~> 3.2.1'
-
-  # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-  gem 'therubyracer', :platforms => :ruby
-
   gem 'uglifier', '>= 1.0.3'
-
-  gem 'jquery-datatables-rails', :github => 'rweng/jquery-datatables-rails'
+  gem 'therubyracer', :platform => :ruby
+  gem "less-rails" #Sprockets (what Rails 3.1 uses for its asset pipeline) supports LESS
 end
 
 gem 'jquery-rails'
-gem 'jquery-ui-rails'
 
+# ldap
+#Flip the two gems below this when trying to generate...
+#gem "twitter-bootstrap-rails"
+gem "activeldap", :require => 'active_ldap/railtie'
+gem 'net-ldap'
+
+# erd
+gem "rails-erd"
+
+# document attachments
+gem "carrierwave"
+
+# Shibboleth
+gem "omniauth"
+gem "omniauth-shibboleth"
+
+# Rest - For Card Lookup
 gem 'rest-client'
 
-gem 'net-ldap'
-gem 'activeldap', :require => 'active_ldap/railtie'
+gem 'cancan'
+gem 'devise'
 
-# To use ActiveModel has_secure_password
-# gem 'bcrypt-ruby', '~> 3.0.0'
+gem 'figaro'
+gem 'rolify'
 
-# To use Jbuilder templates for JSON
-# gem 'jbuilder'
+gem 'simple_form'
 
-# Use unicorn as the app server
-# gem 'unicorn'
+gem 'will_paginate'
 
-# Deploy with Capistrano
-# gem 'capistrano'
+#gem 'webrick', "~> 1.3.1"
 
-# To use debugger
-# gem 'debugger'
+group :test, :development, :staging, :production do
+  gem 'pg'
 
-group :development do
-  gem "rails-erd"
+  gem 'ci_reporter'
+  
+  # *** Start SQL Gems ***
+  #gem 'sqlite3'
+  gem 'activerecord-postgresql-adapter'
+  # *** End SQL Gems ***
 end
 
-group :production do
+group :development, :test do
+ #Gems for rspec & capybara
+  gem 'rspec-rails', '~> 3.0.0.beta'
+  gem 'database_cleaner', '1.0.1'
+  gem 'launchy'
+  gem 'capybara'
+
+  # for Travis and CI
+  gem 'simplecov', :require => false #code coverage
+  gem 'simplecov-rcov', :require => false #code coverage
+end
+
+group :test do
+  #gem 'rake'
+
+  gem 'cucumber-rails', :require=>false
+  gem 'email_spec'
+  gem 'factory_girl_rails'
+
+
+  gem 'minitest-spec-rails'
+  gem 'minitest-wscolor'
+
+  gem 'shoulda'
+  gem 'shoulda-matchers'
+
+  # For mocking the call to cardlookup
+  gem 'webmock'
+
+  gem 'coveralls', require: false
+  # Pretty test Output
+  gem 'turn', :require => false # Pretty printed test output
+end
+
+group :development do
+  gem 'hirb' # pretty formatting for rails console
+  gem 'better_errors'
+  
+  gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
+ 
+  gem 'quiet_assets'
+  gem 'rails_layout'
+  
+  gem 'spring'
+  gem "capistrano", "2.15.5"
+  # gem "ruby-activeldap-debug", "~> 0.7.4"
+
+end  
+
+group :staging do
+  gem 'hirb' # pretty formatting for rails console
+  gem 'populator3'
+  
   gem 'passenger'
+  
+  gem 'quiet_assets'
+end 
+
+group :production do
+  gem 'better_errors'
+  gem 'passenger'
+  gem 'quiet_assets'
 end

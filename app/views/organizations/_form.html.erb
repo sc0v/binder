@@ -1,0 +1,14 @@
+<% if can?(:update, @organization) %>
+  <%= simple_form_for @organization, :html => { :class => 'form-horizontal' } do |f| %>
+    <%= f.input :name %>
+    <%= f.input :organization_category_id, :as => :select, :label => "Organization Category", :collection => @organization_categories %>
+    <div class="form-actions">
+      <%= f.button :submit, :class => 'btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                organizations_path, :class => 'btn' %>
+    </div>
+  <% end %>
+  
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>

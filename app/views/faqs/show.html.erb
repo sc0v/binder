@@ -1,0 +1,32 @@
+<% if can?(:read, @faq) %>
+  <%- model_class = Faq -%>
+  <div class="page-header">
+    <h1>Show FAQ</h1>
+  </div>
+  <dl class="dl-horizontal">
+    <dt><strong><%= model_class.human_attribute_name(:question) %>:</strong></dt>
+    <dd><%= @faq.question %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:answer) %>:</strong></dt>
+    <dd><%= @faq.answer %></dd>
+  </dl>
+  <div class="form-actions">
+    <%= link_to t('.back', :default => t("helpers.links.back")),
+              faqs_path, :class => 'btn' %>
+              
+    <% if can?(:update, :faq) %>
+      <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_faq_path(@faq), :class => 'btn' %>
+    <% end %>
+
+    <% if can?(:destroy, :faq) %>
+      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              faq_path(@faq),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+    <% end %>
+  </div>
+  
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>

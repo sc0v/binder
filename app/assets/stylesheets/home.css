@@ -1,0 +1,10 @@
+// Place all the styles related to the home controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+
+#faqs { position:relative; }
+#faqs h3	{ cursor:pointer; }
+#faqs h3.active	{ color:#d74646; }
+#faqs div   { position:relative; }
+#faqs div p	{ padding:0; margin-bottom:15px; }

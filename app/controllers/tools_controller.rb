@@ -1,103 +1,146 @@
 class ToolsController < ApplicationController
-
-  def lookup
-    # Process request if barcode is present
-    if params[:tool] and params[:tool][:barcode]
-      tool = Tool.find_by_barcode params[:tool][:barcode]
-      
-      if tool.nil? # tool does not exist
-        redirect_to new_tool_url params[:tool]
-        
-      elsif session[:return_url] and session[:return_url] != ''
-        session[:tool_id] = tool
-        redirect_to session[:return_url]
-
-      else
-        redirect_to tool_url tool
-
-      end
-    end # if params[:tool] and params[:tool][:barcode]
-  end
-
-
-  def index
-    if params[:type] == "hardhats"
-      @title = "Hardhats"
-      @tools = Tool.hardhats.all
-    elsif params[:type] == "radios"
-      @title = "Radios"
-      @tools = Tool.radios.all
-    else
-      @title = "Tools"
-      @tools = Tool.just_tools.all
-    end
-  end
-
-
-  def show
-    @tool = Tool.find params[:id]
-  end
-
-
-  def new
-    # Perform a barcode lookup and then populate
-    # the new tool's details
-    unless params[:barcode] and params[:barcode] != ''
-      render 'lookup'
-    else
-      if params[:tool]
-        params[:tool][] << params[:barcode]
-        @tool = Tool.new params[:tool]
-      else
-        @tool = Tool.new barcode: params[:barcode]
-      end
-      render 'new'
-    end
-  end
-
-
-  def create
-    # Create a new tool
-    tool = Tool.new params[:tool]
-    tool.save!
-    flash[:success] = "Successfully created tool"
-
-    # Use a form parameter to determine whether to 
-    # add multiple tools sequentially or
-    # to go directly to the new tool's checkouts
-    session[:return_url] = params[:return_url]
-
-    # Create another tool or go to the newest tool's
-    # checkout page
-    if session[:return_url]
-      redirect_to session[:return_url]
-    else
-      redirect_to new_tool_checkout_url tool
-    end
-
-  rescue
-    flash[:error] = "Error creating tool"
-    redirect_to new_tool_url
-  end
-
-
-  def edit
-    @tool = Tool.find params[:id]
-  rescue
-    flash[:error] = "Tool does not exist"
-    redirect_to tools_url
-  end
+  load_and_authorize_resource
   
+  # GET /tools
+  # GET /tools.json
+  def index
+    @tools = Tool.just_tools.by_barcode.paginate(:page => params[:page]).per_page(10)
 
-  def update
-    tool = Tool.find params[:id]
-    tool.update_attributes params[:tool]
-    tool.save!
-    flash[:success] = "Successfully updated tool"
-    redirect_to tools_url
-  rescue
-    flash[:error] = "Error updating tool"
-    redirect_to tools_url
+    respond_to do |format|
+      format.html # index.html.erb
+      format.json { render json: @tools }
+    end
   end
 
+  # GET /tools/hardhats
+  # GET /hardhats.json
+  def hardhats_only
+    @tools = Tool.hardhats.by_barcode.paginate(:page => params[:page]).per_page(10)
+
+    respond_to do |format|
+      format.html # hardhats.html.erb
+      format.json { render json: @tools }
+    end
+  end
+
+  # GET /tools/radios
+  # GET /radios.json
+  def radios_only
+    @tools = Tool.radios.by_barcode.paginate(:page => params[:page]).per_page(10)
+
+    respond_to do |format|
+      format.html # radios.html.erb
+      format.json { render json: @tools }
+    end
+  end
+
+
+  # GET /tools/1
+  # GET /tools/1.json
+  def show
+    @tool = Tool.find(params[:id])
+
+    respond_to do |format|
+      format.html # show.html.erb
+      format.json { render json: @tool }
+    end
+  end
+
+  # GET /tools/new
+  # GET /tools/new.json
+  def new
+    @tool = Tool.new
+
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render json: @tool }
+    end
+  end
+
+  # GET /tools/1/edit
+  def edit
+    @tool = Tool.find(params[:id])
+  end
+
+  # POST /tools
+  # POST /tools.json
+  def create
+    @tool = Tool.new(params[:tool])
+
+    respond_to do |format|
+      if @tool.save
+        format.html { redirect_to @tool, notice: 'Tool was successfully created.' }
+        format.json { render json: @tool, status: :created, location: @tool }
+      else
+        format.html { render action: "new" }
+        format.json { render json: @tool.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # PUT /tools/1
+  # PUT /tools/1.json
+  def update
+    @tool = Tool.find(params[:id])
+
+    respond_to do |format|
+      if @tool.update_attributes(params[:tool])
+        format.html { redirect_to @tool, notice: 'Tool was successfully updated.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "edit" }
+        format.json { render json: @tool.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
+  # DELETE /tools/1
+  # DELETE /tools/1.json
+  def destroy
+    @tool = Tool.find(params[:id])
+    @tool.destroy
+
+    respond_to do |format|
+      format.html { redirect_to tools_url }
+      format.json { head :no_content }
+    end
+  end
+
+  # User permissions need to be added to the following 2 methods
+  # def checkout
+  #   @tool = Tool.find(params[:id])
+
+  #   if(!@tool.is_checked_out?)
+  #       @checkout = Checkout.new
+  #       @checkout.checked_in_at = nil
+  #       @checkout.checked_out_at = Date.today
+  #       @checkout.tool = @tool
+  #       @checkout.participant = nil
+  #       @checkout.organization = nil
+  #       @checkout.save!
+
+  #       redirect_to @tool
+  #   else
+  #       flash[:notice] = "#{@tool.name} was not checked out because it has been previously checked out."
+  #       redirect_to @tool
+  #   end
+  # end
+
+
+  # def checkin
+  #   @tool = Tool.find(params[:id])
+
+  #   if(@tool.is_checked_out?)
+  #       @current = @tool.checkouts.current.pluck(:id)
+  #       @checkout = Checkout.find_by_id(@current)
+
+  #       @checkout.checked_in_at = Date.today
+  #       @checkout.save!
+
+  #       redirect_to @tool
+  #   else
+  #       flash[:notice] = "#{@tool.name} was not checked in because it was not checked out."
+  #       redirect_to @tool
+  #   end
+  # end
 end

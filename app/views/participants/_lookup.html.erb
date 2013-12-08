@@ -1,9 +1,0 @@
-<div id="participant_lookup_form">
-
-  <%= form_for :participant, url: submit_url ||= participant_lookup_url do |f| %>
-    <label>Card Number:</label>
-    <%= f.text_field :card_number, :autocomplete => "off", :autofocus => "autofocus" %>
-    <%= f.submit "Lookup" %>
-  <% end %>
-
-</div>

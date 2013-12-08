@@ -1,0 +1,15 @@
+<% if can?(:edit, @organization_alias) %>
+  <%= simple_form_for @organization_alias, :html => { :class => 'form-horizontal' }, :url => create_organization_alias_path do |f| %>
+    <h3>Create Alias for <%= @organization.name %></h3>
+    <%= f.input :name %>
+    <%= f.input :organization_id, :as => :hidden, :input_html => { :value => params[:id] } %>
+    <div class="form-actions">
+      <%= f.button :submit, :class => 'btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                shifts_path, :class => 'btn' %>
+    </div>
+  <% end %>
+  
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>

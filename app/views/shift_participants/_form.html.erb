@@ -1,0 +1,16 @@
+<% if can?(:update, @shift_participant) %>
+	<%= simple_form_for @shift_participant, :html => { :class => 'form-horizontal' } do |f| %>
+	  <%= f.input :shift_id, :as => :select, :label => "Shift", :collection => Shift.all.map{|s| [s.shift_type.name + " @ "+ s.starts_at.strftime("%b %e at %l:%M %p"), s.id] } %>
+	  <%= f.input :participant_id, :as => :select, :label => "Participant", :collection => Participant.all.map{|p| [p.andrewid, p.id] } %>
+	  <%= f.input :clocked_in_at %>
+	  <%= f.input :clocked_out_at %>
+	  <div class="form-actions">
+	    <%= f.button :submit, :class => 'btn-primary' %>
+	    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+	                shift_participants_path, :class => 'btn' %>
+	  </div>
+	<% end %>
+
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>

@@ -1,0 +1,22 @@
+<% if can?([:create, :update], @checkout) %>
+  <%= simple_form_for @checkout, :html => { :class => 'form-horizontal' } do |f| %>
+    <%= f.input :tool_id, :collection => Tool.all, :include_blank => false %>
+    <%= f.input :checked_in_at %>
+    <!--- Hacking for style until we can figure out simple form also - hacking so we dont need to do a billion calls to ldap -->
+    <div class="control-group select optional checkout_organization_id">
+      <label class="select optional control-label" for="checkout_participant_id">Participant</label>
+      <div class="controls">
+        <%= f.collection_select :participant_id, Participant.all, :id, :andrewid %>
+      </div>
+    </div>
+    <%= f.input :organization_id, :collection => Organization.all, :include_blank => true %>
+    <div class="form-actions">
+      <%= f.button :submit, :class => 'btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                checkouts_path, :class => 'btn' %>
+    </div>
+  <% end %>
+  
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>
