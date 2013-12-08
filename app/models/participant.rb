@@ -139,7 +139,6 @@ class Participant < ActiveRecord::Base
         write_attribute :cached_email, andrewid + "@andrew.cmu.edu"
         write_attribute :cached_department, "N/A"
         write_attribute :cached_student_class, "N/A"
-        write_attribute :cache_updated, DateTime.now
 
         self.save!
       end
