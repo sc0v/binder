@@ -8,7 +8,7 @@ class Participant < ActiveRecord::Base
   # attr_accessor :card_number
   
   validates :andrewid, :presence => true, :uniqueness => true
-  validates :has_signed_waiver, :acceptance => {:accept => true}
+  # validates :has_signed_waiver, :acceptance => {:accept => true}
   validates_format_of :phone_number, :with => /\A\(?\d{3}\)?[-. ]?\d{3}[-.]?\d{4}\Z/, :message => "should be 10 digits (area code needed) and delimited with dashes only", :allow_blank => true
 
   has_many :organizations, :through => :memberships
@@ -63,14 +63,11 @@ class Participant < ActiveRecord::Base
   class NotRegistered < Exception
   end
 
-  class BoothChairLoyalty < Exception
-  end
-
   def self.find_by_card(card_number)
     andrewid = self.get_andrewid(card_number)
 
     if !andrewid.nil?
-      theUser = self.find_by_andrewid(andrewid)
+      theUser = self.find_by(andrewid: andrewid)
     end
 
     raise NotRegistered unless !theUser.nil?
@@ -79,7 +76,11 @@ class Participant < ActiveRecord::Base
   end
 
   def formatted_phone_number
-    ActionController::Base.helpers.number_to_phone(self.phone_number, area_code: true) || "N/A"
+    if phone_number.blank?
+      return "N/A"
+    else
+      ActionController::Base.helpers.number_to_phone(phone_number, area_code: true)
+    end
   end
   
   private
@@ -157,3 +158,4 @@ class Participant < ActiveRecord::Base
     self.phone_number = phone_number
   end
 end
+
