@@ -24,8 +24,8 @@ university = OrganizationCategory.create({ name: 'University Staff' })
 
 # Organizations ---------------------------------------------------------------
 puts 'Organizations'
-scc_org = Organization.create({ name: 'SCC', organization_category: scc })
-  OrganizationAlias.create({ organization: scc_org, name: 'Spring Carnival Committee' })
+scc_org = Organization.create({ name: 'Spring Carnival Committee', organization_category: scc })
+  OrganizationAlias.create({ organization: scc_org, name: 'SCC' })
 
 puts '  University'
 ehs_org = Organization.create({ name: 'Environmental Health and Safety', organization_category: university })
