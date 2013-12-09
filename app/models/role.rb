@@ -3,7 +3,7 @@ class Role < ActiveRecord::Base
 
   belongs_to :resource, :polymorphic => true
 
-  ROLES = [:admin, :scc, :booth_chair, :member]
+  ROLES = [:admin]
 
   scopify
 
