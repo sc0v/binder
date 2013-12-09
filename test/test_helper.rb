@@ -29,9 +29,6 @@ class ActiveSupport::TestCase
   end
 
   def create_context
-    # Webmock
-    stub_request(:any, /.*merichar-dev\.eberly\.cmu\.edu.*/).to_return(:body => '{ "andrewid": "juc", "expiration": "2013-11-29T00:00:00+00:00" }', :status => 200, :headers => { 'Content-Length' => 17 })
-
     # Create 4 organization categories
     @blitz = FactoryGirl.create(:organization_category, :name => "Blitz")
     @independent = FactoryGirl.create(:organization_category, :name => "Independent")

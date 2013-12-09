@@ -4,11 +4,13 @@ class ParticipantTest < ActiveSupport::TestCase
 
   context "With a refreshed ldap cache, " do
     setup do
-      create_context
+      # Webmock
+      stub_request(:any, /.*merichar-dev\.eberly\.cmu\.edu.*/).to_return(:body => '{ "andrewid": "juc", "expiration": "2013-11-29T00:00:00+00:00" }', :status => 200, :headers => { 'Content-Length' => 17 })
+
+      @jonathan_participant = FactoryGirl.create(:participant, :andrewid => "juc")
     end
 
     teardown do
-      remove_context
     end
     
     should "check that jonathan_participant factory object is created and can recieve message calls" do
@@ -39,6 +41,6 @@ class ParticipantTest < ActiveSupport::TestCase
     should "return student class from directory" do
       assert_equal "Senior", @jonathan_participant.student_class
     end
-
   end
 end
+
