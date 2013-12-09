@@ -10,11 +10,10 @@ class Checkout < ActiveRecord::Base
     @card_number
   end
 
-  validates_presence_of :tool
-  validates_associated :tool
+  validates_presence_of :tool, :organization
+  validates_associated :tool, :organization
 
   before_save :checked_out_at, :presence => true
-  before_save :hasParticipantOrOrganization
 
   belongs_to :participant
   belongs_to :organization
@@ -23,9 +22,5 @@ class Checkout < ActiveRecord::Base
   default_scope { order('tool_id ASC, checked_out_at DESC') }
   scope :old, -> { where('checked_in_at IS NOT NULL') }
   scope :current, -> { where('checked_in_at IS NULL') }
-
-  def hasParticipantOrOrganization
-    !(self.participant.nil? && self.organization.nil?)
-  end
 
 end

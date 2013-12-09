@@ -8,6 +8,7 @@ class CheckoutTest < ActiveSupport::TestCase
   
   # Validations
   should validate_presence_of(:tool)
+  should validate_presence_of(:organization)
 
   context "With a proper context, " do
     setup do
@@ -25,12 +26,5 @@ class CheckoutTest < ActiveSupport::TestCase
     # Scopes
   
     # Methods
-
-    should "show that a checkout has participant or organization" do
-      assert_equal true, @hammer_checkout2.hasParticipantOrOrganization
-      assert_equal true, @saw_checkout.hasParticipantOrOrganization
-      assert_equal true, @hard_hat_checkout.hasParticipantOrOrganization
-    end
-
   end
 end
