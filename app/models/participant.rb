@@ -23,7 +23,13 @@ class Participant < ActiveRecord::Base
   default_scope { order('andrewid') }
   scope :search, lambda { |term| where('lower(andrewid) LIKE lower(?)', "#{term}%") }
 
+  def is_booth_chair
+    !memberships.booth_chairs.blank?
+  end
 
+  def is_scc
+    !organizations.find_by(name: "Spring Carnival Committee").blank?
+  end
 
   def card_number=( card_number )
     @card_number = card_number
