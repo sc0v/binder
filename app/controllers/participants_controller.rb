@@ -1,5 +1,5 @@
 class ParticipantsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource skip_load_resource only: [:create] 
   
   # GET /participants
   # GET /participants.json
@@ -79,7 +79,7 @@ class ParticipantsController < ApplicationController
   # POST /participants
   # POST /participants.json
   def create
-    @participant = Participant.new(params[:participant])
+    @participant = Participant.new(participant_create_params)
 
     respond_to do |format|
       if @participant.save
@@ -98,7 +98,7 @@ class ParticipantsController < ApplicationController
     @participant = Participant.find(params[:id])
 
     respond_to do |format|
-      if @participant.update_attributes(params[:participant])
+      if @participant.update_attributes(participant_update_params)
         format.html { redirect_to @participant, notice: 'Participant was successfully updated.' }
         format.json { head :no_content }
       else
@@ -119,4 +119,16 @@ class ParticipantsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+  def participant_create_params
+    # params.require(:participant).permit(:andrewid, :phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)
+    params.require(:participant).permit(:andrewid, :phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)
+  end
+
+  def participant_update_params
+    params.require(:participant).permit(:phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)
+  end
 end
+

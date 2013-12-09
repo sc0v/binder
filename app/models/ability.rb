@@ -27,11 +27,11 @@ class Ability
       can :read, [ChargeType, Checkout, ContactList, Document, Faq, Shift]
 
       can :read, Charge do |c|
-        c.organization.memberships.booth_chairs.include? (user.participant)
+        c.organization.booth_chairs.include? (user.participant)
       end
 
       can :read, ShiftParticipant do |s|
-        s.shift.organization.memberships.booth_chairs.include? (user.participant)
+        s.shift.organization.booth_chairs.include? (user.participant)
       end
     end
 

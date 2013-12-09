@@ -1,5 +1,5 @@
 class OrganizationsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource skip_load_resource only: [:create] 
   
   # GET /organizations
   # GET /organizations.json
@@ -17,7 +17,7 @@ class OrganizationsController < ApplicationController
   def show
     @organization = Organization.find(params[:id])
     @charges = @organization.charges.all
-    @booth_chairs = @organization.memberships.booth_chairs.all
+    @booth_chairs = @organization.booth_chairs
     @tools = Tool.checked_out_by_organization(@organization).just_tools
     @members = @organization.participants.all
     @hardhats = Tool.checked_out_by_organization(@organization).hardhats
@@ -50,7 +50,7 @@ class OrganizationsController < ApplicationController
   # POST /organizations
   # POST /organizations.json
   def create
-    @organization = Organization.new(params[:organization])
+    @organization = Organization.new(organization_params)
 
     respond_to do |format|
       if @organization.save
@@ -69,7 +69,7 @@ class OrganizationsController < ApplicationController
     @organization = Organization.find(params[:id])
 
     respond_to do |format|
-      if @organization.update_attributes(params[:organization])
+      if @organization.update_attributes(organization_params)
         format.html { redirect_to @organization, notice: 'Organization was successfully updated.' }
         format.json { head :no_content }
       else
@@ -90,4 +90,11 @@ class OrganizationsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+  def organization_params
+    params.require(:organization).permit(:name, :organization_category)
+  end
 end
+

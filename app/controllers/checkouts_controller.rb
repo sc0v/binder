@@ -55,7 +55,7 @@ class CheckoutsController < ApplicationController
   def create_tool_checkout
     @checkout = Checkout.new
 
-    @tool = Tool.find_by_barcode(params[:checkout][:tool_id])
+    @tool = Tool.find_by_id(params[:checkout][:tool_id])
     raise ToolDoesNotExist unless !@tool.nil?
 
     raise ToolAlreadyCheckedOut unless not @tool.is_checked_out?
@@ -171,7 +171,7 @@ class CheckoutsController < ApplicationController
   # POST /checkouts
   # POST /checkouts.json
   def create
-    @checkout = Checkout.new(params[:checkout])
+    @checkout = Checkout.new(checkout_params)
     @checkout.checked_out_at = Date.today
 
     respond_to do |format|
@@ -191,7 +191,7 @@ class CheckoutsController < ApplicationController
     @checkout = Checkout.find(params[:id])
 
     respond_to do |format|
-      if @checkout.update_attributes(params[:checkout])
+      if @checkout.update_attributes(checkout_params)
         format.html { redirect_to @checkout, notice: 'Checkout was successfully updated.' }
         format.json { head :no_content }
       else
@@ -212,4 +212,11 @@ class CheckoutsController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+  def checkout_params
+    params.require(:checkout).permit(:checked_in_at, :checked_out_at, :participant, :organization, :tool)
+  end
 end
+

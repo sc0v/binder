@@ -1,12 +1,10 @@
 class OrganizationAlias < ActiveRecord::Base
-  # attr_accessible :name, :organization, :organization_id
-
-  validates :name, :uniqueness => true, :presence => true
-  validates :organization_id, :presence => true
+  validates_presence_of :name, :organization
   validates_associated :organization
+  validates :name, :uniqueness => true
 
   belongs_to :organization  
   
   scope :search, lambda { |term| where('lower(name) LIKE lower(?)', "#{term}%") }
-
 end
+

@@ -88,6 +88,8 @@ FactoryGirl.define do
     ends_at Time.now - 2.days
     required_number_of_participants 3
     starts_at Time.now - 3.days
+
+    association :shift_type
   end
 
   # shift_participant

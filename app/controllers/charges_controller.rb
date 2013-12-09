@@ -1,5 +1,5 @@
 class ChargesController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource skip_load_resource only: [:create] 
 
   # GET /charges
   # GET /charges.json
@@ -42,8 +42,8 @@ class ChargesController < ApplicationController
   # POST /charges
   # POST /charges.json
   def create
-    @charge = Charge.new(params[:charge])
-    @charge.charged_at = Date.today
+    @charge = Charge.new(charge_params)
+    @charge.charged_at = DateTime.now
 
     respond_to do |format|
       if @charge.save
@@ -62,7 +62,7 @@ class ChargesController < ApplicationController
     @charge = Charge.find(params[:id])
 
     respond_to do |format|
-      if @charge.update_attributes(params[:charge])
+      if @charge.update_attributes(charge_params)
         format.html { redirect_to @charge, notice: 'Charge was successfully updated.' }
         format.json { head :no_content }
       else
@@ -83,4 +83,11 @@ class ChargesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+  def charge_params
+    params.require(:charge).permit(:amount, :description, :issuing_participant, :receiving_participant, :organization, :charge_type, :charged_at)
+  end
 end
+

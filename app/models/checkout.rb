@@ -1,6 +1,4 @@
 class Checkout < ActiveRecord::Base
-  # attr_accessible :checked_in_at, :checked_out_at, :participant, :organization, :tool
-
   # For lookups
   def card_number=( card_number )
     @card_number = card_number
@@ -11,7 +9,7 @@ class Checkout < ActiveRecord::Base
   end
 
   validates_presence_of :tool, :organization
-  validates_associated :tool, :organization
+  validates_associated :tool, :organization, :participant
 
   before_save :checked_out_at, :presence => true
 

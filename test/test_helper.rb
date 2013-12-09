@@ -51,9 +51,9 @@ class ActiveSupport::TestCase
     @ride_shift = FactoryGirl.create(:shift_type, :name => "Ride Shift")
 
     # Create 3 shifts
-    @shift1 = FactoryGirl.create(:shift, :ends_at => Time.local(2000,1,1,15,0,0), :required_number_of_participants => 3, :starts_at => Time.local(2000,1,1,12,3,0), :organization => @theta)
-    @shift2 = FactoryGirl.create(:shift, :ends_at => Time.local(2000,1,1,15,0,0), :required_number_of_participants => 3, :starts_at => Time.local(2000,1,1,13,4,0), :organization => @sdc)
-    @shift3 = FactoryGirl.create(:shift, :ends_at => Time.local(2000,1,1,15,0,0), :required_number_of_participants => 3, :starts_at => Time.local(2000,1,1,14,10,0), :organization => @theta)
+    @shift1 = FactoryGirl.create(:shift, :ends_at => Time.local(2000,1,1,15,0,0), :required_number_of_participants => 3, :starts_at => Time.local(2000,1,1,12,3,0), :organization => @theta, :shift_type => @watch_shift)
+    @shift2 = FactoryGirl.create(:shift, :ends_at => Time.local(2000,1,1,15,0,0), :required_number_of_participants => 3, :starts_at => Time.local(2000,1,1,13,4,0), :organization => @sdc, :shift_type => @watch_shift)
+    @shift3 = FactoryGirl.create(:shift, :ends_at => Time.local(2000,1,1,15,0,0), :required_number_of_participants => 3, :starts_at => Time.local(2000,1,1,14,10,0), :organization => @theta, :shift_type => @watch_shift)
 
     #ORDER MATTERS: Participant first, then user.
 

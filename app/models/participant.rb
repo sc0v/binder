@@ -1,12 +1,6 @@
 class Participant < ActiveRecord::Base
   before_save :reformat_phone
   
-  # attr_accessible :andrewid, :has_signed_waiver, :phone_number, :has_signed_hardhat_waiver, :memberships, :user, :organizations, :shifts, :checkouts, :tools, :shift_participants, :contact_list
-
-  #keep this DAMNIT. We need it for rails to allow the param access during swipes.
-  # attr_accessible :card_number
-  # attr_accessor :card_number
-  
   validates :andrewid, :presence => true, :uniqueness => true
   # validates :has_signed_waiver, :acceptance => {:accept => true}
   validates_format_of :phone_number, :with => /\A\(?\d{3}\)?[-. ]?\d{3}[-.]?\d{4}\Z/, :message => "should be 10 digits (area code needed) and delimited with dashes only", :allow_blank => true

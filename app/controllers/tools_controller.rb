@@ -1,5 +1,5 @@
 class ToolsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource skip_load_resource only: [:create] 
   
   # GET /tools
   # GET /tools.json
@@ -65,7 +65,7 @@ class ToolsController < ApplicationController
   # POST /tools
   # POST /tools.json
   def create
-    @tool = Tool.new(params[:tool])
+    @tool = Tool.new(tool_params)
 
     respond_to do |format|
       if @tool.save
@@ -84,7 +84,7 @@ class ToolsController < ApplicationController
     @tool = Tool.find(params[:id])
 
     respond_to do |format|
-      if @tool.update_attributes(params[:tool])
+      if @tool.update_attributes(tool_params)
         format.html { redirect_to @tool, notice: 'Tool was successfully updated.' }
         format.json { head :no_content }
       else
@@ -106,6 +106,11 @@ class ToolsController < ApplicationController
     end
   end
 
+  private
+
+  def tool_params
+    params.require(:tool).permit(:name, :description, :barcode)
+  end
   # User permissions need to be added to the following 2 methods
   # def checkout
   #   @tool = Tool.find(params[:id])
@@ -144,3 +149,4 @@ class ToolsController < ApplicationController
   #   end
   # end
 end
+

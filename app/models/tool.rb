@@ -1,6 +1,4 @@
 class Tool < ActiveRecord::Base
-  # attr_accessible :barcode, :description, :name, :checkouts, :participants, :organizations
-
   has_many :checkouts, dependent: :destroy
   has_many :participants, :through => :checkouts
   has_many :organizations, :through => :checkouts
@@ -37,3 +35,4 @@ class Tool < ActiveRecord::Base
     joins(:checkouts).where(:checkouts => {:organization_id => organization }).merge(Checkout.current)
   end
 end
+

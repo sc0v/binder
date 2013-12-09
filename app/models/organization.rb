@@ -1,27 +1,27 @@
 class Organization < ActiveRecord::Base
-  # attr_accessible :name, :organization_category_id, :organization_category, :memberships, :organization_aliases, :charges, :tools, :checkouts, :shifts
+  validates_presence_of :organization_category, :name
+  validates_associated :organization_category
+  validates :name, :uniqueness => true
 
   belongs_to :organization_category
-  has_many :memberships do
-    def booth_chairs
-      where(:is_booth_chair => true).map{|m| m.participant}
-    end
-    def non_booth_chairs
-      where(:is_booth_chair => false).map{|m| m.participant}
-    end
-  end
+  has_many :memberships
   has_many :organization_aliases, :dependent => :destroy
   has_many :participants, :through => :memberships
   has_many :charges, :dependent => :destroy
   has_many :tools, :through => :checkouts
   has_many :checkouts
-  has_many :shifts, :dependent => :destroy
-  
-  validates :organization_category, :presence => true
-  validates :name, :presence => true, :uniqueness => true
+  has_many :shifts  
 
   default_scope { order('name asc') }
-  scope :alphabetical, -> { order('name') }
 
   scope :search, lambda { |term| where('lower(name) LIKE lower(?)', "#{term}%") } 
+  
+  def booth_chairs
+    memberships.where(:is_booth_chair => true).order('booth_chair_order ASC').map{|m| m.participant}
+  end
+
+  def non_booth_chairs
+    memberships.where(:is_booth_chair => false).map{|m| m.participant}
+  end
 end
+

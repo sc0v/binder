@@ -1,8 +1,7 @@
 class Charge < ActiveRecord::Base
-  # attr_accessible :amount, :description, :issuing_participant, :receiving_participant, :organization, :charge_type, :charged_at
-
-  validates :charged_at, :issuing_participant_id, :organization_id, :charge_type_id, :presence => true
-  validates :amount, :presence => true, :numericality => true
+  validates_presence_of :charged_at, :issuing_participant, :organization, :charge_type, :amount
+  validates_associated :issuing_participant, :organization, :charge_type, :receiving_participant
+  validates :amount, :numericality => true
 
   belongs_to :organization
   belongs_to :charge_type
@@ -11,3 +10,4 @@ class Charge < ActiveRecord::Base
   
   default_scope { order('charged_at DESC') }
 end
+

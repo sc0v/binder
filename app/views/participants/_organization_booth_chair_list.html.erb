@@ -7,12 +7,13 @@
     </tr>
 	<% organization_booth_chair_list.each do |chair| %>
       <tr>
-        <td><%= link_to chair.participant.name, chair.participant %></td>
-        <td><%= link_to chair.participant.andrewid, chair.participant %></td>
-        <td class="no_link"><%= chair.participant.formatted_phone_number %></td>
+        <td><%= link_to chair.name, chair %></td>
+        <td><%= link_to chair.andrewid, chair %></td>
+        <td class="no_link"><%= chair.formatted_phone_number %></td>
       </tr>
     <% end %>
   </table>
 <% else %>
   This organization has no booth chairs.
 <% end %>
+
