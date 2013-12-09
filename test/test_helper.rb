@@ -61,7 +61,7 @@ class ActiveSupport::TestCase
     #ORDER MATTERS: Participant first, then user.
 
     # Create 6 participants
-    @member_participant = FactoryGirl.create(:participant, :andrewid => "member_FG", :user => @member_user)
+    @member_participant = FactoryGirl.create(:participant, :andrewid => "member_FG", :phone_number => 1234567890, :user => @member_user)
     @rachel_participant = FactoryGirl.create(:participant, :andrewid => "rcrown_FG", :phone_number => 6178617669, :user => @rachel_user)
     @shannon_participant = FactoryGirl.create(:participant, :andrewid => "shannon1_FG", :phone_number => 4124124124, :user => @shannon_user)
     @dylan_participant = FactoryGirl.create(:participant, :andrewid => "dcorwin_FG", :phone_number => 4121235555, :user => @dylan_user)

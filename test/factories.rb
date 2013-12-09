@@ -6,7 +6,7 @@ FactoryGirl.define do
 
   # Random Strings
   sequence :random_string do |n|
-    'text' + "#{n}"
+    "text#{n}"
   end
 
 
@@ -61,29 +61,26 @@ FactoryGirl.define do
 
   # organization
   factory :organization do
-    name "Test Org"
+    name { generate(:random_string) }
 
     association :organization_category
   end
 
   # organization_alias
   factory :organization_alias do
-    name "Test Alias"
+    name { generate(:random_string) }
 
     association :organization
   end
 
   # organization_category
   factory :organization_category do
-    name "Test Category"
+    name { generate(:random_string) }
   end
 
   # participant
   factory :participant, :aliases => [:completed_by, :issuing_participant, :receiving_participant] do
-    andrewid "default_factory_andrew_id" #this should always be overridden
-    has_signed_hardhat_waiver true
-    has_signed_waiver true
-    phone_number 1234567890
+    andrewid { generate(:random_string) }
   end
 
   # shift
@@ -103,7 +100,7 @@ FactoryGirl.define do
 
   # shift_type
   factory :shift_type do
-    name "Watch Shift"
+    name { generate(:random_string) }
   end
 
   # task
@@ -116,12 +113,12 @@ FactoryGirl.define do
 
   # task_category
   factory :task_category do
-    name "Default Task Category"
+    name { generate(:random_string) }
   end
 
   # task_status
   factory :task_status do
-    name "Test Status"
+    name { generate(:random_string) }
   end
 
   # tool
@@ -134,7 +131,7 @@ FactoryGirl.define do
   # user
   factory :user do
     name "Default Factory User"
-    email "default_factory_andrew_id@andrew.cmu.edu"
+    email { generate(:random_string) + "@andrew.cmu.edu" }
     password "testtest"
     password_confirmation "testtest"
 
