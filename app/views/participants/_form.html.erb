@@ -1,8 +1,8 @@
 <% if can?(:update, @participant) %>
   <%= simple_form_for @participant, :html => { :class => 'form-horizontal' } do |f| %>
     <%= f.input :andrewid %>
-    <%= f.input :has_signed_waiver %>
     <%= f.input :phone_number %>
+    <%= f.input :has_signed_waiver %>
     <%= f.input :has_signed_hardhat_waiver %>
     <div class="form-actions">
       <%= f.button :submit, :class => 'btn-primary' %>
