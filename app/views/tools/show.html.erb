@@ -29,11 +29,15 @@
     <%= link_to t('.back', :default => t("helpers.links.back")),
               tools_path, :class => 'btn'  %>
     <% if(@tool.is_checked_out?) %>
-      <%= link_to t('.checkin', :default => t("helpers.links.checkin")),
-                      new_tool_checkin_given_tool_path(@tool), :class => 'btn' %>
+      <% if can?(:update, @tool.checkouts.current.first) %>
+        <%= link_to t('.checkin', :default => t("helpers.links.checkin")),
+                        new_tool_checkin_given_tool_path(@tool), :class => 'btn' %>
+      <% end %>
     <% else %>
-      <%= link_to t('.checkout', :default => t("helpers.links.checkout")),
-                      new_tool_checkout_given_tool_path(@tool), :class => 'btn' %>
+      <% if can?(:create, Checkout) %>
+        <%= link_to t('.checkout', :default => t("helpers.links.checkout")),
+                        new_tool_checkout_given_tool_path(@tool), :class => 'btn' %>
+      <% end %>
     <% end %>
     <% if can?(:update, @tool) %>
       <%= link_to t('.edit', :default => t("helpers.links.edit")),
