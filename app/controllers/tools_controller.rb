@@ -5,7 +5,7 @@ class ToolsController < ApplicationController
   # GET /tools.json
   def index
     @title = "Tools"
-    @tools = Tool.just_tools.by_barcode.paginate(:page => params[:page]).per_page(10)
+    @tools = Tool.just_tools.paginate(:page => params[:page]).per_page(10)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -17,7 +17,7 @@ class ToolsController < ApplicationController
   # GET /hardhats.json
   def hardhats_only
     @title = "Hardhats"
-    @tools = Tool.hardhats.by_barcode.paginate(:page => params[:page]).per_page(10)
+    @tools = Tool.hardhats.paginate(:page => params[:page]).per_page(10)
 
     respond_to do |format|
       format.html { render "index" }
@@ -29,7 +29,7 @@ class ToolsController < ApplicationController
   # GET /radios.json
   def radios_only
     @title = "Radios"
-    @tools = Tool.radios.by_barcode.paginate(:page => params[:page]).per_page(10)
+    @tools = Tool.radios.paginate(:page => params[:page]).per_page(10)
 
     respond_to do |format|
       format.html { render "index" }
