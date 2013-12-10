@@ -750,87 +750,23 @@ when 'development'
   puts 'Extra Dev Goodness:'
   puts
 
-  puts "Users"
-  new_user = User.new
-  new_user.email = "dcorwin@andrew.cmu.edu"
-  new_user.password = "testtest"
-  new_user.password_confirmation = "testtest"
-  new_user.name = "Dylan Corwin"
-  new_user.add_role :admin
-  new_user.save!
+  puts "Users & Participants"
+  chase_user = User.new({ email: "cbrownel@andrew.cmu.edu", password: "testtest", password_confirmation: "testtest", name: "ChaseXXX" })
+  chase_user.save
+  chase = Participant.create({ andrewid: 'cbrownel', phone_number: 7173435788, user: chase_user })
+  chase_in_dtd = Membership.create({ participant: chase, organization: dtd_org, is_booth_chair: true })
 
-  new_user = User.new
-  new_user.email = "smcquaid@andrew.cmu.edu"
-  new_user.password = "testtest"
-  new_user.password_confirmation = "testtest"
-  new_user.name = "Steve McQuaid"
-  new_user.add_role :admin
-  new_user.save!
+  nick_user = User.new({ email: "nharper@andrew.cmu.edu", password: "testtest", password_confirmation: "testtest", name: "ChaseXXX" })
+  nick_user.save
+  nick = Participant.create({ andrewid: 'nharper', user: nick_user })
+  nick_in_dtd = Membership.create({ participant: nick, organization: dtd_org })
 
-  new_user = User.new
-  new_user.email = "shannon1@andrew.cmu.edu"
-  new_user.password = "testtest"
-  new_user.password_confirmation = "testtest"
-  new_user.name = "Shannon Chen"
-  new_user.add_role :admin
-  new_user.save!
-
-  new_user = User.new
-  new_user.email = "juc@andrew.cmu.edu"
-  new_user.password = "testtest"
-  new_user.password_confirmation = "testtest"
-  new_user.name = "Jonathan Chung"
-  new_user.add_role :admin
-  new_user.save!
-
-  puts "Participants"
-  new_participant = Participant.new
-  new_participant.andrewid = "shannon1"
-  # new_participant.has_signed_waiver = false
-  # new_participant.has_signed_hardhat_waiver = true
-  new_participant.phone_number = 4124124124
-  new_participant.user = User.find_by_name("Shannon Chen")
-  new_participant.save!
-
-  new_participant = Participant.new
-  new_participant.andrewid = "dcorwin"
-  # new_participant.has_signed_waiver = true
-  # new_participant.has_signed_hardhat_waiver = true
-  new_participant.phone_number = 4121235555
-  new_participant.user = User.find_by_name("Dylan Corwin")
-  new_participant.save!
-
-  new_participant = Participant.new
-  new_participant.andrewid = "juc"
-  # new_participant.has_signed_waiver = false
-  # new_participant.has_signed_hardhat_waiver = true
-  new_participant.phone_number = 4124124142
-  new_participant.user = User.find_by_name("Jonathan Chung")
-  new_participant.save!
-
-  new_participant = Participant.new
-  new_participant.andrewid = "smcquaid"
-  # new_participant.has_signed_waiver = true
-  # new_participant.has_signed_hardhat_waiver = true
-  new_participant.phone_number = 4121235551
-  new_participant.user = User.find_by_name("Steve McQuaid")
-  new_participant.save!
-
-  ew_participant = Participant.new
-  new_participant.andrewid = "lheimann"
-  # new_participant.has_signed_waiver = false
-  # new_participant.has_signed_hardhat_waiver = false
-  new_participant.phone_number = 1234567887
-  new_participant.user = User.find_by_name("Test Member")
-  new_participant.save!
-
+  merichar_user = User.new({email: "meribyte@andrew.cmu.edu", password: "testtest", password_confirmation: "testtest", name: "MegXXX" })
+  merichar_user.save
+  merichar = Participant.create({ andrewid: 'meribyte', user: merichar_user })
+  merichar_in_scc = Membership.create({ participant: merichar, organization: scc_org, is_booth_chair: false })
 
   puts 'Old Stuff...'
-  chase = Participant.create({ andrewid: 'cbrownel', phone_number: 7173435788 })
-  merichar = Participant.create({ andrewid: 'meribyte' })
-  merichar_in_scc = Membership.create({ participant: merichar, organization: scc_org, is_booth_chair: true, booth_chair_order: 1 })
-  chase_in_dtd = Membership.create({ participant: chase, organization: dtd_org, is_booth_chair: true })
-  chase_in_scc = Membership.create({ participant: chase, organization: scc_org, title: 'Logistics', is_booth_chair: true, booth_chair_order: 2 })
  tool = Tool.create({ name: 'Hammer', barcode: 7, description: 'it\'s a hammer' })
   Tool.create([
     {name: 'Hardhat', barcode: 111, description: 'Org Hardhat (White)'},
