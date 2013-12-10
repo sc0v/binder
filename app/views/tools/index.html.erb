@@ -5,10 +5,10 @@
   </div>
 
   <% if can?(:create, Tool) %>
-    <%= link_to raw("<i class='icon-plus icon-white'></i> Add a New Tool"), new_tool_path, :class => 'btn btn-primary' %>
+    <%= link_to raw("Add a New Tool"), new_tool_path, :class => 'btn btn-primary' %>
   <% end %>
   <% if can?(:create, Checkout) %>
-    <%= link_to raw("<i class='icon-plus icon-white'></i> Checkout Tool"), new_tool_checkout_path, :class => 'btn btn-primary' %>
+    <%= link_to raw("Checkout Tool"), new_tool_checkout_path, :class => 'btn btn-primary' %>
   <% end %>
 
   <%= link_to raw("Tools"), tools_path, :class => 'btn btn-primary' unless @title == 'Tools' %>
