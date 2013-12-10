@@ -7,7 +7,7 @@ class Ability
     cannot :manage, :all
 
     can :read, [OrganizationAlias, OrganizationCategory, Organization, Participant, 
-                Role, ShiftType, Tool, Membership]
+                ShiftType, Tool, Membership]
 
     can :read, Checkout do |c|
       c.organization.participants.include? (user.participant)
@@ -30,6 +30,12 @@ class Ability
         c.organization.booth_chairs.include? (user.participant)
       end
 
+      can :read_phone_number, Participant
+
+      can :update, Membership do |m|
+        m.organization.booth_chairs.include? (user.participant)
+      end
+
       can :read, ShiftParticipant do |s|
         s.shift.organization.booth_chairs.include? (user.participant)
       end
@@ -37,9 +43,11 @@ class Ability
 
     if user.participant.is_scc
       can :read, :all
+      cannot :read, Role
 
       can [:create, :update], Charge
       can [:create, :update], Checkout
+      can [:create, :update, :destroy], Membership
       can [:create, :update], Participant
       can [:create, :update], ShiftParticipant
       can :update, Task

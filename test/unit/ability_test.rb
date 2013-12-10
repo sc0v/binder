@@ -80,7 +80,7 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(:create, Role)
       assert ability.cannot?(:update, Role)
       assert ability.cannot?(:destroy, Role)
-      assert ability.can?(:read, Role)
+      assert ability.cannot?(:read, Role)
 
       assert ability.cannot?(:create, Shift)
       assert ability.cannot?(:update, Shift)
@@ -133,6 +133,11 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(:destroy, Faq)
       assert ability.can?(:read, Faq)
 
+      assert ability.can?(:read_phone_number, Participant)
+
+      assert ability.can?(:update, Membership.new(:organization => @org))
+      assert ability.cannot?(:update, Membership.new(:organization => @scc))
+
       assert ability.cannot?(:create, Shift)
       assert ability.cannot?(:update, Shift)
       assert ability.cannot?(:destroy, Shift)
@@ -161,7 +166,7 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.can?(:read, OrganizationAlias)
       assert ability.can?(:read, OrganizationCategory)
       assert ability.can?(:read, Participant)
-      assert ability.can?(:read, Role)
+      assert ability.cannot?(:read, Role)
       assert ability.can?(:read, Shift)
       assert ability.can?(:read, ShiftParticipant)
       assert ability.can?(:read, ShiftType)
@@ -175,6 +180,10 @@ class AbilityTest < ActiveSupport::TestCase
 
       assert ability.can?(:create, Checkout)
       assert ability.can?(:update, Checkout)
+
+      assert ability.can?(:create, Membership)
+      assert ability.can?(:update, Membership)
+      assert ability.can?(:destroy, Membership)
 
       assert ability.can?(:create, Participant)
       assert ability.can?(:update, Participant)
