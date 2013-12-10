@@ -1,7 +1,7 @@
 <% if can?(:update, @participant) %>
   <%= simple_form_for @participant, :html => { :class => 'form-horizontal' } do |f| %>
-    <%= f.input :andrewid %>
-    <%= f.input :phone_number %>
+    <%= f.input :andrewid, :disabled => true %>
+    <%= f.input :phone_number, :as => :tel %>
     <%= f.input :has_signed_waiver %>
     <%= f.input :has_signed_hardhat_waiver %>
     <div class="form-actions">
@@ -10,7 +10,7 @@
                 participants_path, :class => 'btn' %>
     </div>
   <% end %>
-  
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>
+
