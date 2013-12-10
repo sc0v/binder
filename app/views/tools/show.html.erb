@@ -20,8 +20,9 @@
     <%= format_boolean(@tool.is_checked_out?) %>
   </p>
   <p>
-    <% if(@tool.is_checked_out?) %>
-      <strong>Checked out by:</strong> <%= link_to(@tool.current_participant.name, participant_path(@tool.current_participant)) %> <%= "(" + @tool.current_organization.name + ")" unless @tool.current_organization.nil? %>
+    <% if @tool.is_checked_out? %>
+      <strong>Checked out by:</strong>
+      <%= link_to @tool.current_organization.name, @tool.current_organization %> <%= link_to("- " + @tool.current_participant.name, @tool.current_participant) unless @tool.current_participant.nil? %>
     <% end %>
   </p>
   <div class="form-actions">
@@ -49,3 +50,4 @@
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>
+
