@@ -35,14 +35,16 @@
       <li><%= link_to membership.organization.name, membership.organization %></li>
     <% end %>
   </p>
-  <% if !@participant.user.blank? && can?(:update, @participant.user.roles) %>
+  <% if can?(:read,Role) %>
     <p>
       <strong><%= model_class.human_attribute_name(:user_roles) %></strong>
       <% if @participant.user.blank? %>
         <li>No User Associated</li>
       <% else %>
         <% @participant.user.roles.each do |role| %>
-          <li><%= role.name %></li>
+          <% if can?(:read, role) %>
+            <li><%= role.name %></li>
+          <% end %>
         <% end %>
       <% end %>
     </p>
