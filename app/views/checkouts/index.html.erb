@@ -28,7 +28,7 @@
             <td>
               <% if can?(:update, checkout) %>
                 <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_checkout_path(checkout), :class => 'btn' %>
+                      edit_checkout_path(checkout), :class => 'btn btn-mini' %>
               <% end %>
               <% if can?(:destroy, checkout) %>
                 <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
