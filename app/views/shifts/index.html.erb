@@ -1,11 +1,12 @@
 <% if can?(:read, Shift) %>
   <%- model_class = Shift -%>
   <div class="page-header">
-    <h1><%=t '.title', :default => model_class.model_name.human.pluralize %> Watch Shifts</h1>
+    <h1><%=h @title || model_class.model_name.human.pluralize %></h1>
   </div>
   
-  <%= link_to raw("Security Shifts"), sec_shifts_index_path, :class => 'btn btn-primary' %>
-  <%= link_to raw("Coordinator Shifts"), coord_shifts_index_path, :class => 'btn btn-primary' %>
+  <%= link_to raw("Watch Shifts"), shifts_path, :class => 'btn btn-primary' unless @title == "Watch Shifts" %>
+  <%= link_to raw("Security Shifts"), sec_shifts_index_path, :class => 'btn btn-primary' unless @title == "Security Shifts" %>
+  <%= link_to raw("Coordinator Shifts"), coord_shifts_index_path, :class => 'btn btn-primary' unless @title == "Coordinator Shifts" %>
   
   <table class="table table-striped">
     <thead>

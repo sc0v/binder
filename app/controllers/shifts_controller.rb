@@ -1,10 +1,11 @@
 class ShiftsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource skip_load_resource only: [:create] 
   
   # GET /shifts
   # GET /shifts.json
   # Regular index is watch shifts by default
   def index
+    @title = "Watch Shifts"
     @shifts = Shift.watch_shifts.paginate(:page => params[:page]).per_page(10)
     
 
@@ -17,10 +18,11 @@ class ShiftsController < ApplicationController
   # GET /shifts/sec_shifts
   # GET /sec_shifts.json
   def sec_shifts
+    @title = "Security Shifts"
     @shifts = Shift.sec_shifts.paginate(:page => params[:page]).per_page(10)
 
     respond_to do |format|
-      format.html # hardhats.html.erb
+      format.html { render "index" }
       format.json { render json: @tools }
     end
   end
@@ -28,10 +30,11 @@ class ShiftsController < ApplicationController
   # GET /shifts/coord_shifts
   # GET /coord_shifts.json
   def coord_shifts
+    @title = "Coordinator Shifts"
     @shifts = Shift.coord_shifts.paginate(:page => params[:page]).per_page(10)
 
     respond_to do |format|
-      format.html # hardhats.html.erb
+      format.html { render "index" }
       format.json { render json: @tools }
     end
   end
