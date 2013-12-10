@@ -61,6 +61,11 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(:destroy, Organization)
       assert ability.can?(:read, Organization)
 
+      assert ability.cannot?(:read_all_details, @org)
+      assert ability.cannot?(:read_all_details, @scc)
+      assert ability.can?(:read_basic_details, @org)
+      assert ability.cannot?(:read_basic_details, @scc)
+
       assert ability.cannot?(:create, OrganizationAlias)
       assert ability.cannot?(:update, OrganizationAlias)
       assert ability.cannot?(:destroy, OrganizationAlias)
@@ -132,6 +137,10 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(:update, Faq)
       assert ability.cannot?(:destroy, Faq)
       assert ability.can?(:read, Faq)
+      
+      assert ability.can?(:read_all_details, @org)
+      assert ability.cannot?(:read_all_details, @scc)
+      assert ability.can?(:read_basic_details, @scc)
 
       assert ability.can?(:read_phone_number, Participant)
 

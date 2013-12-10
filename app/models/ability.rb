@@ -13,7 +13,7 @@ class Ability
       c.organization.participants.include? (user.participant)
     end
 
-    can :read, Organization do |o|
+    can :read_basic_details, Organization do |o|
       o.participants.include? (user.participant)
     end
 
@@ -25,6 +25,11 @@ class Ability
 
     if user.participant.is_booth_chair?
       can :read, [ChargeType, Checkout, ContactList, Document, Faq, Shift]
+      can :read_basic_details, Organization
+
+      can :read_all_details, Organization do |o|
+        o.booth_chairs.include? (user.participant)
+      end
 
       can :read, Charge do |c|
         c.organization.booth_chairs.include? (user.participant)
