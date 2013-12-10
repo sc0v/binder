@@ -41,6 +41,8 @@ class Ability
         m.organization.booth_chairs.include? (user.participant)
       end
 
+      cannot :read, Shift, :shift_type => { :name => "Coordinator Shift" }
+
       can :read, ShiftParticipant do |s|
         s.shift.organization.booth_chairs.include? (user.participant)
       end
@@ -54,6 +56,7 @@ class Ability
       can [:create, :update], Checkout
       can [:create, :update, :destroy], Membership
       can [:create, :update], Participant
+      can :read_coord, Shift
       can [:create, :update], ShiftParticipant
       can :update, Task
     end

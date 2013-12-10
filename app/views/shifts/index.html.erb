@@ -6,7 +6,7 @@
   
   <%= link_to raw("Watch Shifts"), shifts_path, :class => 'btn btn-primary' unless @title == "Watch Shifts" %>
   <%= link_to raw("Security Shifts"), sec_shifts_index_path, :class => 'btn btn-primary' unless @title == "Security Shifts" %>
-  <%= link_to raw("Coordinator Shifts"), coord_shifts_index_path, :class => 'btn btn-primary' unless @title == "Coordinator Shifts" %>
+  <%= link_to raw("Coordinator Shifts"), coord_shifts_index_path, :class => 'btn btn-primary' unless @title == "Coordinator Shifts" || !can?(:read_coord, Shift) %>
   
   <table class="table table-striped">
     <thead>

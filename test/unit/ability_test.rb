@@ -49,7 +49,8 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(:create, Checkout)
       assert ability.cannot?(:update, Checkout)
       assert ability.cannot?(:destroy, Checkout)
-      assert ability.can?(:read, Checkout)
+      assert ability.can?(:read, Checkout.new(:organization => @org))
+      assert ability.cannot?(:read, Checkout.new(:organization => @scc))
 
       assert ability.cannot?(:create, Membership)
       assert ability.cannot?(:update, Membership)
@@ -150,7 +151,8 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(:create, Shift)
       assert ability.cannot?(:update, Shift)
       assert ability.cannot?(:destroy, Shift)
-      assert ability.can?(:read, Shift)
+      assert ability.can?(:read, Shift.new())
+      assert ability.cannot?(:read, Shift.new(:shift_type => ShiftType.new(:name => "Coordinator Shift")))
 
       assert ability.cannot?(:create, ShiftParticipant)
       assert ability.cannot?(:update, ShiftParticipant)
