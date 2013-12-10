@@ -3,7 +3,7 @@
   <div class="span12">
 
   <% if can?(:create, :user) %>
-    <%= link_to raw("<i class='icon-plus icon-white'></i> Add a New User"), new_user_path, :class => 'btn btn-primary' %>
+    <%= link_to raw("Add a New User"), new_user_path, :class => 'btn btn-primary' %>
   <% end %>
 
     <table class="table table-condensed">
@@ -23,12 +23,22 @@
           <td><%= link_to user.name, user %></td>
           <td><%= user.email %></td>
           <td><%= user.created_at.to_date %></td>
-          <td><%= user.roles.first.name.titleize unless user.roles.first.nil? %></td>
           <td>
-            <a data-toggle="modal" href="#role-options-<%= user.id %>" class="btn btn-mini" type="button">Change role</a>
-            <%= render user, :redirect => users_path %>
+            <% if can?(:read, user.roles) %>
+              <%= user.roles.first.name.titleize unless user.roles.first.nil? %>
+            <% end %>
           </td>
-          <td><%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn <  btn-> </btn->mini') unless user == current_user %></td>
+          <td>
+            <% if can?(:update, user.roles) %>
+              <a data-toggle="modal" href="#role-options-<%= user.id %>" class="btn btn-mini" type="button">Change role</a>
+              <%= render user, :redirect => users_path %>
+            <% end %>
+          </td>
+          <td>
+            <% if can?(:delete, user) %>
+              <%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn btn-mini') unless user == current_user %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
       </tbody>

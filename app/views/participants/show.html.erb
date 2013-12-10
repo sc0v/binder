@@ -35,7 +35,7 @@
       <li><%= link_to membership.organization.name, membership.organization %></li>
     <% end %>
   </p>
-  <% if can?(:read, Role) %>
+  <% if can?(:read, @participant.user.roles) %>
     <p>
       <strong><%= model_class.human_attribute_name(:user_roles) %></strong>
       <% if @participant.user.blank? %>
@@ -60,7 +60,7 @@
     <% end %>
     <!-- This code is not right, it works for now but it's a hack and the whole block should be role checked and not appear if there is no associated user --!>
 
-    <% if can?(:read, Role) %>
+    <% if can?(:update, @participant.user.roles) %>
       <a data-toggle="modal" href="#role-options-<%= @participant.user.id unless @participant.user.blank? %>" class="btn" type="button">Change role</a>
     <% end %>
     <% if can?(:read, @participant.user) %>
