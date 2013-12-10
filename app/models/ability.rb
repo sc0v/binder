@@ -18,7 +18,7 @@ class Ability
     end
 
     can :read, Shift do |s|
-      s.organization.participants.include? (user.participant)
+      s.organization.participants.include? (user.participant) unless s.organization.nil?
     end
 
     can :update, Participant, :id => user.participant.id
