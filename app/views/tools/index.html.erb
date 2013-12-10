@@ -1,7 +1,7 @@
 <% if can?(:read, Tool) %>
   <%- model_class = Tool -%>
   <div class="page-header">
-    <h1><%=t '.title', :default => model_class.model_name.human.pluralize %> (No Hardhats / Radios)</h1>
+    <h1><%=h @title || model_class.model_name.human.pluralize %></h1>
   </div>
 
   <% if can?(:create, Tool) %>
@@ -11,8 +11,9 @@
     <%= link_to raw("<i class='icon-plus icon-white'></i> Checkout Tool"), new_tool_checkout_path, :class => 'btn btn-primary' %>
   <% end %>
 
-  <%= link_to raw("Hardhats"), hardhats_index_path, :class => 'btn btn-primary' %>
-  <%= link_to raw("Radios"), radios_index_path, :class => 'btn btn-primary' %>
+  <%= link_to raw("Tools"), tools_path, :class => 'btn btn-primary' unless @title == 'Tools' %>
+  <%= link_to raw("Hardhats"), hardhats_index_path, :class => 'btn btn-primary' unless @title == 'Hardhats' %>
+  <%= link_to raw("Radios"), radios_index_path, :class => 'btn btn-primary' unless @title == 'Radios' %>
 
   <br>
   <br>
@@ -29,32 +30,38 @@
     </thead>
     <tbody>
       <% @tools.each do |tool| %>
-        <tr>
-          <td><%= link_to tool.barcode, tool_path(tool)%></td>
-          <td><%= tool.name %></td>
-          <td><%= tool.description %></td>
-          <td><%= format_boolean(tool.is_checked_out?) %></td>
-          <td>
-            <% if(tool.is_checked_out?) %>
-              <%= link_to t('.checkin', :default => t("helpers.links.checkin")),
-                              new_tool_checkin_given_tool_path(tool), :class => 'btn btn-mini' %>
-            <% else %>
-              <%= link_to t('.checkout', :default => t("helpers.links.checkout")),
-                              new_tool_checkout_given_tool_path(tool), :class => 'btn btn-mini' %>
-            <% end %>
-            <% if can?(:update, tool) %>
-              <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_tool_path(tool), :class => 'btn btn-mini' %>
-            <% end %>
-            <% if can?(:destroy, tool) %>
-              <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      tool_path(tool),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
-            <% end %>
-          </td>
-        </tr>
+        <% if can?(:read, tool) %>
+          <tr>
+            <td><%= link_to tool.barcode, tool %></td>
+            <td><%= tool.name %></td>
+            <td><%= tool.description %></td>
+            <td><%= tool.is_checked_out? ? link_to(format_boolean(tool.is_checked_out?), tool.checkouts.current.first) : format_boolean(tool.is_checked_out?) %></td>
+            <td>
+              <% if(tool.is_checked_out?) %>
+                <% if can?(:update, tool.checkouts.current.first) %>
+                  <%= link_to t('.checkin', :default => t("helpers.links.checkin")),
+                                  new_tool_checkin_given_tool_path(tool), :class => 'btn btn-mini' %>
+                <% end %>
+              <% else %>
+                <% if can?(:create, Checkout) %>
+                  <%= link_to t('.checkout', :default => t("helpers.links.checkout")),
+                                  new_tool_checkout_given_tool_path(tool), :class => 'btn btn-mini' %>
+                <% end %>
+              <% end %>
+              <% if can?(:update, tool) %>
+                <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                        edit_tool_path(tool), :class => 'btn btn-mini' %>
+              <% end %>
+              <% if can?(:destroy, tool) %>
+                <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        tool_path(tool),
+                        :method => :delete,
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-mini btn-danger' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
@@ -69,3 +76,4 @@
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>
+
