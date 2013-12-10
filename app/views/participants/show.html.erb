@@ -7,10 +7,12 @@
     <strong><%= model_class.human_attribute_name(:andrewid) %>:</strong>
     <%= @participant.andrewid %>
   </p>
-  <p>
-    <strong><%= model_class.human_attribute_name(:phone_number) %>:</strong>
-    <%= @participant.formatted_phone_number %>
-  </p>
+  <% if can?(:read_phone_number, @participant) %>
+    <p>
+      <strong><%= model_class.human_attribute_name(:phone_number) %>:</strong>
+      <%= @participant.formatted_phone_number %>
+    </p>
+  <% end %>
   <p>
     <strong><%= model_class.human_attribute_name(:department) %>:</strong>
     <%= @participant.department %>
@@ -75,3 +77,4 @@
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>
+

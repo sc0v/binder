@@ -8,7 +8,9 @@
       <tr>
         <th>Name</th>
         <th><%= model_class.human_attribute_name(:andrewid) %></th>
-        <th><%= model_class.human_attribute_name(:phone_number) %></th>
+        <% if can?(:read_phone_number, Participant) %>
+          <th><%= model_class.human_attribute_name(:phone_number) %></th>
+        <% end %>
         <th><%= "Signed Waiver?" %></th>
         <th><%= "Signed Hard Hat Waiver?" %></th>
         
@@ -17,28 +19,31 @@
     </thead>
     <tbody>
       <% @participants.each do |participant| %>
-        <tr>
-          <!--    <td><%= link_to participant, participant_path(participant) %></td>-->
-          <td><%= link_to participant.name, participant_path(participant) %></td>
-          <td><%= participant.andrewid %></td>
-          <td><%= participant.formatted_phone_number %></td>
-          <td><%= format_boolean(participant.has_signed_waiver?) %></td>
-          <td><%= format_boolean(participant.has_signed_hardhat_waiver?) %></td>
-          
-          <td>
-            <% if can?(:update, participant) %>
-              <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                          edit_participant_path(participant), :class => 'btn btn-mini' %>
+        <% if can?(:read, participant) %>
+          <tr>
+            <td><%= link_to participant.name, participant %></td>
+            <td><%= link_to participant.andrewid, participant %></td>
+            <% if can?(:read_phone_number, Participant) %>
+              <td><%= participant.formatted_phone_number unless !can?(:read_phone_number, participant) %></td>
             <% end %>
-            <% if can?(:destroy, participant) %>
-              <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                          participant_path(participant),
-                          :method => :delete,
-                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                          :class => 'btn btn-mini btn-danger' %>
-            <% end %>
-          </td>
-        </tr>
+            <td><%= format_boolean(participant.has_signed_waiver?) %></td>
+            <td><%= format_boolean(participant.has_signed_hardhat_waiver?) %></td>
+            
+            <td>
+              <% if can?(:update, participant) %>
+                <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                            edit_participant_path(participant), :class => 'btn btn-mini' %>
+              <% end %>
+              <% if can?(:destroy, participant) %>
+                <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                            participant_path(participant),
+                            :method => :delete,
+                            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                            :class => 'btn btn-mini btn-danger' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>

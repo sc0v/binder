@@ -13,9 +13,9 @@
       <dd><%= date_and_time(@checkout.checked_in_at) %></dd>
     <% end %>
     <dt><strong><%= model_class.human_attribute_name(:participant_id) %>:</strong></dt>
-    <dd><%= @checkout.participant.andrewid unless @checkout.participant.nil? %></dd>
+    <dd><%= link_to(@checkout.participant.name + ' (' + @checkout.participant.andrewid + ')', @checkout.participant) unless @checkout.participant.nil? %></dd>
     <dt><strong><%= model_class.human_attribute_name(:organization_id) %>:</strong></dt>
-    <dd><%= @checkout.organization.name unless @checkout.organization.nil? %></dd>
+    <dd><%= link_to(@checkout.organization.name, @checkout.organization) %></dd>
   </dl>
   <div class="form-actions">
     <%= link_to t('.back', :default => t("helpers.links.back")),
@@ -35,3 +35,4 @@
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>
+
