@@ -30,7 +30,6 @@
     <% end %>
 
     <% if can?(:read_all_details, @organization) %>
-      <%= link_to_function "Charges", "$('.details').hide(); $('#charges').toggle()", :class => 'btn btn-large' %>
       <div id="charges" class="details" style="display: none;">
         <%= render :partial => "charges/organization_charge_list", :object => @charges %>
       </div>
