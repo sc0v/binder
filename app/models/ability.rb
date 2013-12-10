@@ -23,7 +23,7 @@ class Ability
 
     can :update, Participant, :id => user.participant.id
 
-    if user.participant.is_booth_chair
+    if user.participant.is_booth_chair?
       can :read, [ChargeType, Checkout, ContactList, Document, Faq, Shift]
 
       can :read, Charge do |c|
@@ -41,7 +41,7 @@ class Ability
       end
     end
 
-    if user.participant.is_scc
+    if user.participant.is_scc?
       can :read, :all
       cannot :read, Role
 
