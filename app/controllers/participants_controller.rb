@@ -123,7 +123,6 @@ class ParticipantsController < ApplicationController
   private
 
   def participant_create_params
-    # params.require(:participant).permit(:andrewid, :phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)
     params.require(:participant).permit(:andrewid, :phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)
   end
 
