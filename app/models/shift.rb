@@ -15,5 +15,13 @@ class Shift < ActiveRecord::Base
   scope :watch_shifts, -> { where('shift_type_id = ?', 1) }
   scope :sec_shifts, -> { where('shift_type_id = ?', 2) }
   scope :coord_shifts, -> { where('shift_type_id = ?', 3) }
+
+  def formatted_name
+    if organization.blank?
+      shift_type.name + " @ " + starts_at.strftime("%b %e at %l:%M %p")
+    else
+      shift_type.name + " @ " + starts_at.strftime("%b %e at %l:%M %p") + ' - ' +  organization.name
+    end
+  end
 end
 
