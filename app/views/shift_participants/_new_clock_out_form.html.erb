@@ -1,6 +1,6 @@
 <% if can?(:edit, @shift_participant) %>
   <%= simple_form_for @shift_participant, :html => { :class => 'form-horizontal' }, :url => create_shift_clock_out_path do |f| %>
-    <%= f.input :shift_id, :as => :select, :label => "Shift", :collection => Shift.all.map{|s| [s.shift_type.name + " @ "+ s.starts_at.strftime("%b %e at %l:%M %p"), s.id] } %>
+    <%= f.association :shift, label_method: :formatted_name, :disabled => true, input_html: {style: 'width: auto'} %>
     <%= f.input :participant_id, :as => :select, :label => "Participant", :collection => Participant.all.map{|p| [p.name, p.id] } %>
     <%= f.input :card_number, label: 'Participant ID Card Number' %>
     <%= f.input :id, :as => :hidden, :input_html => { :value => params[:id] } %>
