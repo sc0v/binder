@@ -13,4 +13,4 @@ And as part of 475:
 - Steve McQuaid
 - Dylan Corwin
 - Shannon Chen
-- Justin Chung
+- Jonathan Chung
