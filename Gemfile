@@ -39,6 +39,7 @@ group :development do
   gem 'quiet_assets'
   gem 'rails_layout'
   gem 'rails-erd'
+  gem 'spring'
 end
 
 group :development, :test do
