@@ -1,19 +1,18 @@
 Trailerapp::Application.routes.draw do
 
-  resources :task_categories
-  resources :contact_lists
-  resources :charges
-  resources :checkouts
   resources :contact_lists
   resources :documents
   resources :faqs
   resources :memberships, :except => [:index, :show, :destroy]
   resources :organizations
+  resources :charges
   resources :participants
-  resources :shift_participants
   resources :shifts
+  resources :shift_participants, :only => [:destroy]
+  resources :task_categories
   resources :tasks
   resources :tools
+  resources :checkouts
 
   # organization alias
   match "new_organization_alias/:id" => "organization_aliases#new_alias", :as => :new_organization_alias, via: [:get, :post]
