@@ -1,7 +1,7 @@
 <% if can?(:read, @shift) %>
   <%- model_class = Shift -%>
   <div class="page-header">
-    <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+    <h1><%= @shift.shift_type.name %></h1>
   </div>
   <dl class="dl-horizontal">
     <dt><strong><%= model_class.human_attribute_name(:starts_at) %>:</strong></dt>
@@ -12,8 +12,6 @@
     <dd><%= @shift.required_number_of_participants %></dd>
     <dt><strong><%= model_class.human_attribute_name(:organization) %>:</strong></dt>
     <dd><%= unless @shift.organization.blank? then link_to(@shift.organization.name, @shift.organization) else 'N/A' end %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:shift_type) %>:</strong></dt>
-    <dd><%= @shift.shift_type.name %></dd>
     <dt><strong><%= model_class.human_attribute_name(:shift_participants) %>:</strong></dt>
     <dd><ul>
         <% @shift_participants.each do |shift_participant| %>

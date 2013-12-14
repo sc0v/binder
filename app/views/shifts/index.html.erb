@@ -16,7 +16,6 @@
         <th><%= model_class.human_attribute_name(:ends_at) %></th>
         <th><%= model_class.human_attribute_name(:required_number_of_participants) %></th>
         <th><%= model_class.human_attribute_name(:organization) %></th>
-        <th><%= model_class.human_attribute_name(:shift_type) %></th>
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
       </tr>
     </thead>
@@ -30,7 +29,6 @@
             <td><%= shift.ends_at.strftime("%m/%d/%y %I:%M%p") %></td>
             <td><%= shift.required_number_of_participants %></td>
             <td><%= link_to shift.organization.name, shift.organization unless shift.organization.blank? %></td>
-            <td><%= shift.shift_type.name %></td>
             <td>
               <% if can?(:update, shift) %>
                 <%= link_to t('.edit', :default => t("helpers.links.edit")),
