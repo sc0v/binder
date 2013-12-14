@@ -21,3 +21,16 @@
 
 en:
   hello: "Hello world"
+  activerecord:
+    models:
+    attributes:
+      shift:
+        required_number_of_participants: "# of People"
+        shift_participants: "Participants"
+        shift_type: "Type"
+      charge:
+        charge_type: "Type"
+        issuing_participant: "Issued By"
+        receiving_participant: "Issued To"
+        charged_at: "Time"
+
