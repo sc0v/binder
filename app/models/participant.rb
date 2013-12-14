@@ -15,7 +15,7 @@ class Participant < ActiveRecord::Base
   belongs_to :user, dependent: :destroy
 
   default_scope { order('andrewid') }
-  scope :search, lambda { |term| where('lower(andrewid) LIKE lower(?)', "#{term}%") }
+  scope :search, lambda { |term| where('lower(andrewid) LIKE lower(?) OR lower(cached_name) LIKE lower(?)', "%#{term}%", "%#{term}%") }
 
   def is_booth_chair?
     !memberships.booth_chairs.blank?

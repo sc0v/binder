@@ -5,7 +5,7 @@
 	<p><em><strong>Tools matching term '<%= @query %>'</strong></em></p>
 	<ul>
 		<% for tool in @tools do %>
-			<li><%= link_to tool.name + ": #{tool.barcode}", tool_path(tool) %></li>
+			<li><%= link_to tool.name + ": #{tool.barcode}" " - " + tool.description, tool_path(tool) %></li>
 		<% end %>
 	</ul>
 	<p class="smtext">&nbsp;</p>
@@ -15,43 +15,35 @@
 	<p><em><strong>Participants matching term '<%= @query %>'</strong></em></p>
 	<ul>
 		<% for participant in @participants do %>
-			<li><%= link_to participant.andrewid, participant_path(participant) %></li>
+			<li><%= link_to participant.name + " (" + participant.andrewid + ")", participant %></li>
 		<% end %>
 	</ul>
 	<p class="supertiny">&nbsp;</p>
 <% end %>
 
-<% unless @users.empty? %>
-	<p><em><strong>Users matching term '<%= @query %>'</strong></em></p>
-	<ul>
-		<% for user in @users do %>
-			<li><%= link_to user.name, user_path(user) %></li>
-		<% end %>
-	</ul>
-	<p class="supertiny">&nbsp;</p>
-<% end %>
-
-<% unless @organizations.empty? %>
+<% unless @organizations.empty? and @organization_aliases.empty? %>
 	<p><em><strong>Organizations matching term '<%= @query %>'</strong></em></p>
-	<ul>
-		<% for organization in @organizations do %>
-			<li><%= link_to organization.name, organization_path(organization) %></li>
-		<% end %>
-	</ul>
-	<p class="supertiny">&nbsp;</p>
+  <ul>
+    <% unless @organizations.empty? %>
+      <li><em>Names matching term '<%= @query %>'</em></li>
+      <ul>
+        <% for organization in @organizations do %>
+          <li><%= link_to organization.name, organization_path(organization) %></li>
+        <% end %>
+      </ul>
+    <% end %>
+
+    <% unless @organization_aliases.empty? %>
+      <li><em>Aliases matching term '<%= @query %>'</em></li>
+      <ul>
+        <% for organization_alias in @organization_aliases do %>
+          <li><%= link_to organization_alias.organization.name + " (" + organization_alias.name + ")", organization_alias.organization %></li>
+        <% end %>
+      </ul>
+    <% end %>
+  </ul>
+  <p class="supertiny">&nbsp;</p>
 <% end %>
-
-<% unless @organization_aliases.empty? %>
-	<p><em><strong>Aliases matching term '<%= @query %>'</strong></em></p>
-	<ul>
-		<% for organization_alias in @organization_aliases do %>
-			<li><%= link_to organization_alias.name, organization_path(organization_alias.organization) %></li>
-		<% end %>
-	</ul>
-	<p class="supertiny">&nbsp;</p>
-<% end %>
-
-
 
 <% unless @faqs.empty? %>
 	<p><em><strong>Frequently Asked Questions matching term '<%= @query %>'</strong></em></p>
@@ -62,3 +54,4 @@
 	</ul>
 	<p class="supertiny">&nbsp;</p>
 <% end %>
+
