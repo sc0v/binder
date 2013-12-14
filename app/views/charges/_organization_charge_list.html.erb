@@ -1,12 +1,13 @@
 <% if not organization_charge_list.empty? %>
+  <%- model_class = Charge -%>
   <table class="table table-striped">
     <thead>
       <tr>
-        <th>Charge Type</th>
-        <th>Amount</th>
-        <th>Issued At</th>
-        <th>Issued By</th>
-        <th>Issued To</th>
+        <th><%=t model_class.human_attribute_name(:charge_type) %></th>
+        <th><%=t model_class.human_attribute_name(:amount) %></th>
+        <th><%=t model_class.human_attribute_name(:charged_at) %></th>
+        <th><%=t model_class.human_attribute_name(:issuing_participant) %></th>
+        <th><%=t model_class.human_attribute_name(:receiving_participant) %></th>
       </tr>
     </thead>
     <tbody>
@@ -17,7 +18,7 @@
             <td class="no_link"><%= number_to_currency charge.amount %></td>
             <td class="no_link"><%= date_and_time charge.charged_at %></td>
             <td><%= link_to charge.issuing_participant.name, charge.issuing_participant %></td>
-            <td><%= if charge.receiving_participant == nil then "N/A" else link_to charge.receiving_participant.name, charge.receiving_participant end %></td>
+            <td><%= if charge.receiving_participant.blank? then "N/A" else link_to charge.receiving_participant.name, charge.receiving_participant end %></td>
           </tr>
         <% end %>
       <% end %>
