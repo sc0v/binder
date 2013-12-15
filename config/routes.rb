@@ -4,7 +4,9 @@ Trailerapp::Application.routes.draw do
   resources :documents
   resources :faqs
   resources :memberships, :except => [:index, :show, :destroy]
-  resources :organizations
+  resources :organizations do
+    resources :aliases, :controller => :organization_aliases, :shallow => true, :only => [:create, :new, :destroy]
+  end
   resources :charges
   resources :participants
   resources :shifts
@@ -13,11 +15,6 @@ Trailerapp::Application.routes.draw do
   resources :tasks
   resources :tools
   resources :checkouts
-
-  # organization alias
-  match "new_organization_alias/:id" => "organization_aliases#new_alias", :as => :new_organization_alias, via: [:get, :post]
-  match "create_organization_alias" => "organization_aliases#create_alias", :as => :create_organization_alias, via: [:get, :post]
-  match "remove_organization_alias/:id" => "organization_aliases#destroy_alias", :as => :remove_organization_alias, via: [:get, :post]
 
   # shifts - all types separated
   match "sec_shifts" => "shifts#sec_shifts", :as => :sec_shifts_index, via: [:get, :post]

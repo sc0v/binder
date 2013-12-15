@@ -14,7 +14,7 @@
             <%= oa.name %>
             <% if can?(:destroy, oa) %>
               <%= link_to t('.delete', :default => t("helpers.links.delete")),
-                remove_organization_alias_path(oa.id),
+                alias_path(oa.id), :method => 'delete',
                 :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                 :class => 'btn btn-mini btn-danger', :style => 'margin: 2px 0px;' %>
             <% end %>
@@ -22,7 +22,7 @@
           <% end %>
           <% if can?(:create, @organization_alias) %>
             <%= link_to t('.add', :default => t("helpers.links.add")),
-              new_organization_alias_path(@organization.id), :class => 'btn btn-mini' %>
+              new_organization_alias_path(@organization), :class => 'btn btn-mini' %>
           <% end %>
         <% end %>
     <% end %>
