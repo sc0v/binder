@@ -1,4 +1,12 @@
 <div class="row-fluid">
+	<div class="span4">
+    <% if can?(:read, Membership) %>
+      <h4>Booth Chairs</h4>
+      <div id="chairs">
+        <%= render :partial => 'participants/organization_booth_chair_list', :object => @booth_chairs %>
+      </div>
+    <% end %>
+	</div>
 	<div class="span8">
 		
     <!-- Toggles -->
@@ -41,14 +49,6 @@
       </div>
     <% end %>
 
-	</div>
-	<div class="span4">
-    <% if can?(:read, Membership) %>
-      <h4>Booth Chairs</h4>
-      <div id="chairs">
-        <%= render :partial => 'participants/organization_booth_chair_list', :object => @booth_chairs %>
-      </div>
-    <% end %>
 	</div>
 </div>
 

@@ -2,13 +2,11 @@
   <table class="table table-striped">
     <tr>
       <th>Name</th>
-      <th>AndrewID</th>
       <th>Phone Number</th>
     </tr>
 	<% organization_booth_chair_list.each do |chair| %>
       <tr>
         <td><%= link_to chair.name, chair %></td>
-        <td><%= link_to chair.andrewid, chair %></td>
         <td class="no_link"><%= chair.formatted_phone_number %></td>
       </tr>
     <% end %>
