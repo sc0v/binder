@@ -6,28 +6,22 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th><%= model_class.human_attribute_name(:id) %></th>
-        <th><%= model_class.human_attribute_name(:due_at) %></th>
-        <th><%= model_class.human_attribute_name(:display_duration) %></th>
-        <th><%= model_class.human_attribute_name(:completed_by_id) %></th>
         <th><%= model_class.human_attribute_name(:name) %></th>
         <th><%= model_class.human_attribute_name(:description) %></th>
-        <th><%= model_class.human_attribute_name(:task_status) %></th>
-        <th><%= model_class.human_attribute_name(:task_category) %></th>
+        <th><%= model_class.human_attribute_name(:due_at) %></th>
+        <th><%= model_class.human_attribute_name(:is_completed) %></th>
+        <th><%= model_class.human_attribute_name(:completed_by_id) %></th>
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
       </tr>
     </thead>
     <tbody>
       <% @tasks.each do |task| %>
         <tr>
-          <td><%= link_to task.id, task_path(task) %></td>
-          <td><%= task.due_at %></td>
-          <td><%= task.display_duration %></td>
-          <td><%= task.completed_by_id %></td>
-          <td><%= task.name %></td>
+          <td><%= link_to task.name, task %></td>
           <td><%= task.description %></td>
-          <td><%= task.task_status.name %></td>
-          <td><%= task.task_category.name %></td>
+          <td><%= date_and_time task.due_at %></td>
+          <td><%= format_boolean task.is_completed %></td>
+          <td><%= link_to task.completed_by.name + " (" + task.completed_by.andrewid + ")", task.completed_by unless task.completed_by.blank? %></td>
           <td>
             <% if can?(:edit, task) %>
               <%= link_to t('.edit', :default => t("helpers.links.edit")),

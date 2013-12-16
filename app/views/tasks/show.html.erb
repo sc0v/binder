@@ -4,20 +4,18 @@
     <h1><%=t '.title', :default => model_class.model_name.human %></h1>
   </div>
   <dl class="dl-horizontal">
-    <dt><strong><%= model_class.human_attribute_name(:due_at) %>:</strong></dt>
-    <dd><%= @task.due_at %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:display_duration) %>:</strong></dt>
-    <dd><%= @task.display_duration %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:completed_by_id) %>:</strong></dt>
-    <dd><%= @task.completed_by_id %></dd>
     <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
     <dd><%= @task.name %></dd>
     <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
-    <dd><%= @task.description %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:task_status) %>:</strong></dt>
-    <dd><%= @task.task_status.name %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:task_category) %>:</strong></dt>
-    <dd><%= @task.task_category.name %></dd>
+    <dd><%= @task.description || "-" %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:due_at) %>:</strong></dt>
+    <dd><%= date_and_time @task.due_at %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:is_completed) %>:</strong></dt>
+    <dd><%= format_boolean @task.is_completed %></dd>
+    <% if @task.is_completed? %>
+      <dt><strong><%= model_class.human_attribute_name(:completed_by_id) %>:</strong></dt>
+      <dd><%= link_to @task.completed_by.name + " (" + @task.completed_by.andrewid + ")", @task.completed_by unless @task.completed_by.blank? %></dd>
+    <% end %>
   </dl>
   <div class="form-actions">
     <%= link_to t('.back', :default => t("helpers.links.back")),

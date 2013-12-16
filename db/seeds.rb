@@ -289,12 +289,6 @@ ChargeType.create([
   { name: 'Blown Breaker', description: 'Breaker reset by Power and Safety. First one is free.', requires_booth_chair_approval: true, default_amount: 25.00 },
   { name: 'Unauthorized Plugin', description: 'Organization pluged their booth into power before given permission by Power and Safely.', requires_booth_chair_approval: true, default_amount: 100 }])
 
-# Task Statuses ---------------------------------------------------------------
-puts 'Task Statuses'
-uncompleted_task = TaskStatus.create({ name: "Not Completed" })
-completed_task = TaskStatus.create({ name: "Completed" })
-unable_to_complete_task = TaskStatus.create({ name: "Unable to Complete" })
-
 # FAQs ------------------------------------------------------------------------
 puts "FAQs"
 
@@ -783,16 +777,17 @@ when 'development'
   Charge.create({ charge_type: ChargeType.find_by_name('Blown Breaker'), amount: 25, description: 'Delt blew their breaker all over midway', issuing_participant: merichar, receiving_participant: chase, organization: dtd_org, charged_at: Time.now })
 
   # Tasks ---
-  Task.create([{ name: "todo", task_status: uncompleted_task, due_at: Time.now + 1.hour, display_duration: Time.now - 3.hours, description: "Many things" },
-    {name: "done0", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
-    {name: "done1", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
-    {name: "done2", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
-    {name: "done3", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
-    {name: "done4", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
-    {name: "done5", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
-    {name: "done6", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: completed_task},
-    {name: "not done", due_at: Time.now, display_duration: Time.now - 1.hours, completed_by: chase, task_status: unable_to_complete_task},
-    {name: "late", due_at: Time.now - 30.minutes, display_duration: Time.now - 1.hours, task_status: uncompleted_task}])
+  Task.create([{ name: "todo", due_at: Time.now + 1.hour, description: "Many things" },
+    {name: "done0", due_at: Time.now, completed_by: chase, is_completed: true },
+    {name: "done1", due_at: Time.now, completed_by: chase, is_completed: true },
+    {name: "done2", due_at: Time.now, completed_by: chase, is_completed: true },
+    {name: "done3", due_at: Time.now, completed_by: chase, is_completed: true },
+    {name: "done4", due_at: Time.now, completed_by: chase, is_completed: true },
+    {name: "done5", due_at: Time.now, completed_by: chase, is_completed: true },
+    {name: "done6", due_at: Time.now, completed_by: chase, is_completed: true },
+    {name: "not done", due_at: Time.now, completed_by: chase, is_completed: true },
+    {name: "late", due_at: Time.now - 30.minutes }])
 when 'production'
   #blah
 end
+

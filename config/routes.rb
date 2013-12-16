@@ -13,7 +13,6 @@ Trailerapp::Application.routes.draw do
     resources :participants, :controller => :shift_participants, :only => [:new, :create]
   end
   resources :shift_participants, :only => [:destroy, :update]
-  resources :task_categories
   resources :tasks
   resources :tools
   resources :checkouts

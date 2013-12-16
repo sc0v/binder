@@ -109,18 +109,6 @@ FactoryGirl.define do
   factory :task do
     due_at Date.today
     name "Assign rides"
-
-    association :task_status
-  end
-
-  # task_category
-  factory :task_category do
-    name { generate(:random_string) }
-  end
-
-  # task_status
-  factory :task_status do
-    name { generate(:random_string) }
   end
 
   # tool
