@@ -33,4 +33,11 @@ en:
         issuing_participant: "Issued By"
         receiving_participant: "Issued To"
         charged_at: "Time"
+  helpers:
+    links:
+      destroy: "Delete"
+      new_shift_participant: "Clock In"
+    submit:
+      shift_participant:
+        update: "Clock Out"
 

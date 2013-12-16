@@ -9,8 +9,10 @@ Trailerapp::Application.routes.draw do
   end
   resources :charges
   resources :participants
-  resources :shifts
-  resources :shift_participants, :only => [:destroy]
+  resources :shifts do
+    resources :participants, :controller => :shift_participants, :only => [:new, :create]
+  end
+  resources :shift_participants, :only => [:destroy, :update]
   resources :task_categories
   resources :tasks
   resources :tools
@@ -19,13 +21,6 @@ Trailerapp::Application.routes.draw do
   # shifts - all types separated
   match "sec_shifts" => "shifts#sec_shifts", :as => :sec_shifts_index, via: [:get, :post]
   match "coord_shifts" => "shifts#coord_shifts", :as => :coord_shifts_index, via: [:get, :post]
-
-  # shift clock in / clock out
-  match "new_shift_clock_in/:id" => "shift_participants#new_shift_clock_in", :as => :new_shift_clock_in, via: [:get, :post]
-  match "new_shift_clock_out/:id" => "shift_participants#new_shift_clock_out", :as => :new_shift_clock_out, via: [:get, :post]
-
-  match "create_shift_clock_in" => "shift_participants#create_shift_clock_in", :as => :create_shift_clock_in, via: [:get, :post]
-  match "create_shift_clock_out" => "shift_participants#create_shift_clock_out", :as => :create_shift_clock_out, via: [:get, :post]
 
   # tool check in / check out
   match "new_tool_checkin" => "checkouts#new_tool_checkin", :as => :new_tool_checkin, via: [:get, :post]
