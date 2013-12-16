@@ -6,10 +6,11 @@
     <div class="form-actions">
       <%= f.button :submit, :class => 'btn-primary' %>
       <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                shifts_path, :class => 'btn' %>
+                @organization_alias.organization, :class => 'btn' %>
     </div>
   <% end %>
   
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>
+
