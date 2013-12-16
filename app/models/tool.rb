@@ -16,15 +16,11 @@ class Tool < ActiveRecord::Base
 
 
   def current_organization
-    if not self.checkouts.current.empty?
-      return self.checkouts.current[0].organization
-    end
+    self.checkouts.current.take.organization unless self.checkouts.current.blank?
   end
 
   def current_participant
-    if not self.checkouts.current.empty?
-      return self.checkouts.current[0].participant
-    end
+    self.checkouts.current.take.participant unless self.checkouts.current.blank?
   end
 
   def is_checked_out?
