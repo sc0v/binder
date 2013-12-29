@@ -11,6 +11,7 @@ class Participant < ActiveRecord::Base
   has_many :tools, :through => :checkouts
   has_many :memberships, dependent: :destroy
   has_many :shift_participants, dependent: :destroy
+  has_many :organization_statuses, dependent: :destroy
   has_one  :contact_list
   belongs_to :user, dependent: :destroy
 

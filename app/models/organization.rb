@@ -6,6 +6,7 @@ class Organization < ActiveRecord::Base
   belongs_to :organization_category
   has_many :memberships
   has_many :organization_aliases, :dependent => :destroy
+  has_many :organization_statuses, :dependent => :destroy
   has_many :participants, :through => :memberships
   has_many :charges, :dependent => :destroy
   has_many :tools, :through => :checkouts

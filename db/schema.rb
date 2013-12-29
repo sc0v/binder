@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131216083914) do
+ActiveRecord::Schema.define(version: 20131229225426) do
 
   create_table "charge_types", force: true do |t|
     t.string   "name"
@@ -97,6 +97,20 @@ ActiveRecord::Schema.define(version: 20131216083914) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
+
+  create_table "organization_status_types", force: true do |t|
+    t.string  "name"
+    t.boolean "display"
+  end
+
+  create_table "organization_statuses", force: true do |t|
+    t.integer "organization_status_type_id"
+    t.integer "organization_id"
+    t.integer "participant_id"
+    t.string  "description"
+  end
+
+  add_index "organization_statuses", ["organization_id"], name: "index_organization_statuses_on_organization_id"
 
   create_table "organizations", force: true do |t|
     t.string   "name"
