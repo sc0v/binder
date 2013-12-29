@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20131229225426) do
+ActiveRecord::Schema.define(version: 20131229233330) do
 
   create_table "charge_types", force: true do |t|
     t.string   "name"
@@ -152,7 +152,6 @@ ActiveRecord::Schema.define(version: 20131229225426) do
     t.integer  "shift_id"
     t.integer  "participant_id"
     t.datetime "clocked_in_at"
-    t.datetime "clocked_out_at"
     t.datetime "created_at",     null: false
     t.datetime "updated_at",     null: false
   end

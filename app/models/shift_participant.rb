@@ -13,7 +13,5 @@ class ShiftParticipant < ActiveRecord::Base
   def card_number
     @card_number
   end
-
-  scope :current, -> { where('clocked_out_at <> NULL') }
 end
 

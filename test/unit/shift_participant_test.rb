@@ -12,21 +12,17 @@ class ShiftParticipantTest < ActiveSupport::TestCase
 
   context "With a proper context, " do
     setup do
-      create_context
+      FactoryGirl.create(:shift_participant)
     end
 
     teardown do
-      remove_context
     end
 
     should "show that all factories are properly created" do
-      assert_equal 4, ShiftParticipant.all.size
+      assert_equal 1, ShiftParticipant.all.size
     end
  
     # Scopes
-    should "have a scope 'current' that works" do
-       assert_equal 0, ShiftParticipant.current.size
-    end
     
     # Methods
 

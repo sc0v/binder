@@ -84,12 +84,6 @@ class ActiveSupport::TestCase
     @jonathan_user = FactoryGirl.create(:user, :name => "Jonathan U Chung", :email => "jonathanc@andrew.cmu.edu", :participant => @jonathan_participant)
     @jonathan_user.add_role(:member)
 
-    # Create 4 Shift Participants
-    @sp1 = FactoryGirl.create(:shift_participant, :participant => @rachel_participant, :clocked_in_at => Time.now, :shift => @shift1)
-    @sp2 = FactoryGirl.create(:shift_participant, :participant => @shannon_participant, :clocked_in_at => Time.now, :shift => @shift2)
-    @sp3 = FactoryGirl.create(:shift_participant, :participant => @alexis_participant, :clocked_in_at => Time.now, :shift => @shift3)
-    @sp4 = FactoryGirl.create(:shift_participant, :participant => @dylan_participant, :clocked_in_at => Time.now, :shift => @shift3)
-
     # Create 2 memberships
     @member_rachel = FactoryGirl.create(:membership, :participant => @rachel_participant, :organization => @scc)
     @member_alexis = FactoryGirl.create(:membership, :participant => @alexis_participant, :organization => @theta, :booth_chair_order => 1, :is_booth_chair => true, :title => nil)
@@ -165,12 +159,6 @@ class ActiveSupport::TestCase
     @shift1.destroy
     @shift2.destroy
     @shift3.destroy
-
-    # Destroy 4 shift_participants
-    @sp1.destroy
-    @sp2.destroy
-    @sp3.destroy
-    @sp4.destroy
 
     # Destroy 4 tools
     @hammer.destroy

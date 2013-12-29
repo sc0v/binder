@@ -18,16 +18,7 @@
           <li><%= shift_participant.participant.name %>
             (Clocked in at:
             <%= date_and_time(shift_participant.clocked_in_at) %>
-            <% if !shift_participant.clocked_out_at.nil? %>
-              Clocked out at:
-              <%= date_and_time(shift_participant.clocked_out_at) %>
-            <% end %>
             )
-            <% if shift_participant.clocked_out_at.nil? %>
-              <%= simple_form_for shift_participant, :html => { :style => 'display: inline;' } do |f| %>
-                <%= f.button :submit, :class => 'btn btn-mini btn-primary' %>
-              <% end %>
-            <% end %>
           </li>
         <% end %>
         <% @number_spots_left.times do %>
