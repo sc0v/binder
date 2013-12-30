@@ -1,0 +1,58 @@
+<% if can?(:read_all_details, @organization) %>
+  <%- model_class = OrganizationStatus -%>
+  <div class="page-header">
+    <h1><%= link_to @organization.name + "'s", @organization %> History</h1>
+  </div>
+  
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th></th>
+        <th><%= model_class.human_attribute_name(:organization_status_type) %></th>
+        <th><%= model_class.human_attribute_name(:description) %></th>
+        <th><%= model_class.human_attribute_name(:participant) %></th>
+        <th><%= model_class.human_attribute_name(:created_at) %></th>
+        <th><%=t '.actions', :default => t("helpers.actions") %></th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @organization_statuses.each do |status| %>
+        <% if can?(:read, status) %>
+          <tr>
+            <td><%# link_to t('.show', :default => t("helpers.links.show")), status, :class => 'btn btn-mini' %></td>
+            <td><%= status.organization_status_type.name %></td>
+            <td><%= status.description %></td>
+            <td><%= status.participant.formatted_name %></td>
+            <td><%= date_and_time status.created_at %></td>
+            <td>
+              <% if can?(:update, status) %>
+                <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                          [:edit, @organization, status], :class => 'btn btn-mini' %>
+              <% end %>
+              <% if can?(:destroy, status) %>
+                <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        [@organization, status],
+                        :method => :delete,
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-mini btn-danger' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  
+  <span class="smtext">
+    <%= will_paginate @shifts, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
+  </span>
+  
+  <% if can?(:create, OrganizationStatus) %>
+    <%= link_to t('.new', :default => t("helpers.links.new")),
+                [:new, @organization, :organization_status],
+                :class => 'btn btn-primary' %>
+  <% end %>
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>
+

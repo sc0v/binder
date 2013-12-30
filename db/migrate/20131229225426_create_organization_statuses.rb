@@ -5,6 +5,8 @@ class CreateOrganizationStatuses < ActiveRecord::Migration
       t.belongs_to :organization
       t.belongs_to :participant
       t.string :description
+      t.datetime :created_at
+      t.datetime :updated_at
     end
     add_index :organization_statuses, :organization_id
   end

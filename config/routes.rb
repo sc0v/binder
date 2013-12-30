@@ -6,6 +6,7 @@ Trailerapp::Application.routes.draw do
   resources :memberships, :except => [:index, :show, :destroy]
   resources :organizations do
     resources :aliases, :controller => :organization_aliases, :shallow => true, :only => [:create, :new, :destroy]
+    resources :statuses, :controller => :organization_statuses, :as => :organization_statuses
   end
   resources :charges
   resources :participants

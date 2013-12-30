@@ -377,8 +377,21 @@ Faq.create([
     answer: "Check weather on trailer computer. Call Emily/Jackson/Rachel with that information." } 
 ])
     
+# Organization Status Types --------------------------------------------------
+puts 'Organization Status Types'
+OrganizationStatusType.create([
+  { name: "Note", display: false },
+  { name: "Plans Submitted, Under SCC Review", display: true },
+  { name: "Plans Under Final Review", display: true },
+  { name: "Plans Awaiting Revision", display: true },
+  { name: "Plans Approved", display: true },
+  { name: "Electrical Partly Inspected", display: true },
+  { name: "Electrical Approved", display: true },
+  { name: "Wednesday Inspection Completed", display: true },
+  { name: "Final Inspection Passed", display: true }
+])
 
-# Shift Types -----------------------------------------------------------------
+# Shift Types ----------------------------------------------------------------
 puts 'Shift Types'
 watch_shift = ShiftType.create({ name: 'Watch Shift' })
 sec_shift = ShiftType.create({ name: 'Security Shift' })

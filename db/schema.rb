@@ -18,8 +18,8 @@ ActiveRecord::Schema.define(version: 20131229233330) do
     t.boolean  "requires_booth_chair_approval"
     t.decimal  "default_amount",                precision: 8, scale: 2
     t.text     "description"
-    t.datetime "created_at",                                            null: false
-    t.datetime "updated_at",                                            null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "charges", force: true do |t|
@@ -29,8 +29,8 @@ ActiveRecord::Schema.define(version: 20131229233330) do
     t.text     "description"
     t.integer  "issuing_participant_id"
     t.integer  "receiving_participant_id"
-    t.datetime "created_at",                                       null: false
-    t.datetime "updated_at",                                       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.datetime "charged_at"
   end
 
@@ -40,8 +40,8 @@ ActiveRecord::Schema.define(version: 20131229233330) do
     t.integer  "tool_id"
     t.datetime "checked_out_at"
     t.datetime "checked_in_at"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "participant_id"
     t.integer  "organization_id"
   end
@@ -50,30 +50,30 @@ ActiveRecord::Schema.define(version: 20131229233330) do
 
   create_table "contact_lists", force: true do |t|
     t.integer  "participant_id"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "documents", force: true do |t|
     t.integer  "document_id"
     t.string   "name"
     t.string   "url"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "faqs", force: true do |t|
     t.text     "question"
     t.text     "answer"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "memberships", force: true do |t|
     t.integer  "organization_id"
     t.integer  "participant_id"
-    t.datetime "created_at",        null: false
-    t.datetime "updated_at",        null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "is_booth_chair"
     t.string   "title"
     t.integer  "booth_chair_order"
@@ -85,17 +85,17 @@ ActiveRecord::Schema.define(version: 20131229233330) do
   create_table "organization_aliases", force: true do |t|
     t.string   "name"
     t.integer  "organization_id"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
-  add_index "organization_aliases", ["name"], name: "index_organization_aliases_on_alias"
+  add_index "organization_aliases", ["name"], name: "index_organization_aliases_on_name"
   add_index "organization_aliases", ["organization_id"], name: "index_organization_aliases_on_organization_id"
 
   create_table "organization_categories", force: true do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "organization_status_types", force: true do |t|
@@ -104,10 +104,12 @@ ActiveRecord::Schema.define(version: 20131229233330) do
   end
 
   create_table "organization_statuses", force: true do |t|
-    t.integer "organization_status_type_id"
-    t.integer "organization_id"
-    t.integer "participant_id"
-    t.string  "description"
+    t.integer  "organization_status_type_id"
+    t.integer  "organization_id"
+    t.integer  "participant_id"
+    t.string   "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "organization_statuses", ["organization_id"], name: "index_organization_statuses_on_organization_id"
@@ -115,16 +117,16 @@ ActiveRecord::Schema.define(version: 20131229233330) do
   create_table "organizations", force: true do |t|
     t.string   "name"
     t.integer  "organization_category_id"
-    t.datetime "created_at",               null: false
-    t.datetime "updated_at",               null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "organizations", ["organization_category_id"], name: "index_organizations_on_organization_category_id"
 
   create_table "participants", force: true do |t|
     t.string   "andrewid"
-    t.datetime "created_at",                null: false
-    t.datetime "updated_at",                null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "has_signed_waiver"
     t.string   "phone_number"
     t.boolean  "has_signed_hardhat_waiver"
@@ -141,8 +143,8 @@ ActiveRecord::Schema.define(version: 20131229233330) do
     t.string   "name"
     t.integer  "resource_id"
     t.string   "resource_type"
-    t.datetime "created_at",    null: false
-    t.datetime "updated_at",    null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
@@ -152,8 +154,8 @@ ActiveRecord::Schema.define(version: 20131229233330) do
     t.integer  "shift_id"
     t.integer  "participant_id"
     t.datetime "clocked_in_at"
-    t.datetime "created_at",     null: false
-    t.datetime "updated_at",     null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "shift_participants", ["participant_id"], name: "index_shift_participants_on_participant_id"
@@ -161,8 +163,8 @@ ActiveRecord::Schema.define(version: 20131229233330) do
 
   create_table "shift_types", force: true do |t|
     t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "shifts", force: true do |t|
@@ -171,8 +173,8 @@ ActiveRecord::Schema.define(version: 20131229233330) do
     t.integer  "required_number_of_participants"
     t.integer  "organization_id"
     t.integer  "shift_type_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "shifts", ["organization_id"], name: "index_shifts_on_organization_id"
@@ -182,8 +184,8 @@ ActiveRecord::Schema.define(version: 20131229233330) do
     t.integer  "completed_by_id"
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",      null: false
-    t.datetime "updated_at",      null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "is_completed"
   end
 
@@ -191,8 +193,8 @@ ActiveRecord::Schema.define(version: 20131229233330) do
     t.string   "name",        null: false
     t.integer  "barcode"
     t.text     "description"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "tools", ["barcode"], name: "index_tools_on_barcode"
@@ -208,8 +210,8 @@ ActiveRecord::Schema.define(version: 20131229233330) do
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
-    t.datetime "created_at",                          null: false
-    t.datetime "updated_at",                          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "name"
   end
 

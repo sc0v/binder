@@ -6,5 +6,9 @@ class OrganizationAlias < ActiveRecord::Base
   belongs_to :organization  
   
   scope :search, lambda { |term| where('lower(name) LIKE lower(?)', "#{term}%") }
+
+  def formatted_name
+    organization.name + " (" + name + ")"
+  end
 end
 
