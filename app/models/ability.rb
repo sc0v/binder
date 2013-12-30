@@ -41,6 +41,10 @@ class Ability
 
       can :read_phone_number, Participant
 
+      can :read, OrganizationStatus do |s|
+        s.organization.booth_chairs.include? (user.participant)
+      end
+
       can :update, Membership do |m|
         m.organization.booth_chairs.include? (user.participant)
       end
@@ -59,6 +63,7 @@ class Ability
       can [:create, :update], Charge
       can [:create, :update], Checkout
       can [:create, :update, :destroy], Membership
+      can [:create, :update, :destroy], OrgainzationStatus
       can [:create, :update], Participant
       can :read_coord, Shift
       can [:create, :update], ShiftParticipant
