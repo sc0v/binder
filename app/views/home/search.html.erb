@@ -5,7 +5,7 @@
 	<p><em><strong>Tools matching term '<%= @query %>'</strong></em></p>
 	<ul>
 		<% for tool in @tools do %>
-			<li><%= link_to tool.name + ": #{tool.barcode}" " - " + tool.description, tool_path(tool) %></li>
+			<li><%= link_to tool.formatted_name, tool_path(tool) %></li>
 		<% end %>
 	</ul>
 	<p class="smtext">&nbsp;</p>
@@ -15,7 +15,7 @@
 	<p><em><strong>Participants matching term '<%= @query %>'</strong></em></p>
 	<ul>
 		<% for participant in @participants do %>
-			<li><%= link_to participant.name + " (" + participant.andrewid + ")", participant %></li>
+			<li><%= link_to participant.formatted_name, participant %></li>
 		<% end %>
 	</ul>
 	<p class="supertiny">&nbsp;</p>
@@ -37,7 +37,7 @@
       <li><em>Aliases matching term '<%= @query %>'</em></li>
       <ul>
         <% for organization_alias in @organization_aliases do %>
-          <li><%= link_to organization_alias.organization.name + " (" + organization_alias.name + ")", organization_alias.organization %></li>
+          <li><%= link_to organization_alias.formatted_name, organization_alias.organization %></li>
         <% end %>
       </ul>
     <% end %>

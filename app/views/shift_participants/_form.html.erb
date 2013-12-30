@@ -1,7 +1,7 @@
 <% if can?(:create, @shift_participant) %>
 	<%= simple_form_for @shift_participant, :html => { :class => 'form-horizontal' } do |f| %>
 	  <%= f.input :shift_id, :as => :hidden, :input_html => { :value => params[:shift_id] } %>
-	  <%= f.input :participant_id, :as => :select, :label => "Participant", :collection => Participant.all.map{|p| [p.andrewid, p.id] } %>
+	  <%= f.association :participant, :label_method => :formatted_name %>
 	  <div class="form-actions">
 	    <%= f.button :submit, :class => 'btn-primary' %>
 	    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

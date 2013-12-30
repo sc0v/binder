@@ -77,6 +77,10 @@ class Participant < ActiveRecord::Base
       ActionController::Base.helpers.number_to_phone(phone_number, area_code: true)
     end
   end
+
+  def formatted_name
+    name  + " (" + andrewid + ")"
+  end
   
   private
   

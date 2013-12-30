@@ -25,8 +25,8 @@
           <tr>
             <td><%= link_to t('.show', :default => t("helpers.links.show")),
                           shift_path(shift), :class => 'btn btn-mini' %></td>
-            <td><%= shift.starts_at.strftime("%m/%d/%y %I:%M%p")  %></td>
-            <td><%= shift.ends_at.strftime("%m/%d/%y %I:%M%p") %></td>
+            <td><%= date_and_time shift.starts_at %></td>
+            <td><%= date_and_time shift.ends_at %></td>
             <td><%= shift.required_number_of_participants %></td>
             <td><%= link_to shift.organization.name, shift.organization unless shift.organization.blank? %></td>
             <td>

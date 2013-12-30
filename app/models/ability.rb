@@ -5,6 +5,10 @@ class Ability
     user ||= User.new # guest user (not logged in)
 
     cannot :manage, :all
+    
+    if (user == User.new)
+      return
+    end
 
     can :read, [OrganizationAlias, OrganizationCategory, Organization, Participant, 
                 ShiftType, Tool, Membership]
