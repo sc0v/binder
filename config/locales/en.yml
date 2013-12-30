@@ -36,6 +36,9 @@ en:
       organization:
         organization_status: "Status"
         organization_category: "Division"
+      organization_status:
+        organization_status_type: "Type"
+        participant: "Created By"
   helpers:
     links:
       destroy: "Delete"
