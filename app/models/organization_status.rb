@@ -5,4 +5,6 @@ class OrganizationStatus < ActiveRecord::Base
   belongs_to :organization_status_type
   belongs_to :organization
   belongs_to :participant
+
+  scope :displayable, -> { joins(:organization_status_type).where('organization_status_types.display = ?', true) }
 end

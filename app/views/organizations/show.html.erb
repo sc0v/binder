@@ -26,6 +26,16 @@
           <% end %>
         <% end %>
     <% end %>
+    </p>
+    <p>
+    <% unless @organization.organization_statuses.displayable.last.blank? %>
+      <strong>Status: </strong><%= @organization.organization_statuses.displayable.last.organization_status_type.name %> on <%= date_and_time @organization.organization_statuses.displayable.last.created_at %>
+      <% if can?(:create, OrganizationStatus) %>
+        <%= link_to t('.update', :default => t("helpers.links.update")),
+          [:new, @organization, :organization_status], :class => 'btn btn-mini' %>
+      <% end %>
+    <% end %>
+    </p>
   </div>
 
   <%= render partial: 'show_org' %>

@@ -7,6 +7,7 @@
     <thead>
       <tr>
         <th><%= model_class.human_attribute_name(:name) %></th>
+        <th><%= model_class.human_attribute_name(:organization_status) %></th>
         <th><%= model_class.human_attribute_name(:organization_category) %></th>
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
       </tr>
@@ -15,6 +16,7 @@
       <% @organizations.each do |organization| %>
         <tr>
           <td><%= link_to organization.name, organization_path(organization) %></td>
+          <td><%= link_to organization.organization_statuses.displayable.last.organization_status_type.name, [organization, :organization_statuses] unless organization.organization_statuses.blank? %></td>
           <td><%= organization.organization_category.name %></td>
           <td>
             <% if can?(:update, organization) %>
