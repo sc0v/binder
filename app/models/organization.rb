@@ -9,6 +9,7 @@ class Organization < ActiveRecord::Base
   has_many :organization_statuses, :dependent => :destroy
   has_many :participants, :through => :memberships
   has_many :charges, :dependent => :destroy
+  has_many :documents, :dependent => :destroy
   has_many :tools, :through => :checkouts
   has_many :checkouts
   has_many :shifts  

@@ -7,28 +7,34 @@
     <thead>
       <tr>
         <th><%= model_class.human_attribute_name(:name) %></th>
+        <th><%= model_class.human_attribute_name(:public) %></th>
+        <th><%= model_class.human_attribute_name(:organization) %></th>
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
       </tr>
     </thead>
     <tbody>
       <% @documents.each do |document| %>
-        <tr>
-          <td><%= link_to(document.name, document_path(document)) %></td>
-          <td>
-            <% if can?(:edit, document) %>
-              <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_document_path(document), :class => 'btn btn-mini' %>
-            <% end %>
+        <% if can?(:read, document) %>
+          <tr>
+            <td><%= link_to(document.name, document_path(document)) %></td>
+            <td><%= format_boolean document.public %></td>
+            <td><%= link_to(document.organization.name, document.organization) unless document.organization.blank? %></td>
+            <td>
+              <% if can?(:edit, document) %>
+                <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                        edit_document_path(document), :class => 'btn btn-mini' %>
+              <% end %>
 
-            <% if can?(:destroy, document) %>
-              <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      document_path(document),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
-            <% end %>
-          </td>
-        </tr>
+              <% if can?(:destroy, document) %>
+                <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        document_path(document),
+                        :method => :delete,
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-mini btn-danger' %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
     </tbody>
   </table>
@@ -39,3 +45,4 @@
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>
+

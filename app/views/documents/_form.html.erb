@@ -6,6 +6,8 @@
         <%= f.text_field :name %>
       </div>
     </div>
+    <%= f.input :public %>
+    <%= f.association :organization %>
     <% if(!(params[:action] == 'edit')) %>
       <div class="field control-group">
         <%= f.label :url, :class => 'control-label' %>

@@ -1,5 +1,7 @@
 class Document < ActiveRecord::Base
-  # attr_accessible :url, :name
+  validates_associated :organization
+
+  belongs_to :organization
 
   mount_uploader :url, DocumentUploader
   

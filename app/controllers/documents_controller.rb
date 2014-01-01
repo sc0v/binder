@@ -1,5 +1,5 @@
 class DocumentsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource skip_load_resource only: [:create] 
 
   def index
     @documents = Document.all
@@ -20,7 +20,7 @@ class DocumentsController < ApplicationController
 
 
   def create
-    @document = Document.new(params[:document])
+    @document = Document.new(create_document_params)
 
     if @document.save
       flash[:notice] = "#{@document.name} has been created."
@@ -33,7 +33,7 @@ class DocumentsController < ApplicationController
   def update
     @document = Document.find(params[:id])
 
-    if @document.update_attributes(params[:document])
+    if @document.update_attributes(update_document_params)
       flash[:notice] = "#{@document.name} was updated."
       redirect_to @document
     else
@@ -48,4 +48,15 @@ class DocumentsController < ApplicationController
     flash[:notice] = "Successfully removed #{@document.name} from BOA."
     redirect_to documents_url
   end
+
+  private
+
+  def create_document_params
+    params.require(:document).permit(:name, :organization_id, :public, :url)
+  end
+
+  def update_document_params
+    params.require(:document).permit(:name, :organization_id, :public)
+  end
 end
+
