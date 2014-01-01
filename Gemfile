@@ -34,6 +34,9 @@ gem "carrierwave"
 gem 'will_paginate'
 
 group :development do
+  # Automatically generate comments in models and such based on schema
+  gem 'annotate'
+
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
   gem 'quiet_assets'
