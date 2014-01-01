@@ -1,3 +1,23 @@
+# ## Schema Information
+#
+# Table name: `organizations`
+#
+# ### Columns
+#
+# Name                            | Type               | Attributes
+# ------------------------------- | ------------------ | ---------------------------
+# **`created_at`**                | `datetime`         |
+# **`id`**                        | `integer`          | `not null, primary key`
+# **`name`**                      | `string(255)`      |
+# **`organization_category_id`**  | `integer`          |
+# **`updated_at`**                | `datetime`         |
+#
+# ### Indexes
+#
+# * `index_organizations_on_organization_category_id`:
+#     * **`organization_category_id`**
+#
+
 class Organization < ActiveRecord::Base
   validates_presence_of :organization_category, :name
   validates_associated :organization_category

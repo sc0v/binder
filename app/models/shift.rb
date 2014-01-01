@@ -1,3 +1,26 @@
+# ## Schema Information
+#
+# Table name: `shifts`
+#
+# ### Columns
+#
+# Name                                   | Type               | Attributes
+# -------------------------------------- | ------------------ | ---------------------------
+# **`created_at`**                       | `datetime`         |
+# **`ends_at`**                          | `datetime`         |
+# **`id`**                               | `integer`          | `not null, primary key`
+# **`organization_id`**                  | `integer`          |
+# **`required_number_of_participants`**  | `integer`          |
+# **`shift_type_id`**                    | `integer`          |
+# **`starts_at`**                        | `datetime`         |
+# **`updated_at`**                       | `datetime`         |
+#
+# ### Indexes
+#
+# * `index_shifts_on_organization_id`:
+#     * **`organization_id`**
+#
+
 class Shift < ActiveRecord::Base
   validates_presence_of :starts_at, :ends_at, :required_number_of_participants, :shift_type
   validates_associated :organization, :shift_type

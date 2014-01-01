@@ -1,3 +1,20 @@
+# ## Schema Information
+#
+# Table name: `charge_types`
+#
+# ### Columns
+#
+# Name                                 | Type               | Attributes
+# ------------------------------------ | ------------------ | ---------------------------
+# **`created_at`**                     | `datetime`         |
+# **`default_amount`**                 | `decimal(8, 2)`    |
+# **`description`**                    | `text`             |
+# **`id`**                             | `integer`          | `not null, primary key`
+# **`name`**                           | `string(255)`      |
+# **`requires_booth_chair_approval`**  | `boolean`          |
+# **`updated_at`**                     | `datetime`         |
+#
+
 require 'test_helper'
 
 class ChargeTypeTest < ActiveSupport::TestCase

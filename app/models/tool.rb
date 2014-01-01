@@ -1,3 +1,24 @@
+# ## Schema Information
+#
+# Table name: `tools`
+#
+# ### Columns
+#
+# Name               | Type               | Attributes
+# ------------------ | ------------------ | ---------------------------
+# **`barcode`**      | `integer`          |
+# **`created_at`**   | `datetime`         |
+# **`description`**  | `text`             |
+# **`id`**           | `integer`          | `not null, primary key`
+# **`name`**         | `string(255)`      | `not null`
+# **`updated_at`**   | `datetime`         |
+#
+# ### Indexes
+#
+# * `index_tools_on_barcode`:
+#     * **`barcode`**
+#
+
 class Tool < ActiveRecord::Base
   has_many :checkouts, dependent: :destroy
   has_many :participants, :through => :checkouts

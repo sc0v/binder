@@ -1,3 +1,17 @@
+# ## Schema Information
+#
+# Table name: `contact_lists`
+#
+# ### Columns
+#
+# Name                  | Type               | Attributes
+# --------------------- | ------------------ | ---------------------------
+# **`created_at`**      | `datetime`         |
+# **`id`**              | `integer`          | `not null, primary key`
+# **`participant_id`**  | `integer`          |
+# **`updated_at`**      | `datetime`         |
+#
+
 class ContactList < ActiveRecord::Base 
    # attr_accessible :participant_id, :participant
 
