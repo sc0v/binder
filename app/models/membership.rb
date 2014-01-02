@@ -32,5 +32,13 @@ class Membership < ActiveRecord::Base
   belongs_to :participant
 
   scope :booth_chairs, -> { where(:is_booth_chair => true) }
+
+  def organization_name_formatted
+    if is_booth_chair?
+      organization.name + " - Booth Chair"
+    else
+      organization.name
+    end
+  end
 end
 

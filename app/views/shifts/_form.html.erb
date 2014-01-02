@@ -1,17 +1,16 @@
-<% if can?(:update, @shift) %>
-  <%= simple_form_for @shift, :html => { :class => 'form-horizontal' } do |f| %>
+<%= simple_form_for @shift, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="form-inputs">
     <%= f.input :starts_at %>
     <%= f.input :ends_at %>
     <%= f.input :required_number_of_participants %>
-    <%= f.input :organization_id, :as => :select, :label => "Organization", :collection => Organization.all.map{|o| [o.name, o.id] } %>
-    <%= f.input :shift_type_id, :as => :select, :label => "Shift type", :collection => ShiftType.all.map{|st| [st.name, st.id] } %>
-    <div class="form-actions">
-      <%= f.button :submit, :class => 'btn-primary' %>
-      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                  shifts_path, :class => 'btn' %>
-    </div>
-  <% end %>
+    <%= f.association :organization %>
+    <%= f.association :shift_type %>
+  </div>
 
-<% else %>
-  <h3>Not Authorized!</h3>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                shifts_path, :class => 'btn' %>
+  </div>
 <% end %>
+

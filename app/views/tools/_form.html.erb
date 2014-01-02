@@ -1,15 +1,14 @@
-<% if can?(:edit, @tool) %>
-  <%= simple_form_for @tool, :html => { :class => 'form-horizontal' } do |f| %>
+<%= simple_form_for @tool, :html => { :class => 'form-horizontal' } do |f| %>
+  <div class="form-inputs">
     <%= f.input :name %>
     <%= f.input :barcode %>
     <%= f.input :description, :height => '300px' %>
-    <div class="form-actions">
-      <%= f.button :submit, :class => 'btn-primary' %>
-      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                tools_path, :class => 'btn' %>
-    </div>
-  <% end %>
-  
-<% else %>
-  <h3>Not Authorized!</h3>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+              tools_path, :class => 'btn' %>
+  </div>
 <% end %>
+

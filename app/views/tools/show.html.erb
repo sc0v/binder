@@ -1,16 +1,9 @@
 <% if can?(:read, @tool) %>
   <%- model_class = Tool -%>
   <div class="page-header">
-    <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+    <h1><%= @tool.name %> - <%= @tool.barcode %></h1>
   </div>
-  <p>
-    <strong><%= model_class.human_attribute_name(:name) %>:</strong>
-    <%= @tool.name %>
-  </p>
-  <p>
-    <strong><%= model_class.human_attribute_name(:barcode) %>:</strong>
-    <%= @tool.barcode %>
-  </p>
+
   <p>
     <strong><%= model_class.human_attribute_name(:description) %>:</strong>
     <%= @tool.description %>
@@ -25,6 +18,7 @@
       <%= link_to @tool.current_organization.name, @tool.current_organization %> <%= link_to("- " + @tool.current_participant.name, @tool.current_participant) unless @tool.current_participant.nil? %>
     <% end %>
   </p>
+
   <div class="form-actions">
     <%= link_to t('.back', :default => t("helpers.links.back")),
               tools_path, :class => 'btn'  %>
@@ -39,6 +33,7 @@
                         new_tool_checkout_given_tool_path(@tool), :class => 'btn' %>
       <% end %>
     <% end %>
+
     <% if can?(:update, @tool) %>
       <%= link_to t('.edit', :default => t("helpers.links.edit")),
               edit_tool_path(@tool), :class => 'btn' %>

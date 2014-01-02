@@ -1,12 +1,9 @@
 <% if can?(:read, @participant) %>
   <%- model_class = Participant -%>
   <div class="page-header">
-    <h1><%=t '.title', :default => @participant.name %></h1>
+    <h1><%= @participant.formatted_name %></h1>
   </div>
-  <p>
-    <strong><%= model_class.human_attribute_name(:andrewid) %>:</strong>
-    <%= @participant.andrewid %>
-  </p>
+
   <% if can?(:read_phone_number, @participant) %>
     <p>
       <strong><%= model_class.human_attribute_name(:phone_number) %>:</strong>
@@ -32,23 +29,24 @@
   <p>
     <strong><%= model_class.human_attribute_name(:memberships) %></strong>
     <% @memberships.each do |membership| %>
-      <li><%= link_to membership.organization.name, membership.organization %></li>
+      <li><%= link_to membership.organization_name_formatted, membership.organization %></li>
     <% end %>
   </p>
-  <% if can?(:read,Role) %>
+  <% if can?(:read, Role) %>
     <p>
-      <strong><%= model_class.human_attribute_name(:user_roles) %></strong>
-      <% if @participant.user.blank? %>
-        <li>No User Associated</li>
-      <% else %>
+      <% unless @participant.user.blank? %>
+        <strong><%= model_class.human_attribute_name(:user_roles) %></strong>
         <% @participant.user.roles.each do |role| %>
           <% if can?(:read, role) %>
             <li><%= role.name %></li>
           <% end %>
         <% end %>
+      <% else %>
+        <strong>No User Associated</strong>
       <% end %>
     </p>
   <% end %>
+
   <div class="form-actions">
     <%= link_to t('.back', :default => t("helpers.links.back")),
                 participants_path, :class => 'btn'  %>
@@ -60,13 +58,11 @@
       <%= link_to t('.add membership', :default => t("helpers.links.add membership")),
                 add_participant_memberships_given_participant_path(@participant), :class => 'btn' %>
     <% end %>
-    <!-- This code is not right, it works for now but it's a hack and the whole block should be role checked and not appear if there is no associated user --!>
 
-    <% if !@participant.user.blank? && can?(:update, @participant.user.roles) %>
-      <a data-toggle="modal" href="#role-options-<%= @participant.user.id unless @participant.user.blank? %>" class="btn" type="button">Change role</a>
-    <% end %>
-    <% if can?(:read, @participant.user) %>
-      <%= render "/users/user", :user => @participant.user, :redirect => participant_path(@participant) unless @participant.user.blank? %>
+    <% unless @participant.user.blank? %>
+      <% if can?(:update, @participant.user.roles) %>
+        <a data-toggle="modal" href="#role-options-<%= @participant.user.id %>" class="btn" type="button">Change role</a>
+      <% end %>
     <% end %>
     <% if can?(:destroy, @participant) %>
       <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
