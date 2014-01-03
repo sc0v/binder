@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140103202926) do
+ActiveRecord::Schema.define(version: 20140103210420) do
 
   create_table "charge_types", force: true do |t|
     t.string   "name"
@@ -33,6 +33,7 @@ ActiveRecord::Schema.define(version: 20140103202926) do
     t.datetime "updated_at"
     t.datetime "charged_at"
     t.boolean  "approved"
+    t.boolean  "is_approved"
   end
 
   add_index "charges", ["organization_id"], name: "index_charges_on_organization_id"
