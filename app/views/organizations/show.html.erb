@@ -7,7 +7,7 @@
       <p>
         <strong>Alias(es):</strong>
         <% unless @organization.organization_aliases.blank? %>
-          <%= @organization.organization_aliases.map{ |a| a.name }.join(", ") %>
+          <%= @organization.organization_aliases.pluck(:name).join(", ") %>
         <% end %>
         <% if can?(:create, @organization_alias) %>
           <%= link_to t('.add', :default => t("helpers.links.add")),

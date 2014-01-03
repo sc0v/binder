@@ -34,5 +34,7 @@ class Charge < ActiveRecord::Base
   belongs_to :receiving_participant, :class_name => "Participant"
   
   default_scope { order('charged_at DESC') }
+  scope :approved, -> { where(is_approved: true) }
+  scope :pending, -> { where(is_approved: false) }
 end
 

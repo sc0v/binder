@@ -16,6 +16,8 @@
     <dd><%= link_to @charge.receiving_participant.formatted_name, @charge.receiving_participant unless @charge.receiving_participant.nil? %></dd>
     <dt><strong><%= model_class.human_attribute_name(:charged_at) %>:</strong></dt>
     <dd><%= date_and_time @charge.charged_at %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:is_approved) %></strong></dt>
+    <dd><%= format_boolean @charge.is_approved %></dd>
   </dl>
   <div class="form-actions">
     <%= link_to t('.back', :default => t("helpers.links.back")),

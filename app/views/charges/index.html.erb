@@ -15,6 +15,7 @@
         <th><%= model_class.human_attribute_name(:amount) %></th>
         <th><%= model_class.human_attribute_name(:organization) unless !@organization.blank? %></th>
         <th><%= model_class.human_attribute_name(:charged_at) %></th>
+        <th><%= model_class.human_attribute_name(:is_approved) %></th>
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
       </tr>
     </thead>
@@ -27,6 +28,7 @@
             <td><%= number_to_currency charge.amount %></td>
             <td><%= link_to charge.organization.name, charge.organization unless !@organization.blank? %></td>
             <td><%= date_and_time(charge.charged_at) %></td>
+            <td><%= format_boolean charge.is_approved %></td>
             <td>
               <% if can?(:update, charge) %>
                 <%= link_to t('.edit', :default => t("helpers.links.edit")),
