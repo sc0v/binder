@@ -59,11 +59,6 @@
                 add_participant_memberships_given_participant_path(@participant), :class => 'btn' %>
     <% end %>
 
-    <% unless @participant.user.blank? %>
-      <% if can?(:update, @participant.user.roles) %>
-        <a data-toggle="modal" href="#role-options-<%= @participant.user.id %>" class="btn" type="button">Change role</a>
-      <% end %>
-    <% end %>
     <% if can?(:destroy, @participant) %>
       <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                 participant_path(@participant),
