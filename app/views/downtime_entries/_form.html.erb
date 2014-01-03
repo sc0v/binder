@@ -1,0 +1,15 @@
+  <%= simple_form_for(@downtime_entry), :html => { :class => 'form-horizontal' } do |f| %>
+    <%= f.error_notification %>
+
+    <div class="form-inputs">
+      <%= f.input :started_at %>
+      <%= f.input :ended_at %>
+    </div>
+
+    <div class="form-actions">
+      <%= f.button :submit, :class => 'btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                @organization, :class => 'btn' %>
+    </div>
+  <% end %>
+

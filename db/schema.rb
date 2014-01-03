@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140101213349) do
+ActiveRecord::Schema.define(version: 20140102035212) do
 
   create_table "charge_types", force: true do |t|
     t.string   "name"
@@ -32,6 +32,7 @@ ActiveRecord::Schema.define(version: 20140101213349) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "charged_at"
+    t.boolean  "approved"
   end
 
   add_index "charges", ["organization_id"], name: "index_charges_on_organization_id"
@@ -62,6 +63,12 @@ ActiveRecord::Schema.define(version: 20140101213349) do
     t.datetime "updated_at"
     t.integer  "organization_id"
     t.boolean  "public"
+  end
+
+  create_table "downtime_entries", force: true do |t|
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.integer  "organization_id"
   end
 
   create_table "faqs", force: true do |t|
