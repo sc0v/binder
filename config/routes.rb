@@ -1,6 +1,5 @@
 Trailerapp::Application.routes.draw do
 
-  resources :contact_lists
   resources :documents
   resources :faqs
   resources :memberships, :except => [:index, :show, :destroy]
