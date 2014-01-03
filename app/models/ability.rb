@@ -32,7 +32,7 @@ class Ability
     can :update, Participant, :id => user.participant.id
 
     if user.participant.is_booth_chair?
-      can :read, [ChargeType, Checkout, ContactList, Faq, Shift]
+      can :read, [ChargeType, Checkout, Faq, Shift]
       can :read_basic_details, Organization
 
       can :read_all_details, Organization do |o|

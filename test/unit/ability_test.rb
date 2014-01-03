@@ -38,12 +38,10 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(:manage, CarnegieMellonPerson)
       assert ability.cannot?(:manage, Charge)
       assert ability.cannot?(:manage, ChargeType)
-      assert ability.cannot?(:manage, ContactList)
       assert ability.cannot?(:manage, Document)
       assert ability.cannot?(:manage, Faq)
       assert ability.cannot?(:manage, ShiftParticipant)
       assert ability.cannot?(:manage, Task)
-      assert ability.cannot?(:manage, TaskStatus)
       assert ability.cannot?(:manage, User)
 
       assert ability.cannot?(:create, Checkout)
@@ -124,11 +122,6 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(:destroy, Checkout)
       assert ability.can?(:read, Checkout)
 
-      assert ability.cannot?(:create, ContactList)
-      assert ability.cannot?(:update, ContactList)
-      assert ability.cannot?(:destroy, ContactList)
-      assert ability.can?(:read, ContactList)
-
       assert ability.cannot?(:create, Document)
       assert ability.cannot?(:update, Document)
       assert ability.cannot?(:destroy, Document)
@@ -169,7 +162,6 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.can?(:read, Charge)
       assert ability.can?(:read, ChargeType)
       assert ability.can?(:read, Checkout)
-      assert ability.can?(:read, ContactList)
       assert ability.can?(:read, Document)
       assert ability.can?(:read, Faq)
       assert ability.can?(:read, Membership)
@@ -182,7 +174,6 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.can?(:read, ShiftParticipant)
       assert ability.can?(:read, ShiftType)
       assert ability.can?(:read, Task)
-      assert ability.can?(:read, TaskStatus)
       assert ability.can?(:read, Tool)
       assert ability.can?(:read, User)
 

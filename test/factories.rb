@@ -34,11 +34,6 @@ FactoryGirl.define do
     association :organization
   end
 
-  # contact_list
-  factory :contact_list do
-    association :participant
-  end
-
   # document
   factory :document do
     name "MyString"
