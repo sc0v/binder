@@ -1,10 +1,18 @@
 class ChargesController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
+  before_action :set_charge, only: [:show, :edit, :update, :destroy]
 
   # GET /charges
   # GET /charges.json
   def index
-    @charges = Charge.all
+    unless ( params[:organization_id].blank? )
+      @organization = Organization.find(params[:organization_id])
+      @charges = @organization.charges
+    else
+      @charges = Charge.all
+    end
+
+    @charges = @charges.paginate(:page => params[:page]).per_page(20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -15,8 +23,6 @@ class ChargesController < ApplicationController
   # GET /charges/1
   # GET /charges/1.json
   def show
-    @charge = Charge.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @charge }
@@ -36,7 +42,6 @@ class ChargesController < ApplicationController
 
   # GET /charges/1/edit
   def edit
-    @charge = Charge.find(params[:id])
   end
 
   # POST /charges
@@ -59,10 +64,8 @@ class ChargesController < ApplicationController
   # PUT /charges/1
   # PUT /charges/1.json
   def update
-    @charge = Charge.find(params[:id])
-
     respond_to do |format|
-      if @charge.update_attributes(charge_params)
+      if @charge.update(charge_params)
         format.html { redirect_to @charge, notice: 'Charge was successfully updated.' }
         format.json { head :no_content }
       else
@@ -75,7 +78,6 @@ class ChargesController < ApplicationController
   # DELETE /charges/1
   # DELETE /charges/1.json
   def destroy
-    @charge = Charge.find(params[:id])
     @charge.destroy
 
     respond_to do |format|
@@ -85,9 +87,12 @@ class ChargesController < ApplicationController
   end
 
   private
+  def set_charge
+    @charge = Charge.find(params[:id])
+  end
 
   def charge_params
-    params.require(:charge).permit(:amount, :description, :issuing_participant, :receiving_participant, :organization, :charge_type, :charged_at)
+    params.require(:charge).permit(:amount, :description, :issuing_participant_id, :receiving_participant_id, :organization_id, :charge_type_id)
   end
 end
 

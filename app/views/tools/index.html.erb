@@ -1,12 +1,15 @@
 <% if can?(:read, Tool) %>
   <%- model_class = Tool -%>
   <div class="page-header">
-    <h1><%=h @title || model_class.model_name.human.pluralize %></h1>
+    <h1>
+      <%= link_to @organization.name + "'s", @organization unless @organization.blank? %>
+      <%=h @title || model_class.model_name.human.pluralize %>
+    </h1>
   </div>
 
-  <%= link_to raw("Tools"), tools_path, :class => 'btn btn-primary' unless @title == 'Tools' %>
-  <%= link_to raw("Hardhats"), hardhats_index_path, :class => 'btn btn-primary' unless @title == 'Hardhats' %>
-  <%= link_to raw("Radios"), radios_index_path, :class => 'btn btn-primary' unless @title == 'Radios' %>
+  <%= link_to raw("Tools"), tools_path, :class => 'btn btn-primary' unless params[:type].blank? or !@organization.blank? %>
+  <%= link_to raw("Hardhats"), tools_path(:type => "hardhats"), :class => 'btn btn-primary' unless params[:type] == 'hardhats' or !@organization.blank? %>
+  <%= link_to raw("Radios"), tools_path(:type => "radios"), :class => 'btn btn-primary' unless params[:type] == 'radios' or !@organization.blank? %>
 
   <br>
   <br>
@@ -61,12 +64,12 @@
   <span class="smtext">
     <%= will_paginate @tools, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
   </span>
-  <% if can?(:create, Tool) %>
+  <% if can?(:create, Tool) and @organization.blank? %>
     <%= link_to t('.new', :default => t("helpers.links.new")),
             new_tool_path,
             :class => 'btn btn-primary' %>
   <% end %>
-  <% if can?(:create, Checkout) %>
+  <% if can?(:create, Checkout) and @organization.blank? %>
     <%= link_to raw("Checkout Tool"), new_tool_checkout_path, :class => 'btn btn-primary' %>
   <% end %>
 

@@ -1,54 +1,34 @@
-<div class="row-fluid">
-	<div class="span4">
-    <% if can?(:read, Membership) %>
-      <h4>Booth Chairs</h4>
-      <div id="chairs">
-        <%= render :partial => 'participants/organization_booth_chair_list', :object => @booth_chairs %>
-      </div>
-    <% end %>
-	</div>
-	<div class="span8">
-		
-    <!-- Toggles -->
-    <% if can?(:read_basic_details, @organization) %>
-      <%= link_to_function "Tools Checked Out", "$('.details').hide(); $('#tools').toggle()", :class => 'btn btn-large'%>
-      <%= link_to_function "Shifts", "$('.details').hide(); $('#shifts').toggle()", :class => 'btn btn-large' %>
-      <%= link_to_function "Hardhats", "$('.details').hide(); $('#hardhats').toggle()", :class => 'btn btn-large' %>
-    <% end %>
+<!-- Toggles -->
+<% if can?(:read_basic_details, @organization) %>
+  <%= link_to_function "Chairs", "$('.details').hide(); $('#chairs').toggle()", :class => 'btn btn-large'%>
+  <%= link_to_function "Tools Checked Out", "$('.details').hide(); $('#tools').toggle()", :class => 'btn btn-large'%>
+  <%= link_to_function "Shifts", "$('.details').hide(); $('#shifts').toggle()", :class => 'btn btn-large' %>
+<% end %>
 
-    <% if can?(:read_all_details, @organization) %>
-      <%= link_to_function "Charges", "$('.details').hide(); $('#charges').toggle()", :class => 'btn btn-large' %>
-    <% end %>
+<% if can?(:read_all_details, @organization) %>
+  <%= link_to_function "Charges", "$('.details').hide(); $('#charges').toggle()", :class => 'btn btn-large' %>
+<% end %>
 
-    <% if can?(:read, Membership) %>
-      <%= link_to_function "Members", "$('.details').hide(); $('#members').toggle();", :class => 'btn btn-large' %>
-    <% end %>
+<!-- Details -->
+<% if can?(:read_basic_details, @organization) %>
+  <div id="chairs" class="details">
+    <h2>Booth Chairs</h2>
+    <%= render :partial => 'participants/organization_booth_chair_list', :object => @booth_chairs %>
+  </div>
+  <div id="shifts" class="details" style="display: none;">
+    <h2>Shifts</h2>
+    <%= render :partial => "shifts/organization_shift_list.html.erb", :object => @shifts %>
+  </div>
+  <div id="tools" class="details" style="display: none;">
+    <h2>Tools</h2>
+    <%= render :partial => "tools/organization_tool_list", :object => @tools %>
+  </div>
+<% end %>
 
-    <!-- Details -->
-    <% if can?(:read_basic_details, @organization) %>
-      <div id="shifts" class="details" style="display: none;">
-        <%= render :partial => "shifts/shift_table.html.erb", :object => @shifts %>
-      </div>
-      <div id="tools" class="details" style="display: none;">
-        <%= render :partial => "tools/organization_tool_list", :object => @tools %>
-      </div>
-      <div id="hardhats" class="details" style="display: none;">
-        <%= render :partial => "tools/organization_tool_list", :object => @hardhats %>
-      </div>
-    <% end %>
-
-    <% if can?(:read_all_details, @organization) %>
-      <div id="charges" class="details" style="display: none;">
-        <%= render :partial => "charges/organization_charge_list", :object => @charges %>
-      </div>
-    <% end %>
-
-    <% if can?(:read, Membership) %>
-      <div id="members" class="details" style="display: none;">
-          <%= render :partial => 'participants/participant_list', :object => @members %>
-      </div>
-    <% end %>
-
-	</div>
-</div>
+<% if can?(:read_all_details, @organization) %>
+  <div id="charges" class="details" style="display: none;">
+    <h2>Charges</h2>
+    <%= render :partial => "charges/organization_charge_list", :object => @charges %>
+  </div>
+<% end %>
 

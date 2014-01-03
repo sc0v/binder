@@ -1,12 +1,16 @@
 <% if can?(:read, Shift) %>
   <%- model_class = Shift -%>
   <div class="page-header">
-    <h1><%=h @title || model_class.model_name.human.pluralize %></h1>
+    <h1>
+      <%= link_to @organization.name + raw("'s"), @organization unless @organization.blank? %>
+      <%=h @title || model_class.model_name.human.pluralize %>
+    </h1>
   </div>
   
-  <%= link_to raw("Watch Shifts"), shifts_path, :class => 'btn btn-primary' unless @title == "Watch Shifts" %>
-  <%= link_to raw("Security Shifts"), sec_shifts_index_path, :class => 'btn btn-primary' unless @title == "Security Shifts" %>
-  <%= link_to raw("Coordinator Shifts"), coord_shifts_index_path, :class => 'btn btn-primary' unless @title == "Coordinator Shifts" || !can?(:read_coord, Shift) %>
+  <%= link_to raw("All Shifts"), shifts_path, :class => 'btn btn-primary' unless params[:type].blank? or !@organization.blank? %>
+  <%= link_to raw("Watch Shifts"), shifts_path(:type => "watch"), :class => 'btn btn-primary' unless params[:type] == "watch" or !@organization.blank? %>
+  <%= link_to raw("Security Shifts"), shifts_path(:type => "security"), :class => 'btn btn-primary' unless params[:type] == "security" or !@organization.blank? %>
+  <%= link_to raw("Coordinator Shifts"), shifts_path(:type => "coordinator"), :class => 'btn btn-primary' unless params[:type] == "coordinator" or !@organization.blank? or !can?(:read_coord, Shift) %>
   
   <table class="table table-striped">
     <thead>
@@ -15,7 +19,13 @@
         <th><%= model_class.human_attribute_name(:starts_at) %></th>
         <th><%= model_class.human_attribute_name(:ends_at) %></th>
         <th><%= model_class.human_attribute_name(:required_number_of_participants) %></th>
-        <th><%= model_class.human_attribute_name(:organization) %></th>
+        <th>
+          <% if ( @organization.blank? ) %>
+            <%= model_class.human_attribute_name(:organization) %>
+          <% else %>
+            <%= model_class.human_attribute_name(:shift_type) %>
+          <% end %>
+        </th>
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
       </tr>
     </thead>
@@ -28,7 +38,13 @@
             <td><%= date_and_time shift.starts_at %></td>
             <td><%= date_and_time shift.ends_at %></td>
             <td><%= shift.required_number_of_participants %></td>
-            <td><%= link_to shift.organization.name, shift.organization unless shift.organization.blank? %></td>
+            <td>
+              <% if ( @organization.blank? ) %>
+                <%= link_to shift.organization.name, shift.organization unless shift.organization.blank? %>
+              <% else %>
+                <%= shift.shift_type.name %>
+              <% end %>
+            </td>
             <td>
               <% if can?(:update, shift) %>
                 <%= link_to t('.edit', :default => t("helpers.links.edit")),
@@ -51,12 +67,6 @@
   <span class="smtext">
     <%= will_paginate @shifts, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
   </span>
-  
-  <% if can?(:create, Shift) %>
-    <%= link_to t('.new', :default => t("helpers.links.new")),
-                new_shift_path,
-                :class => 'btn btn-primary' %>
-  <% end %>
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>

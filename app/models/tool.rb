@@ -49,7 +49,7 @@ class Tool < ActiveRecord::Base
   end
 
   def self.checked_out_by_organization(organization)
-    joins(:checkouts).where(:checkouts => {:organization_id => organization }).merge(Checkout.current)
+    joins(:checkouts).where(:checkouts => {:organization_id => organization, :checked_in_at => nil })
   end
 
   def formatted_name

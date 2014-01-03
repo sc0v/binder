@@ -1,23 +1,21 @@
 <% if can?(:read, @charge) %>
   <%- model_class = Charge -%>
   <div class="page-header">
-    <h1><%=t '.title', :default => model_class.model_name.human %></h1>
+    <h1><%= @charge.charge_type.name %></h1>
   </div>
   <dl class="dl-horizontal">
-    <dt><strong><%= model_class.human_attribute_name(:organization) %>:</strong></dt>
-    <dd><%= @charge.organization.name %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:charge_type) %>:</strong></dt>
-    <dd><%= @charge.charge_type.name %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:amount) %>:</strong></dt>
-    <dd><%= @charge.amount %></dd>
     <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
     <dd><%= @charge.description %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:amount) %>:</strong></dt>
+    <dd><%= number_to_currency @charge.amount %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:organization) %>:</strong></dt>
+    <dd><%= link_to @charge.organization.name, @charge.organization %></dd>
     <dt><strong><%= model_class.human_attribute_name(:issuing_participant) %>:</strong></dt>
-    <dd><%= @charge.issuing_participant.andrewid unless @charge.receiving_participant.nil? %></dd>
+    <dd><%= link_to @charge.issuing_participant.formatted_name, @charge.issuing_participant %></dd>
     <dt><strong><%= model_class.human_attribute_name(:receiving_participant) %>:</strong></dt>
-    <dd><%= @charge.receiving_participant.andrewid unless @charge.receiving_participant.nil? %></dd>
+    <dd><%= link_to @charge.receiving_participant.formatted_name, @charge.receiving_participant unless @charge.receiving_participant.nil? %></dd>
     <dt><strong><%= model_class.human_attribute_name(:charged_at) %>:</strong></dt>
-    <dd><%= @charge.charged_at %></dd>
+    <dd><%= date_and_time @charge.charged_at %></dd>
   </dl>
   <div class="form-actions">
     <%= link_to t('.back', :default => t("helpers.links.back")),

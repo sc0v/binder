@@ -45,6 +45,7 @@ en:
       new_shift_participant: "Clock In"
       add: "Add"
       edit: "Edit"
+      new: "New"
       update: "Update"
       back: "Back"
       cancel: "Cancel"

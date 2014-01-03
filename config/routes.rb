@@ -8,6 +8,10 @@ Trailerapp::Application.routes.draw do
     resources :aliases, :controller => :organization_aliases, :shallow => true, :only => [:create, :new, :destroy]
     resources :statuses, :controller => :organization_statuses, :as => :organization_statuses
     resources :downtime_entries
+    resources :participants, :only => [:index]
+    resources :shifts, :only => [:index]
+    resources :tools, :only => [:index]
+    resources :charges, :only => [:index]
   end
   resources :charges
   resources :participants
@@ -19,10 +23,6 @@ Trailerapp::Application.routes.draw do
   resources :tools
   resources :checkouts
 
-  # shifts - all types separated
-  match "sec_shifts" => "shifts#sec_shifts", :as => :sec_shifts_index, via: [:get, :post]
-  match "coord_shifts" => "shifts#coord_shifts", :as => :coord_shifts_index, via: [:get, :post]
-
   # tool check in / check out
   match "new_tool_checkin" => "checkouts#new_tool_checkin", :as => :new_tool_checkin, via: [:get, :post]
   match "new_tool_checkout" => "checkouts#new_tool_checkout", :as => :new_tool_checkout, via: [:get, :post]
@@ -33,10 +33,6 @@ Trailerapp::Application.routes.draw do
   match "create_tool_checkin" => "checkouts#create_tool_checkin", :as => :create_tool_checkin, via: [:get, :post]
   match "create_tool_checkout" => "checkouts#create_tool_checkout", :as => :create_tool_checkout, via: [:get, :post]
   match "create_tool_checkout_organization_selected" => "checkouts#create_tool_checkout_organization_selected", :as => :create_tool_checkout_organization_selected, via: [:get, :post]
-
-  # tools - hardhats and radios taken out
-  match "hardhats" => "tools#hardhats_only", :as => :hardhats_index, via: [:get, :post]
-  match "radios" => "tools#radios_only", :as => :radios_index, via: [:get, :post]
 
   # user creation
   match "new_user_and_participant" => "participants#new_user_and_participant", :as => :new_user_and_participant, via: [:get, :post]

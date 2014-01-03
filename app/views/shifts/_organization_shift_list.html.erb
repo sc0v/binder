@@ -1,0 +1,34 @@
+<% if not organization_shift_list.empty? %>
+  <%- model_class = Shift -%>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th><%= model_class.human_attribute_name(:shift_type) %></th>
+        <th><%= model_class.human_attribute_name(:starts_at) %></th>
+        <th><%= model_class.human_attribute_name(:ends_at) %></th>
+        <th><%= model_class.human_attribute_name(:required_number_of_participants) %></th>
+        <th></th>
+      </tr>
+    </thead>
+    </tbody>
+      <% organization_shift_list.each do |shift| %>
+        <% if can?(:read, shift) %>
+          <tr>
+            <td class="no_link"><%= shift.shift_type.name %></td>
+            <td class="no_link"><%= date_and_time shift.starts_at %></td>
+            <td class="no_link"><%= date_and_time shift.ends_at %></td>
+            <td class="no_link"><%= shift.required_number_of_participants %></td>
+            <td><%= link_to 'Sign In/Out', shift %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+
+  <% if (organization_shift_list.length == 10) %>
+    <%= link_to raw("View more…"), organization_shifts_path(@organization), :class => 'btn btn-mini' %></h2>
+  <% end %>
+<% else %>
+  No Shifts to Display.
+<% end %>
+

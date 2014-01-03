@@ -1,5 +1,6 @@
 class OrganizationsController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
+  before_action :set_organization, only: [:show, :edit, :update, :destroy]
   
   # GET /organizations
   # GET /organizations.json
@@ -15,13 +16,10 @@ class OrganizationsController < ApplicationController
   # GET /organizations/1
   # GET /organizations/1.json
   def show
-    @organization = Organization.find(params[:id])
-    @charges = @organization.charges.all
+    @charges = @organization.charges.last(10)
     @booth_chairs = @organization.booth_chairs
-    @tools = Tool.checked_out_by_organization(@organization).just_tools
-    @members = @organization.participants.all
-    @hardhats = Tool.checked_out_by_organization(@organization).hardhats
-    @shifts = @organization.shifts.all
+    @tools = Tool.checked_out_by_organization(@organization).just_tools.first(10)
+    @shifts = @organization.shifts.future.first(10)
     
     respond_to do |format|
       format.html # show.html.erb
@@ -33,7 +31,6 @@ class OrganizationsController < ApplicationController
   # GET /organizations/new.json
   def new
     @organization = Organization.new
-    @organization_categories = OrganizationCategory.all
 
     respond_to do |format|
       format.html # new.html.erb
@@ -43,8 +40,6 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations/1/edit
   def edit
-    @organization = Organization.find(params[:id])
-    @organization_categories = OrganizationCategory.all
   end
 
   # POST /organizations
@@ -66,10 +61,8 @@ class OrganizationsController < ApplicationController
   # PUT /organizations/1
   # PUT /organizations/1.json
   def update
-    @organization = Organization.find(params[:id])
-
     respond_to do |format|
-      if @organization.update_attributes(organization_params)
+      if @organization.update(organization_params)
         format.html { redirect_to @organization, notice: 'Organization was successfully updated.' }
         format.json { head :no_content }
       else
@@ -82,7 +75,6 @@ class OrganizationsController < ApplicationController
   # DELETE /organizations/1
   # DELETE /organizations/1.json
   def destroy
-    @organization = Organization.find(params[:id])
     @organization.destroy
 
     respond_to do |format|
@@ -92,6 +84,10 @@ class OrganizationsController < ApplicationController
   end
 
   private
+  
+  def set_organization
+    @organization = Organization.find(params[:id])
+  end
 
   def organization_params
     params.require(:organization).permit(:name, :organization_category_id)

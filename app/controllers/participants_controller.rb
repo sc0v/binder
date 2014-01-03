@@ -1,10 +1,18 @@
 class ParticipantsController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
+  before_action :set_participant, only: [:show, :edit, :update, :destroy]
   
   # GET /participants
   # GET /participants.json
   def index
-    @participants = Participant.paginate(:page => params[:participants_page]).per_page(50)
+    unless ( params[:organization_id].blank? )
+      @organization = Organization.find(params[:organization_id])
+      @participants = @organization.participants
+    else
+      @participants = Participant.all
+    end
+
+    @participants = @participants.paginate(:page => params[:page]).per_page(20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -41,8 +49,8 @@ class ParticipantsController < ApplicationController
   # GET /participants/1
   # GET /participants/1.json
   def show
-    @participant = Participant.find(params[:id])
     @memberships = @participant.memberships.all
+
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @participant }
@@ -73,7 +81,6 @@ class ParticipantsController < ApplicationController
 
   # GET /participants/1/edit
   def edit
-    @participant = Participant.find(params[:id])
   end
 
   # POST /participants
@@ -95,8 +102,6 @@ class ParticipantsController < ApplicationController
   # PUT /participants/1
   # PUT /participants/1.json
   def update
-    @participant = Participant.find(params[:id])
-
     respond_to do |format|
       if @participant.update_attributes(participant_update_params)
         format.html { redirect_to @participant, notice: 'Participant was successfully updated.' }
@@ -111,7 +116,6 @@ class ParticipantsController < ApplicationController
   # DELETE /participants/1
   # DELETE /participants/1.json
   def destroy
-    @participant = Participant.find(params[:id])
     @participant.destroy
 
     respond_to do |format|
@@ -121,6 +125,9 @@ class ParticipantsController < ApplicationController
   end
 
   private
+  def set_participant
+    @participant = Participant.find(params[:id])
+  end
 
   def participant_create_params
     params.require(:participant).permit(:andrewid, :phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)

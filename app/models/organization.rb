@@ -32,7 +32,7 @@ class Organization < ActiveRecord::Base
   has_many :documents, :dependent => :destroy
   has_many :downtime_entries, :dependent => :destroy
   has_many :tools, :through => :checkouts
-  has_many :checkouts
+  has_many :checkouts, :dependent => :destroy
   has_many :shifts  
 
   default_scope { order('name asc') }

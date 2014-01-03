@@ -1,18 +1,19 @@
 <% if can?(:read, Charge) %>
   <%- model_class = Charge -%>
   <div class="page-header">
-    <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+    <h1>
+      <%= link_to @organization.name + raw("'s"), @organization unless @organization.blank? %>
+      <%=t '.title', :default => model_class.model_name.human.pluralize %>
+    </h1>
   </div>
+
   <table class="table table-striped">
     <thead>
       <tr>
-        <th><%= model_class.human_attribute_name(:id) %></th>
-        <th><%= model_class.human_attribute_name(:organization) %></th>
+        <th><%= model_class.human_attribute_name(:description) %></th>
         <th><%= model_class.human_attribute_name(:charge_type) %></th>
         <th><%= model_class.human_attribute_name(:amount) %></th>
-        <th><%= model_class.human_attribute_name(:description) %></th>
-        <th><%= model_class.human_attribute_name(:issuing_participant_id) %></th>
-        <th><%= model_class.human_attribute_name(:receiving_participant_id) %></th>
+        <th><%= model_class.human_attribute_name(:organization) unless !@organization.blank? %></th>
         <th><%= model_class.human_attribute_name(:charged_at) %></th>
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
       </tr>
@@ -21,13 +22,10 @@
       <% @charges.each do |charge| %>
         <% if can?(:read, charge) %>
           <tr>
-            <td><%= link_to charge.id, charge_path(charge) %></td>
-            <td><%= charge.organization.name %></td>
+            <td><%= link_to charge.description, charge %></td>
             <td><%= charge.charge_type.name %></td>
-            <td><%= charge.amount %></td>
-            <td><%= charge.description %></td>
-            <td><%= charge.issuing_participant.andrewid unless charge.receiving_participant.nil? %></td>
-            <td><%= charge.receiving_participant.andrewid unless charge.receiving_participant.nil? %></td>
+            <td><%= number_to_currency charge.amount %></td>
+            <td><%= link_to charge.organization.name, charge.organization unless !@organization.blank? %></td>
             <td><%= date_and_time(charge.charged_at) %></td>
             <td>
               <% if can?(:update, charge) %>
@@ -47,7 +45,12 @@
       <% end %>
     </tbody>
   </table>
-  <% if can?(:create, Charge) %>
+
+  <span class="smtext">
+    <%= will_paginate @charges, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
+  </span>
+
+  <% if can?(:create, Charge) and @organization.blank? %>
     <%= link_to t('.new', :default => t("helpers.links.new")),
             new_charge_path,
             :class => 'btn btn-primary' %>

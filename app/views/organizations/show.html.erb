@@ -1,32 +1,20 @@
 <% if can?(:read, @organization) %>
   <%- model_class = Organization -%>
   <div class="page-header">
-    <h1><%= @organization.name %></h1>
-    <p>
-      <strong>Category:</strong>
-      <%= @organization.organization_category.name %>
-    </p>
+    <h1><%= @organization.name %> - <%= @organization.organization_category.name %></h1>
+
     <% if can?(:read, OrganizationAlias) %>
       <p>
-      <% if @organization.organization_aliases.size > 0 %>
-        <strong>Alias(es):</strong><br>
-          <% @organization.organization_aliases.each do |oa| %>
-            <%= oa.name %>
-            <% if can?(:destroy, oa) %>
-              <%= link_to t('.delete', :default => t("helpers.links.delete")),
-                alias_path(oa.id), :method => 'delete',
-                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                :class => 'btn btn-mini btn-danger', :style => 'margin: 2px 0px;' %>
-            <% end %>
-            <br>
-          <% end %>
-          <% if can?(:create, @organization_alias) %>
-            <%= link_to t('.add', :default => t("helpers.links.add")),
-              new_organization_alias_path(@organization), :class => 'btn btn-mini' %>
-          <% end %>
+        <strong>Alias(es):</strong>
+        <% unless @organization.organization_aliases.blank? %>
+          <%= @organization.organization_aliases.map{ |a| a.name }.join(", ") %>
         <% end %>
+        <% if can?(:create, @organization_alias) %>
+          <%= link_to t('.add', :default => t("helpers.links.add")),
+            new_organization_alias_path(@organization), :class => 'btn btn-mini' %>
+        <% end %>
+      </p>
     <% end %>
-    </p>
     <% if can?(:read, OrganizationStatus) %>
       <p>
         <strong>Status: </strong>
@@ -46,6 +34,13 @@
   <div class="form-actions">
     <%= link_to t('.back', :default => t("helpers.links.back")),
       organizations_path, :class => 'btn' %>
+    <% if can?(:read, Membership) %>
+      <%= link_to raw("Members"), [@organization, :participants], :class => 'btn' %>
+    <% end %>
+    <% if can?(:read_all_details, @organization) %>
+      <%= link_to raw("Hardhats"), organization_tools_path(@organization, :type => "hardhats"), :class => 'btn' %>
+    <% end %>
+
     <% if can?(:update, @organization) %>
       <%= link_to t('.edit', :default => t("helpers.links.edit")),
         edit_organization_path(@organization), :class => 'btn' %>

@@ -1,11 +1,29 @@
 class ToolsController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
+  before_action :set_tool, only: [:show, :edit, :update, :destroy]
   
   # GET /tools
   # GET /tools.json
   def index
-    @title = "Tools"
-    @tools = Tool.just_tools.paginate(:page => params[:page]).per_page(10)
+    unless ( params[:organization_id].blank? )
+      @organization = Organization.find(params[:organization_id])
+      @tools = Tool.checked_out_by_organization(@organization)
+    else
+      @tools = Tool.all
+    end
+
+    if (params[:type].blank?)
+      @title = "Tools"
+      @tools = @tools.just_tools
+    elsif (params[:type] == 'hardhats')
+      @title = "Hardhats"
+      @tools = @tools.hardhats
+    elsif (params[:type] == 'radios')
+      @title = "Radios"
+      @tools = @tools.radios
+    end
+
+    @tools = @tools.paginate(:page => params[:page]).per_page(20)
 
     respond_to do |format|
       format.html # index.html.erb
@@ -13,36 +31,9 @@ class ToolsController < ApplicationController
     end
   end
 
-  # GET /tools/hardhats
-  # GET /hardhats.json
-  def hardhats_only
-    @title = "Hardhats"
-    @tools = Tool.hardhats.paginate(:page => params[:page]).per_page(10)
-
-    respond_to do |format|
-      format.html { render "index" }
-      format.json { render json: @tools }
-    end
-  end
-
-  # GET /tools/radios
-  # GET /radios.json
-  def radios_only
-    @title = "Radios"
-    @tools = Tool.radios.paginate(:page => params[:page]).per_page(10)
-
-    respond_to do |format|
-      format.html { render "index" }
-      format.json { render json: @tools }
-    end
-  end
-
-
   # GET /tools/1
   # GET /tools/1.json
   def show
-    @tool = Tool.find(params[:id])
-
     respond_to do |format|
       format.html # show.html.erb
       format.json { render json: @tool }
@@ -62,7 +53,6 @@ class ToolsController < ApplicationController
 
   # GET /tools/1/edit
   def edit
-    @tool = Tool.find(params[:id])
   end
 
   # POST /tools
@@ -84,10 +74,8 @@ class ToolsController < ApplicationController
   # PUT /tools/1
   # PUT /tools/1.json
   def update
-    @tool = Tool.find(params[:id])
-
     respond_to do |format|
-      if @tool.update_attributes(tool_params)
+      if @tool.update(tool_params)
         format.html { redirect_to @tool, notice: 'Tool was successfully updated.' }
         format.json { head :no_content }
       else
@@ -100,7 +88,6 @@ class ToolsController < ApplicationController
   # DELETE /tools/1
   # DELETE /tools/1.json
   def destroy
-    @tool = Tool.find(params[:id])
     @tool.destroy
 
     respond_to do |format|
@@ -110,6 +97,9 @@ class ToolsController < ApplicationController
   end
 
   private
+  def set_tool
+    @tool = Tool.find(params[:id])
+  end
 
   def tool_params
     params.require(:tool).permit(:name, :description, :barcode)

@@ -31,7 +31,9 @@ class Shift < ActiveRecord::Base
   has_many :participants, :through => :shift_participants
   has_many :shift_participants, :dependent => :destroy
 
+  default_scope { order('starts_at asc') }
   scope :current, lambda { where("starts_at < ? and ends_at > ?", Time.zone.now, Time.zone.now ) }
+  scope :future, lambda { where("starts_at > ?", Time.zone.now ) }
   scope :upcoming, lambda { where("starts_at > ? and starts_at < ?", Time.zone.now, Time.zone.now + 1.hours ) }
 
   #scopes for each type of shift, selected by their shift_type ID

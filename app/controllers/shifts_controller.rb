@@ -1,51 +1,43 @@
 class ShiftsController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
+  before_action :set_shift, only: [:show, :edit, :update, :destroy]
   
   # GET /shifts
   # GET /shifts.json
   # Regular index is watch shifts by default
   def index
-    @title = "Watch Shifts"
-    @shifts = Shift.watch_shifts.paginate(:page => params[:page]).per_page(10)
-    
+    unless ( params[:organization_id].blank? )
+      @organization = Organization.find(params[:organization_id])
+      @shifts = @organization.shifts
+    else
+      @shifts = Shift.all
+    end
+
+    if (params[:type].blank?)
+      @title = "Shifts"
+      @shifts = @shifts
+    elsif (params[:type] == "watch")
+      @title = "Watch Shifts"
+      @shifts = @shifts.watch_shifts
+    elsif (params[:type] == "security")
+      @title = "Security Shifts"
+      @shifts = @shifts.sec_shifts
+    elsif (params[:type] == "coordinator")
+      @title = "Coordinator Shifts"
+      @shifts = @shifts.coord_shifts
+    end
+
+    @shifts = @shifts.paginate(:page => params[:page]).per_page(20)
 
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @shifts }
     end
   end
-  
-  # GET /shifts/sec_shifts
-  # GET /sec_shifts.json
-  def sec_shifts
-    @title = "Security Shifts"
-    @shifts = Shift.sec_shifts.paginate(:page => params[:page]).per_page(10)
-
-    respond_to do |format|
-      format.html { render "index" }
-      format.json { render json: @tools }
-    end
-  end
-  
-  # GET /shifts/coord_shifts
-  # GET /coord_shifts.json
-  def coord_shifts
-    @title = "Coordinator Shifts"
-    @shifts = Shift.coord_shifts.paginate(:page => params[:page]).per_page(10)
-
-    respond_to do |format|
-      format.html { render "index" }
-      format.json { render json: @tools }
-    end
-  end
 
   # GET /shifts/1
   # GET /shifts/1.json
   def show
-    @shift = Shift.find(params[:id])
-    @shift_participants = ShiftParticipant.find_all_by_shift_id(@shift.id)
-    @shift_participants_count = @shift_participants.size
-
     @number_spots_left = @shift.required_number_of_participants - @shift_participants_count
 
     respond_to do |format|
@@ -67,7 +59,6 @@ class ShiftsController < ApplicationController
 
   # GET /shifts/1/edit
   def edit
-    @shift = Shift.find(params[:id])
   end
 
   # POST /shifts
@@ -89,10 +80,8 @@ class ShiftsController < ApplicationController
   # PUT /shifts/1
   # PUT /shifts/1.json
   def update
-    @shift = Shift.find(params[:id])
-
     respond_to do |format|
-      if @shift.update_attributes(params[:shift])
+      if @shift.update(params[:shift])
         format.html { redirect_to @shift, notice: 'Shift was successfully updated.' }
         format.json { head :no_content }
       else
@@ -105,12 +94,17 @@ class ShiftsController < ApplicationController
   # DELETE /shifts/1
   # DELETE /shifts/1.json
   def destroy
-    @shift = Shift.find(params[:id])
     @shift.destroy
 
     respond_to do |format|
       format.html { redirect_to shifts_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+
+  def set_shift
+    @shift = Shift.find(params[:id])
   end
 end

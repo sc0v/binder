@@ -1,11 +1,7 @@
 <div class="navbar navbar-fixed-top">
   <nav class="navbar-inner">
     <div class="container" style = "margin-left: 100px; margin-right: 100px; width: 1180px;">
-      <a class="brand" style="
-    padding-top: 0px;
-    padding-bottom: 0px;
-" href="/">
-        <img src="/boaicon.png" width="45px"></a>
+      <a class="brand" style="padding-top: 0px; padding-bottom: 0px;" href="/"><img src="/boaicon.png" width="45px"></a>
         <% if user_signed_in? %>
           <ul class="nav navbar-nav">
             <!-- Normal Navbar LI's -->
@@ -13,7 +9,7 @@
             <li><%= link_to "Participants", participants_path %></li>
             <li><%= link_to "Tools", tools_path %></li>
             <li><%= link_to "Documents", documents_path %></li>
-            <li><%= link_to "Shifts", shifts_path %></li>
+            <li><%= link_to "Shifts", shifts_path(:type => "watch") %></li>
             <!--             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">Models<b class="caret"></b></a>
               <ul class="dropdown-menu" style = "padding-bottom: 0px; color:transparent;">
