@@ -38,7 +38,7 @@ class ShiftsController < ApplicationController
   # GET /shifts/1
   # GET /shifts/1.json
   def show
-    @number_spots_left = @shift.required_number_of_participants - @shift_participants_count
+    @number_spots_left = @shift.required_number_of_participants - @shift.shift_participants.count
 
     respond_to do |format|
       format.html # show.html.erb
