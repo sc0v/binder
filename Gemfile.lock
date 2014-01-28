@@ -40,8 +40,6 @@ GEM
     better_errors (1.0.1)
       coderay (>= 1.0.0)
       erubis (>= 2.6.6)
-    binding_of_caller (0.7.2)
-      debug_inspector (>= 0.0.1)
     bootstrap-sass (3.0.3.0)
       sass (~> 3.2)
     builder (3.1.4)
@@ -62,7 +60,6 @@ GEM
     crack (0.4.1)
       safe_yaml (~> 0.9.0)
     daemons (1.1.9)
-    debug_inspector (0.0.2)
     devise (3.2.2)
       bcrypt-ruby (~> 3.0)
       orm_adapter (~> 0.1)
@@ -204,7 +201,6 @@ DEPENDENCIES
   activeldap
   annotate
   better_errors
-  binding_of_caller
   bootstrap-sass (>= 3.0.0.0)
   cancan
   carrierwave

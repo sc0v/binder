@@ -68,3 +68,7 @@ group :test do
   # For Factories
   gem 'factory_girl_rails'
 end
+
+group :production do
+  gem 'mysql2'
+end
