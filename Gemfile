@@ -14,6 +14,8 @@ gem 'bootstrap-sass', '>= 3.0.0.0'
 gem 'simple_form'
 gem 'therubyracer', :platform=>:ruby
 gem 'thin'
+gem 'omniauth'
+gem 'omniauth-shibboleth'
 
 # User and role management
 gem 'cancan'
