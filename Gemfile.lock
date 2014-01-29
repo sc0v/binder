@@ -59,6 +59,7 @@ GEM
     coffee-script-source (1.6.3)
     crack (0.4.1)
       safe_yaml (~> 0.9.0)
+    daemon_controller (1.1.8)
     daemons (1.1.9)
     devise (3.2.2)
       bcrypt-ruby (~> 3.0)
@@ -81,6 +82,7 @@ GEM
       text
     gettext_i18n_rails (1.0.3)
       fast_gettext (>= 0.4.8)
+    hashie (2.0.5)
     hike (1.2.3)
     i18n (0.6.9)
     jbuilder (1.5.3)
@@ -100,8 +102,18 @@ GEM
     minitest-wscolor (0.0.3)
       minitest (>= 2.3.1)
     multi_json (1.8.2)
+    mysql2 (0.3.15)
     net-ldap (0.3.1)
+    omniauth (1.2.1)
+      hashie (>= 1.2, < 3)
+      rack (~> 1.0)
+    omniauth-shibboleth (1.1.1)
+      omniauth (>= 1.0.0)
     orm_adapter (0.5.0)
+    passenger (4.0.36)
+      daemon_controller (>= 1.1.0)
+      rack
+      rake (>= 0.8.1)
     polyglot (0.3.3)
     quiet_assets (1.0.2)
       railties (>= 3.1, < 5.0)
@@ -210,7 +222,11 @@ DEPENDENCIES
   jbuilder (~> 1.2)
   jquery-rails
   minitest-wscolor
+  mysql2
   net-ldap
+  omniauth
+  omniauth-shibboleth
+  passenger
   quiet_assets
   rails (= 4.0.2)
   rails-erd
