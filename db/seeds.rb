@@ -122,9 +122,6 @@ habitat_org = Organization.create({ name: 'Habitat for Humanity', organization_c
 puts 'SCC Members (not exhaustive)'
 rachel_user = User.new({ email: 'rcrown@andrew.cmu.edu', name: 'Rachel Crown'})
 # Fix this with shibboleth
-puts '    FIXME WITH SHIBBOLETH'
-rachel_user.password = 'testtest'
-rachel_user.password_confirmation = 'testtest'
 rachel_user.add_role :admin
 rachel_user.save!
 rachel = Participant.create({ andrewid: 'rcrown', phone_number: 6178617669, user: rachel_user })
@@ -132,19 +129,12 @@ Membership.create({ organization: scc_org, participant: rachel, title: 'Midway C
 Membership.create({ organization: kat_org, participant: rachel })
 emily_user = User.new({ email: 'ehrin@andrew.cmu.edu', name: 'Emily Hrin' })
 # Fix this with shibboleth
-puts '    FIXME WITH SHIBBOLETH'
-emily_user.password = 'testtest'
-emily_user.password_confirmation = 'testtest'
 emily_user.add_role :admin
 emily_user.save!
 emily = Participant.create({ andrewid: 'ehrin', phone_number: 7037854617, user: emily_user })
 Membership.create({ organization: scc_org, participant: emily, title: 'Carnival Co-Chair' })
 Membership.create({ organization: aphi_org, participant: emily })
 jackson_user = User.new({ email: 'jallagh@andrew.cmu.edu', name: 'Jackson Gallagher' })
-# Fix this with shibboleth
-puts '    FIXME WITH SHIBBOLETH'
-jackson_user.password = 'testtest'
-jackson_user.password_confirmation = 'testtest'
 jackson_user.add_role :admin
 jackson_user.save!
 jackson = Participant.create({ andrewid: 'jgallagh', phone_number: 9376847115, user: jackson_user })
@@ -758,17 +748,12 @@ when 'development'
   puts
 
   puts "Users & Participants"
-  chase_user = User.new({ email: "cbrownel@andrew.cmu.edu", password: "testtest", password_confirmation: "testtest", name: "ChaseXXX" })
+  chase_user = User.new({ email: "cbrownel@andrew.cmu.edu", name: "Chase" })
   chase_user.save
   chase = Participant.create({ andrewid: 'cbrownel', phone_number: 7173435788, user: chase_user })
   chase_in_dtd = Membership.create({ participant: chase, organization: dtd_org, is_booth_chair: true })
 
-  nick_user = User.new({ email: "nharper@andrew.cmu.edu", password: "testtest", password_confirmation: "testtest", name: "ChaseXXX" })
-  nick_user.save
-  nick = Participant.create({ andrewid: 'nharper', user: nick_user })
-  nick_in_dtd = Membership.create({ participant: nick, organization: dtd_org })
-
-  merichar_user = User.new({email: "meribyte@andrew.cmu.edu", password: "testtest", password_confirmation: "testtest", name: "MegXXX" })
+  merichar_user = User.new({email: "meribyte@andrew.cmu.edu", name: "Meg Richards" })
   merichar_user.save
   merichar = Participant.create({ andrewid: 'meribyte', user: merichar_user })
   merichar_in_scc = Membership.create({ participant: merichar, organization: scc_org, is_booth_chair: false })
