@@ -36,8 +36,6 @@ class User < ActiveRecord::Base
   # :lockable, :timeoutable and :omniauthable
   devise :registerable, :omniauthable, :omniauth_providers => [:shibboleth]
 
-  before_save :email_downcase
-  
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :id, :participant
   # attr_accessible :role_ids, :as => :admin
