@@ -59,16 +59,13 @@
                   </li>
                 <% end %>
                 <li>
-                  <%= link_to 'Logout', destroy_user_session_path, :method=>'delete', :id => 'log_out' %>
+                  <%#= link_to 'Logout', destroy_user_session_path, :method=>'delete', :id => 'log_out' %>
                 </li>
               </ul>
             </li>
           <% else %>
             <li>
-              <%= link_to 'Login', new_user_session_path %>
-            </li>
-            <li>
-              <%= link_to 'Sign up', new_user_registration_path %>
+	      <%= link_to "Login", main_app.user_omniauth_authorize_path(:shibboleth)%><br />
             </li>
           <% end %>
           

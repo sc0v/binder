@@ -34,8 +34,8 @@ class User < ActiveRecord::Base
   # Include default devise modules. Others available are:
   # :token_authenticatable, :confirmable,
   # :lockable, :timeoutable and :omniauthable
-  devise :database_authenticatable, :registerable,
-         :recoverable, :rememberable, :trackable, :validatable
+  devise :registerable, :omniauthable, :omniauth_providers => [:shibboleth]
+
   before_save :email_downcase
   
   # Setup accessible (or protected) attributes for your model
@@ -45,21 +45,11 @@ class User < ActiveRecord::Base
 
   has_one :participant, dependent: :destroy
   
-  # Validations
-  # -----------------------------
-  # make sure required fields are present
-  validates_presence_of :name, :email  
-  validates_uniqueness_of :email, :allow_blank => true
-  validates_format_of :email, :with => /\A[\w]([^@\s,;]+)@andrew\.cmu\.edu\Z/i, :message => "is not a valid andrew email", :allow_blank => true
-  validates_presence_of :password, :on => :create 
-  validates_presence_of :password_confirmation, :on => :create 
-  validates_confirmation_of :password, :message => "does not match"
-  validates_length_of :password, :minimum => 4, :message => "must be at least 4 characters long", :allow_blank => true
-  
   scope :search, lambda { |term| where('lower(name) LIKE lower(?) OR lower(email) LIKE lower(?)', "#{term}%", "#{term}%") }
 
-  def email_downcase
-    self.email = self.email.downcase
+  def self.find_for_shibboleth_oauth(request, signed_in_resource=nil)
+    user = User.where(:email => request.env["eppn"]).first
+    user ||= User.create(email: request.env["eppn"], name: request.env["displayName"])
   end
 
 end
