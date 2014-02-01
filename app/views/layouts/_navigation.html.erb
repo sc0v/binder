@@ -1,7 +1,7 @@
 <div class="navbar navbar-fixed-top">
   <nav class="navbar-inner">
-    <div class="container" style = "margin-left: 100px; margin-right: 100px; width: 1180px;">
-      <a class="brand" style="padding-top: 0px; padding-bottom: 0px;" href="/"><img src="/boaicon.png" width="45px"></a>
+    <div class="container" style = "align: center; width: 1000px;">
+      <a class="brand" style="padding-top: 0px; padding-bottom: 0px;" href="/"><img src="/boaicon.png" width="40px"></a>
         <% if user_signed_in? %>
           <ul class="nav navbar-nav">
             <!-- Normal Navbar LI's -->
@@ -40,9 +40,9 @@
           <!-- Searchbar -->
           <% if user_signed_in? %>
             <form class="navbar-search pull-left" accept-charset="UTF-8" action="/search" method="post" >
-              <input type="text" class="search-query" placeholder="Search..." id="query" name="query" style="width: 130px;  margin-top: 5px;">
+              <input type="text" class="search-query" placeholder="Search..." id="query" name="query" style="width: 100px;">
               <input name="authenticity_token" type="hidden" value>
-              <button type="submit" class="btn btn-default">Submit</button>
+              <button type="submit" class="btn btn-mini" style="margin-top: 0px">Submit</button>
             </form>
           <% end %>
           <!-- User Account Section -->
@@ -65,7 +65,7 @@
             </li>
           <% else %>
             <li>
-	      <%= link_to "Login", main_app.user_omniauth_authorize_path(:shibboleth)%><br />
+	      <%= link_to "Login", main_app.user_omniauth_authorize_path(:shibboleth)%>
             </li>
           <% end %>
           
