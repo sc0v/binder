@@ -47,7 +47,13 @@ class User < ActiveRecord::Base
 
   def self.find_for_shibboleth_oauth(request, signed_in_resource=nil)
     user = User.where(:email => request.env["eppn"]).first
-    user ||= User.create(email: request.env["eppn"], name: request.env["displayName"])
+    if (user.blank?)
+      user = User.create(email: request.env["eppn"], name: request.env["displayName"])
+    end
+    user.participant ||= Participant.where(:andrewid => user.email[/[^\@]*/]).first
+    user.participant ||= Participant.create(andrewid: user.email[/[^\@]*/])
+
+    return user
   end
 
 end
