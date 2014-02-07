@@ -23,7 +23,7 @@ gem 'devise'
 gem 'rolify', '~> 3.3.0.rc4'
 
 # For LDAP calls to CMU's database
-gem 'net-ldap'
+gem 'ruby-ldap'
 gem 'activeldap', :require => 'active_ldap/railtie'
 
 # For Card-lookup requests
