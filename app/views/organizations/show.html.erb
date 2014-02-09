@@ -11,7 +11,7 @@
         <% end %>
         <% if can?(:create, @organization_alias) %>
           <%= link_to t('.add', :default => t("helpers.links.add")),
-            new_organization_alias_path(@organization), :class => 'btn btn-mini' %>
+            new_organization_alias_path(@organization), :class => 'btn btn-xs' %>
         <% end %>
       </p>
     <% end %>
@@ -23,7 +23,7 @@
         <% end %>
         <% if can?(:create, OrganizationStatus) %>
           <%= link_to t('.update', :default => t("helpers.links.update")),
-            [:new, @organization, :organization_status], :class => 'btn btn-mini' %>
+            [:new, @organization, :organization_status], :class => 'btn btn-xs' %>
         <% end %>
       </p>
     <% end %>

@@ -36,24 +36,24 @@
               <% if(tool.is_checked_out?) %>
                 <% if can?(:update, tool.checkouts.current.first) %>
                   <%= link_to t('.checkin', :default => t("helpers.links.checkin")),
-                                  new_tool_checkin_given_tool_path(tool), :class => 'btn btn-mini' %>
+                                  new_tool_checkin_given_tool_path(tool), :class => 'btn btn-xs' %>
                 <% end %>
               <% else %>
                 <% if can?(:create, Checkout) %>
                   <%= link_to t('.checkout', :default => t("helpers.links.checkout")),
-                                  new_tool_checkout_given_tool_path(tool), :class => 'btn btn-mini' %>
+                                  new_tool_checkout_given_tool_path(tool), :class => 'btn btn-xs' %>
                 <% end %>
               <% end %>
               <% if can?(:update, tool) %>
                 <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                        edit_tool_path(tool), :class => 'btn btn-mini' %>
+                        edit_tool_path(tool), :class => 'btn btn-xs' %>
               <% end %>
               <% if can?(:destroy, tool) %>
                 <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                         tool_path(tool),
                         :method => :delete,
                         :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                        :class => 'btn btn-mini btn-danger' %>
+                        :class => 'btn btn-xs btn-danger' %>
               <% end %>
             </td>
           </tr>

@@ -30,13 +30,13 @@
           </td>
           <td>
             <% if can?(:update, user.roles) %>
-              <a data-toggle="modal" href="#role-options-<%= user.id %>" class="btn btn-mini" type="button">Change role</a>
+              <a data-toggle="modal" href="#role-options-<%= user.id %>" class="btn btn-xs" type="button">Change role</a>
               <%= render user, :redirect => users_path %>
             <% end %>
           </td>
           <td>
             <% if can?(:delete, user) %>
-              <%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn btn-mini') unless user == current_user %>
+              <%= link_to("Delete user", user_path(user), :data => { :confirm => "Are you sure?" }, :method => :delete, :class => 'btn btn-xs') unless user == current_user %>
             <% end %>
           </td>
         </tr>

@@ -27,14 +27,14 @@
           <td>
             <% if can?(:update, membership) %>
               <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_membership_path(membership), :class => 'btn btn-mini' %>
+                      edit_membership_path(membership), :class => 'btn btn-xs' %>
             <% end %>
             <% if can?(:destroy, membership) %>
               <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                       membership_path(membership),
                       :method => :delete,
                       :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-mini btn-danger' %>
+                      :class => 'btn btn-xs btn-danger' %>
             <% end %>
           </td>
         </tr>
