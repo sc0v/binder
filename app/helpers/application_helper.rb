@@ -29,4 +29,8 @@ module ApplicationHelper
   def format_boolean(bool)
     bool ? "Yes" : "No"
   end
+
+  def service_login(user)
+    controller.sign_in(:user, user) unless Rails.env.production?
+  end
 end

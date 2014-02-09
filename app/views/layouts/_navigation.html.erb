@@ -1,76 +1,84 @@
-<div class="navbar navbar-fixed-top">
-  <nav class="navbar-inner">
-    <div class="container" style = "align: center; width: 1000px;">
-      <a class="brand" style="padding-top: 0px; padding-bottom: 0px;" href="/"><img src="/boaicon.png" width="40px"></a>
-        <% if user_signed_in? %>
-          <ul class="nav navbar-nav">
-            <!-- Normal Navbar LI's -->
-            <li><%= link_to "Organizations", organizations_path %></li>
-            <li><%= link_to "Participants", participants_path %></li>
-            <li><%= link_to "Tools", tools_path %></li>
-            <li><%= link_to "Documents", documents_path %></li>
-            <li><%= link_to "Shifts", shifts_path(:type => "watch") %></li>
-            <!--             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Models<b class="caret"></b></a>
-              <ul class="dropdown-menu" style = "padding-bottom: 0px; color:transparent;">
-                <li><%= link_to "Charges", charges_path %></li>
-                <li><%= link_to "Checkouts", checkouts_path %></li>
-                <li><%= link_to "Documents", documents_path %></li>
-                
-                <li><%= link_to "Organizations", organizations_path %></li>
-                <li><%= link_to "Participants", participants_path %></li>
-                
-                <li><%= link_to "Tasks", tasks_path %></li>
-                <li><%= link_to "Tools", tools_path %></li>
-                <li><%= link_to "Users", users_path %></li>
-              </ul>
-            </li> -->
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Links<b class="caret"></b></a>
-              <ul class="dropdown-menu" style="padding-bottom: 0px;">
-                <li><%= link_to "FAQs", faqs_path %></li>
-                <li><%= link_to "Emergency Shut Down", esp_path %></li>
-                <li><%= link_to "Milestones", milestones_path %></li>
-              </ul>
-            </li>
-          </ul>
-        <% end %>
-        <!-- Right Navbar -->
-        <ul class="nav navbar-right pull-right">
-          <!-- Searchbar -->
-          <% if user_signed_in? %>
-            <form class="navbar-search pull-left" accept-charset="UTF-8" action="/search" method="post" >
-              <input type="text" class="search-query" placeholder="Search..." id="query" name="query" style="width: 100px;">
-              <input name="authenticity_token" type="hidden" value>
-              <button type="submit" class="btn btn-mini" style="margin-top: 0px">Submit</button>
-            </form>
-          <% end %>
-          <!-- User Account Section -->
-          <% if user_signed_in? %>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_user.name %><b class="caret"></b></a>
-              <ul class="dropdown-menu" style="padding-bottom: 0px;">
-                <li>
-                  <%= link_to 'Edit Account', edit_user_registration_path %>
-                </li>
-                <% if current_user.has_role? :admin %>
-                  <li>
-                    <%= link_to 'User List', users_path %>
-                  </li>
-                <% end %>
-                <li>
-                  <%#= link_to 'Logout', destroy_user_session_path, :method=>'delete', :id => 'log_out' %>
-                </li>
-              </ul>
-            </li>
-          <% else %>
-            <li>
-	      <%= link_to "Login", main_app.user_omniauth_authorize_path(:shibboleth)%>
-            </li>
-          <% end %>
-          
+<div class="navbar navbar-default" role="navigation">
+  <div class="container">
+    <div class="navbar-header">
+      <a class="navbar-brand" style="padding-top: 0px; padding-bottom: 0px;" href="/"><img src="/boaicon.png" width="40px"></a>
+      <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-main">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+    </div>
+    <div class="navbar-collapse collapse" id="navbar-collapse-main">
+      <% if user_signed_in? %>
+        <ul class="nav navbar-nav navbar-left">
+          <!-- Normal Navbar LI's -->
+          <li><%= link_to "Organizations", organizations_path %></li>
+          <li><%= link_to "Tools", tools_path %></li>
+          <li><%= link_to "Shifts", shifts_path(:type => "watch") %></li>
+          <!--             <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Models<b class="caret"></b></a>
+            <ul class="dropdown-menu" style = "padding-bottom: 0px; color:transparent;">
+              <li><%= link_to "Charges", charges_path %></li>
+              <li><%= link_to "Checkouts", checkouts_path %></li>
+              <li><%= link_to "Documents", documents_path %></li>
+              
+              <li><%= link_to "Organizations", organizations_path %></li>
+              <li><%= link_to "Participants", participants_path %></li>
+              
+              <li><%= link_to "Tasks", tasks_path %></li>
+              <li><%= link_to "Tools", tools_path %></li>
+              <li><%= link_to "Users", users_path %></li>
+            </ul>
+          </li> -->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Links<b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li><%= link_to "Participants", participants_path %></li>
+              <li><%= link_to "Documents", documents_path %></li>
+              <li><%= link_to "FAQs", faqs_path %></li>
+              <li><%= link_to "Emergency Shut Down", esp_path %></li>
+              <li><%= link_to "Milestones", milestones_path %></li>
+            </ul>
+          </li>
         </ul>
-      </div>
-    </nav>
+        <!-- Searchbar -->
+        <form class="navbar-form navbar-left" role="search" accept-charset="UTF-8" action="/search" method="post" >
+          <input type="text" class="form-control" placeholder="Search..." id="query" name="query" style="width: 100px;">
+          <input name="authenticity_token" type="hidden" value>
+        </form>
+      <% end %>
+
+      <!-- Right Navbar -->
+      <ul class="nav navbar-nav navbar-right">
+        <% if user_signed_in? %>
+          <!-- User Account Section -->
+          <li class="dropdown">
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_user.name %><b class="caret"></b></a>
+            <ul class="dropdown-menu">
+              <li>
+                <%= link_to 'Edit Account', edit_user_registration_path %>
+              </li>
+              <% if current_user.has_role? :admin %>
+                <li>
+                  <%= link_to 'User List', users_path %>
+                </li>
+              <% end %>
+              <li>
+                <%#= link_to 'Logout', destroy_user_session_path, :method=>'delete', :id => 'log_out' %>
+              </li>
+            </ul>
+          </li>
+        <% else %>
+          <li>
+            <% if Rails.env.production? %>
+              <%= link_to "Login", main_app.user_omniauth_authorize_path(:shibboleth)%>
+            <% else %>
+              <%= service_login(User.find_by_email('rcrown@andrew.cmu.edu')) %>
+            <% end %>
+          </li>
+        <% end %>
+      </ul>
+    </div>
   </div>
 </div>

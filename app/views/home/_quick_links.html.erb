@@ -1,5 +1,7 @@
-	<h3>Quick Links:</h3>
-	
+  <div class="page-header">
+	  <h1>Quick Links:</h1>
+  </div>	
+
 	<p><%= link_to "Milestones", milestones_path, :class => "btn btn-lg btn-primary" %></p>
 	<p><%= link_to "Frequently Asked Questions", faqs_path, :class => "btn btn-lg btn-primary " %></p>
 	<p><%= link_to 'Emergency Shutdown Procedures', esp_path, :class => "btn btn-lg btn-primary" %></p>
@@ -8,6 +10,3 @@
 		<%= text_field_tag('query', '', :size => 10) %>
 		<%= submit_tag('Search', :class => 'btn btn-default') %>
 	<% end %>
-
-
-	<p>&nbsp;</p>
