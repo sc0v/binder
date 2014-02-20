@@ -32,6 +32,7 @@ gem "carrierwave"
 
 # For Pagniation
 gem 'will_paginate'
+gem 'will_paginate-bootstrap'
 
 group :development do
   # Automatically generate comments in models and such based on schema
