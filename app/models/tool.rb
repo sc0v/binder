@@ -33,7 +33,7 @@ class Tool < ActiveRecord::Base
   scope :hardhats, -> { where("lower(name) LIKE lower(?)", "%hardhat") }
   scope :radios, -> { where("lower(NAME) LIKE lower(?)", "%radio") }
   scope :just_tools, -> { where("lower(NAME) NOT LIKE lower(?) AND lower(NAME) NOT LIKE lower(?)", "%radio", "%hardhat") }
-  scope :search, lambda { |term| where("lower(name) LIKE lower(?) OR lower(CAST(barcode AS TEXT)) LIKE lower(?) OR lower(description) LIKE lower(?)", "%#{term}%", "%#{term}%", "%#{term}%") }
+  scope :search, lambda { |term| where("lower(name) LIKE lower(?) OR CAST(barcode AS CHAR) LIKE lower(?) OR lower(description) LIKE lower(?)", "%#{term}%", "%#{term}%", "%#{term}%") }
 
 
   def current_organization
