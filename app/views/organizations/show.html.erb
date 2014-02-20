@@ -11,7 +11,7 @@
         <% end %>
         <% if can?(:create, @organization_alias) %>
           <%= link_to t('.add', :default => t("helpers.links.add")),
-            new_organization_alias_path(@organization), :class => 'btn btn-xs' %>
+            new_organization_alias_path(@organization), :class => 'btn btn-primary btn-xs' %>
         <% end %>
       </p>
     <% end %>
@@ -23,7 +23,7 @@
         <% end %>
         <% if can?(:create, OrganizationStatus) %>
           <%= link_to t('.update', :default => t("helpers.links.update")),
-            [:new, @organization, :organization_status], :class => 'btn btn-xs' %>
+            [:new, @organization, :organization_status], :class => 'btn btn-primary btn-xs' %>
         <% end %>
       </p>
     <% end %>
@@ -31,19 +31,19 @@
 
   <%= render partial: 'show_org' %>
 
-  <div class="form-actions">
+  <p>
     <%= link_to t('.back', :default => t("helpers.links.back")),
-      organizations_path, :class => 'btn' %>
+      organizations_path, :class => 'btn btn-default' %>
     <% if can?(:read, Membership) %>
-      <%= link_to raw("Members"), [@organization, :participants], :class => 'btn' %>
+      <%= link_to raw("Members"), [@organization, :participants], :class => 'btn btn-info' %>
     <% end %>
     <% if can?(:read_all_details, @organization) %>
-      <%= link_to raw("Hardhats"), organization_tools_path(@organization, :type => "hardhats"), :class => 'btn' %>
+      <%= link_to raw("Hardhats"), organization_tools_path(@organization, :type => "hardhats"), :class => 'btn btn-info' %>
     <% end %>
 
     <% if can?(:update, @organization) %>
       <%= link_to t('.edit', :default => t("helpers.links.edit")),
-        edit_organization_path(@organization), :class => 'btn' %>
+        edit_organization_path(@organization), :class => 'btn btn-primary' %>
     <% end %>
     <% if can?(:destroy, @organization) %>
       <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
@@ -52,7 +52,8 @@
         :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
         :class => 'btn btn-danger' %>
     <% end %>
-  </div>
+  </p>
+
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>

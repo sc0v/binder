@@ -14,6 +14,7 @@
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
       </tr>
     </thead>
+
     <tbody>
       <% @organizations.each do |organization| %>
         <tr>
@@ -29,7 +30,7 @@
           <td>
             <% if can?(:update, organization) %>
               <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_organization_path(organization), :class => 'btn btn-xs' %>
+                      edit_organization_path(organization), :class => 'btn btn-primary btn-xs' %>
             <% end %>
 
             <% if can?(:destroy, organization) %>

@@ -7,10 +7,12 @@
     </h1>
   </div>
   
-  <%= link_to raw("All Shifts"), shifts_path, :class => 'btn btn-primary' unless params[:type].blank? or !@organization.blank? %>
-  <%= link_to raw("Watch Shifts"), shifts_path(:type => "watch"), :class => 'btn btn-primary' unless params[:type] == "watch" or !@organization.blank? %>
-  <%= link_to raw("Security Shifts"), shifts_path(:type => "security"), :class => 'btn btn-primary' unless params[:type] == "security" or !@organization.blank? %>
-  <%= link_to raw("Coordinator Shifts"), shifts_path(:type => "coordinator"), :class => 'btn btn-primary' unless params[:type] == "coordinator" or !@organization.blank? or !can?(:read_coord, Shift) %>
+  <p>
+    <%= link_to raw("All Shifts"), shifts_path, :class => 'btn btn-default' unless params[:type].blank? or !@organization.blank? %>
+    <%= link_to raw("Watch Shifts"), shifts_path(:type => "watch"), :class => 'btn btn-default' unless params[:type] == "watch" or !@organization.blank? %>
+    <%= link_to raw("Security Shifts"), shifts_path(:type => "security"), :class => 'btn btn-default' unless params[:type] == "security" or !@organization.blank? %>
+    <%= link_to raw("Coordinator Shifts"), shifts_path(:type => "coordinator"), :class => 'btn btn-default' unless params[:type] == "coordinator" or !@organization.blank? or !can?(:read_coord, Shift) %>
+  </p>
   
   <table class="table table-striped">
     <thead>
@@ -29,12 +31,13 @@
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
       </tr>
     </thead>
+
     <tbody>
       <% @shifts.each do |shift| %>
         <% if can?(:read, shift) %>
           <tr>
             <td><%= link_to t('.show', :default => t("helpers.links.show")),
-                          shift_path(shift), :class => 'btn btn-xs' %></td>
+                          shift_path(shift), :class => 'btn btn-info btn-xs' %></td>
             <td><%= date_and_time shift.starts_at %></td>
             <td><%= date_and_time shift.ends_at %></td>
             <td><%= shift.required_number_of_participants %></td>
@@ -48,7 +51,7 @@
             <td>
               <% if can?(:update, shift) %>
                 <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                          edit_shift_path(shift), :class => 'btn btn-xs' %>
+                          edit_shift_path(shift), :class => 'btn btn-primary btn-xs' %>
               <% end %>
               <% if can?(:destroy, shift) %>
                 <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
@@ -65,7 +68,7 @@
   </table>
   
   <span class="smtext">
-    <%= will_paginate @shifts, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
+    <%= will_paginate @shifts, renderer: BootstrapPagination::Rails %>
   </span>
 <% else %>
   <h3>Not Authorized!</h3>

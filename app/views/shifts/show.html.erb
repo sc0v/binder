@@ -3,6 +3,7 @@
   <div class="page-header">
     <h1><%= @shift.shift_type.name %></h1>
   </div>
+
   <dl class="dl-horizontal">
     <dt><strong><%= model_class.human_attribute_name(:starts_at) %>:</strong></dt>
     <dd><%= date_and_time(@shift.starts_at) %></dd>
@@ -13,29 +14,26 @@
     <dt><strong><%= model_class.human_attribute_name(:organization) %>:</strong></dt>
     <dd><%= unless @shift.organization.blank? then link_to(@shift.organization.name, @shift.organization) else 'N/A' end %></dd>
     <dt><strong><%= model_class.human_attribute_name(:shift_participants) %>:</strong></dt>
-    <dd><ul>
-        <% @shift.shift_participants.each do |shift_participant| %>
-          <li><%= shift_participant.participant.name %>
-            (Clocked in at:
-            <%= date_and_time(shift_participant.clocked_in_at) %>
-            )
-          </li>
-        <% end %>
-        <% @number_spots_left.times do %>
-          <li>Person Not Checked In:
-            <%= link_to t('.new_shift_participant', :default => t("helpers.links.new_shift_participant")),
-              new_shift_participant_path(@shift),
-              :class => 'btn btn-primary btn-xs' %></li>
-        <% end %>
-      </ul>
-    </dd>
+    <% @shift.shift_participants.each do |shift_participant| %>
+      <dd><%= shift_participant.participant.name %>
+        (Clocked in at:
+        <%= date_and_time(shift_participant.clocked_in_at) %>
+        )
+      </dd>
+    <% end %>
+    <% @number_spots_left.times do %>
+      <dd>Person Not Checked In:
+        <%= link_to t('.new_shift_participant', :default => t("helpers.links.new_shift_participant")),
+          new_shift_participant_path(@shift),
+          :class => 'btn btn-primary btn-xs' %></dd>
+    <% end %>
   </dl>
   <div class="form-actions">
     <%= link_to t('.back', :default => t("helpers.links.back")),
-              shifts_path, :class => 'btn' %>
+              shifts_path, :class => 'btn btn-default' %>
     <% if can?(:update, @shift) %>
       <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_shift_path(@shift), :class => 'btn' %>
+              edit_shift_path(@shift), :class => 'btn btn-primary' %>
     <% end %>
     <% if can?(:destroy, @shift) %>
       <%= link_to t('.destroy', :default => t("helpers.links.destroy")),

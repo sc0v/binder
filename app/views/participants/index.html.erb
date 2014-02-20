@@ -9,6 +9,7 @@
     <% end %>
     </h1>
   </div>
+
   <table class="table table-striped">
     <thead>
       <tr>
@@ -17,8 +18,8 @@
         <% if can?(:read_phone_number, Participant) %>
           <th><%= model_class.human_attribute_name(:phone_number) %></th>
         <% end %>
-        <th><%= "Signed Waiver?" %></th>
-        <th><%= "Signed Hard Hat Waiver?" %></th>
+        <th><%= "Waiver?" %></th>
+        <th><%= "Hard Hat Waiver?" %></th>
         
         <th><%=t '.actions', :default => t("helpers.actions") %></th>
       </tr>
@@ -38,7 +39,7 @@
             <td>
               <% if can?(:update, participant) %>
                 <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                            edit_participant_path(participant), :class => 'btn btn-xs' %>
+                            edit_participant_path(participant), :class => 'btn btn-primary btn-xs' %>
               <% end %>
               <% if can?(:destroy, participant) %>
                 <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
@@ -54,15 +55,8 @@
     </tbody>
   </table>
   
-  <span class="smtext">
-  <%= will_paginate @participants, :param_name => 'page', :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
-  </span>
+  <%= will_paginate @participants, renderer: BootstrapPagination::Rails %>
   
-  <% if can?(:create, Participant) and @organization.blank? %>
-    <%= link_to t('.new', :default => t("helpers.links.new")),
-              new_user_and_participant_path,
-              :class => 'btn btn-primary' %>
-  <% end %>
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>

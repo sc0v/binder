@@ -2,12 +2,16 @@
   <table class="table table-striped">
     <tr>
       <th>Name</th>
-      <th>Phone Number</th>
+      <% if can?(:read_phone_number, Participant) %>
+        <th>Phone Number</th>
+      <% end %>
     </tr>
 	<% organization_booth_chair_list.each do |chair| %>
       <tr>
         <td><%= link_to chair.formatted_name, chair %></td>
-        <td class="no_link"><%= chair.formatted_phone_number %></td>
+        <% if can?(:read_phone_number, Participant) %>
+          <td><%= chair.formatted_phone_number unless !can?(:read_phone_number, chair) %></td>
+        <% end %>
       </tr>
     <% end %>
   </table>

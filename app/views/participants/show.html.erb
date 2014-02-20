@@ -1,72 +1,58 @@
 <% if can?(:read, @participant) %>
   <%- model_class = Participant -%>
   <div class="page-header">
-    <h1><%= @participant.formatted_name %></h1>
+    <h1><%= @participant.name %> <small><%= @participant.andrewid %></small></h1>
   </div>
 
-  <% if can?(:read_phone_number, @participant) %>
-    <p>
-      <strong><%= model_class.human_attribute_name(:phone_number) %>:</strong>
-      <%= @participant.formatted_phone_number %>
-    </p>
-  <% end %>
-  <p>
-    <strong><%= model_class.human_attribute_name(:department) %>:</strong>
-    <%= @participant.department %>
-  </p>
-  <p>
-    <strong><%= model_class.human_attribute_name(:student_class) %>:</strong>
-    <%= @participant.student_class %>
-  </p>
-  <p>
-    <strong><%= model_class.human_attribute_name(:has_signed_waiver) %>:</strong>
-    <%= format_boolean(@participant.has_signed_waiver?)  %>
-  </p>
-  <p>
-    <strong><%= model_class.human_attribute_name(:has_signed_hardhat_waiver) %>:</strong>
-    <%= format_boolean(@participant.has_signed_hardhat_waiver?) %>
-  </p>
-  <p>
-    <strong><%= model_class.human_attribute_name(:memberships) %></strong>
-    <% @memberships.each do |membership| %>
-      <li><%= link_to membership.organization_name_formatted, membership.organization %></li>
+  <dl class="dl-horizontal">
+    <% if can?(:read_phone_number, @participant) %>
+      <dt><strong><%= model_class.human_attribute_name(:phone_number) %>:</strong>
+      <dd><%= @participant.formatted_phone_number %>
     <% end %>
-  </p>
-  <% if can?(:read, Role) %>
-    <p>
+    <dt><strong><%= model_class.human_attribute_name(:department) %>:</strong>
+    <dd><%= @participant.department %>
+    <dt><strong><%= model_class.human_attribute_name(:student_class) %>:</strong>
+    <dd><%= @participant.student_class %>
+    <dt><strong><%= model_class.human_attribute_name(:has_signed_waiver) %>:</strong>
+    <dd><%= format_boolean(@participant.has_signed_waiver?)  %>
+    <dt><strong><%= model_class.human_attribute_name(:has_signed_hardhat_waiver) %>:</strong>
+    <dd><%= format_boolean(@participant.has_signed_hardhat_waiver?) %>
+    <dt><strong><%= model_class.human_attribute_name(:memberships) %></strong>
+    <% @memberships.each do |membership| %>
+      <dd><%= link_to membership.organization_name_formatted, membership.organization %></dd>
+    <% end %>
+
+    <% if can?(:read, Role) %>
       <% unless @participant.user.blank? %>
-        <strong><%= model_class.human_attribute_name(:user_roles) %></strong>
+        <dt><strong><%= model_class.human_attribute_name(:user_roles) %></strong>
         <% @participant.user.roles.each do |role| %>
           <% if can?(:read, role) %>
-            <li><%= role.name %></li>
+            <dd><%= role.name %></dd>
           <% end %>
         <% end %>
-      <% else %>
-        <strong>No User Associated</strong>
       <% end %>
-    </p>
+    <% end %>
+  </dl>
+
+  <%= link_to t('.back', :default => t("helpers.links.back")),
+              participants_path, :class => 'btn btn-default' %>
+  <% if can?(:update, @participant) %>
+    <%= link_to t('.edit', :default => t("helpers.links.edit")),
+              edit_participant_path(@participant), :class => 'btn btn-primary' %>
+  <% end %>
+  <% if can?(:create, Membership) %>
+    <%= link_to t('.add membership', :default => t("helpers.links.add membership")),
+              add_participant_memberships_given_participant_path(@participant), :class => 'btn btn-primary' %>
   <% end %>
 
-  <div class="form-actions">
-    <%= link_to t('.back', :default => t("helpers.links.back")),
-                participants_path, :class => 'btn'  %>
-    <% if can?(:update, @participant) %>
-      <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                edit_participant_path(@participant), :class => 'btn' %>
-    <% end %>
-    <% if can?(:create, Membership) %>
-      <%= link_to t('.add membership', :default => t("helpers.links.add membership")),
-                add_participant_memberships_given_participant_path(@participant), :class => 'btn' %>
-    <% end %>
+  <% if can?(:destroy, @participant) %>
+    <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+              participant_path(@participant),
+              :method => 'delete',
+              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+              :class => 'btn btn-danger' %>
+  <% end %>
 
-    <% if can?(:destroy, @participant) %>
-      <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                participant_path(@participant),
-                :method => 'delete',
-                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                :class => 'btn btn-danger' %>
-    <% end %>
-  </div>
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>
