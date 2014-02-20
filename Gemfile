@@ -13,6 +13,8 @@ gem 'therubyracer', :platform=>:ruby
 gem 'omniauth'
 gem 'omniauth-shibboleth'
 
+gem 'sqlite3'
+
 # User and role management
 gem 'cancan'
 gem 'devise'
@@ -44,7 +46,6 @@ group :development do
 end
 
 group :development, :test do
-  gem 'sqlite3'
   gem 'thin'
 end
 
