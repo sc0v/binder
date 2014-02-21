@@ -57,7 +57,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= current_user.participant.name %><b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li>
-                <%#= link_to 'Logout', destroy_user_session_path, :method=>'delete', :id => 'log_out' %>
+                <%= link_to 'Logout', destroy_user_session_path, :id => 'log_out' %>
               </li>
             </ul>
           </li>
