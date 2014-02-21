@@ -20,8 +20,6 @@
         <% end %>
         <th><%= "Waiver?" %></th>
         <th><%= "Hard Hat Waiver?" %></th>
-        
-        <th><%=t '.actions', :default => t("helpers.actions") %></th>
       </tr>
     </thead>
     <tbody>
@@ -35,20 +33,6 @@
             <% end %>
             <td><%= format_boolean(participant.has_signed_waiver?) %></td>
             <td><%= format_boolean(participant.has_signed_hardhat_waiver?) %></td>
-            
-            <td>
-              <% if can?(:update, participant) %>
-                <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                            edit_participant_path(participant), :class => 'btn btn-primary btn-xs' %>
-              <% end %>
-              <% if can?(:destroy, participant) %>
-                <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                            participant_path(participant),
-                            :method => :delete,
-                            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                            :class => 'btn btn-xs btn-danger' %>
-              <% end %>
-            </td>
           </tr>
         <% end %>
       <% end %>
