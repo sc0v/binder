@@ -31,7 +31,7 @@
           <th><%= model_class.human_attribute_name(:description) %></th>
           <th><%= model_class.human_attribute_name(:is_checked_out) %></th>
           <% if can?(:destroy, Tool) or can?(:create, Checkout) or can?(:update, Checkout) %>
-            <th><%=t '.actions', :default => t("helpers.actions") %></th>
+            <th class="hidden-xs"><%=t '.actions', :default => t("helpers.actions") %></th>
           <% end %>
         </tr>
       </thead>
@@ -45,7 +45,7 @@
               <td><%= tool.description %></td>
               <td><%= tool.is_checked_out? ? link_to(format_boolean(tool.is_checked_out?), tool.checkouts.current.first) : format_boolean(tool.is_checked_out?) %></td>
               <% if can?(:update, Tool) or can?(:destroy, Tool) or can?(:create, Checkout) or can?(:update, Checkout) %>
-                <td>
+                <td class="hidden-xs">
                   <% if(tool.is_checked_out?) %>
                     <% if can?(:update, tool.checkouts.current.first) %>
                       <%= link_to t('.checkin', :default => t("helpers.links.checkin")),
