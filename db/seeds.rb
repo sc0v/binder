@@ -134,7 +134,7 @@ emily_user.save!
 emily = Participant.create({ andrewid: 'ehrin', phone_number: 7037854617, user: emily_user })
 Membership.create({ organization: scc_org, participant: emily, title: 'Carnival Co-Chair' })
 Membership.create({ organization: aphi_org, participant: emily })
-jackson_user = User.new({ email: 'jallagh@andrew.cmu.edu', name: 'Jackson Gallagher' })
+jackson_user = User.new({ email: 'jgallagh@andrew.cmu.edu', name: 'Jackson Gallagher' })
 jackson_user.add_role :admin
 jackson_user.save!
 jackson = Participant.create({ andrewid: 'jgallagh', phone_number: 9376847115, user: jackson_user })
