@@ -1,5 +1,6 @@
 class FaqsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource skip_load_resource only: [:create] 
+  before_action :set_faq, only: [:edit, :update, :destroy]
   
   # GET /faqs
   # GET /faqs.json
@@ -9,17 +10,6 @@ class FaqsController < ApplicationController
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @faqs }
-    end
-  end
-
-  # GET /faqs/1
-  # GET /faqs/1.json
-  def show
-    @faq = Faq.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @faq }
     end
   end
 
@@ -36,17 +26,16 @@ class FaqsController < ApplicationController
 
   # GET /faqs/1/edit
   def edit
-    @faq = Faq.find(params[:id])
   end
 
   # POST /faqs
   # POST /faqs.json
   def create
-    @faq = Faq.new(params[:faq])
+    @faq = Faq.new(faq_params)
 
     respond_to do |format|
       if @faq.save
-        format.html { redirect_to @faq, notice: 'Faq was successfully created.' }
+        format.html { redirect_to faqs_path, notice: 'Faq was successfully created.' }
         format.json { render json: @faq, status: :created, location: @faq }
       else
         format.html { render action: "new" }
@@ -58,11 +47,9 @@ class FaqsController < ApplicationController
   # PUT /faqs/1
   # PUT /faqs/1.json
   def update
-    @faq = Faq.find(params[:id])
-
     respond_to do |format|
-      if @faq.update_attributes(params[:faq])
-        format.html { redirect_to @faq, notice: 'Faq was successfully updated.' }
+      if @faq.update_attributes(faq_params)
+        format.html { redirect_to faqs_path, notice: 'Faq was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -74,12 +61,20 @@ class FaqsController < ApplicationController
   # DELETE /faqs/1
   # DELETE /faqs/1.json
   def destroy
-    @faq = Faq.find(params[:id])
     @faq.destroy
 
     respond_to do |format|
       format.html { redirect_to faqs_url }
       format.json { head :no_content }
     end
+  end
+
+  private
+  def set_faq
+    @faq = Faq.find(params[:id])
+  end
+
+  def faq_params
+    params.require(:faq).permit(:question, :answer)
   end
 end

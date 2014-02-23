@@ -1,7 +1,7 @@
 Trailerapp::Application.routes.draw do
 
   resources :documents
-  resources :faqs
+  resources :faqs, :except => [:show]
   resources :memberships, :except => [:index, :show, :destroy]
   resources :organizations do
     resources :aliases, :controller => :organization_aliases, :shallow => true, :only => [:create, :new, :destroy]
