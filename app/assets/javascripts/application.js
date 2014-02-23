@@ -18,7 +18,6 @@
 
 
 $(document).ready(function(){
-	dynamicFaq();
     addFlashFadeOutListeners();
 });
 
@@ -34,13 +33,5 @@ function addFlashFadeOutListeners() {
           $(this).delay(2500).fadeOut();
        });
     });
-}
-
-// This is buggy - it does not hide the correct elements
-function dynamicFaq(){
-	$('div.faq > dd').hide();
-	$('div.faq > dt').bind('click', function(){
-		$(this).toggleClass('open').next().slideToggle();;
-	});
 }
 
