@@ -19,11 +19,11 @@
   </dl>
   <div class="form-actions">
     <%= link_to t('.back', :default => t("helpers.links.back")),
-              tasks_path, :class => 'btn' %>
+              tasks_path, :class => 'btn btn-default' %>
 
     <% if can?(:update, @task) %>
       <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_task_path(@task), :class => 'btn' %>
+              edit_task_path(@task), :class => 'btn btn-primary' %>
     <% end %>
 
     <% if can?(:destroy, @task) %>

@@ -21,10 +21,10 @@
   </dl>
   <div class="form-actions">
     <%= link_to t('.back', :default => t("helpers.links.back")),
-              charges_path, :class => 'btn' %>
+              charges_path, :class => 'btn btn-default' %>
     <% if can?(:update, @charge) %>
       <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_charge_path(@charge), :class => 'btn' %>
+              edit_charge_path(@charge), :class => 'btn btn-primary' %>
     <% end %>
     <% if can?(:destroy, @charge) %>
       <%= link_to t('.destroy', :default => t("helpers.links.destroy")),

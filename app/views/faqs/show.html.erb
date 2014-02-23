@@ -11,11 +11,11 @@
   </dl>
   <div class="form-actions">
     <%= link_to t('.back', :default => t("helpers.links.back")),
-              faqs_path, :class => 'btn' %>
+              faqs_path, :class => 'btn btn-default' %>
               
     <% if can?(:update, :faq) %>
       <%= link_to t('.edit', :default => t("helpers.links.edit")),
-              edit_faq_path(@faq), :class => 'btn' %>
+              edit_faq_path(@faq), :class => 'btn btn-primary' %>
     <% end %>
 
     <% if can?(:destroy, :faq) %>
