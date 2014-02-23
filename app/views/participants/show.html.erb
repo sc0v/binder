@@ -13,10 +13,6 @@
     <dd><%= @participant.department %>
     <dt><strong><%= model_class.human_attribute_name(:student_class) %>:</strong>
     <dd><%= @participant.student_class %>
-    <dt><strong><%= model_class.human_attribute_name(:has_signed_waiver) %>:</strong>
-    <dd><%= format_boolean(@participant.has_signed_waiver?)  %>
-    <dt><strong><%= model_class.human_attribute_name(:has_signed_hardhat_waiver) %>:</strong>
-    <dd><%= format_boolean(@participant.has_signed_hardhat_waiver?) %>
     <dt><strong><%= model_class.human_attribute_name(:memberships) %></strong>
     <% @memberships.each do |membership| %>
       <dd><%= link_to membership.organization_name_formatted, membership.organization %></dd>
