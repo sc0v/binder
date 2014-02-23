@@ -1,27 +1,15 @@
-<% if can?(:update, @document) %>
-  <%= simple_form_for @document, :html => {:multipart => true, :class => 'form-horizontal'} do |f| %>
-    <div class="field control-group">
-      <%= f.label :name, :class => 'control-label' %>
-      <div class="controls">
-        <%= f.text_field :name %>
-      </div>
-    </div>
-    <%= f.input :public %>
-    <%= f.association :organization %>
-    <% if(!(params[:action] == 'edit')) %>
-      <div class="field control-group">
-        <%= f.label :url, :class => 'control-label' %>
-        <div class="controls">
-          <%= f.file_field :url %>
-        </div>
-      </div>
-    <% end %>
-    <div class="form-actions">
-      <%= f.button :submit, :class => 'btn-primary' %>
-      <%= link_to t('.cancel', :default => t("helpers.links.cancel")), documents_path, :class => 'btn' %>
-    </div>
-  <% end %>
-  
-<% else %>
-  <h3>Not Authorized!</h3>
+<%= simple_form_for @document, :html => {:multipart => true, :class => 'form-horizontal'} do |f| %>
+	<div class="form-inputs">
+    <%= f.input :name %>
+		<%= f.input :public %>
+		<%= f.association :organization %>
+	  <% if(!(params[:action] == 'edit')) %>
+      <%= f.input :url, as: :file, label: "File" %>
+	  <% end %>
+	</div>
+	
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")), documents_path, :class => 'btn btn-default' %>
+  </div>
 <% end %>
