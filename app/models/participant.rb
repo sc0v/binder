@@ -85,12 +85,13 @@ class Participant < ActiveRecord::Base
     andrewid = self.get_andrewid(card_number)
 
     if !andrewid.nil?
-      theUser = self.find_by(andrewid: andrewid)
+      theUser = self.find_or_create_by(andrewid: andrewid)
+
+      return theUser
+    else
+      return nil
     end
-
-    raise NotRegistered unless !theUser.nil?
-
-    return theUser
+    
   end
 
   def formatted_phone_number
