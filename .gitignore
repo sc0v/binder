@@ -22,3 +22,6 @@ erd.pdf
 
 # Ignore Coverage reports
 /coverage
+
+# Ignore Spring bins
+/bin
