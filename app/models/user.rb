@@ -41,7 +41,7 @@ class User < ActiveRecord::Base
   # attr_accessible :role_ids, :as => :admin
   
 
-  has_one :participant, dependent: :destroy
+  has_one :participant
   
   scope :search, lambda { |term| where('lower(name) LIKE lower(?) OR lower(email) LIKE lower(?)', "#{term}%", "#{term}%") }
 
