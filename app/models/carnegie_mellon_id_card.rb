@@ -11,7 +11,11 @@ class CarnegieMellonIDCard
       card_number = full_card_number
     end
     
-    lookup = ActiveSupport::JSON.decode( RestClient.get( "http://merichar-dev.eberly.cmu.edu/cgi-bin/card-lookup?card_id=#{card_number}") )
+    begin
+      lookup = ActiveSupport::JSON.decode( RestClient.get( "http://merichar-dev.eberly.cmu.edu/cgi-bin/card-lookup?card_id=#{card_number}") )
+    rescue
+      return nil
+    end
     
     unless lookup.nil?
       lookup['andrewid']
