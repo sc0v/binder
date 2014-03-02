@@ -40,7 +40,7 @@ class ApplicationController < ActionController::Base
   rescue_from 'CheckoutsController::ToolDoesNotExist' do |exception|
     flash[:error] = "The Tool barcode you entered is not registered with the system. Please register it if desired."
     #Event.new_event "Exception: #{exception.message}", current_user, request.remote_ip #deugging
-    redirect_to "/tools/new"
+    redirect_to "/tools"
   end
 
   rescue_from 'ShiftParticipantsController::ParticipantDoesNotMatch' do |exception|

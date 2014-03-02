@@ -20,12 +20,12 @@
   <% if(@tool.is_checked_out?) %>
     <% if can?(:update, @tool.checkouts.current.first) %>
       <%= link_to t('.checkin', :default => t("helpers.links.checkin")),
-                      new_tool_checkin_given_tool_path(@tool), :class => 'btn btn-primary' %>
+                      new_tool_checkin_given_tool_path(@tool), :class => 'btn btn-warning' %>
     <% end %>
   <% else %>
     <% if can?(:create, Checkout) %>
       <%= link_to t('.checkout', :default => t("helpers.links.checkout")),
-                      new_tool_checkout_given_tool_path(@tool), :class => 'btn btn-primary' %>
+                      new_tool_checkout_given_tool_path(@tool), :class => 'btn btn-success' %>
     <% end %>
   <% end %>
 

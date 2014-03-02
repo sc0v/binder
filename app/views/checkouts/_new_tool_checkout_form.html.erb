@@ -1,14 +1,10 @@
-<% if can?(:create, @checkout) %>
-  <h3>Check Out Tool</h3>
-  <%= simple_form_for @checkout, :html => { :class => 'form-horizontal' }, :url => create_tool_checkout_path do |f| %>
-    <%= f.input :tool_id, label: 'Tool Barcode' %>
-    <%= f.input :card_number, label: 'Participant ID Card Number' %>
-    <div class="form-actions">
-      <%= f.button :submit, "Check Tool Out", :class => 'btn-primary' %>
-      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                checkouts_path, :class => 'btn' %>
-    </div>
-  <% end %>
-<% else %>
-  <h3>Not Authorized!</h3>
+<h3>Check Out <%= @tool.name %> <small><%= @tool.barcode %></small></h3>
+<%= simple_form_for @checkout, :html => { :class => 'form-horizontal' }, :url => create_tool_checkout_path do |f| %>
+	<%= f.input :tool_id, :as => :hidden %>
+  <%= f.input :card_number, label: 'Participant ID Card Number' %>
+  <div class="form-actions">
+    <%= f.button :submit, "Check Tool Out", :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+              checkouts_path, :class => 'btn' %>
+  </div>
 <% end %>

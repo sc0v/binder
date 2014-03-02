@@ -16,7 +16,11 @@ class CheckoutsController < ApplicationController
   # GET
   def new_tool_checkout
     @checkout = Checkout.new
-    @checkout.tool_id = Tool.find_by_id(params[:tool_id]).barcode unless params[:tool_id].nil?
+    @tool = Tool.find_by_id(params[:tool_id])
+    
+    raise ToolDoesNotExist unless !@tool.blank?
+    
+    @checkout.tool = @tool
 
     respond_to do |format|
       format.html # new_tool_checkout.html.erb
