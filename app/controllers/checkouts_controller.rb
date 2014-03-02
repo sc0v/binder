@@ -55,7 +55,7 @@ class CheckoutsController < ApplicationController
   def create_tool_checkout
     @checkout = Checkout.new
 
-    @tool = Tool.find_by_id(params[:checkout][:tool_id])
+    @tool = Tool.find_by_barcode(params[:checkout][:tool_id])
     raise ToolDoesNotExist unless !@tool.nil?
 
     raise ToolAlreadyCheckedOut unless not @tool.is_checked_out?
