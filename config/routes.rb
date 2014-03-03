@@ -19,19 +19,9 @@ Trailerapp::Application.routes.draw do
   end
   resources :shift_participants, :only => [:destroy, :update]
   resources :tasks
-  resources :tools
-  resources :checkouts
-
-  # tool check in / check out
-  match "new_tool_checkin" => "checkouts#new_tool_checkin", :as => :new_tool_checkin, via: [:get, :post]
-  match "new_tool_checkout" => "checkouts#new_tool_checkout", :as => :new_tool_checkout, via: [:get, :post]
-
-  match "new_tool_checkin/:tool_id" => "checkouts#new_tool_checkin", :as => :new_tool_checkin_given_tool, via: [:get, :post]
-  match "new_tool_checkout/:tool_id" => "checkouts#new_tool_checkout", :as => :new_tool_checkout_given_tool, via: [:get, :post]
-
-  match "create_tool_checkin" => "checkouts#create_tool_checkin", :as => :create_tool_checkin, via: [:get, :post]
-  match "create_tool_checkout" => "checkouts#create_tool_checkout", :as => :create_tool_checkout, via: [:get, :post]
-  match "create_tool_checkout_organization_selected" => "checkouts#create_tool_checkout_organization_selected", :as => :create_tool_checkout_organization_selected, via: [:get, :post]
+  resources :tools do
+    resources :checkouts, :only => [:new, :create, :update, :index]
+  end
 
   # user creation
   match "new_user_and_participant" => "participants#new_user_and_participant", :as => :new_user_and_participant, via: [:get, :post]

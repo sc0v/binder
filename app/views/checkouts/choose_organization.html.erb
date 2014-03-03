@@ -1,6 +1,9 @@
-<h3>Select Organization for Checkout (<%= @tool.name %> for <%= @participant.name %>)</h3>
+<h1>Select Organization <small>(<%= @tool.name %> for <%= @participant.name %>)</small></h1>
 <% @participant.organizations.each do |organization| %>
-  <%= link_to t(organization.name, :default => t("helpers.links." << organization.name)),
-              create_tool_checkout_organization_selected_path(:participant => @participant, :tool => @tool, :organization => organization), :class => 'btn btn-primary' %>
+	<%= form_tag tool_checkouts_path(@tool), :style => "display: inline;" do -%>
+		<%= hidden_field_tag 'participant_id', @participant.id %>
+		<%= hidden_field_tag 'organization_id', organization.id %>
+	  <%= submit_tag organization.name, :class => 'btn btn-primary' %>
+	<% end -%>
 		<br><br>
 <% end %>
