@@ -19,10 +19,10 @@ class ApplicationController < ActionController::Base
     redirect_to "/organization/new"
   end
 
-  rescue_from 'CheckoutsController::ParticipantNotExist' do |exception|
-    flash.now[:error] = "The Student ID you swiped is not yet activated with a user account. Please register with andrew eMail"
+  rescue_from 'CheckoutsController::ParticipantDoesNotExist' do |exception|
+    flash[:error] = "The Student ID you swiped is invalid, please re-try or contact Chase/Meg if you think this message is in error."
     #Event.new_event "Exception: #{exception.message}", current_user, request.remote_ip #deugging
-    redirect_to "/participants/new"
+    redirect_to "/tools"
   end
 
   rescue_from 'CheckoutsController::ToolAlreadyCheckedIn' do |exception|

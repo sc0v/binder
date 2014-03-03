@@ -76,9 +76,13 @@ class CheckoutsController < ApplicationController
       end
     else
       @checkout.checked_out_at = Time.now
-      @checkout.tool_id = @tool.id
-      @checkout.participant_id = @participant.id
-      @checkout.organization_id = @participant.organizations.first.id unless @participant.organizations.nil? or @participant.organizations.first.nil?
+      @checkout.tool = @tool
+      @checkout.participant = @participant
+      if @organization.blank?
+        @checkout.organization = @participant.organizations.first unless @participant.organizations.blank?
+      else
+        @checkout.organization = @organization unless @organization.blank?
+      end
 
       respond_to do |format|
         if @checkout.save
