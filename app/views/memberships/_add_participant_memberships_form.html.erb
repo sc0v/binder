@@ -1,36 +1,30 @@
 <% if can?(:create, @membership) %>
   <%= simple_form_for @membership, :html => { :class => 'form-horizontal' }, :url => create_participant_memberships_path do |f| %>
-    <br>
-      <br>
-        <br>
-          <h3>Add Organizations for
-            <%= @participant.name %></h3>
-          <%= f.hidden_field :participant_id, :value => @participant.id %>
-          <ul>
-            <% Organization.all.each do |organization| %>
-              <li>
-                <% if organization.participants.include?(@participant) %>
-                  <%= check_box_tag 'organization_ids[]', organization.id, true -%>
-                <% else %>
-                  <%= check_box_tag 'organization_ids[]', organization.id -%>
-                <% end %>
-                <%= h organization.name -%>
-              </li>
-            <% end %>
-          </ul>
-          <% if @participant.user.nil? || @participant.user.roles.first.id.nil? %>
-            <%= f.input :role_ids, :collection => Role.all, :as => :radio_buttons, :label_method => lambda {|t| t.name.titleize}, :label =>   false, :item_wrapper_class => 'inline' %>
+    <h1>Add Organizations for <%= @participant.name %></h1>
+    <%= f.hidden_field :participant_id, :value => @participant.id %>
+    <ul>
+      <% Organization.all.each do |organization| %>
+        <li>
+          <% if organization.participants.include?(@participant) %>
+            <%= check_box_tag 'organization_ids[]', organization.id, true -%>
           <% else %>
-            <%= @participant.name %>
-            is a
-            <%= @participant.user.roles.first.name %>
+            <%= check_box_tag 'organization_ids[]', organization.id -%>
           <% end %>
-          <div class="form-actions">
-            <%= f.button :submit, :class => 'btn-primary' %>
-            <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                participants_path, :class => 'btn' %>
-          </div>
-        <% end %>
-      <% else %>
-        <h3>Not Authorized!</h3>
+          <%= h organization.name -%>
+        </li>
       <% end %>
+    </ul>
+    <% unless @participant.user.blank? || @participant.user.roles.first.blank? %>
+      <%= @participant.name %>
+      is a
+      <%= @participant.user.roles.first.name %>
+    <% end %>
+    <div class="form-actions">
+      <%= f.button :submit, :class => 'btn-primary' %>
+      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+          participants_path, :class => 'btn' %>
+    </div>
+  <% end %>
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>

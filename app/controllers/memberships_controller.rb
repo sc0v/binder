@@ -100,26 +100,6 @@ class MembershipsController < ApplicationController
       end
     end
 
-    # update user role
-    @role_ids = params[:membership][:role_ids]
-
-    if(!@role_ids.nil?)
-      @user = User.find_by_email(@participant.email)
-
-      if(@user.nil?)
-        @user = User.new
-        @user.email = @participant.email
-        @user.password = "testtest"
-        @user.password_confirmation = "testtest"
-        @user.name = @participant.name
-        @user.add_role Role::ROLES[@role_ids.to_i - 1]
-        @user.save!
-      end
-
-      @participant.user_id = @user.id
-      @participant.save!
-    end
-
     respond_to do |format|
       if all_ok
         format.html { redirect_to @participant, notice: 'Participant updated.' }
