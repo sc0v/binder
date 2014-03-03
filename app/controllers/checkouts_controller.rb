@@ -13,21 +13,6 @@ class CheckoutsController < ApplicationController
     end
   end
 
-  # GET
-  def new_tool_checkout
-    @checkout = Checkout.new
-    @tool = Tool.find_by_id(params[:tool_id])
-    
-    raise ToolDoesNotExist unless !@tool.blank?
-    
-    @checkout.tool = @tool
-
-    respond_to do |format|
-      format.html # new_tool_checkout.html.erb
-      format.json { render json: @checkouts }
-    end
-  end
-
   #declare error classes
   class ToolAlreadyCheckedIn < Exception
   end
@@ -44,40 +29,6 @@ class CheckoutsController < ApplicationController
   class OrganizationDoesNotExist < Exception
   end
 
-  # POST
-  def create_tool_checkin
-    @tool = Tool.find(params[:tool_id])
-    raise ToolDoesNotExist unless !@tool.nil?
-
-    raise ToolAlreadyCheckedIn unless @tool.is_checked_out?
-
-    @checkout = Checkout.current.find_by_tool_id(@tool.id)
-    @checkout.checked_in_at = Time.now
-
-    puts @checkout.checked_in_at
-
-    respond_to do |format|
-      if @checkout.save!
-        format.html { redirect_to @checkout.tool, notice: "#{@checkout.tool.name} was checked in." }
-        format.json { render json: @checkout, status: :created, location: @checkout }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @checkout.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # GET /checkouts/1
-  # GET /checkouts/1.json
-  def show
-    @checkout = Checkout.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @checkout }
-    end
-  end
-
   # GET /checkouts/new
   # GET /checkouts/new.json
   def new
@@ -92,11 +43,6 @@ class CheckoutsController < ApplicationController
       format.html # new.html.erb
       format.json { render json: @checkout }
     end
-  end
-
-  # GET /checkouts/1/edit
-  def edit
-    @checkout = Checkout.find(params[:id])
   end
 
   # POST /checkouts
@@ -161,24 +107,6 @@ class CheckoutsController < ApplicationController
         format.json { render json: @checkout.errors, status: :unprocessable_entity }
       end
     end
-  end
-
-  # DELETE /checkouts/1
-  # DELETE /checkouts/1.json
-  def destroy
-    @checkout = Checkout.find(params[:id])
-    @checkout.destroy
-
-    respond_to do |format|
-      format.html { redirect_to checkouts_url }
-      format.json { head :no_content }
-    end
-  end
-
-  private
-
-  def checkout_params
-    params.require(:checkout).permit(:checked_in_at, :checked_out_at, :participant, :organization, :tool)
   end
 end
 
