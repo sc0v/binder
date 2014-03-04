@@ -1,0 +1,23 @@
+  <%- model_class = Organization -%>
+  <div class="page-header">
+    <h1><%= @organization.name %>'s Hardhats <small><%= @organization.organization_category.name %></small></h1>
+	</div>
+	<p>
+	<%= form_tag checkouts_path(:format => :json), :remote => true, :id => "org_checkout_form", :role => 'form', :class => 'form-horizontal' do %>
+		<%= hidden_field_tag 'organization_id', @organization.id %>
+    <div class="form-group">
+      <%= label_tag 'tool_barcode', 'Scan Hardhat:', :class => 'col-xs-4 col-sm-2 control-label' %>
+      <div class="col-xs-3 col-sm-2">
+    		<%= text_field_tag 'tool_barcode', nil, :class => 'form-control' %>
+      </div>
+    </div>
+	<% end %>
+	</p>
+		
+  <h3>Hardhats - <span id="hardhat-count"><%= @hardhats.count %></span></h2>
+	<ul id="hardhat_list">
+		<% @hardhats.each do |hardhat| %>
+			<li><%= hardhat.barcode %>: <%= hardhat.name %></li>
+		<% end %>
+	</ul>
+	

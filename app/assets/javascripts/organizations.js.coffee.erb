@@ -1,0 +1,9 @@
+$ ->
+	$('#org_checkout_form').bind('ajax:success', (status, data) ->
+		console.log data
+		console.log status
+		$('#hardhat_list').prepend("<li>" + data.barcode + ": " + data.name + "</li>")
+		$('#tool_barcode').val("")
+		$('#hardhat-count').text(parseInt($('#hardhat-count').text(), 10) + 1)
+	)
+		

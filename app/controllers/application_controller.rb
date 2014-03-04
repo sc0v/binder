@@ -13,40 +13,13 @@ class ApplicationController < ActionController::Base
     redirect_to "/participants/new"
   end
 
-  rescue_from 'CheckoutsController::OrganizationDoesNotExist' do |exception|
-    flash[:error] = "The organization you entered is not registered with the system. Please register it if desired."
+  rescue_from 'CheckoutsController::CheckoutError' do |exception|
+    flash[:error] = exception.message
     #Event.new_event "Exception: #{exception.message}", current_user, request.remote_ip #deugging
-    redirect_to "/organization/new"
-  end
-
-  rescue_from 'CheckoutsController::ParticipantDoesNotExist' do |exception|
-    flash[:error] = "The Student ID you swiped is invalid, please re-try or contact Chase/Meg if you think this message is in error."
-    #Event.new_event "Exception: #{exception.message}", current_user, request.remote_ip #deugging
-    redirect_to "/tools"
-  end
-
-  rescue_from 'CheckoutsController::ToolAlreadyCheckedIn' do |exception|
-    flash[:error] = "The Tool you selected is already checked in."
-    #Event.new_event "Exception: #{exception.message}", current_user, request.remote_ip #deugging
-    redirect_to "/tools"
-  end
-
-  rescue_from 'CheckoutsController::ToolAlreadyCheckedOut' do |exception|
-    flash[:error] = "The Tool you selected is already checked out."
-    #Event.new_event "Exception: #{exception.message}", current_user, request.remote_ip #deugging
-    redirect_to "/tools"
-  end
-
-  rescue_from 'CheckoutsController::ToolDoesNotExist' do |exception|
-    flash[:error] = "The Tool barcode you entered is not registered with the system. Please register it if desired."
-    #Event.new_event "Exception: #{exception.message}", current_user, request.remote_ip #deugging
-    redirect_to "/tools"
-  end
-
-  rescue_from 'ShiftParticipantsController::ParticipantDoesNotMatch' do |exception|
-    flash[:error] = "The participants don't match!"
-    #Event.new_event "Exception: #{exception.message}", current_user, request.remote_ip #deugging
-    redirect_to "/shifts"
+    respond_to do |format|
+      format.html { redirect_to "/tools" }
+      format.json { render :json => exception.to_json, :status => :unprocessable_entity }
+    end
   end
 
   rescue_from 'RestClient::Forbidden' do |exception|

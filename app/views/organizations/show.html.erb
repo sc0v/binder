@@ -37,7 +37,7 @@
     <%= link_to raw("Members"), [@organization, :participants], :class => 'btn btn-info' %>
   <% end %>
   <% if can?(:read_all_details, @organization) %>
-    <%= link_to raw("Hardhats"), organization_tools_path(@organization, :type => "hardhats"), :class => 'btn btn-info' %>
+    <%= link_to raw("Hardhats"), hardhats_organization_path(@organization), :class => 'btn btn-info' %>
   <% end %>
 
   <% if can?(:update, @organization) %>

@@ -1,6 +1,6 @@
 class OrganizationsController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
-  before_action :set_organization, only: [:show, :edit, :update, :destroy]
+  before_action :set_organization, only: [:show, :edit, :update, :destroy, :hardhats]
   
   # GET /organizations
   # GET /organizations.json
@@ -80,6 +80,15 @@ class OrganizationsController < ApplicationController
     respond_to do |format|
       format.html { redirect_to organizations_url }
       format.json { head :no_content }
+    end
+  end
+  
+  def hardhats
+    @hardhats = @organization.tools.hardhats.order(:barcode)
+    
+    respond_to do |format|
+      format.html
+      format.json { render json: @hardhats }
     end
   end
 

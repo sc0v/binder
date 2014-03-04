@@ -11,6 +11,7 @@ Trailerapp::Application.routes.draw do
     resources :shifts, :only => [:index]
     resources :tools, :only => [:index]
     resources :charges, :only => [:index]
+    get 'hardhats', on: :member
   end
   resources :charges
   resources :participants
@@ -22,6 +23,7 @@ Trailerapp::Application.routes.draw do
   resources :tools do
     resources :checkouts, :only => [:new, :create, :update, :index]
   end
+  resources :checkouts, :only => [:create]
 
   # user creation
   match "new_user_and_participant" => "participants#new_user_and_participant", :as => :new_user_and_participant, via: [:get, :post]

@@ -14,29 +14,18 @@ class CheckoutsController < ApplicationController
   end
 
   #declare error classes
-  class ToolAlreadyCheckedIn < Exception
+  class CheckoutError < ArgumentError
   end
-
-  class ToolAlreadyCheckedOut < Exception
-  end
-
-  class ToolDoesNotExist < Exception
-  end
-
-  class ParticipantDoesNotExist < Exception
-  end
-
-  class OrganizationDoesNotExist < Exception
-  end
-
+  
   # GET /checkouts/new
   # GET /checkouts/new.json
   def new
     @checkout = Checkout.new
     @tool = Tool.find_by_id(params[:tool_id])
-    
-    raise ToolDoesNotExist unless !@tool.blank?
-    
+
+    raise CheckoutError, I18n.t("errors.messages.tool_does_not_exist") unless !@tool.blank?
+    raise CheckoutError, I18n.t("errors.messages.tool_already_checked_out") unless not @tool.is_checked_out?
+
     @checkout.tool = @tool
 
     respond_to do |format|
@@ -50,22 +39,27 @@ class CheckoutsController < ApplicationController
   def create
     @checkout = Checkout.new
 
-    @tool = Tool.find(params[:tool_id])
-    raise ToolDoesNotExist unless !@tool.nil?
+    unless params[:tool_id].blank?
+      @tool = Tool.find(params[:tool_id])
+    else
+      @tool = Tool.find_by_barcode(params[:tool_barcode])
+    end
 
-    raise ToolAlreadyCheckedOut unless not @tool.is_checked_out?
+    raise CheckoutError, I18n.t("errors.messages.tool_does_not_exist") unless !@tool.blank?
+
+    raise CheckoutError, I18n.t("errors.messages.tool_already_checked_out") unless not @tool.is_checked_out?
 
     unless params[:checkout].blank?
       @participant = Participant.find_by_card(params[:checkout][:card_number].to_s) #this creates a CMU directory request to get the andrew id associated with the card number. Then finds the local DB mapping to get the participant id.
-    
+
       @participant = Participant.find_by_andrewid(params[:checkout][:card_number]) unless !@participant.nil?
 
-      raise ParticipantDoesNotExist unless !@participant.nil?
+      raise CheckoutError, I18n.t("errors.messages.participant_does_not_exist") unless !@participant.nil?
     else
-      @participant = Participant.find(params[:participant_id])
+      @participant = Participant.find(params[:participant_id]) unless params[:participant_id].blank?
       
       @organization = Organization.find(params[:organization_id])
-      raise OrganizationDoesNotExist unless !@organization.nil?
+      raise CheckoutError, I18n.t("errors.messages.organization_does_not_exist") unless !@organization.nil?
     end
 
 
@@ -87,7 +81,7 @@ class CheckoutsController < ApplicationController
       respond_to do |format|
         if @checkout.save
           format.html { redirect_to @checkout.tool, notice: 'Checkout was successfully created.' }
-          format.json { render json: @checkout, status: :created, location: @checkout }
+          format.json { render json: @checkout.tool, status: :created, location: @checkout.tool }
         else
           format.html { render action: "new" }
           format.json { render json: @checkout.errors, status: :unprocessable_entity }
@@ -100,6 +94,8 @@ class CheckoutsController < ApplicationController
   # PUT /checkouts/1.json
   def update
     @checkout = Checkout.find(params[:id])
+    
+    raise CheckoutError, I18n.t("errors.messages.tool_already_checked_in") unless @checkout.tool.is_checked_out?
     @checkout.checked_in_at = Time.now
 
     respond_to do |format|
