@@ -2,7 +2,10 @@
   <div class="form-inputs">
     <%= f.association :organization %>
     <%= f.association :charge_type %>
-    <%= f.input :amount, :as => :decimal %>
+    <%= f.input :amount do %>
+			<%= content_tag :span, "$", :class => 'input-group-addon' %>
+			<%= f.input_field :amount, :as => :string %>
+		<% end %>
     <%= f.input :description, :as => :text %>
     <%= f.association :issuing_participant %>
     <%= f.association :receiving_participant %>
