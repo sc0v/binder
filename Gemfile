@@ -17,7 +17,7 @@ gem 'omniauth-shibboleth'
 gem 'sqlite3'
 
 # User and role management
-gem 'cancan'
+gem 'cancancan', '~> 1.7'
 gem 'devise'
 gem 'rolify', '~> 3.3.0.rc4'
 
