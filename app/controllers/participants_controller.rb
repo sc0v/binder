@@ -22,28 +22,24 @@ class ParticipantsController < ApplicationController
 
   def lookup
     # Process request if barcode is present
-    if params[:participant] and params[:participant][:card_number]
-      participant = Participant.find_by_card params[:participant][:card_number]
-      
-      if participant.nil? # participant does not exist
+    participant = Participant.find_by_card params[:card_number]
+    
+    
+    if participant.nil? # participant does not exist
 
-        # Find the andrew id associated with the card or it's an error
-        andrewid = CarnegieMellonIDCard.search "#{params[:participant][:card_number]}"
-        unless andrewid.nil?
-          params[:participant][:andrewid] = andrewid
-          redirect_to new_participant_url params[:participant]
-        else
-          flash[:error] = "Invalid card" 
-        end
-
-      elsif session[:return_url] and session[:return_url] != ''
-        session[:participant_id] = participant
-        redirect_to session[:return_url]
-
-      else
-        redirect_to participant_url participant
+      # Find the andrew id associated with the card or it's an error
+      andrewid = CarnegieMellonIDCard.search "#{params[:card_number]}"
+      unless andrewid.blank?
+        participant = Participant.create({andrewid: andrewid})
       end
-    end # if params[:participant] and params[:participant][:card_number]
+    end
+    
+    participant = Participant.find_by_andrewid("cbrownel")
+      
+    respond_to do |format|
+      format.html { redirect_to(participant) }
+      format.json { render json: participant }
+    end
   end
 
   # GET /participants/1

@@ -14,7 +14,9 @@ Trailerapp::Application.routes.draw do
     get 'hardhats', on: :member
   end
   resources :charges
-  resources :participants
+  resources :participants do
+    post 'lookup', on: :collection
+  end
   resources :shifts do
     resources :participants, :controller => :shift_participants, :only => [:new, :create]
   end
