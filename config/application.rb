@@ -20,5 +20,10 @@ module Trailerapp
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :en
     config.i18n.enforce_available_locales = true
+    
+    WillPaginate::ViewHelpers.pagination_options[:inner_window] = 1
+    WillPaginate::ViewHelpers.pagination_options[:outer_window] = 0
+    WillPaginate::ViewHelpers.pagination_options[:previous_label] = "«"
+    WillPaginate::ViewHelpers.pagination_options[:next_label] = "»"
   end
 end
