@@ -1,7 +1,7 @@
 <%= simple_form_for @organization, :html => { :class => 'form-horizontal' } do |f| %>
   <div class="form-inputs">
     <%= f.input :name %>
-    <%= f.input :organization_category_id, :as => :select, :label => "Organization Category", :collection => @organization_categories %>
+    <%= f.association :organization_category %>
   </div>
 
   <div class="form-actions">
