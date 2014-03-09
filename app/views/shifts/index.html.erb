@@ -19,8 +19,8 @@
       <tr>
         <th></th>
         <th><%= model_class.human_attribute_name(:starts_at) %></th>
-        <th><%= model_class.human_attribute_name(:ends_at) %></th>
-        <th><%= model_class.human_attribute_name(:required_number_of_participants) %></th>
+        <th class="hidden-xs"><%= model_class.human_attribute_name(:ends_at) %></th>
+        <th class="hidden-xs"><%= model_class.human_attribute_name(:required_number_of_participants) %></th>
         <th>
           <% if ( @organization.blank? ) %>
             <%= model_class.human_attribute_name(:organization) %>
@@ -38,8 +38,8 @@
             <td><%= link_to t('.show', :default => t("helpers.links.show")),
                           shift_path(shift), :class => 'btn btn-info btn-xs' %></td>
             <td><%= date_and_time shift.starts_at %></td>
-            <td><%= date_and_time shift.ends_at %></td>
-            <td><%= shift.required_number_of_participants %></td>
+            <td class="hidden-xs"><%= date_and_time shift.ends_at %></td>
+            <td class="hidden-xs"><%= shift.required_number_of_participants %></td>
             <td>
               <% if ( @organization.blank? ) %>
                 <%= link_to shift.organization.name, shift.organization unless shift.organization.blank? %>
