@@ -16,22 +16,6 @@
 //= require turbolinks
 //= require_tree .
 
-
-$(document).ready(function(){
-    addFlashFadeOutListeners();
-});
-
-function addFlashFadeOutListeners() {
-    $(function() {
-       $('.alert-success').fadeIn('normal', function() {
-          $(this).delay(2500).fadeOut();
-       });
-    });
-    
-    $(function() {
-       $('.alert-error').fadeIn('normal', function() {
-          $(this).delay(2500).fadeOut();
-       });
-    });
-}
-
+$(document).on("page:change", function(){
+  $('#query').focus();
+})
