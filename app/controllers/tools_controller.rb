@@ -1,15 +1,12 @@
 class ToolsController < ApplicationController
-  load_and_authorize_resource skip_load_resource only: [:create] 
-  before_action :set_tool, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource
   
   # GET /tools
   # GET /tools.json
   def index
     unless ( params[:organization_id].blank? )
       @organization = Organization.find(params[:organization_id])
-      @tools = Tool.checked_out_by_organization(@organization)
-    else
-      @tools = Tool.all
+      @tools = @tool.checked_out_by_organization(@organization)
     end
 
     if (params[:type].blank?)
@@ -43,8 +40,6 @@ class ToolsController < ApplicationController
   # GET /tools/new
   # GET /tools/new.json
   def new
-    @tool = Tool.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @tool }
@@ -58,8 +53,6 @@ class ToolsController < ApplicationController
   # POST /tools
   # POST /tools.json
   def create
-    @tool = Tool.new(tool_params)
-
     respond_to do |format|
       if @tool.save
         format.html { redirect_to @tool, notice: 'Tool was successfully created.' }
@@ -75,7 +68,7 @@ class ToolsController < ApplicationController
   # PUT /tools/1.json
   def update
     respond_to do |format|
-      if @tool.update(tool_params)
+      if @tool.update_attributes(tool_params)
         format.html { redirect_to @tool, notice: 'Tool was successfully updated.' }
         format.json { head :no_content }
       else
@@ -97,49 +90,9 @@ class ToolsController < ApplicationController
   end
 
   private
-  def set_tool
-    @tool = Tool.find(params[:id])
-  end
 
   def tool_params
     params.require(:tool).permit(:name, :description, :barcode)
   end
-  # User permissions need to be added to the following 2 methods
-  # def checkout
-  #   @tool = Tool.find(params[:id])
-
-  #   if(!@tool.is_checked_out?)
-  #       @checkout = Checkout.new
-  #       @checkout.checked_in_at = nil
-  #       @checkout.checked_out_at = Date.today
-  #       @checkout.tool = @tool
-  #       @checkout.participant = nil
-  #       @checkout.organization = nil
-  #       @checkout.save!
-
-  #       redirect_to @tool
-  #   else
-  #       flash[:notice] = "#{@tool.name} was not checked out because it has been previously checked out."
-  #       redirect_to @tool
-  #   end
-  # end
-
-
-  # def checkin
-  #   @tool = Tool.find(params[:id])
-
-  #   if(@tool.is_checked_out?)
-  #       @current = @tool.checkouts.current.pluck(:id)
-  #       @checkout = Checkout.find_by_id(@current)
-
-  #       @checkout.checked_in_at = Date.today
-  #       @checkout.save!
-
-  #       redirect_to @tool
-  #   else
-  #       flash[:notice] = "#{@tool.name} was not checked in because it was not checked out."
-  #       redirect_to @tool
-  #   end
-  # end
 end
 

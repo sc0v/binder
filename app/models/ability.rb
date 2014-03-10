@@ -77,6 +77,7 @@ class Ability
       can :read_coord, Shift
       can [:create, :update], ShiftParticipant
       can :update, Task
+      can [:create, :update], Tool
     end
 
     if user.has_role? :admin

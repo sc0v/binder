@@ -1,78 +1,72 @@
-<% if can?(:read, Tool) %>
-  <%- model_class = Tool -%>
-  <div class="page-header">
-    <h1>
-      <%= link_to @organization.name + "'s", @organization unless @organization.blank? %>
-      <%=h @title || model_class.model_name.human.pluralize %>
-    </h1>
-  </div>
+<%- model_class = Tool -%>
+<div class="page-header">
+  <h1>
+    <%= link_to @organization.name + "'s", @organization unless @organization.blank? %>
+    <%=h @title || model_class.model_name.human.pluralize %>
+  </h1>
+</div>
 
-  <p>
-    <%= link_to raw("Tools"), tools_path, :class => 'btn btn-default' unless params[:type].blank? or !@organization.blank? %>
-    <%= link_to raw("Hardhats"), tools_path(:type => "hardhats"), :class => 'btn btn-default' unless params[:type] == 'hardhats' or !@organization.blank? %>
-    <%= link_to raw("Radios"), tools_path(:type => "radios"), :class => 'btn btn-default' unless params[:type] == 'radios' or !@organization.blank? %>
+<p>
+  <%= link_to raw("Tools"), tools_path, :class => 'btn btn-default' unless params[:type].blank? or !@organization.blank? %>
+  <%= link_to raw("Hardhats"), tools_path(:type => "hardhats"), :class => 'btn btn-default' unless params[:type] == 'hardhats' or !@organization.blank? %>
+  <%= link_to raw("Radios"), tools_path(:type => "radios"), :class => 'btn btn-default' unless params[:type] == 'radios' or !@organization.blank? %>
 
-    <% if can?(:create, Tool) and @organization.blank? %>
-      <%= link_to t('.new', :default => t("helpers.links.new")),
-              new_tool_path,
-              :class => 'btn btn-primary' %>
-    <% end %>
-  </p>
+  <% if can?(:create, Tool) and @organization.blank? %>
+    <%= link_to t('.new', :default => t("helpers.links.new")),
+            new_tool_path,
+            :class => 'btn btn-primary' %>
+  <% end %>
+</p>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th><%= model_class.human_attribute_name(:barcode) %></th>
-        <th><%= model_class.human_attribute_name(:name) %></th>
-        <th class="hidden-xs"><%= model_class.human_attribute_name(:description) %></th>
-        <th><%= model_class.human_attribute_name(:is_checked_out) %></th>
-        <% if can?(:destroy, Tool) or can?(:create, Checkout) or can?(:update, Checkout) %>
-          <th class="hidden-xs"><%=t '.actions', :default => t("helpers.actions") %></th>
-        <% end %>
-      </tr>
-    </thead>
-
-    <tbody>
-      <% @tools.each do |tool| %>
-        <% if can?(:read, tool) %>
-          <tr>
-            <td><%= link_to tool.barcode, tool, :class => 'btn btn-info btn-xs'  %></td>
-            <td><%= tool.name %></td>
-            <td class="hidden-xs"><%= tool.description %></td>
-            <td><%= tool.is_checked_out? ? link_to(format_boolean(tool.is_checked_out?), tool) : format_boolean(tool.is_checked_out?) %></td>
-            <% if can?(:update, Tool) or can?(:destroy, Tool) or can?(:create, Checkout) or can?(:update, Checkout) %>
-              <td class="hidden-xs">
-                <% if(tool.is_checked_out?) %>
-									<%= form_tag(tool_checkout_path(tool, tool.checkouts.current.first), :method => :patch, :style => "display: inline;") do -%>
-										<%= hidden_field_tag 'url', tools_path %>
-							      <%= submit_tag t('.checkin', :default => t("helpers.links.checkin")),
-										            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-							                  :class => 'btn btn-xs btn-warning' %>
-							    <% end -%>
-                <% else %>
-                  <% if can?(:create, Checkout) %>
-                    <%= link_to t('.checkout', :default => t("helpers.links.checkout")),
-                                    new_tool_checkout_path(tool), :class => 'btn btn-success btn-xs' %>
-                  <% end %>
-                <% end %>
-                <% if can?(:destroy, tool) %>
-                  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                          tool_path(tool),
-                          :method => :delete,
-                          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                          :class => 'btn btn-xs btn-danger' %>
-                <% end %>
-              </td>
-            <% end %>
-          </tr>
-        <% end %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:barcode) %></th>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th class="hidden-xs"><%= model_class.human_attribute_name(:description) %></th>
+      <th><%= model_class.human_attribute_name(:is_checked_out) %></th>
+      <% if can?(:destroy, Tool) or can?(:create, Checkout) or can?(:update, Checkout) %>
+        <th class="hidden-xs"><%=t '.actions', :default => t("helpers.actions") %></th>
       <% end %>
-    </tbody>
-  </table>
+    </tr>
+  </thead>
 
-  <%= will_paginate @tools, renderer: BootstrapPagination::Rails %>
+  <tbody>
+    <% @tools.each do |tool| %>
+      <% if can?(:read, tool) %>
+        <tr>
+          <td><%= link_to tool.barcode, tool, :class => 'btn btn-info btn-xs'  %></td>
+          <td><%= tool.name %></td>
+          <td class="hidden-xs"><%= tool.description %></td>
+          <td><%= tool.is_checked_out? ? link_to(format_boolean(tool.is_checked_out?), tool) : format_boolean(tool.is_checked_out?) %></td>
+          <% if can?(:update, Tool) or can?(:destroy, Tool) or can?(:create, Checkout) or can?(:update, Checkout) %>
+            <td class="hidden-xs">
+              <% if(tool.is_checked_out?) %>
+								<%= form_tag(tool_checkout_path(tool, tool.checkouts.current.first), :method => :patch, :style => "display: inline;") do -%>
+									<%= hidden_field_tag 'url', tools_path %>
+						      <%= submit_tag t('.checkin', :default => t("helpers.links.checkin")),
+									            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+						                  :class => 'btn btn-xs btn-warning' %>
+						    <% end -%>
+              <% else %>
+                <% if can?(:create, Checkout) %>
+                  <%= link_to t('.checkout', :default => t("helpers.links.checkout")),
+                                  new_tool_checkout_path(tool), :class => 'btn btn-success btn-xs' %>
+                <% end %>
+              <% end %>
+              <% if can?(:destroy, tool) %>
+                <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        tool_path(tool),
+                        :method => :delete,
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-xs btn-danger' %>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
 
-<% else %>
-  <h3>Not Authorized!</h3>
-<% end %>
-
+<%= will_paginate @tools, renderer: BootstrapPagination::Rails %>
