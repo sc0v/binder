@@ -10,29 +10,31 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th><%= model_class.human_attribute_name(:description) %></th>
+        <th> </th>
         <th><%= model_class.human_attribute_name(:charge_type) %></th>
         <th><%= model_class.human_attribute_name(:amount) %></th>
         <th><%= model_class.human_attribute_name(:organization) unless !@organization.blank? %></th>
-        <th><%= model_class.human_attribute_name(:charged_at) %></th>
-        <th><%= model_class.human_attribute_name(:is_approved) %></th>
-        <th><%=t '.actions', :default => t("helpers.actions") %></th>
+        <th class="hidden-xs hidden-sm"><%= model_class.human_attribute_name(:charged_at) %></th>
+        <th class="hidden-xs"><%= model_class.human_attribute_name(:description) %></th>
+        <th class="hidden-xs"><%= model_class.human_attribute_name(:is_approved) %></th>
+        <th class="hidden-xs hidden-sm"><%=t '.actions', :default => t("helpers.actions") %></th>
       </tr>
     </thead>
     <tbody>
       <% @charges.each do |charge| %>
         <% if can?(:read, charge) %>
           <tr>
-            <td><%= link_to charge.description, charge %></td>
+            <td><%= link_to "show", charge, class: 'btn btn-info btn-xs' %></td>
             <td><%= charge.charge_type.name %></td>
             <td><%= number_to_currency charge.amount %></td>
             <td><%= link_to charge.organization.name, charge.organization unless !@organization.blank? %></td>
-            <td><%= date_and_time(charge.charged_at) %></td>
-            <td><%= format_boolean charge.is_approved %></td>
-            <td>
+            <td class="hidden-xs hidden-sm"><%= date_and_time(charge.charged_at) %></td>
+            <td class="hidden-xs"><%= charge.description[0..35] %><%= "…" if charge.description.length > 36 %></td>
+            <td class="hidden-xs"><%= format_boolean charge.is_approved %></td>
+            <td class="hidden-xs hidden-sm">
               <% if can?(:update, charge) %>
                 <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_charge_path(charge), :class => 'btn btn-xs' %>
+                      edit_charge_path(charge), :class => 'btn btn-primary btn-xs' %>
               <% end %>
               <% if can?(:update, charge) %>
                 <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
