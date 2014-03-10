@@ -33,6 +33,7 @@ en:
         issuing_participant: "Issued By"
         receiving_participant: "Issued To"
         charged_at: "Time"
+        is_approved: "Approved?"
       organization:
         organization_status: "Status"
         organization_category: "Division"
@@ -58,3 +59,6 @@ en:
       tool_does_not_exist: "The Tool barcode you entered is not registered with the system. Please register it if desired."
       participant_does_not_exist: "The Participant or ID card you selected is invalid. Please try again or contact an admin if you think this message is in error"
       organization_does_not_exist: "The Organization you selected does not exist."
+  will_paginate:
+    previous_label: "«"
+    next_label: "»"
