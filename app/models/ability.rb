@@ -72,6 +72,7 @@ class Ability
       can [:create, :update], Checkout
       can [:create, :update], Document
       can [:create, :update, :destroy], Membership
+      can :hardhats, Organization
       can [:create, :update, :destroy], OrganizationStatus
       can [:create, :update], Participant
       can :read_coord, Shift

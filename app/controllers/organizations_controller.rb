@@ -1,12 +1,9 @@
 class OrganizationsController < ApplicationController
-  load_and_authorize_resource skip_load_resource only: [:create] 
-  before_action :set_organization, only: [:show, :edit, :update, :destroy, :hardhats]
+  load_and_authorize_resource
   
   # GET /organizations
   # GET /organizations.json
   def index
-    @organizations = Organization.all
-
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @organizations }
@@ -30,8 +27,6 @@ class OrganizationsController < ApplicationController
   # GET /organizations/new
   # GET /organizations/new.json
   def new
-    @organization = Organization.new
-
     respond_to do |format|
       format.html # new.html.erb
       format.json { render json: @organization }
@@ -45,8 +40,6 @@ class OrganizationsController < ApplicationController
   # POST /organizations
   # POST /organizations.json
   def create
-    @organization = Organization.new(organization_params)
-
     respond_to do |format|
       if @organization.save
         format.html { redirect_to @organization, notice: 'Organization was successfully created.' }
@@ -93,10 +86,6 @@ class OrganizationsController < ApplicationController
   end
 
   private
-  
-  def set_organization
-    @organization = Organization.find(params[:id])
-  end
 
   def organization_params
     params.require(:organization).permit(:name, :organization_category_id)
