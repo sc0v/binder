@@ -1,6 +1,6 @@
 class ChargesController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
-  before_action :set_charge, only: [:show, :edit, :update, :destroy]
+  before_action :set_charge, only: [:show, :edit, :update, :destroy, :approve]
 
   # GET /charges
   # GET /charges.json
@@ -83,6 +83,24 @@ class ChargesController < ApplicationController
     respond_to do |format|
       format.html { redirect_to charges_url }
       format.json { head :no_content }
+    end
+  end
+  
+  # PUT
+  def approve
+    @charge.is_approved = !@charge.is_approved
+    
+    url = charges_path
+    url = params[:url] unless params[:url].blank?
+    
+    respond_to do |format|
+      if @charge.save
+        format.html { redirect_to params[:url], notice: 'Charge was successfully approved.' }
+        format.json { head :no_content }
+      else
+        format.html { render action: "index" }
+        format.json { render json: @charge.errors, status: :unprocessable_entity }
+      end
     end
   end
 

@@ -1,64 +1,82 @@
-<% if can?(:read, Charge) %>
-  <%- model_class = Charge -%>
-  <div class="page-header">
-    <h1>
-      <%= link_to @organization.name + raw("'s"), @organization unless @organization.blank? %>
-      <%=t '.title', :default => model_class.model_name.human.pluralize %>
-    </h1>
-  </div>
+<%- model_class = Charge -%>
+<div class="page-header">
+  <h1>
+    <%= link_to @organization.name + raw("'s"), @organization unless @organization.blank? %>
+    <%=t '.title', :default => model_class.model_name.human.pluralize %>
+  </h1>
+</div>
 
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th> </th>
-        <th><%= model_class.human_attribute_name(:charge_type) %></th>
-        <th><%= model_class.human_attribute_name(:amount) %></th>
-        <th><%= model_class.human_attribute_name(:organization) unless !@organization.blank? %></th>
-        <th class="hidden-xs hidden-sm"><%= model_class.human_attribute_name(:charged_at) %></th>
-        <th class="hidden-xs"><%= model_class.human_attribute_name(:description) %></th>
-        <th class="hidden-xs"><%= model_class.human_attribute_name(:is_approved) %></th>
-        <th class="hidden-xs hidden-sm"><%=t '.actions', :default => t("helpers.actions") %></th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @charges.each do |charge| %>
-        <% if can?(:read, charge) %>
-          <tr>
-            <td><%= link_to "show", charge, class: 'btn btn-info btn-xs' %></td>
-            <td><%= charge.charge_type.name %></td>
-            <td><%= number_to_currency charge.amount %></td>
-            <td><%= link_to charge.organization.name, charge.organization unless !@organization.blank? %></td>
-            <td class="hidden-xs hidden-sm"><%= date_and_time(charge.charged_at) %></td>
-            <td class="hidden-xs"><%= charge.description[0..35] %><%= "…" if charge.description.length > 36 %></td>
-            <td class="hidden-xs"><%= format_boolean charge.is_approved %></td>
-            <td class="hidden-xs hidden-sm">
-              <% if can?(:update, charge) %>
-                <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                      edit_charge_path(charge), :class => 'btn btn-primary btn-xs' %>
-              <% end %>
-              <% if can?(:update, charge) %>
-                <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                      charge_path(charge),
-                      :method => :delete,
-                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                      :class => 'btn btn-xs btn-danger' %>
+<p>
+  If a row is gray then the charge is still pending approval by an admin.
+</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th> </th>
+      <th><%= model_class.human_attribute_name(:charge_type) %></th>
+      <th><%= model_class.human_attribute_name(:amount) %></th>
+      <th><%= model_class.human_attribute_name(:organization) unless !@organization.blank? %></th>
+      <th class="hidden-xs hidden-sm"><%= model_class.human_attribute_name(:charged_at) %></th>
+      <th class="hidden-xs"><%= model_class.human_attribute_name(:description) %></th>
+      <% if can?(:approve, Charge) %>
+        <th class="hidden-xs">Approve</th>
+      <% end %>
+      <th class="hidden-xs hidden-sm"><%=t '.actions', :default => t("helpers.actions") %></th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @charges.each do |charge| %>
+      <% if can?(:read, charge) %>
+        <tr <%= raw('class="success"') if charge.is_approved? %>>
+          <td><%= link_to "show", charge, class: 'btn btn-info btn-xs' %></td>
+          <td><%= charge.charge_type.name %></td>
+          <td><%= number_to_currency charge.amount %></td>
+          <td><%= link_to charge.organization.name, charge.organization unless !@organization.blank? %></td>
+          <td class="hidden-xs hidden-sm"><%= date_and_time(charge.charged_at) %></td>
+          <td class="hidden-xs"><%= charge.description[0..30] %><%= "…" if charge.description.length > 31 %></td>
+          <% if can?(:approve, Charge) %>
+            <td class="hidden-xs">
+              <% unless charge.is_approved? %>
+                <%= form_tag approve_charge_path(charge), method: :put do -%>
+                  <%= hidden_field_tag 'url', request.original_fullpath %>
+                  <%= submit_tag 'Approve', :class => 'btn btn-success btn-xs',
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) } %>
+                <% end -%>
+              <% else %>
+                <%= form_tag approve_charge_path(charge), method: :put do -%>
+                  <%= hidden_field_tag 'url', request.original_fullpath %>
+                  <%= submit_tag 'Un-Approve', :class => 'btn btn-danger btn-xs',
+                      :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) } %>
+                <% end -%>
               <% end %>
             </td>
-          </tr>
-        <% end %>
+          <% end %>
+          <td class="hidden-xs hidden-sm">
+            <% if can?(:update, charge) %>
+              <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                    edit_charge_path(charge), :class => 'btn btn-primary btn-xs' %>
+            <% end %>
+            <% if can?(:update, charge) %>
+              <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                    charge_path(charge),
+                    :method => :delete,
+                    :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                    :class => 'btn btn-xs btn-danger' %>
+            <% end %>
+          </td>
+        </tr>
       <% end %>
-    </tbody>
-  </table>
+    <% end %>
+  </tbody>
+</table>
 
-  <span class="smtext">
-    <%= will_paginate @charges, :previous_label => "Previous&nbsp;", :next_label => "&nbsp;Next" %>
-  </span>
-
-  <% if can?(:create, Charge) and @organization.blank? %>
-    <%= link_to t('.new', :default => t("helpers.links.new")),
-            new_charge_path,
-            :class => 'btn btn-primary' %>
-  <% end %>
-<% else %>
-  <h3>Not Authorized!</h3>
+<% if can?(:create, Charge) and @organization.blank? %>
+  <%= link_to t('.new', :default => t("helpers.links.new")),
+          new_charge_path,
+          :class => 'btn btn-primary' %>
 <% end %>
+  
+<span class="smtext">
+  <%= will_paginate @shifts, renderer: BootstrapPagination::Rails %>
+</span>

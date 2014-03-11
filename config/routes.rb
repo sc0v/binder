@@ -13,7 +13,9 @@ Trailerapp::Application.routes.draw do
     resources :charges, :only => [:index]
     get 'hardhats', on: :member
   end
-  resources :charges
+  resources :charges do
+    put 'approve', on: :member
+  end
   resources :participants do
     post 'lookup', on: :collection
   end
