@@ -3,10 +3,12 @@
     <%= f.association :organization %>
     <%= f.association :charge_type %>
     <%= f.input :amount do %>
-			<%= content_tag :span, "$", :class => 'input-group-addon' %>
-			<%= f.input_field :amount, :as => :string %>
+      <div class="input-group">
+  			<%= content_tag :span, "$", :class => 'input-group-addon' %>
+  			<%= f.input_field :amount, :as => :string %>
+      </div>
 		<% end %>
-    <%= f.input :description, :as => :text %>
+    <%= f.input :description, :as => :text, textarea: "{ font-size:16px; }" %>
     <%= f.association :issuing_participant %>
     <%= f.association :receiving_participant %>
   </div>
