@@ -7,11 +7,13 @@
 # Name                            | Type               | Attributes
 # ------------------------------- | ------------------ | ---------------------------
 # **`amount`**                    | `decimal(8, 2)`    |
+# **`approved`**                  | `boolean`          |
 # **`charge_type_id`**            | `integer`          |
 # **`charged_at`**                | `datetime`         |
 # **`created_at`**                | `datetime`         |
 # **`description`**               | `text`             |
 # **`id`**                        | `integer`          | `not null, primary key`
+# **`is_approved`**               | `boolean`          |
 # **`issuing_participant_id`**    | `integer`          |
 # **`organization_id`**           | `integer`          |
 # **`receiving_participant_id`**  | `integer`          |
