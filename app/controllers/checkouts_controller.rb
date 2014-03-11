@@ -52,7 +52,7 @@ class CheckoutsController < ApplicationController
     unless params[:checkout].blank?
       @participant = Participant.find_by_card(params[:checkout][:card_number].to_s) #this creates a CMU directory request to get the andrew id associated with the card number. Then finds the local DB mapping to get the participant id.
 
-      @participant = Participant.find_by_andrewid(params[:checkout][:card_number]) unless !@participant.nil?
+      @participant = Participant.find_by_andrewid(params[:checkout][:card_number].downcase) unless !@participant.nil?
 
       raise CheckoutError, I18n.t("errors.messages.participant_does_not_exist") unless !@participant.nil?
     else
