@@ -53,7 +53,11 @@ class Tool < ActiveRecord::Base
   end
 
   def formatted_name
-		name + ": #{barcode}" " - " + description
+    unless description.blank?
+		  return "#{barcode}: " + name + " - " + description
+    else
+      return "#{barcode}: " + name
+    end
   end
 end
 
