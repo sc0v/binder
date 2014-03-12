@@ -15,7 +15,14 @@
     <dd><%= @participant.student_class %>
     <dt><strong><%= model_class.human_attribute_name(:memberships) %></strong>
     <% @memberships.each do |membership| %>
-      <dd><%= link_to membership.organization_name_formatted, membership.organization %></dd>
+      <dd>
+        <%= link_to membership.organization_name_formatted, membership.organization %>
+        <% if can?(:edit, membership) %>
+          <%= link_to t('.edit', :default => t("helpers.links.edit")), 
+                      edit_participant_membership_path(@participant, membership), 
+                      :class => 'btn btn-primary btn-xs' %>
+        <% end %>
+      </dd>
     <% end %>
 
     <% if can?(:read, Role) %>
@@ -29,6 +36,7 @@
       <% end %>
     <% end %>
   </dl>
+  </br>
 
   <%= link_to t('.back', :default => t("helpers.links.back")),
               participants_path, :class => 'btn btn-default' %>
@@ -38,7 +46,7 @@
   <% end %>
   <% if can?(:create, Membership) %>
     <%= link_to t('.add membership', :default => t("helpers.links.add membership")),
-              add_participant_memberships_given_participant_path(@participant), :class => 'btn btn-primary' %>
+              new_participant_membership_path(@participant), :class => 'btn btn-primary' %>
   <% end %>
 
   <% if can?(:destroy, @participant) %>

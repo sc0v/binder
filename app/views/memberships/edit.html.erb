@@ -1,10 +1,17 @@
-<% if can?(:update, @membership) %>
-  <%- model_class = Membership -%>
-  <div class="page-header">
-    <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human %></h1>
+<%- model_class = Membership -%>
+<div class="page-header">
+  <h1>Edit <%= @participant.name %>'s Membership</h1>
+</div>
+
+<%= simple_form_for @membership, :html => { :class => 'form-horizontal' }, :url => participant_membership_path(@participant, @membership), :method => 'PATCH' do |f| %>
+  <%= f.input :organization_id, :as => :select, :label => "Organization", :collection => Organization.all.map{|o| [o.name, o.id] }, :disabled => true %>
+  <%= f.input :participant_id, :as => :hidden  %>
+  <%= f.input :is_booth_chair %>
+  <%= f.input :title %>
+  <%= f.input :booth_chair_order %>
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+              participant_path(@participant), :class => 'btn btn-default' %>
   </div>
-  <%= render :partial => 'form' %>
-  
-<% else %>
-  <h3>Not Authorized!</h3>
 <% end %>

@@ -1,20 +1,11 @@
 class MembershipsController < ApplicationController
-  load_and_authorize_resource
+  load_and_authorize_resource 
+  skip_load_resource :only => [:create]
 
   # GET /memberships
   # GET /memberships.json
   def index
     @memberships = Membership.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @memberships }
-    end
-  end
-
-  # GET
-  def new_participant_membership
-    @membership = Membership.new
 
     respond_to do |format|
       format.html # index.html.erb
@@ -29,39 +20,11 @@ class MembershipsController < ApplicationController
   class ParticipantNotExist < Exception
   end
 
-  def add_participant_memberships
-    # check if we are simply trying to add new memberships to an already existing participant (from participant#show)
-    if(params.has_key?(:participant_id_to_add_to))
-      # we are adding to an already existing participant
-      @participant = Participant.find(params[:participant_id_to_add_to])
-    else
-      # we are trying to create a new participant
-      @participant = Participant.new(params[:participant])
-      @participant.andrewid = Participant.get_andrewid(params[:participant][:card_number])
-    end
-
-    if(Participant.find_by_andrewid(@participant.andrewid).nil?)
-      @participant.save!
-    else
-      participant_already_in_system(@participant)
-
-      @participant = Participant.find_by_andrewid(@participant.andrewid)
-    end
-
-    @membership = Membership.new
-
-    respond_to do |format|
-      format.html # add_participant_memberships.html.erb
-      format.json { render json: @memberships }
-    end
-  end
-
   # POST
-  def create_participant_memberships
-    @new_organization_ids = params[:organization_ids]
-    @participant_id = params[:membership][:participant_id]
+  def create
+    @new_organization_ids = params.require(:organization_ids)
 
-    @participant = Participant.find_by_id(@participant_id)
+    @participant = Participant.find(params.require(:participant_id))
     raise ParticipantDoesNotExist unless !@participant.nil?
 
     if(!@new_organization_ids.nil?)
@@ -78,7 +41,7 @@ class MembershipsController < ApplicationController
     @old_participant_orgs.each do |org|
       if(!@new_organization_ids.include?(org.id.to_s))
         @membership = Membership.find(:first, :conditions => [ "participant_id = ? AND organization_id = ?", @participant.id, org.id])
-        @membership.destroy
+        @membership.destroy unless @membership.is_booth_chair?
       end
     end
 
@@ -89,7 +52,8 @@ class MembershipsController < ApplicationController
       @new_organization_ids.each do |new_org_id|
         if(!@participant.organizations.map{|o| o.id.to_s}.include?(new_org_id.to_s))
           @membership = Membership.new
-          @membership.participant_id = @participant_id
+          @membership.participant = @participant
+          
           @membership.organization = Organization.find_by_id(new_org_id)
 
           if(!@membership.save!)
@@ -111,30 +75,6 @@ class MembershipsController < ApplicationController
     end
   end
 
-  # POST
-  def create_participant_membership
-    @membership = Membership.new(params[:membership])
-    # @organization = Organization.find(params[:id])
-    # raise OrganizationDoesNotExist unless !@organization.nil?
-
-    @participant = Participant.find_by_card(@membership.participant_id) #this creates a CMU directory request to get the andrew id associated with the card number. Then finds the local DB mapping to get the participant id.
-    raise ParticipantDoesNotExist unless @participant.nil?
-
-    @membership.participant_id = @participant.id
-
-    respond_to do |format|
-      if @membership.save
-        format.html { redirect_to @membership, notice: 'Membership was successfully created.' }
-        format.json { render json: @membership, status: :created, location: @membership }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @membership.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-
-
   # GET /memberships/1
   # GET /memberships/1.json
   def show
@@ -149,7 +89,7 @@ class MembershipsController < ApplicationController
   # GET /memberships/new
   # GET /memberships/new.json
   def new
-    @membership = Membership.new
+    @participant = Participant.find(params[:participant_id])
 
     respond_to do |format|
       format.html # new.html.erb
@@ -159,33 +99,17 @@ class MembershipsController < ApplicationController
 
   # GET /memberships/1/edit
   def edit
-    @membership = Membership.find(params[:id])
-  end
-
-  # POST /memberships
-  # POST /memberships.json
-  def create
-    @membership = Membership.new(params[:membership])
-
-    respond_to do |format|
-      if @membership.save
-        format.html { redirect_to @membership, notice: 'Membership was successfully created.' }
-        format.json { render json: @membership, status: :created, location: @membership }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @membership.errors, status: :unprocessable_entity }
-      end
-    end
+    @participant = Participant.find(params[:participant_id])
   end
 
   # PUT /memberships/1
   # PUT /memberships/1.json
   def update
-    @membership = Membership.find(params[:id])
-
+    @participant = Participant.find(params[:participant_id])
+    
     respond_to do |format|
-      if @membership.update_attributes(params[:membership])
-        format.html { redirect_to @membership, notice: 'Membership was successfully updated.' }
+      if @membership.update_attributes(update_params)
+        format.html { redirect_to @participant, notice: 'Membership was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -197,12 +121,18 @@ class MembershipsController < ApplicationController
   # DELETE /memberships/1
   # DELETE /memberships/1.json
   def destroy
-    @membership = Membership.find(params[:id])
+    @participant = Participant.find(params[:participant_id])
     @membership.destroy
 
     respond_to do |format|
-      format.html { redirect_to memberships_url }
+      format.html { redirect_to @participant }
       format.json { head :no_content }
     end
+  end
+  
+  private
+  
+  def update_params
+    params.require(:membership).permit(:is_booth_chair, :title, :booth_chair_order)
   end
 end

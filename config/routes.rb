@@ -2,7 +2,6 @@ Trailerapp::Application.routes.draw do
 
   resources :documents
   resources :faqs, :except => [:show]
-  resources :memberships, :except => [:index, :show, :destroy]
   resources :organizations do
     resources :aliases, :controller => :organization_aliases, :shallow => true, :only => [:create, :new, :destroy]
     resources :statuses, :controller => :organization_statuses, :as => :organization_statuses
@@ -17,6 +16,7 @@ Trailerapp::Application.routes.draw do
     put 'approve', on: :member
   end
   resources :participants do
+    resources :memberships, :except => [:index, :show, :destroy]
     post 'lookup', on: :collection
   end
   resources :shifts do
@@ -28,16 +28,6 @@ Trailerapp::Application.routes.draw do
     resources :checkouts, :only => [:new, :create, :update, :index]
   end
   resources :checkouts, :only => [:create]
-
-  # user creation
-  match "new_user_and_participant" => "participants#new_user_and_participant", :as => :new_user_and_participant, via: [:get, :post]
-  # match "create_participant_user" => "checkouts#create_tool_checkin", :as => :create_tool_checkin, via: [:get, :post]
-  match "add_participant_memberships" => "memberships#add_participant_memberships", :as => :add_participant_memberships, via: [:get, :post]
-  match "add_participant_memberships/:participant_id_to_add_to" => "memberships#add_participant_memberships", :as => :add_participant_memberships_given_participant, via: [:get, :post]
-  match "create_participant_memberships" => "memberships#create_participant_memberships", :as => :create_participant_memberships, via: [:get, :post]
-
-  match "new_participant_membership" => "memberships#new_participant_membership", :as => :new_participant_membership, via: [:get, :post]
-  match "create_participant_membership" => "memberships#create_participant_membership", :as => :create_participant_membership, via: [:get, :post]
 
   # static pages
   match "milestones" => "home#milestones", :as => "milestones", via: :get
