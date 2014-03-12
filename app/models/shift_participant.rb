@@ -22,7 +22,7 @@
 #
 
 class ShiftParticipant < ActiveRecord::Base
-  validates_presence_of :shift, :clocked_in_at, :participant
+  validates_presence_of :shift_id, :clocked_in_at, :participant_id
   validates_associated :shift, :participant
 
   belongs_to :shift
