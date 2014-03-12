@@ -27,18 +27,13 @@ class ParticipantsController < ApplicationController
     
     if participant.nil? # participant does not exist
 
-      # Find the andrew id associated with the card or it's an error
-      andrewid = CarnegieMellonIDCard.search "#{params[:card_number]}"
-      unless andrewid.blank?
-        participant = Participant.create({andrewid: andrewid})
-      end
+      participant = Participant.find_by_andrewid(params[:card_number].downcase)
     end
     
-    participant = Participant.find_by_andrewid("cbrownel")
-      
-    respond_to do |format|
-      format.html { redirect_to(participant) }
-      format.json { render json: participant }
+    unless participant.blank?
+      render json: { :id => participant.id, :name => participant.name }
+    else
+      render json: :nothing, status: :unprocessable_entity
     end
   end
 

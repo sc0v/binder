@@ -1,9 +1,13 @@
 <%= simple_form_for @shift_participant do |f| %>
   <%= f.input :shift_id, :as => :hidden, :input_html => { :value => params[:shift_id] } %>
-  <%= f.association :participant, :label_method => :formatted_name %>
+  <%= f.input :participant_id do %>
+    <%= hidden_field_tag :participant_id %>
+    <%= text_field_tag 'card-number-input', nil, class: 'form-control' %>
+    <div id="participant-info"></div>
+  <% end %>
 	
   <div class="form-actions">
-    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= f.button :submit, :class => 'btn btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
                 @shift_participant.shift, :class => 'btn btn-default' %>
   </div>

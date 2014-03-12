@@ -18,4 +18,21 @@
 
 $(document).on("page:change", function(){
   $('#query').focus();
+  
+  $('#card-number-input').bind("change", function() {
+    $.ajax({
+      url: "/participants/lookup.json",
+      type: "POST",
+      data: {
+        card_number: $('#card-number-input').val()
+      }      
+    }).done( function(data) {
+      console.log(data['name']);
+      $('#participant_id').val(data['id']);
+      $('#participant-info').html("</br><div class=\"panel panel-success\"><div class=\"panel-heading\">Participant Info</div><div class=\"panel-body\">" + data["name"] + "</div>")
+    }).error( function(data) {
+      $('#participant_id').val("");
+      $('#participant-info').html("</br><div class=\"panel panel-danger\"><div class=\"panel-heading\">Participant Not Found</div><div class=\"panel-body\">If this message persists please try entering their andrewid instead.</div>")
+    });
+  });
 })

@@ -84,14 +84,13 @@ class Participant < ActiveRecord::Base
   def self.find_by_card(card_number)
     andrewid = self.get_andrewid(card_number)
 
-    if !andrewid.nil?
+    unless andrewid.blank?
       theUser = self.find_or_create_by(andrewid: andrewid)
 
       return theUser
     else
       return nil
     end
-    
   end
 
   def formatted_phone_number
@@ -109,9 +108,7 @@ class Participant < ActiveRecord::Base
   private
   
   def self.get_andrewid(card_number)
-    andrewid = CarnegieMellonIDCard.search(card_number)
-
-    return andrewid
+    CarnegieMellonIDCard.search(card_number)
   end
 
   def cached_name
