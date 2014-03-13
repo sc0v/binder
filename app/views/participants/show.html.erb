@@ -46,7 +46,7 @@
   <% end %>
   <% if can?(:create, Membership) %>
     <%= link_to t('.add membership', :default => t("helpers.links.add membership")),
-              new_participant_membership_path(@participant), :class => 'btn btn-primary' %>
+              new_participant_membership_path(@participant), :class => 'btn btn-success' %>
   <% end %>
 
   <% if can?(:destroy, @participant) %>
