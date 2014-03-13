@@ -22,7 +22,8 @@ class MembershipsController < ApplicationController
 
   # POST
   def create
-    @new_organization_ids = params.require(:organization_ids)
+    @new_organization_ids = params.permit(:organization_ids => [])[:organization_ids]
+    logger.info(@new_organization_ids)
 
     @participant = Participant.find(params.require(:participant_id))
     raise ParticipantDoesNotExist unless !@participant.nil?
@@ -39,7 +40,7 @@ class MembershipsController < ApplicationController
     @old_participant_orgs = @participant.organizations
 
     @old_participant_orgs.each do |org|
-      if(!@new_organization_ids.include?(org.id.to_s))
+      if (@new_organization_ids.blank? or !@new_organization_ids.include?(org.id.to_s))
         @membership = Membership.find(:first, :conditions => [ "participant_id = ? AND organization_id = ?", @participant.id, org.id])
         @membership.destroy unless @membership.is_booth_chair?
       end
