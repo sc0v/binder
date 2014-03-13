@@ -2,26 +2,32 @@
 <div class="page-header">
   <h1>Add Organizations for <%= @participant.name %></h1>
 </div>
+
 <%= simple_form_for @membership, :html => { :class => 'form-horizontal' }, :url => participant_memberships_path(@participant) do |f| %>
   <%= f.hidden_field :participant_id, :value => @participant.id %>
-  <div class="row">
-    <div class="col-xs-12 col-sm-8 col-md-7 col-lg-6">
-      <ul class="list-group">
-        <% Organization.all.each do |organization| %>
-          <li class="list-group-item">
-            <% if organization.booth_chairs.include?(@participant) %>
-              <%= check_box_tag 'organization_ids[]', organization.id, true, :disabled => true -%>
-            <% elsif organization.participants.include?(@participant) %>
-              <%= check_box_tag 'organization_ids[]', organization.id, true -%>
-            <% else %>
-              <%= check_box_tag 'organization_ids[]', organization.id -%>
-            <% end %>
-            <%= h organization.name -%>
-          </li>
+        <% OrganizationCategory.all.each do |category| %>
+        <h3><%= category.name %></h3>
+        <div class="row">
+        <% category.organizations.each do |organization| %>
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label style="display: inline;" onchange="$('#org-panel-<%= organization.id %>').toggleClass('panel-success'); console.log('success');">
+              <div class="panel panel-default <%= 'panel-success' if organization.participants.include?(@participant) %>" id="org-panel-<%= organization.id %>">
+                <div class="panel-heading">
+                  <% if organization.booth_chairs.include?(@participant) %>
+                    <%= check_box_tag 'organization_ids[]', organization.id, true, :disabled => true -%>
+                  <% elsif organization.participants.include?(@participant) %>
+                    <%= check_box_tag 'organization_ids[]', organization.id, true -%>
+                  <% else %>
+                    <%= check_box_tag 'organization_ids[]', organization.id -%>
+                  <% end %>
+                  <span><%= h organization.name -%></span>
+                </div>
+              </div>
+            </label>
+           </div>
         <% end %>
-      </ul>
-    </div>
-  </div>
+        </div>
+        <% end %>
   <% unless @participant.user.blank? || @participant.user.roles.first.blank? %>
     <%= @participant.name %>
     is a
