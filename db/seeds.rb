@@ -13,7 +13,6 @@ puts 'Seeding:'
 
 # Organization Categories -----------------------------------------------------
 puts 'Organization Categories'
-scc = OrganizationCategory.create({ name: 'SCC'})
 frat = OrganizationCategory.create({ name: 'Fraternity'})
 soro = OrganizationCategory.create({ name: 'Sorority'})
 indie = OrganizationCategory.create({ name: 'Independent'})
@@ -21,6 +20,7 @@ blitz = OrganizationCategory.create({ name: 'Blitz'})
 concessions = OrganizationCategory.create({ name: 'Concessions'})
 non_building = OrganizationCategory.create({ name: 'Non-Building' })
 university = OrganizationCategory.create({ name: 'University Staff' })
+scc = OrganizationCategory.create({ name: 'SCC'})
 
 # Organizations ---------------------------------------------------------------
 puts 'Organizations'
@@ -28,14 +28,14 @@ scc_org = Organization.create({ name: 'Spring Carnival Committee', organization_
   OrganizationAlias.create({ organization: scc_org, name: 'SCC' })
 
 puts '  University'
-ehs_org = Organization.create({ name: 'Environmental Health and Safety', organization_category: university })
-  OrganizationAlias.create({ organization: ehs_org, name: 'EH & S' })
+ehs_org = Organization.create({ name: 'EH&S', organization_category: university })
+  OrganizationAlias.create({ organization: ehs_org, name: 'Environmental Health and Safety' })
   OrganizationAlias.create({ organization: ehs_org, name: 'EHS' })
-fms_org = Organization.create({ name: 'Facilities Managment Services', organization_category: university })
-  OrganizationAlias.create({ organization: fms_org, name: 'FMS' })
-dosa_org = Organization.create({ name: 'Division of Student Affairs', organization_category: university })
+fms_org = Organization.create({ name: 'FMS', organization_category: university })
+  OrganizationAlias.create({ organization: fms_org, name: 'Facilities Management Services' })
+dosa_org = Organization.create({ name: 'Student Affairs', organization_category: university })
   OrganizationAlias.create({ organization: dosa_org, name: 'DOSA' })
-  OrganizationAlias.create({ organization: dosa_org, name: 'Student Affairs' })
+  OrganizationAlias.create({ organization: dosa_org, name: 'Division of Student Affairs' })
   OrganizationAlias.create({ organization: dosa_org, name: 'Student Activities' })
   OrganizationAlias.create({ organization: dosa_org, name: 'Student Live' })
   OrganizationAlias.create({ organization: dosa_org, name: 'SLO' })
@@ -77,16 +77,16 @@ kkg_org = Organization.create({ name: 'Kappa Kappa Gamma', organization_category
   OrganizationAlias.create({ organization: kkg_org, name: 'Kappa' })
 
 puts '  Independent'
-asa_org = Organization.create({ name: 'Asian Student Association', organization_category: indie })
-  OrganizationAlias.create({ organization: asa_org, name: 'ASA' })
+asa_org = Organization.create({ name: 'ASA', organization_category: indie })
+  OrganizationAlias.create({ organization: asa_org, name: 'Asian Student Association' })
 fringe_org = Organization.create({ name: 'Fringe', organization_category: indie })
 kgb_org = Organization.create({ name: 'KGB', organization_category: indie })
-sdc_org = Organization.create({ name: 'Student Dormitory Council', organization_category: indie })
-  OrganizationAlias.create({ organization: sdc_org, name: 'SDC' })
-ssa_org = Organization.create({ name: 'Singapore Student Association', organization_category: indie })
-  OrganizationAlias.create({ organization: ssa_org, name: 'SSA' })
-tsa_org = Organization.create({ name: 'Taiwanese Student Association', organization_category: indie })
-  OrganizationAlias.create({ organization: tsa_org, name: 'TSA' })
+sdc_org = Organization.create({ name: 'SDC', organization_category: indie })
+  OrganizationAlias.create({ organization: sdc_org, name: 'Student Dormitory Council' })
+ssa_org = Organization.create({ name: 'SSA', organization_category: indie })
+  OrganizationAlias.create({ organization: ssa_org, name: 'Singapore Student Association' })
+tsa_org = Organization.create({ name: 'TSA', organization_category: indie })
+  OrganizationAlias.create({ organization: tsa_org, name: 'Taiwanese Student Association' })
 
 puts '  Blitz'
 astro_org = Organization.create({ name: 'Astronomy Club', organization_category: blitz })
