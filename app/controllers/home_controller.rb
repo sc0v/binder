@@ -10,7 +10,14 @@ class HomeController < ApplicationController
     @query = params[:query]
     
     @participant_lookup = Participant.find_by_card(@query)
-    redirect_to @participant_lookup unless (@participant_lookup.nil?) 
+    @participant_lookup = Participant.find_by_andrewid(@query.downcase) unless !@participant_lookup.blank?
+    unless @participant_lookup.nil?
+      if @participant_lookup.organizations.blank?
+        redirect_to new_participant_membership_path(@participant_lookup)
+      else
+        redirect_to @participant_lookup
+      end
+    end
     
     @tool_lookup = Tool.find_by_barcode(@query)
     redirect_to @tool_lookup unless(@tool_lookup.nil?)
