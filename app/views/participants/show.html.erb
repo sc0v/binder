@@ -6,28 +6,34 @@
 
   <dl class="dl-horizontal">
     <% if can?(:read_phone_number, @participant) %>
-      <dt><strong><%= model_class.human_attribute_name(:phone_number) %>:</strong>
+      <dt><strong><%= model_class.human_attribute_name(:phone_number) %>:</strong></dt>
       <dd><%= @participant.formatted_phone_number %>
     <% end %>
-    <dt><strong><%= model_class.human_attribute_name(:department) %>:</strong>
-    <dd><%= @participant.department %>
-    <dt><strong><%= model_class.human_attribute_name(:student_class) %>:</strong>
-    <dd><%= @participant.student_class %>
-    <dt><strong><%= model_class.human_attribute_name(:memberships) %></strong>
-    <% @memberships.each do |membership| %>
-      <dd>
-        <%= link_to membership.organization_name_formatted, membership.organization %>
-        <% if can?(:edit, membership) %>
-          <%= link_to t('.edit', :default => t("helpers.links.edit")), 
-                      edit_participant_membership_path(@participant, membership), 
-                      :class => 'btn btn-primary btn-xs' %>
-        <% end %>
-      </dd>
-    <% end %>
+    <dt><strong><%= model_class.human_attribute_name(:department) %>:</strong></dt>
+    <dd><%= @participant.department %></dd>
+    <dt><strong><%= model_class.human_attribute_name(:student_class) %>:</strong></dt>
+    <dd><%= @participant.student_class %></dd>
+    <dt><strong>Organizations:</strong></dt>
+    <dd>
+      <% unless @memberships.blank? %>
+        <ul class="list-unstyled">
+          <% @memberships.each do |membership| %>
+            <li>
+              <%= link_to membership.organization_name_formatted, membership.organization %>
+              <% if can?(:edit, membership) %>
+                <%= link_to 'Edit Membership', 
+                            edit_participant_membership_path(@participant, membership), 
+                            :class => 'btn btn-primary btn-xs' %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </dd>
 
     <% if can?(:read, Role) %>
-      <% unless @participant.user.blank? %>
-        <dt><strong><%= model_class.human_attribute_name(:user_roles) %></strong>
+      <% unless @participant.user.blank? or @participant.user.roles.blank? %>
+        <dt><strong><%= model_class.human_attribute_name(:user_roles) %>:</strong></dt>
         <% @participant.user.roles.each do |role| %>
           <% if can?(:read, role) %>
             <dd><%= role.name %></dd>
@@ -36,7 +42,6 @@
       <% end %>
     <% end %>
   </dl>
-  </br>
 
   <%= link_to t('.back', :default => t("helpers.links.back")),
               participants_path, :class => 'btn btn-default' %>
@@ -45,7 +50,7 @@
               edit_participant_path(@participant), :class => 'btn btn-primary' %>
   <% end %>
   <% if can?(:create, Membership) %>
-    <%= link_to t('.add membership', :default => t("helpers.links.add membership")),
+    <%= link_to 'Add Memberships',
               new_participant_membership_path(@participant), :class => 'btn btn-success' %>
   <% end %>
 
