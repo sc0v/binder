@@ -24,13 +24,13 @@
 			<%= hidden_field_tag 'url', tool_path(@tool) %>
 	    <%= submit_tag t('.checkin', :default => t("helpers.links.checkin")),
 			            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-	                :class => 'btn btn-warning' %>
+	                :class => 'btn btn-success' %>
 	  <% end -%>
 	<% end %>
 <% else %>
   <% if can?(:create, Checkout) %>
     <%= link_to t('.checkout', :default => t("helpers.links.checkout")),
-                    new_tool_checkout_path(@tool), :class => 'btn btn-success' %>
+                    new_tool_checkout_path(@tool), :class => 'btn btn-warning' %>
   <% end %>
 <% end %>
 
