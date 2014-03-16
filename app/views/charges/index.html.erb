@@ -7,7 +7,7 @@
 </div>
 
 <p>
-  If a row is gray then the charge is still pending approval by an admin.
+  If a row is yellow then the charge is still pending approval by an admin.
 </p>
 
 <table class="table table-striped">
@@ -27,7 +27,7 @@
   <tbody>
     <% @charges.each do |charge| %>
       <% if can?(:read, charge) %>
-        <tr <%= raw('class="success"') if charge.is_approved? %>>
+        <tr <%= raw('class="warning"') if !charge.is_approved? %>>
           <td><%= link_to "show", charge, class: 'btn btn-info btn-xs' %></td>
           <td><%= charge.charge_type.name %></td>
           <td><%= number_to_currency charge.amount %></td>
