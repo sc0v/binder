@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140103210420) do
+ActiveRecord::Schema.define(version: 20140313072303) do
 
   create_table "charge_types", force: true do |t|
     t.string   "name"
@@ -32,7 +32,6 @@ ActiveRecord::Schema.define(version: 20140103210420) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "charged_at"
-    t.boolean  "approved"
     t.boolean  "is_approved"
   end
 
@@ -123,6 +122,7 @@ ActiveRecord::Schema.define(version: 20140103210420) do
     t.integer  "organization_category_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "short_name"
   end
 
   add_index "organizations", ["organization_category_id"], name: "index_organizations_on_organization_category_id"
@@ -169,6 +169,7 @@ ActiveRecord::Schema.define(version: 20140103210420) do
     t.string   "name"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "short_name"
   end
 
   create_table "shifts", force: true do |t|
