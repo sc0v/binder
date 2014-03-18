@@ -82,6 +82,9 @@ mcs_org = Organization.create({ name: 'Mellon College of Science', organization_
 #mudge_org = Organization.create({ name: 'Mudge', organization_category: blitz })
 sae_org = Organization.create({ name: 'Sigma Alpha Epsilon', organization_category: blitz, short_name: 'SAE' })
 spirit_org = Organization.create({ name: 'Spirit', organization_category: blitz })
+phidelt_org = Organization.create({ name: 'Phi Delta Theta', organization_category: blitz, short_name: 'PhiDelt' })
+lambda_org = Organization.create({ name: 'Lambda Phi Epsilon', organization_category: blitz, short_name: 'Lambda' })
+mudge_org = Organization.create({ name: 'Mudge', organization_category: blitz })
 #stever_org = Organization.create({ name: 'Stever', organization_category: blitz })
 
 puts '  Non-Building'
@@ -115,6 +118,11 @@ jackson_user.save!
 jackson = Participant.create({ andrewid: 'jgallagh', phone_number: 9376847115, user: jackson_user })
 Membership.create({ organization: scc_org, participant: jackson, title: 'Carnival Co-Chair' })
 Membership.create({ organization: dtd_org, participant: jackson })
+tim_user = User.new({ email: 'leonardt@andrew.cmu.edu', name: 'Tim Leonard'})
+# Fix this with shibboleth
+tim_user.save!
+tim = Participant.create({ andrewid: 'leonardt', phone_number: 4122688704, user: tim_user })
+Membership.create({ organization: scc_org, participant: tim, title: 'Coordinator of Student Activities' })
 
 # Booth Chairs ----------------------------------------------------------------
 puts 'Booth Chairs'
@@ -166,6 +174,10 @@ Membership.create({ organization: dtd_org, booth_chair_order: 3, participant: Pa
 Membership.create({ organization: dtd_org, booth_chair_order: 4, participant: Participant.create({ andrewid: 'bbzhang', phone_number: 4127223696 }), is_booth_chair: true })
 Membership.create({ organization: dtd_org, booth_chair_order: 5, participant: Participant.create({ andrewid: 'achisolm', phone_number: 6315468835 }), is_booth_chair: true })
 
+puts '  DU'
+Membership.create({ organization: du_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'khrivera' }), is_booth_chair: true })
+
+
 puts '  Fringe'
 Membership.create({ organization: fringe_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'aahiggin', phone_number: 7032970163 }), is_booth_chair: true })
 
@@ -190,6 +202,10 @@ Membership.create({ organization: kgb_org, booth_chair_order: 1, participant: Pa
 Membership.create({ organization: kgb_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'jlareau', phone_number: 2038228199 }), is_booth_chair: true })
 Membership.create({ organization: kgb_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'sguertin', phone_number: 8029893063 }), is_booth_chair: true })
 
+puts '  Lambda'
+Membership.create({ organization: mudge_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'mgode' }), is_booth_chair: true })
+Membership.create({ organization: mudge_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'jylu' }), is_booth_chair: true })
+
 puts '  Math'
 Membership.create({ organization: math_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'dmehrle', phone_number: 6144588176 }), is_booth_chair: true })
 Membership.create({ organization: math_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'zng', phone_number: 4434735523 }), is_booth_chair: true })
@@ -205,6 +221,14 @@ Membership.create({ organization: mcs_org, booth_chair_order: 2, participant: Pa
 Membership.create({ organization: mcs_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'kaitlinh' }), is_booth_chair: true })
 Membership.create({ organization: mcs_org, booth_chair_order: 4, participant: Participant.create({ andrewid: 'phkoenig' }), is_booth_chair: true })
 Membership.create({ organization: mcs_org, booth_chair_order: 5, participant: Participant.create({ andrewid: 'jiyunkwo' }), is_booth_chair: true })
+
+puts '  Mudge'
+Membership.create({ organization: mudge_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'jmonroe' }), is_booth_chair: true })
+
+puts '  PhiDelt'
+Membership.create({ organization: phidelt_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'bferri' }), is_booth_chair: true })
+Membership.create({ organization: phidelt_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'abourai' }), is_booth_chair: true })
+Membership.create({ organization: phidelt_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'sholmes' }), is_booth_chair: true })
 
 puts '  SAE'
 Membership.create({ organization: sae_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'jgreenbe', phone_number: 2014781454 }), is_booth_chair: true })
