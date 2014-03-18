@@ -46,5 +46,15 @@ class Organization < ActiveRecord::Base
   def non_booth_chairs
     memberships.where(:is_booth_chair => false).map{|m| m.participant}
   end
+  
+  def short_name
+    short_name = read_attribute(:short_name)
+    
+    unless short_name.blank?
+      return short_name
+    else
+      return name
+    end
+  end
 end
 
