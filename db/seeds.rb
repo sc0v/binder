@@ -145,8 +145,9 @@ Membership.create({ organization: aphio_org, booth_chair_order: 1, participant: 
 Membership.create({ organization: aphio_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'judyh', phone_number: 5165074684 }), is_booth_chair: true })
 
 puts '  ASA'
-Membership.create({ organization: asa_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'jalau', phone_number: 7813544899 }), is_booth_chair: true })
-Membership.create({ organization: asa_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'cratanal' }), is_booth_chair: true })
+Membership.create({ organization: asa_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'yangyou' }), is_booth_chair: true })
+Membership.create({ organization: asa_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'jalau', phone_number: 7813544899 }), is_booth_chair: true })
+Membership.create({ organization: asa_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'sanghyup' }), is_booth_chair: true })
 
 puts '  Astro'
 Membership.create({ organization: astro_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'mfinlay', phone_number: 2103108054 }), is_booth_chair: true })
