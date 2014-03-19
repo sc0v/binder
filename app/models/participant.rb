@@ -40,6 +40,10 @@ class Participant < ActiveRecord::Base
 
   default_scope { order('andrewid') }
   scope :search, lambda { |term| where('lower(andrewid) LIKE lower(?) OR lower(cached_name) LIKE lower(?)', "%#{term}%", "%#{term}%") }
+  
+  def self.scc
+    joins(:organizations).where(organizations: {name: 'Spring Carnival Committee'})
+  end
 
   def is_booth_chair?
     !memberships.booth_chairs.blank?
