@@ -28,11 +28,12 @@ $(document).on("page:change", function(){
       }      
     }).done( function(data) {
       console.log(data['name']);
-      $('#participant_id').val(data['id']);
-      $('#participant-info').html("</br><div class=\"panel panel-success\"><div class=\"panel-heading\">Participant Info</div><div class=\"panel-body\">" + data["name"] + "</div>");
+      console.log($(this));
+      $('#card-number-input').parent().children().first().val(data['id']);
+      $('#card-number-input').parent().children().last().html("</br><div class=\"panel panel-success\"><div class=\"panel-heading\">Participant Info</div><div class=\"panel-body\">" + data["name"] + "</div>");
     }).error( function(data) {
-      $('#participant_id').val("");
-      $('#participant-info').html("</br><div class=\"panel panel-danger\"><div class=\"panel-heading\">Participant Not Found</div><div class=\"panel-body\">If this message persists please try entering their andrewid instead.</div>")
+      $('#card-number-input').parent().children().first().val("");
+      $('#card-number-input').parent().children().last().html("</br><div class=\"panel panel-danger\"><div class=\"panel-heading\">Participant Not Found</div><div class=\"panel-body\">If this message persists please try entering their andrewid instead.</div>")
     });
   });
   
