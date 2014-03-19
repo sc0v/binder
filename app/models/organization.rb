@@ -19,7 +19,7 @@
 #
 
 class Organization < ActiveRecord::Base
-  validates_presence_of :organization_category, :name
+  validates_presence_of :organization_category_id, :name
   validates_associated :organization_category
   validates :name, :uniqueness => true
 
@@ -37,7 +37,7 @@ class Organization < ActiveRecord::Base
 
   default_scope { order('name asc') }
 
-  scope :search, lambda { |term| where('lower(name) LIKE lower(?)', "%#{term}%") } 
+  scope :search, lambda { |term| where('lower(name) LIKE lower(?)', "%#{term}%") }
   
   def booth_chairs
     memberships.where(:is_booth_chair => true).order('booth_chair_order ASC').map{|m| m.participant}
