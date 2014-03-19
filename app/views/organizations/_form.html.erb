@@ -1,6 +1,7 @@
 <%= simple_form_for @organization, :html => { :class => 'form-horizontal' } do |f| %>
   <div class="form-inputs">
     <%= f.input :name %>
+    <%= f.input :short_name %>
     <%= f.association :organization_category %>
   </div>
 
