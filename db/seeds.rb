@@ -764,11 +764,6 @@ when 'development'
   puts
 
   puts "Users & Participants"
-  chase_user = User.new({ email: "cbrownel@andrew.cmu.edu", name: "Chase" })
-  chase_user.save
-  chase = Participant.create({ andrewid: 'cbrownel', phone_number: 7173435788, user: chase_user })
-  chase_in_dtd = Membership.create({ participant: chase, organization: dtd_org, is_booth_chair: true })
-
   merichar_user = User.new({email: "meribyte@andrew.cmu.edu", name: "Meg Richards" })
   merichar_user.save
   merichar = Participant.create({ andrewid: 'meribyte', user: merichar_user })
@@ -799,8 +794,13 @@ when 'development'
     {name: "done4", due_at: Time.now, completed_by: chase, is_completed: true },
     {name: "done5", due_at: Time.now, completed_by: chase, is_completed: true },
     {name: "done6", due_at: Time.now, completed_by: chase, is_completed: true },
-    {name: "not done", due_at: Time.now, completed_by: chase, is_completed: true },
-    {name: "late", due_at: Time.now - 30.minutes }])
+    {name: "not done1", due_at: Time.now + 1.hour, completed_by: chase, is_completed: true },
+    {name: "not done2", due_at: Time.now + 1.hour, completed_by: chase, is_completed: true },
+    {name: "not done3", due_at: Time.now + 1.hour, completed_by: chase, is_completed: true },
+    {name: "late1", due_at: Time.now - 30.minutes },
+    {name: "late2", due_at: Time.now - 30.minutes },
+    {name: "late3", due_at: Time.now - 30.minutes }
+  ])
 when 'production'
   #blah
 end
