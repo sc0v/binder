@@ -99,30 +99,46 @@ habitat_org = Organization.create({ name: 'Habitat for Humanity', organization_c
 # SCC Members -----------------------------------------------------------------
 puts 'SCC Members (not exhaustive)'
 rachel_user = User.new({ email: 'rcrown@andrew.cmu.edu', name: 'Rachel Crown'})
-# Fix this with shibboleth
 rachel_user.add_role :admin
 rachel_user.save!
 rachel = Participant.create({ andrewid: 'rcrown', phone_number: 6178617669, user: rachel_user })
-Membership.create({ organization: scc_org, participant: rachel, title: 'Midway Chair' })
+Membership.create({ organization: scc_org, participant: rachel, title: 'Midway Chair', is_booth_chair: true })
 Membership.create({ organization: kat_org, participant: rachel })
+
 emily_user = User.new({ email: 'ehrin@andrew.cmu.edu', name: 'Emily Hrin' })
-# Fix this with shibboleth
 emily_user.add_role :admin
 emily_user.save!
 emily = Participant.create({ andrewid: 'ehrin', phone_number: 7037854617, user: emily_user })
-Membership.create({ organization: scc_org, participant: emily, title: 'Carnival Co-Chair' })
+Membership.create({ organization: scc_org, participant: emily, title: 'Carnival Co-Chair', is_booth_chair: true })
 Membership.create({ organization: aphi_org, participant: emily })
+
 jackson_user = User.new({ email: 'jgallagh@andrew.cmu.edu', name: 'Jackson Gallagher' })
 jackson_user.add_role :admin
 jackson_user.save!
 jackson = Participant.create({ andrewid: 'jgallagh', phone_number: 9376847115, user: jackson_user })
-Membership.create({ organization: scc_org, participant: jackson, title: 'Carnival Co-Chair' })
+Membership.create({ organization: scc_org, participant: jackson, title: 'Carnival Co-Chair', is_booth_chair: true })
 Membership.create({ organization: dtd_org, participant: jackson })
+
 tim_user = User.new({ email: 'leonardt@andrew.cmu.edu', name: 'Tim Leonard'})
-# Fix this with shibboleth
+tim_user.add_role :admin
 tim_user.save!
 tim = Participant.create({ andrewid: 'leonardt', phone_number: 4122688704, user: tim_user })
-Membership.create({ organization: scc_org, participant: tim, title: 'Coordinator of Student Activities' })
+Membership.create({ organization: scc_org, participant: tim, title: 'Coordinator of Student Activities', is_booth_chair: true })
+Membership.create({ organization: dosa_org, participant: tim, title: 'Coordinator of Student Activities', is_booth_chair: true })
+
+hank_user = User.new({ email: 'mhankows@andrew.cmu.edu', name: 'Hank'})
+hank_user.add_role :admin
+hank_user.save!
+hank = Participant.create({ andrewid: 'mhankows', phone_number: 2159391658, user: hank_user })
+Membership.create({ organization: scc_org, participant: hank, title: 'Treasurer' })
+Membership.create({ organization: dtd_org, participant: hank })
+
+chase_user = User.new({ email: 'cbrownel@andrew.cmu.edu', name: 'Chase'})
+chase_user.add_role :admin
+chase_user.save!
+chase = Participant.create({ andrewid: 'cbrwonel', phone_number: 1713435788, user: chase_user })
+Membership.create({ organization: scc_org, participant: chase, title: 'Web Troll' })
+Membership.create({ organization: dtd_org, participant: chase })
 
 # Booth Chairs ----------------------------------------------------------------
 puts 'Booth Chairs'
