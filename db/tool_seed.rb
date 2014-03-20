@@ -495,7 +495,11 @@ def generate_tools
     { barcode:    496, name: 'Org Hardhat', description: 'White' },
     { barcode:    497, name: 'Org Hardhat', description: 'White' },
     { barcode:    498, name: 'Org Hardhat', description: 'White' },
-    { barcode:    499, name: 'Org Hardhat', description: 'White' },
+    { barcode:    499, name: 'Org Hardhat', description: 'White' }
+  ])
+  
+  puts '500-1000'
+  Tool.create([
     { barcode:    500, name: 'Org Hardhat', description: 'White' },
     { barcode:    501, name: 'Org Hardhat', description: 'White' },
     { barcode:    502, name: 'Org Hardhat', description: 'White' },
@@ -983,7 +987,11 @@ def generate_tools
     { barcode:    996, name: 'Org Hardhat', description: 'White' },
     { barcode:    997, name: 'Org Hardhat', description: 'White' },
     { barcode:    998, name: 'Org Hardhat', description: 'White' },
-    { barcode:    999, name: 'Org Hardhat', description: 'White' },
+    { barcode:    999, name: 'Org Hardhat', description: 'White' }
+  ])
+  
+  puts '1000-1500'
+  Tool.create([
     { barcode:   1000, name: 'Org Hardhat', description: 'White' },
     { barcode:   1001, name: 'Org Hardhat', description: 'White' },
     { barcode:   1002, name: 'Org Hardhat', description: 'White' },
@@ -1473,7 +1481,11 @@ def generate_tools
     { barcode:   1496, name: 'Org Hardhat', description: 'White' },
     { barcode:   1497, name: 'Org Hardhat', description: 'White' },
     { barcode:   1498, name: 'Org Hardhat', description: 'White' },
-    { barcode:   1499, name: 'Org Hardhat', description: 'White' },
+    { barcode:   1499, name: 'Org Hardhat', description: 'White' }
+  ])
+  
+  puts '1500-2000'
+  Tool.create([
     { barcode:   1500, name: 'Org Hardhat', description: 'White' },
     { barcode:   1501, name: 'Org Hardhat', description: 'White' },
     { barcode:   1502, name: 'Org Hardhat', description: 'White' },
@@ -1915,5 +1927,6 @@ def generate_tools
     { barcode:   2038, name: "Drill", description: "Dewalt 18v" },
     { barcode:   2039, name: "Garden Hose" },
     { barcode:   2044, name: "Ladder", description: "Werner Orange 10'" },
-    { barcode:   2045, name: "Ladder", description: "Werner Orange 8'" }])
+    { barcode:   2045, name: "Ladder", description: "Werner Orange 8'" }
+  ])
 end
