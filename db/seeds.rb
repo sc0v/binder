@@ -317,7 +317,7 @@ Membership.create({ organization: mayur_org, booth_chair_order: 1, participant: 
 
 puts '  MCS'
 Membership.create({ organization: mcs_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'rfrancol' }), is_booth_chair: true })
-Membership.create({ organization: mcs_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'meschaef' }), is_booth_chair: true })
+Membership.create({ organization: mcs_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'meschaef', phone_number: 6312557501 }), is_booth_chair: true })
 Membership.create({ organization: mcs_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'kaitlinh' }), is_booth_chair: true })
 Membership.create({ organization: mcs_org, booth_chair_order: 4, participant: Participant.create({ andrewid: 'phkoenig' }), is_booth_chair: true })
 Membership.create({ organization: mcs_org, booth_chair_order: 5, participant: Participant.create({ andrewid: 'jiyunkwo' }), is_booth_chair: true })
