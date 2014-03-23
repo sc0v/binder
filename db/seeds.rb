@@ -32,8 +32,9 @@ ehs_org = Organization.create({ name: 'Environmental Health and Safety', organiz
 fms_org = Organization.create({ name: 'Facilities Management Services', organization_category: university, short_name: 'FMS' })
 dosa_org = Organization.create({ name: 'Student Affairs', organization_category: university, short_name: 'DOSA' })
   OrganizationAlias.create({ organization: dosa_org, name: 'Division of Student Affairs' })
+  OrganizationAlias.create({ organization: dosa_org, name: 'DOSA' })
   OrganizationAlias.create({ organization: dosa_org, name: 'Student Activities' })
-  OrganizationAlias.create({ organization: dosa_org, name: 'Student Live' })
+  OrganizationAlias.create({ organization: dosa_org, name: 'Student Life' })
   OrganizationAlias.create({ organization: dosa_org, name: 'SLO' })
 
 puts '  Consessions'
