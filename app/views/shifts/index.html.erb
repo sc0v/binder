@@ -22,7 +22,11 @@
       <th class="hidden-xs"><%= model_class.human_attribute_name(:required_number_of_participants) %></th>
       <th>
         <% if ( @organization.blank? ) %>
-          <%= model_class.human_attribute_name(:organization) %>
+          <% if ( params[:type] == "coordinator" ) %>
+            SCC Member
+          <% else %>
+            <%= model_class.human_attribute_name(:organization) %>
+          <% end %>
         <% else %>
           <%= model_class.human_attribute_name(:shift_type) %>
         <% end %>
@@ -41,7 +45,11 @@
           <td class="hidden-xs"><%= shift.required_number_of_participants %></td>
           <td>
             <% if ( @organization.blank? ) %>
-              <%= link_to shift.organization.name, shift.organization unless shift.organization.blank? %>
+              <% if ( params[:type] == "coordinator" ) %>
+                <%= link_to shift.shift_participants.first.participant.name, shift.shift_participants.first unless shift.shift_participants.blank? %>
+              <% else %>
+                <%= link_to shift.organization.name, shift.organization unless shift.organization.blank? %>
+              <% end %>
             <% else %>
               <%= shift.shift_type.name %>
             <% end %>
