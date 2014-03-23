@@ -18,6 +18,7 @@
 
 $(document).on("page:change", function(){
   $('#query').focus();
+  $('.sidebar-tooltip').tooltip({container: 'body', html: true});
   
   $('#card-number-input').bind("change", function() {
     $.ajax({

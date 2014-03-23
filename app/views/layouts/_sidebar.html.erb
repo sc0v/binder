@@ -1,1 +1,71 @@
- 
+<div class="panel panel-default">
+   <div class="panel-heading">
+     Shifts
+   </div>
+   <div class="panel-body">
+     <table class="table table-condensed" style="margin-bottom: 0;">
+       <thead>
+         <th>Current</th>
+         <th style="text-align: right;">Ends at</th>
+       </thead>
+       <tbody>
+         <% @current_shifts.each do |shift| %>
+           <tr class="success sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %>">
+             <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+               <% if (shift.shift_type.name == "Coordinator Shift") %>
+                 <%= link_to shift.shift_participants.first.participant.name unless shift.shift_participants.blank? %>
+               <% else %>
+                 <%= link_to shift.organization.short_name, shift %>
+                <% end %>
+             </td>
+             <td style="text-align: right;"><%= time shift.ends_at %></td>
+           </tr>
+         <% end %>
+       </tbody>
+     </table>
+     <% unless @upcoming_shifts.blank? %>
+       <table class="table table-condensed table-striped" style="margin-bottom: 0;">
+         <thead>
+           <th>Upcoming</th>
+           <th style="text-align: right;">Starts at</th>
+         </thead>
+         <tbody>
+           <% @upcoming_shifts.each do |shift| %>
+             <tr class="warning sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %>">
+               <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                 <% if (shift.shift_type.name == "Coordinator Shift") %>
+                   <%= link_to shift.shift_participants.first.participant.name unless shift.shift_participants.blank? %>
+                 <% else %>
+                   <%= link_to shift.organization.short_name, shift %>
+                  <% end %>
+               </td>
+               <td style="text-align: right;"><%= time shift.starts_at %></td>
+             </tr>
+           <% end %>
+         </tbody>
+       </table>
+     <% end %>
+   </div>
+</div>
+
+<div class="panel panel-default">
+   <div class="panel-heading">
+     Tasks
+   </div>
+   <div class="panel-body">
+     <table class="table table-condensed" style="margin-bottom: 0;">
+       <thead>
+         <th>Task</th>
+         <th style="text-align: right;">Due By</h>
+       </thead>
+       <tbody>
+         <% @tasks.each do |task| %>
+           <tr class="sidebar-tooltip" data-toggle="tooltip" data-placement="left" title="<%= task.name %>:</br></br><%= task.description %>">
+             <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><%= task.name %></td>
+             <td style="text-align: right;"><%= time task.due_at%></td>
+           </tr>
+         <% end %>
+       </tbody>
+     </table>
+   </div>
+</div>

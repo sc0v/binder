@@ -1,7 +1,7 @@
 <%= simple_form_for @shift_participant do |f| %>
   <%= f.input :shift_id, :as => :hidden, :input_html => { :value => params[:shift_id] } %>
   <%= f.input :participant_id do %>
-    <%= hidden_field_tag :participant_id %>
+    <%= f.input_field :participant_id, as: :hidden %>
     <%= text_field_tag 'card-number-input', nil, class: 'form-control' %>
     <div id="participant-info"></div>
   <% end %>
