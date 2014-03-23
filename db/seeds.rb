@@ -84,7 +84,7 @@ mcs_org = Organization.create({ name: 'Mellon College of Science', organization_
 sae_org = Organization.create({ name: 'Sigma Alpha Epsilon', organization_category: blitz, short_name: 'SAE' })
 spirit_org = Organization.create({ name: 'Spirit', organization_category: blitz })
 phidelt_org = Organization.create({ name: 'Phi Delta Theta', organization_category: blitz, short_name: 'PhiDelt' })
-lambda_org = Organization.create({ name: 'Lambda Phi Epsilon', organization_category: blitz, short_name: 'Lambda' })
+#lambda_org = Organization.create({ name: 'Lambda Phi Epsilon', organization_category: blitz, short_name: 'Lambda' })
 mudge_org = Organization.create({ name: 'Mudge', organization_category: blitz })
 #stever_org = Organization.create({ name: 'Stever', organization_category: blitz })
 
@@ -303,9 +303,9 @@ Membership.create({ organization: kgb_org, booth_chair_order: 1, participant: Pa
 Membership.create({ organization: kgb_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'jlareau', phone_number: 2038228199 }), is_booth_chair: true })
 Membership.create({ organization: kgb_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'sguertin', phone_number: 8029893063 }), is_booth_chair: true })
 
-puts '  Lambda'
-Membership.create({ organization: mudge_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'mgode' }), is_booth_chair: true })
-Membership.create({ organization: mudge_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'jylu' }), is_booth_chair: true })
+#puts '  Lambda'
+#Membership.create({ organization: mudge_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'mgode' }), is_booth_chair: true })
+#Membership.create({ organization: mudge_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'jylu' }), is_booth_chair: true })
 
 puts '  Math'
 Membership.create({ organization: math_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'dmehrle', phone_number: 6144588176 }), is_booth_chair: true })
