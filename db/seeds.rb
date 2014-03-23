@@ -136,9 +136,92 @@ Membership.create({ organization: dtd_org, participant: hank })
 chase_user = User.new({ email: 'cbrownel@andrew.cmu.edu', name: 'Chase'})
 chase_user.add_role :admin
 chase_user.save!
-chase = Participant.create({ andrewid: 'cbrwonel', phone_number: 1713435788, user: chase_user })
+chase = Participant.create({ andrewid: 'cbrownel', phone_number: 1713435788, user: chase_user })
 Membership.create({ organization: scc_org, participant: chase, title: 'Web Troll' })
 Membership.create({ organization: dtd_org, participant: chase })
+
+Participant.create([
+{ andrewid: 'amartine', phone_number: 9255777645 },
+{ andrewid: 'jcmertz' },
+{ andrewid: 'mtai', phone_number: 5104159639 },
+{ andrewid: 'ncoauett', phone_number: 8183991074 },
+{ andrewid: 'prheinhe', phone_number: 7082613175 },
+{ andrewid: 'rdalal', phone_number: 6097121122 },
+{ andrewid: 'cssmith', phone_number: 8587364940 },
+{ andrewid: 'amort' },
+{ andrewid: 'cweintra', phone_number: 2038309156 },
+{ andrewid: 'ejsolomo', phone_number: 2037257024 },
+{ andrewid: 'laurenmi', phone_number: 9082091492 },
+{ andrewid: 'nettling', phone_number: 7816087010 },
+{ andrewid: 'snanda', phone_number: 6312756531 },
+{ andrewid: 'tchitten', phone_number: 4252136112 },
+{ andrewid: 'crockoff', phone_number: 8189174979 },
+{ andrewid: 'bdshih' },
+{ andrewid: 'hloo' },
+{ andrewid: 'mbignell', phone_number: 8313450639 },
+{ andrewid: 'mcahill', phone_number: 5703358167 },
+{ andrewid: 'michell2' },
+{ andrewid: 'wavil', phone_number: 7034093855 },
+{ andrewid: 'arakla', phone_number: 2817692637 },
+{ andrewid: 'dmiele' },
+{ andrewid: 'egarbade', phone_number: 9734944492 },
+{ andrewid: 'ekarras' },
+{ andrewid: 'ise', phone_number: 9737967448 },
+{ andrewid: 'vsivakum', phone_number: 9172444241 },
+{ andrewid: 'msiko' },
+{ andrewid: 'meribyte', phone_number: 8456424549 },
+{ andrewid: 'rakhan' },
+{ andrewid: 'dcbrout', phone_number: 9145238600 }
+])
+
+Membership.create([
+{ participant: Participant.find_by_andrewid('nettling'), organization: scc_org, title: 'Operations Chair' },
+{ participant: Participant.find_by_andrewid('mbignell'), organization: scc_org, title: 'Marketing Chair' },
+{ participant: Participant.find_by_andrewid('msiko'), organization: scc_org, title: 'Special Ops Chair' },
+{ participant: Participant.find_by_andrewid('dmiele'), organization: scc_org, title: 'Asst. Midway - Director of Electrical' },
+{ participant: Participant.find_by_andrewid('wavil'), organization: scc_org, title: 'Asst. Midway - Director of Sorority' },
+{ participant: Participant.find_by_andrewid('bdshih'), organization: scc_org, title: 'Asst. Midway - Director of Fraternity/Independent' },
+{ participant: Participant.find_by_andrewid('mcahill'), organization: scc_org, title: 'Asst. Midway - Director of Fraternity/Independent' },
+{ participant: Participant.find_by_andrewid('hloo'), organization: scc_org, title: 'Asst. Midway - Director of Blitz' },
+{ participant: Participant.find_by_andrewid('cweintra'), organization: scc_org, title: 'Asst. Midway - Admin Coordinator' },
+{ participant: Participant.find_by_andrewid('rdalal'), organization: scc_org, title: 'Asst. Marketing' },
+{ participant: Participant.find_by_andrewid('jcmertz'), organization: scc_org, title: 'Asst. Operations - Entranceway' },
+{ participant: Participant.find_by_andrewid('prheinhe'), organization: scc_org, title: 'Asst. Operations - Power' },
+{ participant: Participant.find_by_andrewid('ejsolomo'), organization: scc_org, title: 'Asst. Operations - Parking' },
+{ participant: Participant.find_by_andrewid('snanda'), organization: scc_org, title: 'Asst. Operations - Parking' },
+{ participant: Participant.find_by_andrewid('meribyte'), organization: scc_org, title: 'Asst. Operations - Golf Carts' },
+{ participant: Participant.find_by_andrewid('amort'), organization: scc_org, title: 'AB Tech Liaison' },
+{ participant: Participant.find_by_andrewid('dcbrout'), organization: scc_org, title: 'EMS Liaison' },
+{ participant: Participant.find_by_andrewid('ncoauett'), organization: scc_org, title: 'Asst. Operations' },
+{ participant: Participant.find_by_andrewid('cssmith'), organization: scc_org, title: 'Asst. Operations' },
+{ participant: Participant.find_by_andrewid('laurenmi'), organization: scc_org, title: 'Asst. Operations' },
+{ participant: Participant.find_by_andrewid('tchitten'), organization: scc_org, title: 'Asst. Operations' },
+{ participant: Participant.find_by_andrewid('crockoff'), organization: scc_org, title: 'Asst. Operations' },
+{ participant: Participant.find_by_andrewid('arakla'), organization: scc_org, title: 'Asst. Operations' },
+{ participant: Participant.find_by_andrewid('egarbade'), organization: scc_org, title: 'Asst. Operations' },
+{ participant: Participant.find_by_andrewid('ekarras'), organization: scc_org, title: 'Asst. Operations' },
+{ participant: Participant.find_by_andrewid('ise'), organization: scc_org, title: 'Asst. Operations' },
+{ participant: Participant.find_by_andrewid('vsivakum'), organization: scc_org, title: 'Asst. Operations' },
+{ participant: Participant.find_by_andrewid('michell2'), organization: scc_org },
+{ participant: Participant.find_by_andrewid('amartine'), organization: scc_org },
+{ participant: Participant.find_by_andrewid('mtai'), organization: scc_org },
+{ participant: Participant.find_by_andrewid('rakhan'), organization: scc_org }
+])
+
+Membership.create([
+{ participant: Participant.find_by_andrewid('mtai'), organization: ddd_org },
+{ participant: Participant.find_by_andrewid('cweintra'), organization: kkg_org },
+{ participant: Participant.find_by_andrewid('nettling'), organization: phidelt_org },
+{ participant: Participant.find_by_andrewid('crockoff'), organization: kat_org },
+{ participant: Participant.find_by_andrewid('bdshih'), organization: tsa_org },
+{ participant: Participant.find_by_andrewid('hloo'), organization: ssa_org },
+{ participant: Participant.find_by_andrewid('mbignell'), organization: kkg_org },
+{ participant: Participant.find_by_andrewid('mcahill'), organization: ddd_org },
+{ participant: Participant.find_by_andrewid('wavil'), organization: sigep_org },
+{ participant: Participant.find_by_andrewid('arakla'), organization: sdc_org },
+{ participant: Participant.find_by_andrewid('ekarras'), organization: axo_org },
+{ participant: Participant.find_by_andrewid('dcbrout'), organization: dtd_org }
+])
 
 # Booth Chairs ----------------------------------------------------------------
 puts 'Booth Chairs'

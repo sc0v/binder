@@ -1,4 +1,5 @@
 def generate_tools
+  puts '1-500'
   Tool.create([
     { barcode:      2, name: 'SCC Radio', description: 'Motorola CP200' },
     { barcode:      3, name: 'SCC Radio', description: 'Motorola CP200' },
