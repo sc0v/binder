@@ -141,6 +141,12 @@ chase = Participant.create({ andrewid: 'cbrownel', phone_number: 1713435788, use
 Membership.create({ organization: scc_org, participant: chase, title: 'Web Troll' })
 Membership.create({ organization: dtd_org, participant: chase })
 
+merichar_user = User.new({email: "meribyte@andrew.cmu.edu", name: "Meg" })
+merichar_user.add_role :admin
+merichar_user.save!
+merichar = Participant.create({ andrewid: 'meribyte', phone_number: 8456424549, user: merichar_user })
+Membership.create({ organization: scc_org, participant: merichar, title: 'Asst. Operations - Golf Carts & Assistant Web Troll' )}
+
 Participant.create([
 { andrewid: 'amartine', phone_number: 9255777645 },
 { andrewid: 'jcmertz' },
@@ -170,7 +176,6 @@ Participant.create([
 { andrewid: 'ise', phone_number: 9737967448 },
 { andrewid: 'vsivakum', phone_number: 9172444241 },
 { andrewid: 'msiko' },
-{ andrewid: 'meribyte', phone_number: 8456424549 },
 { andrewid: 'rakhan' },
 { andrewid: 'dcbrout', phone_number: 9145238600 }
 ])
@@ -190,7 +195,6 @@ Membership.create([
 { participant: Participant.find_by_andrewid('prheinhe'), organization: scc_org, title: 'Asst. Operations - Power' },
 { participant: Participant.find_by_andrewid('ejsolomo'), organization: scc_org, title: 'Asst. Operations - Parking' },
 { participant: Participant.find_by_andrewid('snanda'), organization: scc_org, title: 'Asst. Operations - Parking' },
-{ participant: Participant.find_by_andrewid('meribyte'), organization: scc_org, title: 'Asst. Operations - Golf Carts' },
 { participant: Participant.find_by_andrewid('amort'), organization: scc_org, title: 'AB Tech Liaison' },
 { participant: Participant.find_by_andrewid('dcbrout'), organization: scc_org, title: 'EMS Liaison' },
 { participant: Participant.find_by_andrewid('ncoauett'), organization: scc_org, title: 'Asst. Operations' },
@@ -739,12 +743,6 @@ when 'development'
   puts
   puts 'Extra Dev Goodness:'
   puts
-
-  puts "Users & Participants"
-  merichar_user = User.new({email: "meribyte@andrew.cmu.edu", name: "Meg Richards" })
-  merichar_user.save
-  merichar = Participant.create({ andrewid: 'meribyte', user: merichar_user })
-  merichar_in_scc = Membership.create({ participant: merichar, organization: scc_org, is_booth_chair: false })
 
   puts 'Old Stuff...'
  tool = Tool.create({ name: 'Hammer', barcode: 7, description: 'it\'s a hammer' })
