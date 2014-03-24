@@ -34,7 +34,7 @@ class Shift < ActiveRecord::Base
   default_scope { order('starts_at asc') }
   scope :current, lambda { where("starts_at < ? and ends_at > ?", Time.zone.now, Time.zone.now ) }
   scope :future, lambda { where("starts_at > ?", Time.zone.now ) }
-  scope :upcoming, lambda { where("starts_at > ? and starts_at < ?", Time.zone.now, Time.zone.now + 1.hours ) }
+  scope :upcoming, lambda { where("starts_at > ? and starts_at < ?", Time.zone.now, Time.zone.now + 4.hours ) }
 
   #scopes for each type of shift, selected by their shift_type ID
   scope :watch_shifts, -> { where('shift_type_id = ?', 1) }
