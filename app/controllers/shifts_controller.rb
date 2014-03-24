@@ -64,7 +64,7 @@ class ShiftsController < ApplicationController
   # POST /shifts
   # POST /shifts.json
   def create
-    @shift = Shift.new(params[:shift])
+    @shift = Shift.new(shift_params)
 
     respond_to do |format|
       if @shift.save
@@ -81,7 +81,7 @@ class ShiftsController < ApplicationController
   # PUT /shifts/1.json
   def update
     respond_to do |format|
-      if @shift.update(params[:shift])
+      if @shift.update(shift_params)
         format.html { redirect_to @shift, notice: 'Shift was successfully updated.' }
         format.json { head :no_content }
       else
@@ -106,5 +106,9 @@ class ShiftsController < ApplicationController
 
   def set_shift
     @shift = Shift.find(params[:id])
+  end
+
+  def shift_params
+    params.require(:shift).permit(:starts_at, :ends_at, :shift_type_id, :organization_id, :required_number_of_participants)
   end
 end
