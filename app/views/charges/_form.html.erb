@@ -9,7 +9,7 @@
       </div>
 		<% end %>
     <%= f.input :description, :as => :text, textarea: "{ font-size:16px; }" %>
-    <%= f.association :issuing_participant, :collection => Participant.scc %>
+    <%= f.association :issuing_participant, :collection => Participant.all %>
     <%= f.input :receiving_participant do %>
       <%= f.input_field :receiving_participant_id, as: :hidden %>
       <%= text_field_tag 'card-number-input', nil, class: 'form-control' %>
