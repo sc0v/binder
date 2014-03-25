@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 ruby '2.0.0'
-gem 'rails', '4.0.2'
+gem 'rails', '4.0.3'
 gem 'turbolinks'
 
 gem 'sass-rails', '~> 4.0.0'
@@ -19,7 +19,7 @@ gem 'sqlite3'
 # User and role management
 gem 'cancancan', '~> 1.7'
 gem 'devise'
-gem 'rolify', '~> 3.3.0.rc4'
+gem 'rolify', '~> 3.4.0'
 
 # For LDAP calls to CMU's database
 gem 'ruby-ldap'
