@@ -10,8 +10,10 @@ class ShiftsController < ApplicationController
       @organization = Organization.find(params[:organization_id])
       @shifts = @organization.shifts
     else
-      @shifts = Shift.all
+      @shifts = Shift
     end
+
+    @shifts = Shift.includes(:organization)
 
     if (params[:type].blank?)
       @title = "Shifts"

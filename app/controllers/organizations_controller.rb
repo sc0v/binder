@@ -4,6 +4,8 @@ class OrganizationsController < ApplicationController
   # GET /organizations
   # GET /organizations.json
   def index
+    @organizations.includes(:organization_category)
+    
     respond_to do |format|
       format.html # index.html.erb
       format.json { render json: @organizations }
