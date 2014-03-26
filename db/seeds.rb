@@ -80,12 +80,11 @@ math_org = Organization.create({ name: 'Math Club', organization_category: blitz
 mayur_org = Organization.create({ name: 'Mayur SASA', organization_category: blitz, short_name: 'Mayur' })
   OrganizationAlias.create({ organization: mayur_org, name: 'SASA' })
 mcs_org = Organization.create({ name: 'Mellon College of Science', organization_category: blitz, short_name: 'MCS' })
-#mudge_org = Organization.create({ name: 'Mudge', organization_category: blitz })
+mudge_org = Organization.create({ name: 'Mudge', organization_category: blitz })
 sae_org = Organization.create({ name: 'Sigma Alpha Epsilon', organization_category: blitz, short_name: 'SAE' })
 spirit_org = Organization.create({ name: 'Spirit', organization_category: blitz })
 phidelt_org = Organization.create({ name: 'Phi Delta Theta', organization_category: blitz, short_name: 'PhiDelt' })
 #lambda_org = Organization.create({ name: 'Lambda Phi Epsilon', organization_category: blitz, short_name: 'Lambda' })
-mudge_org = Organization.create({ name: 'Mudge', organization_category: blitz })
 #stever_org = Organization.create({ name: 'Stever', organization_category: blitz })
 
 puts '  Non-Building'
@@ -96,6 +95,7 @@ pike_org = Organization.create({ name: 'Pi Kappa Alpha', organization_category: 
   OrganizationAlias.create({ organization: pike_org, name: 'Pika' })
 polo_org = Organization.create({ name: 'Water Polo', organization_category: non_building, short_name: 'Polo' })
 habitat_org = Organization.create({ name: 'Habitat for Humanity', organization_category: non_building, short_name: 'Habitat' })
+lg_org = Organization.create({ name: 'Lunar Gala', organization_category: non_building, short_name: 'LG' })
 
 # SCC Members -----------------------------------------------------------------
 puts 'SCC Members (not exhaustive)'
@@ -103,7 +103,7 @@ rachel_user = User.new({ email: 'rcrown@andrew.cmu.edu', name: 'Rachel Crown'})
 rachel_user.add_role :admin
 rachel_user.save!
 rachel = Participant.create({ andrewid: 'rcrown', phone_number: 6178617669, user: rachel_user })
-Membership.create({ organization: scc_org, participant: rachel, title: 'Midway Chair', is_booth_chair: true })
+Membership.create({ organization: scc_org, participant: rachel, title: 'Head of Booth', is_booth_chair: true })
 Membership.create({ organization: kat_org, participant: rachel })
 
 emily_user = User.new({ email: 'ehrin@andrew.cmu.edu', name: 'Emily Hrin' })
@@ -430,7 +430,7 @@ Faq.create([
   { question: "EMS is closed. What do I do?",
     answer: "Call them." },
   { question: "I saw an ambulance take someone to the hospital. What do I do?", 
-    answer: "Call Jackson or Emily immediately." },
+    answer: "Call Jackson, Emily, and/or Rachel immediately." },
   { question: "Someone wants to drop off in the firelane. Can they do that?",
     answer: "No, unless they are Cyert, food delivery for Underground, fire, police, EMS, FMS, people with passes, or an approved delivery (Rachel, Emily, or Jackson says it's OK)." },
   { question: "Golf cart problem?",
@@ -444,7 +444,7 @@ Faq.create([
   { question: "University official wants to borrow something. What do I do?",
     answer: "Let them. They do not need to sign a waiver. Ideally, check it out to Jackson, Emily, or Rachel to track it in the app." },
   { question: "The next coordinator doesn't show up. What do I do?",
-    answer: "Call them repeatedly. If that fails, call the Nicks." },
+    answer: "Call them repeatedly. If that fails, call Nick." },
   { question: "Booth watch shift doesn't show up. What do I do?",
     answer: "Do not let previous watch shift leave. Call booth chairs of that org in order until someone answers. Fine them accordingly in the app. If no one can show up and old watch shift has to leave, split the other watch shift." },
   { question: "Drunk people won't listen. What do I do?",
@@ -454,7 +454,7 @@ Faq.create([
   { question: "Parking complains about Asian row. What do I do?", 
     answer: "Tell Asian row to clear their stuff out. If they won't listen, call Rachel." },
   { question: "What should the 12am-4am watch shifts do?",
-    answer: "MOVE THE DUMPSTERS TO THE FIRELANE BY THE TENT. Check the radio station. Make sure no one is doing anything stupid (climbing on roofs, having sex in booths, etc.)." },
+    answer: "MOVE THE DUMPSTERS TO THE FIRELANE BY THE TENT. Check the radio station parking lot. Make sure no one is doing anything stupid (climbing on roofs, having sex in booths, etc.)." },
   { question: "What's the difference between a security and watch shift?",
     answer: "Security is paid, watch is not. Watch shifts are booth orgs, while security are non-building orgs." },
   { question: "What do I do with my drunk watch/security shift that just showed up?",
