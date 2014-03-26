@@ -10,7 +10,6 @@ class HomeController < ApplicationController
     @query = params[:query]
     
     @participant_lookup = Participant.find_by_card(@query)
-    @participant_lookup = Participant.find_by_andrewid(@query.downcase) unless !@participant_lookup.blank?
     unless @participant_lookup.nil?
       if @participant_lookup.organizations.blank?
         redirect_to new_participant_membership_path(@participant_lookup)

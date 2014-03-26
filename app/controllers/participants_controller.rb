@@ -24,12 +24,6 @@ class ParticipantsController < ApplicationController
     # Process request if barcode is present
     participant = Participant.find_by_card params[:card_number]
     
-    
-    if participant.nil? # participant does not exist
-
-      participant = Participant.find_by_andrewid(params[:card_number].downcase)
-    end
-    
     unless participant.blank?
       render json: { :id => participant.id, :name => participant.name }
     else

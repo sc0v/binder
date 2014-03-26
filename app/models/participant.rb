@@ -88,10 +88,10 @@ class Participant < ActiveRecord::Base
   def self.find_by_card(card_number)
     andrewid = self.get_andrewid(card_number)
 
-    unless andrewid.blank?
-      theUser = self.find_or_create_by(andrewid: andrewid)
-
-      return theUser
+    if !andrewid.blank?
+      return self.find_or_create_by(andrewid: andrewid)
+    elsif !CarnegieMellonPerson.find_by_andrewid(card_number.downcase).blank?
+      return self.find_or_create_by(andrewid: card_number.downcase)
     else
       return nil
     end
