@@ -2,6 +2,8 @@
 # Author: Meg Richards (mouse@cmu.edu)
 # ==========================================================================
 
+require 'new_relic/recipes'
+
 # Application name
 set :application, "binder"
 
@@ -78,6 +80,9 @@ after "deploy:update_code", "deploy:copy_local_configs", "deploy:migrate"
 
 # Cleanup old releases on deploy
 after "deploy:restart", "deploy:cleanup"
+
+# New Relic
+after "deploy:update", "newrelic:notice_deployment"
 
 
 # ==|== db =================================================================
