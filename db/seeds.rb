@@ -179,6 +179,7 @@ Participant.create([
   { andrewid: 'rakhan' },
   { andrewid: 'dcbrout', phone_number: 9145238600 },
   { andrewid: 'arbrock' },
+  { andrewid: 'abonsu' },
   { andrewid: 'ngasbarr', phone_number: 4128971984 }
 ])
 
@@ -214,6 +215,7 @@ Membership.create([
   { participant: Participant.find_by_andrewid('mtai'), organization: scc_org },
   { participant: Participant.find_by_andrewid('rakhan'), organization: scc_org },
   { participant: Participant.find_by_andrewid('arbrock'), organization: scc_org },
+  { participant: Participant.find_by_andrewid('abonsu'), organization: scc_org },
   { participant: Participant.find_by_andrewid('ngasbarr'), organization: scc_org }
 ])
 
@@ -226,6 +228,7 @@ Membership.create([
   { participant: Participant.find_by_andrewid('hloo'), organization: ssa_org },
   { participant: Participant.find_by_andrewid('mbignell'), organization: kkg_org },
   { participant: Participant.find_by_andrewid('mcahill'), organization: ddd_org },
+  { participant: Participant.find_by_andrewid('abonsu'), organization: ddd_org },
   { participant: Participant.find_by_andrewid('wavil'), organization: sigep_org },
   { participant: Participant.find_by_andrewid('arakla'), organization: sdc_org },
   { participant: Participant.find_by_andrewid('ekarras'), organization: axo_org },
