@@ -9,7 +9,7 @@
         <h3><%= category.name %></h3>
         <div class="row">
         <% category.organizations.each do |organization| %>
-          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+          <div class="col-xs-12 col-sm-6 col-md-4">
             <label style="display: inline;" onchange="$('#org-panel-<%= organization.id %>').toggleClass('panel-success'); console.log('success');">
               <div class="panel panel-default <%= 'panel-success' if organization.participants.include?(@participant) %>" id="org-panel-<%= organization.id %>">
                 <div class="panel-heading">
