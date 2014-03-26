@@ -29,11 +29,12 @@ Trailerapp::Application.routes.draw do
   resources :checkouts, :only => [:create]
 
   # static pages
-  match "milestones" => "home#milestones", :as => "milestones", via: :get
-  match "esp" => "home#esp", :as => "esp", via: :get
+  get "milestones" => "home#milestones", :as => "milestones"
+  get "esp" => "home#esp", :as => "esp"
 
   match "search" => "home#search", :as => "search", via: [:get, :post]
-  match "home" => "home#home", :as => "home", via: :get
+  get "home" => "home#home", :as => "home"
+  get 'hardhats' => "home#hardhats", :as => "hardhats"
 
   root :to => "home#index"
 

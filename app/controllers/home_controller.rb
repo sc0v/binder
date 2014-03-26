@@ -31,4 +31,9 @@ class HomeController < ApplicationController
     @organizations = Organization.search(@query)
     @organization_aliases = OrganizationAlias.search(@query)
   end
+  
+  def hardhats
+    @organizations = Organization.all
+    @total = Tool.checked_out.count
+  end
 end

@@ -1,0 +1,24 @@
+<%- model_class = Organization -%>
+<div class="page-header">
+  <h1>Hardhats</h1>
+</div>
+<%= @total %> hardhats checked out currently.
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:organization_category) %></th>
+      <th># of Hardhats</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @organizations.each do |organization| %>
+      <tr>
+        <td><%= link_to organization.name, organization_path(organization) %></td>
+        <td><%= organization.organization_category.name %></td>
+        <td><%= Tool.hardhats.checked_out_by_organization(organization).count %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
