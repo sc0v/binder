@@ -10,6 +10,7 @@ $(document).on 'ready page:load', ->
 	$('#org_checkout_form').bind('ajax:error', (status, data) ->
 		console.log data
 		console.log status
-		$('#checkout-response').html("</br><div class=\"panel panel-danger\"><div class=\"panel-heading\">Error</div><div class=\"panel-body\">" + data.responseText + "</div>");
+		$('#checkout-response').html("</br><div class=\"panel panel-danger\"><div class=\"panel-heading\">Error Checking Out Tool: " + $('#tool_barcode').val() + "</div><div class=\"panel-body\">" + data.responseText + "</div>");
+		$('#tool_barcode').val('');
 	)
 		
