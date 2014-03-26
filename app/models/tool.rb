@@ -47,6 +47,10 @@ class Tool < ActiveRecord::Base
   def is_checked_out?
     return not(self.checkouts.current.empty?)
   end
+  
+  def is_hardhat?
+    return self.name.downcase.include?('hardhat') 
+  end
 
   def self.checked_out_by_organization(organization)
     joins(:checkouts).where(:checkouts => {:organization_id => organization, :checked_in_at => nil })
