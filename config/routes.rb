@@ -20,9 +20,8 @@ Trailerapp::Application.routes.draw do
     post 'lookup', on: :collection
   end
   resources :shifts do
-    resources :participants, :controller => :shift_participants, :only => [:new, :create]
+    resources :participants, :controller => :shift_participants, :only => [:new, :create, :destroy]
   end
-  resources :shift_participants, :only => [:destroy, :update]
   resources :tasks
   resources :tools do
     resources :checkouts, :only => [:new, :create, :update, :index]
