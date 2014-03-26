@@ -15,11 +15,11 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from 'CheckoutsController::CheckoutError' do |exception|
-    flash[:error] = exception.message
+    flash.now[:error] = exception.message
     #Event.new_event "Exception: #{exception.message}", current_user, request.remote_ip #deugging
     respond_to do |format|
       format.html { redirect_to "/tools" }
-      format.json { render :json => exception.to_json, :status => :unprocessable_entity }
+      format.json { render :json => exception.message, :status => :unprocessable_entity }
     end
   end
 
