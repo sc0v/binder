@@ -27,7 +27,7 @@
             <td>
               <% if can?(:update, status) %>
                 <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                          [:edit, @organization, status], :class => 'btn btn-xs' %>
+                          [:edit, @organization, status], :class => 'btn btn-xs btn-primary' %>
               <% end %>
               <% if can?(:destroy, status) %>
                 <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
