@@ -34,9 +34,9 @@ class ApplicationController < ActionController::Base
   end
   
   def sidebar
-    @current_shifts = Shift.current
-    @upcoming_shifts = Shift.upcoming
-    @tasks = Task.upcoming
+    @current_shifts_sidebar = Shift.current
+    @upcoming_shifts_sidebar = Shift.upcoming
+    @tasks_sidebar = Task.upcoming
     
   end
 end
