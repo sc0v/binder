@@ -37,7 +37,7 @@ class Organization < ActiveRecord::Base
 
   default_scope { order('name asc') }
 
-  scope :search, lambda { |term| where('lower(name) LIKE lower(?)', "%#{term}%") }
+  scope :search, lambda { |term| where('lower(name) LIKE lower(?) OR lower(short_name) LIKE lower(?)', "%#{term}%", "%#{term}%") }
   
   def booth_chairs
     memberships.where(:is_booth_chair => true).order('booth_chair_order ASC').map{|m| m.participant}
