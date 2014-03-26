@@ -18,8 +18,13 @@
       <ul class="list-unstyled">
       <% @shift.shift_participants.each do |shift_participant| %>
           <li>
-            <%= shift_participant.participant.name %>
-              (Clocked in at: <%= date_and_time(shift_participant.clocked_in_at) %>)
+            <%= link_to shift_participant.participant.name, shift_participant.participant %>
+              (Clocked in at: <%= date_and_time(shift_participant.clocked_in_at) %>) - 
+              <%= link_to "Delete",
+                shift_participant_path(@shift, shift_participant),
+                :method => :delete,
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                :class => 'btn btn-danger btn-xs' %>
           </li>
         <% end %>
         <% @number_spots_left.times do %>

@@ -3,10 +3,11 @@ class ShiftParticipantsController < ApplicationController
   # DELETE /shift_participants/1.json
   def destroy
     @shift_participant = ShiftParticipant.find(params[:id])
+    @shift = @shift_participant.shift
     @shift_participant.destroy
 
     respond_to do |format|
-      format.html { redirect_to shift_participants_url }
+      format.html { redirect_to @shift }
       format.json { head :no_content }
     end
   end

@@ -46,7 +46,7 @@
           <td>
             <% if ( @organization.blank? ) %>
               <% if ( params[:type] == "coordinator" ) %>
-                <%= link_to shift.shift_participants.first.participant.name, shift.shift_participants.first unless shift.shift_participants.blank? %>
+                <%= link_to shift.shift_participants.first.participant.name, shift.shift_participants.first.participant unless shift.shift_participants.blank? %>
               <% else %>
                 <%= link_to shift.organization.name, shift.organization unless shift.organization.blank? %>
               <% end %>
