@@ -45,7 +45,7 @@ class CheckoutsController < ApplicationController
       @tool = Tool.find_by_barcode(params[:tool_barcode])
     end
     
-    unless (params[:form].blank? or params[:tool_barcode].to_i > 2500 or params[:tool_barcode].to_i < 25)
+    unless (params[:form].blank? or params[:tool_barcode].to_i > 2500 or params[:tool_barcode].to_i < 1)
       if @tool.blank?
         @tool = Tool.create({ barcode: params[:tool_barcode], name: "Org Hardhat", description: "White" }) 
       elsif !@tool.is_hardhat?
