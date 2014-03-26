@@ -44,8 +44,16 @@ class CheckoutsController < ApplicationController
     else
       @tool = Tool.find_by_barcode(params[:tool_barcode])
     end
-
-    raise CheckoutError, I18n.t("errors.messages.tool_does_not_exist") unless !@tool.blank?
+    
+    unless (params[:form].blank? or params[:tool_barcode].to_i > 2500 or params[:tool_barcode].to_i < 25)
+      if @tool.blank?
+        @tool = Tool.create({ barcode: params[:tool_barcode], name: "Org Hardhat", description: "White" }) 
+      elsif !@tool.is_hardhat?
+        raise CheckoutError, I18n.t("errors.messages.tool_is_not_hardhat")
+      end
+    else
+      raise CheckoutError, I18n.t("errors.messages.tool_does_not_exist") unless !@tool.blank?
+    end
 
     raise CheckoutError, I18n.t("errors.messages.tool_already_checked_out") unless not @tool.is_checked_out?
 
@@ -63,7 +71,7 @@ class CheckoutsController < ApplicationController
     end
 
 
-    if @organization.blank? and @participant.organizations.size != 1
+    if @organization.blank?
       respond_to do |format|
         format.html { render "choose_organization", :tool => @tool, :participant => @participant }
         format.json { render json: @checkouts }
