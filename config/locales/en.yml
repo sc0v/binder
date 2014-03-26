@@ -57,6 +57,7 @@ en:
       tool_already_checked_out: "The Tool you selected is already checked out. Please return it before continuing."
       tool_already_checked_in: "The Tool you selected is already checked in."
       tool_does_not_exist: "The Tool barcode you entered is not registered with the system. Please register it if desired."
+      tool_is_not_hardhat: "This page can only be used to checkout hardhats."
       participant_does_not_exist: "The Participant or ID card you selected is invalid. Please try again or contact an admin if you think this message is in error"
       organization_does_not_exist: "The Organization you selected does not exist."
   will_paginate:

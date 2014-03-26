@@ -79,7 +79,7 @@ class OrganizationsController < ApplicationController
   end
   
   def hardhats
-    @hardhats = @organization.tools.hardhats.order(:barcode)
+    @hardhats = Tool.checked_out_by_organization(@organization).hardhats
     
     respond_to do |format|
       format.html

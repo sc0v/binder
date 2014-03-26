@@ -6,10 +6,13 @@
 	<%= form_tag checkouts_path(:format => :json), :remote => true, :id => "org_checkout_form", :role => 'form', :class => 'form-horizontal' do %>
 		<%= hidden_field_tag 'organization_id', @organization.id %>
     <div class="form-group">
-      <%= label_tag 'tool_barcode', 'Scan Hardhat:', :class => 'col-xs-4 col-sm-2 control-label' %>
-      <div class="col-xs-3 col-sm-2">
+      <%= label_tag 'tool_barcode', 'Scan Hardhat:', :class => 'col-xs-4 col-sm-3 control-label' %>
+      <div class="col-xs-5 col-sm-3">
     		<%= text_field_tag 'tool_barcode', nil, :class => 'form-control' %>
       </div>
+      <%= hidden_field_tag 'form', 'hardhats' %>
+    </div>
+    <div id="checkout-response">
     </div>
 	<% end %>
 	</p>
@@ -17,7 +20,13 @@
   <h3>Hardhats - <span id="hardhat-count"><%= @hardhats.count %></span></h2>
 	<ul id="hardhat_list">
 		<% @hardhats.each do |hardhat| %>
-			<li><%= hardhat.barcode %>: <%= hardhat.name %></li>
+			<li><%= hardhat.barcode %>: <%= hardhat.name %> - 
+								<%= form_tag(tool_checkout_path(hardhat, hardhat.checkouts.current.first), :method => :patch, :style => "display: inline;") do -%>
+									<%= hidden_field_tag 'url', hardhats_organization_path(@organization) %>
+						      <%= submit_tag t('.checkin', :default => t("helpers.links.checkin")),
+									            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+						                  :class => 'btn btn-xs btn-danger' %>
+						    <% end -%></li>
 		<% end %>
 	</ul>
 	
