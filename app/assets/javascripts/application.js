@@ -16,7 +16,7 @@
 //= require turbolinks
 //= require_tree .
 
-$(document).on("page:change", function(){
+$(document).on("ready page:change", function(){
   $('#query').focus();
   $('.sidebar-tooltip').tooltip({container: 'body', html: true});
   
