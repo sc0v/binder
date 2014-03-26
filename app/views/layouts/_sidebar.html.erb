@@ -46,24 +46,26 @@
    </div>
 </div>
 
-<div class="panel panel-default">
-   <div class="panel-heading">
-     Events/Tasks
-   </div>
-   <div class="panel-body">
-     <table class="table table-condensed" style="margin-bottom: 0;">
-       <thead>
-         <th>Title</th>
-         <th style="text-align: right;">Due By</h>
-       </thead>
-       <tbody>
-         <% @tasks_sidebar.each do |task| %>
-           <tr class="sidebar-tooltip" data-toggle="tooltip" data-placement="left" title="<%= task.name %>:</br></br><%= task.description %>">
-             <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><%= task.name %></td>
-             <td style="text-align: right;"><%= time task.due_at%></td>
-           </tr>
-         <% end %>
-       </tbody>
-     </table>
-   </div>
-</div>
+<% if current_user.participant.is_scc? %>
+  <div class="panel panel-default">
+     <div class="panel-heading">
+       Events/Tasks
+     </div>
+     <div class="panel-body">
+       <table class="table table-condensed" style="margin-bottom: 0;">
+         <thead>
+           <th>Title</th>
+           <th style="text-align: right;">Due By</h>
+         </thead>
+         <tbody>
+           <% @tasks_sidebar.each do |task| %>
+             <tr class="sidebar-tooltip" data-toggle="tooltip" data-placement="left" title="<%= task.name %>:</br></br><%= task.description %>">
+               <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><%= task.name %></td>
+               <td style="text-align: right;"><%= time task.due_at%></td>
+             </tr>
+           <% end %>
+         </tbody>
+       </table>
+     </div>
+  </div>
+<% end %>
