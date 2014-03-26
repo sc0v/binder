@@ -14,6 +14,15 @@ class HomeController < ApplicationController
       return
     end
     
+    @org = Organization.where('lower(name) = lower(?) OR lower(short_name) = lower(?)', @query, @query).first
+    org_alias = OrganizationAlias.where('lower(name) = lower(?)', @query).first unless !@org.blank?
+    @org = org_alias.organization unless org_alias.blank?
+
+    unless @org.blank?
+      redirect_to @org
+      return
+    end
+
     @participant_lookup = Participant.find_by_card(@query)
     unless @participant_lookup.nil?
       if @participant_lookup.organizations.blank?
