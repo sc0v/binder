@@ -775,10 +775,7 @@ Shift.create([
 ])
 
 # Security Shifts
-puts '  Security Shifts'
-Shift.create([
-  { shift_type: sec_shift, starts_at: DateTime.rfc3339('2014-04-07T07:30:00-04:00'), ends_at: DateTime.rfc3339('2014-04-07T07:30:00-04:00') + 2.hours, required_number_of_participants: 2 },
-])
+#puts '  Security Shifts'
 
 puts 'Tasks'
 puts '  One-Time Tasks'
