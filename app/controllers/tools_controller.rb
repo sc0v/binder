@@ -6,7 +6,7 @@ class ToolsController < ApplicationController
   def index
     unless ( params[:organization_id].blank? )
       @organization = Organization.find(params[:organization_id])
-      @tools = @tool.checked_out_by_organization(@organization)
+      @tools = Tool.checked_out_by_organization(@organization)
     end
 
     if (params[:type].blank?)
