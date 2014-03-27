@@ -49,7 +49,7 @@
 	<p><em><strong>Frequently Asked Questions matching term '<%= @query %>'</strong></em></p>
 	<ul>
 		<% for faq in @faqs do %>
-			<li><%= link_to faq.question, faq_path(faq) %><br> <%= "#{faq.answer}" %></li>
+			<li><%= link_to faq.question, faq_path %><br> <%= "#{faq.answer}" %></li>
 		<% end %>
 	</ul>
 	<p class="supertiny">&nbsp;</p>
