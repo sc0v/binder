@@ -76,9 +76,9 @@ class Ability
       can [:create, :update, :destroy], OrganizationStatus
       can [:create, :update], Participant
       can :read_coord, Shift
-      can [:create, :update], ShiftParticipant
+      can :create, ShiftParticipant
       can :update, Task
-      can [:create, :update], Tool
+      can :update, Tool
     end
 
     if user.has_role? :admin
