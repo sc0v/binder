@@ -34,7 +34,7 @@ class HomeController < ApplicationController
       end
     end
     
-    @faqs = Faq.search(@query)
+    @faqs = Faq.search(@query) if can?(:read, Faq)
     @participants = Participant.search(@query)
     @tools = Tool.search(@query)
     @organizations = Organization.search(@query)
