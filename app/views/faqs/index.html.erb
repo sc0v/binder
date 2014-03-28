@@ -57,36 +57,3 @@
   <h3>Not Authorized!</h3>
 <% end %>
 
-
-<!-- <table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:question) %></th>
-      <th><%= model_class.human_attribute_name(:answer) %></th>
-      <th><%=t '.actions', :default => t("helpers.actions") %></th>
-    </tr>
-  </thead>
-  <tbody>
-  
-    <% @faqs.each do |faq| %>
-      <tr>
-        <td><%= link_to faq.question, faq_path(faq) %></td>
-        <td><%= faq.answer %></td>
-        <td>
-          <% if can?(:update, faq) %>
-            <%= link_to t('.edit', :default => t("helpers.links.edit")),
-                    edit_faq_path(faq), :class => 'btn btn-xs' %>
-          <% end %>
-
-          <% if can?(:destroy, faq) %>
-            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-                    faq_path(faq),
-                    :method => :delete,
-                    :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-                    :class => 'btn btn-xs btn-danger' %>
-          <% end %>
-        </td>
-      </tr>
-    <% end %>
-  </tbody>
-</table> -->
