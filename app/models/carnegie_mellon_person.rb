@@ -18,7 +18,7 @@ class CarnegieMellonPerson < ActiveLdap::Base
         person['cmuDepartment'] = person['cmuDepartment'].join(', ')
       end
 
-      return person
+      return person unless person[:cn] == "Merged Person"
     rescue
       return nil
     end
