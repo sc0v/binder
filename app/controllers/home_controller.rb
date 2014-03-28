@@ -25,7 +25,7 @@ class HomeController < ApplicationController
 
     @participant_lookup = Participant.find_by_card(@query)
     unless @participant_lookup.nil?
-      if @participant_lookup.organizations.blank?
+      if @participant_lookup.organizations.blank? and can?(:create, Membership)
         redirect_to new_participant_membership_path(@participant_lookup)
         return
       else
