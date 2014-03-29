@@ -28,7 +28,7 @@ class HomeController < ApplicationController
       return
     end
 
-    @participant_lookup = Participant.find_by_card(@query)
+    @participant_lookup = Participant.find_by_card(@query, true)
     unless @participant_lookup.nil?
       if @participant_lookup.organizations.blank? and can?(:create, Membership)
         redirect_to new_participant_membership_path(@participant_lookup)
@@ -44,6 +44,8 @@ class HomeController < ApplicationController
     @tools = Tool.search(@query)
     @organizations = Organization.search(@query)
     @organization_aliases = OrganizationAlias.search(@query)
+    
+    @new_participant = Participant.search_ldap(@query)
   end
   
   def dev_login

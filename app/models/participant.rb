@@ -85,17 +85,21 @@ class Participant < ActiveRecord::Base
   class NotRegistered < Exception
   end
 
-  def self.find_by_card(card_number)
+  def self.find_by_card(card_number, lookup_only = false)
     person = self.find_by_andrewid(card_number)
     
     if !person.blank?
       return self.find_by_andrewid(card_number) 
-    elsif !CarnegieMellonPerson.find_by_andrewid(card_number.downcase).blank?
+    elsif !CarnegieMellonPerson.find_by_andrewid(card_number.downcase).blank? and !lookup_only
       return self.find_or_create_by(andrewid: card_number.downcase)
     else
       andrewid = self.get_andrewid(card_number)
       return self.find_or_create_by(andrewid: andrewid) unless andrewid.blank?
     end
+  end
+  
+  def self.search_ldap(andrewid = '')
+    Participant.new({andrewid: andrewid.downcase}) unless CarnegieMellonPerson.find_by_andrewid(andrewid.downcase).blank?
   end
 
   def formatted_phone_number
@@ -164,7 +168,7 @@ class Participant < ActiveRecord::Base
         write_attribute :cached_student_class, ldap_reference["cmuStudentClass"]
         write_attribute :cache_updated, DateTime.now
 
-        self.save!
+        self.save! unless self.id.blank?
       else
         write_attribute :cached_name, "N/A"
         write_attribute :cached_surname, "N/A"
@@ -172,7 +176,7 @@ class Participant < ActiveRecord::Base
         write_attribute :cached_department, "N/A"
         write_attribute :cached_student_class, "N/A"
 
-        self.save!
+        self.save! unless self.id.blank?
       end
     end
   end
