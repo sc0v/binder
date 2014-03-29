@@ -1,6 +1,10 @@
-<%= simple_form_for @checkout, :html => { :class => 'form-horizontal' }, :url => tool_checkouts_path do |f| %>
+<%= simple_form_for @checkout, :html => { :class => 'form-horizontal' }, :url => choose_organization_tool_checkouts_path do |f| %>
 	<%= f.input :tool_id, :as => :hidden %>
-  <%= f.input :card_number, label: 'Participant ID Card Number' %>
+  <%= f.input :participant_id, required: true do %>
+    <%= f.input_field :participant_id, as: :hidden, required: true %>
+    <%= text_field_tag 'card-number-input', nil, class: 'form-control', required: true %>
+    <div id="participant-info"></div>
+  <% end %>
   <div class="form-actions">
     <%= f.button :submit, "Check Tool Out", :class => 'btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

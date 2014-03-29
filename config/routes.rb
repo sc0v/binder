@@ -24,7 +24,9 @@ Trailerapp::Application.routes.draw do
   end
   resources :tasks
   resources :tools do
-    resources :checkouts, :only => [:new, :create, :update, :index]
+    resources :checkouts, :only => [:new, :create, :update, :index] do
+      post 'choose_organization', on: :collection
+    end
   end
   resources :checkouts, :only => [:create]
 
