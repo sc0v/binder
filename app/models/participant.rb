@@ -86,6 +86,8 @@ class Participant < ActiveRecord::Base
   end
 
   def self.find_by_card(card_number, lookup_only = false)
+    return nil if card_number.blank?
+    
     person = self.find_by_andrewid(card_number)
     
     if !person.blank?
