@@ -29,10 +29,12 @@
         <% end %>
         <% @number_spots_left.times do %>
           <li>
-            Person Not Checked In:
-            <%= link_to t('.new_shift_participant', :default => t("helpers.links.new_shift_participant")),
-              new_shift_participant_path(@shift),
-              :class => 'btn btn-primary btn-xs' %>
+            Person Not Checked In
+            <% if can?(:create, ShiftParticipant ) %>
+              <%= link_to t('.new_shift_participant', :default => t("helpers.links.new_shift_participant")),
+                new_shift_participant_path(@shift),
+                :class => 'btn btn-primary btn-xs' %>
+            <% end %>
           </li>
         <% end %>
       </ul>
