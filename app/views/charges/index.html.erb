@@ -16,9 +16,8 @@
       <th> </th>
       <th><%= model_class.human_attribute_name(:charge_type) %></th>
       <th><%= model_class.human_attribute_name(:amount) %></th>
-      <th><%= model_class.human_attribute_name(:organization) unless !@organization.blank? %></th>
+      <th><%= "Org" unless !@organization.blank? %></th>
       <th class="hidden-xs"><%= model_class.human_attribute_name(:charged_at) %></th>
-      <th class="visible-lg"><%= model_class.human_attribute_name(:description) %></th>
       <% if can?(:approve, Charge) %>
         <th class="hidden-xs">Approve</th>
       <% end %>
@@ -31,9 +30,8 @@
           <td><%= link_to "show", charge, class: 'btn btn-info btn-xs' %></td>
           <td><%= charge.charge_type.name %></td>
           <td><%= number_to_currency charge.amount %></td>
-          <td><%= link_to charge.organization.name, charge.organization unless !@organization.blank? %></td>
+          <td><%= link_to charge.organization.short_name, charge.organization unless !@organization.blank? %></td>
           <td class="hidden-xs"><%= date_and_time(charge.charged_at) %></td>
-          <td class="visible-lg"><%= charge.description[0..25] %><%= "…" if charge.description.length > 26 %></td>
           <% if can?(:approve, Charge) %>
             <td class="hidden-xs">
               <% unless charge.is_approved? %>
