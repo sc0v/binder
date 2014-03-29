@@ -24,7 +24,7 @@
       <th><%= model_class.human_attribute_name(:barcode) %></th>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th class="visible-lg"><%= model_class.human_attribute_name(:description) %></th>
-      <th><%= model_class.human_attribute_name(:is_checked_out) %></th>
+      <th>Checked Out At</th>
       <% if can?(:destroy, Tool) or can?(:create, Checkout) or can?(:update, Checkout) %>
         <th class="hidden-xs"><%=t '.actions', :default => t("helpers.actions") %></th>
       <% end %>
@@ -38,7 +38,7 @@
           <td><%= link_to tool.barcode, tool, :class => 'btn btn-info btn-xs'  %></td>
           <td><%= tool.name %></td>
           <td class="visible-lg"><%= tool.description %></td>
-          <td><%= tool.is_checked_out? ? link_to(format_boolean(tool.is_checked_out?), tool) : format_boolean(tool.is_checked_out?) %></td>
+          <td><%= date_and_time(tool.checkouts.current.first.checked_out_at) if tool.is_checked_out? %></td>
           <% if can?(:update, Tool) or can?(:destroy, Tool) or can?(:create, Checkout) or can?(:update, Checkout) %>
             <td class="hidden-xs">
               <% if(tool.is_checked_out?) %>
