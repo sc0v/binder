@@ -41,6 +41,23 @@ class HomeController < ApplicationController
     @organization_aliases = OrganizationAlias.search(@query)
   end
   
+  def dev_login
+    unless Rails.env.production?
+      email = case params[:role]
+        when 'Admin' then 'rcrown@andrew.cmu.edu'
+        when 'SCC Member' then 'cbrownel@andrew.cmu.edu'
+        when 'Booth Chair' then 'rpwhite@andrew.cmu.edu'
+        when 'Participant' then 'nharper@andrew.cmu.edu'
+      end
+      
+      sign_in(:user, User.find_by_email(email))
+      
+      session[:name] = params[:role]
+    end
+    
+    redirect_to root_url
+  end
+  
   def hardhats
     @organizations = Organization.all
     @total = Tool.checked_out.count
