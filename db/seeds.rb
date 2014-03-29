@@ -378,20 +378,27 @@ Membership.create({ organization: tsa_org, booth_chair_order: 4, participant: Pa
 puts 'Charge Types'
 ChargeType.create([
   { name: 'Other', description: 'Other violation as determined by the coordinator, please document extensively and inform the Midway Chair incase any problems arise.', requires_booth_chair_approval: true },
-  { name: 'Vehicle on Midway', description: 'Organization had a vehicle on Midway without Committee approval. Amount to be determined by Rules Committee.', requires_booth_chair_approval: true },
-  { name: '1st Late Shift', description: 'One member was late for a watch shift. First violation. Add a separate fine for each person.', default_amount: 10 },
-  { name: '2nd Late Shift', description: 'One member was late for a watch shift. Second violation. Add a separate fine for each person.', default_amount: 20 },
-  { name: '3rd Late Shift', description: 'One member late for a watch shift. Third violation. Add a separate fine for each person.', default_amount: 40 },
-  { name: '4th or More Late Shift', description: 'One or more members were late for a watch shift. Forth and subsequent violations. Add a separate fine for each person.' },
-  { name: '1st Missed Shift', description: 'One member was more than 10 minutes late for a watch shift or arrived incapable of completing the shift (i.e. drunk). First Violation only. Add a separate fine for each person and halve the fine if they arrive less than 45 minutes late.', default_amount: 50 },
-  { name: '2nd Missed Shift', description: 'One member was more than 10 minutes late for a watch shift or arrived incapable of completing the shift (i.e. drunk). Second Violation only. Add a separate fine for each person and halve the fine if they arrive less than 45 minutes late.', default_amount: 100 },
-  { name: '3rd Missed Shift', description: 'One member was more than 10 minutes late for a watch shift or arrived incapable of completing the shift (i.e. drunk). Third and subsequent violations. Add a separate fine for each person and halve the fine if they arrive less than 45 minutes late.' },
-  { name: 'Uncooperative Shift', description: 'Members working the shift failed or refused to complete tasks as assigned by the coordinator.', default_amount: 25 },
-  { name: 'Shift Left', description: 'Members working the shift left before being dismissed by the coordinator. Add a separate fine for each person.', default_amount: 25 },
-  { name: 'Teardown Shift Missed', description: 'Organization failed to complete the required six man hours during teardown. Fine should be $50 per hour not completed',
-    requires_booth_chair_approval: true, default_amount: 50 },
-  { name: 'Blown Breaker', description: 'Breaker reset by Power and Safety. First one is free.', requires_booth_chair_approval: true, default_amount: 25.00 },
-  { name: 'Unauthorized Plugin', description: 'Organization pluged their booth into power before given permission by Power and Safely.', requires_booth_chair_approval: true, default_amount: 100 }])
+  { name: 'Watch Shift – Failure to comply', description: 'Watch Shift refused to complete assigned duties. Fine Per Violation', default_amount: 25 },
+  { name: 'Watch Shift – Failure to remain', description: 'Watch Shift left before being dismissed. Fine Per Person', default_amount: 25 },
+  { name: 'Watch Shift – Tardiness', description: 'Less than 10 mins late; Note: enter watch shift – tardiness (Pending Approval) with a $0 fine and enter if one or both people were late in the description' },
+  { name: 'Watch Shift – Missed', description: 'Greater than 10 mins late or sent home because drunk; Note: enter as “missed watch shift (pending approval)” with a $0 fine and how many people in the description; If they show up 10-45 mins late but complete their obligations, fine will be cut in half' },
+  { name: 'Clean Up Hours', description: '6 man-hours to clean up Midway pre-opening by each org. Fine Per Hour', default_amount: 50 },
+  { name: 'Hardhat, Waiver, or Wristband Missing', description: 'Any member found on Midway not wearing a hardhat, without a signed waiver, or not wearing a wristband. Fine Per Person', default_amount: 15 },
+  { name: 'Failure to comply with SCC/SOC', description: 'Failure to comply with a request by SCC or Structural Oversight Committee to structurally alter a booth.', default_amount: 100 },
+  { name: 'Deviation from plans', description: 'Changing of building or structural plans without approval. Fine to be determined by Rules Committee' },
+  { name: 'Vehicle assisted demolition' },
+  { name: 'Teardown' },
+  { name: 'Post-Teardown Cage Cleanup' },
+  { name: 'Unapproved electrical plug in', description: 'Connecting wired booth to power supply without approval', default_amount: 100 },
+  { name: 'Unsafe electrical practice', description: 'At the discretion of SCC electrical committee. May be appealed to Rules Committee.', default_amount: 200 },
+  { name: 'Tripped Breaker', description: 'Circuit breaker tripped. Determined by Electrical Committee.', default_amount: 25 },
+  { name: 'Unauthorized person on Midway', description: 'Person found during closed hours of Midway potentially altering a booth, for example. Fine Per Person', default_amount: 25 },
+  { name: 'Booth Staffing Fine', description: 'Intoxicated person staffing a booth' },
+  { name: 'Failure to Clean Plot', description: 'Org fails to clean plot as directed by SCC or fails to confirm with SCC that plot is clean before leaving', default_amount: 25 },
+  { name: 'Vehicle on Midway', description: 'Unauthorized vehicle of an org on Midway. Fine to be determined by Rules Committee' },
+  { name: 'Late Plans' }, 
+  { name: 'Missed Training or Meeting' }
+])
 
 # FAQs ------------------------------------------------------------------------
 puts "FAQs"
@@ -839,15 +846,30 @@ Task.create([
 ])
 
 
-case Rails.env
-when 'production'
   puts 'Tools'
   # Tools -----------------------------------------------------------------------
   generate_tools
+
+case Rails.env
+when 'production'
 when 'development'
   puts
   puts 'Extra Dev Goodness:'
   puts
+
+
+  pat_user = User.new({ email: 'rpwhite@andrew.cmu.edu', name: 'Pat'})
+  pat_user.save!
+  pat = Participant.create({ andrewid: 'rpwhite', phone_number: 1713435788, user: pat_user })
+  Membership.create({ organization: dtd_org, participant: pat, is_booth_chair: true })
+
+  chase_user.remove_role :admin
+  chase_user.save!
+
+  nick_user = User.new({ email: 'nharper@andrew.cmu.edu', name: 'Nick'})
+  nick_user.save!
+  nick = Participant.create({ andrewid: 'nharper', phone_number: 1713435788, user: nick_user })
+  Membership.create({ organization: dtd_org, participant: nick })
 
   puts 'Old Stuff...'
  tool = Tool.create({ name: 'Hammer', barcode: 7, description: 'it\'s a hammer' })
@@ -877,7 +899,5 @@ when 'development'
     {name: "late2", due_at: Time.now - 30.minutes },
     {name: "late3", due_at: Time.now - 30.minutes }
   ])
-when 'production'
-  #blah
 end
 
