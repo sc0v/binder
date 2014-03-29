@@ -95,7 +95,7 @@ SimpleForm.setup do |config|
   # config.label_text = lambda { |label, required| "#{required} #{label}" }
 
   # You can define the class to use on all labels. Default is nil.
-  config.label_class = 'col-sm-2 col-lg-2 control-label'
+  config.label_class = 'col-sm-3 col-lg-2 control-label'
 
   # You can define the class to use on all forms. Default is simple_form.
   config.form_class = 'simple_form form-horizontal'
@@ -111,7 +111,7 @@ SimpleForm.setup do |config|
   # in this configuration, which is recommended due to some quirks from different browsers.
   # To stop SimpleForm from generating the novalidate option, enabling the HTML5 validations,
   # change this configuration to true.
-  config.browser_validations = false
+  # config.browser_validations = false
 
   # Collection of methods to detect if a file type was given.
   # config.file_methods = [ :mounted_as, :file?, :public_filename ]
