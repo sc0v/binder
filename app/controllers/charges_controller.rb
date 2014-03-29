@@ -49,6 +49,7 @@ class ChargesController < ApplicationController
   def create
     @charge = Charge.new(charge_params)
     @charge.charged_at = DateTime.now
+    @charge.creating_participant = current_user.participant
 
     respond_to do |format|
       if @charge.save
