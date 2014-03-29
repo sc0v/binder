@@ -32,7 +32,6 @@ Trailerapp::Application.routes.draw do
 
   # static pages
   get "milestones" => "home#milestones", :as => "milestones"
-  get "esp" => "home#esp", :as => "esp"
 
   match "search" => "home#search", :as => "search", via: [:get, :post]
   get "home" => "home#home", :as => "home"
