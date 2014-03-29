@@ -41,7 +41,20 @@
         <% end %>
       <% end %>
     <% end %>
+  
+    <% unless @participant.shifts.blank? %>
+      <dt>Shifts</dt>
+      <dd>
+        <ul class="list-unstyled">
+          <% @participant.shifts.each do |shift| %>
+            <li><%= shift.shift_type.name %>: <%= date_and_time shift.starts_at %></li>
+          <% end %>
+        </ul>
+      </dd>
+    <% end %>
   </dl>
+  
+      
 
   <%= link_to t('.back', :default => t("helpers.links.back")),
               participants_path, :class => 'btn btn-default' %>
