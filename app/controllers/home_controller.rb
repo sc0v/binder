@@ -6,6 +6,11 @@ class HomeController < ApplicationController
   end
 
   def search
+    if params[:query].blank?
+      flash[:error] = "Please enter a query"
+      redirect_to root_url
+    end
+    
     @query = params[:query]
     
     @tool_lookup = Tool.find_by_barcode(@query)
