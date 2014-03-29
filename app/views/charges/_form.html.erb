@@ -12,9 +12,9 @@ When adding a charge, please ensure that you add a detailed description. This al
 		<% end %>
     <%= f.input :description, :as => :text, textarea: "{ font-size:16px; }" %>
     <%= f.association :issuing_participant, :collection => Participant.scc %>
-    <%= f.input :receiving_participant, required: true do %>
-      <%= f.input_field :receiving_participant_id, as: :hidden, required: true %>
-      <%= text_field_tag 'card-number-input', nil, class: 'form-control', required: true %>
+    <%= f.input :receiving_participant do %>
+      <%= f.input_field :receiving_participant_id, as: :hidden %>
+      <%= text_field_tag 'card-number-input', nil, class: 'form-control' %>
       <div id="participant-info"></div>
     <% end %>
   </div>
