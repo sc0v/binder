@@ -1,7 +1,7 @@
 <h2>Search result for term <em>'<%= @query %>'</em> </h2>
 <p class="supertiny">&nbsp;</p>
 
-<% unless @new_participant.blank? %>
+<% unless @new_participant.blank? or !can?(:create, Participant) %>
   <p>
     <%= simple_form_for @new_participant do |f| %>
       <%= f.input :andrewid, :input_html => { :value => @new_participant.andrewid }, :as => :hidden %>
@@ -54,11 +54,23 @@
   <p class="supertiny">&nbsp;</p>
 <% end %>
 
-<% unless @faqs.blank? %>
+<% unless @faqs.blank? or !can?(:read, Faq) %>
 	<p><em><strong>Frequently Asked Questions matching term '<%= @query %>'</strong></em></p>
 	<ul>
 		<% for faq in @faqs do %>
 			<li><%= link_to faq.question, faqs_path %><br> <%= "#{faq.answer}" %></li>
+		<% end %>
+	</ul>
+	<p class="supertiny">&nbsp;</p>
+<% end %>
+
+<% unless @documents.blank? %>
+	<p><em><strong>Documents matching term '<%= @query %>'</strong></em></p>
+	<ul>
+		<% for doc in @documents do %>
+      <% if can?(:read, doc )%>
+  			<li><%= link_to doc.name, doc %></li>
+      <% end %>
 		<% end %>
 	</ul>
 	<p class="supertiny">&nbsp;</p>

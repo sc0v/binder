@@ -44,6 +44,7 @@ class HomeController < ApplicationController
     @tools = Tool.search(@query)
     @organizations = Organization.search(@query)
     @organization_aliases = OrganizationAlias.search(@query)
+    @documents = Document.search(@query)
     
     @new_participant = Participant.search_ldap(@query)
   end

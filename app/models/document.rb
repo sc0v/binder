@@ -23,4 +23,5 @@ class Document < ActiveRecord::Base
 
   mount_uploader :url, DocumentUploader
   
+  scope :search, lambda { |term| where('lower(name) LIKE lower(?)', "%#{term}%") }
 end
