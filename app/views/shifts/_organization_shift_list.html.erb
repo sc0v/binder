@@ -3,22 +3,23 @@
   <table class="table table-striped">
     <thead>
       <tr>
-        <th><%= model_class.human_attribute_name(:shift_type) %></th>
-        <th><%= model_class.human_attribute_name(:starts_at) %></th>
-        <th><%= model_class.human_attribute_name(:ends_at) %></th>
-        <th><%= model_class.human_attribute_name(:required_number_of_participants) %></th>
         <th></th>
+        <th class="hidden-xs"><%= model_class.human_attribute_name(:shift_type) %></th>
+        <th><%= model_class.human_attribute_name(:starts_at) %></th>
+        <th class="hidden-xs"><%= model_class.human_attribute_name(:ends_at) %></th>
+        <th><%= model_class.human_attribute_name(:required_number_of_participants) %></th>
       </tr>
     </thead>
     </tbody>
       <% organization_shift_list.each do |shift| %>
         <% if can?(:read, shift) %>
           <tr>
-            <td class="no_link"><%= shift.shift_type.name %></td>
-            <td class="no_link"><%= date_and_time shift.starts_at %></td>
-            <td class="no_link"><%= date_and_time shift.ends_at %></td>
-            <td class="no_link"><%= shift.required_number_of_participants %></td>
-            <td><%= link_to 'Sign In/Out', shift %></td>
+            <td><%= link_to t('.show', :default => t("helpers.links.show")),
+                          shift_path(shift), :class => 'btn btn-info btn-xs' %></td>
+            <td class="hidden-xs"><%= shift.shift_type.name %></td>
+            <td><%= date_and_time shift.starts_at %></td>
+            <td class="hidden-xs"><%= date_and_time shift.ends_at %></td>
+            <td><%= shift.required_number_of_participants %></td>
           </tr>
         <% end %>
       <% end %>
