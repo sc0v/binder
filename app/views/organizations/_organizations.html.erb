@@ -1,0 +1,19 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <% if can?(:read, OrganizationStatus) %>
+        <th class="visible-lg">Status</th>
+      <% end %>
+      <th>Category</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% organizations.each do |organization| %>
+      <% cache [can?(:read, OrganizationStatus), organization] do %>
+        <%= render partial: organization, locals: {organization: organization} %>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>

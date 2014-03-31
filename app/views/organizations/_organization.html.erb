@@ -1,0 +1,11 @@
+<tr>
+  <td><%= link_to organization.name, organization_path(organization) %></td>
+  <% if can?(:read, OrganizationStatus) %>
+    <td class="visible-lg">
+      <% if can?(:read, organization.organization_statuses.displayable.last) %>
+        <%= link_to organization.organization_statuses.displayable.last.organization_status_type.name, [organization, :organization_statuses] unless organization.organization_statuses.blank? %>
+      <% end %>
+    </td>
+  <% end %>
+  <td><%= organization.organization_category.name %></td>
+</tr>

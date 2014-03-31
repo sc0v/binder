@@ -2,33 +2,9 @@
 <div class="page-header">
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 </div>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:name) %></th>
-      <% if can?(:read, OrganizationStatus) %>
-        <th class="visible-lg"><%= model_class.human_attribute_name(:organization_status) %></th>
-      <% end %>
-      <th><%= model_class.human_attribute_name(:organization_category) %></th>
-    </tr>
-  </thead>
 
-  <tbody>
-    <% @organizations.each do |organization| %>
-      <tr>
-        <td><%= link_to organization.name, organization_path(organization) %></td>
-        <% if can?(:read, OrganizationStatus) %>
-          <td class="visible-lg">
-            <% if can?(:read, organization.organization_statuses.displayable.last) %>
-              <%= link_to organization.organization_statuses.displayable.last.organization_status_type.name, [organization, :organization_statuses] unless organization.organization_statuses.blank? %>
-            <% end %>
-          </td>
-        <% end %>
-        <td><%= organization.organization_category.name %></td>
-      </tr>
-    <% end %>
-  </tbody>
-</table>
+<%= render partial: 'organizations', locals: {organizations: @organizations} %>
+
 <% if can?(:create, Organization) %>
   <%= link_to t('.new', :default => t("helpers.links.new")),
           new_organization_path,
