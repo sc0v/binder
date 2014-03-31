@@ -49,10 +49,6 @@ class Ability
 
       can :read_phone_number, Participant
 
-      can :read, OrganizationStatus do |s|
-        s.organization.booth_chairs.include? (user.participant)
-      end
-
       can :update, Membership do |m|
         m.organization.booth_chairs.include? (user.participant)
       end
