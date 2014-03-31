@@ -9,6 +9,7 @@ Trailerapp::Application.routes.draw do
     resources :shifts, :only => [:index]
     resources :tools, :only => [:index]
     resources :charges, :only => [:index]
+    resources :timeline_entries, :controller => :organization_timeline_entries
     get 'hardhats', on: :member
   end
   resources :charges do
