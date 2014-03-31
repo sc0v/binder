@@ -1,54 +1,56 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    Shifts
-  </div>
-  <div class="panel-body">
-    <table class="table table-condensed" style="margin-bottom: 0;">
-      <thead>
-        <th>Current</th>
-        <th style="text-align: right;">Ends at</th>
-      </thead>
-      <tbody>
-        <% cache ['current_sidebar', @current_shifts_sidebar] do %>
-          <% @current_shifts_sidebar.each do |shift| %>
-            <tr class="success sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %>">
-              <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                <% if (shift.shift_type.name == "Coordinator Shift") %>
-                  <%= link_to shift.shift_participants.first.participant.name unless shift.shift_participants.blank? %>
-                <% else %>
-                  <%= link_to shift.organization.short_name, shift %>
-                <% end %>
-              </td>
-              <td style="text-align: right;"><%= time shift.ends_at %></td>
-            </tr>
+<% cache ['shift_sidebar', @current_shifts_sidebar, @upcomming_shifts_sidebar] do%>
+  <div class="panel panel-default">
+    <div class="panel-heading">
+      Shifts
+    </div>
+    <div class="panel-body">
+      <table class="table table-condensed" style="margin-bottom: 0;">
+        <thead>
+          <th>Current</th>
+          <th style="text-align: right;">Ends at</th>
+        </thead>
+        <tbody>
+          <% cache ['current_sidebar', @current_shifts_sidebar] do %>
+            <% @current_shifts_sidebar.each do |shift| %>
+              <tr class="success sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %>">
+                <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                  <% if (shift.shift_type.name == "Coordinator Shift") %>
+                    <%= link_to shift.shift_participants.first.participant.name unless shift.shift_participants.blank? %>
+                  <% else %>
+                    <%= link_to shift.organization.short_name, shift %>
+                  <% end %>
+                </td>
+                <td style="text-align: right;"><%= time shift.ends_at %></td>
+              </tr>
+            <% end %>
           <% end %>
-        <% end %>
-      </tbody>
-    </table>
-    <table class="table table-condensed table-striped" style="margin-bottom: 0;">
-      <thead>
-        <th>Upcoming</th>
-        <th style="text-align: right;">Starts at</th>
-      </thead>
-      <tbody>
-        <% cache ['upcoming_sidebar', @upcoming_shifts_sidebar] do %>
-          <% @upcoming_shifts_sidebar.each do |shift| %>
-            <tr class="warning sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %>">
-              <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                <% if (shift.shift_type.name == "Coordinator Shift") %>
-                  <%= link_to shift.shift_participants.first.participant.name unless shift.shift_participants.blank? %>
-                <% else %>
-                  <%= link_to shift.organization.short_name, shift %>
-                 <% end %>
-              </td>
-              <td style="text-align: right;"><%= time shift.starts_at %></td>
-            </tr>
+        </tbody>
+      </table>
+      <table class="table table-condensed table-striped" style="margin-bottom: 0;">
+        <thead>
+          <th>Upcoming</th>
+          <th style="text-align: right;">Starts at</th>
+        </thead>
+        <tbody>
+          <% cache ['upcoming_sidebar', @upcoming_shifts_sidebar] do %>
+            <% @upcoming_shifts_sidebar.each do |shift| %>
+              <tr class="warning sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %>">
+                <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
+                  <% if (shift.shift_type.name == "Coordinator Shift") %>
+                    <%= link_to shift.shift_participants.first.participant.name unless shift.shift_participants.blank? %>
+                  <% else %>
+                    <%= link_to shift.organization.short_name, shift %>
+                   <% end %>
+                </td>
+                <td style="text-align: right;"><%= time shift.starts_at %></td>
+              </tr>
+            <% end %>
           <% end %>
-        <% end %>
-      </tbody>
-    </table>
+        </tbody>
+      </table>
+    </div>
   </div>
-</div>
+<% end %>
 
 <% if current_user.participant.is_scc? %>
   <% cache ['tasks_sidebar', @tasks_sidebar] do %>
