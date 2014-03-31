@@ -5,7 +5,6 @@ Trailerapp::Application.routes.draw do
   resources :organizations do
     resources :aliases, :controller => :organization_aliases, :shallow => true, :only => [:create, :new, :destroy]
     resources :statuses, :controller => :organization_statuses, :as => :organization_statuses
-    resources :downtime_entries
     resources :participants, :only => [:index]
     resources :shifts, :only => [:index]
     resources :tools, :only => [:index]

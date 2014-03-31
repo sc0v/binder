@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140329073210) do
+ActiveRecord::Schema.define(version: 20140331224212) do
 
   create_table "charge_types", force: true do |t|
     t.string   "name"
@@ -58,12 +58,6 @@ ActiveRecord::Schema.define(version: 20140329073210) do
     t.datetime "updated_at"
     t.integer  "organization_id"
     t.boolean  "public"
-  end
-
-  create_table "downtime_entries", force: true do |t|
-    t.datetime "started_at"
-    t.datetime "ended_at"
-    t.integer  "organization_id"
   end
 
   create_table "faqs", force: true do |t|
@@ -117,6 +111,25 @@ ActiveRecord::Schema.define(version: 20140329073210) do
   end
 
   add_index "organization_statuses", ["organization_id"], name: "index_organization_statuses_on_organization_id"
+
+  create_table "organization_timeline_entries", force: true do |t|
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.integer  "organization_timeline_entry_type_id"
+    t.integer  "organization_id"
+    t.text     "description"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "organization_timeline_entries", ["organization_id"], name: "index_organization_timeline_entries_on_organization_id"
+  add_index "organization_timeline_entries", ["organization_timeline_entry_type_id"], name: "index_timeline_entries_on_type"
+
+  create_table "organization_timeline_entry_types", force: true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "organizations", force: true do |t|
     t.string   "name"
