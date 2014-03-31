@@ -1,24 +1,11 @@
 <% unless organization_tool_list.empty? %>
-  <table class="table table-striped">
-  <tr>
-    <th>Tool Name</th>
-    <th>Barcode</th>
-    <th>Checked Out</th>
-    <th>AndrewID</th>
-  </tr>
 
-  <% organization_tool_list.each do |tool| %>
-    <tr>
-      <td><%= tool.name %></td>
-      <td><%= link_to tool.barcode, tool %></td>
-      <td><%= date_and_time tool.checkouts.current[0].checked_out_at %></td>
-      <td><%= link_to tool.checkouts.current[0].participant.andrewid, tool.checkouts.current[0].participant %></td>
-    </tr>
-  <% end %>
-  </table>
+  <%= render partial: 'tools/tools', locals: {tools: organization_tool_list, page: "org"} %>
+  
   <% if (organization_tool_list.length == 10) %>
     <%= link_to raw("View more…"), organization_tools_path(@organization), :class => 'btn btn-xs' %></h2>
   <% end %>
 <% else %>
+  </br>
   This organization currently has no tools checked out.
 <% end %>

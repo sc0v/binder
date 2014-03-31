@@ -1,0 +1,20 @@
+<% page ||= "default" %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Barcode</th>
+      <th>Name</th>
+      <th>Checked Out At</th>
+      <th class="hidden-xs <%= "hidden" if page == "org" %>">Org</th>
+      <th class="visible-lg <%= "visible-sm visible-md" if page == "org" %>">Person</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% tools.each do |tool| %>
+      <% cache [page, tool] do %>
+        <%= render partial: tool, locals: {tool: tool, page: page} %>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
