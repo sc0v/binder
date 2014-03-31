@@ -845,10 +845,16 @@ Task.create([
   { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: DateTime.strptime('4/10/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z') }
 ])
 
+puts 'Org Timeline Entry Types'
+OrganizationTimelineEntryType.create([
+  { name: 'Electrical Queue' },
+  { name: 'Structural Queue' },
+  { name: 'Downtime' }
+])
 
-  puts 'Tools'
-  # Tools -----------------------------------------------------------------------
-  generate_tools
+puts 'Tools'
+# Tools -----------------------------------------------------------------------
+generate_tools
 
 case Rails.env
 when 'production'
