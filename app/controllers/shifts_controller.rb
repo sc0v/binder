@@ -13,8 +13,6 @@ class ShiftsController < ApplicationController
       @shifts = Shift
     end
 
-    @shifts = Shift.includes(:organization)
-
     if (params[:type].blank?)
       @title = "Shifts"
       @shifts = @shifts
