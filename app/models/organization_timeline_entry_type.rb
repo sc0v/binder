@@ -13,4 +13,8 @@
 #
 
 class OrganizationTimelineEntryType < ActiveRecord::Base
+
+  has_many :organization_time_entries
+
 end
+

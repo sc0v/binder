@@ -6,7 +6,7 @@ class HomeController < ApplicationController
   end
 
   def search
-    if params[:query].blank?
+    if params.blank? or params[:query].blank?
       flash[:error] = "Please enter a query"
       redirect_to root_url
     end

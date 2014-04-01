@@ -25,5 +25,9 @@
 
 class OrganizationTimelineEntry < ActiveRecord::Base
   belongs_to :organization_timeline_entry_type
-  belongs_to :organization
+  belongs_to :organization, :touch => true
+
+  default_scope { order('started_at desc') }
+  scope :current, -> { where(ended_at: nil) }
 end
+
