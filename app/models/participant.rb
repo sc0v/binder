@@ -89,9 +89,9 @@ class Participant < ActiveRecord::Base
     
     if !person.blank?
       return self.find_by_andrewid(card_number) 
-    elsif !CarnegieMellonPerson.find_by_andrewid(card_number.downcase).blank? and !lookup_only
+    elsif !lookup_only and !CarnegieMellonPerson.find_by_andrewid(card_number.downcase).blank?
       return self.find_or_create_by(andrewid: card_number.downcase)
-    else
+    elsif !card_number.match(/^\d{7,9}$/).nil?
       andrewid = self.get_andrewid(card_number)
       return self.find_or_create_by(andrewid: andrewid) unless andrewid.blank?
     end
