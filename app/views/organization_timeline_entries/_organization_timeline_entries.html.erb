@@ -1,0 +1,26 @@
+<% unless entries.blank? %>
+  <table class="table table-striped">
+    <thead>
+      <th>Org</th>
+      <th>Entered</th>
+      <th>Wait Time</th>
+      <th>Remove</th>
+    </thead>
+    <tbody>
+      <% entries.each do |entry| %>
+        <tr>
+          <td><%=h entry.organization.short_name %></td>
+          <td><%= time entry.started_at %></td>
+          <td><%= ((Time.now - entry.started_at)/3600).to_i %>:<%= (((((Time.now - entry.started_at)/3600) - ((Time.now - entry.started_at)/3600).to_i) * 60).to_i).to_i %></td>
+          <td><%= form_tag end_organization_timeline_entry_path(entry), method: :put do %><%= hidden_field_tag 'url', request.original_fullpath %><%= submit_tag 'Remove', class: 'btn btn-xs btn-danger' %><% end %></td>
+        </tr>
+        <tr>
+          <td colspan="4"><%=h entry.description%></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+<% else %>
+  No one in the queue! YAY!
+<% end %>
+

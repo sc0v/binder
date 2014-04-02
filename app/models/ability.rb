@@ -70,6 +70,7 @@ class Ability
       can [:create, :update, :destroy], Membership
       can :hardhats, Organization
       can [:create, :update, :destroy], OrganizationStatus
+      can [:create, :end, :structural, :electrical], OrganizationTimelineEntry
       can [:create, :update], Participant
       can :read_coord, Shift
       can :create, ShiftParticipant

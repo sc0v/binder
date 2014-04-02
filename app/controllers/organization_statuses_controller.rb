@@ -59,7 +59,7 @@ class OrganizationStatusesController < ApplicationController
   # PUT /organizations/1/statuses/1.json
   def update
     respond_to do |format|
-      if @organization.update(update_organization_status_params)
+      if @organization_status.update(update_organization_status_params)
         format.html { redirect_to @organization, notice: 'Organization Status was successfully updated.' }
         format.json { head :no_content }
       else

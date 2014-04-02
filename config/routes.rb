@@ -9,8 +9,10 @@ Trailerapp::Application.routes.draw do
     resources :shifts, :only => [:index]
     resources :tools, :only => [:index]
     resources :charges, :only => [:index]
-    resources :timeline_entries, :controller => :organization_timeline_entries
     get 'hardhats', on: :member
+  end
+  resources :organization_timeline_entries, :controller => :organization_timeline_entries, :only => [:create, :update, :destroy] do
+    put 'end', on: :member
   end
   resources :charges do
     put 'approve', on: :member
@@ -35,9 +37,13 @@ Trailerapp::Application.routes.draw do
 
   match "search" => "home#search", :as => "search", via: [:get, :post]
   get "home" => "home#home", :as => "home"
-  get 'hardhats' => "home#hardhats", :as => "hardhats"
 
   root :to => "home#index"
+
+  # Custom one-offs
+  get 'hardhats' => "home#hardhats", :as => "hardhats"
+  get 'structural' => "organization_timeline_entries#structural", :as => "structural"
+  get 'electrical' => "organization_timeline_entries#electrical", :as => "electrical"
 
 
   devise_for :users,

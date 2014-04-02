@@ -24,10 +24,16 @@
 #
 
 class OrganizationTimelineEntry < ActiveRecord::Base
+  validates_presence_of :organization, :organization_timeline_entry_type, :started_at
+  validates_associated :organization, :organization_timeline_entry_type
+
   belongs_to :organization_timeline_entry_type
   belongs_to :organization, :touch => true
 
-  default_scope { order('started_at desc') }
+  default_scope { order('started_at asc') }
   scope :current, -> { where(ended_at: nil) }
+  scope :structural, -> { joins(:organization_timeline_entry_type).where(organization_timeline_entry_types: {name: 'Structural Queue'}) }
+  scope :electrical, -> { joins(:organization_timeline_entry_type).where(organization_timeline_entry_types: {name: 'Electrical Queue'}) }
+  scope :downtime, -> { joins(:organization_timeline_entry_type).where(organization_timeline_entry_types: {name: 'Downtime'}) }
 end
 
