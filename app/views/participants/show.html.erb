@@ -52,6 +52,17 @@
         </ul>
       </dd>
     <% end %>
+    
+    <% unless @participant.checkouts.current.blank? %>
+      <dt>Tools</dt>
+      <dd>
+        <ul class="list-unstyled">
+          <% @participant.checkouts.current.each do |checkout| %>
+            <li><%= link_to checkout.tool.formatted_name, checkout.tool %> - <%= date_and_time checkout.checked_out_at %> for <%= link_to checkout.organization.short_name, checkout.organization %></li>
+          <% end %>
+        </ul>
+      </dd>
+    <% end %>
   </dl>
   
       
