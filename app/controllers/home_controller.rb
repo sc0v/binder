@@ -70,4 +70,11 @@ class HomeController < ApplicationController
     @organizations = Organization.all
     @total = Tool.checked_out.count
   end
+  
+  def charge_overview
+    @organizations = Organization.all.includes(:charges)
+    @approved_total = Charge.approved.sum('amount')
+    @pending_total = Charge.pending.sum('amount')
+    @total = Charge.all.sum('amount')
+  end
 end

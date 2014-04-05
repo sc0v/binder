@@ -1,0 +1,32 @@
+<%- model_class = Organization -%>
+<div class="page-header">
+  <h1>Hardhats</h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th><%= model_class.human_attribute_name(:organization_category) %></th>
+      <th style="text-align: right;">Approved</th>
+      <th style="text-align: right;">Pending</th>
+      <th style="text-align: right;">Total</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @organizations.each do |organization| %>
+      <tr>
+        <td><%= link_to organization.short_name, organization_path(organization) %></td>
+        <td><%= organization.organization_category.name %></td>
+        <td style="text-align: right;"><%= currency organization.charges.approved.sum('amount') %></td>
+        <td style="text-align: right;"><%= currency organization.charges.pending.sum('amount') %></td>
+        <td style="text-align: right;"><%= currency organization.charges.sum('amount') %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td colspan="2"><b>Total:</b></td>
+      <td style="text-align: right;"><%= currency @approved_total %></td>
+      <td style="text-align: right;"><%= currency @pending_total %></td>
+      <td style="text-align: right;"><%= currency @total %></td>
+  </tbody>
+</table>

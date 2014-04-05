@@ -29,4 +29,8 @@ module ApplicationHelper
   def format_boolean(bool)
     bool ? "Yes" : "No"
   end
+
+  def currency(display_currency)
+    number_to_currency(display_currency)
+  end
 end
