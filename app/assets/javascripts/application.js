@@ -20,7 +20,8 @@ $(document).on("ready page:change", function(){
   $('#query').focus();
   $('.sidebar-tooltip').tooltip({container: 'body', html: true});
   $('.sidebar-popover').popover({container: 'body', html: true});
-  
+
+  $('#card-number-input').focus(); 
   $('#card-number-input').bind("change", function() {
     $.ajax({
       url: "/participants/lookup.json",
