@@ -5,6 +5,15 @@
   <div class="col-xs-10 col-sm-6">
 	<p><%= link_to "Milestones", milestones_path, :class => "btn btn-primary" %></p>
 	<p><%= link_to "Frequently Asked Questions", faqs_path, :class => "btn btn-primary " %></p>
+  <% if can?(:structural, OrganizationTimelineEntry) %>
+    <p><%= link_to "Structural Queue", structural_path, :class => "btn btn-primary " %></p>
+  <% end %>
+  <% if can?(:electrical, OrganizationTimelineEntry) %>
+    <p><%= link_to "Electrical Queue", electrical_path, :class => "btn btn-primary " %></p>
+  <% end %>
+  <% if can?(:approve, Charge) %>
+    <p><%= link_to "Charge Overview", charge_overview_path, :class => "btn btn-primary " %></p>
+  <% end %>
 
 	<%= form_tag(search_path, class: 'form-inline', role: 'search') do %>
     <div class="form-group">
