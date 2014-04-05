@@ -68,7 +68,7 @@ class Ability
       can [:create, :update], Checkout
       can [:create, :update], Document
       can [:create, :update, :destroy], Membership
-      can :hardhats, Organization
+      can [:hardhats, :read_basic_details, :read_all_details], Organization
       can [:create, :update, :destroy], OrganizationStatus
       can [:create, :end, :structural, :electrical], OrganizationTimelineEntry
       can [:create, :update], Participant
