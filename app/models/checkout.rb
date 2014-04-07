@@ -36,9 +36,9 @@ class Checkout < ActiveRecord::Base
 
   before_save :checked_out_at, :presence => true
 
-  belongs_to :participant
-  belongs_to :organization
-  belongs_to :tool
+  belongs_to :participant, :touch => true
+  belongs_to :organization, :touch => true
+  belongs_to :tool, :touch => true
 
   default_scope { order('tool_id ASC, checked_out_at DESC') }
   scope :old, -> { where('checked_in_at IS NOT NULL') }
