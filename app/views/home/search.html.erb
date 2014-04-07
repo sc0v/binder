@@ -12,11 +12,7 @@
 
 <% unless @tools.blank? %>
 	<p><em><strong>Tools matching term '<%= @query %>'</strong></em></p>
-	<ul>
-		<% for tool in @tools do %>
-			<li><%= link_to tool.formatted_name, tool_path(tool) %></li>
-		<% end %>
-	</ul>
+  <%= render partial: "tools/tools", locals: {tools: @tools} %>
 	<p class="smtext">&nbsp;</p>
 <% end %>
 
