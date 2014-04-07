@@ -18,6 +18,9 @@ class ToolsController < ApplicationController
     elsif (params[:type] == 'radios')
       @title = "Radios"
       @tools = @tools.radios
+    elsif (params[:type] == 'out')
+      @title = "Checked Out"
+      @tools = @tools.just_tools.checked_out
     end
 
     @tools = @tools.paginate(:page => params[:page]).per_page(20)
