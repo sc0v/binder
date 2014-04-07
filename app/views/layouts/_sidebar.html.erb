@@ -15,7 +15,7 @@
               <tr class="success sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %>">
                 <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                   <% if (shift.shift_type.name == "Coordinator Shift") %>
-                    <%= link_to shift.shift_participants.first.participant.name unless shift.shift_participants.blank? %>
+                    <%= link_to shift.shift_participants.first.participant.name, shift unless shift.shift_participants.blank? %>
                   <% else %>
                     <%= link_to shift.organization.short_name, shift %>
                   <% end %>
@@ -37,7 +37,7 @@
               <tr class="warning sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="<%=h shift.shift_type.name %>">
                 <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                   <% if (shift.shift_type.name == "Coordinator Shift") %>
-                    <%= link_to shift.shift_participants.first.participant.name unless shift.shift_participants.blank? %>
+                    <%= link_to shift.shift_participants.first.participant.name, shift unless shift.shift_participants.blank? %>
                   <% else %>
                     <%= link_to shift.organization.short_name, shift %>
                    <% end %>
