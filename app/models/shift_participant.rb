@@ -25,8 +25,8 @@ class ShiftParticipant < ActiveRecord::Base
   validates_presence_of :shift_id, :clocked_in_at, :participant_id
   validates_associated :shift, :participant
 
-  belongs_to :shift
-  belongs_to :participant
+  belongs_to :shift, :touch => true
+  belongs_to :participant, :touch => true
 
   # For lookups
   def card_number=( card_number )
