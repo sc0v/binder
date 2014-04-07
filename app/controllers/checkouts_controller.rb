@@ -63,7 +63,7 @@ class CheckoutsController < ApplicationController
     @organization = Organization.find(params[:organization_id]) unless params[:organization_id].blank?
     raise CheckoutError, I18n.t("errors.messages.organization_does_not_exist") unless !@organization.nil?
     
-    Membership.create({ participant: @participant, organization: @organization }) if params[:add]
+    Membership.create({ participant: @participant, organization: @organization }) if (params[:add].to_i == 1)
 
     @checkout.checked_out_at = Time.now
     @checkout.tool = @tool
