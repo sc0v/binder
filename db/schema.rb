@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140331224212) do
+ActiveRecord::Schema.define(version: 20140409165006) do
 
   create_table "charge_types", force: true do |t|
     t.string   "name"
@@ -194,6 +194,7 @@ ActiveRecord::Schema.define(version: 20140331224212) do
     t.integer  "shift_type_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "description"
   end
 
   add_index "shifts", ["organization_id"], name: "index_shifts_on_organization_id"

@@ -14,6 +14,7 @@
 # **`shift_type_id`**                    | `integer`          |
 # **`starts_at`**                        | `datetime`         |
 # **`updated_at`**                       | `datetime`         |
+# **`description`**                      | `string`           |
 #
 # ### Indexes
 #
