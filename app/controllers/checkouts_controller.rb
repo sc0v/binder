@@ -5,7 +5,8 @@ class CheckoutsController < ApplicationController
   # GET /checkouts
   # GET /checkouts.json
   def index
-    @checkouts = Checkout.all
+    @tool = Tool.find(params[:tool_id])
+    @checkouts = @tool.checkouts
 
     respond_to do |format|
       format.html # index.html.erb
