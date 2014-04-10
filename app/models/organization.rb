@@ -27,10 +27,10 @@ class Organization < ActiveRecord::Base
   has_many :memberships
   has_many :organization_aliases, :dependent => :destroy
   has_many :organization_statuses, :dependent => :destroy
+  has_many :organization_timeline_entries, :dependent => :destroy
   has_many :participants, :through => :memberships
   has_many :charges, :dependent => :destroy
   has_many :documents, :dependent => :destroy
-  has_many :downtime_entries, :dependent => :destroy
   has_many :tools, :through => :checkouts
   has_many :checkouts, :dependent => :destroy
   has_many :shifts  
@@ -55,6 +55,19 @@ class Organization < ActiveRecord::Base
     else
       return name
     end
+  end
+
+  def downtime
+    elapsed = 0
+    organization_timeline_entries.downtime.each do |timeline_entry|
+      elapsed += timeline_entry.duration
+    end
+
+    return elapsed.seconds
+  end
+
+  def remaining_downtime
+    return 4.hours - downtime 
   end
 end
 

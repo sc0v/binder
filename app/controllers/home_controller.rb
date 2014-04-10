@@ -77,4 +77,8 @@ class HomeController < ApplicationController
     @pending_total = Charge.pending.sum('amount')
     @total = Charge.all.sum('amount')
   end
+
+  def downtime
+    @organizations = Organization.joins(:organization_timeline_entries).where(organization_timeline_entries: {organization_timeline_entry_type_id: 3}).distinct
+  end
 end

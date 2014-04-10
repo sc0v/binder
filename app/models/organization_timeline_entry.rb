@@ -35,5 +35,10 @@ class OrganizationTimelineEntry < ActiveRecord::Base
   scope :structural, -> { joins(:organization_timeline_entry_type).where(organization_timeline_entry_types: {name: 'Structural Queue'}) }
   scope :electrical, -> { joins(:organization_timeline_entry_type).where(organization_timeline_entry_types: {name: 'Electrical Queue'}) }
   scope :downtime, -> { joins(:organization_timeline_entry_type).where(organization_timeline_entry_types: {name: 'Downtime'}) }
+
+  def duration
+    return ended_at.to_i - started_at.to_i unless ended_at.blank?
+    return DateTime.now.to_i - started_at.to_i
+  end
 end
 
