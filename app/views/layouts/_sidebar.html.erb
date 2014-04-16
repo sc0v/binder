@@ -17,7 +17,7 @@
                   <% if (shift.shift_type.name == "Coordinator Shift") %>
                     <%= link_to shift.shift_participants.first.participant.name, shift unless shift.shift_participants.blank? %>
                   <% else %>
-                    <%= link_to shift.organization.short_name, shift %>
+                    <%= link_to shift.organization.short_name, shift unless shift.organization.blank? %>
                   <% end %>
                 </td>
                 <td style="text-align: right;"><%= time shift.ends_at %></td>
@@ -39,7 +39,7 @@
                   <% if (shift.shift_type.name == "Coordinator Shift") %>
                     <%= link_to shift.shift_participants.first.participant.name, shift unless shift.shift_participants.blank? %>
                   <% else %>
-                    <%= link_to shift.organization.short_name, shift %>
+                    <%= link_to shift.organization.short_name, shift unless shift.organization.blank? %>
                    <% end %>
                 </td>
                 <td style="text-align: right;"><%= time shift.starts_at %></td>
