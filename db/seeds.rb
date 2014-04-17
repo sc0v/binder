@@ -377,7 +377,7 @@ Membership.create({ organization: tsa_org, booth_chair_order: 4, participant: Pa
 # Charge Types ----------------------------------------------------------------
 puts 'Charge Types'
 ChargeType.create([
-  { name: 'Other', description: 'Other violation as determined by the coordinator, please document extensively and inform the Midway Chair incase any problems arise.', requires_booth_chair_approval: true },
+  { name: 'Store Purchase' },
   { name: 'Watch Shift – Failure to comply', description: 'Watch Shift refused to complete assigned duties. Fine Per Violation', default_amount: 25 },
   { name: 'Watch Shift – Failure to remain', description: 'Watch Shift left before being dismissed. Fine Per Person', default_amount: 25 },
   { name: 'Watch Shift – Tardiness', description: 'Less than 10 mins late; Note: enter watch shift – tardiness (Pending Approval) with a $0 fine and enter if one or both people were late in the description' },
@@ -388,6 +388,7 @@ ChargeType.create([
   { name: 'Deviation from plans', description: 'Changing of building or structural plans without approval. Fine to be determined by Rules Committee' },
   { name: 'Vehicle assisted demolition' },
   { name: 'Teardown' },
+  { name: 'Broken or Lost Tool/Hardhat' },
   { name: 'Post-Teardown Cage Cleanup' },
   { name: 'Unapproved electrical plug in', description: 'Connecting wired booth to power supply without approval', default_amount: 100 },
   { name: 'Unsafe electrical practice', description: 'At the discretion of SCC electrical committee. May be appealed to Rules Committee.', default_amount: 200 },
@@ -397,7 +398,8 @@ ChargeType.create([
   { name: 'Failure to Clean Plot', description: 'Org fails to clean plot as directed by SCC or fails to confirm with SCC that plot is clean before leaving', default_amount: 25 },
   { name: 'Vehicle on Midway', description: 'Unauthorized vehicle of an org on Midway. Fine to be determined by Rules Committee' },
   { name: 'Late Plans' }, 
-  { name: 'Missed Training or Meeting' }
+  { name: 'Missed Training or Meeting' },
+  { name: 'Other', description: 'Other violation as determined by the coordinator, please document extensively and inform the Midway Chair incase any problems arise.', requires_booth_chair_approval: true }
 ])
 
 # FAQs ------------------------------------------------------------------------
