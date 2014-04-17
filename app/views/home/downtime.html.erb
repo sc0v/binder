@@ -18,7 +18,7 @@
         <td><%= link_to organization.short_name, organization_path(organization) %></td>
         <td><%= organization.organization_category.name %></td>
         <td><%= "%02d" % (organization.downtime / 60 / 60).to_i %>:<%= "%02d" % ((organization.downtime / 60) - ( (organization.downtime / 60 / 60) * 60 )).to_i %></td>
-        <td><%= "%02d" % (organization.remaining_downtime / 60 / 60).to_i %>:<%= "%02d" % ((organization.remaining_downtime / 60) - ( (organization.remaining_downtime / 60 / 60) * 60 )).to_i %></td>
+        <td><%= "%02d" % (organization.remaining_downtime / 60 / 60 + (organization.remaining_downtime < 0 ? 1 : 0)).to_i %>:<%= "%02d" % ((organization.remaining_downtime / 60) - ( (organization.remaining_downtime / 60 / 60) * 60 ) + (organization.remaining_downtime < 0 ? 1 : 0)).to_i %></td>
       </tr>
     <% end %>
   </tbody>
