@@ -7,8 +7,8 @@
     <tr>
       <th><%= model_class.human_attribute_name(:name) %></th>
       <th><%= model_class.human_attribute_name(:organization_category) %></th>
-      <th>Taken</th>
-      <th>Remaining</th>
+      <th style="text-align: right;">Taken</th>
+      <th style="text-align: right;">Remaining</th>
     </tr>
   </thead>
 
@@ -17,8 +17,8 @@
       <tr <%= raw("class='danger'") if organization.remaining_downtime < 0 %>>
         <td><%= link_to organization.short_name, organization_path(organization) %></td>
         <td><%= organization.organization_category.name %></td>
-        <td><%= "%02d" % (organization.downtime / 60 / 60).to_i %>:<%= "%02d" % ((organization.downtime / 60) - ( (organization.downtime / 60 / 60) * 60 )).to_i %></td>
-        <td><%= "%02d" % (organization.remaining_downtime / 60 / 60 + (organization.remaining_downtime < 0 ? 1 : 0)).to_i %>:<%= "%02d" % ((organization.remaining_downtime / 60) - ( (organization.remaining_downtime / 60 / 60) * 60 ) + (organization.remaining_downtime < 0 ? 1 : 0)).to_i %></td>
+        <td style="text-align: right;"><%= format_downtime organization.downtime %></td>
+        <td style="text-align: right;"><%= format_downtime organization.remaining_downtime %></td>
       </tr>
     <% end %>
   </tbody>

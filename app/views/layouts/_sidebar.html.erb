@@ -91,14 +91,14 @@
         <table class="table table-condensed">
           <thead>
             <th style="text-align: center;">Org</th>
-            <th style="text-align: center;">Left</th>
+            <th style="text-align: right;">Left</th>
             <th></th>
           </thead>
           <tbody>
             <% @downtime_sidebar.each do |entry| %>
               <tr <%= raw('class="danger"') if entry.organization.remaining_downtime < 0 %>>
                 <td style="text-align: center;"><%= entry.organization.short_name %></td>
-                <td style="text-align: center;"><span id="countdown"><%= entry.organization.remaining_downtime / 60 / 60 + (entry.organization.remaining_downtime < 0 ? 1 : 0) %>:<%= (entry.organization.remaining_downtime / 60) - ( (entry.organization.remaining_downtime / 60 / 60) * 60 ) + (entry.organization.remaining_downtime < 0 ? 1 : 0) %></span></td>
+                <td style="text-align: right;"><span id="countdown"><%= format_downtime entry.organization.remaining_downtime %></span></td>
                 <td><%= form_tag end_organization_timeline_entry_path(entry), method: :put do %><%= hidden_field_tag 'url', request.original_fullpath %><%= submit_tag 'Stop', class: 'btn btn-xs btn-danger' %><% end %></td>
               </tr>
             <% end %>
