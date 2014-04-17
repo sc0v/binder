@@ -72,7 +72,8 @@ class HomeController < ApplicationController
   end
   
   def charge_overview
-    @organizations = Organization.all.includes(:charges)
+    @organizations = Organization.joins(:charges).distinct.includes(:charges)
+    @charge_types = ChargeType.all.includes(:charges)
     @approved_total = Charge.approved.sum('amount')
     @pending_total = Charge.pending.sum('amount')
     @total = Charge.all.sum('amount')
