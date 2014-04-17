@@ -30,7 +30,9 @@ Trailerapp::Application.routes.draw do
       post 'choose_organization', on: :collection
     end
   end
-  resources :checkouts, :only => [:create]
+  resources :checkouts, :only => [:create] do
+    post 'checkin', on: :collection
+  end
 
   # static pages
   get "milestones" => "home#milestones", :as => "milestones"
@@ -42,6 +44,7 @@ Trailerapp::Application.routes.draw do
 
   # Custom one-offs
   get 'hardhats' => "home#hardhats", :as => "hardhats"
+  get 'hardhat_return' => "home#hardhat_return", :as => "hardhat_return"
   get 'charge_overview' => "home#charge_overview", :as => "charge_overview"
   get 'structural' => "organization_timeline_entries#structural", :as => "structural"
   get 'electrical' => "organization_timeline_entries#electrical", :as => "electrical"
