@@ -167,7 +167,7 @@ class Participant < ActiveRecord::Base
         write_attribute :cached_student_class, ldap_reference["cmuStudentClass"]
         write_attribute :cache_updated, DateTime.now
 
-        self.save! unless self.id.blank?
+        self.save! unless self.id.blank? or self.readonly?
       else
         write_attribute :cached_name, "N/A"
         write_attribute :cached_surname, "N/A"
@@ -175,7 +175,7 @@ class Participant < ActiveRecord::Base
         write_attribute :cached_department, "N/A"
         write_attribute :cached_student_class, "N/A"
 
-        self.save! unless self.id.blank?
+        self.save! unless self.id.blank? or self.readonly?
       end
     end
   end
