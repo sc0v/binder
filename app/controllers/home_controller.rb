@@ -67,8 +67,8 @@ class HomeController < ApplicationController
   end
   
   def hardhats
-    @organizations = Organization.all
-    @total = Tool.checked_out.count
+    @organizations = Organization.joins(:tools).distinct
+    @total = Tool.hardhats.checked_out.count
   end
   
   def charge_overview
