@@ -2,6 +2,14 @@ class OrganizationTimelineEntriesController < ApplicationController
   authorize_resource
   before_action :set_organization_timeline_entry, only: [:update, :destroy, :end]
 
+  def index
+    @organization = Organization.find(params[:organization_id]) unless params[:organization_id].blank?
+
+    @entries = OrganizationTimelineEntry.where({organization_timeline_entry_type_id: 3})
+
+    @entries = @entries.where({organization: @organization}) unless @organization.blank?
+  end
+
   # POST /organizations_timeline_entries
   # POST /organizations_timeline_entries.json
   def create

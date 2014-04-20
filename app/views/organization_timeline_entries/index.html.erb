@@ -1,0 +1,30 @@
+<%- model_class = OrganizationTimelineEntry -%>
+<div class="page-header">
+  <h1>
+    <%= link_to @organization.name + raw("'s"), @organization unless @organization.blank? %>
+    Downtime
+  </h1>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:started_at) %></th>
+      <th><%= model_class.human_attribute_name(:ended_at) %></th>
+      <th>Duration</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @entries.each do |entry| %>
+      <% if can?(:read, entry) %>
+        <tr>
+          <td><%= date_and_time entry.started_at %></td>
+          <td class="hidden-xs"><%= date_and_time entry.ended_at unless entry.ended_at.blank? %></td>
+          <td class="hidden-xs"><%= format_downtime entry.duration %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+

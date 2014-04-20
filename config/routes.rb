@@ -10,6 +10,7 @@ Trailerapp::Application.routes.draw do
     resources :tools, :only => [:index]
     resources :charges, :only => [:index]
     get 'hardhats', on: :member
+    resources :downtime, :controller => :organization_timeline_entries, :only => [:index]
   end
   resources :organization_timeline_entries, :controller => :organization_timeline_entries, :only => [:create, :update, :destroy] do
     put 'end', on: :member
