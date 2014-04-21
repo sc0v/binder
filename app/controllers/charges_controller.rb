@@ -50,6 +50,7 @@ class ChargesController < ApplicationController
     @charge = Charge.new(charge_params)
     @charge.charged_at = DateTime.now
     @charge.creating_participant = current_user.participant
+    @charge.is_approved = false
 
     respond_to do |format|
       if @charge.save
@@ -65,6 +66,8 @@ class ChargesController < ApplicationController
   # PUT /charges/1
   # PUT /charges/1.json
   def update
+    @charge.is_approved = false
+
     respond_to do |format|
       if @charge.update(charge_params)
         format.html { redirect_to @charge, notice: 'Charge was successfully updated.' }
