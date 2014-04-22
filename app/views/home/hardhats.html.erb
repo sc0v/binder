@@ -14,7 +14,7 @@
 
   <tbody>
     <% @organizations.each do |organization| %>
-      <tr class="<%= "danger" if Tool.hardhats.checked_out_by_organization(organization).count > 0 %>">
+      <tr class="<%= "danger" if Tool.hardhats.checked_out_by_organization(organization).count >= 10 %> <%= "warning" if Tool.hardhats.checked_out_by_organization(organization).count > 0 and Tool.hardhats.checked_out_by_organization(organization).count < 10 %>">
         <td><%= link_to organization.name, organization_tools_path(organization, :type => "hardhats") %></td>
         <td><%= organization.organization_category.name %></td>
         <td><%= Tool.hardhats.checked_out_by_organization(organization).count %></td>
