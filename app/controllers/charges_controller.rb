@@ -20,6 +20,10 @@ class ChargesController < ApplicationController
     end
   end
 
+  def export
+    @charges = Charge.all
+  end
+
   # GET /charges/1
   # GET /charges/1.json
   def show

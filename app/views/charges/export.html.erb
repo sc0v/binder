@@ -1,0 +1,39 @@
+<%- model_class = Charge -%>
+<div class="page-header">
+  <h1>
+    Charges for Export
+  </h1>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:charge_type) %></th>
+      <th><%= model_class.human_attribute_name(:amount) %></th>
+      <th><%= "Organization" unless !@organization.blank? %></th>
+      <th><%= model_class.human_attribute_name(:charged_at) %></th>
+      <th>Issued By</th>
+      <th>Issued To</th>
+      <th>Description</th>
+      <th>Approved</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @charges.each do |charge| %>
+      <% if can?(:read, charge) %>
+        <tr>
+          <td><%= charge.charge_type.name %></td>
+          <td><%= number_to_currency charge.amount %></td>
+          <td><%= charge.organization.short_name unless !@organization.blank? %></td>
+          <td><%= date_and_time(charge.charged_at) %></td>
+          <td><%= charge.issuing_participant.name %></td>
+          <td><%= charge.receiving_participant.name unless charge.receiving_participant.blank? %></td>
+          <td><%= charge.description %></td>
+          <td><%= format_boolean charge.is_approved? %></td>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+
