@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
-ruby '2.0.0'
-gem 'rails', '4.0.3'
+ruby '2.1.5'
+gem 'rails', '4.1.8'
 gem 'turbolinks'
 
 gem 'sass-rails', '~> 4.0.0'
@@ -8,18 +8,16 @@ gem 'uglifier', '>= 1.3.0'
 gem 'coffee-rails', '~> 4.0.0'
 gem 'jquery-rails'
 gem 'jbuilder', '~> 1.2'
-gem 'bootstrap-sass', '>= 3.1.0'
+gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'therubyracer', :platform=>:ruby
 gem 'omniauth'
 gem 'omniauth-shibboleth'
 
-gem 'sqlite3'
-
 # User and role management
-gem 'cancancan', '~> 1.7'
+gem 'cancancan'
 gem 'devise'
-gem 'rolify', '~> 3.4.0'
+gem 'rolify'
 
 # For LDAP calls to CMU's database
 gem 'ruby-ldap'
@@ -36,6 +34,8 @@ gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 
 gem 'newrelic_rpm'
+
+gem 'mysql'
 
 group :development do
   # Automatically generate comments in models and such based on schema
@@ -75,6 +75,5 @@ group :test do
 end
 
 group :production do
-  gem 'mysql2'
   gem 'passenger'
 end
