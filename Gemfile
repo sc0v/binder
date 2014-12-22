@@ -56,8 +56,9 @@ end
 group :test do
   # Functional Test Framework (Capybara with Minitest
   #gem 'capybara'
+  #gem 'minitest'
   #gem 'minitest-spec-rails'
-  gem 'minitest-wscolor'
+  #gem 'minitest-wscolor'
 
   # Test Coverage
   gem 'simplecov'
