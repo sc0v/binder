@@ -117,8 +117,6 @@ FactoryGirl.define do
   factory :user do
     name "Default Factory User"
     email { generate(:random_string) + "@andrew.cmu.edu" }
-    password "testtest"
-    password_confirmation "testtest"
 
     association :participant
   end

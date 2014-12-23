@@ -28,26 +28,28 @@ class TaskTest < ActiveSupport::TestCase
 
   context "With a proper context, " do
     setup do
-      create_context
+      # Create 3 tasks
+      @assign_rides = FactoryGirl.create(:task, :due_at => Time.now - 2.hour)
+      @buy_wood = FactoryGirl.create(:task, :due_at => Time.now + 1.hour)
+      @takeout_trash = FactoryGirl.create(:task, :is_completed => true, :due_at => Time.now + 1.hour)
     end
 
     teardown do
-      remove_context
     end
 
     should "show that all factories are properly created" do
       assert_equal 3, Task.all.size
     end
-   
+
     # Scopes
     should "have a scope 'upcoming' that works" do
-       assert_equal 0, Task.upcoming.size
+       assert_equal 2, Task.upcoming.size
     end
 
     # Methods
     should "show that the is_past_due method works" do
       assert_equal true, @assign_rides.is_past_due
-      assert_equal true, @buy_wood.is_past_due
+      assert_equal false, @buy_wood.is_past_due
       assert_equal false, @takeout_trash.is_past_due
     end
   end

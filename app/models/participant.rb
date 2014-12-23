@@ -84,11 +84,11 @@ class Participant < ActiveRecord::Base
 
   def self.find_by_card(card_number, lookup_only = false)
     return nil if card_number.blank?
-    
+
     person = self.find_by_andrewid(card_number)
-    
+
     if !person.blank?
-      return self.find_by_andrewid(card_number) 
+      return self.find_by_andrewid(card_number)
     elsif !lookup_only and !CarnegieMellonPerson.find_by_andrewid(card_number.downcase).blank?
       return self.find_or_create_by(andrewid: card_number.downcase)
     elsif !card_number.match(/^%?\d{7,9}/).nil?
@@ -96,7 +96,7 @@ class Participant < ActiveRecord::Base
       return self.find_or_create_by(andrewid: andrewid) unless andrewid.blank?
     end
   end
-  
+
   def self.search_ldap(andrewid = '')
     Participant.new({andrewid: andrewid.downcase}) unless CarnegieMellonPerson.find_by_andrewid(andrewid.downcase).blank?
   end

@@ -40,29 +40,22 @@ class ChargeTest < ActiveSupport::TestCase
   # Methods
   context "With a proper context, " do
     setup do
-      create_context
+      # Create a charges
+      @fine = FactoryGirl.create(:charge)
     end
 
     teardown do
-      remove_context
     end
 
     should "show that all factories are properly created" do
-      assert_equal 2, Charge.all.size
+      assert_equal 1, Charge.all.size
     end
 
-      
-
-      context "Testing charges" do
-        should "know charges" do
-          assert_equal ["Missed 10/2 meeting", "Breaker trip"], Charge.all.map{|e| e.description}
-        end  
-      
-        should "not let charge with string for amount value be created" do
-          charge1 = FactoryGirl.build(:charge, :charge_type => @miss_meeting, :issuing_participant => @rachel, :receiving_participant => nil, :organization => @theta, :amount => "a", :charged_at => Date.today, :description => "Missed 10/2 meeting")
-          deny charge1.valid? 
-        end
-                
+    context "Testing charges" do
+      should "not let charge with string for amount value be created" do
+        charge1 = FactoryGirl.build(:charge, :amount => "a")
+        deny charge1.valid?
       end
+    end
   end
 end

@@ -39,10 +39,10 @@ class User < ActiveRecord::Base
   # Setup accessible (or protected) attributes for your model
   # attr_accessible :name, :email, :password, :password_confirmation, :remember_me, :id, :participant
   # attr_accessible :role_ids, :as => :admin
-  
+
 
   has_one :participant
-  
+
   scope :search, lambda { |term| where('lower(name) LIKE lower(?) OR lower(email) LIKE lower(?)', "#{term}%", "#{term}%") }
 
   def self.find_for_shibboleth_oauth(request, signed_in_resource=nil)

@@ -33,11 +33,28 @@ class ToolTest < ActiveSupport::TestCase
 
   context "With a proper context, " do
     setup do
-      create_context
+      # Create 3 organizations
+      @theta = FactoryGirl.create(:organization)
+      @sdc = FactoryGirl.create(:organization)
+
+      # Create 6 participants
+      @shannon_participant = FactoryGirl.create(:participant)
+
+      # Create 5 tools
+      @hammer = FactoryGirl.create(:tool)
+      @saw = FactoryGirl.create(:tool, :barcode => 12390, :description => "SAW", :name => "Saw")
+      @ladder = FactoryGirl.create(:tool, :barcode => 12012, :description => "LADDER", :name => "Ladder")
+      @hard_hat = FactoryGirl.create(:tool, :barcode => 12808, :description => "HARD HAT", :name => "Hardhat")
+      @radio = FactoryGirl.create(:tool, :name => "Radio")
+
+      # Create 4 checkouts
+      @hammer_checkout1 = FactoryGirl.create(:checkout, :checked_in_at => DateTime.now + 3.days, :tool => @hammer, :organization => @sdc)
+      @hammer_checkout2 = FactoryGirl.create(:checkout, :tool => @hammer, :organization => @sdc)
+      @saw_checkout = FactoryGirl.create(:checkout, :tool => @saw, :organization => @theta, :participant => @shannon_participant)
+      @hard_hat_checkout = FactoryGirl.create(:checkout, :tool => @hard_hat, :organization => @theta)
     end
 
     teardown do
-      remove_context
     end
 
     should "show that all factories are properly created" do

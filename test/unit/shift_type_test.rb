@@ -23,17 +23,19 @@ class ShiftTypeTest < ActiveSupport::TestCase
 
   context "With a proper context, " do
     setup do
-      create_context
+      # Create 3 shift types
+      @watch_shift = FactoryGirl.create(:shift_type)
+      @security_shift = FactoryGirl.create(:shift_type, :name => "Security Shift")
+      @ride_shift = FactoryGirl.create(:shift_type, :name => "Ride Shift")
     end
 
     teardown do
-      remove_context
     end
 
     should "show that all factories are properly created" do
       assert_equal 3, ShiftType.all.size
     end
- 
+
     # Scopes
 
     # Methods

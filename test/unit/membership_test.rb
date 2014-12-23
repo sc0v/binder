@@ -36,26 +36,26 @@ class MembershipTest < ActiveSupport::TestCase
 
   context "With a proper context, " do
     setup do
-      create_context
+      FactoryGirl.create(:membership)
+      @chair = FactoryGirl.create(:membership, :is_booth_chair => true)
     end
 
     teardown do
-      remove_context
     end
 
     should "show that all factories are properly created" do
-      assert_equal 3, Membership.all.size
+      assert_equal 2, Membership.all.size
     end
-  
+
     # Scopes
-    
+
     # Methods
     context "Testing memberships" do
       should "know booth chairs" do
         #puts Membership.booth_chairs.map{ |bc| bc.participant.andrewid }
         assert_equal 1, Membership.booth_chairs.size
-        assert_equal ["asteger_FG"], Membership.booth_chairs.map{|e| e.participant.andrewid}
-      end  
+        assert_equal @chair, Membership.booth_chairs.first
+      end
     end
   end
 end

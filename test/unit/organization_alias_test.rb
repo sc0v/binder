@@ -28,24 +28,21 @@ class OrganizationAliasTest < ActiveSupport::TestCase
 
   # Validations
 
-
   context "With a proper context, " do
     setup do
-      create_context
+      FactoryGirl.create(:organization_alias)
     end
 
     teardown do
-      remove_context
     end
 
     should "show that all factories are properly created" do
-      assert_equal 3, OrganizationAlias.all.size
+      assert_equal 1, OrganizationAlias.all.size
     end
-    
-    # Scopes
-  
-    # Methods
 
+    # Scopes
+
+    # Methods
 
   end
 end

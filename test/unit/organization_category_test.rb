@@ -20,22 +20,20 @@ class OrganizationCategoryTest < ActiveSupport::TestCase
 
   # Validations
 
-
   context "With a proper context, " do
     setup do
-      create_context
+      FactoryGirl.create(:organization_category)
     end
 
     teardown do
-      remove_context
     end
 
     should "show that all factories are properly created" do
-      assert_equal 4, OrganizationCategory.all.size
+      assert_equal 1, OrganizationCategory.all.size
     end
 
     # Scopes
-  
+
     # Methods
 
   end

@@ -31,18 +31,18 @@ class AbilityTest < ActiveSupport::TestCase
     end
 
     # member tests
-    should "allow a member to do some things but not other things" do
+    should "allow a member" do
       ability = Ability.new(@member_user)
 
-      assert ability.cannot?(:manage, CarnegieMellonIDCard)
-      assert ability.cannot?(:manage, CarnegieMellonPerson)
-      assert ability.cannot?(:manage, Charge)
-      assert ability.cannot?(:manage, ChargeType)
-      assert ability.cannot?(:manage, Document)
-      assert ability.cannot?(:manage, Faq)
-      assert ability.cannot?(:manage, ShiftParticipant)
-      assert ability.cannot?(:manage, Task)
-      assert ability.cannot?(:manage, User)
+      assert ability.cannot?(:manage, CarnegieMellonIDCard), "to not change an id card number"
+      assert ability.cannot?(:manage, CarnegieMellonPerson), "to not change a person"
+      assert ability.cannot?(:manage, Charge), "to not edit a charge"
+      assert ability.cannot?(:manage, ChargeType), "to not edit a charge type"
+      assert ability.cannot?(:manage, Document), "to not edit a document"
+      assert ability.cannot?(:manage, Faq), "to not edit an FAQ"
+      assert ability.cannot?(:manage, ShiftParticipant), "to not edit a shift participant"
+      assert ability.cannot?(:manage, Task), "to not edit a task"
+      assert ability.cannot?(:manage, User), "to not edit a user"
 
       assert ability.cannot?(:create, Checkout)
       assert ability.cannot?(:update, Checkout)
@@ -130,8 +130,8 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(:create, Faq)
       assert ability.cannot?(:update, Faq)
       assert ability.cannot?(:destroy, Faq)
-      assert ability.can?(:read, Faq)
-      
+      assert ability.cannot?(:read, Faq)
+
       assert ability.can?(:read_all_details, @org)
       assert ability.cannot?(:read_all_details, @scc)
       assert ability.can?(:read_basic_details, @scc)
@@ -191,7 +191,7 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.can?(:update, Participant)
 
       assert ability.can?(:create, ShiftParticipant)
-      assert ability.can?(:update, ShiftParticipant)
+      assert ability.cannot?(:update, ShiftParticipant)
     end
 
     # admin tests
