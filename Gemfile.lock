@@ -240,6 +240,7 @@ DEPENDENCIES
   rails (= 4.1.8)
   rails-erd
   rails_layout
+  rake
   rest-client
   rolify
   ruby-ldap

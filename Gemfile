@@ -73,6 +73,9 @@ group :test do
 
   # For Factories
   gem 'factory_girl_rails'
+
+  # For Travis
+  gem 'rake'
 end
 
 group :production do
