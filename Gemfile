@@ -58,10 +58,6 @@ group :test do
   #gem 'minitest-spec-rails'
   #gem 'minitest-wscolor'
 
-  # Test Coverage
-  gem 'simplecov'
-  gem 'simplecov-rcov'
-
   # For mocking Web calls
   gem 'webmock'
 
@@ -76,6 +72,8 @@ group :test do
   gem 'rake'
 
   gem 'sqlite3'
+
+  gem 'coveralls', require: false
 end
 
 group :production do
