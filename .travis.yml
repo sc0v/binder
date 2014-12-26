@@ -1,4 +1,6 @@
 language: ruby
 rvm:
   - 2.1.5
-bundler_args: --without dev,production
+bundler_args: --without development production
+sudo: false
+

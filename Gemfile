@@ -33,8 +33,6 @@ gem "carrierwave"
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 
-gem 'newrelic_rpm'
-
 gem 'mysql'
 
 group :development do
@@ -76,8 +74,11 @@ group :test do
 
   # For Travis
   gem 'rake'
+
+  gem 'sqlite3'
 end
 
 group :production do
   gem 'passenger'
+  gem 'newrelic_rpm'
 end
