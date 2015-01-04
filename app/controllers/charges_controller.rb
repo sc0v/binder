@@ -103,7 +103,7 @@ class ChargesController < ApplicationController
     
     respond_to do |format|
       if @charge.save
-        format.html { redirect_to params[:url], notice: 'Charge was successfully approved.' }
+        format.html { redirect_to URI.parse(params[:url]).path, notice: 'Charge was successfully approved.' }
         format.json { head :no_content }
       else
         format.html { render action: "index" }

@@ -92,7 +92,7 @@ class CheckoutsController < ApplicationController
 
     respond_to do |format|
       if @checkout.save
-        format.html { redirect_to params[:url], notice: 'Checkout was successfully updated.' }
+        format.html { redirect_to URI.parse(params[:url]).path, notice: 'Checkout was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

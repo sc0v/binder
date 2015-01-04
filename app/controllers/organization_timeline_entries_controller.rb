@@ -23,7 +23,7 @@ class OrganizationTimelineEntriesController < ApplicationController
 
     respond_to do |format|
       if @organization_timeline_entry.save
-        format.html { redirect_to params[:url], notice: 'Organization Timeline Entry was successfully created.' }
+        format.html { redirect_to URI.parse(params[:url]).path, notice: 'Organization Timeline Entry was successfully created.' }
         format.json { render json: @organization_timeline_entry, status: :created, location: @organization_timeline_entry.organization }
       else
         format.html { redirect_to root_url }
@@ -53,7 +53,7 @@ class OrganizationTimelineEntriesController < ApplicationController
       @organization_timeline_entry.ended_at = DateTime.now
       
       if @organization_timeline_entry.save
-        format.html { redirect_to params[:url], notice: 'Organization Timeline Entry was successfully updated.' }
+        format.html { redirect_to URI.parse(params[:url]).path, notice: 'Organization Timeline Entry was successfully updated.' }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }

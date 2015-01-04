@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   def show
     @user = User.find(params[:id])
   end
-  
+
   def new
     @user = User.new
   end
@@ -19,13 +19,9 @@ class UsersController < ApplicationController
     @user = User.find(params[:id])
     puts params
 
-    if @user.update_attributes(params[:user], :as => :admin)
-      redirect_to params[:user][:redirect], :notice => "User updated."
-    else
-      redirect_to params[:user][:redirect], :alert => "Unable to update user."
-    end
+    redirect_to users_path, :notice => "User updated."
   end
-    
+
   def destroy
     authorize! :destroy, @user, :message => 'Not authorized as an administrator.'
     user = User.find(params[:id])
