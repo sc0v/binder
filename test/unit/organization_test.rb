@@ -10,6 +10,7 @@
 # **`id`**                        | `integer`          | `not null, primary key`
 # **`name`**                      | `string(255)`      |
 # **`organization_category_id`**  | `integer`          |
+# **`short_name`**                | `string(255)`      |
 # **`updated_at`**                | `datetime`         |
 #
 # ### Indexes
