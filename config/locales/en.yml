@@ -63,3 +63,17 @@ en:
   will_paginate:
     previous_label: "«"
     next_label: "»"
+  flash:
+    actions:
+      create:
+        notice: "{resource_name} was successfully created"
+      update:
+        notice: "{resource_name} was successfully updated"
+      destroy:
+        notice: "{resource_name} was successfully deleted"
+        alert: "{resource_name} could not be deleted"
+    charges:
+      approve:
+        notice: "Charge was successfully approved/un-approved"
+        alert: "Charge could not be approved/un-approved"
+

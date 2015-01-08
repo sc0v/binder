@@ -1,6 +1,7 @@
 class ChargesController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
   before_action :set_charge, only: [:show, :edit, :update, :destroy, :approve]
+  responders :flash, :http_cache
 
   # GET /charges
   # GET /charges.json
@@ -13,11 +14,6 @@ class ChargesController < ApplicationController
     end
 
     @charges = @charges.paginate(:page => params[:page]).per_page(20)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @charges }
-    end
   end
 
   def export
@@ -27,21 +23,12 @@ class ChargesController < ApplicationController
   # GET /charges/1
   # GET /charges/1.json
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @charge }
-    end
   end
 
   # GET /charges/new
   # GET /charges/new.json
   def new
     @charge = Charge.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @charge }
-    end
   end
 
   # GET /charges/1/edit
@@ -55,61 +42,30 @@ class ChargesController < ApplicationController
     @charge.charged_at = DateTime.now
     @charge.creating_participant = current_user.participant
     @charge.is_approved = false
-
-    respond_to do |format|
-      if @charge.save
-        format.html { redirect_to @charge, notice: 'Charge was successfully created.' }
-        format.json { render json: @charge, status: :created, location: @charge }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @charge.errors, status: :unprocessable_entity }
-      end
-    end
+    @charge.save
+    respond_with @charge
   end
 
   # PUT /charges/1
   # PUT /charges/1.json
   def update
     @charge.is_approved = false
-
-    respond_to do |format|
-      if @charge.update(charge_params)
-        format.html { redirect_to @charge, notice: 'Charge was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @charge.errors, status: :unprocessable_entity }
-      end
-    end
+    @charge.update(charge_params)
+    respond_with(@charge)
   end
 
   # DELETE /charges/1
   # DELETE /charges/1.json
   def destroy
     @charge.destroy
-
-    respond_to do |format|
-      format.html { redirect_to charges_url }
-      format.json { head :no_content }
-    end
+    respond_with(@charge)
   end
   
   # PUT
   def approve
     @charge.is_approved = !@charge.is_approved
-    
-    url = charges_path
-    url = params[:url] unless params[:url].blank?
-    
-    respond_to do |format|
-      if @charge.save
-        format.html { redirect_to URI.parse(params[:url]).path, notice: 'Charge was successfully approved.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "index" }
-        format.json { render json: @charge.errors, status: :unprocessable_entity }
-      end
-    end
+    @charge.save
+    respond_with @charge, location: -> {charges_path}
   end
 
   private

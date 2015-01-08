@@ -277,6 +277,7 @@ DEPENDENCIES
   rails-erd
   rails_layout
   rake
+  responders
   rest-client
   rolify
   ruby-ldap

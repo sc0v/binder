@@ -33,7 +33,7 @@ gem "carrierwave"
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 
-gem 'mysql'
+gem 'responders'
 
 group :development do
   # Automatically generate comments in models and such based on schema
@@ -49,6 +49,10 @@ end
 
 group :development, :test do
   gem 'thin'
+end
+
+group :development, :production do
+  gem 'mysql'
 end
 
 group :test do
