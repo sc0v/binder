@@ -13,11 +13,6 @@ class ParticipantsController < ApplicationController
     end
 
     @participants = @participants.paginate(:page => params[:page]).per_page(20)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @participants }
-    end
   end
 
   def lookup
@@ -35,33 +30,18 @@ class ParticipantsController < ApplicationController
   # GET /participants/1.json
   def show
     @memberships = @participant.memberships.all
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @participant }
-    end
   end
 
   # GET /participants/new
   # GET /participants/new.json
   def new
     @participant = Participant.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @participant }
-    end
   end
 
   # GET /participants/new
   # GET /participants/new.json
   def new_user_and_participant
     @participant = Participant.new
-
-    respond_to do |format|
-      format.html # new_user_and_participant.html.erb
-      format.json { render json: @participant }
-    end
   end
 
   # GET /participants/1/edit
@@ -72,41 +52,22 @@ class ParticipantsController < ApplicationController
   # POST /participants.json
   def create
     @participant = Participant.new(participant_create_params)
-
-    respond_to do |format|
-      if @participant.save
-        format.html { redirect_to @participant, notice: 'Participant was successfully created.' }
-        format.json { render json: @participant, status: :created, location: @participant }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @participant.errors, status: :unprocessable_entity }
-      end
-    end
+    @participant.save
+    respond_with(@participant)
   end
 
   # PUT /participants/1
   # PUT /participants/1.json
   def update
-    respond_to do |format|
-      if @participant.update_attributes(participant_update_params)
-        format.html { redirect_to @participant, notice: 'Participant was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @participant.errors, status: :unprocessable_entity }
-      end
-    end
+    @participant.update_attributes(participant_update_params)
+    respond_with(@participant)
   end
 
   # DELETE /participants/1
   # DELETE /participants/1.json
   def destroy
     @participant.destroy
-
-    respond_to do |format|
-      format.html { redirect_to participants_url }
-      format.json { head :no_content }
-    end
+    respond_with(@participant)
   end
 
   private

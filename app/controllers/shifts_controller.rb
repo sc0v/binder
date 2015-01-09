@@ -28,33 +28,18 @@ class ShiftsController < ApplicationController
     end
 
     @shifts = @shifts.paginate(:page => params[:page]).per_page(20)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @shifts }
-    end
   end
 
   # GET /shifts/1
   # GET /shifts/1.json
   def show
     @number_spots_left = @shift.required_number_of_participants - @shift.shift_participants.count
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @shift }
-    end
   end
 
   # GET /shifts/new
   # GET /shifts/new.json
   def new
     @shift = Shift.new
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @shift }
-    end
   end
 
   # GET /shifts/1/edit
@@ -65,41 +50,22 @@ class ShiftsController < ApplicationController
   # POST /shifts.json
   def create
     @shift = Shift.new(shift_params)
-
-    respond_to do |format|
-      if @shift.save
-        format.html { redirect_to @shift, notice: 'Shift was successfully created.' }
-        format.json { render json: @shift, status: :created, location: @shift }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @shift.errors, status: :unprocessable_entity }
-      end
-    end
+    @shift.save
+    respond_with(@shift)
   end
 
   # PUT /shifts/1
   # PUT /shifts/1.json
   def update
-    respond_to do |format|
-      if @shift.update(shift_params)
-        format.html { redirect_to @shift, notice: 'Shift was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @shift.errors, status: :unprocessable_entity }
-      end
-    end
+    @shift.update(shift_params)
+    respond_with(@shift)
   end
 
   # DELETE /shifts/1
   # DELETE /shifts/1.json
   def destroy
     @shift.destroy
-
-    respond_to do |format|
-      format.html { redirect_to shifts_url }
-      format.json { head :no_content }
-    end
+    respond_with(@shift)
   end
 
   private
