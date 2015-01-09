@@ -7,31 +7,18 @@ class OrganizationStatusesController < ApplicationController
   # GET /organizations/1/statuses.json
   def index
     @organization_statuses = @organization.organization_statuses.paginate(:page => params[:page]).per_page(10)
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @organization_statuses }
-    end
   end
 
   # GET /organizations/1/statuses/1
   # GET /organizations/1/statuses/1.json
   def show
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @organization }
-    end
   end
 
   # GET /organizations/1/statuses/new
   # GET /organizations/1/statuses/new.json
   def new
     @organization_status = OrganizationStatus.new(:organization => @organization)
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @organization_status }
-    end
+    respond_with @organization_status
   end
 
   # GET /organizations/1/statuses/1/edit
@@ -43,41 +30,22 @@ class OrganizationStatusesController < ApplicationController
   def create
     @organization_status = OrganizationStatus.new(create_organization_status_params)
     @organization_status.participant = current_user.participant
-
-    respond_to do |format|
-      if @organization_status.save
-        format.html { redirect_to @organization_status.organization, notice: 'Organization Status was successfully created.' }
-        format.json { render json: @organization_status, status: :created, location: @organization_staus.organization }
-      else
-        format.html { render action: "new" }
-        format.json { render json: @organization_status.errors, status: :unprocessable_entity }
-      end
-    end
+    @organization_status.save
+    respond_with @organization_status, location: -> { @organization_status.organization }
   end
 
   # PUT /organizations/1/statuses/1
   # PUT /organizations/1/statuses/1.json
   def update
-    respond_to do |format|
-      if @organization_status.update(update_organization_status_params)
-        format.html { redirect_to @organization, notice: 'Organization Status was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @organization.errors, status: :unprocessable_entity }
-      end
-    end
+    @organization_status.update(update_organization_status_params)
+    respond_with @organization_status, location: -> { organization_organization_statuses_path(@organization_status.organization) }
   end
 
   # DELETE /organizations/1/statuses/1
   # DELETE /organizations/1/statuses/1.json
   def destroy
     @organization_status.destroy
-
-    respond_to do |format|
-      format.html { redirect_to organization_organization_statuses_path(@organization) }
-      format.json { head :no_content }
-    end
+    respond_with @organization_status, location: -> { organization_organization_statuses_path(@organization_status.organization) }
   end
 
   private
@@ -94,7 +62,7 @@ class OrganizationStatusesController < ApplicationController
   end
 
   def update_organization_status_params
-    params.require(:organization_status).permit(:description)
+    params.require(:organization_status).permit(:description, :organization_status_type_id)
   end
 end
 

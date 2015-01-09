@@ -1,16 +1,12 @@
 class MembershipsController < ApplicationController
   load_and_authorize_resource 
   skip_load_resource :only => [:create]
+  responders :flash, :http_cache
 
   # GET /memberships
   # GET /memberships.json
   def index
     @memberships = Membership.all
-
-    respond_to do |format|
-      format.html # index.html.erb
-      format.json { render json: @memberships }
-    end
   end
 
   #declare error / info classes
@@ -41,7 +37,7 @@ class MembershipsController < ApplicationController
 
     @old_participant_orgs.each do |org|
       if (@new_organization_ids.blank? or !@new_organization_ids.include?(org.id.to_s))
-        @membership = Membership.find(:first, :conditions => [ "participant_id = ? AND organization_id = ?", @participant.id, org.id])
+        @membership = Membership.where(participant_id: @participant.id, organization_id: org.id).first
         @membership.destroy unless @membership.is_booth_chair?
       end
     end
@@ -80,22 +76,12 @@ class MembershipsController < ApplicationController
   # GET /memberships/1.json
   def show
     @membership = Membership.find(params[:id])
-
-    respond_to do |format|
-      format.html # show.html.erb
-      format.json { render json: @membership }
-    end
   end
 
   # GET /memberships/new
   # GET /memberships/new.json
   def new
     @participant = Participant.find(params[:participant_id])
-
-    respond_to do |format|
-      format.html # new.html.erb
-      format.json { render json: @membership }
-    end
   end
 
   # GET /memberships/1/edit
@@ -107,16 +93,8 @@ class MembershipsController < ApplicationController
   # PUT /memberships/1.json
   def update
     @participant = Participant.find(params[:participant_id])
-    
-    respond_to do |format|
-      if @membership.update_attributes(update_params)
-        format.html { redirect_to @participant, notice: 'Membership was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @membership.errors, status: :unprocessable_entity }
-      end
-    end
+    @membership.update_attributes(update_params)
+    respond_with @membership, location: -> { @participant }
   end
 
   # DELETE /memberships/1
@@ -124,11 +102,7 @@ class MembershipsController < ApplicationController
   def destroy
     @participant = Participant.find(params[:participant_id])
     @membership.destroy
-
-    respond_to do |format|
-      format.html { redirect_to @participant }
-      format.json { head :no_content }
-    end
+    respond_with @membership, location: -> { @participant }
   end
   
   private

@@ -16,61 +16,35 @@ class OrganizationTimelineEntriesController < ApplicationController
     @organization_timeline_entry = OrganizationTimelineEntry.new(organization_timeline_entry_params)
     @organization_timeline_entry.started_at = DateTime.now
     @organization_timeline_entry.organization_timeline_entry_type = case params[:commit]
-      when 'Structural' then OrganizationTimelineEntryType.find_by_name("Structural Queue")
-      when 'Electrical' then OrganizationTimelineEntryType.find_by_name("Electrical Queue")
-      else OrganizationTimelineEntryType.find_by_name("Downtime")
+      when 'Structural' then OrganizationTimelineEntryType.find(name: "Structural Queue")
+      when 'Electrical' then OrganizationTimelineEntryType.find(name: "Electrical Queue")
+      else OrganizationTimelineEntryType.find(name: "Downtime")
     end
 
-    respond_to do |format|
-      if @organization_timeline_entry.save
-        format.html { redirect_to URI.parse(params[:url]).path, notice: 'Organization Timeline Entry was successfully created.' }
-        format.json { render json: @organization_timeline_entry, status: :created, location: @organization_timeline_entry.organization }
-      else
-        format.html { redirect_to root_url }
-        format.json { render json: @organization_timeline_entry.errors, status: :unprocessable_entity }
-      end
-    end
+    @organization_timeline_entry.save
+    respond_with(@organization_timeline_entry)
   end
 
   # PUT /organizations_timeline_entry/1
   # PUT /organizations_timeline_entry/1.json
   def update
-    respond_to do |format|
-      if @organization_timeline_entry.update_attributes(organization_timeline_entry_params)
-        format.html { redirect_to @organization_timeline_entry, notice: 'Organization Timeline Entry was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @organization.errors, status: :unprocessable_entity }
-      end
-    end
+    organization_timeline_entry.update_attributes(organization_timeline_entry_params)
+    respond_with(@organization_timeline_entry)
   end
 
   # PUT /organizations_timeline_entry/1/end
   # PUT /organizations_timeline_entry/1/end.json
   def end
-    respond_to do |format|
-      @organization_timeline_entry.ended_at = DateTime.now
-      
-      if @organization_timeline_entry.save
-        format.html { redirect_to URI.parse(params[:url]).path, notice: 'Organization Timeline Entry was successfully updated.' }
-        format.json { head :no_content }
-      else
-        format.html { render action: "edit" }
-        format.json { render json: @organization.errors, status: :unprocessable_entity }
-      end
-    end
+    @organization_timeline_entry.ended_at = DateTime.now
+    @organization_timeline_entry.save
+    respond_with(@organization_timeline_entry)
   end
 
   # DELETE /organizations_timeline_entry/1
   # DELETE /organizations_timeline_entry/1.json
   def destroy
     @organization_timeline_entry.destroy
-
-    respond_to do |format|
-      format.html { redirect_to organization_timeline_entries_path }
-      format.json { head :no_content }
-    end
+    respond_with(@organization_timeline_entry)
   end
 
   def electrical

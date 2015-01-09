@@ -1,7 +1,6 @@
 class FaqsController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
   before_action :set_faq, only: [:edit, :update, :destroy]
-  responders :flash, :html_cache
 
   # GET /faqs
   # GET /faqs.json

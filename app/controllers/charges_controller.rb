@@ -1,7 +1,6 @@
 class ChargesController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
   before_action :set_charge, only: [:show, :edit, :update, :destroy, :approve]
-  responders :flash, :http_cache
 
   # GET /charges
   # GET /charges.json
