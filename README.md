@@ -15,3 +15,16 @@ And as part of 475:
 - Dylan Corwin
 - Shannon Chen
 - Jonathan Chung
+
+
+Important Carnival 2015 dates:
+
+-New Coordinator Training: 3/29
+-Returning Coordinator Training: 3/25
+-Make-up Coordinator Training: 4/1
+-Binder Demo GBM: 3/5
+-Hardhat Distribution: 4/1
+-Wristband Distribution: 4/10
+-Move-on: 4/10
+-Operations: 4/16-4/18
+-Teardown: 4/19
