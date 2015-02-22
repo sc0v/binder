@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150219064158) do
+ActiveRecord::Schema.define(version: 20150222001013) do
 
   create_table "charge_types", force: :cascade do |t|
     t.string   "name",                          limit: 255
@@ -144,15 +144,14 @@ ActiveRecord::Schema.define(version: 20150219064158) do
   create_table "organization_timeline_entries", force: :cascade do |t|
     t.datetime "started_at"
     t.datetime "ended_at"
-    t.integer  "organization_timeline_entry_type_id", limit: 4
-    t.integer  "organization_id",                     limit: 4
-    t.text     "description",                         limit: 65535
+    t.integer  "organization_id", limit: 4
+    t.text     "description",     limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "entry_type",      limit: 4
   end
 
   add_index "organization_timeline_entries", ["organization_id"], name: "index_organization_timeline_entries_on_organization_id", using: :btree
-  add_index "organization_timeline_entries", ["organization_timeline_entry_type_id"], name: "index_timeline_entries_on_type", using: :btree
 
   create_table "organization_timeline_entry_types", force: :cascade do |t|
     t.string   "name",       limit: 255

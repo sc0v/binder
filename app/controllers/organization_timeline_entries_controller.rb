@@ -5,7 +5,7 @@ class OrganizationTimelineEntriesController < ApplicationController
   def index
     @organization = Organization.find(params[:organization_id]) unless params[:organization_id].blank?
 
-    @entries = OrganizationTimelineEntry.where({organization_timeline_entry_type_id: 3})
+    @entries = OrganizationTimelineEntry.entry_type.downtime
 
     @entries = @entries.where({organization: @organization}) unless @organization.blank?
   end
@@ -15,21 +15,21 @@ class OrganizationTimelineEntriesController < ApplicationController
   def create
     @organization_timeline_entry = OrganizationTimelineEntry.new(organization_timeline_entry_params)
     @organization_timeline_entry.started_at = DateTime.now
-    @organization_timeline_entry.organization_timeline_entry_type = case params[:commit]
-      when 'Structural' then OrganizationTimelineEntryType.find(name: "Structural Queue")
-      when 'Electrical' then OrganizationTimelineEntryType.find(name: "Electrical Queue")
-      else OrganizationTimelineEntryType.find(name: "Downtime")
+    @organization_timeline_entry.entry_type = case params[:commit]
+      when 'Structural' then 'structural'
+      when 'Electrical' then 'electrical'
+      else 'downtime'
     end
 
     @organization_timeline_entry.save
-    respond_with(@organization_timeline_entry)
+    respond_with(@organization_timeline_entry, location: params[:url])
   end
 
   # PUT /organizations_timeline_entry/1
   # PUT /organizations_timeline_entry/1.json
   def update
     organization_timeline_entry.update_attributes(organization_timeline_entry_params)
-    respond_with(@organization_timeline_entry)
+    respond_with(@organization_timeline_entry, location: params[:url])
   end
 
   # PUT /organizations_timeline_entry/1/end
@@ -37,14 +37,14 @@ class OrganizationTimelineEntriesController < ApplicationController
   def end
     @organization_timeline_entry.ended_at = DateTime.now
     @organization_timeline_entry.save
-    respond_with(@organization_timeline_entry)
+    respond_with(@organization_timeline_entry, location: params[:url])
   end
 
   # DELETE /organizations_timeline_entry/1
   # DELETE /organizations_timeline_entry/1.json
   def destroy
     @organization_timeline_entry.destroy
-    respond_with(@organization_timeline_entry)
+    respond_with(@organization_timeline_entry, location: params[:url])
   end
 
   def electrical
@@ -54,9 +54,9 @@ class OrganizationTimelineEntriesController < ApplicationController
   def structural
     @organization_timeline_entries = OrganizationTimelineEntry.structural.current
   end
-  
+
   private
-  
+
   def set_organization_timeline_entry
     @organization_timeline_entry = OrganizationTimelineEntry.find(params[:id])
   end
