@@ -165,18 +165,16 @@ class Participant < ActiveRecord::Base
         write_attribute :cached_email, ldap_reference["mail"]
         write_attribute :cached_department, ldap_reference["cmuDepartment"]
         write_attribute :cached_student_class, ldap_reference["cmuStudentClass"]
-        write_attribute :cache_updated, DateTime.now
-
-        self.save! unless self.id.blank? or self.readonly?
       else
         write_attribute :cached_name, "N/A"
         write_attribute :cached_surname, "N/A"
         write_attribute :cached_email, andrewid + "@andrew.cmu.edu"
         write_attribute :cached_department, "N/A"
         write_attribute :cached_student_class, "N/A"
-
-        self.save! unless self.id.blank? or self.readonly?
       end
+
+      write_attribute :cache_updated, DateTime.now
+      self.save! unless self.id.blank? or self.readonly?
     end
   end
   
