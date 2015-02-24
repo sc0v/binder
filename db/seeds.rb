@@ -106,11 +106,25 @@ JudgementCategory.create([
 
 # SCC Members -----------------------------------------------------------------
 puts 'SCC Members (not exhaustive)'
+carrie_user = User.new({ email: 'cweintra@andrew.cmu.edu', name: 'Carrie Weintraub'})
+carrie_user.add_role :admin
+carrie_user.save!
+carrie = Participant.create({ andrewid: 'cweintra', phone_number: 2038309156, user: carrie_user })
+Membership.create({ organization: scc_org, participant: carrie, title: 'Carnival Chair', is_booth_chair: true })
+Membership.create({ organization: kkg_org, participant: carrie })
+
+hannelie_user = User.new({ email: 'hmostert@andrew.cmu.edu', name: 'Hannelie Mostert'})
+hannelie_user.add_role :admin
+hannelie_user.save!
+hannelie = Participant.create({ andrewid: 'hmostert', phone_number: 1234567890, user: hannelie_user })
+Membership.create({ organization: scc_org, participant: hannelie, title: 'Head of Booth', is_booth_chair: true })
+Membership.create({ organization: axo_org, participant: hannelie})
+
 rachel_user = User.new({ email: 'rcrown@andrew.cmu.edu', name: 'Rachel Crown'})
 rachel_user.add_role :admin
 rachel_user.save!
 rachel = Participant.create({ andrewid: 'rcrown', phone_number: 6178617669, user: rachel_user })
-Membership.create({ organization: scc_org, participant: rachel, title: 'Head of Booth', is_booth_chair: true })
+Membership.create({ organization: scc_org, participant: rachel, is_booth_chair: true })
 Membership.create({ organization: kat_org, participant: rachel })
 
 tim_user = User.new({ email: 'leonardt@andrew.cmu.edu', name: 'Tim Leonard'})
@@ -124,101 +138,24 @@ chase_user = User.new({ email: 'cbrownel@andrew.cmu.edu', name: 'Chase'})
 chase_user.add_role :admin
 chase_user.save!
 chase = Participant.create({ andrewid: 'cbrownel', phone_number: 1713435788, user: chase_user })
-Membership.create({ organization: scc_org, participant: chase, title: 'Web Troll' })
+Membership.create({ organization: scc_org, participant: chase, title: 'Alumni Webmaster' })
 Membership.create({ organization: dtd_org, participant: chase })
 
 merichar_user = User.new({email: "meribyte@andrew.cmu.edu", name: "Meg" })
 merichar_user.add_role :admin
 merichar_user.save!
 merichar = Participant.create({ andrewid: 'meribyte', phone_number: 8456424549, user: merichar_user })
-Membership.create({ organization: scc_org, participant: merichar, title: 'Asst. Operations - Golf Carts & Assistant Web Troll' })
+Membership.create({ organization: scc_org, participant: merichar, title: 'Asst. Operations - Golf Carts & Webmaster' })
 
 Participant.create([
-  { andrewid: 'amartine', phone_number: 9255777645 },
-  { andrewid: 'jcmertz' },
-  { andrewid: 'mtai', phone_number: 5104159639 },
-  { andrewid: 'ncoauett', phone_number: 8183991074 },
-  { andrewid: 'prheinhe', phone_number: 7082613175 },
-  { andrewid: 'rdalal', phone_number: 6097121122 },
-  { andrewid: 'cssmith', phone_number: 8587364940 },
-  { andrewid: 'amort' },
-  { andrewid: 'cweintra', phone_number: 2038309156 },
-  { andrewid: 'ejsolomo', phone_number: 2037257024 },
-  { andrewid: 'laurenmi', phone_number: 9082091492 },
-  { andrewid: 'nettling', phone_number: 7816087010 },
-  { andrewid: 'snanda', phone_number: 6312756531 },
-  { andrewid: 'tchitten', phone_number: 4252136112 },
-  { andrewid: 'crockoff', phone_number: 8189174979 },
-  { andrewid: 'bdshih' },
-  { andrewid: 'hloo' },
-  { andrewid: 'mbignell', phone_number: 8313450639 },
-  { andrewid: 'mcahill', phone_number: 5703358167 },
-  { andrewid: 'michell2' },
-  { andrewid: 'wavil', phone_number: 7034093855 },
-  { andrewid: 'arakla', phone_number: 2817692637 },
-  { andrewid: 'dmiele' },
-  { andrewid: 'egarbade', phone_number: 9734944492 },
-  { andrewid: 'ekarras' },
-  { andrewid: 'ise', phone_number: 9737967448 },
-  { andrewid: 'vsivakum', phone_number: 9172444241 },
-  { andrewid: 'msiko' },
-  { andrewid: 'rakhan' },
-  { andrewid: 'dcbrout', phone_number: 9145238600 },
-  { andrewid: 'arbrock' },
-  { andrewid: 'abonsu' },
-  { andrewid: 'ngasbarr', phone_number: 4128971984 }
+  { andrewid: 'ngasbarr', phone_number: 9255777645 }
 ])
 
 Membership.create([
-  { participant: Participant.find_by_andrewid('nettling'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('mbignell'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('msiko'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('dmiele'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('wavil'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('bdshih'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('mcahill'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('hloo'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('cweintra'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('rdalal'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('jcmertz'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('prheinhe'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('ejsolomo'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('snanda'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('amort'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('dcbrout'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('ncoauett'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('cssmith'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('laurenmi'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('tchitten'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('crockoff'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('arakla'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('egarbade'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('ekarras'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('ise'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('vsivakum'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('michell2'), organization: scc_org },
-  { participant: Participant.find_by_andrewid('amartine'), organization: scc_org },
-  { participant: Participant.find_by_andrewid('mtai'), organization: scc_org },
-  { participant: Participant.find_by_andrewid('rakhan'), organization: scc_org },
-  { participant: Participant.find_by_andrewid('arbrock'), organization: scc_org },
-  { participant: Participant.find_by_andrewid('abonsu'), organization: scc_org },
-  { participant: Participant.find_by_andrewid('ngasbarr'), organization: scc_org }
+  { participant: Participant.find_by_andrewid('ngasbarr'), organization: scc_org}
 ])
 
 Membership.create([
-  { participant: Participant.find_by_andrewid('mtai'), organization: ddd_org },
-  { participant: Participant.find_by_andrewid('cweintra'), organization: kkg_org },
-  { participant: Participant.find_by_andrewid('nettling'), organization: phidelt_org },
-  { participant: Participant.find_by_andrewid('crockoff'), organization: kat_org },
-  { participant: Participant.find_by_andrewid('bdshih'), organization: tsa_org },
-  { participant: Participant.find_by_andrewid('hloo'), organization: ssa_org },
-  { participant: Participant.find_by_andrewid('mbignell'), organization: kkg_org },
-  { participant: Participant.find_by_andrewid('mcahill'), organization: ddd_org },
-  { participant: Participant.find_by_andrewid('abonsu'), organization: ddd_org },
-  { participant: Participant.find_by_andrewid('wavil'), organization: sigep_org },
-  { participant: Participant.find_by_andrewid('arakla'), organization: sdc_org },
-  { participant: Participant.find_by_andrewid('ekarras'), organization: axo_org },
-  { participant: Participant.find_by_andrewid('dcbrout'), organization: dtd_org },
   { participant: Participant.find_by_andrewid('ngasbarr'), organization: dtd_org }
 ])
 
@@ -230,136 +167,13 @@ Membership.create({ organization: axo_org, booth_chair_order: 1, participant: Pa
 Membership.create({ organization: axo_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'bflatley', phone_number: 5085665712 }), is_booth_chair: true })
 Membership.create({ organization: axo_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'jteitelb', phone_number: 3038153575 }), is_booth_chair: true })
 
-puts '  AEPi'
-Membership.create({ organization: aepi_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'bgardine', phone_number: 7039948442 }), is_booth_chair: true })
-Membership.create({ organization: aepi_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'bmittman', phone_number: 6263484219 }), is_booth_chair: true })
-
-puts '  Alpha Phi'
-Membership.create({ organization: aphi_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'baq', phone_number: 9732023835 }), is_booth_chair: true })
-Membership.create({ organization: aphi_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'shanas', phone_number: 9737181526 }), is_booth_chair: true })
-
-puts '  APhiO'
-Membership.create({ organization: aphio_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'lghernan', phone_number: 6618478483 }), is_booth_chair: true })
-Membership.create({ organization: aphio_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'judyh', phone_number: 5165074684 }), is_booth_chair: true })
-
-puts '  ASA'
-Membership.create({ organization: asa_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'yangyou', phone_number: 2012330081 }), is_booth_chair: true })
-Membership.create({ organization: asa_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'jalau', phone_number: 7813544899 }), is_booth_chair: true })
-Membership.create({ organization: asa_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'sanghyup' }), is_booth_chair: true })
-
-puts '  Astro'
-Membership.create({ organization: astro_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'mfinlay', phone_number: 2103108054 }), is_booth_chair: true })
-Membership.create({ organization: astro_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'agurvich', phone_number: 6313581073 }), is_booth_chair: true })
-Membership.create({ organization: astro_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'amarano', phone_number: 9144209281 }), is_booth_chair: true })
-Membership.create({ organization: astro_org, booth_chair_order: 4, participant: Participant.create({ andrewid: 'bhaas', phone_number: 7246832352 }), is_booth_chair: true })
-
-puts '  TriDelt'
-Membership.create({ organization: ddd_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'lmilisit', phone_number: 4125278059 }), is_booth_chair: true })
-Membership.create({ organization: ddd_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'pthang', phone_number: 8186219840 }), is_booth_chair: true })
-Membership.create({ organization: ddd_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'cciriell', phone_number: 9086443926 }), is_booth_chair: true })
-
-puts '  DG'
-Membership.create({ organization: dg_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'ahekler', phone_number: 5712302399 }), is_booth_chair: true })
-Membership.create({ organization: dg_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'sparrine', phone_number: 9735257942 }), is_booth_chair: true })
-Membership.create({ organization: dg_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'slanden', phone_number: 4103001575 }), is_booth_chair: true })
-Membership.create({ organization: dg_org, booth_chair_order: 4, participant: Participant.create({ andrewid: 'haejinp', phone_number: 8607032010 }), is_booth_chair: true })
-Membership.create({ organization: dg_org, booth_chair_order: 5, participant: Participant.create({ andrewid: 'searnest', phone_number: 9795744929 }), is_booth_chair: true })
-Membership.create({ organization: dg_org, booth_chair_order: 6, participant: Participant.create({ andrewid: 'tyv', phone_number: 6469431119 }), is_booth_chair: true })
-
 puts '  DTD'
 Membership.create({ organization: dtd_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'jdorr', phone_number: 8452831045 }), is_booth_chair: true })
 Membership.create({ organization: dtd_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'haozheg', phone_number: 9084034261 }), is_booth_chair: true })
 Membership.create({ organization: dtd_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'tfs', phone_number: 7173195528 }), is_booth_chair: true })
 Membership.create({ organization: dtd_org, booth_chair_order: 4, participant: Participant.create({ andrewid: 'bbzhang', phone_number: 4127223696 }), is_booth_chair: true })
 Membership.create({ organization: dtd_org, booth_chair_order: 5, participant: Participant.create({ andrewid: 'achisolm', phone_number: 6315468835 }), is_booth_chair: true })
-
-puts '  DU'
-Membership.create({ organization: du_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'khrivera' }), is_booth_chair: true })
-
-
-puts '  Fringe'
-Membership.create({ organization: fringe_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'aahiggin', phone_number: 7032970163 }), is_booth_chair: true })
-
-puts '  Theta'
-Membership.create({ organization: kat_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'asteger', phone_number: 7035851538 }), is_booth_chair: true })
-Membership.create({ organization: kat_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'rwolfing', phone_number: 9259897941 }), is_booth_chair: true })
-Membership.create({ organization: kat_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'kmho', phone_number: 8082226379 }), is_booth_chair: true })
-Membership.create({ organization: kat_org, booth_chair_order: 4, participant: Participant.create({ andrewid: 'ihlee', phone_number: 9713408528 }), is_booth_chair: true })
-
-puts '  Kappa'
-Membership.create({ organization: kkg_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'kloisell', phone_number: 2158051921 }), is_booth_chair: true })
-Membership.create({ organization: kkg_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'sedavies', phone_number: 7175079253 }), is_booth_chair: true })
-Membership.create({ organization: kkg_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'remyb', phone_number: 8453251626 }), is_booth_chair: true })
-Membership.create({ organization: kkg_org, booth_chair_order: 4, participant: Participant.create({ andrewid: 'jayoungy', phone_number: 2016631656 }), is_booth_chair: true })
-
-puts '  KapSig'
-Membership.create({ organization: kapsig_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'jmoldave', phone_number: 6176710774 }), is_booth_chair: true })
-Membership.create({ organization: kapsig_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'tmi', phone_number: 7326723722 }), is_booth_chair: true })
-
-puts '  KGB'
-Membership.create({ organization: kgb_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'zhg', phone_number: 6085129248 }), is_booth_chair: true })
-Membership.create({ organization: kgb_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'jlareau', phone_number: 2038228199 }), is_booth_chair: true })
-Membership.create({ organization: kgb_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'sguertin', phone_number: 8029893063 }), is_booth_chair: true })
-
-#puts '  Lambda'
-#Membership.create({ organization: mudge_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'mgode' }), is_booth_chair: true })
-#Membership.create({ organization: mudge_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'jylu' }), is_booth_chair: true })
-
-puts '  Math'
-Membership.create({ organization: math_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'dmehrle', phone_number: 6144588176 }), is_booth_chair: true })
-Membership.create({ organization: math_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'zng', phone_number: 4434735523 }), is_booth_chair: true })
-Membership.create({ organization: math_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'skornfel' }), is_booth_chair: true })
-Membership.create({ organization: math_org, booth_chair_order: 4, participant: Participant.create({ andrewid: 'skrasner' }), is_booth_chair: true })
-
-puts '  Mayur SASA'
-Membership.create({ organization: mayur_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'varunm', phone_number: 4129966033 }), is_booth_chair: true })
-
-puts '  MCS'
-Membership.create({ organization: mcs_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'rfrancol' }), is_booth_chair: true })
-Membership.create({ organization: mcs_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'meschaef', phone_number: 6312557501 }), is_booth_chair: true })
-Membership.create({ organization: mcs_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'kaitlinh' }), is_booth_chair: true })
-Membership.create({ organization: mcs_org, booth_chair_order: 4, participant: Participant.create({ andrewid: 'phkoenig' }), is_booth_chair: true })
-Membership.create({ organization: mcs_org, booth_chair_order: 5, participant: Participant.create({ andrewid: 'jiyunkwo' }), is_booth_chair: true })
-
-puts '  Mudge'
-Membership.create({ organization: mudge_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'rkc', phone_number: 7347174593 }), is_booth_chair: true })
-Membership.create({ organization: mudge_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'jmonroe' }), is_booth_chair: true })
-
-puts '  PhiDelt'
-Membership.create({ organization: phidelt_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'bferri', phone_number: 7243168810 }), is_booth_chair: true })
-Membership.create({ organization: phidelt_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'sholmes', phone_number: 9253242625 }), is_booth_chair: true })
-Membership.create({ organization: phidelt_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'abourai', phone_number: 4084598261 }), is_booth_chair: true })
-
-puts '  SAE'
-Membership.create({ organization: sae_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'jgreenbe', phone_number: 2014781454 }), is_booth_chair: true })
-Membership.create({ organization: sae_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'daschmid', phone_number: 2674811584 }), is_booth_chair: true })
-Membership.create({ organization: sae_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'kschin', phone_number: 6319884058 }), is_booth_chair: true })
-
-puts '  SigEp'
-Membership.create({ organization: sigep_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'wmisitan', phone_number: 5167216678 }), is_booth_chair: true })
-Membership.create({ organization: sigep_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'rshanor', phone_number: 4046951322 }), is_booth_chair: true })
-Membership.create({ organization: sigep_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'bsiegel', phone_number: 2074752240 }), is_booth_chair: true })
-
-puts '  SSA'
-Membership.create({ organization: ssa_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'nctan', phone_number: 4128011812 }), is_booth_chair: true })
-Membership.create({ organization: ssa_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'fchoo', phone_number: 4126920389 }), is_booth_chair: true })
-Membership.create({ organization: ssa_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'johnwenl' }), is_booth_chair: true })
-
-puts '  Spirit'
-Membership.create({ organization: spirit_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'sestudil', phone_number: 7735925502 }), is_booth_chair: true })
-Membership.create({ organization: spirit_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'cchamber' }), is_booth_chair: true })
-Membership.create({ organization: spirit_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'jbarnes1' }), is_booth_chair: true })
-
-puts '  SDC'
-Membership.create({ organization: sdc_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'fcsejtey', phone_number: 3304753580 }), is_booth_chair: true })
-Membership.create({ organization: sdc_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'bferri', phone_number: 7243168810 }), is_booth_chair: true })
-
-puts '  TSA'
-Membership.create({ organization: tsa_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'cmcdermi', phone_number: 4129445825 }), is_booth_chair: true })
-Membership.create({ organization: tsa_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'joyces', phone_number: 3025442311 }), is_booth_chair: true })
-Membership.create({ organization: tsa_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'mtung', phone_number: 6462441185 }), is_booth_chair: true })
-Membership.create({ organization: tsa_org, booth_chair_order: 4, participant: Participant.create({ andrewid: 'mwu2', phone_number: 4125514620 }), is_booth_chair: true })
-
+#
 # Charge Types ----------------------------------------------------------------
 puts 'Charge Types'
 ChargeType.create([
@@ -398,8 +212,6 @@ Faq.create([
     answer: "There are fire extinguishers located at every booth. Take one and follow the instructions listed on the can." },
   { question: "Where does CMU get money for Carnival?",
     answer: "Carnegie Mellon University's Spring Carnival is funded in part by your Student Activities Fee." },
-  { question: "Who won booth last year (2013)?",
-    answer: "Independent: ASA, Fraternity: Sigma Phi Epsilon, Sorority: Delta Gamma, Blitz: Mayur SASA, Environmental Award: Delta Gamma and Mudge, T-Shirt Award: TSA, Chairman's Choice: Alpha Phi" },
   { question: "What are the hours of rides?",
     answer: "TBD" },  
   { question: "How much are rides tickets?",
@@ -415,9 +227,9 @@ Faq.create([
   { question: "What do I do if the comedian shows up?",
     answer: "Call student activities (Tim)." },
   { question: "Alumni is complaining about their tent.",
-    answer: "Call Nick." },
+    answer: "Call the Head of Operations." },
   { question: "Alumni needs something special.",
-    answer: "Call Jackson or Emily." },
+    answer: "Call the Head of Operations." },
   { question: "When do dumpsters go out?",
     answer: "They must be by the back of Morewood lot by 5am." },
   { question: "What is downtime?",
@@ -427,13 +239,13 @@ Faq.create([
   { question: "How do I check how much downtime an org has left?", 
     answer: "TBD" },
   { question: "A booth tripped a breaker. What do I do?",
-    answer: "Add them to Dan's queue. Mark the fine in app if applicable." },
+    answer: "Add them to the Electrical queue. Mark the fine in app if applicable." },
   { question: "Someone has a minor injury (splinter, small cut, dust in eye, etc.).",
     answer: "Give them equipment from the medical kit in the trailer. Tell them they can call EMS if they want. DO NOT ADMINISTER MEDICAL ASSISTANCE." },
   { question: "EMS is closed. What do I do?",
     answer: "Call them." },
   { question: "I saw an ambulance take someone to the hospital. What do I do?", 
-    answer: "Call Jackson, Emily, and/or Rachel immediately." },
+    answer: "Call the Carnival Chairi, Head of Booth, and/or Head of Operations immediately." },
   { question: "Someone wants to drop off in the firelane. Can they do that?",
     answer: "No, unless they are Cyert, food delivery for Underground, fire, police, EMS, FMS, people with passes, or an approved delivery (Rachel, Emily, or Jackson says it's OK)." },
   { question: "Golf cart problem?",
@@ -443,11 +255,11 @@ Faq.create([
   { question: "If someone legitimately needs a golf cart...",
     answer: "...radio for golfcart." },
   { question: "A booth chair is freaking out, sad, angry, etc. What do I do?",
-    answer: "Call Rachel." },
+    answer: "Call the Head of Booth." },
   { question: "University official wants to borrow something. What do I do?",
     answer: "Let them. They do not need to sign a waiver. Ideally, check it out to Jackson, Emily, or Rachel to track it in the app." },
   { question: "The next coordinator doesn't show up. What do I do?",
-    answer: "Call them repeatedly. If that fails, call Nick." },
+    answer: "Call them repeatedly. If that fails, call the Head of Operations." },
   { question: "Booth watch shift doesn't show up. What do I do?",
     answer: "Do not let previous watch shift leave. Call booth chairs of that org in order until someone answers. Fine them accordingly in the app. If no one can show up and old watch shift has to leave, split the other watch shift." },
   { question: "Drunk people won't listen. What do I do?",
@@ -463,9 +275,9 @@ Faq.create([
   { question: "What do I do with my drunk watch/security shift that just showed up?",
     answer: "Send them home, call their booth chair, and inform them of what happened and that they are getting fined unless they supply new, sober people." },
   { question: "AB tech asks for the keys to the scissor lift.",
-    answer: "Call Nick." },
+    answer: "Call the Head of Operations." },
   { question: "Taylor Rental needs something.",
-    answer: "Call Nick." },
+    answer: "Call the Head of Operations." },
   { question: "Where do I find the midway layout?",
     answer: "In the app, under documents!" },
   { question: "Madelyn Miller calls. What do I do?",
@@ -473,17 +285,13 @@ Faq.create([
   { question: "It's raining and people are losing electricity.",
     answer: "Wait until the rain stops, then tell them to suck it up and we'll deal with it." },
   { question: "It's super windy. Things are flying off of booths.",
-    answer: "Check weather on trailer computer. Call Emily/Jackson/Rachel with that information." } 
+    answer: "Check weather on trailer computer. Call the Head of Booth and the Carnival Chair with that information." } 
 ])
     
 # Organization Status Types --------------------------------------------------
 puts 'Organization Status Types'
 OrganizationStatusType.create([
   { name: "Note", display: false },
-  { name: "Plans Submitted, Under SCC Review", display: true },
-  { name: "Plans Under Final Review", display: true },
-  { name: "Plans Awaiting Revision", display: true },
-  { name: "Plans Approved", display: true },
   { name: "Electrical Partly Inspected", display: true },
   { name: "Electrical Approved", display: true },
   { name: "Wednesday Inspection Completed", display: true },
@@ -499,277 +307,26 @@ coord_shift = ShiftType.create({ name: 'Coordinator Shift' })
 # Shifts ---------------------------------------------------------------------
 puts 'Shifts'
 
+move_on = DateTime.rfc3339('2015-04-10T00:00:00-04:00')
+build_saturday = move_on + 1.day
+build_sunday = move_on + 2.days
+monday = move_on + 2.days
+tuesday = move_on + 3.days
+wednesday = move_on + 4.days
+operations = move_on + 5.days
+ops_friday = move_on + 6.days
+ops_saturday = move_on + 7.days
+teardown = move_on + 8.days
+
 # Coordinator Shifts
 puts '  Coordinator Shifts'
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-04T16:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-04T16:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
+shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2015-04-11T16:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-04T16:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
 ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('arakla'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-04T20:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-04T20:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('amartine'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-05T00:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-05T00:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('cssmith'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-05T04:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-05T04:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('ngasbarr'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-05T08:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-05T08:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('snanda'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-05T12:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-05T12:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('laurenmi'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-05T16:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-05T16:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('cweintra'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-05T20:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-05T20:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('egarbade'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-06T00:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-06T00:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('meribyte'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-06T04:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-06T04:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('ise'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-06T08:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-06T08:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('rdalal'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-06T12:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-06T12:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('mcahill'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-06T16:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-06T16:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('msiko'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-06T20:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-06T20:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-# Empty Shift
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-07T00:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-07T00:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('arbrock'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-07T04:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-07T04:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('ngasbarr'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-07T08:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-07T08:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('cbrownel'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-07T12:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-07T12:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('crockoff'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-07T16:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-07T16:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('dmiele'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-07T20:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-07T20:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('ncoauett'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-08T00:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-08T00:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('vsivakum'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-08T04:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-08T04:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('ise'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-08T08:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-08T08:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('amort'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-08T12:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-08T12:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('wavil'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-08T16:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-08T16:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('rakhan'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-08T20:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-08T20:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('dcbrout'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-09T00:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-09T00:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('arbrock'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-09T04:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-09T04:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-# Empty Shift
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-09T08:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-09T08:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-# Empty Shift
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-09T12:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-09T12:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('mhankows'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-09T16:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-09T16:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('cweintra'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-09T20:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-09T20:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('mbignell'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-10T00:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-10T00:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('cssmith'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-10T04:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-10T04:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('tchitten'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-10T08:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-10T08:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('ejsolomo'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-10T12:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-10T12:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('nettling'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-10T16:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-10T16:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('meribyte'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-10T20:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-10T20:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('prheinhe'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-11T00:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-11T00:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('egarbade'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-11T04:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-11T04:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('tchitten'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-11T08:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-11T08:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('laurenmi'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-11T12:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-11T12:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('mtai'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-11T16:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-11T16:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('ekarras'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-11T20:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-11T20:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('amartine'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-12T00:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-12T00:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('cssmith'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-12T04:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-12T04:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('jcmertz'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-12T08:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-12T08:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('arakla'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-12T12:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-12T12:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('jcmertz'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-12T16:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-12T16:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('prheinhe'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-12T20:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-12T20:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-# Empty Shift
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-13T00:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-13T00:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('dmiele'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-13T04:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-13T04:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('vsivakum'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-13T08:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-13T08:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('crockoff'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-13T12:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-13T12:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('crockoff'), clocked_in_at: Time.now })
-shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2014-04-13T16:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-13T12:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('crockoff'), clocked_in_at: Time.now })
 
 # Watch Shifts
 puts '  Watch Shifts'
 Shift.create([
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/4/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/4/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization: sae_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/4/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/4/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization: sae_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/4/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/4/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:math_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/4/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/4/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:math_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/4/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/4/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kat_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/4/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/4/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:mcs_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/4/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/5/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aphi_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/4/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/5/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:mcs_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/5/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/5/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kat_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/5/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/5/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:du_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/5/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/5/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:mudge_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/5/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/5/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ddd_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/5/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/5/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ddd_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/5/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/5/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kapsig_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/5/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/5/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:mayur_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/5/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/5/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:dg_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/5/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/5/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kkg_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/5/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/5/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:fringe_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/5/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/5/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:mayur_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/5/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/6/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:mayur_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/6/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/6/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:asa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/6/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/6/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:asa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/6/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/6/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aepi_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/6/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/6/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aepi_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/6/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/6/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ddd_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/6/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/6/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kat_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/6/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/6/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aphio_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/6/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/6/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ssa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/6/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/6/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ssa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/6/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/6/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:astro_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/6/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/6/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:astro_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/6/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kat_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:asa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:asa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sdc_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sdc_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sdc_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aphio_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aphio_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:dg_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:dg_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aphio_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kkg_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aphio_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:fringe_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:astro_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/7/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:dg_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/7/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kkg_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aepi_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aepi_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aepi_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aepi_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kkg_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kkg_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aphio_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:dg_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:dg_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sigep_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kgb_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:fringe_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aphi_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:dg_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/8/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kkg_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:mcs_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/8/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:axo_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:asa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:asa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sdc_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sdc_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aphio_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kkg_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kkg_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:fringe_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kat_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sigep_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kat_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ddd_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kapsig_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kat_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/9/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kapsig_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sae_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/9/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:fringe_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sdc_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:asa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:dtd_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sigep_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sigep_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sigep_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:math_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sigep_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kapsig_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aphi_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kapsig_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kgb_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:axo_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:phidelt_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:axo_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ddd_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/10/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kgb_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kapsig_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/10/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:spirit_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:dtd_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:spirit_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:dtd_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:du_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:du_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:du_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sigep_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:tsa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:tsa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:tsa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aphi_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ssa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:axo_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ssa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kgb_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:tsa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:tsa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ssa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/11/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kgb_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ssa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/11/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aepi_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:dtd_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:mudge_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:dtd_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:dtd_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:dtd_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ddd_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aphi_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sigep_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ddd_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:tsa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:tsa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:phidelt_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aphi_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kgb_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:axo_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kgb_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:axo_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kgb_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/12/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:axo_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/13/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ssa_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/12/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/13/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:axo_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/13/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/13/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:mudge_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/13/2014 1:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/13/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:spirit_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/13/2014 3:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/13/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:du_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/13/2014 5:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/13/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:du_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/13/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/13/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:du_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/13/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/13/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:kapsig_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/13/2014 9:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/13/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:aphi_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/13/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/13/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:fringe_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/13/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/13/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:sdc_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/13/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/13/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:fringe_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/13/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/13/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:phidelt_org, required_number_of_participants: 2 },
-  { shift_type: watch_shift, starts_at: DateTime.strptime('4/13/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/13/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ssa_org, required_number_of_participants: 2 }
+  { shift_type: watch_shift, starts_at: DateTime.strptime('4/13/2015 17:00:00-0400','%m/%d/%Y %H:%M:%S%z'), ends_at: DateTime.strptime('4/13/2014 19:00:00-0400','%m/%d/%Y %H:%M:%S%z'), organization:ssa_org, required_number_of_participants: 2 }
 ])
 
 # Security Shifts
@@ -778,22 +335,22 @@ Shift.create([
 puts 'Tasks'
 puts '  One-Time Tasks'
 Task.create([
-  { name: 'Towing for Move On Begins', description: 'Any cars remaining on Morewood Lot after 5pm will be towed.', due_at: DateTime.strptime('4/4/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-  { name: 'Move On Begins', description: 'Orgs start moving on to Midway', due_at: DateTime.strptime('4/4/2014 18:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-  { name: 'Final Booth Inspections', description: 'Larry Cartwright and Bob Anderegg will show up to Midway. Help them find Rachel so that they can inspect the state of the booths.', due_at: DateTime.strptime('4/9/2014 12:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-  { name: 'Construction Ends', description: 'All but 4 members (full-size) or 2 members (blitz) of each org must clear Midway.', due_at: DateTime.strptime('4/10/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-  { name: 'Call for Cleaning Helpers', description: 'Each org must send 2 members at 1pm to the trailer to assist with Midway clean-up', due_at: DateTime.strptime('4/10/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-  { name: 'Final Fixes End', description: '4 members (full-size) or 2 members (blitz) of each org may stay to make final fixes between 1pm and 2:30pm. Everyone must be gone from Midway at 2:30pm.', due_at: DateTime.strptime('4/10/2014 14:30:00-0400','%m/%d/%Y %H:%M:%S%z') },
-  { name: 'Opening Ceremony', description: 'Speeches, ribbon cutting, and Midway officially opens to the public.', due_at: DateTime.strptime('4/10/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-  { name: 'Judging Begins', description: 'Judges will arrive with Rachel and will judge each booth. No, we do not have a schedule of which booths will be judged when. Sorry.', due_at: DateTime.strptime('4/11/2014 13:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-  { name: 'Concert', description: 'Icona Pop & Mac Miller! On the mall. Rain location: Wiegand Gym. Student opener at 7:30pm.', due_at: DateTime.strptime('4/11/2014 19:30:00-0400','%m/%d/%Y %H:%M:%S%z') },
-  { name: 'Night Judging Ends', description: 'Judges will wander around Midway to judge booths after dusk and will return their packets after. Put them in the box, Rachel or someone else will come get them later.', due_at: DateTime.strptime('4/11/2014 20:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-  { name: 'Fireworks', description: 'Following the concert, pretty things go boom in the sky. Also on the mall. Cancelled in the case of rain.', due_at: DateTime.strptime('4/11/2014 22:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-  { name: 'Move Chairs for Awards', description: 'Send shifts to clear the chairs from the main tent to prepare for awards', due_at: DateTime.strptime('4/12/2014 16:15:00-0400','%m/%d/%Y %H:%M:%S%z') },
-  { name: 'Awards', description: 'Orgs will rush the main tent to find out who won. Awards involve both buggy and booth.', due_at: DateTime.strptime('4/12/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-  { name: 'Dumpsters for Teardown Arrive', description: 'Company should have layout and should drop dumpsters into place. Dumpster layout is in the documents section, if you need to reference it.', due_at: DateTime.strptime('4/13/2014 6:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-  { name: 'Start of Teardown', description: 'Orgs may begin to teardown no earlier than 8am. They must begin by 10am.', due_at: DateTime.strptime('4/13/2014 8:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-  { name: 'End of Teardown', description: 'At this time, all orgs should be completed cleared from Midway. If they are not, fining begins at a rate of $1/hr until 5:30, $5 until 6pm, and $10 after 6pm.', due_at: DateTime.strptime('4/13/2014 17:00:00-0400','%m/%d/%Y %H:%M:%S%z') }
+  { name: 'Towing for Move On Begins', description: 'Any cars remaining on Morewood Lot after 5pm will be towed.', due_at: move_on + 14.hours },
+  { name: 'Move On Begins', description: 'Orgs start moving on to Midway', due_at: move_on + 18.hours },
+  { name: 'Final Booth Inspections', description: 'The University will show up to Midway. Help them find the Head of Booth so that they can inspect the state of the booths.', due_at: wednesday + 12.hours },
+  { name: 'Construction Ends', description: 'All but 4 members (full-size) or 2 members (blitz) of each org must clear Midway.', due_at: operations + 13.hours },
+  { name: 'Call for Cleaning Helpers', description: 'Each org must send 2 members at 1pm to the trailer to assist with Midway clean-up', due_at: operations + 13.hours },
+  { name: 'Final Fixes End', description: '4 members (full-size) or 2 members (blitz) of each org may stay to make final fixes between 1pm and 2:30pm. Everyone must be gone from Midway at 2:30pm.', due_at: operations + 14.hours + 30.minutes },
+  { name: 'Opening Ceremony', description: 'Speeches, ribbon cutting, and Midway officially opens to the public.', due_at: operations + 15.hours },
+  { name: 'Judging Begins', description: 'Judges will arrive with Rachel and will judge each booth. No, we do not have a schedule of which booths will be judged when. Sorry.', due_at: ops_friday + 13.hours },
+  { name: 'Concert', description: 'The Concert! On the mall. Rain location: Wiegand Gym. Student opener at 7:30pm.', due_at: ops_friday + 19.hours + 30.minutes },
+  { name: 'Night Judging Ends', description: 'Judges will wander around Midway to judge booths after dusk and will return their packets/tablets after. Put them in the box, The Head of Booth or someone else will come get them later.', due_at: ops_friday + 20.hours },
+  { name: 'Fireworks', description: 'Following the concert, pretty things go boom in the sky. Also on the mall. Cancelled in the case of rain.', due_at: ops_friday + 22.hours },
+  { name: 'Move Chairs for Awards', description: 'Send shifts to clear the chairs from the main tent to prepare for awards', due_at: ops_saturday + 16.hours + 15.minutes },
+  { name: 'Awards', description: 'Orgs will rush the main tent to find out who won. Awards involve both buggy and booth.', due_at: ops_saturday + 17.hours },
+  { name: 'Dumpsters for Teardown Arrive', description: 'Company should have layout and should drop dumpsters into place. Dumpster layout is in the documents section, if you need to reference it.', due_at: teardown + 6.hours },
+  { name: 'Start of Teardown', description: 'Orgs may begin to teardown no earlier than 8am. They must begin by 10am.', due_at: ops_saturday + 8.hours },
+  { name: 'End of Teardown', description: 'At this time, all orgs should be completed cleared from Midway. If they are not, fining begins at a rate of $1/hr until 5:30, $5 until 6pm, and $10 after 6pm.', due_at: teardown + 17.hours }
 ])
 
 puts '  Recurring Tasks'
@@ -831,13 +388,6 @@ Task.create([
   { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: DateTime.strptime('4/8/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
   { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: DateTime.strptime('4/9/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
   { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: DateTime.strptime('4/10/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z') }
-])
-
-puts 'Org Timeline Entry Types'
-OrganizationTimelineEntryType.create([
-  { name: 'Electrical Queue' },
-  { name: 'Structural Queue' },
-  { name: 'Downtime' }
 ])
 
 puts 'Tools'
