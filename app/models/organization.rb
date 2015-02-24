@@ -20,7 +20,7 @@
 #
 
 class Organization < ActiveRecord::Base
-  validates_presence_of :organization_category_id, :name
+  validates_presence_of :organization_category, :name
   validates_associated :organization_category
   validates :name, :uniqueness => true
 

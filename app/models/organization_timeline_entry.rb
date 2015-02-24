@@ -22,7 +22,7 @@
 #
 
 class OrganizationTimelineEntry < ActiveRecord::Base
-  validates_presence_of :organization, :started_at
+  validates_presence_of :organization, :started_at, :entry_type
   validates_associated :organization
 
   enum entry_type: { structural: 0, electrical: 1, downtime: 2}

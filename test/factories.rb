@@ -73,6 +73,15 @@ FactoryGirl.define do
     name { generate(:random_string) }
   end
 
+  # organization_timeline_entry
+  factory :organization_timeline_entry do
+    description { generate(:random_string) }
+    started_at Time.now - 2.hours
+    entry_type 0
+
+    association :organization
+  end
+
   # participant
   factory :participant, :aliases => [:completed_by, :issuing_participant, :receiving_participant] do
     andrewid { generate(:random_string) }
