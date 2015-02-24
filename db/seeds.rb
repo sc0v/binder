@@ -34,6 +34,7 @@ dosa_org = Organization.create({ name: 'Student Affairs', organization_category:
   OrganizationAlias.create({ organization: dosa_org, name: 'Division of Student Affairs' })
   OrganizationAlias.create({ organization: dosa_org, name: 'DOSA' })
   OrganizationAlias.create({ organization: dosa_org, name: 'Student Activities' })
+  OrganizationAlias.create({ organization: dosa_org, name: 'SOA' })
   OrganizationAlias.create({ organization: dosa_org, name: 'Student Life' })
   OrganizationAlias.create({ organization: dosa_org, name: 'SLO' })
 
@@ -46,6 +47,8 @@ aepi_org = Organization.create({ name: 'Alpha Epsilon Pi', organization_category
 dtd_org = Organization.create({ name: 'Delta Tau Delta', organization_category: frat, short_name: 'DTD' })
   OrganizationAlias.create({ organization: dtd_org, name: 'Delt' })
 du_org = Organization.create({ name: 'Delta Upsilon', organization_category: frat, short_name: 'DU' })
+phidelt_org = Organization.create({ name: 'Phi Delta Theta', organization_category: frat, short_name: 'PhiDelt' })
+sae_org = Organization.create({ name: 'Sigma Alpha Epsilon', organization_category: frat, short_name: 'SAE' })
 sigep_org = Organization.create({ name: 'Sigma Phi Epsilon', organization_category: frat, short_name: 'SigEp' })
   OrganizationAlias.create({ organization: sigep_org, name: 'SPE' })
 
@@ -80,12 +83,13 @@ math_org = Organization.create({ name: 'Math Club', organization_category: blitz
 mayur_org = Organization.create({ name: 'Mayur SASA', organization_category: blitz, short_name: 'Mayur' })
   OrganizationAlias.create({ organization: mayur_org, name: 'SASA' })
 mcs_org = Organization.create({ name: 'Mellon College of Science', organization_category: blitz, short_name: 'MCS' })
-mudge_org = Organization.create({ name: 'Mudge', organization_category: blitz })
-sae_org = Organization.create({ name: 'Sigma Alpha Epsilon', organization_category: blitz, short_name: 'SAE' })
+#mudge_org = Organization.create({ name: 'Mudge', organization_category: blitz })
 spirit_org = Organization.create({ name: 'Spirit', organization_category: blitz })
-phidelt_org = Organization.create({ name: 'Phi Delta Theta', organization_category: blitz, short_name: 'PhiDelt' })
+earth_org = Organization.create({ name: 'Sustainable Earth', organization_category: blitz, short_name: 'Sust. Earth' })
 #lambda_org = Organization.create({ name: 'Lambda Phi Epsilon', organization_category: blitz, short_name: 'Lambda' })
 #stever_org = Organization.create({ name: 'Stever', organization_category: blitz })
+sigchi_org = Organization.create({ name: 'Sigma Chi', organization_category: blitz, short_name: 'SigChi' })
+  OrganizationAlias.create({ organization: sigchi_org, name: 'SX' })
 
 puts '  Non-Building'
 crew_org = Organization.create({ name: 'Crew', organization_category: non_building })
@@ -162,18 +166,75 @@ Membership.create([
 # Booth Chairs ----------------------------------------------------------------
 puts 'Booth Chairs'
 
-puts '  AXO'
-Membership.create({ organization: axo_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'emadigan', phone_number: 5168497817 }), is_booth_chair: true })
-Membership.create({ organization: axo_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'bflatley', phone_number: 5085665712 }), is_booth_chair: true })
-Membership.create({ organization: axo_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'jteitelb', phone_number: 3038153575 }), is_booth_chair: true })
+Membership.create({ organization: aepi_org, participant: Participant.create({ andrewid: 'bgardine', phone_number: 7039948442}), is_booth_chair: true })
+Membership.create({ organization: aepi_org, participant: Participant.create({ andrewid: 'gya'}), is_booth_chair: true })
+Membership.create({ organization: aepi_org, participant: Participant.create({ andrewid: 'ssharea'}), is_booth_chair: true })
+Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'bhunttob', phone_number: 2246009586}), is_booth_chair: true })
+Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'seanders', phone_number: 6107374187}), is_booth_chair: true })
+Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'vsivakum', phone_number: 9172444241}), is_booth_chair: true })
+Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'kndu', phone_number: 7133444667}), is_booth_chair: true })
+Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'lcody', phone_number: 3144485994}), is_booth_chair: true })
+Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'nflorman', phone_number: 6199522671}), is_booth_chair: true })
+Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'vpereira'}), is_booth_chair: true })
+Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'zhangw'}), is_booth_chair: true })
+Membership.create({ organization: aphio_org, participant: Participant.create({ andrewid: 'fla', phone_number: 8143312119}), is_booth_chair: true })
+Membership.create({ organization: asa_org, participant: Participant.create({ andrewid: 'bjli', phone_number: 9785057460}), is_booth_chair: true })
+Membership.create({ organization: asa_org, participant: Participant.create({ andrewid: 'jylu', phone_number: 6095329694}), is_booth_chair: true })
+Membership.create({ organization: astro_org, participant: Participant.create({ andrewid: 'amarano', phone_number: 9144209281}), is_booth_chair: true })
+Membership.create({ organization: astro_org, participant: Participant.create({ andrewid: 'oce', phone_number: 2675950677}), is_booth_chair: true })
+Membership.create({ organization: ddd_org, participant: Participant.create({ andrewid: 'gjackson', phone_number: 4124207887}), is_booth_chair: true })
+Membership.create({ organization: ddd_org, participant: Participant.create({ andrewid: 'csharkey', phone_number: 6142579397}), is_booth_chair: true })
+Membership.create({ organization: ddd_org, participant: Participant.create({ andrewid: 'smosshor'}), is_booth_chair: true })
+Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'atjones', phone_number: 4438444424}), is_booth_chair: true })
+Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'casantil', phone_number: 6104208343}), is_booth_chair: true })
+Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'elawlis', phone_number: 8326930740}), is_booth_chair: true })
+Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'lcwillia', phone_number: 2677461544}), is_booth_chair: true })
+Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'tyv', phone_number: 6469431119}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'aperley', phone_number: 7202522781}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'achisolm', phone_number: 6315468835}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'haozheg', phone_number: 9084034261}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'rmckinne', phone_number: 9419141174}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'tfs', phone_number: 7173195528}), is_booth_chair: true })
+Membership.create({ organization: fringe_org, participant: Participant.create({ andrewid: 'jacobbro', phone_number: 5037479771}), is_booth_chair: true })
+Membership.create({ organization: fringe_org, participant: Participant.create({ andrewid: 'jzak', phone_number: 4127351981}), is_booth_chair: true })
+Membership.create({ organization: fringe_org, participant: Participant.create({ andrewid: 'kkwilkin', phone_number: 7077380375}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'aritchie', phone_number: 2155108559}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'ihlee', phone_number: 9713408528}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'rwolfing', phone_number: 9259897941}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'snarburg', phone_number: 6094770540}), is_booth_chair: true })
+Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'amcnulty', phone_number: 7816904444}), is_booth_chair: true })
+Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'acrigler', phone_number: 2038324033}), is_booth_chair: true })
+Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'clohman', phone_number: 3109717909}), is_booth_chair: true })
+Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'jry', phone_number: 6107376024}), is_booth_chair: true })
+Membership.create({ organization: kapsig_org, participant: Participant.create({ andrewid: 'efiedore', phone_number: 7138066105}), is_booth_chair: true })
+Membership.create({ organization: kapsig_org, participant: Participant.create({ andrewid: 'jbarry', phone_number: 2403837698}), is_booth_chair: true })
+Membership.create({ organization: kapsig_org, participant: Participant.create({ andrewid: 'ajcollin'}), is_booth_chair: true })
+Membership.create({ organization: kgb_org, participant: Participant.create({ andrewid: 'sctoor', phone_number: 7033029956}), is_booth_chair: true })
+Membership.create({ organization: kgb_org, participant: Participant.create({ andrewid: 'sguertin', phone_number: 8029893063}), is_booth_chair: true })
+Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'anqiwang', phone_number: 4123706158}), is_booth_chair: true })
+Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'colinkel', phone_number: 5714490561}), is_booth_chair: true })
+Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'dmehrle', phone_number: 6144588176}), is_booth_chair: true })
+Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'kborst', phone_number: 9143299391}), is_booth_chair: true })
+Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'zng', phone_number: 4434735523}), is_booth_chair: true })
+Membership.create({ organization: mayur_org, participant: Participant.create({ andrewid: 'gauryn', phone_number: 4123200623}), is_booth_chair: true })
+Membership.create({ organization: mcs_org, participant: Participant.create({ andrewid: 'kaitlinh', phone_number: 9142153025}), is_booth_chair: true })
+Membership.create({ organization: mcs_org, participant: Participant.create({ andrewid: 'jiyunkwo', phone_number: 4128633273}), is_booth_chair: true })
+Membership.create({ organization: phidelt_org, participant: Participant.create({ andrewid: 'resposit'}), is_booth_chair: true })
+Membership.create({ organization: sdc_org, participant: Participant.create({ andrewid: 'kswarts', phone_number: 5702491340}), is_booth_chair: true })
+Membership.create({ organization: sae_org, participant: Participant.create({ andrewid: 'ambaker', phone_number: 4125267380}), is_booth_chair: true })
+Membership.create({ organization: sae_org, participant: Participant.create({ andrewid: 'kschin', phone_number: 6319884058}), is_booth_chair: true })
+Membership.create({ organization: sae_org, participant: Participant.create({ andrewid: 'drmorale'}), is_booth_chair: true })
+Membership.create({ organization: sigchi_org, participant: Participant.create({ andrewid: 'pdominic', phone_number: 9788534116}), is_booth_chair: true })
+Membership.create({ organization: sigep_org, participant: Participant.create({ andrewid: 'bsiegel', phone_number: 2074752240}), is_booth_chair: true })
+Membership.create({ organization: sigep_org, participant: Participant.create({ andrewid: 'sjstark', phone_number: 9049622490}), is_booth_chair: true })
+Membership.create({ organization: spirit_org, participant: Participant.create({ andrewid: 'jmonroe', phone_number: 2035814082}), is_booth_chair: true })
+Membership.create({ organization: ssa_org, participant: Participant.create({ andrewid: 'zunyibrt', phone_number: 4125195516}), is_booth_chair: true })
+Membership.create({ organization: ssa_org, participant: Participant.create({ andrewid: 'jechua', phone_number: 4126239206}), is_booth_chair: true })
+Membership.create({ organization: earth_org, participant: Participant.create({ andrewid: 'alexchen', phone_number: 6308095728}), is_booth_chair: true })
+Membership.create({ organization: earth_org, participant: Participant.create({ andrewid: 'htomio', phone_number: 3126622539}), is_booth_chair: true })
+Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'kywang1', phone_number: 8583662883}), is_booth_chair: true })
+Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'hsienhsi', phone_number: 4123528929}), is_booth_chair: true })
 
-puts '  DTD'
-Membership.create({ organization: dtd_org, booth_chair_order: 1, participant: Participant.create({ andrewid: 'jdorr', phone_number: 8452831045 }), is_booth_chair: true })
-Membership.create({ organization: dtd_org, booth_chair_order: 2, participant: Participant.create({ andrewid: 'haozheg', phone_number: 9084034261 }), is_booth_chair: true })
-Membership.create({ organization: dtd_org, booth_chair_order: 3, participant: Participant.create({ andrewid: 'tfs', phone_number: 7173195528 }), is_booth_chair: true })
-Membership.create({ organization: dtd_org, booth_chair_order: 4, participant: Participant.create({ andrewid: 'bbzhang', phone_number: 4127223696 }), is_booth_chair: true })
-Membership.create({ organization: dtd_org, booth_chair_order: 5, participant: Participant.create({ andrewid: 'achisolm', phone_number: 6315468835 }), is_booth_chair: true })
-#
 # Charge Types ----------------------------------------------------------------
 puts 'Charge Types'
 ChargeType.create([
@@ -390,12 +451,12 @@ Task.create([
   { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: DateTime.strptime('4/10/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z') }
 ])
 
-puts 'Tools'
-# Tools -----------------------------------------------------------------------
-generate_tools
 
 case Rails.env
 when 'production'
+  puts 'Tools'
+  # Tools -----------------------------------------------------------------------
+  generate_tools
 when 'development'
   puts
   puts 'Extra Dev Goodness:'
