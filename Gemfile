@@ -35,6 +35,9 @@ gem 'will_paginate-bootstrap'
 
 gem 'responders'
 
+# Twilio for SMS
+gem 'twilio-ruby'
+
 group :development do
   # Automatically generate comments in models and such based on schema
   gem 'annotate'
