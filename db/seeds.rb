@@ -258,7 +258,7 @@ ChargeType.create([
   { name: 'Booth Staffing Fine', description: 'Intoxicated person staffing a booth' },
   { name: 'Failure to Clean Plot', description: 'Org fails to clean plot as directed by SCC or fails to confirm with SCC that plot is clean before leaving', default_amount: 25 },
   { name: 'Vehicle on Midway', description: 'Unauthorized vehicle of an org on Midway. Fine to be determined by Rules Committee' },
-  { name: 'Late Plans' }, 
+  { name: 'Late Plans' },
   { name: 'Missed Training or Meeting' },
   { name: 'Other', description: 'Other violation as determined by the coordinator, please document extensively and inform the Midway Chair incase any problems arise.', requires_booth_chair_approval: true }
 ])
@@ -274,7 +274,7 @@ Faq.create([
   { question: "Where does CMU get money for Carnival?",
     answer: "Carnegie Mellon University's Spring Carnival is funded in part by your Student Activities Fee." },
   { question: "What are the hours of rides?",
-    answer: "TBD" },  
+    answer: "TBD" },
   { question: "How much are rides tickets?",
     answer: "TBD" },
   { question: "Are there group rates for rides tickets?",
@@ -297,7 +297,7 @@ Faq.create([
     answer: "When a booth takes time to close their booth and have it not manned during operations. They must register the start of their downtime (you should track this) and put caution tape up to close off the doorways. They should also tell you when they are ending their downtime." },
   { question: "How much downtime does an org get?",
     answer: "4 hours." },
-  { question: "How do I check how much downtime an org has left?", 
+  { question: "How do I check how much downtime an org has left?",
     answer: "TBD" },
   { question: "A booth tripped a breaker. What do I do?",
     answer: "Add them to the Electrical queue. Mark the fine in app if applicable." },
@@ -305,7 +305,7 @@ Faq.create([
     answer: "Give them equipment from the medical kit in the trailer. Tell them they can call EMS if they want. DO NOT ADMINISTER MEDICAL ASSISTANCE." },
   { question: "EMS is closed. What do I do?",
     answer: "Call them." },
-  { question: "I saw an ambulance take someone to the hospital. What do I do?", 
+  { question: "I saw an ambulance take someone to the hospital. What do I do?",
     answer: "Call the Carnival Chairi, Head of Booth, and/or Head of Operations immediately." },
   { question: "Someone wants to drop off in the firelane. Can they do that?",
     answer: "No, unless they are Cyert, food delivery for Underground, fire, police, EMS, FMS, people with passes, or an approved delivery (Rachel, Emily, or Jackson says it's OK)." },
@@ -327,7 +327,7 @@ Faq.create([
     answer: "Call the police." },
   { question: "Booth chair is asking questions I don't understand. What do I do?",
     answer: "Put them in Rachel's queue. Leave a note if necessary." },
-  { question: "Parking complains about Asian row. What do I do?", 
+  { question: "Parking complains about Asian row. What do I do?",
     answer: "Tell Asian row to clear their stuff out. If they won't listen, call Rachel." },
   { question: "What should the 12am-4am watch shifts do?",
     answer: "MOVE THE DUMPSTERS TO THE FIRELANE BY THE TENT. Check the radio station parking lot. Make sure no one is doing anything stupid (climbing on roofs, having sex in booths, etc.)." },
@@ -346,9 +346,9 @@ Faq.create([
   { question: "It's raining and people are losing electricity.",
     answer: "Wait until the rain stops, then tell them to suck it up and we'll deal with it." },
   { question: "It's super windy. Things are flying off of booths.",
-    answer: "Check weather on trailer computer. Call the Head of Booth and the Carnival Chair with that information." } 
+    answer: "Check weather on trailer computer. Call the Head of Booth and the Carnival Chair with that information." }
 ])
-    
+
 # Organization Status Types --------------------------------------------------
 puts 'Organization Status Types'
 OrganizationStatusType.create([
@@ -415,41 +415,41 @@ Task.create([
 ])
 
 puts '  Recurring Tasks'
-# Task.create([
-#   { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: DateTime.strptime('4/5/2014 6:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: DateTime.strptime('4/6/2014 6:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: DateTime.strptime('4/7/2014 6:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: DateTime.strptime('4/8/2014 6:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: DateTime.strptime('4/9/2014 6:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: DateTime.strptime('4/10/2014 6:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: DateTime.strptime('4/5/2014 0:01:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: DateTime.strptime('4/6/2014 0:01:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: DateTime.strptime('4/7/2014 0:01:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: DateTime.strptime('4/8/2014 0:01:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: DateTime.strptime('4/9/2014 0:01:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: DateTime.strptime('4/10/2014 0:01:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: DateTime.strptime('4/11/2014 0:01:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: DateTime.strptime('4/12/2014 0:01:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: DateTime.strptime('4/13/2014 0:01:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: DateTime.strptime('4/10/2014 15:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: DateTime.strptime('4/11/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: DateTime.strptime('4/12/2014 11:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: DateTime.strptime('4/10/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: DateTime.strptime('4/11/2014 23:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: DateTime.strptime('4/12/2014 21:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: DateTime.strptime('4/4/2014 22:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: DateTime.strptime('4/5/2014 22:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: DateTime.strptime('4/6/2014 22:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: DateTime.strptime('4/7/2014 22:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: DateTime.strptime('4/8/2014 22:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: DateTime.strptime('4/9/2014 22:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: DateTime.strptime('4/5/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: DateTime.strptime('4/6/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: DateTime.strptime('4/7/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: DateTime.strptime('4/8/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: DateTime.strptime('4/9/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z') },
-#   { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: DateTime.strptime('4/10/2014 7:00:00-0400','%m/%d/%Y %H:%M:%S%z') }
-# ])
+ Task.create([
+  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: build_saturday + 6.hours},
+  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: build_sunday + 6.hours },
+  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: monday + 6.hours},
+  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: tuesday + 6.hours},
+  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: wednesday + 6.hours},
+  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: operations +6.hours },
+  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: build_saturday + 1.hour },
+  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: build_sunday + 1.hour },
+  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: monday + 1.hour},
+  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: tuesday + 1.hour},
+  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: wednesday + 1.hour},
+  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: operations + 1.hour},
+  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: ops_friday + 1.hour},
+  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: ops_saturday + 1.hour},
+  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: teardown + 1.hour},
+  { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: operations + 15.hours},
+  { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: ops_friday + 11.hours},
+  { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: ops_saturday + 11.hours},
+  { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: operations + 23.hours},
+  { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: ops_friday + 23.hours},
+  { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: ops_saturday + 23.hours },
+  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: move_on + 22.hours},
+  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: build_saturday + 22.hours },
+  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: build_sunday + 22.hours },
+  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: monday + 22.hours},
+  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: tuesday + 22.hours },
+  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: wednesday + 22.hours},
+  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: build_saturday + 7.hours },
+  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: build_sunday + 7.hours },
+  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: monday + 7.hours },
+  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: tuesday + 7.hours },
+  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: wednesday + 7.hours },
+  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: operations + 7.hours }
+ ])
 
 
 case Rails.env
@@ -505,4 +505,3 @@ when 'development'
     {name: "late3", due_at: Time.now - 30.minutes }
   ])
 end
-
