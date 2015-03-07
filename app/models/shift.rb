@@ -25,7 +25,7 @@
 class Shift < ActiveRecord::Base
   validates_presence_of :starts_at, :ends_at, :required_number_of_participants, :shift_type
   validates_associated :organization, :shift_type
-  
+
   belongs_to :organization
   belongs_to :shift_type
 
@@ -48,6 +48,10 @@ class Shift < ActiveRecord::Base
     else
       shift_type.name + " @ " + starts_at.strftime("%b %e at %l:%M %p") + ' - ' +  organization.name
     end
+  end
+
+  def is_checked_in
+    return participants.size == required_number_of_participants
   end
 end
 

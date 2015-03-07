@@ -40,28 +40,36 @@ class ShiftTest < ActiveSupport::TestCase
   context "With a proper context, " do
     setup do
       # Create 3 shifts
-      @shift1 = FactoryGirl.create(:shift, :ends_at => Time.local(2021,1,1,15,0,0), :starts_at => Time.now + 1.hour)
-      @shift2 = FactoryGirl.create(:shift, :ends_at => Time.local(2020,1,1,15,0,0), :starts_at => Time.local(2014,1,1,13,4,0))
-      @shift3 = FactoryGirl.create(:shift, :ends_at => Time.local(2001,1,1,15,0,0), :starts_at => Time.local(2000,1,1,14,10,0))
+      @upcomming = FactoryGirl.create(:shift, :ends_at => Time.local(2021,1,1,15,0,0), :starts_at => Time.now + 1.hour)
+      @current = FactoryGirl.create(:shift, :ends_at => Time.local(2020,1,1,15,0,0), :starts_at => Time.local(2014,1,1,13,4,0))
+      @past = FactoryGirl.create(:shift, :ends_at => Time.local(2001,1,1,15,0,0), :starts_at => Time.local(2000,1,1,14,10,0))
+      @not_checked_in = FactoryGirl.create(:shift, :required_number_of_participants => 1 )
+      @checked_in = FactoryGirl.create(:shift, :required_number_of_participants => 2)
+      FactoryGirl.create(:shift_participant, :shift => @checked_in)
+      FactoryGirl.create(:shift_participant, :shift => @checked_in)
     end
 
     teardown do
     end
 
     should "show that all factories are properly created" do
-      assert_equal 3, Shift.all.size
+      assert_equal 5, Shift.all.size
     end
 
     # Scopes
     should "have a scope 'current' that works" do
-       assert_equal 1, Shift.current.size
+      assert_equal 1, Shift.current.size
     end
 
     should "have a scope 'upcoming' that works" do
-       assert_equal 1, Shift.upcoming.size
+      assert_equal 1, Shift.upcoming.size
     end
 
     # Methods
 
+    should "have a method 'is_checked_in' that works" do
+      assert_equal true, @checked_in.is_checked_in
+      assert_equal false, @not_checked_in.is_checked_in
+    end
   end
 end

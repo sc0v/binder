@@ -13,7 +13,7 @@
           <tbody>
             <% cache ['current_sidebar', @current_shifts_sidebar] do %>
               <% @current_shifts_sidebar.each do |shift| %>
-                <tr class="success sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %><%=h ' - ' + shift.description + ' (' + shift.required_number_of_participants.to_s + ')'  unless shift.description.blank? %>">
+                <tr class="sidebar-tooltip <%= shift.is_checked_in ? 'success' : 'danger' %>" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %><%=h ' - ' + shift.description + ' (' + shift.required_number_of_participants.to_s + ')'  unless shift.description.blank? %>">
                   <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                     <% if (shift.shift_type.name == "Coordinator Shift") %>
                       <%= link_to shift.shift_participants.first.participant.name, shift unless shift.shift_participants.blank? %>
@@ -35,7 +35,7 @@
           <tbody>
             <% cache ['upcoming_sidebar', @upcoming_shifts_sidebar] do %>
               <% @upcoming_shifts_sidebar.each do |shift| %>
-                <tr class="warning sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %><%=h ' - ' + shift.description + ' (' + shift.required_number_of_participants.to_s + ')'  unless shift.description.blank? %>">
+                <tr class="sidebar-tooltip <%= shift.is_checked_in ? 'success' : 'warning' %>" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %><%=h ' - ' + shift.description + ' (' + shift.required_number_of_participants.to_s + ')'  unless shift.description.blank? %>">
                   <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                     <% if (shift.shift_type.name == "Coordinator Shift") %>
                       <%= link_to shift.shift_participants.first.participant.name, shift unless shift.shift_participants.blank? %>
