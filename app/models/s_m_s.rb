@@ -1,6 +1,6 @@
 require 'twilio-ruby'
 
-class SMS
+class S_M_S
 
   def self.send(phone_number,message)
     account_sid = '[Error]'
