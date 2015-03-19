@@ -1,0 +1,22 @@
+<tr>
+  <td><%= cart_item.store_item.name  %></td>
+  <td>$ <%= cart_item.price_at_purchase %></td>
+  <td>
+    <%# TODO: Inline styles & maybe change to best_in_place %>
+    
+    <%= simple_form_for cart_item, html: { style: "display: inline;" } do |f| %>
+    <%= f.hidden_field :quantity_purchased, value: cart_item.quantity_purchased - 1 %>
+    <%= f.button :submit, '-', :class => 'btn btn-default btn-xs' %>
+    <% end %>
+
+    
+    <%= cart_item.quantity_purchased %>
+
+    <%= simple_form_for cart_item, html: { style: "display: inline;" } do |f| %>
+    <%= f.hidden_field :quantity_purchased, value: cart_item.quantity_purchased + 1 %>
+    <%= f.button :submit, '+', :class => 'btn btn-default btn-xs' %>
+    <% end %>
+
+  </td>
+  <td>$ <%= cart_item.quantity_purchased * cart_item.price_at_purchase %></td>
+</tr>

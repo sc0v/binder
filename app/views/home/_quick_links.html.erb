@@ -15,7 +15,8 @@
     <p><%= link_to "Electrical Queue", electrical_path, :class => "btn btn-primary " %></p>
   <% end %>
   <% if can?(:approve, Charge) %>
-    <p><%= link_to "Charge Overview", charge_overview_path, :class => "btn btn-primary " %></p>
+        <p><%= link_to "Charge Overview", charge_overview_path, :class => "btn btn-primary " %></p>
+        <p><%= link_to "Store", store_items_path, :class => "btn btn-primary " %></p>
   <% end %>
 
 	<%= form_tag(search_path, class: 'form-inline', role: 'search') do %>

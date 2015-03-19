@@ -1,0 +1,18 @@
+<% page ||= "default" %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Quantity Available</th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <%# items.each do |item| %>
+    <%# cache [page, item] do %>
+    <%= render partial: 'item', collection: items %>
+    <%# end %>
+    <%# end %>
+  </tbody>
+</table>

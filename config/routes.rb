@@ -36,6 +36,24 @@ Trailerapp::Application.routes.draw do
     post 'checkin', on: :collection
   end
 
+  get "store" => "store/items#index"
+  namespace :store do
+    resources 'items' do
+      post 'add_to_cart',
+           on: :member,
+           controller: 'purchases'
+    end
+    resources 'purchase',
+              controller: 'purchases',
+              except: [:create, :new, :index] 
+    scope 'cart', as: 'cart', controller: 'purchases' do
+      get 'review', action: 'new'
+      post 'checkout', action: 'create'
+      post 'choose_organization'
+    end
+  
+  end
+
   # static pages
   get "milestones" => "home#milestones", :as => "milestones"
 

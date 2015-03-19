@@ -52,6 +52,8 @@ en:
       cancel: "Cancel"
       checkout: "Check-Out"
       checkin: "Check-In"
+      add_to_cart: "Add to Cart"
+      new_item: "Add New Store Item"
   errors:
     messages:
       tool_already_checked_out: "The Tool you selected is already checked out. Please return it before continuing."

@@ -1,0 +1,11 @@
+<tr>
+  <td><%= link_to item.name, item, :class => 'btn btn-info btn-xs'  %></td>
+  <td>$ <%= item.price %></td>
+  <td><%= item.quantity_available %></td>
+  <td>
+    <% if can?(:create, Charge) %>
+      <%= link_to t('.add_to_cart', :default => t("helpers.links.add_to_cart")),
+            add_to_cart_store_item_path(item), :class => 'btn btn-warning', method: :post %>
+    <% end %>
+  </td>
+</tr>

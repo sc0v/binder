@@ -1,0 +1,23 @@
+<div class="page-header">
+  <h1>Select Organization <small>(<%#= @tool.name %> for <%= @participant.name %>)</small></h1>
+</div>
+
+<h2>Current Orgs</h2>
+</br>
+<% @participant.organizations.each do |organization| %>
+  <p>
+  	<%= form_tag store_cart_checkout_path, :style => "display: inline;" do -%>
+  		<%= hidden_field_tag 'participant_id', @participant.id %>
+  		<%= hidden_field_tag 'organization_id', organization.id %>
+  	  <%= submit_tag organization.name, :class => 'btn btn-success' %>
+  	<% end -%>
+  </p>
+<% end %>
+</br>
+<h2>Other Orgs</h2>
+<%= simple_form_for '', url: store_cart_checkout_path do |f| %>
+  <%= f.input :participant_id, :input_html => { :value => @participant.id }, :as => :hidden %>
+  <%= f.input :organization_id, :as => :select, :collection => Organization.all %>
+  <%= f.input 'add', :label => "Add Membership", :as => :boolean %>
+  <%= submit_tag "Submit", :class => 'btn btn-primary' %>
+<% end -%>

@@ -1,0 +1,10 @@
+<%- model_class = StorePurchase -%>
+<div class="page-header">
+  <h1>Cart</h1>
+</div>
+
+<%= render partial: 'store/items/cart', locals: { items: StorePurchase.items_in_cart } %>
+
+<div class="text-right">
+<%= render :partial => 'form' %>
+</div>

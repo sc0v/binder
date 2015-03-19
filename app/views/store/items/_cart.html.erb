@@ -1,0 +1,17 @@
+<% page ||= "default" %>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Subtotal</th>
+    </tr>
+  </thead>
+
+  <tbody>
+
+    <%= render partial: 'store/items/cart_item', collection: items %>
+
+  </tbody>
+</table>

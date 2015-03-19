@@ -1,0 +1,12 @@
+<%= simple_form_for @charge, :html => { :class => 'form-horizontal' }, :url => store_cart_choose_organization_path, method: :post do |f| %>
+<%#= f.input :participant_id, required: true do %>
+<%#= f.input_field :participant_id, as: :hidden, required: true %>
+<%= text_field_tag 'card-number-input', nil, class: 'form-control', required: true %>
+<div id="participant-info"></div>
+<% end %>
+<div class="form-actions">
+  <%= f.button :submit, "Complete Purchase", :class => 'btn-primary' %>
+  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+  tools_path, :class => 'btn' %>
+</div>
+<% end %>
