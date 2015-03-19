@@ -11,7 +11,13 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150222001013) do
+ActiveRecord::Schema.define(version: 20150303211414) do
+
+  create_table "cell_carriers", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
 
   create_table "charge_types", force: :cascade do |t|
     t.string   "name",                          limit: 255
@@ -227,6 +233,26 @@ ActiveRecord::Schema.define(version: 20150222001013) do
 
   add_index "shifts", ["organization_id"], name: "index_shifts_on_organization_id", using: :btree
 
+  create_table "store_items", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.decimal  "price",                  precision: 10
+    t.integer  "quantity",   limit: 4
+    t.datetime "created_at",                            null: false
+    t.datetime "updated_at",                            null: false
+  end
+
+  create_table "store_purchases", force: :cascade do |t|
+    t.integer  "charge_id",          limit: 4
+    t.integer  "store_item_id",      limit: 4
+    t.decimal  "price_at_purchase",            precision: 10
+    t.integer  "quantity_purchased", limit: 4
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+  end
+
+  add_index "store_purchases", ["charge_id"], name: "index_store_purchases_on_charge_id", using: :btree
+  add_index "store_purchases", ["store_item_id"], name: "index_store_purchases_on_store_item_id", using: :btree
+
   create_table "tasks", force: :cascade do |t|
     t.datetime "due_at"
     t.integer  "completed_by_id", limit: 4
@@ -276,4 +302,6 @@ ActiveRecord::Schema.define(version: 20150222001013) do
   add_foreign_key "judgements", "judgement_categories"
   add_foreign_key "judgements", "judges"
   add_foreign_key "judgements", "organizations"
+  add_foreign_key "store_purchases", "charges"
+  add_foreign_key "store_purchases", "store_items"
 end
