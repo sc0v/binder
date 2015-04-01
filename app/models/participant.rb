@@ -17,9 +17,15 @@
 # **`has_signed_hardhat_waiver`**  | `boolean`          |
 # **`has_signed_waiver`**          | `boolean`          |
 # **`id`**                         | `integer`          | `not null, primary key`
+# **`phone_carrier_id`**           | `integer`          |
 # **`phone_number`**               | `string(255)`      |
 # **`updated_at`**                 | `datetime`         |
 # **`user_id`**                    | `integer`          |
+#
+# ### Indexes
+#
+# * `index_participants_on_phone_carrier_id`:
+#     * **`phone_carrier_id`**
 #
 
 class Participant < ActiveRecord::Base
@@ -36,6 +42,7 @@ class Participant < ActiveRecord::Base
   has_many :memberships, dependent: :destroy
   has_many :shift_participants, dependent: :destroy
   has_many :organization_statuses, dependent: :destroy
+  belongs_to :phone_carrier
   belongs_to :user, dependent: :destroy
 
   default_scope { order('andrewid') }
@@ -88,7 +95,7 @@ class Participant < ActiveRecord::Base
     person = self.find_by_andrewid(card_number)
 
     if !person.blank?
-      return self.find_by_andrewid(card_number)
+      return person #self.find_by_andrewid(card_number)
     elsif !lookup_only and !CarnegieMellonPerson.find_by_andrewid(card_number.downcase).blank?
       return self.find_or_create_by(andrewid: card_number.downcase)
     elsif !card_number.match(/^%?\d{7,9}/).nil?

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150303211414) do
+ActiveRecord::Schema.define(version: 20150401144320) do
 
   create_table "cell_carriers", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -189,6 +189,15 @@ ActiveRecord::Schema.define(version: 20150303211414) do
     t.string   "cached_department",         limit: 255
     t.string   "cached_student_class",      limit: 255
     t.datetime "cache_updated"
+    t.integer  "phone_carrier_id",          limit: 4
+  end
+
+  add_index "participants", ["phone_carrier_id"], name: "index_participants_on_phone_carrier_id", using: :btree
+
+  create_table "phone_carriers", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "roles", force: :cascade do |t|
@@ -302,6 +311,7 @@ ActiveRecord::Schema.define(version: 20150303211414) do
   add_foreign_key "judgements", "judgement_categories"
   add_foreign_key "judgements", "judges"
   add_foreign_key "judgements", "organizations"
+  add_foreign_key "participants", "phone_carriers"
   add_foreign_key "store_purchases", "charges"
   add_foreign_key "store_purchases", "store_items"
 end

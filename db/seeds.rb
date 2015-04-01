@@ -1,3 +1,4 @@
+# coding: utf-8
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
@@ -107,6 +108,12 @@ puts 'Judging Categories'
 JudgementCategory.create([
   { name: 'Overall Quality', grouping: 'design', max_value: 30, description: 'Is the booth well constructed and is there good attention to detail.' },
 ])
+
+# Cell phone carriers ---------------------------------------------------------
+puts 'Phone carriers'
+["Verizon Wireless","Sprint","AT&T","T-Mobile","Metro PCS","US Cellular","Cricket","Virgin Mobile","Boost Mobile"].each do |name|
+  PhoneCarrier.create({ name: name})
+end
 
 # SCC Members -----------------------------------------------------------------
 puts 'SCC Members (not exhaustive)'

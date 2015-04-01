@@ -105,7 +105,8 @@ class CheckoutsController < ApplicationController
     @tool = Tool.find(params[:tool_id])
     raise CheckoutError, I18n.t("errors.messages.tool_does_not_exist") unless !@tool.nil?
 
-    @participant = Participant.find(params[:checkout][:participant_id])
+    #@participant = Participant.find(params[:checkout][:participant_id])
+    @participant = Participant.find_by_card(params['card-number-input'])
     
     respond_to do |format|
       format.html { render "choose_organization", :tool => @tool, :participant => @participant }

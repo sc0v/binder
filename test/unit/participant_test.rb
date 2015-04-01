@@ -17,9 +17,15 @@
 # **`has_signed_hardhat_waiver`**  | `boolean`          |
 # **`has_signed_waiver`**          | `boolean`          |
 # **`id`**                         | `integer`          | `not null, primary key`
+# **`phone_carrier_id`**           | `integer`          |
 # **`phone_number`**               | `string(255)`      |
 # **`updated_at`**                 | `datetime`         |
 # **`user_id`**                    | `integer`          |
+#
+# ### Indexes
+#
+# * `index_participants_on_phone_carrier_id`:
+#     * **`phone_carrier_id`**
 #
 
 require 'test_helper'

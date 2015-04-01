@@ -21,8 +21,13 @@ Trailerapp::Application.routes.draw do
   end
   resources :participants do
     resources :memberships, :except => [:index, :show, :destroy]
+    resource :waiver, :except => [:edit, :destroy, :show, :update]
     post 'lookup', on: :collection
   end
+
+  get 'waiver' => 'waivers#new'
+  resource :waiver, :except => [:edit, :destroy, :show, :update]
+  
   resources :shifts do
     resources :participants, :controller => :shift_participants, :only => [:new, :create, :destroy]
   end

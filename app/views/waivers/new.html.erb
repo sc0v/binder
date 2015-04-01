@@ -1,0 +1,99 @@
+<h1>Midway Safety Video</h1>
+<p>You must watch the video prior to signing the waiver.</p>
+
+<div id="player"></div>
+
+<div id="waiver" style="display: none;">
+
+  <h2>2015 SPRING CARNIVAL MIDWAY RELEASE OF LIABILITY</h2>
+
+  <p>
+
+  I, <%= current_user.name %>, want to participate in Carnegie Mellon University (“CMU”) 2015 Spring Carnival Midway construction
+
+  activities and/or be present on the Midway construction site (collectively, the “Activities.”) I understand
+
+  that the Activities may involve climbing, crawling, physical exertion, the use of and/or proximity to hand
+
+  and power tools and construction materials and equipment.
+  </p>
+  <p>
+
+  I understand that there are risks (including, but not limited to, the risk of injury, disability and death)
+
+  associated with my participation in the Activities. I voluntarily assume all the risks. In consideration of
+
+  the benefits of participation in the Activities, I hereby, on behalf of myself and those acting on my
+
+  behalf, irrevocably and unconditionally release, waive and promise not to sue CMU from/for any and all
+
+  liabilities, losses, injuries, damages, claims, demands, actions and/or causes of action related to my
+
+  participation in the Activities, including the securing of medical treatment for me.
+  </p>
+  <p>
+
+  The laws of Pennsylvania shall apply to this Release. If any of its provisions are declared illegal,
+
+  unenforceable or ineffective, they shall be deemed severable and all other provisions shall remain valid and binding.
+  </p>
+
+  <%= form_tag do %>
+  <div>
+    <%= check_box_tag :agree %> <%= label_tag :agree, "I have read this release and understand it and I voluntarily agree to all its provisions." %>
+
+  </div>
+  <div>
+    <%= check_box_tag :adult %>
+    <%= label_tag :adult, "I am 18 years of age or older" %>
+  </div>
+
+  <div>
+    <h3>Emergency Alert Information</h3>
+    <p>All Spring Carnival participants must provide their mobile phone number, which will be enrolled in the emergency alert system.</p>
+    <div><%= label_tag :emergency_phone, "Cell Phone:" %> <%= text_field_tag :phone_number %></div>
+    <div><%= label_tag :emergency_phone, "Phone Carrier:" %> <%= collection_select(:participant, :phone_carrier_id, PhoneCarrier.all, :id, :name) %></div>
+  </div>
+
+  <div style="margin-top: 30px;">
+    <%= submit_tag "Submit", class: "btn btn-primary" %>
+  </div>
+
+  <% end %>
+</div>
+
+
+
+
+<script src="http://www.youtube.com/player_api"></script>
+<script>
+
+  // create youtube player
+  var player;
+  function onYouTubePlayerAPIReady() {
+  player = new YT.Player('player', {
+  height: '390',
+  width: '640',
+  videoId: '8ZH95wK55uY',
+  playerVars: { 'controls': 0, 'rel' : 0, 'autoplay' : 1, 'showinfo' : 0},
+  events: {
+  'onReady': onPlayerReady,
+  'onStateChange': onPlayerStateChange
+  }
+  });
+  }
+
+  // autoplay video
+  function onPlayerReady(event) {
+  event.target.playVideo();
+  }
+
+  // when video ends
+  function onPlayerStateChange(event) {
+  if(event.data === 0) {
+  $('#player').slideUp();
+  $('#waiver').slideDown();
+  }
+  }
+
+</script>
