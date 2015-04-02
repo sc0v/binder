@@ -4,8 +4,7 @@
 orgs = ['astro_org', 'aepi_org', 'kat_org', 'phidelt_org', 'sigep_org', 'dg_org', 'kkg_org', 'ssa_org', 'ddd_org', 'sae_org', 'math_org', 'axo_org', 'fringe_org', 'mcs_org', 'aphio_org', 'dtd_org', 'sdc_org', 'aphi_org', 'spirit_org', 'tsa_org', 'asa_org', 'kapsig_org', 'kgb_org', 'mayur_org', 'sigchi_org', 'earth_org']
 
 # This should be how many shifts get assigned to that org, unfortunately it will fill up orgs who submitted prefs earlier first, so if it's not exact then remove a shift or two from the first couple orgs
-size = [3, 6, 6, 6, 6, 6, 6, 6, 6, 6, 4, 7, 7, 4, 7, 7, 7, 7, 4, 7, 7, 7, 7, 4, 4, 4]
-#size = [5, 11, 11, 11, 11, 11, 11, 12, 12, 12, 6, 12, 12, 6, 12, 12, 12, 12, 6, 12, 12, 12, 12, 6, 6, 6]
+size = [3, 6, 6, 6, 7, 7, 7, 7, 7, 7, 4, 7, 7, 4, 7, 7, 7, 7, 4, 7, 7, 7, 7, 4, 4, 4]
 
 # This should be the org prefs, make sure the highestPref matches your form's highest
 highestPref = 5
@@ -49,8 +48,7 @@ popularity = [78, 90, 92, 91, 75, 77, 18, 30, 42, 54, 88, 89, 66, 17, 29, 41, 53
 #popularity = [66, 67, 75, 77, 78, 79, 90, 91, 102, 6, 7, 8, 18, 19, 30, 42, 43, 54, 55, 56, 65, 68, 74, 76, 80, 87, 88, 89, 92, 99, 100, 103, 5, 17, 20, 28, 29, 31, 32, 39, 40, 41, 44, 53, 64, 86, 101, 104, 4, 16, 51, 52, 63, 98, 27, 33, 45, 57, 73, 85, 93, 105, 106, 107, 108, 15, 69, 72, 97, 3, 46, 58, 59, 70, 71, 94, 96, 47, 60, 81, 83, 84, 95, 1, 2, 14, 34, 35, 38, 50, 61, 62, 82, 0, 21, 26, 36, 9, 10, 11, 48, 22, 25, 37, 49, 12, 13, 23, 24]
 
 # How many shifts are required at each timeslot
-required = [2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 1, 1, 1]
-#required = [3, 3, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 2, 2, 2, 2, 2, 2, 2, 2, 3, 3, 3, 3, 3, 3, 4, 3, 3, 2, 2, 3, 3, 3, 3, 3, 3, 3, 4, 3, 3, 2, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 2, 2, 3, 3, 2, 2, 2]
+required = [2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2, 2, 3, 3, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 3, 2, 2, 1, 1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1, 1, 1, 2, 2, 1, 1, 1]
 
 numOrgs = orgs.length
 
@@ -82,7 +80,7 @@ stop = 0
 for i in 0..required.reduce(:+)-1
     # Check to make sure the org isn't already full and skip it if it is
     while $shiftList[org].length>=size[org] do org = (org + 1) % numOrgs end
-    
+
     shift = 0
     # Now go through the shifts in reverse popularity order (from least popular to most) until you find a shift that isn't full, is highest pref for the org, and that the org isn't already double booked on.
     while assigned[popularity[shift]] >= required[popularity[shift]] or prefs[org][popularity[shift]] != standards[org] or not(canDouble?(popularity[shift], org))
@@ -97,7 +95,7 @@ for i in 0..required.reduce(:+)-1
             #puts "next shift: %d" % shift
         end
     end
-    
+
     assigned[popularity[shift]]+=1
     # add the shift to the orgs's list of shifts
     $shiftList[org].push(popularity[shift])
@@ -105,10 +103,10 @@ for i in 0..required.reduce(:+)-1
     # Add the score to the scoreView   
     scoreView[org].push(prefs[org][popularity[shift]])
     score += standards[org]
-    
+
     #puts "Org: %d, Shift: %d, Standard: %d" % [org, popularity[shift], standards[org]]
     #puts org
-    
+
     i+=1
     org = (org + 1) % numOrgs
 end
@@ -127,7 +125,7 @@ puts
 org = 0
 for i in $shiftList
     for j in i
-        #puts "Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: %s, starts_at: move_on + %d.hours , ends_at: move_on + %d.hours, required_number_of_participants: 2 })" % [orgs[org], j * 2, (j - 1) * 2]
+        puts "Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: %s, starts_at: move_on + %d.hours , ends_at: move_on + %d.hours, required_number_of_participants: 2 })" % [orgs[org], j * 2, (j - 1) * 2]
     end
     org+=1
 end
