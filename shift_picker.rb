@@ -125,7 +125,7 @@ puts
 org = 0
 for i in $shiftList
     for j in i
-        puts "Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: %s, starts_at: move_on + %d.hours , ends_at: move_on + %d.hours, required_number_of_participants: 2 })" % [orgs[org], j * 2, (j - 1) * 2]
+        puts "Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: %s, starts_at: move_on + 17.hours + %d.hours , ends_at: move_on + 17.hours + %d.hours, required_number_of_participants: 2 })" % [orgs[org], j * 2, (j + 1) * 2]
     end
     org+=1
 end
