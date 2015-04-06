@@ -1,21 +1,33 @@
-<% if not organization_participant_list.empty? %>
-  
-  <table id="organization_participant_list">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th>AndrewID</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @members.each do |member| %>
-        <tr>
-          <td><%= link_to member.participant.name, member.participant %></td>
-          <td><%= link_to member.participant.andrewid, member.participant %></td>
-        </tr>
+<% if can?(:read, Participant) %>
+<%- model_class = Participant -%>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th><%= model_class.human_attribute_name(:andrewid) %></th>
+      <th>Waiver Signed</th>
+      <% if can?(:read_phone_number, Participant) %>
+      <th><%= model_class.human_attribute_name(:phone_number) %></th>
       <% end %>
-    </tbody>
-  </table>
+    </tr>
+  </thead>
+  <tbody>
+    <% organization_participant_list.collect(&:participant).each do |participant| %>
+    <% if can?(:read, participant) %>
+    <tr>
+      <td><%= link_to participant.name, participant %></td>
+      <td><%= link_to participant.andrewid, participant %></td>
+      <td><%= participant.has_signed_waiver ? "yes" : "no" %></td>
+      <% if can?(:read_phone_number, Participant) %>
+      <td><%= participant.formatted_phone_number unless !can?(:read_phone_number, participant) %></td>
+      <% end %>
+    </tr>
+    <% end %>
+    <% end %>
+  </tbody>
+</table>
+
+
 <% else %>
-  This organization has no members.
+<h3>Not Authorized!</h3>
 <% end %>

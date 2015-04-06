@@ -31,6 +31,8 @@ class Ability
 
     can :update, Participant, :id => user.participant.id
 
+    can :manage, Membership, :participant_id => user.participant.id
+
     if user.participant.is_booth_chair?
       can :read, [ChargeType, Checkout, Shift]
       can :read_basic_details, Organization

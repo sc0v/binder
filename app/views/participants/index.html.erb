@@ -15,6 +15,7 @@
       <tr>
         <th>Name</th>
         <th><%= model_class.human_attribute_name(:andrewid) %></th>
+        <th>Waiver Signed</th>
         <% if can?(:read_phone_number, Participant) %>
           <th><%= model_class.human_attribute_name(:phone_number) %></th>
         <% end %>
@@ -26,6 +27,7 @@
           <tr>
             <td><%= link_to participant.name, participant %></td>
             <td><%= link_to participant.andrewid, participant %></td>
+            <td><%= participant.has_signed_waiver ? "yes" : "no" %></td>
             <% if can?(:read_phone_number, Participant) %>
               <td><%= participant.formatted_phone_number unless !can?(:read_phone_number, participant) %></td>
             <% end %>

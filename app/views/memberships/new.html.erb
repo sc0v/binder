@@ -4,8 +4,14 @@
 </div>
 
 <%= simple_form_for @membership, :html => { :class => 'form-horizontal' }, :url => participant_memberships_path(@participant) do |f| %>
-  <%= f.hidden_field :participant_id, :value => @participant.id %>
-        <% OrganizationCategory.all.each do |category| %>
+<%= f.hidden_field :participant_id, :value => @participant.id %>
+       <%# TODO: This is disgusting %>
+       <% if @participant.is_scc? %>
+       <% @categories = OrganizationCategory.all %>
+       <% else %>
+       <% @categories = OrganizationCategory.where("name!= 'SCC' and name!= 'Staff'") %>
+       <% end %>
+        <% @categories.each do |category| %>
         <h3><%= category.name %></h3>
         <div class="row">
         <% category.organizations.each do |organization| %>

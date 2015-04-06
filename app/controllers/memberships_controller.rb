@@ -1,6 +1,6 @@
 class MembershipsController < ApplicationController
   load_and_authorize_resource 
-  skip_load_resource :only => [:create]
+  skip_load_resource :only => [:create, :update]
   responders :flash, :http_cache
 
   # GET /memberships
@@ -47,16 +47,18 @@ class MembershipsController < ApplicationController
     # create new memberships (only if they don't have a membership already)
     if(!@new_organization_ids.nil?)
       @new_organization_ids.each do |new_org_id|
-        if(!@participant.organizations.map{|o| o.id.to_s}.include?(new_org_id.to_s))
-          @membership = Membership.new
-          @membership.participant = @participant
-          
-          @membership.organization = Organization.find_by_id(new_org_id)
+          if(!@participant.organizations.map{|o| o.id.to_s}.include?(new_org_id.to_s))
 
-          if(!@membership.save!)
-            all_ok = false
-            break
-          end
+            @membership = Membership.new
+            @membership.participant = @participant
+          
+            @membership.organization = Organization.find_by_id(new_org_id)
+            if @membership.organization.name!="Spring Carnival Committee" or @participant.is_scc?
+            if(!@membership.save!)
+              all_ok = false
+              break
+            end
+            end
         end
       end
     end

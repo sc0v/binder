@@ -24,9 +24,14 @@ class WaiversController < ApplicationController
       current_user.participant.phone_carrier = c
       current_user.participant.has_signed_waiver = true
       current_user.participant.save!
-      flash[:notice] = "Thank you."
-      redirect_to root_url
+      flash[:notice] = "Thank you for completing the waiver."
+
+      @participant = current_user.participant
+      @membership = Membership.new(participant: @participant)
+      render 'memberships/new'
     end
 
   end
+
+
 end

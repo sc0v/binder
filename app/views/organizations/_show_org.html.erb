@@ -4,6 +4,7 @@
   <% if can?(:read_basic_details, @organization) %>
     <li><a href="#tools" data-toggle="tab">Tools</a></li>
     <li><a href="#shifts" data-toggle="tab">Shifts</a></li>
+    <li><a href="#members" data-toggle="tab">Members</a></li>
   <% end %>
 
   <% if can?(:read_all_details, @organization) %>
@@ -22,6 +23,9 @@
     </div>
     <div id="tools" class="tab-pane">
       <%= render :partial => "tools/organization_tool_list", :object => @tools %>
+    </div>
+    <div id="members" class="tab-pane">
+      <%= render :partial => "organizations/organization_participant_list", :object => @organization.memberships %>
     </div>
   <% end %>
 
