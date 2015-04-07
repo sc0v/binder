@@ -1,5 +1,6 @@
 class WaiversController < ApplicationController
-
+  before_filter :require_authenticated_user
+  
   def new
     if current_user.participant.has_signed_waiver
       flash[:notice] = "You have already agreed to the release."

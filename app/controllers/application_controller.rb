@@ -48,4 +48,10 @@ class ApplicationController < ActionController::Base
 
     @downtime_sidebar = OrganizationTimelineEntry.downtime.current
   end
+
+  def require_authenticated_user
+    if current_user.nil?
+      redirect_to main_app.user_omniauth_authorize_path(:shibboleth)
+    end
+  end
 end
