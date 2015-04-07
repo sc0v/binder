@@ -8,7 +8,9 @@
     <% if can?(:read_phone_number, @participant) %>
       <dt><strong><%= model_class.human_attribute_name(:phone_number) %>:</strong></dt>
       <dd><%= @participant.formatted_phone_number %>
-    <% end %>
+        <% end %>
+        <dt><strong><%= model_class.human_attribute_name(:has_signed_waiver) %>:</strong></dt>
+        <dd><%= @participant.has_signed_waiver ? "yes" : "no" %></dd>
     <dt><strong><%= model_class.human_attribute_name(:department) %>:</strong></dt>
     <dd><%= @participant.department %></dd>
     <dt><strong><%= model_class.human_attribute_name(:student_class) %>:</strong></dt>
