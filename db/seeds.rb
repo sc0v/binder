@@ -69,12 +69,12 @@ kkg_org = Organization.create({ name: 'Kappa Kappa Gamma', organization_category
   OrganizationAlias.create({ organization: kkg_org, name: 'KKG' })
 
 puts '  Independent'
-asa_org = Organization.create({ name: 'Asian Student Association', organization_category: indie, short_name: 'ASA' })
+asa_org = Organization.create({ name: 'Asian Students Association', organization_category: indie, short_name: 'ASA' })
 fringe_org = Organization.create({ name: 'Fringe', organization_category: indie, short_name: 'Fringe' })
 kgb_org = Organization.create({ name: 'KGB', organization_category: indie, short_name: 'KGB' })
 sdc_org = Organization.create({ name: 'Student Dormitory Council', organization_category: indie, short_name: 'SDC' })
-ssa_org = Organization.create({ name: 'Singapore Student Association', organization_category: indie, short_name: 'SSA' })
-tsa_org = Organization.create({ name: 'Taiwanese Student Association', organization_category: indie, short_name: 'TSA' })
+ssa_org = Organization.create({ name: 'Singapore Students Association', organization_category: indie, short_name: 'SSA' })
+tsa_org = Organization.create({ name: 'Taiwanese Students Association', organization_category: indie, short_name: 'TSA' })
 
 puts '  Blitz'
 astro_org = Organization.create({ name: 'Astronomy Club', organization_category: blitz, short_name: 'Astro' })
@@ -349,7 +349,7 @@ puts "FAQs"
 
 Faq.create([
   { question: "What is Booth?",
-    answer:  "Booth is one of the biggest showpieces of Spring Carnival. Student organizations build multi-story structures around our annual theme (2014: Best of the Best), hosting interactive games and elaborate decorations. The booths will be placed on Midway, which is located in the Morewood Gardens Parking Lot." },
+    answer:  "Booth is one of the biggest showpieces of Spring Carnival. Student organizations build multi-story structures around our annual theme (2015: Living Library), hosting interactive games and elaborate decorations. The booths will be placed on Midway, which is located in the Morewood Gardens Parking Lot." },
   { question: "What do I do if something catches on fire?",
     answer: "There are fire extinguishers located at every booth. Take one and follow the instructions listed on the can." },
   { question: "Where does CMU get money for Carnival?",
@@ -369,9 +369,9 @@ Faq.create([
   { question: "What do I do if the comedian shows up?",
     answer: "Call student activities (Tim)." },
   { question: "Alumni is complaining about their tent.",
-    answer: "Call the Head of Operations." },
+    answer: "Call the Head of Operations (Dan)." },
   { question: "Alumni needs something special.",
-    answer: "Call the Head of Operations." },
+    answer: "Call the Head of Operations (Dan)." },
   { question: "When do dumpsters go out?",
     answer: "They must be by the back of Morewood lot by 5am." },
   { question: "What is downtime?",
@@ -387,9 +387,9 @@ Faq.create([
   { question: "EMS is closed. What do I do?",
     answer: "Call them." },
   { question: "I saw an ambulance take someone to the hospital. What do I do?",
-    answer: "Call the Carnival Chairi, Head of Booth, and/or Head of Operations immediately." },
+    answer: "Call the Carnival Chair (Carrie), Head of Booth (Hannelie), and/or Head of Operations (Dan) immediately." },
   { question: "Someone wants to drop off in the firelane. Can they do that?",
-    answer: "No, unless they are Cyert, food delivery for Underground, fire, police, EMS, FMS, people with passes, or an approved delivery (Rachel, Emily, or Jackson says it's OK)." },
+    answer: "No, unless they are Cyert, food delivery for Underground, fire, police, EMS, FMS, people with passes, or an approved delivery (Carrie, Hannelie, or Dan says it's OK)." },
   { question: "Golf cart problem?",
     answer: "Call Meg." },
   { question: "Missing golf cart.",
@@ -397,19 +397,19 @@ Faq.create([
   { question: "If someone legitimately needs a golf cart...",
     answer: "...radio for golfcart." },
   { question: "A booth chair is freaking out, sad, angry, etc. What do I do?",
-    answer: "Call the Head of Booth." },
+    answer: "Call the Head of Booth (Hannelie)." },
   { question: "University official wants to borrow something. What do I do?",
-    answer: "Let them. They do not need to sign a waiver. Ideally, check it out to Jackson, Emily, or Rachel to track it in the app." },
+    answer: "Let them. They do not need to sign a waiver. Ideally, check it out to Carrie, Dan, or Hannelie to track it in the app." },
   { question: "The next coordinator doesn't show up. What do I do?",
-    answer: "Call them repeatedly. If that fails, call the Head of Operations." },
+    answer: "Call them repeatedly. If that fails, call the Head of Operations (Dan)." },
   { question: "Booth watch shift doesn't show up. What do I do?",
     answer: "Do not let previous watch shift leave. Call booth chairs of that org in order until someone answers. Fine them accordingly in the app. If no one can show up and old watch shift has to leave, split the other watch shift." },
   { question: "Drunk people won't listen. What do I do?",
     answer: "Call the police." },
   { question: "Booth chair is asking questions I don't understand. What do I do?",
-    answer: "Put them in Rachel's queue. Leave a note if necessary." },
+    answer: "Put them in Hannelie's queue. Leave a note if necessary." },
   { question: "Parking complains about Asian row. What do I do?",
-    answer: "Tell Asian row to clear their stuff out. If they won't listen, call Rachel." },
+    answer: "Tell Asian row to clear their stuff out. If they won't listen, call Hannelie." },
   { question: "What should the 12am-4am watch shifts do?",
     answer: "MOVE THE DUMPSTERS TO THE FIRELANE BY THE TENT. Check the radio station parking lot. Make sure no one is doing anything stupid (climbing on roofs, having sex in booths, etc.)." },
   { question: "What's the difference between a security and watch shift?",
@@ -417,17 +417,17 @@ Faq.create([
   { question: "What do I do with my drunk watch/security shift that just showed up?",
     answer: "Send them home, call their booth chair, and inform them of what happened and that they are getting fined unless they supply new, sober people." },
   { question: "AB tech asks for the keys to the scissor lift.",
-    answer: "Call the Head of Operations." },
+    answer: "Call the Head of Operations (Dan)." },
   { question: "Taylor Rental needs something.",
-    answer: "Call the Head of Operations." },
+    answer: "Call the Head of Operations (Dan)." },
   { question: "Where do I find the midway layout?",
     answer: "In the app, under documents!" },
   { question: "Madelyn Miller calls. What do I do?",
-    answer: "Listen to her. Then call Emily/Jackson/Rachel and relay the message." },
+    answer: "Listen to her. Then call Carrie/Dan/Hannelie and relay the message." },
   { question: "It's raining and people are losing electricity.",
     answer: "Wait until the rain stops, then tell them to suck it up and we'll deal with it." },
   { question: "It's super windy. Things are flying off of booths.",
-    answer: "Check weather on trailer computer. Call the Head of Booth and the Carnival Chair with that information." }
+    answer: "Check weather on trailer computer. Call the Head of Booth (Rachel) and the Carnival Chair (Carrie) with that information." }
 ])
 
 # Organization Status Types --------------------------------------------------
