@@ -3,7 +3,7 @@
 <%#= f.input_field :participant_id, as: :hidden, required: true %>
 <%= text_field_tag 'card-number-input', nil, class: 'form-control', required: true %>
 <div id="participant-info"></div>
-<% end %>
+<%# end %>
 <div class="form-actions">
   <%= f.button :submit, "Complete Purchase", :class => 'btn-primary' %>
   <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

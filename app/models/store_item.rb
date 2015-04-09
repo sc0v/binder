@@ -18,6 +18,8 @@ class StoreItem < ActiveRecord::Base
   has_many :store_purchases
 
   def quantity_available
-    self.quantity - (self.store_purchases.where(charge: nil).pluck(:quantity_purchased).inject{|sum,x| sum + x } || 0 )
+    unless self.quantity.nil?
+      self.quantity - (self.store_purchases.where(charge: nil).pluck(:quantity_purchased).inject{|sum,x| sum + x } || 0 )
+    end
   end
 end
