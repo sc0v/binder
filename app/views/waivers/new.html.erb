@@ -1,15 +1,21 @@
+
+
+<% if !@user.is_scc? or params[:participant_id]== nil %>
 <h1>Midway Safety Video</h1>
 <p>You must watch the video prior to signing the waiver.</p>
 
 <div id="player"></div>
-
 <div id="waiver" style="display: none;">
+  <% else %>
+  <div id="waiver">
+<% end %>
+
 
   <h2>2015 SPRING CARNIVAL MIDWAY RELEASE OF LIABILITY</h2>
 
   <p>
 
-  I, <%= current_user.name %>, want to participate in Carnegie Mellon University (“CMU”) 2015 Spring Carnival Midway construction
+  I, <%= @user.name %>, want to participate in Carnegie Mellon University (“CMU”) 2015 Spring Carnival Midway construction
 
   activities and/or be present on the Midway construction site (collectively, the “Activities.”) I understand
 
@@ -64,7 +70,7 @@
 
 
 
-
+<% if !@user.is_scc? or params[:participant_id]== nil %>
 <script src="https://www.youtube.com/player_api"></script>
 <script>
 
@@ -97,3 +103,4 @@
   }
 
 </script>
+<% end %>

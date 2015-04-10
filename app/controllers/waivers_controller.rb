@@ -2,7 +2,13 @@ class WaiversController < ApplicationController
   before_filter :require_authenticated_user
   
   def new
-    if current_user.participant.has_signed_waiver
+    if params[:participant_id].nil? or !current_user.participant.is_scc?
+      @user = current_user.participant
+    else
+      @user = Participant.find params[:participant_id]
+    end
+    
+    if @user.has_signed_waiver
       flash[:notice] = "You have already agreed to the release."
     end
     
@@ -10,6 +16,13 @@ class WaiversController < ApplicationController
 
 
   def create
+    if params[:participant_id].nil? or !current_user.participant.is_scc?
+      @participant = current_user.participant
+    else
+      @participant = Participant.find params[:participant_id]
+    end
+    
+    
     if params[:adult].blank?
       flash[:error] = "You must be 18 or older to sign the electronic waiver. Please contact Tim Leonard (leonardt@andrew.cmu.edu)."
       redirect_to action: :new
@@ -20,14 +33,13 @@ class WaiversController < ApplicationController
       flash[:error] = "You must provide a mobile phone number"
       redirect_to action: :new
     else
-      current_user.participant.phone_number = params[:phone_number]
+      @participant.phone_number = params[:phone_number]
       c = PhoneCarrier.find(params[:participant][:phone_carrier_id])
-      current_user.participant.phone_carrier = c
-      current_user.participant.has_signed_waiver = true
-      current_user.participant.save!
+      @participant.phone_carrier = c
+      @participant.has_signed_waiver = true
+      @participant.save!
       flash[:notice] = "Thank you for completing the waiver."
 
-      @participant = current_user.participant
       @membership = Membership.new(participant: @participant)
       render 'memberships/new'
     end

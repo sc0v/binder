@@ -78,7 +78,15 @@
   <% if can?(:create, Membership) %>
     <%= link_to 'Add Memberships',
               new_participant_membership_path(@participant), :class => 'btn btn-success' %>
-  <% end %>
+    <% end %>
+
+    <% if current_user.participant.is_scc? %>
+    <%= link_to 'Sign Waiver',
+        new_participant_waiver_path(@participant), :class => 'btn btn-success' %>
+    <% else %>
+    <%= link_to 'Sign Waiver',
+        new_waiver_path, :class => 'btn btn-success' %>
+    <% end %>
 
   <% if can?(:destroy, @participant) %>
     <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
