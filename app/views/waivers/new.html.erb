@@ -44,7 +44,7 @@
   unenforceable or ineffective, they shall be deemed severable and all other provisions shall remain valid and binding.
   </p>
 
-  <%= form_tag do %>
+  <%= form_tag(participant_waiver_path) do %>
   <div>
     <%= check_box_tag :agree %> <%= label_tag :agree, "I have read this release and understand it and I voluntarily agree to all its provisions." %>
 
