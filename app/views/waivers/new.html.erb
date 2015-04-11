@@ -1,6 +1,6 @@
 
 
-<% if !@user.is_scc? or params[:participant_id]== nil %>
+<% if !current_user.participant.is_scc? or params[:participant_id]== nil %>
 <h1>Midway Safety Video</h1>
 <p>You must watch the video prior to signing the waiver.</p>
 
@@ -44,7 +44,7 @@
   unenforceable or ineffective, they shall be deemed severable and all other provisions shall remain valid and binding.
   </p>
 
-  <%= form_tag(participant_waiver_path) do %>
+  <%= form_tag( participant_waiver_path(@user) ) do %>
   <div>
     <%= check_box_tag :agree %> <%= label_tag :agree, "I have read this release and understand it and I voluntarily agree to all its provisions." %>
 
@@ -70,7 +70,7 @@
 
 
 
-<% if !@user.is_scc? or params[:participant_id]== nil %>
+<% if !current_user.participant.is_scc? or params[:participant_id]== nil %>
 <script src="https://www.youtube.com/player_api"></script>
 <script>
 
