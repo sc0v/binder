@@ -3,7 +3,7 @@
   <% if can?(:read, OrganizationStatus) %>
     <td class="visible-lg">
       <% if can?(:read, organization.organization_statuses.displayable.last) %>
-        <%= link_to organization.organization_statuses.displayable.last.organization_status_type.name, [organization, :organization_statuses] unless organization.organization_statuses.blank? %>
+        <%= link_to organization.organization_statuses.displayable.last.organization_status_type.name, [organization, :organization_statuses] unless organization.organization_statuses.visible.blank? %>
       <% end %>
     </td>
   <% end %>
