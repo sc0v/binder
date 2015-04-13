@@ -6,19 +6,21 @@ class HomeController < ApplicationController
   end
 
   def search
+    authorize! :search, nil
+
     if params.blank? or params[:query].blank?
       flash[:error] = "Please enter a query"
       redirect_to root_url
     end
-    
+
     @query = params[:query]
-    
+
     @tool_lookup = Tool.find_by_barcode(@query)
     unless @tool_lookup.nil?
       redirect_to @tool_lookup
       return
     end
-    
+
     @org = Organization.where('lower(name) = lower(?) OR lower(short_name) = lower(?)', @query, @query).first
     org_alias = OrganizationAlias.where('lower(name) = lower(?)', @query).first unless !@org.blank?
     @org = org_alias.organization unless org_alias.blank?
@@ -38,17 +40,17 @@ class HomeController < ApplicationController
         return
       end
     end
-    
+
     @faqs = Faq.search(@query) if can?(:read, Faq)
     @participants = Participant.search(@query)
     @tools = Tool.search(@query)
     @organizations = Organization.search(@query)
     @organization_aliases = OrganizationAlias.search(@query)
     @documents = Document.search(@query)
-    
+
     @new_participant = Participant.search_ldap(@query)
   end
-  
+
   def dev_login
     unless Rails.env.production?
       email = case params[:role]
@@ -57,20 +59,20 @@ class HomeController < ApplicationController
         when 'Booth Chair' then 'rpwhite@andrew.cmu.edu'
         when 'Participant' then 'nharper@andrew.cmu.edu'
       end
-      
+
       sign_in(:user, User.find_by_email(email))
-      
+
       session[:name] = params[:role]
     end
-    
+
     redirect_to root_url
   end
-  
+
   def hardhats
     @organizations = Organization.joins(:tools).distinct
     @total = Tool.hardhats.checked_out.count
   end
-  
+
   def charge_overview
     @organizations = Organization.joins(:charges).distinct.includes(:charges)
     @charge_types = ChargeType.all.includes(:charges)
