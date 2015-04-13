@@ -27,8 +27,9 @@ class Store::PurchasesController < ApplicationController
   end
 
   def choose_organization
-    @participant = Participant.find_by_andrewid(params['card-number-input'])
-
+    #@participant = Participant.find_by_andrewid(params['card-number-input'])
+    @participant = Participant.find_by_card(params['card-number-input'])
+    
     respond_to do |format|
       format.html { render "choose_organization", :participant => @participant }
  #     format.json { render json: @checkouts }
