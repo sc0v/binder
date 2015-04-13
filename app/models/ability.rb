@@ -30,6 +30,7 @@ class Ability
     end
 
     can :update, Participant, :id => user.participant.id
+    can :read_phone_number, Participant, :id => user.participant.id
 
     can :manage, Membership, :participant_id => user.participant.id
 
