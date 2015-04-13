@@ -7,7 +7,8 @@
 <%= render partial: 'cart', locals: { items: StorePurchase.items_in_cart } %>
 
 <p class="text-right">
-  <% if can?(:create, StoreItem) and @organization.blank? %>
+  <%# if can?(:create, StoreItem) and @organization.blank? %>
+  <% if @organization.blank? %>
   <%= link_to t('.checkout', :default => t("helpers.links.checkout")),
   store_cart_review_path,
   :class => 'btn btn-primary' %>

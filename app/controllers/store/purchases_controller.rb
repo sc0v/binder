@@ -36,30 +36,30 @@ class Store::PurchasesController < ApplicationController
   end
 
   def create
-    c = Charge.new
     t = ChargeType.find_by_name("Store Purchase")
-
-    c.organization_id = params[:organization_id]
-    c.amount = 
-    c.charge_type = t
-    c.description = "Store purchase"
-    c.receiving_participant_id = params[:participant_id]
-    c.issuing_participant_id = 14
-    c.amount = 0
-    c.charged_at = Time.now
-    # TODO: creating part
-    # c.creating_participant = ""
-
-    c.save!
-
+    
     StorePurchase.items_in_cart.each do |i|
+      c = Charge.new
+      c.organization_id = params[:organization_id]      
+      c.charge_type = t
+      c.description = i.store_item.name + " (x #{i.quantity_purchased})"
+      c.receiving_participant_id = params[:participant_id]
+      c.issuing_participant_id = current_user.participant.id
+      c.creating_participant_id = current_user.participant.id
+      c.charged_at = Time.now
+      c.amount = i.price_at_purchase * i.quantity_purchased
+      
       i.charge = c
-      c.amount = c.amount + i.price_at_purchase * i.quantity_purchased
-      i.store_item.quantity = i.store_item.quantity - i.quantity_purchased
-      i.store_item.save
-      i.save
+
+      if i.store_item.quantity
+        i.store_item.quantity = i.store_item.quantity - i.quantity_purchased
+      end
+
+      c.save!
+      i.save!
+      i.store_item.save!
     end
-    c.save!
+
     redirect_to store_url
   end
   
