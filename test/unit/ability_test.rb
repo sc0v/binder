@@ -50,9 +50,9 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.can?(:read, Checkout.new(:organization => @org))
       assert ability.cannot?(:read, Checkout.new(:organization => @scc))
 
-      assert ability.cannot?(:create, Membership)
-      assert ability.cannot?(:update, Membership)
-      assert ability.cannot?(:destroy, Membership)
+      assert ability.can?(:create, Membership)
+      assert ability.can?(:update, Membership)
+      assert ability.can?(:destroy, Membership)
       assert ability.can?(:read, Membership)
 
       assert ability.cannot?(:create, Organization)
