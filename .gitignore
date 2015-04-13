@@ -25,3 +25,7 @@ erd.pdf
 
 # Ignore Spring bins
 /bin
+
+# Ignore DB Configs
+config/database.yml
+
