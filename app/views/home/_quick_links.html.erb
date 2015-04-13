@@ -1,11 +1,13 @@
-  <div class="page-header">
-	  <h1>Quick Links:</h1>
-  </div>	
+<div class="page-header">
+  <h1>Quick Links:</h1>
+</div>	
 
-  <div class="col-xs-10 col-sm-6">
-	<p><%= link_to "Milestones", milestones_path, :class => "btn btn-primary" %></p>
-	<p><%= link_to "Frequently Asked Questions", faqs_path, :class => "btn btn-primary " %></p>
-        <p><%= link_to "Sign Waiver", new_waiver_path, :class => "btn btn-primary" %></p>
+<div class="col-xs-10 col-sm-6">
+  <p><%= link_to "Milestones", milestones_path, :class => "btn btn-primary" %></p>
+  <p><%= link_to "Frequently Asked Questions", faqs_path, :class => "btn btn-primary " %></p>
+  <% if defined? user then %>
+    <p><%= link_to "Sign Waiver", new_waiver_path, :class => "btn btn-primary" %></p>
+  <% end %>
   <% if can?(:downtime, OrganizationTimelineEntry) %>
     <p><%= link_to "Downtime Tracker", downtime_path, :class => "btn btn-primary" %></p>
   <% end %>
@@ -20,14 +22,15 @@
         <p><%= link_to "Store", store_items_path, :class => "btn btn-primary " %></p>
   <% end %>
 
-	<%= form_tag(search_path, class: 'form-inline', role: 'search') do %>
+  <%= form_tag(search_path, class: 'form-inline', role: 'search') do %>
     <div class="form-group">
       <div class="input-group">
-    		<%= text_field_tag('query', '', :size => 10, :class => 'form-control col-md-6') %>
+        <%= text_field_tag('query', '', :size => 10, :class => 'form-control col-md-6') %>
         <span class="input-group-btn">
-      		<%= submit_tag('Search', :class => 'btn btn-default') %>
+          <%= submit_tag('Search', :class => 'btn btn-default') %>
         </span>
       </div>
     </div>
-	<% end %>
-  </div>
+  <% end %>
+</div>
+
