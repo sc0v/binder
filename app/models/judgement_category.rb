@@ -17,4 +17,5 @@
 
 class JudgementCategory < ActiveRecord::Base
   enum grouping: {design: 0, game: 1, evening: 2, other: 3}
+  has_many :judgements
 end

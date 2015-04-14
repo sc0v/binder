@@ -1,0 +1,20 @@
+<div class="page-header">
+  <h1>Judging</h1>
+</div>
+<p>
+
+<% @organization_categories.each do |organization_category| %>
+  <div class="page-header">
+    <h1><small><%=h organization_category.name %></small></h1>
+  </div>
+  <div class="list-group">
+    <% organization_category.organizations.each do |organization| %>
+      <% judged = rand(5) %>
+      <a class="list-group-item list-group-item-<%= judged == 4 ? 'success' : 'danger' %>" href="<%= organization_judgements_path(organization) %>">
+        <%= organization.short_name %>
+        <span class="label label-<%= judged > 2  ? 'success' : 'warning' %>">Daytime</span>
+        <span class="label label-<%= judged > 3  ? 'success' : 'danger' %>">Evening</span>
+      </a>
+    <% end %>
+  </div>
+<% end %>

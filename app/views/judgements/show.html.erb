@@ -1,0 +1,17 @@
+<div class="page-header">
+  <h1><%= @organization.name %></h1>
+</div>
+<p>
+
+<% JudgementCategory.groupings.each do |grouping, value| %>
+  <div class="page-header">
+    <h4><%=h grouping %></h4>
+  </div>
+  <div class="list-group">
+    <% @judgement_categories.where("grouping = ?", value).each do |category| %>
+      <li class="list-group-item list-group-item-default">
+        <%= category.name %>
+      </li>
+    <% end %>
+  </div>
+<% end %>

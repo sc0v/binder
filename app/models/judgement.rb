@@ -27,4 +27,5 @@
 class Judgement < ActiveRecord::Base
   belongs_to :judgement_category
   belongs_to :judge
+  belongs_to :organization
 end

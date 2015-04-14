@@ -11,7 +11,9 @@ Trailerapp::Application.routes.draw do
     resources :charges, :only => [:index]
     get 'hardhats', on: :member
     resources :downtime, :controller => :organization_timeline_entries, :only => [:index]
+    resource :judgements, :only => [:show]
   end
+
   resources :organization_timeline_entries, :controller => :organization_timeline_entries, :only => [:create, :update, :destroy] do
     put 'end', on: :member
   end
@@ -58,6 +60,9 @@ Trailerapp::Application.routes.draw do
     end
   
   end
+
+  get 'judging' => 'judgements#index'
+  resource :judgements, :only => [:create, :update]
 
   # static pages
   get "milestones" => "home#milestones", :as => "milestones"
