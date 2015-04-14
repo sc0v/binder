@@ -76,7 +76,7 @@ class Ability
       can [:hardhats, :read_basic_details, :read_all_details], Organization
       can [:create, :update, :destroy], OrganizationStatus
       can [:create, :end, :structural, :electrical, :downtime], OrganizationTimelineEntry
-      can [:create, :update], Participant
+      can [:create, :update, :read_phone_number], Participant
       can :read_coord, Shift
       can :create, ShiftParticipant
       can :update, Task
