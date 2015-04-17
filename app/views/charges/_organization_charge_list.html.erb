@@ -19,7 +19,7 @@
             <td class="hidden-xs"><%= charge.charge_type.name %></td>
             <td><%= number_to_currency charge.amount %></td>
             <td><%= date_and_time charge.charged_at %></td>
-            <td class="visible-lg"><%= link_to charge.issuing_participant.name, charge.issuing_participant %></td>
+            <td class="visible-lg"><% unless charge.issuing_participant.nil? %><%= link_to charge.issuing_participant.name, charge.issuing_participant %><% end %></td>
           </tr>
         <% end %>
       <% end %>
