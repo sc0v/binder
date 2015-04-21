@@ -92,7 +92,7 @@ class CheckoutsController < ApplicationController
 
     respond_to do |format|
       if @checkout.save
-        format.html { redirect_to URI.parse(params[:url]).path, notice: 'Checkout was successfully updated.' }
+        format.html { redirect_to URI.parse(params[:url]).path, notice: "Checkout was successfully updated. #{view_context.link_to("[ Undo ]", uncheckin_checkout_path(:id => @checkout.id), method: :post)}." }
         format.json { head :no_content }
       else
         format.html { render action: "edit" }
@@ -113,6 +113,21 @@ class CheckoutsController < ApplicationController
       format.json { render json: @checkouts }
     end
   end
+
+  def uncheckin
+    checkout = Checkout.find(params[:id])
+    checkout.checked_in_at = nil
+    respond_to do |format|
+      if checkout.save
+        format.html { redirect_to tool_path(checkout.tool), notice: "Checkout was successfully undone" }
+      else
+        format.html { redirect_to tool_path(checkout.tool), notice: "Error" }
+      end
+    end
+
+    
+  end
+  
 
   def checkin
     @tool = Tool.find_by_barcode(params[:tool_barcode])

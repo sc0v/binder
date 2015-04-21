@@ -39,6 +39,7 @@ Trailerapp::Application.routes.draw do
   end
   resources :checkouts, :only => [:create] do
     post 'checkin', on: :collection
+    post 'uncheckin', on: :member
   end
 
   get "store" => "store/items#index"
