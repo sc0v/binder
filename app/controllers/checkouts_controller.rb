@@ -127,9 +127,27 @@ class CheckoutsController < ApplicationController
 
     
   end
-  
+
 
   def checkin
+    @tool = Tool.find_by_barcode(params[:barcode])
+    @checkout = @tool.checkouts.current.first unless @tool.checkouts.blank? or @tool.checkouts.current.blank?
+    raise CheckoutError, I18n.t("errors.messages.tool_already_checked_in") unless !@checkout.blank?
+    unless params[:checkout][:organization_id].blank?
+      @organization = Organization.find params[:checkout][:organization_id]
+    end
+      
+    if @organization.blank? || @checkout.organization == @organization
+      @checkout.checked_in_at = Time.now
+      @checkout.save
+      respond_to do |format|
+        format.js { }
+      end
+    end
+  rescue
+  end
+
+  def checkin_bak
     @tool = Tool.find_by_barcode(params[:tool_barcode])
     raise CheckoutError, I18n.t("errors.messages.tool_does_not_exist") unless !@tool.nil?
     raise CheckoutError, I18n.t("errors.messages.tool_is_not_hardhat") unless @tool.is_hardhat?

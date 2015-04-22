@@ -1,0 +1,5 @@
+<tr>
+  <td style="text-align: center;"><%= @checkout.organization.short_name %></td>
+  <td style="text-align: right;"><span id="countdown"><%= @checkout.tool.barcode %></td>
+  <td><%= link_to("Undo", uncheckin_checkout_path(:id => @checkout.id), method: :post, class: 'btn btn-xs btn-danger') %></td>
+</tr>
