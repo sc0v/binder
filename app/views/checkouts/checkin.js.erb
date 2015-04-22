@@ -1,6 +1,6 @@
 $("#barcode").focus();
 $("#barcode").val("");
 
-<% unless @checkout.nil? %>
+<% unless @checkout.nil? or @checkout.checked_in_at.blank? %>
 $("#rapid-checkin-sidebar > tbody").append("<%= escape_javascript( render(:partial => "checkin_sidebar_entry")).html_safe %>");
 <% end %>
