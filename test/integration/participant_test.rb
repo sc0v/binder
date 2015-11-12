@@ -39,7 +39,7 @@ class ParticipantTest < ActiveSupport::TestCase
     end
 
     should "return student class from directory" do
-      assert_equal nil, @participant.student_class
+      assert_equal "Masters", @participant.student_class
     end
   end
 end
