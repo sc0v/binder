@@ -5,7 +5,7 @@ class ApplicationController < ActionController::Base
   respond_to :html
   responders :flash, :http_cache
 
-  protect_from_forgery
+  protect_from_forgery :with => :exception
   before_filter :sidebar
 
   rescue_from CanCan::AccessDenied do |exception|

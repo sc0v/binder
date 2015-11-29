@@ -73,7 +73,7 @@ class CheckoutsController < ApplicationController
 
     respond_to do |format|
       if @checkout.save
-        format.html { redirect_to @checkout.tool, notice: 'Checkout was successfully created.' }
+        format.html { redirect_to tool_path(@checkout.tool), notice: 'Checkout was successfully created.' }
         format.json { render json: @checkout.tool, status: :created, location: @checkout.tool }
       else
         format.html { render action: "new" }
@@ -160,7 +160,7 @@ class CheckoutsController < ApplicationController
 
       respond_to do |format|
         if !@checkout.blank? and @checkout.save
-          format.html { redirect_to @checkout.tool, notice: 'Tool was successfully checked in.' }
+          format.html { redirect_to tool_path(@checkout.tool), notice: 'Tool was successfully checked in.' }
           format.json { render json: @checkout.tool, status: :created, location: @checkout.tool }
         else
           format.html { render action: "new" }
