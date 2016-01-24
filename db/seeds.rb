@@ -433,11 +433,18 @@ Faq.create([
 # Organization Status Types --------------------------------------------------
 puts 'Organization Status Types'
 OrganizationStatusType.create([
-  { name: "Note", display: false },
-  { name: "Electrical Partly Inspected", display: true },
+  { name: "Authorized for Plan Deviation", display: false },
+  { name: "Structural Inspection", display: true },
+  { name: "First Floor Level", display: true },
+  { name: "First Floor Walls Approved", display: true },
+  { name: "Stairs Approved", display: true },
+  { name: "Second Floor Level", display: true },
+  { name: "Second Floor Walls Approved", display: true },
+  { name: "Roof Approved", display: true },
+  { name: "Electrical Inspection", display: true },
   { name: "Electrical Approved", display: true },
-  { name: "Wednesday Inspection Completed", display: true },
-  { name: "Final Inspection Passed", display: true }
+  { name: "Final Inspection Passed", display: true },
+  { name: "Note", display: false }
 ])
 
 # Shift Types ----------------------------------------------------------------
