@@ -1,7 +1,9 @@
 
 
 <% if !current_user.participant.is_scc? or params[:participant_id]== nil %>
-<h1>Midway Safety Video</h1>
+<div class="page-header">
+  <h1>Midway Safety Video</h1>
+</div>
 <p>You must watch the video prior to signing the waiver.</p>
 
 <div id="player"></div>
