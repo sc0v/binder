@@ -9,23 +9,17 @@
 
 # Ignore the default SQLite database.
 /db/*.sqlite3
+/db/*.sqlite3-journal
 
 # Ignore all logfiles and tempfiles.
 /log/*.log
 /tmp
 
-# Ignore swap files
-*.swp
+# Ignore local asset pipeline cache files
+/public/assets
 
-# Ignore ERD Diagram
-erd.pdf
-
-# Ignore Coverage reports
-/coverage
-
-# Ignore Spring bins
+# Ignore binstubs
 /bin
 
-# Ignore DB Configs
-config/database.yml
-
+# Ignore coverage reports
+/coverage
