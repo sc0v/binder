@@ -35,6 +35,9 @@ gem 'will_paginate-bootstrap'
 
 gem 'responders'
 
+# Favicons
+gem 'rails_real_favicon'
+
 # Twilio for SMS
 gem 'twilio-ruby'
 

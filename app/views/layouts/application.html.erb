@@ -4,12 +4,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= "Dev - " unless Rails.env.production? %><%= content_for?(:title) ? yield(:title) : "SCC Binder" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Boa" %>">
-    <link rel="shortcut icon" type="image/x-icon" href="/images/favicon.png">
-    <link rel="apple-touch-icon" href="/images/carnival_logo_iphone.png" />
+    <%= render 'favicon' %>
     <%= stylesheet_link_tag "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>
     <%= yield(:head) %>
+
   </head>
   <body class="<%= controller_name %> <%= action_name %>" role="document" style>
     <%= render 'layouts/navigation' %>

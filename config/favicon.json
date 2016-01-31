@@ -1,0 +1,40 @@
+{
+    "master_picture": "/public/images/carnival_logo.png",
+    "favicon_design": {
+        "ios": {
+            "picture_aspect": "background_and_margin",
+            "background_color": "#ffffff",
+            "margin": "14%",
+            "app_name": "Binder"
+        },
+        "desktop_browser": [
+
+        ],
+        "windows": {
+            "picture_aspect": "white_silhouette",
+            "background_color": "#c82027",
+            "on_conflict": "override",
+            "app_name": "Binder"
+        },
+        "android_chrome": {
+            "picture_aspect": "shadow",
+            "theme_color": "#f8f8f8",
+            "manifest": {
+                "name": "Binder",
+                "display": "standalone",
+                "orientation": "not_set",
+                "on_conflict": "override",
+                "declared": true
+            }
+        },
+        "safari_pinned_tab": {
+            "picture_aspect": "silhouette",
+            "theme_color": "#c82027"
+        }
+    },
+    "settings": {
+        "compression": 5,
+        "scaling_algorithm": "Lanczos",
+        "error_on_image_too_small": false
+    }
+}

@@ -178,6 +178,11 @@ GEM
     rails-html-sanitizer (1.0.2)
       loofah (~> 2.0)
     rails_layout (1.0.25)
+    rails_real_favicon (0.0.3)
+      json (~> 1.7)
+      rails (>= 3.1, < 5)
+      rest-client (~> 1.8)
+      rubyzip (~> 1)
     railties (4.2.0)
       actionpack (= 4.2.0)
       activesupport (= 4.2.0)
@@ -194,6 +199,7 @@ GEM
     rolify (4.0.0)
     ruby-graphviz (1.0.9)
     ruby-ldap (0.9.17)
+    rubyzip (1.1.7)
     safe_yaml (1.0.4)
     sass (3.4.13)
     sass-rails (5.0.3)
@@ -287,6 +293,7 @@ DEPENDENCIES
   rails (= 4.2)
   rails-erd
   rails_layout
+  rails_real_favicon
   rake
   responders
   rest-client
@@ -306,3 +313,6 @@ DEPENDENCIES
   webmock
   will_paginate
   will_paginate-bootstrap
+
+BUNDLED WITH
+   1.11.2
