@@ -4,36 +4,38 @@
 #
 # ### Columns
 #
-# Name               | Type               | Attributes
-# ------------------ | ------------------ | ---------------------------
-# **`barcode`**      | `integer`          |
-# **`created_at`**   | `datetime`         |
-# **`description`**  | `text(65535)`      |
-# **`id`**           | `integer`          | `not null, primary key`
-# **`name`**         | `string(255)`      | `not null`
-# **`updated_at`**   | `datetime`         |
+# Name                | Type               | Attributes
+# ------------------- | ------------------ | ---------------------------
+# **`barcode`**       | `integer`          |
+# **`created_at`**    | `datetime`         |
+# **`description`**   | `text(65535)`      |
+# **`id`**            | `integer`          | `not null, primary key`
+# **`tool_type_id`**  | `integer`          |
+# **`updated_at`**    | `datetime`         |
 #
 # ### Indexes
 #
 # * `index_tools_on_barcode`:
 #     * **`barcode`**
+# * `index_tools_on_tool_type_id`:
+#     * **`tool_type_id`**
 #
 
 class Tool < ActiveRecord::Base
   has_many :checkouts, dependent: :destroy
   has_many :participants, :through => :checkouts
   has_many :organizations, :through => :checkouts
+  belongs_to :tool_type
 
   validates :barcode, :presence => true, :uniqueness => true, :length => { :minimum => 1, :maximum => 5}
-  validates :name, :presence => true
 
   default_scope { order('barcode') }
   scope :by_barcode, -> { order('barcode') }
 
-  scope :hardhats, -> { where("lower(name) LIKE lower(?)", "%hardhat") }
-  scope :radios, -> { where("lower(NAME) LIKE lower(?)", "%radio") }
-  scope :just_tools, -> { where("lower(NAME) NOT LIKE lower(?) AND lower(NAME) NOT LIKE lower(?)", "%radio", "%hardhat") }
-  scope :search, lambda { |term| where("lower(name) LIKE lower(?) OR CAST(barcode AS CHAR) LIKE lower(?) OR lower(description) LIKE lower(?)", "%#{term}%", "%#{term}%", "%#{term}%") }
+  scope :hardhats, -> { Tool.joins(:tool_type).where("lower(name) LIKE lower(?)", "%hardhat") }
+  scope :radios, -> { Tool.joins(:tool_type).where("lower(NAME) LIKE lower(?)", "%radio") }
+  scope :just_tools, -> { Tool.joins(:tool_type).where("lower(NAME) NOT LIKE lower(?) AND lower(NAME) NOT LIKE lower(?)", "%radio", "%hardhat") }
+  scope :search, lambda { |term| Tool.joins(:tool_type).where("lower(name) LIKE lower(?) OR CAST(barcode AS CHAR) LIKE lower(?) OR lower(description) LIKE lower(?)", "%#{term}%", "%#{term}%", "%#{term}%") }
   scope :checked_out, -> { Tool.joins(:checkouts).where(checkouts: {checked_in_at: nil}) }
 
 
@@ -55,6 +57,10 @@ class Tool < ActiveRecord::Base
 
   def self.checked_out_by_organization(organization)
     joins(:checkouts).where(:checkouts => {:organization_id => organization, :checked_in_at => nil })
+  end
+
+  def name
+    self.tool_type.name
   end
 
   def formatted_name
