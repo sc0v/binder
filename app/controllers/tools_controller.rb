@@ -9,18 +9,22 @@ class ToolsController < ApplicationController
       @tools = Tool.checked_out_by_organization(@organization)
     end
 
-    if (params[:type].blank?)
+    if (params[:tool_type_filter].present?)
+      @tool_type = ToolType.find(params[:tool_type_filter])
+      @title = @tool_type.name.pluralize
+      @tools = Tool.by_type(@tool_type)
+    elsif (params[:type].blank?)
       @title = "Tools"
-      @tools = @tools.just_tools
+      @tools = Tool.just_tools
     elsif (params[:type] == 'hardhats')
       @title = "Hardhats"
-      @tools = @tools.hardhats
+      @tools = Tool.hardhats
     elsif (params[:type] == 'radios')
       @title = "Radios"
-      @tools = @tools.radios
+      @tools = Tool.radios
     elsif (params[:type] == 'out')
       @title = "Checked Out"
-      @tools = @tools.just_tools.checked_out
+      @tools = Tool.just_tools.checked_out
     end
 
     @tools = @tools.paginate(:page => params[:page]).per_page(20)
@@ -64,7 +68,7 @@ class ToolsController < ApplicationController
   private
 
   def tool_params
-    params.require(:tool).permit(:name, :description, :barcode)
+    params.require(:tool).permit(:name, :description, :barcode, :tool_type_id)
   end
 end
 
