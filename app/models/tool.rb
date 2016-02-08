@@ -31,7 +31,7 @@ class Tool < ActiveRecord::Base
 
   default_scope { order('barcode') }
   scope :by_barcode, -> { order('barcode') }
-
+  scope :by_type, ->(type){where(tool_type: type)}
   scope :hardhats, -> { Tool.joins(:tool_type).where("lower(name) LIKE lower(?)", "%hardhat") }
   scope :radios, -> { Tool.joins(:tool_type).where("lower(NAME) LIKE lower(?)", "%radio") }
   scope :just_tools, -> { Tool.joins(:tool_type).where("lower(NAME) NOT LIKE lower(?) AND lower(NAME) NOT LIKE lower(?)", "%radio", "%hardhat") }
