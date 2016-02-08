@@ -715,13 +715,23 @@ when 'development'
   nick = Participant.create({ andrewid: 'nharper', phone_number: 1713435788, user: nick_user })
   Membership.create({ organization: dtd_org, participant: nick })
 
-  puts 'Old Stuff...'
- tool = Tool.create({ name: 'Hammer', barcode: 7, description: 'it\'s a hammer' })
-  Tool.create([
-    {name: 'Hardhat', barcode: 111, description: 'Org Hardhat (White)'},
-    {name: 'SCC Hardhat', barcode: 112, description: 'SCC Hardhat (Blue)'},
-    {name: 'EH&S Hardhat', barcode: 115, description: 'Environmental Health and Safety Hardhat (Bright Yellow/Green)'},
-    {name: 'Chair Hardhat', barcode: 113, description: 'Booth Chair Hardhat (Orange)'}])
+  generate_tools
+  # puts 'Creating Tool Types'
+  # hammer_type = ToolType.create(name: 'Hammer')
+  # org_hardhat_type = ToolType.create(name: 'Org Hardhat')
+  # scc_hardhat_type = ToolType.create(name: 'SCC Hardhat')
+  # ehs_hardhat_type = ToolType.create(name: 'EH%S Hardhat')
+  # chair_hardhat_type = ToolType.create(name: 'Char Hardhat')
+  #
+  # puts 'Creating tools'
+  # Tool.create([
+  #   {tool_type: hammer_type, barcode: 7, description: 'it\'s a hammer' },
+  #   {tool_type: org_hardhat_type, barcode: 111, description: 'Org Hardhat (White)'},
+  #   {tool_type: scc_hardhat_type, barcode: 112, description: 'SCC Hardhat (Blue)'},
+  #   {tool_type: ehs_hardhat_type, barcode: 115, description: 'Environmental Health and Safety Hardhat (Bright Yellow/Green)'},
+  #   {tool_type: chair_hardhat_type, barcode: 113, description: 'Booth Chair Hardhat (Orange)'}])
+
+  puts 'Creating checkouts'
   Checkout.create({ tool: Tool.find(2), participant: chase, organization: dtd_org, checked_out_at: Time.now - 5.hours })
   Checkout.create({ tool: Tool.find(2), participant: chase, organization: dtd_org, checked_out_at: Time.now - 8.hours, checked_in_at: Time.now - 7.hours })
   #shift = Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now - 1.hours, ends_at: Time.now + 1.hours, required_number_of_participants: 1 })
@@ -729,8 +739,10 @@ when 'development'
   #Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now + 1.hours, ends_at: Time.now + 15.hours, required_number_of_participants: 1 })
   #ShiftParticipant.create({ shift: shift, participant: chase, clocked_in_at: Time.now - 50.minutes })
 
+  puts 'Creating charges'
   Charge.create({ charge_type: ChargeType.find_by_name('Blown Breaker'), amount: 25, description: 'Delt blew their breaker all over midway', issuing_participant: merichar, receiving_participant: chase, organization: dtd_org, charged_at: Time.now })
 
+  puts 'Creating more tasks'
   # Tasks ---
   Task.create([{ name: "todo", due_at: Time.now + 1.hour, description: "Many things" },
     {name: "done0", due_at: Time.now, completed_by: chase, is_completed: true },
