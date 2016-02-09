@@ -6,18 +6,28 @@
   </h1>
 </div>
 
-<p>
+<div>
+  <div style='float: left; border: 1px solid #ccc; border-radius: 4px; padding: 6px; margin-right: 8px;'>
+    <span style='font-weight: bold; margin-right: 5px'>Filter by Tool Type: </span>
+    <form action='<%= tools_path %>' method='get'>
+      <select name='tool_type_filter' onchange='this.form.submit()'>
+        <option value='' <%= @tool_type.nil? ? 'selected' : ''%> disabled>Select a tool type</option>
+        <% ToolType.all.to_a.each do |tool_type| %>
+          <%= raw("<option value='#{tool_type.id}' #{@tool_type.present? && (@tool_type.id == tool_type.id) ? 'selected' : ''}>#{tool_type.name}</option>") %>
+        <% end %>
+      </select>
+    </form>
+  </div>
   <%= link_to raw("Tools"), tools_path, :class => 'btn btn-default' unless params[:type].blank? or !@organization.blank? %>
   <%= link_to raw("Hardhats"), tools_path(:type => "hardhats"), :class => 'btn btn-default' unless params[:type] == 'hardhats' or !@organization.blank? %>
   <%= link_to raw("Radios"), tools_path(:type => "radios"), :class => 'btn btn-default' unless params[:type] == 'radios' or !@organization.blank? %>
   <%= link_to raw("Checked Out"), tools_path(:type => "out"), :class => 'btn btn-default' unless params[:type] == 'out' or !@organization.blank? %>
-
   <% if can?(:create, Tool) and @organization.blank? %>
     <%= link_to t('.new', :default => t("helpers.links.new")),
             new_tool_path,
             :class => 'btn btn-primary' %>
   <% end %>
-</p>
+</div>
 
 <%= render partial: 'tools', locals: {tools: @tools} %>
 
