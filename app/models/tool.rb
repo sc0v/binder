@@ -33,8 +33,8 @@ class Tool < ActiveRecord::Base
   scope :by_barcode, -> { order('barcode') }
   scope :by_type, ->(type){where(tool_type: type)}
   scope :hardhats, -> { Tool.joins(:tool_type).where("lower(name) LIKE lower(?)", "%hardhat") }
-  scope :radios, -> { Tool.joins(:tool_type).where("lower(NAME) LIKE lower(?)", "%radio") }
-  scope :just_tools, -> { Tool.joins(:tool_type).where("lower(NAME) NOT LIKE lower(?) AND lower(NAME) NOT LIKE lower(?)", "%radio", "%hardhat") }
+  scope :radios, -> { Tool.joins(:tool_type).where("lower(name) LIKE lower(?)", "%radio") }
+  scope :just_tools, -> { Tool.joins(:tool_type).where("lower(name) NOT LIKE lower(?) AND lower(name) NOT LIKE lower(?)", "%radio", "%hardhat") }
   scope :search, lambda { |term| Tool.joins(:tool_type).where("lower(name) LIKE lower(?) OR CAST(barcode AS CHAR) LIKE lower(?) OR lower(description) LIKE lower(?)", "%#{term}%", "%#{term}%", "%#{term}%") }
   scope :checked_out, -> { Tool.joins(:checkouts).where(checkouts: {checked_in_at: nil}) }
 
