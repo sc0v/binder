@@ -723,8 +723,8 @@ when 'development'
   hammer_type = ToolType.create(name: 'Hammer')
   org_hardhat_type = ToolType.create(name: 'Org Hardhat')
   scc_hardhat_type = ToolType.create(name: 'SCC Hardhat')
-  ehs_hardhat_type = ToolType.create(name: 'EH%S Hardhat')
-  chair_hardhat_type = ToolType.create(name: 'Char Hardhat')
+  ehs_hardhat_type = ToolType.create(name: 'EH&S Hardhat')
+  chair_hardhat_type = ToolType.create(name: 'Chair Hardhat')
 
   puts 'Creating tools'
   Tool.create([
