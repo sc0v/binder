@@ -81,6 +81,7 @@ class Ability
       can :create, ShiftParticipant
       can :update, Task
       can [:create, :update], Tool
+      can [:create, :update], ToolType
     end
 
     if user.has_role? :admin
