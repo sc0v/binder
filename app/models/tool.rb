@@ -28,6 +28,8 @@ class Tool < ActiveRecord::Base
   belongs_to :tool_type
 
   validates :barcode, :presence => true, :uniqueness => true, :length => { :minimum => 1, :maximum => 5}
+  validates_presence_of :tool_type_id
+  validates_associated :tool_type
 
   default_scope { order('barcode') }
   scope :by_barcode, -> { order('barcode') }
