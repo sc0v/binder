@@ -33,6 +33,9 @@
               <% end %>
               <li><%= link_to "Milestones", milestones_path %></li>
               <li><%= link_to "Sign Waiver", new_waiver_path %></li>
+              <% if can?(:read, ToolType) %>
+                <li><%= link_to "Tool Types", tool_types_path %></li>
+              <% end %>
             </ul>
           </li>
         </ul>
