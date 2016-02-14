@@ -82,7 +82,7 @@ class HomeController < ApplicationController
   end
 
   def downtime
-    @organizations = Organization.joins(:organization_timeline_entries).where(organization_timeline_entries: {entry_type: 'downtime'}).distinct
+    @organizations = Organization.only_categories(['Fraternity', 'Sorority', 'Independent', 'Blitz', 'Concessions'])
   end
 
   def hardhat_return
