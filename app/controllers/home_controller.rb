@@ -18,7 +18,7 @@ class HomeController < ApplicationController
     @tool_lookup = Tool.search(@query).to_a
     unless @tool_lookup.nil? || @tool_lookup.empty?
       if @tool_lookup.size > 1
-        redirect_to tools_path(tool_type_path: @tool_lookup[0].tool_type.id)
+        redirect_to tools_path(tool_type_filter: @tool_lookup[0].tool_type.id)
       elsif @tool_lookup.size == 1
         redirect_to @tool_lookup[0]
       end
