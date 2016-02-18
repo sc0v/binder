@@ -39,13 +39,12 @@ class ToolWaitlist < ActiveRecord::Base
 
   # Scopes
   default_scope {where(active: true)}
-  scope :for_tool, ->(tool){where(tool: tool)}
   scope :for_tool_type, ->(tool_type){where(tool_type: tool_type)}
-  scope :by_wait_start_time, ->{order(:wait_start_time)}
+  scope :by_wait_start_time, ->{order('wait_start_time DESC')}
 
   # Gets the time the org has been waiting for the tool in minutes.
   def duration_waiting
-      (DateTime.current.to_time - wait_start_time.to_time) / 60
+    (DateTime.current.to_time - wait_start_time.to_time) / 60
   end
 
   private
