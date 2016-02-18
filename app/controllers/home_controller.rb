@@ -16,6 +16,12 @@ class HomeController < ApplicationController
 
     @query = params[:query]
 
+    @tool_lookup = Tool.find_by_barcode(@query)
+    unless @tool_lookup.nil?
+      redirect_to @tool_lookup
+      return
+    end
+
     @tool_lookup = Tool.search(@query).to_a
     @tool_lookup = Tool.search(@query.singularize).to_a if @tool_lookup.empty?
     unless @tool_lookup.nil? || @tool_lookup.empty?
