@@ -14,6 +14,7 @@
 
 class ToolType < ActiveRecord::Base
   has_many :tools
+  has_many :tool_waitlists, dependent: :destroy
   validates :name, presence: true, uniqueness: true
 
   default_scope {order(:name)}

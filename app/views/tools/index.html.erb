@@ -7,28 +7,68 @@
 </div>
 
 <div>
-  <div style='float: left; border: 1px solid #ccc; border-radius: 4px; padding: 6px; margin-right: 8px;'>
-    <span style='font-weight: bold; margin-right: 5px'>Filter by Tool Type: </span>
-    <form action='<%= tools_path %>' method='get'>
-      <select name='tool_type_filter' onchange='this.form.submit()'>
-        <option value='' <%= @tool_type.nil? ? 'selected' : ''%> disabled>Select a tool type</option>
+  <form action='<%= tools_path %>' method='get'>
+    <div style='float: left; border: 1px solid #ccc; border-radius: 4px; padding: 6px; margin-right: 8px;'>
+      <span style='font-weight: bold; margin-right: 5px'>Filter by Tool Type</span><br />
+      <select name='type_filter' class='form-control' onchange='this.form.submit()'>
+        <%= raw("<option value='' #{params[:type_filter].present? ? '':'selected'}>All tools</option>") %>
+        <%= raw("<option value='all_tools' #{param_equals_s(:type_filter, 'all_tools') ? 'selected':''}>All tools (Include hardhats/radios)</option>") %>
         <% ToolType.all.to_a.each do |tool_type| %>
-          <%= raw("<option value='#{tool_type.id}' #{@tool_type.present? && (@tool_type.id == tool_type.id) ? 'selected' : ''}>#{tool_type.name}</option>") %>
+          <%= raw("<option value='#{tool_type.id}' #{param_equals_i(:type_filter, tool_type.id) ? 'selected' : ''}>#{tool_type.name}</option>") %>
         <% end %>
       </select>
-    </form>
-  </div>
-  <%= link_to raw("Tools"), tools_path, :class => 'btn btn-default' unless (params[:type].blank? && params[:tool_type_filter].blank?) or !@organization.blank? %>
-  <%= link_to raw("Hardhats"), tools_path(:type => "hardhats"), :class => 'btn btn-default' unless params[:type] == 'hardhats' or !@organization.blank? %>
-  <%= link_to raw("Radios"), tools_path(:type => "radios"), :class => 'btn btn-default' unless params[:type] == 'radios' or !@organization.blank? %>
-  <%= link_to raw("Checked Out"), tools_path(:type => "out"), :class => 'btn btn-default' unless params[:type] == 'out' or !@organization.blank? %>
+      </div>
+    <div style='float: left; border: 1px solid #ccc; border-radius: 4px; padding: 6px; margin-right: 8px;'>
+      <span style='font-weight: bold; margin-right: 5px'>Filter Checked Out Status </span><br />
+      <select name='inventory_filter' class='form-control' onchange='this.form.submit()'>
+        <option value='' <%= @tool_type.nil? ? 'selected' : ''%> disabled>Select a tool type</option>
+        <%= raw("<option value='' #{params[:inventory_filter].present? ? '':'selected'}>All</option>") %>
+        <%= raw("<option value='checked_in' #{(params[:inventory_filter].present? && params[:inventory_filter] == 'checked_in') ? 'selected':''}>Checked In Only</option>") %>
+        <%= raw("<option value='checked_out' #{(params[:inventory_filter].present? && params[:inventory_filter] == 'checked_out') ? 'selected':''}>Checked Out Only</option>") %>
+      </select>
+    </div>
+  </form>
+  <%= link_to raw("Reset"), tools_path, :class => 'btn btn-default' %>
   <% if can?(:create, Tool) and @organization.blank? %>
     <%= link_to t('.new', :default => t("helpers.links.new")),
             new_tool_path,
             :class => 'btn btn-primary' %>
   <% end %>
 </div>
+<br />
+<br />
+<% if @tool_type.present? && (@waitlist.present? || @num_available < 1) %>
+    <div class="alert alert-info alert-inline">
+      <div class="row">
+        <div class="col-xs-7">
+          <% if @waitlist.present? %>
+            There <%= "#{@waitlist.size == 1 ? 'is' : 'are'}" %> <%= pluralize(@waitlist.size, 'person') %> waiting for <%= @title %>.
+          <% else %>
+            All <%= @title %> are checked out!
+          <% end %>
+        </div>
+        <div class="col-xs-2">
+          <% if @waitlist.present? %>
+            <a href="#tool-type-waitlist" class="btn btn-info btn-sm" data-toggle="collapse">Show/Hide Waitlist</a>
+          <% end %>
+        </div>
+        <div class="col-xs-1"></div>
+        <div class="col-xs-2">
+          <% if can?(:create, ToolWaitlist) %>
+            <%= link_to raw("<strong>Add to Waitlist</strong>"), new_tool_type_waitlist_path(@tool_type),
+                        class: "btn btn-warning btn-sm" %>
+          <% end %>
+        </div>
+      </div>
+    </div>
 
+    <% if @waitlist.present? %>
+      <div id="tool-type-waitlist" class="collapse out">
+        <h3><%= @title %> Waitlist</h3>
+        <%= render partial: 'tool_waitlist' %>
+      </div>
+    <% end %>
+<% end %>
 <%= render partial: 'tools', locals: {tools: @tools} %>
 
 <%= will_paginate @tools, renderer: BootstrapPagination::Rails %>

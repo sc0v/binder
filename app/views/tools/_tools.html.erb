@@ -19,3 +19,11 @@
     <% end %>
   </tbody>
 </table>
+
+<% if tools.empty? %>
+  <div class="alert alert-info">
+      There are no <%= param_equals_s(:inventory_filter, 'checked_out') ? raw('<strong>Checked Out</strong>') : '' %>
+    <%= param_equals_s(:inventory_filter, 'checked_in') ? raw('<strong>Checked In</strong>') : '' %>
+   <%= @title %> at this time. <%= link_to raw("<strong>See All #{@title}</strong>"), tools_path(type_filter: params[:type_filter]) %>
+  </div>
+<% end %>

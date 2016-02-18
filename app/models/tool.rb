@@ -39,7 +39,7 @@ class Tool < ActiveRecord::Base
   scope :just_tools, -> { Tool.joins(:tool_type).where("lower(name) NOT LIKE lower(?) AND lower(name) NOT LIKE lower(?)", "%radio", "%hardhat") }
   scope :search, lambda { |term| Tool.joins(:tool_type).where("lower(name) LIKE lower(?) OR CAST(barcode AS CHAR) LIKE lower(?) OR lower(description) LIKE lower(?)", "%#{term}%", "%#{term}%", "%#{term}%") }
   scope :checked_out, -> { Tool.joins(:checkouts).where(checkouts: {checked_in_at: nil}) }
-
+  scope :checked_in, -> { where('tools.id NOT IN (SELECT checkouts.tool_id FROM checkouts WHERE checked_in_at IS NULL)') }
 
   def current_organization
     self.checkouts.current.take.organization unless self.checkouts.current.blank?
@@ -52,9 +52,9 @@ class Tool < ActiveRecord::Base
   def is_checked_out?
     return not(self.checkouts.current.empty?)
   end
-  
+
   def is_hardhat?
-    return self.name.downcase.include?('hardhat') 
+    return self.name.downcase.include?('hardhat')
   end
 
   def self.checked_out_by_organization(organization)

@@ -1,0 +1,39 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>Position</th>
+      <th>Person</th>
+      <th>Organization</th>
+      <th>Wait duration (Minutes)</th>
+      <th>Note</th>
+      <% if can?(:destroy, ToolWaitlist) %>
+        <th>Remove</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @waitlist.each_with_index do |waitlist, index| %>
+      <tr>
+        <td><%= index + 1 %></td>
+        <td><%= "#{waitlist.participant.name} (#{waitlist.participant.andrewid})" %></td>
+        <td><%= link_to waitlist.organization.short_name, organization_path(waitlist.organization) %></td>
+        <td><%= "#{waitlist.duration_waiting.to_i} mins" %></td>
+        <td><%= waitlist.note %></td>
+        <% if can?(:destroy, ToolWaitlist) %>
+          <td>
+            <%= link_to "Remove",
+                tool_type_waitlist_path(waitlist.tool_type, waitlist),
+                :class => 'btn btn-danger btn-xs',
+                :method => 'delete',
+                :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }%>
+          </td>
+        <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+<% if @waitlist.empty? %>
+  <div class="alert alert-info">
+      <span>There is no one waiting for this type of tool!</span>
+  </div>
+<% end %>
