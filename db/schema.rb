@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160208180433) do
+ActiveRecord::Schema.define(version: 20160215065501) do
 
   create_table "charge_types", force: :cascade do |t|
     t.string   "name",                          limit: 255
@@ -271,6 +271,21 @@ ActiveRecord::Schema.define(version: 20160208180433) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "tool_waitlists", force: :cascade do |t|
+    t.integer  "tool_id",         limit: 4
+    t.integer  "tool_type_id",    limit: 4
+    t.datetime "wait_start_time"
+    t.integer  "participant_id",  limit: 4
+    t.integer  "organization_id", limit: 4
+    t.string   "contact_method",  limit: 255
+    t.boolean  "active",          limit: 1,   default: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tool_waitlists", ["tool_id"], name: "index_tool_waitlists_on_tool_id", using: :btree
+  add_index "tool_waitlists", ["tool_type_id"], name: "index_tool_waitlists_on_tool_type_id", using: :btree
 
   create_table "tools", force: :cascade do |t|
     t.integer  "barcode",      limit: 4

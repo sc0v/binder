@@ -43,3 +43,12 @@
           :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
           :class => 'btn btn-danger' %>
 <% end %>
+<br /><br />
+<div>
+  <h3 style="display: inline">Waitlist for this specific tool:  #<%= @tool.barcode %></h3>
+  <%= render partial: 'tool_waitlist' %>
+</div>
+<div>
+  <h3 style="display: inline">Waitlist for other tools of this type: <%= @tool.tool_type.name %></h3>
+  <%= render partial: 'tool_waitlist' %>
+</div>

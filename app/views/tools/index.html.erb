@@ -28,7 +28,17 @@
             :class => 'btn btn-primary' %>
   <% end %>
 </div>
+<br />
+<% if params[:tool_type_filter].present? %>
+    <div class="alert alert-info alert-inline">
+      There are 2 people waiting for <%= @title %>. <a href="#tool-type-waitlist" data-toggle="collapse"><strong>Show/Hide Waitlist</strong></a>
+    </div>
 
+    <div id="tool-type-waitlist" class="collapse out">
+      <h3><%= @title %> Waitlist</h3>
+      <%= render partial: 'tool_waitlist' %>
+    </div>
+<% end %>
 <%= render partial: 'tools', locals: {tools: @tools} %>
 
 <%= will_paginate @tools, renderer: BootstrapPagination::Rails %>

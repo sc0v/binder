@@ -23,7 +23,11 @@ class ToolTypesController < ApplicationController
   # POST /tool_types.json
   def create
     @tool_type.save
-    respond_with(@tool_type)
+    if params[:from_tools].present?
+      redirect_to new_tool_path
+      return
+    end
+    redirect_to tool_types_path
   end
 
   # PATCH/PUT /tool_types/1
