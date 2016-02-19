@@ -45,10 +45,6 @@
 <% end %>
 <br /><br />
 <div>
-  <h3 style="display: inline">Waitlist for this specific tool:  #<%= @tool.barcode %></h3>
-  <%= render partial: 'tool_waitlist' %>
-</div>
-<div>
-  <h3 style="display: inline">Waitlist for other tools of this type: <%= @tool.tool_type.name %></h3>
+  <h3 style="display: inline">Waitlist for <%= @tool.tool_type.name %></h3>
   <%= render partial: 'tool_waitlist' %>
 </div>
