@@ -53,7 +53,10 @@ en:
       checkout: "Check-Out"
       checkin: "Check-In"
       add_to_cart: "Add to Cart"
-      new_item: "Add New Store Item"
+      new_item: "New Store Item"
+      new_charge: "New Charge"
+      new_document: "Upload Document"
+      new_faq: "New FAQ"
   errors:
     messages:
       tool_already_checked_out: "The Tool you selected is already checked out. Please return it before continuing."

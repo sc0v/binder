@@ -3,6 +3,7 @@
   <div class="page-header">
     <h1><%=t '.title', :default => model_class.model_name.human %></h1>
   </div>
+
   <dl class="dl-horizontal">
     <dt><strong><%= model_class.human_attribute_name(:name) %>:</strong></dt>
     <dd><%= @task.name %></dd>
@@ -17,6 +18,7 @@
       <dd><%= link_to @task.completed_by.name + " (" + @task.completed_by.andrewid + ")", @task.completed_by unless @task.completed_by.blank? %></dd>
     <% end %>
   </dl>
+  
   <div class="form-actions">
     <%= link_to t('.back', :default => t("helpers.links.back")),
               tasks_path, :class => 'btn btn-default' %>

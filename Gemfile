@@ -33,6 +33,7 @@ gem "carrierwave"
 gem 'will_paginate'
 gem 'will_paginate-bootstrap'
 
+gem 'possessive'
 gem 'responders'
 
 # Favicons
