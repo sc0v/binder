@@ -27,14 +27,12 @@
       <% unless @charge.is_approved? %>
         <%= form_tag approve_charge_path(@charge), method: :put, style: "display: inline;", role: "form" do -%>
           <%= hidden_field_tag 'url', request.original_fullpath %>
-          <%= submit_tag 'Approve', :class => 'btn btn-success', :type => 'submit',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) } %>
+          <%= submit_tag 'Approve', :class => 'btn btn-success', :type => 'submit' %>
         <% end -%>
       <% else %>
         <%= form_tag approve_charge_path(@charge), method: :put, style: "display: inline;", role: "form" do -%>
           <%= hidden_field_tag 'url', request.original_fullpath %>
-          <%= submit_tag 'Un-Approve', :class => 'btn btn-danger', :type => 'submit',
-              :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) } %>
+          <%= submit_tag 'Un-Approve', :class => 'btn btn-danger', :type => 'submit' %>
         <% end -%>
       <% end %>
     <% end %>
@@ -50,6 +48,7 @@
               :class => 'btn btn-danger' %>
     <% end %>
   </div>
+  
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>

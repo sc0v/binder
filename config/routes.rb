@@ -17,7 +17,6 @@ Trailerapp::Application.routes.draw do
   end
   resources :charges do
     put 'approve', on: :member
-    get 'export', on: :collection
   end
   resources :participants do
     resources :memberships, :except => [:index, :show, :destroy]

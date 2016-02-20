@@ -38,12 +38,6 @@ class ParticipantsController < ApplicationController
     @participant = Participant.new
   end
 
-  # GET /participants/new
-  # GET /participants/new.json
-  def new_user_and_participant
-    @participant = Participant.new
-  end
-
   # GET /participants/1/edit
   def edit
   end

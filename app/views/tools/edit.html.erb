@@ -1,6 +1,11 @@
-<%- model_class = Tool -%>
-<div class="page-header">
-  <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human %></h1>
-</div>
+<% if can?(:update, @tool) %>
+  <%- model_class = Tool -%>
+  <div class="page-header">
+    <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human %></h1>
+  </div>
 
-<%= render 'form' %>
+  <%= render 'form' %>
+
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>

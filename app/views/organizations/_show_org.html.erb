@@ -18,14 +18,14 @@
     <%= render :partial => 'participants/organization_booth_chair_list', :object => @booth_chairs %>
   </div>
   <% if can?(:read_basic_details, @organization) %>
+    <div id="members" class="tab-pane">
+      <%= render :partial => "participants/organization_participant_list", :object => @organization.memberships %>
+    </div>
     <div id="shifts" class="tab-pane">
       <%= render :partial => "shifts/organization_shift_list.html.erb", :object => @shifts %>
     </div>
     <div id="tools" class="tab-pane">
       <%= render :partial => "tools/organization_tool_list", :object => @tools %>
-    </div>
-    <div id="members" class="tab-pane">
-      <%= render :partial => "organizations/organization_participant_list", :object => @organization.memberships %>
     </div>
   <% end %>
 

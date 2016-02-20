@@ -1,8 +1,9 @@
 <% if can?(:update, @faq) %>
   <%- model_class = Faq -%>
   <div class="page-header">
-    <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human %></h1>
+    <h1><%=t '.title', :default => [:'helpers.titles.edit', 'Edit %{model}'], :model => model_class.model_name.human.upcase %></h1>
   </div>
+  
   <%= render :partial => 'form' %>
   
 <% else %>
