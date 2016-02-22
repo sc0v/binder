@@ -47,4 +47,14 @@ module ApplicationHelper
     minutes = downtime / 60 - hours * 60
     return neg + ("%02d" % hours) + ":" + ("%02d" % minutes)
   end
+
+  def param_equals_i(param, value)
+    return false if params[param].nil?
+    params[param].to_i == value
+  end
+
+  def param_equals_s(param, value)
+    return false if params[param].nil?
+    params[param].strip == value
+  end
 end
