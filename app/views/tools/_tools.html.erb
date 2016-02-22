@@ -19,3 +19,10 @@
     <% end %>
   </tbody>
 </table>
+
+<% if tools.empty? %>
+  <div class="alert alert-info">
+      There are no <%= param_equals_s(:inventory_filter, 'checked_out') ? raw('<strong>Checked Out</strong>') : '' %>
+   <%= @title %> at this time.
+  </div>
+<% end %>
