@@ -36,15 +36,22 @@ module ApplicationHelper
 
   def format_downtime(downtime)
     downtime = downtime.to_i
+    hours = downtime / 3600
+    minutes = (downtime % 3600) / 60
+    return ("%d" % hours) + ":" + ("%02d" % minutes)
+  end
+
+  def format_remaining_downtime(downtime)
+    downtime = downtime.to_i
     if downtime < 0
       neg = '-'
       downtime *= -1
     else
       neg = ''
     end
-    
-    hours = downtime / 60 / 60
-    minutes = downtime / 60 - hours * 60
-    return neg + ("%02d" % hours) + ":" + ("%02d" % minutes)
+
+    hours = downtime / 3600
+    minutes = ((downtime % 3600) + 59) / 60
+    return neg + ("%d" % hours) + ":" + ("%02d" % minutes)
   end
 end
