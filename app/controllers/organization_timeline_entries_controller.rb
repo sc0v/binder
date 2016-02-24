@@ -26,8 +26,12 @@ class OrganizationTimelineEntriesController < ApplicationController
   # PUT /organizations_timeline_entry/1
   # PUT /organizations_timeline_entry/1.json
   def update
-    organization_timeline_entry.update_attributes(organization_timeline_entry_params)
-    respond_with(@organization_timeline_entry, location: params[:url])
+    @organization_timeline_entry.update_attributes(organization_timeline_entry_params)
+    redirect_to downtime_path 
+  end
+  
+  def edit
+        @organization_timeline_entry = OrganizationTimelineEntry.find(params[:id])
   end
 
   # PUT /organizations_timeline_entry/1/end
@@ -60,6 +64,6 @@ class OrganizationTimelineEntriesController < ApplicationController
   end
 
   def organization_timeline_entry_params
-    params.require(:organization_timeline_entry).permit(:organization_id, :organization_timeline_entry_type_id, :description)
+    params.require(:organization_timeline_entry).permit(:organization_id, :ended_at, :started_at, :organization_timeline_entry_type_id, :description)
   end
 end
