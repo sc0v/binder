@@ -138,7 +138,7 @@
             <% @downtime_sidebar.each do |entry| %>
               <tr <%= raw('class="danger"') if entry.organization.remaining_downtime < 0 %>>
                 <td style="text-align: center;"><%= entry.organization.short_name %></td>
-                <td style="text-align: right;"><span id="countdown"><%= format_downtime entry.organization.remaining_downtime %></span></td>
+                <td style="text-align: right;"><span id="countdown"><%= format_remaining_downtime entry.organization.remaining_downtime %></span></td>
                 <td><%= form_tag end_organization_timeline_entry_path(entry), method: :put do %><%= hidden_field_tag 'url', request.original_fullpath %><%= submit_tag 'Stop', class: 'btn btn-xs btn-danger' %><% end %></td>
               </tr>
             <% end %>
