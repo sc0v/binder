@@ -20,7 +20,7 @@ class Ability
     end
 
     can :read, Document do |d|
-      d.public? and ( d.organization.blank? or d.organization.participants.include?(user.participant) )
+      d.public? or (not d.organization.blank? and d.organization.participants.include?(user.participant))
     end
 
     can :read_basic_details, Organization do |o|
@@ -46,10 +46,6 @@ class Ability
 
       can :read, Charge do |c|
         c.organization.booth_chairs.include?(user.participant)
-      end
-
-      can :read, Document do |d|
-        d.organization.blank? or d.organization.booth_chairs.include?(user.participant)
       end
 
       can :read_phone_number, Participant
