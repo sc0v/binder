@@ -15,9 +15,11 @@ class ToolsController < ApplicationController
         @tools = Tool.all
         @title = "Tools (hardhats/radios included)"
       else
-        tool_type = ToolType.find(params[:type_filter])
-        @title = tool_type.name.pluralize
-        @tools = Tool.by_type(tool_type)
+        @tool_type = ToolType.find(params[:type_filter])
+        @title = @tool_type.name.pluralize
+        @tools = Tool.by_type(@tool_type)
+        @waitlist = @tool_type.tool_waitlists.by_wait_start_time
+        @num_available = @tools.size - @tools.checked_out.size
       end
     else
       @tools = Tool.just_tools
@@ -35,6 +37,7 @@ class ToolsController < ApplicationController
   # GET /tools/1
   # GET /tools/1.json
   def show
+    @waitlist = @tool.tool_type.tool_waitlists.by_wait_start_time
   end
 
   # GET /tools/new

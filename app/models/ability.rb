@@ -82,7 +82,7 @@ class Ability
       can :update, Task
       can [:create, :update], Tool
       can [:create, :update], ToolType
-      can [:create, :update], ToolWaitlist
+      can [:create, :update , :destroy], ToolWaitlist
     end
 
     if user.has_role? :admin

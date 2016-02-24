@@ -273,7 +273,6 @@ ActiveRecord::Schema.define(version: 20160215065501) do
   end
 
   create_table "tool_waitlists", force: :cascade do |t|
-    t.integer  "tool_id",         limit: 4
     t.integer  "tool_type_id",    limit: 4
     t.datetime "wait_start_time"
     t.integer  "participant_id",  limit: 4
@@ -284,7 +283,6 @@ ActiveRecord::Schema.define(version: 20160215065501) do
     t.datetime "updated_at"
   end
 
-  add_index "tool_waitlists", ["tool_id"], name: "index_tool_waitlists_on_tool_id", using: :btree
   add_index "tool_waitlists", ["tool_type_id"], name: "index_tool_waitlists_on_tool_type_id", using: :btree
 
   create_table "tools", force: :cascade do |t|

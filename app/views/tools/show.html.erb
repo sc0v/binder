@@ -31,7 +31,9 @@
                     new_tool_checkout_path(@tool), :class => 'btn btn-warning' %>
   <% end %>
 <% end %>
-
+<% if can?(:create, ToolWaitlist) %>
+  <%= link_to "Add to Waitlist", new_tool_type_tool_waitlist_path(@tool.tool_type), class: 'btn btn-info' %>
+<% end %>
 <% if can?(:update, @tool) %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
           edit_tool_path(@tool), :class => 'btn btn-primary' %>
@@ -43,8 +45,10 @@
           :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
           :class => 'btn btn-danger' %>
 <% end %>
-<br /><br />
-<div>
-  <h3 style="display: inline">Waitlist for <%= @tool.tool_type.name %></h3>
-  <%= render partial: 'tool_waitlist' %>
-</div>
+<% if can?(:read, ToolWaitlist) %>
+  <br /><br />
+  <div>
+    <h3>Waitlist for All <%= @tool.tool_type.name.pluralize %></h3>
+    <%= render partial: 'tool_waitlist' %>
+  </div>
+<% end %>
