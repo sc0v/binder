@@ -48,10 +48,6 @@ class Ability
         c.organization.booth_chairs.include?(user.participant)
       end
 
-      can :read, Document do |d|
-        d.organization.blank? or d.organization.booth_chairs.include?(user.participant)
-      end
-
       can :read_phone_number, Participant
 
       can :update, Membership do |m|
