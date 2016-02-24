@@ -6,6 +6,7 @@
 #
 # Name                   | Type               | Attributes
 # ---------------------- | ------------------ | ---------------------------
+# **`comments`**         | `text(65535)`      |
 # **`created_at`**       | `datetime`         |
 # **`document_id`**      | `integer`          |
 # **`id`**               | `integer`          | `not null, primary key`
@@ -15,6 +16,7 @@
 # **`updated_at`**       | `datetime`         |
 # **`url`**              | `string(255)`      |
 #
+
 
 class Document < ActiveRecord::Base
   validates_associated :organization
