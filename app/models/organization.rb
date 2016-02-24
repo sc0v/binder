@@ -38,6 +38,7 @@ class Organization < ActiveRecord::Base
 
   default_scope { order('name asc') }
 
+  scope :only_categories, lambda {|category_name_array| joins(:organization_category).where(organization_categories: {name: category_name_array}) }
   scope :search, lambda { |term| where('lower(name) LIKE lower(?) OR lower(short_name) LIKE lower(?)', "%#{term}%", "%#{term}%") }
   
   def booth_chairs
