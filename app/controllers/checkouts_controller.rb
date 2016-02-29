@@ -124,10 +124,7 @@ class CheckoutsController < ApplicationController
         format.html { redirect_to tool_path(checkout.tool), notice: "Error" }
       end
     end
-
-    
   end
-
 
   def checkin
     @tool = Tool.find_by_barcode(params[:barcode])
@@ -142,30 +139,6 @@ class CheckoutsController < ApplicationController
       @checkout.save
       respond_to do |format|
         format.js { }
-      end
-    end
-  rescue
-  end
-
-  def checkin_bak
-    @tool = Tool.find_by_barcode(params[:tool_barcode])
-    raise CheckoutError, I18n.t("errors.messages.tool_does_not_exist") unless !@tool.nil?
-    raise CheckoutError, I18n.t("errors.messages.tool_is_not_hardhat") unless @tool.is_hardhat?
-
-    @checkout = @tool.checkouts.current.first unless @tool.checkouts.blank? or @tool.checkouts.current.blank?
-    raise CheckoutError, I18n.t("errors.messages.tool_already_checked_in") unless !@checkout.blank?
-
-    unless @checkout.nil?
-      @checkout.checked_in_at = Time.now
-
-      respond_to do |format|
-        if !@checkout.blank? and @checkout.save
-          format.html { redirect_to tool_path(@checkout.tool), notice: 'Tool was successfully checked in.' }
-          format.json { render json: @checkout.tool, status: :created, location: @checkout.tool }
-        else
-          format.html { render action: "new" }
-          format.json { render json: @checkout.blank? ? "Error" : @checkout.errors, status: :unprocessable_entity }
-        end
       end
     end
   end
