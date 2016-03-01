@@ -35,7 +35,7 @@ class CheckoutsController < ApplicationController
     if can?(:create, Checkout) && @checkout.save
       redirect_to tool_path(@checkout.tool), notice: 'Checkout was successfully created.'
     else
-      render action: "new", flash: @checkout.errors.full_messages
+      render action: "new", flash: @checkout.errors.full_messages.join(" ")
     end
   end
 
@@ -50,7 +50,7 @@ class CheckoutsController < ApplicationController
     if can?(:update, Checkout) && @checkout.save
       redirect_to URI.parse(params[:url]).path, notice: "Checkout was successfully updated. #{view_context.link_to("[ Undo ]", uncheckin_checkout_path(:id => @checkout.id), method: :post)}."
     else
-      redirect_to :back, flash: @checkout.errors.full_messages
+      redirect_to :back, flash: @checkout.errors.full_messages.join(" ")
     end
   end
   
