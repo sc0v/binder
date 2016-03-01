@@ -3,7 +3,7 @@
 </div>
 
 <h2>Current Orgs</h2>
-</br>
+<br />
 <% @participant.organizations.each do |organization| %>
   <p>
   	<%= form_tag tool_checkouts_path(@tool), :style => "display: inline;" do -%>
@@ -13,7 +13,7 @@
   	<% end -%>
   </p>
 <% end %>
-</br>
+<br />
 <h2>Other Orgs</h2>
 <%= simple_form_for '', url: tool_checkouts_path(@tool) do |f| %>
   <%= f.input :participant_id, :input_html => { :value => @participant.id }, :as => :hidden %>
