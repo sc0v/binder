@@ -35,7 +35,7 @@
   <% end %>
 </div>
 <br />
-<% if @tool_type.present? && (@waitlist.present? || @num_available <= 3) %>
+<% if @tool_type.present? && (@waitlist.present? || @num_available < 1) %>
     <div class="alert alert-info alert-inline">
       <div class="row">
         <div class="col-xs-7">
