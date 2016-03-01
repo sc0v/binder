@@ -1,0 +1,14 @@
+<%= simple_form_for '', :html => { :class => 'form-horizontal' }, :url => choose_organization_tool_type_waitlists_path do |f| %>
+	<%= f.input :tool_type_id, :as => :hidden %>
+  <%= f.input :participant_id, required: true do %>
+    <%= f.input_field :participant_id, as: :hidden, required: true %>
+    <%= text_field_tag 'card-number-input', nil, class: 'form-control', required: true %>
+    <div id="participant-info"></div>
+  <% end %>
+  <%= f.input :contact_method %>
+  <div class="form-actions">
+    <%= f.button :submit, "Add to waitlist", :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+              tools_path, :class => 'btn' %>
+  </div>
+<% end %>

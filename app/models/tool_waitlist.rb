@@ -29,8 +29,8 @@ class ToolWaitlist < ActiveRecord::Base
   belongs_to :participant
 
   # Validations
-  validates_presence_of :contact_method
-  validates_associated :organization, :participant, :tool_type
+  validates_presence_of :tool_type, :organization, :participant, :contact_method, :wait_start_time
+  validates_associated :tool_type, :organization, :participant
 
   # Scopes
   default_scope {where(active: true)}
