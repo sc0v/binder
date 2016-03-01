@@ -50,7 +50,7 @@ class ToolWaitlistsController < ApplicationController
   # DELETE /tool_waitlists/1
   # DELETE /tool_waitlists/1.json
   def destroy
-    @tool_waitlist = ToolWaitlist.find(params[:tool_waitlist_id])
+    @tool_waitlist = ToolWaitlist.find(params[:id])
     if can?(:create, ToolWaitlist) # Creators can destroy any
       @tool_waitlist.active = false
       @tool_waitlist.save
