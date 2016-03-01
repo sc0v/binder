@@ -61,8 +61,6 @@ class CheckoutsController < ApplicationController
       redirect_to :back, notice: "Missing tool to checkout"
     elsif @participant.blank?
       redirect_to :back, notice: "Missing participant to checkout the tool to"
-    else
-      render "choose_organization", :tool => @tool, :participant => @participant
     end
   end
 
