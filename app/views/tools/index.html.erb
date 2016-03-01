@@ -40,9 +40,9 @@
       <div class="row">
         <div class="col-xs-7">
           <% if @waitlist.present? %>
-            There are <%= @waitlist.size %> people waiting for <%= @title %>.
+            There <%= "#{@waitlist.size == 1 ? 'is' : 'are'}" %> <%= pluralize(@waitlist.size, 'person') %> waiting for <%= @title %>.
           <% else %>
-            Supplies of <%= @title %> are running low.
+            All <%= @title %> are checked out!
           <% end %>
         </div>
         <div class="col-xs-2">
@@ -52,7 +52,7 @@
         </div>
         <div class="col-xs-1"></div>
         <div class="col-xs-2">
-          <%= link_to "Add to Waitlist", new_tool_type_waitlist_path(@tool_type),
+          <%= link_to raw("<strong>Add to Waitlist</strong>"), new_tool_type_waitlist_path(@tool_type),
                       class: "btn btn-warning btn-sm" %>
         </div>
       </div>
