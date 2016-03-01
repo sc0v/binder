@@ -33,7 +33,19 @@ class CheckoutsController < ApplicationController
     end
 
     if can?(:create, Checkout) && @checkout.save
-      redirect_to tool_path(@checkout.tool), notice: 'Checkout was successfully created.'
+      removed_from_waitlist = ""
+      @checkout.tool.tool_type.tool_waitlists.each do |waitlist|
+        if waitlist.participant == @checkout.participant &&
+            waitlist.organization == @checkout.organization
+          # Automatically remove the person from the waitlist
+          waitlist.active = false
+          waitlist.save
+          removed_from_waitlist =
+              "#{waitlist.participant.name} was removed from the waitlist for #{waitlist.tool_type.name.pluralize}."
+        end
+      end
+
+      redirect_to tool_path(@checkout.tool), notice: "Checkout was successfully created. #{removed_from_waitlist}"
     else
       render action: "new", flash: @checkout.errors.full_messages.join(" ")
     end
