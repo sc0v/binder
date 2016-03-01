@@ -4,6 +4,9 @@ When adding a charge, please ensure that you add a detailed description. This al
   <div class="form-inputs">
     <%= f.association :organization %>
     <%= f.association :charge_type %>
+     <div>
+          <%= link_to "Or create a new tool type", new_charge_type_path(from_charge: true), class: 'btn btn-primary' %>
+      </div>
     <%= f.input :amount do %>
       <div class="input-group">
   			<%= content_tag :span, "$", :class => 'input-group-addon' %>

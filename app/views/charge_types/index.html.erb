@@ -1,0 +1,44 @@
+<%- model_class = ChargeType -%>
+<div class="page-header">
+  <h1>
+    <%=h @title || model_class.model_name.human.pluralize %>
+  </h1>
+  <%= link_to 'Create a new charge type', new_charge_type_path, class: 'btn btn-primary' %>
+</div>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <% if can?(:update, ChargeType) %>
+        <th>Name (Click to edit)</th>
+      <% else %>
+        <th>Name</th>
+      <% end %>
+      <th>Number of charges with this type</th>
+      <% if can?(:destroy, ChargeType) %>
+        <th>Delete</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @charge_types.each do |charge_type| %>
+      <tr>
+        <% if can?(:update, charge_type) %>
+          <td><%= link_to charge_type.name, edit_charge_type_path(charge_type) %></td>
+        <% else %>
+          <td><%= charge_type.name %></td>
+        <% end %>
+        <td><%= charge_type.charges.count %></td>
+        <% if can?(:destroy, charge_type) %>
+          <td>
+            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                  charge_type_path(charge_type),
+                  :class => 'btn btn-danger btn-xs',
+                  :method => 'delete',
+                  :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }%>
+          </td>
+      <% end %>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

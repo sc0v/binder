@@ -66,6 +66,7 @@ class Ability
       cannot :read, Role
 
       can [:create, :update], Charge
+      can [:create, :update], ChargeType
       can [:create, :update], Checkout
       can [:create, :update], Document
       can [:create, :update, :destroy], Membership
