@@ -6,11 +6,6 @@ class ToolTypesController < ApplicationController
   def index
   end
 
-  # GET /tool_types/1
-  # GET /tool_types/1.json
-  def show
-  end
-
   # GET /tool_types/new
   def new
   end
