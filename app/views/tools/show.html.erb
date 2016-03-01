@@ -32,7 +32,7 @@
   <% end %>
 <% end %>
 <% if can?(:create, ToolWaitlist) %>
-  <%= link_to "Add to Waitlist", new_tool_type_tool_waitlist_path(@tool.tool_type), class: 'btn btn-info' %>
+  <%= link_to "Add to Waitlist", new_tool_type_waitlist_path(@tool.tool_type), class: 'btn btn-info' %>
 <% end %>
 <% if can?(:update, @tool) %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),

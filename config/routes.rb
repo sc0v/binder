@@ -37,7 +37,12 @@ Trailerapp::Application.routes.draw do
       post 'choose_organization', on: :collection
     end
   end
-  resources :tool_types
+
+  resources :tool_types , :except => [:show] do
+    resources :tool_waitlists, :only => [:new, :create, :destroy], :as => :waitlists do
+      post 'choose_organization', on: :collection
+    end
+  end
 
   resources :checkouts, :only => [:create] do
     post 'checkin', on: :collection
