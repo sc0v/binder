@@ -28,3 +28,8 @@
     <% end %>
   </tbody>
 </table>
+<% if @waitlist.empty? %>
+  <div class="alert alert-info">
+      <span>There is no one waiting for this type of tool!</span>
+  </div>
+<% end %>
