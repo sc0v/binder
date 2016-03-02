@@ -11,13 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150401144320) do
-
-  create_table "cell_carriers", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
+ActiveRecord::Schema.define(version: 20160208180433) do
 
   create_table "charge_types", force: :cascade do |t|
     t.string   "name",                          limit: 255
@@ -272,15 +266,22 @@ ActiveRecord::Schema.define(version: 20150401144320) do
     t.boolean  "is_completed",    limit: 1
   end
 
-  create_table "tools", force: :cascade do |t|
-    t.string   "name",        limit: 255,   null: false
-    t.integer  "barcode",     limit: 4
-    t.text     "description", limit: 65535
+  create_table "tool_types", force: :cascade do |t|
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  create_table "tools", force: :cascade do |t|
+    t.integer  "barcode",      limit: 4
+    t.text     "description",  limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "tool_type_id", limit: 4
+  end
+
   add_index "tools", ["barcode"], name: "index_tools_on_barcode", using: :btree
+  add_index "tools", ["tool_type_id"], name: "index_tools_on_tool_type_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false
