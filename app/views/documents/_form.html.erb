@@ -5,9 +5,8 @@
   	<%= f.association :organization %>
     <% if(!(params[:action] == 'edit')) %>
       <%= f.input :url, as: :file, label: "File" %>
-    <% end %>
-  </div>
-	
+	  <% end %>
+	</div>
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
