@@ -19,7 +19,7 @@
     <% @entries.each do |entry| %>
       <% if can?(:read, entry) %>
         <tr>
-          <td><%= date_and_time entry.started_at %></td>
+          <td class="hidden-xs"><%= link_to date_and_time(entry.started_at), edit_organization_timeline_entry_path(entry) %></td>
           <td class="hidden-xs"><%= date_and_time entry.ended_at unless entry.ended_at.blank? %></td>
           <td class="hidden-xs"><%= format_downtime entry.duration %></td>
         </tr>

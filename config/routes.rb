@@ -12,7 +12,7 @@ Trailerapp::Application.routes.draw do
     get 'hardhats', on: :member
     resources :downtime, :controller => :organization_timeline_entries, :only => [:index]
   end
-  resources :organization_timeline_entries, :controller => :organization_timeline_entries, :only => [:create, :update, :destroy] do
+  resources :organization_timeline_entries, :controller => :organization_timeline_entries, :only => [:edit, :create, :update, :destroy] do
     put 'end', on: :member
   end
   resources :charges do
