@@ -11,13 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150401144320) do
-
-  create_table "cell_carriers", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
+ActiveRecord::Schema.define(version: 20160224032909) do
 
   create_table "charge_types", force: :cascade do |t|
     t.string   "name",                          limit: 255
@@ -64,6 +58,7 @@ ActiveRecord::Schema.define(version: 20150401144320) do
     t.datetime "updated_at"
     t.integer  "organization_id", limit: 4
     t.boolean  "public",          limit: 1
+    t.text     "comments",        limit: 65535
   end
 
   create_table "faqs", force: :cascade do |t|

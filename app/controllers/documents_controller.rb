@@ -52,11 +52,11 @@ class DocumentsController < ApplicationController
   private
 
   def create_document_params
-    params.require(:document).permit(:name, :organization_id, :public, :url)
+    params.require(:document).permit(:name, :organization_id, :public, :url, :comments)
   end
 
   def update_document_params
-    params.require(:document).permit(:name, :organization_id, :public)
+    params.require(:document).permit(:name, :organization_id, :public, :comments)
   end
 end
 
