@@ -54,4 +54,14 @@ class ApplicationController < ActionController::Base
       redirect_to main_app.user_omniauth_authorize_path(:shibboleth)
     end
   end
+
+  def authorize_report_access
+    if current_user.nil?
+      redirect_to main_app.user_omniauth_authorize_path(:shibboleth)
+      return
+    end
+    unless current_user.has_role? :admin
+      redirect_to root_path, notice: "You are not authorized to see reports"
+    end
+  end
 end

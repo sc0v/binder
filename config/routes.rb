@@ -92,6 +92,8 @@ Trailerapp::Application.routes.draw do
   end
 
   resources :users
+
+  get 'reports' => "reports#index", :as => :reports
   
   unless Rails.env.production?
     post 'dev_login' => "home#dev_login", :as => "dev_login"
