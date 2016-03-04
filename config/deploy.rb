@@ -1,119 +1,218 @@
-# ==|== capistrano deployment configuration ================================
-# Author: Meg Richards (mouse@cmu.edu)
-# ==========================================================================
+# coding: utf-8
+# config valid only for current version of Capistrano
+lock '3.4.0'
 
-require 'new_relic/recipes'
+set :application, 'binder-app'
+set :repo_url, 'https://github.com/sc0v/binder-app.git'
 
-# Application name
-set :application, "binder"
+# Default branch is :master
+# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
 
-# Multistage configuration
-set :stages, %w(development production)
-set :default_stage, "development"
-require 'capistrano/ext/multistage'
+# Default deploy_to directory is /var/www/my_app_name
+set :deploy_to, "/srv/rails/#{fetch :application}"
 
-# Remote machine options
-set :user, "binder"
-set :group, "www-data"
-set :use_sudo, true
-set :default_shell, "/bin/bash"
+# Default value for :scm is :git
+# set :scm, :git
 
-set :deploy_to, "/srv/rails/#{application}"
-depend :remote, :directory, deploy_to
+# Default value for :format is :pretty
+# set :format, :pretty
 
-# Repository information
-set :scm, :git
-set :repository,  "https://github.com/sc0v/binder-app.git"
-set :deploy_via, :remote_cache
+# Default value for :log_level is :debug
+# set :log_level, :debug
 
-# App configuration files not in source control
-set :local_config_path, "/usr/local/etc/#{application}"
-set :destination_config_path, deploy_to
-set :local_config_files, ["#{File.join('config','initializers','secret_token.rb')}",
-                          "#{File.join('config','database.yml')}"                          
-                         ]
-depend :remote, :directory, local_config_path
+# Default value for :pty is false
+# set :pty, true
 
-# Bundler required to install other gems
-depend :local, :command, "bundle"
-set :bundle_flags, "--quiet"
-set :bundle_without, [:development, :test]
-require "bundler/capistrano"
+# Default value for :linked_files is []
+# set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
+
+# Default value for linked_dirs is []
+# set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+#set :linked_dirs, fetch(:linked_dirs, []).push('db/seeds/production')
+
+# Default value for default_env is {}
+# set :default_env, { path: "/opt/ruby/bin:$PATH" }
+
+# Default value for keep_releases is 5
+# set :keep_releases, 5
 
 
-# Nice simple sanity check task
-task :uname do
-  run "uname -a"
+#
+# Bundler Options
+#
+
+# deploy mode and use packaged gems
+set :bundle_flags, '--deployment --local'
+
+# Put the gem binaries in shared/bin after install
+set :bundle_binstubs, -> { shared_path.join('bin') }
+
+#
+# Passenger Options
+#
+
+# Find the passenger binary
+# TODO: remove hardcoded ruby; rvm1 hook not respected
+set :passenger_environment_variables, { :path => [shared_path.join('bin'), '/home/deploy/.rvm/rubies/ruby-2.1.5/bin/'].join(':') }
+
+# Butcher restart into working
+# TODO: un-gross. ; is to escape the env.
+set :passenger_restart_command, ";cd /srv/rails/checkin/current && /srv/rails/checkin/rvm1scripts/rvm-auto.sh . #{shared_path.join('bin')}/passenger-config restart-app"
+
+
+#
+# Retrieve Host Uptime
+#
+desc "Report uptimes"
+task :uptime do
+  on roles(:all), in: :parallel do |host|
+    uptime = capture(:uptime)
+    puts "#{host.hostname} reports: #{uptime}"
+  end
 end
 
 
-# ==|== deploy =============================================================
+#
+# Assorted Utility Tasks for Deploy
+#
 namespace :deploy do
-  task :start do ; end
 
-  task :stop do ; end
-
-  desc "Reload mod_passenger"
-  task :restart, :except => { :no_release => true }, :roles => :app do
-    run "touch #{File.join(current_path,'tmp','restart.txt')}"
+  desc "Update RVM key"
+  task :update_rvm_key do
+    on roles(:all) do |host|
+      execute :gpg, "--keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3"
+    end
   end
+  before "rvm1:install:rvm", "deploy:update_rvm_key"
 
-  desc "Copy machine-specific configuration files into their proper place"
-  task :copy_local_configs, :except => { :no_release => true }, :roles => :app do
-    local_config_files.each do |c|
-      run "ln -fs #{local_config_path}/#{c} #{release_path}/#{c}" 
+  desc "Check that we can access everything"
+  task :check_write_permissions do
+    on roles(:all) do |host|
+      if test("[ -w #{fetch(:deploy_to)} ]")
+        info "#{fetch(:deploy_to)} is writable on #{host}"
+      else
+        error "#{fetch(:deploy_to)} is not writable on #{host}"
+      end
     end
   end
 
-  desc "Change log permissions to 0666"
-  task :fix_log_permissions, :except => { :no_release => true }, :roles => :app do
-    run "chmod 0666 #{shared_path}/log/*"
-  end  
+  after :restart, :clear_cache do
+    on roles(:web), in: :groups, limit: 3, wait: 10 do
+      # Here we can do anything such as:
+      # within release_path do
+      #   execute :rake, 'cache:clear'
+      # end
+      within release_path do
+        execute :touch, release_path.join('tmp/restart.txt')
+      end
+    end
+  end
 
 end
 
-on :after, "deploy:copy_local_configs", "db:create", :only => "deploy:cold"
+before 'deploy', 'rvm1:install:rvm'
+before 'deploy', 'rvm1:install:ruby'
 
-on :before, "deploy:restart", "deploy:fix_log_permissions", :only => "deploy:cold"
+before 'bundler:install', 'deploy:updating'
 
-after "deploy:update_code", "deploy:copy_local_configs", "deploy:migrate"
-
-# Cleanup old releases on deploy
-after "deploy:restart", "deploy:cleanup"
-
-# New Relic
-after "deploy:update", "newrelic:notice_deployment"
-
-
-# ==|== db =================================================================
+#
+# Database Tasks
+#
 namespace :db do
 
-  desc "Create database associated with deployment environment"
-  task :create, :except => { :no_release => true }, :roles => :db do
-    run "cd #{current_path} && bundle exec rake RAILS_ENV=#{rails_env} db:create"
+  desc 'Setup database'
+  task :setup do
+    on roles(:db) do
+      within release_path do
+        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
+          execute :rake, 'db:setup'
+        end
+      end
+    end
+  end
+  before 'db:setup', 'bundler:install'
+
+end
+
+
+#
+# Application Server (Passenger) Tasks
+#
+namespace :passenger do
+
+  desc "Check if passenger gem present"
+  task :check_gem do
+    on roles(:app) do
+      within release_path do
+        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
+          execute :bundle, :show, :passenger
+        end
+      end
+    end
+  end
+
+  desc "Generate module configuration and enable module"
+  task :apache_config do
+    on roles(:app) do |h|
+      within release_path do
+        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
+          execute :bundle, :exec, :ruby, "#{shared_path.join('bin')}/" +
+                                         "passenger-install-apache2-module --snippet " +
+                                         "> /tmp/passenger.load"
+          execute :sudo, :mv, "/tmp/passenger.load", "/etc/apache2/mods-available"
+          execute :sudo, :a2enmod, "passenger"
+        end
+      end
+    end
+  end
+  before 'passenger:apache_config', 'passenger:check_gem'
+  before 'passenger:apache_config', 'rvm1:hook'
+
+  desc "Build passenger"
+  task :build do
+    on roles(:app) do |h|
+      within release_path do
+        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
+          run_interactively "#{shared_path.join('bin')}/passenger-install-apache2-module -a --languages ruby", h.user
+        end
+      end
+    end
+  end
+  before 'passenger:build', 'passenger:check_gem'
+
+  desc "Restart apache"
+  task :apache_restart do
+    on roles(:app) do |h|
+      execute :sudo, :service, :apache2, "restart"
+    end
   end
 
 end
 
-# ==|== rails ==============================================================
-# Excerpt from rails-recipes gem ( https://github.com/codesnik/rails-recipes )
+
+#
+# Rails Console & DB Console Support
+#
+# http://www.webascender.com/Blog/ID/577/Starting-a-Remote-Rails-Console-With-Capistrano
 namespace :rails do
-  
-  desc "Run rails console on remote app server"
+
+  desc "Remote console"
   task :console do
-    run_with_tty %W( rails console #{rails_env} )
+    on roles(:app) do |h|
+      run_interactively "bundle exec rails console #{fetch(:rails_env)}", h.user
+    end
   end
-  
-  desc "Run rails dbconsole on remote app server"
-  task :dbconsole do 
-    run_with_tty %W( rails dbconsole #{rails_env} )
+
+  desc "Remote dbconsole"
+  task :dbconsole do
+    on roles(:app) do |h|
+      run_interactively "bundle exec rails dbconsole #{fetch(:rails_env)}", h.user
+    end
   end
-  
-  def run_with_tty cmd
-    server = find_servers(:roles => [:app]).first
-    command  = %W( ssh -t -l #{user} #{server.host} )
-    command += %W( cd #{current_path} && )
-    command += Array(cmd)
-    system *command
+
+  def run_interactively(command, user)
+    info "Running `#{command}` as #{user}@#{host}"
+    exec %Q(ssh #{user}@#{host} -t "bash --login -c 'cd #{fetch(:deploy_to)}/current && #{command}'")
   end
+
 end

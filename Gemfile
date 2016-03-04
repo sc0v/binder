@@ -26,6 +26,20 @@ gem 'activeldap', :require => 'active_ldap/railtie'
 # For Card-lookup requests
 gem 'rest-client'
 
+# For Capistrano deployment
+group :development do
+  gem 'rvm1-capistrano3', require: false
+
+  # bundler specific tasks in capistrano
+  gem 'capistrano-bundler'
+
+  # rails specific tasks in capistrano
+  gem 'capistrano-rails'
+
+  # passenger tasks in capistrano
+  gem 'capistrano-passenger'
+end
+
 # Document attachments
 gem "carrierwave"
 
