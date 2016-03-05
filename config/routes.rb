@@ -36,6 +36,8 @@ Trailerapp::Application.routes.draw do
       post 'choose_organization', on: :collection
     end
   end
+  resources :tool_types
+
   resources :checkouts, :only => [:create] do
     post 'checkin', on: :collection
     post 'uncheckin', on: :member
