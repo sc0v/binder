@@ -1,1 +1,31 @@
-hi mom
+<div class="page-header">
+  <h1>Reports</h1>
+</div>
+<div class="panel-group" id="accordion">
+  <% @reports.each_with_index do |report, index| %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse<%= index %>">
+            <%= report[:title]%>
+          </a>
+        </h4>
+      </div>
+      <div id="collapse<%= index %>" class="panel-collapse collapse">
+        <div class="panel-body">
+          <%= report[:description] %>
+
+          <div class="form-inputs">
+            <%= form_for @report_f, as: :options, url: report[:url], html: {method: :get} do |f| %>
+              <% report[:params].each do |param| %>
+
+              <% end %>
+              <br />
+              <%= f.button "Run report!", class: 'btn btn-primary' %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
