@@ -2,6 +2,7 @@
   <%= hidden_field(nil, :from_organiation_status, :value => params[:from_organiation_status]) %>
   <div class="form-inputs">
     <%= f.input :name %>
+    <%= f.input :display, :as => :boolean %>
   </div>
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>

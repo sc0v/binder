@@ -14,7 +14,6 @@
       <% else %>
         <th>Name</th>
       <% end %>
-      <th>Number of Organizations with this type</th>
       <% if can?(:destroy, OrganizationStatusType) %>
         <th>Delete</th>
       <% end %>
@@ -28,7 +27,6 @@
         <% else %>
           <td><%= organization_status_type.name %></td>
         <% end %>
-        <td><%= organization_status_type.organizations.count %></td>
         <% if can?(:destroy, organization_status_type) %>
           <td>
             <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
