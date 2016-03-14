@@ -80,11 +80,12 @@ class CheckoutsController < ApplicationController
             waitlist.active = false
             waitlist.save
             removed_from_waitlist =
-                "#{waitlist.participant.name} (#{waitlist.organization.short_name}) was removed from the waitlist for #{waitlist.tool_type.name.pluralize}."
+                "  #{waitlist.participant.name} was removed from the waitlist for #{waitlist.tool_type.name.pluralize}."
+            break
           end
         end
 
-        format.html { redirect_to tool_path(@checkout.tool), notice: "Checkout was successfully created.  #{removed_from_waitlist}" }
+        format.html { redirect_to tool_path(@checkout.tool), notice: "Checkout was successfully created.#{removed_from_waitlist}" }
         format.json { render json: @checkout.tool, status: :created, location: @checkout.tool }
       else
         format.html { render action: "new" }

@@ -4,10 +4,12 @@
       <th>Position</th>
       <th>Person</th>
       <th>Organization</th>
-      <th>Wait duration (Minutes)</th>
-      <th>Note</th>
+      <th class="hidden-xs">Wait duration (Minutes)</th>
+      <% if can?(:create, ToolWaitlist) %>
+        <th class="hidden-xs">Note</th>
+      <% end %>
       <% if can?(:destroy, ToolWaitlist) %>
-        <th>Remove</th>
+        <th class="hidden-xs">Remove</th>
       <% end %>
     </tr>
   </thead>
@@ -17,10 +19,12 @@
         <td><%= index + 1 %></td>
         <td><%= "#{waitlist.participant.name} (#{waitlist.participant.andrewid})" %></td>
         <td><%= link_to waitlist.organization.short_name, organization_path(waitlist.organization) %></td>
-        <td><%= "#{waitlist.duration_waiting.to_i} mins" %></td>
-        <td><%= waitlist.note %></td>
-        <% if can?(:destroy, ToolWaitlist) %>
-          <td>
+        <td  class="hidden-xs"><%= "#{waitlist.duration_waiting.to_i} mins" %></td>
+        <% if can?(:create, ToolWaitlist) %>
+          <td  class="hidden-xs"><%= waitlist.note %></td>
+        <% end %>
+        <% if can?(:approve, Charge) %>
+          <td class="hidden-xs">
             <%= link_to "Remove",
                 tool_type_waitlist_path(waitlist.tool_type, waitlist),
                 :class => 'btn btn-danger btn-xs',
