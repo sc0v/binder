@@ -11,7 +11,7 @@ class Ability
     end
 
     can :read, [OrganizationAlias, OrganizationCategory, Organization, Participant, 
-                ShiftType, Tool, Membership]
+                ShiftType, Tool, ToolWaitlist, Membership]
 
     can :search
 
@@ -78,6 +78,7 @@ class Ability
       can :update, Task
       can [:create, :update], Tool
       can [:create, :update], ToolType
+      can [:create, :update , :destroy], ToolWaitlist
     end
 
     if user.has_role? :admin

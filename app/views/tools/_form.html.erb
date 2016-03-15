@@ -8,7 +8,7 @@
                 :selected => @tool.tool_type.nil? ? '' : @tool.tool_type.id %>
         </div>
         <div>
-          <%= link_to "Or create a new tool type", new_tool_type_path, class: 'btn btn-primary' %>
+          <%= link_to "Or create a new tool type", new_tool_type_path(from_tools: true), class: 'btn btn-primary' %>
         </div>
       </div>
       <div class='row'>
