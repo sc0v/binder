@@ -28,7 +28,7 @@ gem 'rest-client'
 
 # For Capistrano deployment
 group :development do
-  gem 'rvm1-capistrano3', require: false
+  gem 'capistrano-rbenv', require: false
 
   # bundler specific tasks in capistrano
   gem 'capistrano-bundler'
@@ -36,7 +36,7 @@ group :development do
   # rails specific tasks in capistrano
   gem 'capistrano-rails'
 
-  # passenger tasks in capistrano
+  # passenger specific tasks in capistrano
   gem 'capistrano-passenger'
 end
 

@@ -36,65 +36,14 @@ set :deploy_to, "/srv/rails/#{fetch :application}"
 # Default value for keep_releases is 5
 # set :keep_releases, 5
 
+# rbenv options
+set :rbenv_type, :system
+set :rbenv_ruby, '2.1.5'
 
-#
-# Bundler Options
-#
+# NewRelic
+before 'deploy:finished', 'newrelic:notice_deployment'
 
-# deploy mode and use packaged gems
-set :bundle_flags, '--deployment --local'
-
-# Put the gem binaries in shared/bin after install
-set :bundle_binstubs, -> { shared_path.join('bin') }
-
-#
-# Passenger Options
-#
-
-# Find the passenger binary
-# TODO: remove hardcoded ruby; rvm1 hook not respected
-set :passenger_environment_variables, { :path => [shared_path.join('bin'), '/home/deploy/.rvm/rubies/ruby-2.1.5/bin/'].join(':') }
-
-# Butcher restart into working
-# TODO: un-gross. ; is to escape the env.
-set :passenger_restart_command, ";cd /srv/rails/checkin/current && /srv/rails/checkin/rvm1scripts/rvm-auto.sh . #{shared_path.join('bin')}/passenger-config restart-app"
-
-
-#
-# Retrieve Host Uptime
-#
-desc "Report uptimes"
-task :uptime do
-  on roles(:all), in: :parallel do |host|
-    uptime = capture(:uptime)
-    puts "#{host.hostname} reports: #{uptime}"
-  end
-end
-
-
-#
-# Assorted Utility Tasks for Deploy
-#
 namespace :deploy do
-
-  desc "Update RVM key"
-  task :update_rvm_key do
-    on roles(:all) do |host|
-      execute :gpg, "--keyserver hkp://keys.gnupg.net --recv-keys D39DC0E3"
-    end
-  end
-  before "rvm1:install:rvm", "deploy:update_rvm_key"
-
-  desc "Check that we can access everything"
-  task :check_write_permissions do
-    on roles(:all) do |host|
-      if test("[ -w #{fetch(:deploy_to)} ]")
-        info "#{fetch(:deploy_to)} is writable on #{host}"
-      else
-        error "#{fetch(:deploy_to)} is not writable on #{host}"
-      end
-    end
-  end
 
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
@@ -102,18 +51,11 @@ namespace :deploy do
       # within release_path do
       #   execute :rake, 'cache:clear'
       # end
-      within release_path do
-        execute :touch, release_path.join('tmp/restart.txt')
-      end
     end
   end
 
 end
 
-before 'deploy', 'rvm1:install:rvm'
-before 'deploy', 'rvm1:install:ruby'
-
-before 'bundler:install', 'deploy:updating'
 
 #
 # Database Tasks
@@ -133,62 +75,6 @@ namespace :db do
   before 'db:setup', 'bundler:install'
 
 end
-
-
-#
-# Application Server (Passenger) Tasks
-#
-namespace :passenger do
-
-  desc "Check if passenger gem present"
-  task :check_gem do
-    on roles(:app) do
-      within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          execute :bundle, :show, :passenger
-        end
-      end
-    end
-  end
-
-  desc "Generate module configuration and enable module"
-  task :apache_config do
-    on roles(:app) do |h|
-      within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          execute :bundle, :exec, :ruby, "#{shared_path.join('bin')}/" +
-                                         "passenger-install-apache2-module --snippet " +
-                                         "> /tmp/passenger.load"
-          execute :sudo, :mv, "/tmp/passenger.load", "/etc/apache2/mods-available"
-          execute :sudo, :a2enmod, "passenger"
-        end
-      end
-    end
-  end
-  before 'passenger:apache_config', 'passenger:check_gem'
-  before 'passenger:apache_config', 'rvm1:hook'
-
-  desc "Build passenger"
-  task :build do
-    on roles(:app) do |h|
-      within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          run_interactively "#{shared_path.join('bin')}/passenger-install-apache2-module -a --languages ruby", h.user
-        end
-      end
-    end
-  end
-  before 'passenger:build', 'passenger:check_gem'
-
-  desc "Restart apache"
-  task :apache_restart do
-    on roles(:app) do |h|
-      execute :sudo, :service, :apache2, "restart"
-    end
-  end
-
-end
-
 
 #
 # Rails Console & DB Console Support

@@ -1,4 +1,4 @@
-server 'binder.springcarnival.org', user: 'deploy', roles: %w{app db web}
+server 'binder.springcarnival.org', user: 'sc0v', roles: %w{app db web}
 
 # server-based syntax
 # ======================
