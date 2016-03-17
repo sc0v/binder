@@ -1,8 +1,8 @@
-class ListOrgsReport < Dossier::Report
+class ListOrgsGoodReport < Dossier::Report
 
   def self.binder_report_info
     {
-        title: "Report to orgs",
+        title: "Report to orgs good",
         description: "This report helps us display all org info",
         params: [
           {name: :id, type: :text},

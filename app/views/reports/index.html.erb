@@ -13,15 +13,24 @@
       </div>
       <div id="collapse<%= index %>" class="panel-collapse collapse">
         <div class="panel-body">
-          <%= report[:description] %>
-
+          <p><%= report[:description] %></p>
           <div class="form-inputs">
-            <%= form_for @report_f, as: :options, url: report[:url], html: {method: :get} do |f| %>
+            <%= form_tag report[:url], method: :get do |f| %>
               <% report[:params].each do |param| %>
-
+                <div >
+                  <span><strong><%= param[:name].to_s.humanize %>:</strong></span>
+                  <% if param[:type] == :text %>
+                    <%= text_field_tag param[:name] %>
+                  <% elsif param[:type] == :select %>
+                    <%= select_tag param[:name], options_for_select(param[:choices]) %>
+                  <% elsif param[:type] == :checkbox %>
+                    <%= check_box_tag param[:name] %>
+                  <% end %>
+                </div>
+                <br />
               <% end %>
-              <br />
-              <%= f.button "Run report!", class: 'btn btn-primary' %>
+              <br /><br />
+              <%= button_tag "Run report!", class: 'btn btn-primary' %>
             <% end %>
           </div>
         </div>

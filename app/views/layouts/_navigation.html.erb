@@ -36,6 +36,9 @@
               <% if can?(:read, ToolType) %>
                 <li><%= link_to "Tool Types", tool_types_path %></li>
               <% end %>
+              <% if is_admin? %>
+                <li><%= link_to "Reports", reports_path %></li>
+              <% end %>
             </ul>
           </li>
         </ul>
