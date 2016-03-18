@@ -18,7 +18,7 @@ Trailerapp::Application.routes.draw do
   resources :charges do
     put 'approve', on: :member
   end
-  resources :charge_types , :except => [:show]
+  resources :charge_types
   resources :participants do
     resources :memberships, :except => [:index, :show]
     resource :waiver, :except => [:edit, :destroy, :show, :update]

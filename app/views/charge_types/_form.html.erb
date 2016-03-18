@@ -3,6 +3,14 @@
   <div class="form-inputs">
     <%= f.input :name %>
   </div>
+  <%= f.input :default_amount do %>
+    <div class="input-group">
+  		<%= content_tag :span, "$", :class => 'input-group-addon' %>
+  		<%= f.input_field :default_amount, :as => :string %>
+    </div>
+  <% end %>
+  <%= f.input :description, :as => :text, textarea: "{ font-size:16px; }" %>
+  <%= f.input :requires_booth_chair_approval, :as => :boolean %>
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

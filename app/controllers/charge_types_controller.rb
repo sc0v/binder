@@ -1,21 +1,29 @@
 class ChargeTypesController < ApplicationController
   load_and_authorize_resource
 
-  # GET /tool_types
-  # GET /tool_types.json
+  # GET /charge_types
+  # GET /charge_types.json
   def index
   end
 
-  # GET /tool_types/new
+  # GET /charge_types/new
   def new
   end
 
-  # GET /tool_types/1/edit
+  #GET /charge_types/1
+  def show
+    respond_to do |format|
+      format.html # new.html.erb
+      format.json { render :json => @charge_type.default_amount.to_json, :status => 200}
+    end
+  end
+
+  # GET /charge_types/1/edit
   def edit
   end
 
-  # POST /tool_types
-  # POST /tool_types.json
+  # POST /charge_types
+  # POST /charge_types.json
   def create
     @charge_type.save
     if params[:from_charge].present?
@@ -25,15 +33,15 @@ class ChargeTypesController < ApplicationController
     redirect_to charge_types_path
   end
 
-  # PATCH/PUT /tool_types/1
-  # PATCH/PUT /tool_types/1.json
+  # PATCH/PUT /charge_types/1
+  # PATCH/PUT /charge_types/1.json
   def update
     @charge_type.update_attributes(charge_type_params)
     redirect_to charge_types_path
   end
 
-  # DELETE /tool_types/1
-  # DELETE /tool_types/1.json
+  # DELETE /charge_types/1
+  # DELETE /charge_types/1.json
   def destroy
     if(@charge_type.charges.count > 0)
       flash[:error] = 'Cannot delete a charge type until all charges of that type are deleted.'
@@ -47,6 +55,6 @@ class ChargeTypesController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def charge_type_params
-      params.require(:charge_type).permit(:name)
+      params.require(:charge_type).permit(:name, :default_amount, :description, :requires_booth_chair_approval)
     end
 end
