@@ -19,7 +19,7 @@ Trailerapp::Application.routes.draw do
     put 'approve', on: :member
   end
   resources :participants do
-    resources :memberships, :except => [:index, :show, :destroy]
+    resources :memberships, :except => [:index, :show]
     resource :waiver, :except => [:edit, :destroy, :show, :update]
     post 'lookup', on: :collection
   end

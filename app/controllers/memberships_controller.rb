@@ -95,6 +95,7 @@ class MembershipsController < ApplicationController
   # PUT /memberships/1.json
   def update
     @participant = Participant.find(params[:participant_id])
+    @membership = Membership.find(params[:id])
     @membership.update_attributes(update_params)
     respond_with @membership, location: -> { @participant }
   end
