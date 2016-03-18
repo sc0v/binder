@@ -9,33 +9,32 @@
 <table class="table table-striped">
   <thead>
     <tr>
-      <% if can?(:update, OrganizationStatusType) %>
-        <th>Name (Click to edit)</th>
-      <% else %>
-        <th>Name</th>
-      <% end %>
-      <% if can?(:destroy, OrganizationStatusType) %>
-        <th>Delete</th>
+      <th>Name</th>
+      <th>Display</th>
+      <% if can?(:destroy, OrganizationStatusType) or can?(:update, OrganizationStatusType) %>
+        <th>Actions</th>
       <% end %>
     </tr>
   </thead>
   <tbody>
     <% @organization_status_types.each do |organization_status_type| %>
       <tr>
-        <% if can?(:update, organization_status_type) %>
-          <td><%= link_to organization_status_type.name, edit_organization_status_type_path(organization_status_type) %></td>
-        <% else %>
-          <td><%= organization_status_type.name %></td>
-        <% end %>
-        <% if can?(:destroy, organization_status_type) %>
-          <td>
-            <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+        <td><%= organization_status_type.name %></td>
+        <td><%= organization_status_type.display ? "Yes" : "No" %></td>
+          <% if can?(:update, organization_status_type) or can?(:destroy, organization_status_type) %>
+            <td class="hidden-xs">
+              <% if can?(:update, organization_status_type) %>
+                <%= link_to t('.edit', :default => t("helpers.links.edit")), edit_organization_status_type_path(organization_status_type), :class => 'btn btn-xs btn-primary' %>
+              <% end %>
+              <% if can?(:destroy, organization_status_type) %>
+                <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
                   organization_status_type_path(organization_status_type),
                   :class => 'btn btn-danger btn-xs',
                   :method => 'delete',
                   :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) }%>
-          </td>
-      <% end %>
+              <% end %>
+            </td>
+          <% end %>
       </tr>
     <% end %>
   </tbody>
