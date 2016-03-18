@@ -3,7 +3,9 @@
   <h1>
     <%=h @title || model_class.model_name.human.pluralize %>
   </h1>
-  <%= link_to 'Create a new charge type', new_charge_type_path, class: 'btn btn-primary' %>
+  <% if can?(:create, ChargeType) %>
+    <%= link_to 'Create a new charge type', new_charge_type_path, class: 'btn btn-primary' %>
+  <% end %>
 </div>
 
 <table class="table table-striped">

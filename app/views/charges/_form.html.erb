@@ -9,7 +9,9 @@ When adding a charge, please ensure that you add a detailed description. This al
         raw("$.getJSON('/charge_types/'+"+"this.value"+",function(response){$('#charge_amount').val(response)});") } %>
       </div>
       <div class = "col-md-4" style = "padding-left:76px;">
-        <%= link_to "Or create a new charge type", new_charge_type_path(from_charge: true), class: 'btn btn-primary' %>
+        <% if can?(:create, ChargeType) %>
+          <%= link_to "Or create a new charge type", new_charge_type_path(from_charge: true), class: 'btn btn-primary' %>
+        <% end %>
       </div>
     </div>
     <%= f.input :amount do %>
