@@ -692,7 +692,7 @@ Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: 
 #puts '  Security Shifts'
 
 case Rails.env
-when 'production'
+when 'staging', 'production'
   puts 'Tools'
   # Tools -----------------------------------------------------------------------
   generate_tools

@@ -86,7 +86,7 @@ Trailerapp::Application.routes.draw do
 
   resources :users
   
-  unless Rails.env.production?
+  unless Rails.env.staging? or Rails.env.production?
     post 'dev_login' => "home#dev_login", :as => "dev_login"
   end
 end

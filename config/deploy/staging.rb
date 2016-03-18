@@ -1,5 +1,5 @@
 server 'binder.springcarnival.org', user: 'sc0v', roles: %w{app db web}
-set :rails_env, 'production'
+set :rails_env, 'staging'
 
 # server-based syntax
 # ======================

@@ -72,7 +72,8 @@ group :development, :test do
   gem 'thin'
 end
 
-group :development, :production do
+group :development, :staging, :production do
+  gem 'newrelic_rpm'
   gem 'mysql'
 end
 
@@ -101,7 +102,6 @@ group :test do
   gem 'coveralls', require: false
 end
 
-group :production do
+group :staging, :production do
   gem 'passenger'
-  gem 'newrelic_rpm'
 end

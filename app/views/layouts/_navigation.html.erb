@@ -55,7 +55,7 @@
             </ul>
           </li>
         <% else %>
-          <% if Rails.env.production? %>
+          <% if Rails.env.staging? or Rails.env.production? %>
             <li>
               <%= link_to "Login", main_app.user_omniauth_authorize_path(:shibboleth)%>
             </li>

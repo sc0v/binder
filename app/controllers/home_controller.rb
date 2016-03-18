@@ -52,7 +52,7 @@ class HomeController < ApplicationController
   end
 
   def dev_login
-    unless Rails.env.production?
+    unless Rails.env.staging? or Rails.env.production?
       email = case params[:role]
         when 'Admin' then 'rcrown@andrew.cmu.edu'
         when 'SCC Member' then 'cbrownel@andrew.cmu.edu'

@@ -20,6 +20,16 @@ test:
   adapter: sqlite3
   database: db/binder_app_test.sqlite3
 
+staging:
+  adapter: mysql
+  encoding: utf8
+  reconnect: false
+  database: binder_staging
+  pool: 5
+  username: <%= ENV["MYSQL_USERNAME"] %>
+  password: <%= ENV["MYSQL_PASSWORD"] %>
+  socket: /var/run/mysqld/mysqld.sock
+
 production:
   adapter: mysql
   encoding: utf8

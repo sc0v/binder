@@ -43,5 +43,11 @@ test:
   # It doesn't make sense to report to New Relic from automated test runs.
   monitor_mode: false
 
+
+staging:
+  <<: *default_settings
+  # It doesn't make sense to report to New Relic from staging mode.
+  monitor_mode: false
+
 production:
   <<: *default_settings
