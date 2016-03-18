@@ -42,7 +42,7 @@ class ApplicationController < ActionController::Base
   def sidebar
     @current_shifts_sidebar = Shift.current
     @upcoming_shifts_sidebar = Shift.upcoming
-    @tasks_sidebar = Task.upcoming
+    @tasks_sidebar = Task.upcoming.is_incomplete
     @structural_queue_sidebar = OrganizationTimelineEntry.structural.current
     @electrical_queue_sidebar = OrganizationTimelineEntry.electrical.current
 

@@ -4,7 +4,13 @@ class TasksController < ApplicationController
   # GET /tasks
   # GET /tasks.json
   def index
-    @tasks = Task.all
+    if(params[:task_filter].blank?)
+      @tasks = Task.all
+    elsif(params[:task_filter] == "completed_tasks")
+      @tasks = Task.is_complete
+    elsif(params[:task_filter] == "incomplete_tasks")
+      @tasks = Task.is_incomplete
+    end
   end
 
   # GET /tasks/1
@@ -22,6 +28,12 @@ class TasksController < ApplicationController
   # GET /tasks/1/edit
   def edit
     @task = Task.find(params[:id])
+  end
+
+  def complete
+    @task.is_completed = true
+    @task.save
+    redirect_to :back
   end
 
   # POST /tasks
