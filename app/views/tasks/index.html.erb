@@ -45,6 +45,10 @@
                         :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
                         :class => 'btn btn-xs btn-danger' %>
               <% end %>
+              <% if can?(:read, task) %>
+                <%= link_to t('.complete', :default => t("helpers.links.complete")),
+                        edit_task_path(task), :class => 'btn btn-xs btn-primary' %>
+              <% end %>
             </td>
           <% end %>
         </tr>

@@ -66,12 +66,17 @@
             <thead>
               <th>Title</th>
               <th style="text-align: right;">Due By</th>
+              <th style="text-align: center;">Action</th>
             </thead>
             <tbody>
               <% @tasks_sidebar.each do |task| %>
                 <tr class="sidebar-tooltip" data-toggle="tooltip" data-placement="left" title="<%=h task.name %>:</br></br><%=h task.description %>">
                   <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><%=h task.name %></td>
                   <td style="text-align: right;"><%= time task.due_at%></td>
+                  <% if can?(:read, task) %>
+                    <td><%= link_to t('.complete', :default => t("helpers.links.complete")),
+                        edit_task_path(task), :class => 'btn btn-xs btn-primary' %></td>
+                  <% end %>
                 </tr>
               <% end %>
             </tbody>
