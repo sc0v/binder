@@ -39,5 +39,7 @@ class Charge < ActiveRecord::Base
   default_scope { order('charged_at DESC') }
   scope :approved, -> { where(is_approved: true) }
   scope :pending, -> { where(is_approved: false) }
+  scope :by_charge_types, ->(charge_types){where(charge_type: {name: charge_types})}
+  scope :by_not_charge_types, ->(charge_types){where(charge_type: {name: charge_types})}
 end
 

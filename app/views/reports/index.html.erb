@@ -16,15 +16,16 @@
           <p><%= report[:description] %></p>
           <div class="form-inputs">
             <%= form_tag report[:url], method: :get do |f| %>
+                <%= hidden_field_tag "options[footer]", value: 1 %>
               <% report[:params].each do |param| %>
                 <div >
                   <span><strong><%= param[:name].to_s.humanize %>:</strong></span>
                   <% if param[:type] == :text %>
-                    <%= text_field_tag param[:name] %>
+                    <%= text_field_tag "options[#{param[:name]}]" %>
                   <% elsif param[:type] == :select %>
-                    <%= select_tag param[:name], options_for_select(param[:choices]) %>
+                    <%= select_tag "options[#{param[:name]}]", options_for_select(param[:choices]) %>
                   <% elsif param[:type] == :checkbox %>
-                    <%= check_box_tag param[:name] %>
+                    <%= check_box_tag "options[#{param[:name]}]", checked: param[:checked] %>
                   <% end %>
                 </div>
                 <br />
