@@ -7,9 +7,11 @@
                 :prompt => 'Select a tool type',
                 :selected => @tool.tool_type.nil? ? '' : @tool.tool_type.id %>
         </div>
-        <div>
-          <%= link_to "Or create a new tool type", new_tool_type_path(from_tools: true), class: 'btn btn-primary' %>
-        </div>
+        <% if can?(:create, ToolType) %>
+          <div>
+            <%= link_to "Or create a new tool type", new_tool_type_path(from_tools: true), class: 'btn btn-primary' %>
+          </div>
+        <% end %>
       </div>
       <div class='row'>
         <div class='col-xs-12 col-sm-6'><%= f.input :barcode %></div>

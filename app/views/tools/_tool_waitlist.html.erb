@@ -23,7 +23,7 @@
         <% if can?(:create, ToolWaitlist) %>
           <td  class="hidden-xs"><%= waitlist.note %></td>
         <% end %>
-        <% if can?(:approve, Charge) %>
+        <% if can?(:destroy, ToolWaitlist) %>
           <td class="hidden-xs">
             <%= link_to "Remove",
                 tool_type_waitlist_path(waitlist.tool_type, waitlist),
