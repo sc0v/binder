@@ -2,6 +2,10 @@ class ReportsController < ApplicationController
 
   # GET /reports
   def index
+    unless can?(:create, :reports)
+      redirect_to root_url, alert: 'You do not have permission to see reports'
+    end
+
     @reports = []
 
     Dir.glob("app/reports/*.rb").each do |file_path|
