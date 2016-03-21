@@ -50,7 +50,7 @@ class OrganizationTimelineEntriesController < ApplicationController
   # DELETE /organizations_timeline_entry/1.json
   def destroy
     @organization_timeline_entry.destroy
-    respond_with(@organization_timeline_entry, location: params[:url])
+    redirect_to downtime_path 
   end
 
   def electrical

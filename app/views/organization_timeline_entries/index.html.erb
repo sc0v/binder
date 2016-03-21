@@ -12,6 +12,9 @@
       <th><%= model_class.human_attribute_name(:started_at) %></th>
       <th><%= model_class.human_attribute_name(:ended_at) %></th>
       <th>Duration</th>
+      <% if can?(:update, Task) or can?(:destroy, Task) %>
+          <th class="hidden-xs"><%=t '.actions', :default => t("helpers.actions") %></th>
+      <% end %>
     </tr>
   </thead>
 
@@ -22,6 +25,20 @@
           <td class="hidden-xs"><%= link_to date_and_time(entry.started_at), edit_organization_timeline_entry_path(entry) %></td>
           <td class="hidden-xs"><%= date_and_time entry.ended_at unless entry.ended_at.blank? %></td>
           <td class="hidden-xs"><%= format_downtime entry.duration %></td>
+          <% if can?(:update, OrganizationTimelineEntry) or can?(:destroy, OrganizationTimelineEntry) %>
+            <td class="hidden-xs">
+              <% if can?(:update, OrganizationTimelineEntry) %>
+                <%= link_to t('.edit', :default => t("helpers.links.edit")),
+                        edit_organization_timeline_entry_path(entry), :class => 'btn btn-xs btn-primary' %>
+              <% end %>
+              <% if can?(:destroy, OrganizationTimelineEntry) %>
+                <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
+                        organization_timeline_entry_path(entry),
+                        :method => :delete,
+                        :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
+                        :class => 'btn btn-xs btn-danger' %>
+              <% end %>
+          <% end %>
         </tr>
       <% end %>
     <% end %>
