@@ -19,8 +19,12 @@ class OrganizationTimelineEntriesController < ApplicationController
       else 'downtime'
     end
 
-    @organization_timeline_entry.save
-    respond_with(@organization_timeline_entry, location: params[:url])
+    if(@organization_timeline_entry.valid?)
+      @organization_timeline_entry.save
+      respond_with(@organization_timeline_entry, location: params[:url])
+    else
+      redirect_to :back, alert:"Missing Organization Name!"
+    end
   end
 
   # PUT /organizations_timeline_entry/1
