@@ -26,8 +26,8 @@
               <% if can?(:read, Charge) %>
                 <li><%= link_to "Charges", charges_path %></li>
               <% end %>
-              <% if can?(:read, OrganizationStatusType) %>
-                <li><%= link_to "Organization Status Types", organization_status_types_path %></li>
+              <% if can?(:read, ChargeType) %>
+                <li><%= link_to "Charge Types", charge_types_path %></li>
               <% end %>
               <li><%= link_to "Shifts", shifts_path(:type => "watch") %></li>
               <li><%= link_to "Documents", documents_path %></li>
