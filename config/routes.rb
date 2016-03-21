@@ -15,6 +15,7 @@ Trailerapp::Application.routes.draw do
   resources :organization_timeline_entries, :controller => :organization_timeline_entries, :only => [:edit, :create, :update, :destroy] do
     put 'end', on: :member
   end
+  resources :organization_status_types , :except => [:show]
   resources :charges do
     put 'approve', on: :member
   end
