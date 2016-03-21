@@ -12,6 +12,13 @@ class Store::PurchasesController < ApplicationController
     redirect_to store_url
   end
 
+  def remove_from_cart
+    @store_purchase = StorePurchase.find params[:id]
+    @store_purchase.destroy
+    #respond_with(@store_purchase)
+    redirect_to store_url
+  end
+
   def new
     @charge = Charge.new
   end
