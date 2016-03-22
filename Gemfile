@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '2.1.5'
+ruby '2.3.0'
 gem 'rails', '4.2'
 gem 'turbolinks'
 
@@ -38,6 +38,8 @@ group :development do
 
   # passenger tasks in capistrano
   gem 'capistrano-passenger'
+  
+  gem 'meta_request'
 end
 
 # Document attachments
