@@ -64,4 +64,8 @@ module ApplicationHelper
     return false if params[param].nil?
     params[param].strip == value
   end
+
+  def is_admin?
+    current_user.present? && current_user.has_role?(:admin)
+  end
 end

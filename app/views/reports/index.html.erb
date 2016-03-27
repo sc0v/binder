@@ -1,0 +1,41 @@
+<div class="page-header">
+  <h1>Reports</h1>
+</div>
+<div class="panel-group" id="accordion">
+  <% @reports.each_with_index do |report, index| %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        <h4 class="panel-title">
+          <a data-toggle="collapse" data-parent="#accordion" href="#collapse<%= index %>">
+            <%= report[:title]%>
+          </a>
+        </h4>
+      </div>
+      <div id="collapse<%= index %>" class="panel-collapse collapse">
+        <div class="panel-body">
+          <p><%= report[:description] %></p>
+          <div class="form-inputs">
+            <%= form_tag report[:url], method: :get do |f| %>
+                <%= hidden_field_tag "options[footer]", value: 1 %>
+              <% report[:params].each do |param| %>
+                <div >
+                  <span><strong><%= param[:name].to_s.humanize %>:</strong></span>
+                  <% if param[:type] == :text %>
+                    <%= text_field_tag "options[#{param[:name]}]" %>
+                  <% elsif param[:type] == :select %>
+                    <%= select_tag "options[#{param[:name]}]", options_for_select(param[:choices]) %>
+                  <% elsif param[:type] == :checkbox %>
+                    <%= check_box_tag "options[#{param[:name]}]", checked: param[:checked] %>
+                  <% end %>
+                </div>
+                <br />
+              <% end %>
+              <br /><br />
+              <%= button_tag "Run report!", class: 'btn btn-primary' %>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </div>
+  <% end %>
+</div>
