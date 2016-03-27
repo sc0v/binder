@@ -32,7 +32,11 @@ Trailerapp::Application.routes.draw do
   resources :shifts do
     resources :participants, :controller => :shift_participants, :only => [:new, :create, :destroy]
   end
-  resources :tasks
+  resources :tasks do
+    member do
+      post 'complete'
+    end
+  end
   resources :tools do
     resources :checkouts, :only => [:new, :create, :update, :index] do
       post 'choose_organization', on: :collection
