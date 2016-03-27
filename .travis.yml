@@ -1,6 +1,6 @@
 language: ruby
 rvm:
-  - 2.1.5
+  - 2.3.0
 bundler_args: --without development staging production
 sudo: false
 before_script:
