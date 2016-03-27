@@ -8,241 +8,164 @@
 #   Mayor.create(name: 'Emanuel', city: cities.first)
 require_relative 'tool_seed.rb'
 
-puts 'Seeding Database...'
 puts
-puts 'Seeding:'
+puts 'Seeding Databse...'
+puts
 
 # Organization Categories -----------------------------------------------------
 puts 'Organization Categories'
-frat = OrganizationCategory.create({ name: 'Fraternity'})
-soro = OrganizationCategory.create({ name: 'Sorority'})
-indie = OrganizationCategory.create({ name: 'Independent'})
+
+fraternity = OrganizationCategory.create({ name: 'Fraternity'})
+sorority = OrganizationCategory.create({ name: 'Sorority'})
+independent = OrganizationCategory.create({ name: 'Independent'})
 blitz = OrganizationCategory.create({ name: 'Blitz'})
 concessions = OrganizationCategory.create({ name: 'Concessions'})
 non_building = OrganizationCategory.create({ name: 'Non-Building' })
-university = OrganizationCategory.create({ name: 'Staff' })
 scc = OrganizationCategory.create({ name: 'SCC'})
+staff = OrganizationCategory.create({ name: 'Staff' })
 
 # Organizations ---------------------------------------------------------------
 puts 'Organizations'
+
 scc_org = Organization.create({ name: 'Spring Carnival Committee', organization_category: scc, short_name: 'SCC' })
 
 puts '  University'
-ehs_org = Organization.create({ name: 'Environmental Health and Safety', organization_category: university, short_name: 'EH&S' })
+ehs_org = Organization.create({ name: 'Environmental Health and Safety', organization_category: staff, short_name: 'EH&S' })
   OrganizationAlias.create({ organization: ehs_org, name: 'EHS' })
-fms_org = Organization.create({ name: 'Facilities Management Services', organization_category: university, short_name: 'FMS' })
-dosa_org = Organization.create({ name: 'Student Affairs', organization_category: university, short_name: 'DOSA' })
-  OrganizationAlias.create({ organization: dosa_org, name: 'Division of Student Affairs' })
-  OrganizationAlias.create({ organization: dosa_org, name: 'DOSA' })
-  OrganizationAlias.create({ organization: dosa_org, name: 'Student Activities' })
-  OrganizationAlias.create({ organization: dosa_org, name: 'SOA' })
-  OrganizationAlias.create({ organization: dosa_org, name: 'Student Life' })
-  OrganizationAlias.create({ organization: dosa_org, name: 'SLO' })
+fms_org = Organization.create({ name: 'Facilities Management Services', organization_category: staff, short_name: 'FMS' })
+sa_org = Organization.create({ name: 'Student Affairs', organization_category: staff, short_name: 'DOSA' })
+  OrganizationAlias.create({ organization: sa_org, name: 'Division of Student Affairs' })
+  OrganizationAlias.create({ organization: sa_org, name: 'Student Activities' })
+  OrganizationAlias.create({ organization: sa_org, name: 'Student Life' })
 
 puts '  Consessions'
-kapsig_org = Organization.create({ name: 'Kappa Sigma', organization_category: concessions, short_name: 'KapSig' })
 aphio_org = Organization.create({ name: 'Alpha Phi Omega', organization_category: concessions, short_name: 'APhiO' })
 
 puts '  Fraternity'
-aepi_org = Organization.create({ name: 'Alpha Epsilon Pi', organization_category: frat, short_name: 'AEPi' })
-dtd_org = Organization.create({ name: 'Delta Tau Delta', organization_category: frat, short_name: 'DTD' })
+aepi_org = Organization.create({ name: 'Alpha Epsilon Pi', organization_category: fraternity, short_name: 'AEPi' })
+asig_org = Organization.create({ name: 'Alpha Sigma Phi', organization_category: fraternity, short_name: 'Alpha Sig' })
+dtd_org = Organization.create({ name: 'Delta Tau Delta', organization_category: fraternity, short_name: 'DTD' })
   OrganizationAlias.create({ organization: dtd_org, name: 'Delt' })
-du_org = Organization.create({ name: 'Delta Upsilon', organization_category: frat, short_name: 'DU' })
-phidelt_org = Organization.create({ name: 'Phi Delta Theta', organization_category: frat, short_name: 'PhiDelt' })
-sae_org = Organization.create({ name: 'Sigma Alpha Epsilon', organization_category: frat, short_name: 'SAE' })
-sigep_org = Organization.create({ name: 'Sigma Phi Epsilon', organization_category: frat, short_name: 'SigEp' })
-  OrganizationAlias.create({ organization: sigep_org, name: 'SPE' })
+kapsig_org = Organization.create({ name: 'Kappa Sigma', organization_category: fraternity, short_name: 'KapSig' })
+phidelt_org = Organization.create({ name: 'Phi Delta Theta', organization_category: fraternity, short_name: 'Phi Delt' })
+sae_org = Organization.create({ name: 'Sigma Alpha Epsilon', organization_category: fraternity, short_name: 'SAE' })
+sigep_org = Organization.create({ name: 'Sigma Phi Epsilon', organization_category: fraternity, short_name: 'SigEp' })
 
 puts '  Sorority'
-aphi_org = Organization.create({ name: 'Alpha Phi', organization_category: soro, short_name: 'Alpha Phi' })
+aphi_org = Organization.create({ name: 'Alpha Phi', organization_category: sorority, short_name: 'Alpha Phi' })
   OrganizationAlias.create({ organization: aphi_org, name: 'APhi' })
-axo_org = Organization.create({ name: 'Alpha Chi Omega', organization_category: soro, short_name: 'AXO' })
-  OrganizationAlias.create({ organization: axo_org, name: 'AXO' })
+axo_org = Organization.create({ name: 'Alpha Chi Omega', organization_category: sorority, short_name: 'AXO' })
   OrganizationAlias.create({ organization: axo_org, name: 'Alpha Chi' })
-ddd_org = Organization.create({ name: 'Delta Delta Delta', organization_category: soro, short_name: 'Tri Delt' })
+ddd_org = Organization.create({ name: 'Delta Delta Delta', organization_category: sorority, short_name: 'Tri Delt' })
   OrganizationAlias.create({ organization: ddd_org, name: 'DDD' })
-  OrganizationAlias.create({ organization: ddd_org, name: 'TriDelta' })
-dg_org = Organization.create({ name: 'Delta Gamma', organization_category: soro, short_name: 'DG' })
-kat_org = Organization.create({ name: 'Kappa Alpha Theta', organization_category: soro, short_name: 'Theta' })
+dg_org = Organization.create({ name: 'Delta Gamma', organization_category: sorority, short_name: 'DG' })
+kat_org = Organization.create({ name: 'Kappa Alpha Theta', organization_category: sorority, short_name: 'Theta' })
   OrganizationAlias.create({ organization: kat_org, name: 'KAT' })
-kkg_org = Organization.create({ name: 'Kappa Kappa Gamma', organization_category: soro, short_name: 'Kappa' })
+kkg_org = Organization.create({ name: 'Kappa Kappa Gamma', organization_category: sorority, short_name: 'Kappa' })
   OrganizationAlias.create({ organization: kkg_org, name: 'KKG' })
 
 puts '  Independent'
-asa_org = Organization.create({ name: 'Asian Students Association', organization_category: indie, short_name: 'ASA' })
-fringe_org = Organization.create({ name: 'Fringe', organization_category: indie, short_name: 'Fringe' })
-kgb_org = Organization.create({ name: 'KGB', organization_category: indie, short_name: 'KGB' })
-sdc_org = Organization.create({ name: 'Student Dormitory Council', organization_category: indie, short_name: 'SDC' })
-ssa_org = Organization.create({ name: 'Singapore Students Association', organization_category: indie, short_name: 'SSA' })
-tsa_org = Organization.create({ name: 'Taiwanese Students Association', organization_category: indie, short_name: 'TSA' })
+asa_org = Organization.create({ name: 'Asian Students Association', organization_category: independent, short_name: 'ASA' })
+fringe_org = Organization.create({ name: 'Fringe', organization_category: independent, short_name: 'Fringe' })
+kgb_org = Organization.create({ name: 'KGB', organization_category: independent, short_name: 'KGB' })
+tsa_org = Organization.create({ name: 'Taiwanese Students Association', organization_category: independent, short_name: 'TSA' })
 
 puts '  Blitz'
 astro_org = Organization.create({ name: 'Astronomy Club', organization_category: blitz, short_name: 'Astro' })
-#akpsi_org = Organization.create({ name: 'Alpha Kappa Psi', organization_category: blitz })
-#  OrganizationAlias.create({ organization: akpsi_org, name: 'AKPsi' })
-math_org = Organization.create({ name: 'Math Club', organization_category: blitz })
+math_org = Organization.create({ name: 'Math Club', organization_category: blitz, short_name: 'Math' })
 mayur_org = Organization.create({ name: 'Mayur SASA', organization_category: blitz, short_name: 'Mayur' })
-  OrganizationAlias.create({ organization: mayur_org, name: 'SASA' })
 mcs_org = Organization.create({ name: 'Mellon College of Science', organization_category: blitz, short_name: 'MCS' })
-#mudge_org = Organization.create({ name: 'Mudge', organization_category: blitz })
-spirit_org = Organization.create({ name: 'Spirit', organization_category: blitz })
-earth_org = Organization.create({ name: 'Sustainable Earth', organization_category: blitz, short_name: 'Sust. Earth' })
-#lambda_org = Organization.create({ name: 'Lambda Phi Epsilon', organization_category: blitz, short_name: 'Lambda' })
-#stever_org = Organization.create({ name: 'Stever', organization_category: blitz })
+sdc_org = Organization.create({ name: 'Student Dormitory Council', organization_category: blitz, short_name: 'SDC' })
 sigchi_org = Organization.create({ name: 'Sigma Chi', organization_category: blitz, short_name: 'SigChi' })
   OrganizationAlias.create({ organization: sigchi_org, name: 'SX' })
+spirit_org = Organization.create({ name: 'Spirit', organization_category: blitz })
 
 puts '  Non-Building'
-crew_org = Organization.create({ name: 'Crew', organization_category: non_building })
-  OrganizationAlias.create({ organization: crew_org, name: 'Rowing' })
-the_os_org = Organization.create({ name: 'The Originals', organization_category: non_building, short_name: 'The O\'s' })
-pike_org = Organization.create({ name: 'Pi Kappa Alpha', organization_category: non_building, short_name: 'Pike' })
-  OrganizationAlias.create({ organization: pike_org, name: 'Pika' })
-polo_org = Organization.create({ name: 'Water Polo', organization_category: non_building, short_name: 'Polo' })
-habitat_org = Organization.create({ name: 'Habitat for Humanity', organization_category: non_building, short_name: 'Habitat' })
-lg_org = Organization.create({ name: 'Lunar Gala', organization_category: non_building, short_name: 'LG' })
-
-# Judging ---------------------------------------------------------------------
-
-puts 'Judging Categories'
-JudgementCategory.create([
-  { name: 'Overall Quality', grouping: 'design', max_value: 30, description: 'Is the booth well constructed and is there good attention to detail.' },
-])
+crew_org = Organization.create({ name: 'Rowing Club', organization_category: non_building, short_name: 'Rowing' })
+  OrganizationAlias.create({ organization: crew_org, name: 'Crew' })
+originals_org = Organization.create({ name: 'The Originals', organization_category: non_building, short_name: 'The O\'s' })
 
 # Cell phone carriers ---------------------------------------------------------
 puts 'Phone carriers'
-["Verizon Wireless","Sprint","AT&T","T-Mobile","Metro PCS","US Cellular","Cricket","Virgin Mobile","Boost Mobile"].each do |name|
+
+['Verizon Wireless','Sprint','AT&T','T-Mobile','Metro PCS','US Cellular','Cricket','Virgin Mobile','Boost Mobile'].each do |name|
   PhoneCarrier.create({ name: name})
 end
 
 # SCC Members -----------------------------------------------------------------
-puts 'SCC Members (not exhaustive)'
-carrie_user = User.new({ email: 'cweintra@andrew.cmu.edu', name: 'Carrie Weintraub'})
-carrie_user.add_role :admin
-carrie_user.save!
-carrie = Participant.create({ andrewid: 'cweintra', phone_number: 2038309156, user: carrie_user })
-Membership.create({ organization: scc_org, participant: carrie, title: 'Carnival Chair', is_booth_chair: true })
-Membership.create({ organization: kkg_org, participant: carrie })
+puts 'SCC Members'
 
-hannelie_user = User.new({ email: 'hmostert@andrew.cmu.edu', name: 'Hannelie Mostert'})
-hannelie_user.add_role :admin
-hannelie_user.save!
-hannelie = Participant.create({ andrewid: 'hmostert', phone_number: 1234567890, user: hannelie_user })
-Membership.create({ organization: scc_org, participant: hannelie, title: 'Head of Booth', is_booth_chair: true })
-Membership.create({ organization: axo_org, participant: hannelie})
+chair_andrewid = 'phkoenig'
+treasurer_andrewid = 'arakla'
+head_booth_andrewid = 'rwolfing'
+advisor_andrewid = 'asgreen'
+meg_andrewid = 'meribyte'
 
-rachel_user = User.new({ email: 'rcrown@andrew.cmu.edu', name: 'Rachel Crown'})
-rachel_user.add_role :admin
-rachel_user.save!
-rachel = Participant.create({ andrewid: 'rcrown', phone_number: 6178617669, user: rachel_user })
-Membership.create({ organization: scc_org, participant: rachel, is_booth_chair: true })
-Membership.create({ organization: kat_org, participant: rachel })
+chair_user = User.create({ email: "#{chair_andrewid}@andrew.cmu.edu"})
+chair_user.add_role :admin
+chair = Participant.create({ andrewid: chair_andrewid, user: chair_user })
+Membership.create({ organization: scc_org, participant: chair, title: 'Carnival Chair', is_booth_chair: true })
 
-tim_user = User.new({ email: 'leonardt@andrew.cmu.edu', name: 'Tim Leonard'})
-tim_user.add_role :admin
-tim_user.save!
-tim = Participant.create({ andrewid: 'leonardt', phone_number: 4122688704, user: tim_user })
-Membership.create({ organization: scc_org, participant: tim, title: 'Coordinator of Student Activities', is_booth_chair: true })
-Membership.create({ organization: dosa_org, participant: tim, title: 'Coordinator of Student Activities', is_booth_chair: true })
+treasurer_user = User.create({ email: "#{treasurer_andrewid}@andrew.cmu.edu"})
+treasurer_user.add_role :admin
+treasurer = Participant.create({ andrewid: treasurer_andrewid, user: treasurer_user })
+Membership.create({ organization: scc_org, participant: treasurer, title: 'Head of Booth', is_booth_chair: true })
 
-chase_user = User.new({ email: 'cbrownel@andrew.cmu.edu', name: 'Chase'})
-chase_user.add_role :admin
-chase_user.save!
-chase = Participant.create({ andrewid: 'cbrownel', phone_number: 1713435788, user: chase_user })
-Membership.create({ organization: scc_org, participant: chase, title: 'Alumni Webmaster' })
-Membership.create({ organization: dtd_org, participant: chase })
+head_booth_user = User.create({ email: "#{head_booth_andrewid}@andrew.cmu.edu"})
+head_booth_user.add_role :admin
+head_booth = Participant.create({ andrewid: head_booth_andrewid, user: head_booth_user })
+Membership.create({ organization: scc_org, participant: head_booth, title: 'Head of Booth', is_booth_chair: true })
 
-merichar_user = User.new({email: "meribyte@andrew.cmu.edu", name: "Meg" })
-merichar_user.add_role :admin
-merichar_user.save!
-merichar = Participant.create({ andrewid: 'meribyte', phone_number: 8456424549, user: merichar_user })
-Membership.create({ organization: scc_org, participant: merichar, title: 'Asst. Operations - Golf Carts & Webmaster' })
+advisor_user = User.create({ email: "#{advisor_andrewid}@andrew.cmu.edu"})
+advisor_user.add_role :admin
+advisor = Participant.create({ andrewid: advisor_andrewid, user: advisor_user })
+Membership.create({ organization: scc_org, participant: advisor, title: 'Advisor', is_booth_chair: true })
+Membership.create({ organization: sa_org, participant: advisor, title: 'Spring Carnival Advisor', is_booth_chair: true })
 
-Participant.create([
-  { andrewid: 'ekarras' },
-  { andrewid: 'saahmed' },
-  { andrewid: 'ejsolomo' },
-  { andrewid: 'dmiele' },
-  { andrewid: 'amartine' },
-  { andrewid: 'cssmith' },
-  { andrewid: 'bmittman' },
-  { andrewid: 'remyb' },
-  { andrewid: 'bbzhang' },
-  { andrewid: 'prheinhe' },
-  { andrewid: 'phkoenig' },
-  { andrewid: 'acallaha' },
-  { andrewid: 'mtai' },
-  { andrewid: 'sromero' },
-  { andrewid: 'dmou' },
-  { andrewid: 'lnatale' },
-  { andrewid: 'nkawakam' },
-  { andrewid: 'struong' },
-  { andrewid: 'aborie' },
-  { andrewid: 'cmorin' },
-  { andrewid: 'abonsu' },
-  { andrewid: 'mguturu' },
-  { andrewid: 'srkane' },
-  { andrewid: 'chenhaoy' },
-  { andrewid: 'jlareau' },
-  { andrewid: 'jhousen' },
-  { andrewid: 'msiko' },
-  { andrewid: 'ncoauett' },
-  { andrewid: 'akelkar' },
-  { andrewid: 'egarbade' },
-  { andrewid: 'jlkushne' },
-  { andrewid: 'madedjou' },
-  { andrewid: 'rlapre' },
-  { andrewid: 'tan' },
-  { andrewid: 'amort' },
-  { andrewid: 'colleenf' },
-  { andrewid: 'mrjames' },
-  { andrewid: 'jcmertz' },
-  { andrewid: 'kfair' },
-  { andrewid: 'zhuoyanw' }
-])
+meg_user = User.new({email: "#{meg_andrewid}@andrew.cmu.edu" })
+meg_user.add_role :admin
+meg = Participant.create({ andrewid: meg_andrewid })
+Membership.create({ organization: scc_org, participant: meg })
 
-Membership.create([
-  { participant: Participant.find_by_andrewid('ekarras'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('saahmed'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('ejsolomo'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('dmiele'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('amartine'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('cssmith'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('bmittman'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('remyb'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('bbzhang'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('prheinhe'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('phkoenig'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('acallaha'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('mtai'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('sromero'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('dmou'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('lnatale'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('nkawakam'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('struong'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('aborie'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('cmorin'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('abonsu'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('mguturu'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('srkane'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('chenhaoy'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('jlareau'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('jhousen'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('msiko'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('ncoauett'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('akelkar'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('egarbade'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('jlkushne'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('madedjou'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('rlapre'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('tan'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('amort'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('colleenf'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('mrjames'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('jcmertz'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('kfair'), organization: scc_org},
-  { participant: Participant.find_by_andrewid('zhuoyanw'), organization: scc_org}
-])
+['aborie',
+ 'afmeyer',
+ 'agotsis',
+ 'agurvich',
+ 'amartine',
+ 'amoran',
+ 'bbzhang',
+ 'bhunttob',
+ 'cbanuelo',
+ 'chenhaoy',
+ 'clohman',
+ 'cmorin',
+ 'dmiele',
+ 'egarbade',
+ 'hkoschme',
+ 'jcmertz',
+ 'jcp',
+ 'jiyunkwo',
+ 'jlareau',
+ 'jwesson',
+ 'jzak',
+ 'lawrencx',
+ 'mreager',
+ 'msingal',
+ 'ncoauett',
+ 'nehull',
+ 'nhoran',
+ 'nkawakam',
+ 'prheinhe',
+ 'rahsan',
+ 'saclark',
+ 'sasikalm',
+ 'sromero',
+ 'tan',
+ 'tmedirat',
+ 'yuanyua1',
+ 'zileig'].each do |andrewid|
+  Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: andrewid }) })
+end
 
 # Booth Chairs ----------------------------------------------------------------
 puts 'Booth Chairs'
@@ -309,43 +232,70 @@ Membership.create({ organization: sigchi_org, participant: Participant.create({ 
 Membership.create({ organization: sigep_org, participant: Participant.create({ andrewid: 'bsiegel', phone_number: 2074752240}), is_booth_chair: true })
 Membership.create({ organization: sigep_org, participant: Participant.create({ andrewid: 'sjstark', phone_number: 9049622490}), is_booth_chair: true })
 Membership.create({ organization: spirit_org, participant: Participant.create({ andrewid: 'jmonroe', phone_number: 2035814082}), is_booth_chair: true })
-Membership.create({ organization: ssa_org, participant: Participant.create({ andrewid: 'zunyibrt', phone_number: 4125195516}), is_booth_chair: true })
-Membership.create({ organization: ssa_org, participant: Participant.create({ andrewid: 'jechua', phone_number: 4126239206}), is_booth_chair: true })
-Membership.create({ organization: earth_org, participant: Participant.create({ andrewid: 'alexchen', phone_number: 6308095728}), is_booth_chair: true })
-Membership.create({ organization: earth_org, participant: Participant.create({ andrewid: 'htomio', phone_number: 3126622539}), is_booth_chair: true })
 Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'kywang1', phone_number: 8583662883}), is_booth_chair: true })
 Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'hsienhsi', phone_number: 4123528929}), is_booth_chair: true })
 
+# Organization Status Types --------------------------------------------------
+puts 'Organization Status Types'
+
+OrganizationStatusType.create([
+  { name: "Authorized for Plan Deviation", display: false },
+  { name: "Structural Inspection", display: true },
+  { name: "First Floor Level", display: true },
+  { name: "First Floor Walls Approved", display: true },
+  { name: "Stairs Approved", display: true },
+  { name: "Second Floor Level", display: true },
+  { name: "Second Floor Walls Approved", display: true },
+  { name: "Roof Approved", display: true },
+  { name: "Electrical Inspection", display: true },
+  { name: "Electrical Approved", display: true },
+  { name: "Final Inspection Passed", display: true },
+  { name: "Note", display: false }
+])
+
 # Charge Types ----------------------------------------------------------------
 puts 'Charge Types'
+
 ChargeType.create([
   { name: 'Store Purchase' },
-  { name: 'Watch Shift – Failure to comply', description: 'Watch Shift refused to complete assigned duties. Fine Per Violation', default_amount: 25 },
-  { name: 'Watch Shift – Failure to remain', description: 'Watch Shift left before being dismissed. Fine Per Person', default_amount: 25 },
-  { name: 'Watch Shift – Tardiness', description: 'Less than 10 mins late; Note: enter watch shift – tardiness (Pending Approval) with a $0 fine and enter if one or both people were late in the description' },
-  { name: 'Watch Shift – Missed', description: 'Greater than 10 mins late or sent home because drunk; Note: enter as “missed watch shift (pending approval)” with a $0 fine and how many people in the description; If they show up 10-45 mins late but complete their obligations, fine will be cut in half' },
-  { name: 'Clean Up Hours', description: '6 man-hours to clean up Midway pre-opening by each org. Fine Per Hour', default_amount: 50 },
-  { name: 'Hardhat, Waiver, or Wristband Missing', description: 'Any member found on Midway not wearing a hardhat, without a signed waiver, or not wearing a wristband. Fine Per Person', default_amount: 15 },
-  { name: 'Failure to comply with SCC/SOC', description: 'Failure to comply with a request by SCC or Structural Oversight Committee to structurally alter a booth.', default_amount: 100 },
-  { name: 'Deviation from plans', description: 'Changing of building or structural plans without approval. Fine to be determined by Rules Committee' },
-  { name: 'Vehicle assisted demolition' },
-  { name: 'Teardown' },
-  { name: 'Broken or Lost Tool/Hardhat' },
-  { name: 'Post-Teardown Cage Cleanup' },
-  { name: 'Unapproved electrical plug in', description: 'Connecting wired booth to power supply without approval', default_amount: 100 },
-  { name: 'Unsafe electrical practice', description: 'At the discretion of SCC electrical committee. May be appealed to Rules Committee.', default_amount: 200 },
-  { name: 'Tripped Breaker', description: 'Circuit breaker tripped. Determined by Electrical Committee.', default_amount: 25 },
-  { name: 'Unauthorized person on Midway', description: 'Person found during closed hours of Midway potentially altering a booth, for example. Fine Per Person', default_amount: 25 },
-  { name: 'Booth Staffing Fine', description: 'Intoxicated person staffing a booth' },
-  { name: 'Failure to Clean Plot', description: 'Org fails to clean plot as directed by SCC or fails to confirm with SCC that plot is clean before leaving', default_amount: 25 },
-  { name: 'Vehicle on Midway', description: 'Unauthorized vehicle of an org on Midway. Fine to be determined by Rules Committee' },
-  { name: 'Late Plans' },
-  { name: 'Missed Training or Meeting' },
-  { name: 'Other', description: 'Other violation as determined by the coordinator, please document extensively and inform the Midway Chair incase any problems arise.', requires_booth_chair_approval: true }
+  { name: 'Watch Shift - Failure to comply', description: 'Watch Shift refused to follow the orders of the coordinator.', default_amount: 25 },
+  { name: 'Watch Shift - Failure to remain', description: 'Watch Shift left before being dismissed by the coordinator. Fine per person.', default_amount: 25 },
+  { name: 'Watch Shift - Late 1st time', description: 'Watch shift was less than 15 mins late for the 1st time. Fine per person', default_amount: 10 },
+  { name: 'Watch Shift - Late 2nd time', description: 'Watch shift was less than 15 mins late for the 2nd time. Fine per person', default_amount: 20 },
+  { name: 'Watch Shift - Late 3rd time', description: 'Watch shift was less than 15 mins late for the 3rd time. Fine per person', default_amount: 40 },
+  { name: 'Watch Shift - Late 4th+ time', description: 'Watch shift was less than 15 mins late for the 4th or more time. Fine determined by Rules Committee.' },
+  { name: 'Watch Shift - Missed 1st time', description: 'Watch shift was more than 15 minutes late for the 1st time. Fine per person. If they show up 15-45 mins late and complete their obligationsthe fine will be halved.', default_amount: 50 },
+  { name: 'Watch Shift - Missed 2nd time', description: 'Watch shift was more than 15 minutes late for the 2nd time. Fine per person. If they show up 15-45 mins late and complete their obligationsthe fine will be halved.', default_amount: 100 },
+  { name: 'Watch Shift - Missed 3rd+ time', description: 'Watch shift was more than 15 minutes late for the 3rd or more time.  Fine determined by Rules Committee.  If they show up 15-45 mins late and complete their obligationsthe fine will be halved.' },
+  { name: 'Building - Impeding fire lane or spillover space', description: "Impeding designated fire lanes or other organizations spill-over space.", default_amount: 25 },
+  { name: 'Building - Missing hardhat, wristband, and/or safety glasses', description: 'Being on Midway without a wristband, hardhat, and/or safety glasses.', default_amount: 15 },
+  { name: 'Building - Non-builders helping build', description: 'Non-builders helping with the construction of a booth.', default_amount: 15 },
+  { name: 'Building - Quiet hours', description: "Making noise during quiet hours that can be heard more than 20 feet from a booth.", default_amount: 25 },
+  { name: 'Building - Failure to comply with SCC', description: 'Failure to comply with a request by SCC or Structural Oversight Committee to structurally alter a booth.', default_amount: 100 },
+  { name: 'Building - Unauthorized plan deviation', description: 'Changing building or structural plans without approval. Fine to be determined by Rules Committee.', default_amount: 100 },
+  { name: 'Electrical - Circuit breaker trip', description: 'Causing a circuit breaker to trip.', default_amount: 25 },
+  { name: 'Electrical - Unauthorized electical connection', description: 'Connecting wiring to power that has not been approved.', default_amount: 100 },
+  { name: 'Electrical - Unsafe electical condition', description: 'Taking actions resulting in an unsafe electrical condition.', default_amount: 200 },
+  { name: 'Operations - Failure to clean plot', description: 'Failure to clean plot daily as directed by SCC.', default_amount: 25 },
+  { name: 'Operations - Clean-up hours', description: 'Failure to supply 6 man-hours of work for overall cleanup prior to opening. Fine per man-hour.', default_amount: 50 },
+  { name: 'Operations - On Midway when closed', description: 'Being on Midway without permission during the closed hours. Fine per person.', default_amount: 25 },
+  { name: 'Operations - Unauthorized vehicle', description: 'In a vehicle on Midway without permission. Fine determined by Rules Committee', default_amount: 0 },
+  { name: 'Staffing Booth - Intoxicated 1st time', description: 'Staffing a booth while intoxicated for the 1st time.', default_amount: 50 },
+  { name: 'Staffing Booth - Intoxicated 2nd time', description: 'Staffing a booth while intoxicated for the 2nd time.', default_amount: 100 },
+  { name: 'Staffing Booth - Intoxicated 3rd+ time', description: 'Staffing a booth while intoxicated for the 3rd or more time. Fine determined by Rules Committee.', default_amount: 100 },
+  { name: 'Teardown - On Midway 5:00-5:30pm', description: 'Tearing down 5:00-5:30pm. Fine per minute.', default_amount: 1 },
+  { name: 'Teardown - On Midway 5:30-6:00pm', description: 'Tearing down 5:30-6:00pm. Fine per minute.', default_amount: 5 },
+  { name: 'Teardown - On Midway after 6:00pm', description: 'Tearing down after 6:00pm. Fine per minute.', default_amount: 10 },
+  { name: 'Teardown - Vehicle assisted teardown', description: 'Using a vehicle to demolish a booth.', default_amount: 1000 },
+  { name: 'Booth - Missed meeting', description: 'Failure to attend a regularly scheduled meeting. Fine per meeting.', default_amount: 25 },
+  { name: 'Booth - Missed training', description: 'Failure to attend a training session. Fine per person per session', default_amount: 50 },
+  { name: 'Booth - Missed deadline', description: 'Missing a deadline set by Booth Committee.  Fine per day.', default_amount: 5 },
+  { name: 'Booth - Fine credit', description: 'Credit towards fines.'},
+  { name: 'Other', description: 'Any other violation. Please document extensively and inform the Spring Carnival Chair.' }
 ])
 
 # FAQs ------------------------------------------------------------------------
-puts "FAQs"
+puts 'FAQs'
 
 Faq.create([
   { question: "What is Booth?",
@@ -430,31 +380,8 @@ Faq.create([
     answer: "Check weather on trailer computer. Call the Head of Booth (Rachel) and the Carnival Chair (Carrie) with that information." }
 ])
 
-# Organization Status Types --------------------------------------------------
-puts 'Organization Status Types'
-OrganizationStatusType.create([
-  { name: "Authorized for Plan Deviation", display: false },
-  { name: "Structural Inspection", display: true },
-  { name: "First Floor Level", display: true },
-  { name: "First Floor Walls Approved", display: true },
-  { name: "Stairs Approved", display: true },
-  { name: "Second Floor Level", display: true },
-  { name: "Second Floor Walls Approved", display: true },
-  { name: "Roof Approved", display: true },
-  { name: "Electrical Inspection", display: true },
-  { name: "Electrical Approved", display: true },
-  { name: "Final Inspection Passed", display: true },
-  { name: "Note", display: false }
-])
-
-# Shift Types ----------------------------------------------------------------
-puts 'Shift Types'
-watch_shift = ShiftType.create({ name: 'Watch Shift' })
-sec_shift = ShiftType.create({ name: 'Security Shift' })
-coord_shift = ShiftType.create({ name: 'Coordinator Shift' })
-
-# Shifts ---------------------------------------------------------------------
-puts 'Shifts'
+# Tasks ------------------------------------------------------------------------
+puts 'Tasks'
 
 move_on = DateTime.rfc3339('2015-04-10T00:00:00-04:00')
 build_saturday = move_on + 1.day
@@ -467,7 +394,6 @@ ops_friday = move_on + 6.days
 ops_saturday = move_on + 7.days
 teardown = move_on + 8.days
 
-puts 'Tasks'
 puts '  One-Time Tasks'
 Task.create([
   { name: 'Towing for Move On Begins', description: 'Any cars remaining on Morewood Lot after 5pm will be towed.', due_at: move_on + 14.hours },
@@ -525,6 +451,16 @@ puts '  Recurring Tasks'
   { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: operations + 7.hours }
  ])
 
+# Shift Types ----------------------------------------------------------------
+puts 'Shift Types'
+
+watch_shift = ShiftType.create({ name: 'Watch Shift' })
+sec_shift = ShiftType.create({ name: 'Security Shift' })
+coord_shift = ShiftType.create({ name: 'Coordinator Shift' })
+
+# Shifts ---------------------------------------------------------------------
+puts 'Shifts'
+
 # Coordinator Shifts
 puts '  Coordinator Shifts'
 #shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2015-04-11T16:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-04T16:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
@@ -574,13 +510,13 @@ Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: 
 Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kkg_org, starts_at: move_on + 17.hours + 68.hours , ends_at: move_on + 17.hours + 70.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kkg_org, starts_at: move_on + 17.hours + 118.hours , ends_at: move_on + 17.hours + 120.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kkg_org, starts_at: move_on + 17.hours + 88.hours , ends_at: move_on + 17.hours + 90.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ssa_org, starts_at: move_on + 17.hours + 184.hours , ends_at: move_on + 17.hours + 186.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ssa_org, starts_at: move_on + 17.hours + 160.hours , ends_at: move_on + 17.hours + 162.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ssa_org, starts_at: move_on + 17.hours + 174.hours , ends_at: move_on + 17.hours + 176.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ssa_org, starts_at: move_on + 17.hours + 174.hours , ends_at: move_on + 17.hours + 176.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ssa_org, starts_at: move_on + 17.hours + 198.hours , ends_at: move_on + 17.hours + 200.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ssa_org, starts_at: move_on + 17.hours + 198.hours , ends_at: move_on + 17.hours + 200.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ssa_org, starts_at: move_on + 17.hours + 196.hours , ends_at: move_on + 17.hours + 198.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 184.hours , ends_at: move_on + 17.hours + 186.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 160.hours , ends_at: move_on + 17.hours + 162.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 174.hours , ends_at: move_on + 17.hours + 176.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 174.hours , ends_at: move_on + 17.hours + 176.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 198.hours , ends_at: move_on + 17.hours + 200.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 198.hours , ends_at: move_on + 17.hours + 200.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 196.hours , ends_at: move_on + 17.hours + 198.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ddd_org, starts_at: move_on + 17.hours + 188.hours , ends_at: move_on + 17.hours + 190.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ddd_org, starts_at: move_on + 17.hours + 170.hours , ends_at: move_on + 17.hours + 172.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ddd_org, starts_at: move_on + 17.hours + 168.hours , ends_at: move_on + 17.hours + 170.hours, required_number_of_participants: 2 })
@@ -683,79 +619,55 @@ Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: 
 Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sigchi_org, starts_at: move_on + 17.hours + 182.hours , ends_at: move_on + 17.hours + 184.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sigchi_org, starts_at: move_on + 17.hours + 150.hours , ends_at: move_on + 17.hours + 152.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sigchi_org, starts_at: move_on + 17.hours + 58.hours , ends_at: move_on + 17.hours + 60.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: earth_org, starts_at: move_on + 17.hours + 184.hours , ends_at: move_on + 17.hours + 186.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: earth_org, starts_at: move_on + 17.hours + 150.hours , ends_at: move_on + 17.hours + 152.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: earth_org, starts_at: move_on + 17.hours + 108.hours , ends_at: move_on + 17.hours + 110.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: earth_org, starts_at: move_on + 17.hours + 82.hours , ends_at: move_on + 17.hours + 84.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 184.hours , ends_at: move_on + 17.hours + 186.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 150.hours , ends_at: move_on + 17.hours + 152.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 108.hours , ends_at: move_on + 17.hours + 110.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 82.hours , ends_at: move_on + 17.hours + 84.hours, required_number_of_participants: 2 })
 
 # Security Shifts
 #puts '  Security Shifts'
 
-case Rails.env
-when 'production'
-  puts 'Tools'
-  # Tools -----------------------------------------------------------------------
-  generate_tools
-when 'development'
-  puts
-  puts 'Extra Dev Goodness:'
-  puts
+# Tools -------------------------------------------------------------------------
+puts 'Tools'
 
+generate_tools
 
-  pat_user = User.new({ email: 'rpwhite@andrew.cmu.edu', name: 'Pat'})
-  pat_user.save!
-  pat = Participant.create({ andrewid: 'rpwhite', phone_number: 1713435788, user: pat_user })
-  Membership.create({ organization: dtd_org, participant: pat, is_booth_chair: true })
+if  Rails.env.development?
+  # Development Stuff -----------------------------------------------------------
+  puts 'Development Stuff'
 
-  chase_user.remove_role :admin
-  chase_user.save!
+  admin_andrewid = "rcrown"
+  scc_andrewid = "cbrownel"
+  booth_chair_andrewid = "rpwhite"
+  participant_andrewid = "nharper"
 
-  nick_user = User.new({ email: 'nharper@andrew.cmu.edu', name: 'Nick'})
-  nick_user.save!
-  nick = Participant.create({ andrewid: 'nharper', phone_number: 1713435788, user: nick_user })
-  Membership.create({ organization: dtd_org, participant: nick })
+  admin_user = User.create({ email: "#{admin_andrewid}@andrew.cmu.edu"})
+  admin_user.add_role :admin
+  admin = Participant.create({ andrewid: admin_andrewid, user: admin_user })
+  Membership.create({ organization: scc_org, participant: admin, title: 'Admin', is_booth_chair: true })
 
-  # Uncomment the line below and comment the creation of tool types and tools (so there is no conflicts)
-  #   to get a bunch of tools seeded into the database
-  # generate_tools
+  scc_user = User.create({ email: "#{scc_andrewid}@andrew.cmu.edu"})
+  scc = Participant.create({ andrewid: scc_andrewid, user: scc_user })
+  Membership.create({ organization: scc_org, participant: scc })
 
-  puts 'Creating Tool Types'
-  hammer_type = ToolType.create(name: 'Hammer')
-  org_hardhat_type = ToolType.create(name: 'Org Hardhat')
-  scc_hardhat_type = ToolType.create(name: 'SCC Hardhat')
-  ehs_hardhat_type = ToolType.create(name: 'EH&S Hardhat')
-  chair_hardhat_type = ToolType.create(name: 'Chair Hardhat')
+  booth_chair_user = User.create({ email: "#{booth_chair_andrewid}@andrew.cmu.edu"})
+  booth_chair = Participant.create({ andrewid: booth_chair_andrewid, user: booth_chair_user })
+  Membership.create({ organization: dtd_org, participant: booth_chair, is_booth_chair: true })
 
-  puts 'Creating tools'
-  Tool.create([
-    {tool_type: hammer_type, barcode: 7, description: 'it\'s a hammer' },
-    {tool_type: org_hardhat_type, barcode: 111, description: 'Org Hardhat (White)'},
-    {tool_type: scc_hardhat_type, barcode: 112, description: 'SCC Hardhat (Blue)'},
-    {tool_type: ehs_hardhat_type, barcode: 115, description: 'Environmental Health and Safety Hardhat (Bright Yellow/Green)'},
-    {tool_type: chair_hardhat_type, barcode: 113, description: 'Booth Chair Hardhat (Orange)'}])
+  participant_user = User.create({ email: "#{participant_andrewid}@andrew.cmu.edu"})
+  participant = Participant.create({ andrewid: participant_andrewid, user: participant_user })
+  Membership.create({ organization: dtd_org, participant: participant })
 
-  puts 'Creating checkouts'
-  Checkout.create({ tool: Tool.find(2), participant: chase, organization: dtd_org, checked_out_at: Time.now - 5.hours })
-  Checkout.create({ tool: Tool.find(2), participant: chase, organization: dtd_org, checked_out_at: Time.now - 8.hours, checked_in_at: Time.now - 7.hours })
-  #shift = Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now - 1.hours, ends_at: Time.now + 1.hours, required_number_of_participants: 1 })
-  #Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now - 3.hours, ends_at: Time.now - 1.hour, required_number_of_participants: 1 })
-  #Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: Time.now + 1.hours, ends_at: Time.now + 15.hours, required_number_of_participants: 1 })
-  #ShiftParticipant.create({ shift: shift, participant: chase, clocked_in_at: Time.now - 50.minutes })
-
-  puts 'Creating charges'
-  Charge.create({ charge_type: ChargeType.find_by_name('Blown Breaker'), amount: 25, description: 'Delt blew their breaker all over midway', issuing_participant: merichar, receiving_participant: chase, organization: dtd_org, charged_at: Time.now })
-
-  puts 'Creating more tasks'
   # Tasks ---
-  Task.create([{ name: "todo", due_at: Time.now + 1.hour, description: "Many things" },
-    {name: "done0", due_at: Time.now, completed_by: chase, is_completed: true },
-    {name: "done1", due_at: Time.now, completed_by: chase, is_completed: true },
-    {name: "done2", due_at: Time.now, completed_by: chase, is_completed: true },
-    {name: "not done1", due_at: Time.now + 1.hour, completed_by: chase, is_completed: true },
-    {name: "not done2", due_at: Time.now + 1.hour, completed_by: chase, is_completed: true },
-    {name: "not done3", due_at: Time.now + 1.hour, completed_by: chase, is_completed: true },
-    {name: "late1", due_at: Time.now - 30.minutes },
-    {name: "late2", due_at: Time.now - 30.minutes },
-    {name: "late3", due_at: Time.now - 30.minutes }
-  ])
+  # Task.create([{ name: "todo", due_at: Time.now + 1.hour, description: "Many things" },
+  #   {name: "done0", due_at: Time.now, completed_by: chase, is_completed: true },
+  #   {name: "done1", due_at: Time.now, completed_by: chase, is_completed: true },
+  #   {name: "done2", due_at: Time.now, completed_by: chase, is_completed: true },
+  #   {name: "not done1", due_at: Time.now + 1.hour, completed_by: chase, is_completed: true },
+  #   {name: "not done2", due_at: Time.now + 1.hour, completed_by: chase, is_completed: true },
+  #   {name: "not done3", due_at: Time.now + 1.hour, completed_by: chase, is_completed: true },
+  #   {name: "late1", due_at: Time.now - 30.minutes },
+  #   {name: "late2", due_at: Time.now - 30.minutes },
+  #   {name: "late3", due_at: Time.now - 30.minutes }
+  # ])
 end
