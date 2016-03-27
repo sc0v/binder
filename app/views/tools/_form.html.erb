@@ -25,7 +25,7 @@
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-              tools_path, :class => 'btn btn-default' %>
+              tool_path(@tool), :class => 'btn btn-default' %>
   </div>
 <% end %>
 

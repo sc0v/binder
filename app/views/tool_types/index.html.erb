@@ -10,14 +10,13 @@
   <thead>
     <tr>
       <% if can?(:update, ToolType) %>
-        <th>Name (Click to edit)</th>
+        <th>Name</th>
       <% else %>
         <th>Name</th>
       <% end %>
       <th>Number of tools with this type</th>
-      <th>View tools of this type</th>
-      <% if can?(:create, ToolWaitlist) %>
-        <th>Add to waitlist</th>
+      <% if can?(:update, ToolWaitlist) %>
+        <th>Edit</th>
       <% end %>
       <% if can?(:destroy, ToolType) %>
         <th>Delete</th>
@@ -28,14 +27,13 @@
     <% @tool_types.each do |tool_type| %>
       <tr>
         <% if can?(:update, tool_type) %>
-          <td><%= link_to tool_type.name, edit_tool_type_path(tool_type) %></td>
+          <td><%= link_to tool_type.name, tools_path(type_filter: tool_type.id) %></td>
         <% else %>
           <td><%= tool_type.name %></td>
         <% end %>
         <td><%= tool_type.tools.count %></td>
-        <td><%= link_to "View all " + tool_type.name.pluralize, tools_path(type_filter: tool_type.id) %></td>
-        <% if can?(:create, ToolWaitlist) %>
-          <td><%= link_to "Add to waitlist", new_tool_type_waitlist_path(tool_type), :class => 'btn btn-info btn-xs'  %></td>
+        <% if can?(:update, ToolWaitlist) %>
+          <td><%= link_to "Edit", edit_tool_type_path(tool_type), :class => 'btn btn-primary btn-xs'  %></td>
         <% end %>
         <% if can?(:destroy, tool_type) %>
           <td>
@@ -50,3 +48,5 @@
     <% end %>
   </tbody>
 </table>
+
+<%= will_paginate @tools, renderer: BootstrapPagination::Rails %>
