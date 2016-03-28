@@ -15,6 +15,7 @@ class ListBoothChairsReport < Dossier::Report
   end
 
   def sql
-    Membership.joins(:participant, :organization).booth_chairs.select('andrewid', 'name').order('andrewid').to_sql
+    Membership.joins(:participant, :organization).booth_chairs.select('name', 'andrewid')
+              .order('organizations.name, andrewid').to_sql
   end
 end
