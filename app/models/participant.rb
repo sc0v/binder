@@ -98,8 +98,11 @@ class Participant < ActiveRecord::Base
       return person #self.find_by_andrewid(card_number)
     elsif !lookup_only and !CarnegieMellonPerson.find_by_andrewid(card_number.downcase).blank?
       return self.find_or_create_by(andrewid: card_number.downcase)
-    elsif !card_number.match(/^%?\d{7,9}/).nil?
-      andrewid = self.get_andrewid(card_number)
+    elsif card_number[/^%?\d{9}/]
+      andrewid = CarnegieMellonIDCard.get_andrewid_by_card_id(card_number)
+      return self.find_or_create_by(andrewid: andrewid) unless andrewid.blank?
+    elsif card_number[/^[0-9a-fA-F]{8}/]
+      andrewid = CarnegieMellonIDCard.get_andrewid_by_card_csn(card_number)
       return self.find_or_create_by(andrewid: andrewid) unless andrewid.blank?
     end
   end
@@ -122,8 +125,12 @@ class Participant < ActiveRecord::Base
   
   private
   
-  def self.get_andrewid(card_number)
+  def self.get_andrewid_by_card_id(card_number)
     CarnegieMellonIDCard.search(card_number)
+  end
+
+  def self.get_andrewid_by_card_csn(card_number)
+    CarnegieMellonIDCard.search_card_id(card_number)
   end
 
   def cached_name
