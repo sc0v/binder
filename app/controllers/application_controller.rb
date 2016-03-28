@@ -45,6 +45,7 @@ class ApplicationController < ActionController::Base
     @tasks_sidebar = Task.upcoming.is_incomplete
     @structural_queue_sidebar = OrganizationTimelineEntry.structural.current
     @electrical_queue_sidebar = OrganizationTimelineEntry.electrical.current
+    @events_sidebar = Event.displayable
     @downtime_sidebar = OrganizationTimelineEntry.downtime.current
     session[:tool_cart] = session[:tool_cart] || []
     @tool_cart = session[:tool_cart].map{|barcode| Tool.find_by_barcode(barcode)}.reverse

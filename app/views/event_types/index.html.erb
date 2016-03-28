@@ -1,0 +1,30 @@
+  <h1>Event Types</h1>
+  
+  <table class="table">
+    <thead>
+      <tr>
+        <th>Display</th>
+        <th>Name</th>
+        <th colspan="3"></th>
+      </tr>
+    </thead>
+  
+    <tbody>
+      <% @event_types.each do |event_type| %>
+        <tr>
+          <td><%= event_type.display %></td>
+          <td><%= event_type.name %></td>
+          <% if can?(:edit, EventType) %>
+            <td><%= link_to 'Edit', edit_event_type_path(event_type),:class => 'btn btn-primary btn-xs' %></td>
+          <% end %>
+          <% if can?(:destroy, EventType) %>
+            <td><%= link_to 'Destroy', event_type, method: :delete, data: { confirm: 'Are you sure?' },:class => 'btn btn-danger btn-xs' %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  
+  <br>
+
+  <%= link_to 'New Event Type', new_event_type_path,:class => 'btn btn-primary'  %>
