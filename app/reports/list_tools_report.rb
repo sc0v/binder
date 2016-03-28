@@ -17,7 +17,7 @@ class ListToolsReport < Dossier::Report
   def sql
     # Limit by checkout status
     if options[:checkout_status] == 'checked_out'
-      query = Tool.checked_out
+      query = Tool.joins(:tool_type).checked_out
     elsif options[:checkout_status] == 'checked_in'
       query = Tool.joins(:tool_type).checked_in
     else
