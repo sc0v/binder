@@ -50,8 +50,9 @@ module ApplicationHelper
       neg = ''
     end
 
+    downtime += 59
     hours = downtime / 3600
-    minutes = ((downtime % 3600) + 59) / 60
+    minutes = (downtime % 3600) / 60
     return neg + ("%d" % hours) + ":" + ("%02d" % minutes)
   end
 
