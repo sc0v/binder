@@ -52,7 +52,7 @@ sae_org = Organization.create({ name: 'Sigma Alpha Epsilon', organization_catego
 sigep_org = Organization.create({ name: 'Sigma Phi Epsilon', organization_category: fraternity, short_name: 'SigEp' })
 
 puts '  Sorority'
-aphi_org = Organization.create({ name: 'Alpha Phi', organization_category: sorority, short_name: 'Alpha Phi' })
+aphi_org = Organization.create({ name: 'Alpha Phi', organization_category: sorority })
   OrganizationAlias.create({ organization: aphi_org, name: 'APhi' })
 axo_org = Organization.create({ name: 'Alpha Chi Omega', organization_category: sorority, short_name: 'AXO' })
   OrganizationAlias.create({ organization: axo_org, name: 'Alpha Chi' })
@@ -66,7 +66,7 @@ kkg_org = Organization.create({ name: 'Kappa Kappa Gamma', organization_category
 
 puts '  Independent'
 asa_org = Organization.create({ name: 'Asian Students Association', organization_category: independent, short_name: 'ASA' })
-fringe_org = Organization.create({ name: 'Fringe', organization_category: independent, short_name: 'Fringe' })
+fringe_org = Organization.create({ name: 'Fringe', organization_category: independent })
 kgb_org = Organization.create({ name: 'KGB', organization_category: independent, short_name: 'KGB' })
 tsa_org = Organization.create({ name: 'Taiwanese Students Association', organization_category: independent, short_name: 'TSA' })
 
@@ -81,12 +81,16 @@ sigchi_org = Organization.create({ name: 'Sigma Chi', organization_category: bli
 spirit_org = Organization.create({ name: 'Spirit', organization_category: blitz })
 
 puts '  Non-Building'
-crew_org = Organization.create({ name: 'Rowing Club', organization_category: non_building, short_name: 'Rowing' })
-  OrganizationAlias.create({ organization: crew_org, name: 'Crew' })
-originals_org = Organization.create({ name: 'The Originals', organization_category: non_building, short_name: 'The O\'s' })
+habitat_org = Organization.create({ name: 'Habitat for Humanity', organization_category: non_building, short_name: 'Habitat' })
+juntos_org = Organization.create({ name: 'Juntos', organization_category: non_building })
+quidditch_org = Organization.create({ name: 'Quidditch Club', organization_category: non_building, short_name: 'Quidditch' })
+rowing_org = Organization.create({ name: 'Rowing Club', organization_category: non_building, short_name: 'Rowing' })
+  OrganizationAlias.create({ organization: rowing_org, name: 'Crew' })
+originals_org = Organization.create({ name: 'The Originals', organization_category: non_building })
+treblemakers_org = Organization.create({ name: 'The Treblemakers', organization_category: non_building })
 
 # Cell phone carriers ---------------------------------------------------------
-puts 'Phone carriers'
+puts 'Phone Carriers'
 
 ['Verizon Wireless','Sprint','AT&T','T-Mobile','Metro PCS','US Cellular','Cricket','Virgin Mobile','Boost Mobile'].each do |name|
   PhoneCarrier.create({ name: name})
@@ -168,70 +172,83 @@ Membership.create({ organization: scc_org, participant: Participant.create({ and
 # Booth Chairs ----------------------------------------------------------------
 puts 'Booth Chairs'
 
-Membership.create({ organization: aepi_org, participant: Participant.create({ andrewid: 'bgardine', phone_number: 7039948442}), is_booth_chair: true })
-Membership.create({ organization: aepi_org, participant: Participant.create({ andrewid: 'gya'}), is_booth_chair: true })
-Membership.create({ organization: aepi_org, participant: Participant.create({ andrewid: 'ssharea'}), is_booth_chair: true })
-Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'bhunttob', phone_number: 2246009586}), is_booth_chair: true })
-Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'seanders', phone_number: 6107374187}), is_booth_chair: true })
-Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'vsivakum', phone_number: 9172444241}), is_booth_chair: true })
-Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'kndu', phone_number: 7133444667}), is_booth_chair: true })
-Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'lcody', phone_number: 3144485994}), is_booth_chair: true })
-Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'nflorman', phone_number: 6199522671}), is_booth_chair: true })
-Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'vpereira'}), is_booth_chair: true })
-Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'zhangw'}), is_booth_chair: true })
-Membership.create({ organization: aphio_org, participant: Participant.create({ andrewid: 'fla', phone_number: 8143312119}), is_booth_chair: true })
-Membership.create({ organization: asa_org, participant: Participant.create({ andrewid: 'bjli', phone_number: 9785057460}), is_booth_chair: true })
-Membership.create({ organization: asa_org, participant: Participant.create({ andrewid: 'jylu', phone_number: 6095329694}), is_booth_chair: true })
-Membership.create({ organization: astro_org, participant: Participant.create({ andrewid: 'amarano', phone_number: 9144209281}), is_booth_chair: true })
-Membership.create({ organization: astro_org, participant: Participant.create({ andrewid: 'oce', phone_number: 2675950677}), is_booth_chair: true })
-Membership.create({ organization: ddd_org, participant: Participant.create({ andrewid: 'gjackson', phone_number: 4124207887}), is_booth_chair: true })
-Membership.create({ organization: ddd_org, participant: Participant.create({ andrewid: 'csharkey', phone_number: 6142579397}), is_booth_chair: true })
-Membership.create({ organization: ddd_org, participant: Participant.create({ andrewid: 'smosshor'}), is_booth_chair: true })
-Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'atjones', phone_number: 4438444424}), is_booth_chair: true })
-Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'casantil', phone_number: 6104208343}), is_booth_chair: true })
-Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'elawlis', phone_number: 8326930740}), is_booth_chair: true })
-Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'lcwillia', phone_number: 2677461544}), is_booth_chair: true })
-Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'tyv', phone_number: 6469431119}), is_booth_chair: true })
-Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'aperley', phone_number: 7202522781}), is_booth_chair: true })
-Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'achisolm', phone_number: 6315468835}), is_booth_chair: true })
-Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'haozheg', phone_number: 9084034261}), is_booth_chair: true })
-Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'rmckinne', phone_number: 9419141174}), is_booth_chair: true })
-Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'tfs', phone_number: 7173195528}), is_booth_chair: true })
-Membership.create({ organization: fringe_org, participant: Participant.create({ andrewid: 'jacobbro', phone_number: 5037479771}), is_booth_chair: true })
-Membership.create({ organization: fringe_org, participant: Participant.create({ andrewid: 'jzak', phone_number: 4127351981}), is_booth_chair: true })
-Membership.create({ organization: fringe_org, participant: Participant.create({ andrewid: 'kkwilkin', phone_number: 7077380375}), is_booth_chair: true })
-Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'aritchie', phone_number: 2155108559}), is_booth_chair: true })
-Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'ihlee', phone_number: 9713408528}), is_booth_chair: true })
-Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'rwolfing', phone_number: 9259897941}), is_booth_chair: true })
-Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'snarburg', phone_number: 6094770540}), is_booth_chair: true })
-Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'amcnulty', phone_number: 7816904444}), is_booth_chair: true })
-Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'acrigler', phone_number: 2038324033}), is_booth_chair: true })
-Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'clohman', phone_number: 3109717909}), is_booth_chair: true })
-Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'jry', phone_number: 6107376024}), is_booth_chair: true })
-Membership.create({ organization: kapsig_org, participant: Participant.create({ andrewid: 'efiedore', phone_number: 7138066105}), is_booth_chair: true })
-Membership.create({ organization: kapsig_org, participant: Participant.create({ andrewid: 'jbarry', phone_number: 2403837698}), is_booth_chair: true })
-Membership.create({ organization: kapsig_org, participant: Participant.create({ andrewid: 'ajcollin'}), is_booth_chair: true })
-Membership.create({ organization: kgb_org, participant: Participant.create({ andrewid: 'sctoor', phone_number: 7033029956}), is_booth_chair: true })
-Membership.create({ organization: kgb_org, participant: Participant.create({ andrewid: 'sguertin', phone_number: 8029893063}), is_booth_chair: true })
-Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'anqiwang', phone_number: 4123706158}), is_booth_chair: true })
-Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'colinkel', phone_number: 5714490561}), is_booth_chair: true })
-Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'dmehrle', phone_number: 6144588176}), is_booth_chair: true })
-Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'kborst', phone_number: 9143299391}), is_booth_chair: true })
-Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'zng', phone_number: 4434735523}), is_booth_chair: true })
-Membership.create({ organization: mayur_org, participant: Participant.create({ andrewid: 'gauryn', phone_number: 4123200623}), is_booth_chair: true })
-Membership.create({ organization: mcs_org, participant: Participant.create({ andrewid: 'kaitlinh', phone_number: 9142153025}), is_booth_chair: true })
-Membership.create({ organization: mcs_org, participant: Participant.create({ andrewid: 'jiyunkwo', phone_number: 4128633273}), is_booth_chair: true })
+Membership.create({ organization: aepi_org, participant: Participant.create({ andrewid: 'enumbers'}), is_booth_chair: true })
+Membership.create({ organization: aepi_org, participant: Participant.create({ andrewid: 'Ihaberma'}), is_booth_chair: true })
+Membership.create({ organization: aepi_org, participant: Participant.create({ andrewid: 'kjhernan'}), is_booth_chair: true })
+Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'arutt'}), is_booth_chair: true })
+Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'caseywon'}), is_booth_chair: true })
+Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'khofmann'}), is_booth_chair: true })
+Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'rza'}), is_booth_chair: true })
+Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'swl'}), is_booth_chair: true })
+Membership.create({ organization: aphio_org, participant: Participant.create({ andrewid: 'mwuebben'}), is_booth_chair: true })
+Membership.create({ organization: aphio_org, participant: Participant.create({ andrewid: 'mgraesse'}), is_booth_chair: true })
+Membership.create({ organization: asa_org, participant: Participant.create({ andrewid: 'ayu1'}), is_booth_chair: true })
+Membership.create({ organization: asa_org, participant: Participant.create({ andrewid: 'ichow'}), is_booth_chair: true })
+Membership.create({ organization: asig_org, participant: Participant.create({ andrewid: 'Lcervena '}), is_booth_chair: true })
+Membership.create({ organization: asig_org, participant: Participant.create({ andrewid: 'sheldons'}), is_booth_chair: true })
+Membership.create({ organization: astro_org, participant: Participant.create({ andrewid: 'bhaas'}), is_booth_chair: true })
+Membership.create({ organization: astro_org, participant: Participant.create({ andrewid: 'mspoerl'}), is_booth_chair: true })
+Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'edolinar'}), is_booth_chair: true })
+Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'nbaltzer'}), is_booth_chair: true })
+Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'pranjalb'}), is_booth_chair: true })
+Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'vsivakum'}), is_booth_chair: true })
+Membership.create({ organization: ddd_org, participant: Participant.create({ andrewid: 'Nhb'}), is_booth_chair: true })
+Membership.create({ organization: ddd_org, participant: Participant.create({ andrewid: 'Smosshor'}), is_booth_chair: true })
+Membership.create({ organization: ddd_org, participant: Participant.create({ andrewid: 'Tbipat'}), is_booth_chair: true })
+Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'Elawlis'}), is_booth_chair: true })
+Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'imartins'}), is_booth_chair: true })
+Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'lgoldste'}), is_booth_chair: true })
+Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'Mbanks'}), is_booth_chair: true })
+Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'rlahmad'}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'aperley'}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'Asekar'}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'lfj'}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'lgary'}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'Ldamasco'}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'rmckinne'}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'tfs'}), is_booth_chair: true })
+Membership.create({ organization: fringe_org, participant: Participant.create({ andrewid: 'bphodge'}), is_booth_chair: true })
+Membership.create({ organization: fringe_org, participant: Participant.create({ andrewid: 'lcody'}), is_booth_chair: true })
+Membership.create({ organization: kapsig_org, participant: Participant.create({ andrewid: 'dkkoopma'}), is_booth_chair: true })
+Membership.create({ organization: kapsig_org, participant: Participant.create({ andrewid: 'efiedore'}), is_booth_chair: true })
+Membership.create({ organization: kapsig_org, participant: Participant.create({ andrewid: 'tmi'}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'acicozi'}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'edonohue'}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'lolno'}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'Hholton'}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'ihlee'}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'Urn '}), is_booth_chair: true })
+Membership.create({ organization: kgb_org, participant: Participant.create({ andrewid: 'cmorey'}), is_booth_chair: true })
+Membership.create({ organization: kgb_org, participant: Participant.create({ andrewid: 'dtv'}), is_booth_chair: true })
+Membership.create({ organization: kgb_org, participant: Participant.create({ andrewid: 'mvarner'}), is_booth_chair: true })
+Membership.create({ organization: kgb_org, participant: Participant.create({ andrewid: 'sctoor'}), is_booth_chair: true })
+Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'Alechner'}), is_booth_chair: true })
+Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'eswanson'}), is_booth_chair: true })
+Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'hnmcdona'}), is_booth_chair: true })
+Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'kmg'}), is_booth_chair: true })
+Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'kborst'}), is_booth_chair: true })
+Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'khanson'}), is_booth_chair: true })
+Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'kkuzemch'}), is_booth_chair: true })
+Membership.create({ organization: mayur_org, participant: Participant.create({ andrewid: 'ksanghav'}), is_booth_chair: true })
+Membership.create({ organization: mayur_org, participant: Participant.create({ andrewid: 'Schordia'}), is_booth_chair: true })
+Membership.create({ organization: mcs_org, participant: Participant.create({ andrewid: 'kschulz'}), is_booth_chair: true })
+Membership.create({ organization: mcs_org, participant: Participant.create({ andrewid: 'lparrell'}), is_booth_chair: true })
 Membership.create({ organization: phidelt_org, participant: Participant.create({ andrewid: 'resposit'}), is_booth_chair: true })
-Membership.create({ organization: sdc_org, participant: Participant.create({ andrewid: 'kswarts', phone_number: 5702491340}), is_booth_chair: true })
-Membership.create({ organization: sae_org, participant: Participant.create({ andrewid: 'ambaker', phone_number: 4125267380}), is_booth_chair: true })
-Membership.create({ organization: sae_org, participant: Participant.create({ andrewid: 'kschin', phone_number: 6319884058}), is_booth_chair: true })
-Membership.create({ organization: sae_org, participant: Participant.create({ andrewid: 'drmorale'}), is_booth_chair: true })
-Membership.create({ organization: sigchi_org, participant: Participant.create({ andrewid: 'pdominic', phone_number: 9788534116}), is_booth_chair: true })
-Membership.create({ organization: sigep_org, participant: Participant.create({ andrewid: 'bsiegel', phone_number: 2074752240}), is_booth_chair: true })
-Membership.create({ organization: sigep_org, participant: Participant.create({ andrewid: 'sjstark', phone_number: 9049622490}), is_booth_chair: true })
-Membership.create({ organization: spirit_org, participant: Participant.create({ andrewid: 'jmonroe', phone_number: 2035814082}), is_booth_chair: true })
-Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'kywang1', phone_number: 8583662883}), is_booth_chair: true })
-Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'hsienhsi', phone_number: 4123528929}), is_booth_chair: true })
+Membership.create({ organization: sae_org, participant: Participant.create({ andrewid: 'ahimmelr'}), is_booth_chair: true })
+Membership.create({ organization: sae_org, participant: Participant.create({ andrewid: 'msofia'}), is_booth_chair: true })
+Membership.create({ organization: sdc_org, participant: Participant.create({ andrewid: 'Colinkel'}), is_booth_chair: true })
+Membership.create({ organization: sdc_org, participant: Participant.create({ andrewid: 'djfranci'}), is_booth_chair: true })
+Membership.create({ organization: sdc_org, participant: Participant.create({ andrewid: 'Dbperry'}), is_booth_chair: true })
+Membership.create({ organization: sigchi_org, participant: Participant.create({ andrewid: 'progozen'}), is_booth_chair: true })
+Membership.create({ organization: sigchi_org, participant: Participant.create({ andrewid: 'pdominic'}), is_booth_chair: true })
+Membership.create({ organization: sigep_org, participant: Participant.create({ andrewid: 'Balper'}), is_booth_chair: true })
+Membership.create({ organization: sigep_org, participant: Participant.create({ andrewid: 'cdively'}), is_booth_chair: true })
+Membership.create({ organization: sigep_org, participant: Participant.create({ andrewid: 'Sjstark'}), is_booth_chair: true })
+Membership.create({ organization: spirit_org, participant: Participant.create({ andrewid: 'jccox'}), is_booth_chair: true })
+Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'cjwei'}), is_booth_chair: true })
+Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'joyces'}), is_booth_chair: true })
+Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'ppan'}), is_booth_chair: true })
+Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'pchao '}), is_booth_chair: true })
 
 # Organization Status Types --------------------------------------------------
 puts 'Organization Status Types'
@@ -388,7 +405,7 @@ monday = move_on + 2.days
 tuesday = move_on + 3.days
 wednesday = move_on + 4.days
 operations = move_on + 5.days
-ops_friday = move_on + 6.days
+ops_saturday = move_on + 6.days
 ops_saturday = move_on + 7.days
 teardown = move_on + 8.days
 
@@ -401,10 +418,10 @@ Task.create([
   { name: 'Call for Cleaning Helpers', description: 'Each org must send 2 members at 1pm to the trailer to assist with Midway clean-up', due_at: operations + 13.hours },
   { name: 'Final Fixes End', description: '4 members (full-size) or 2 members (blitz) of each org may stay to make final fixes between 1pm and 2:30pm. Everyone must be gone from Midway at 2:30pm.', due_at: operations + 14.hours + 30.minutes },
   { name: 'Opening Ceremony', description: 'Speeches, ribbon cutting, and Midway officially opens to the public.', due_at: operations + 15.hours },
-  { name: 'Judging Begins', description: 'Judges will arrive with Rachel and will judge each booth. No, we do not have a schedule of which booths will be judged when. Sorry.', due_at: ops_friday + 13.hours },
-  { name: 'Concert', description: 'The Concert! On the mall. Rain location: Wiegand Gym. Student opener at 7:30pm.', due_at: ops_friday + 19.hours + 30.minutes },
-  { name: 'Night Judging Ends', description: 'Judges will wander around Midway to judge booths after dusk and will return their packets/tablets after. Put them in the box, The Head of Booth or someone else will come get them later.', due_at: ops_friday + 20.hours },
-  { name: 'Fireworks', description: 'Following the concert, pretty things go boom in the sky. Also on the mall. Cancelled in the case of rain.', due_at: ops_friday + 22.hours },
+  { name: 'Judging Begins', description: 'Judges will arrive with Rachel and will judge each booth. No, we do not have a schedule of which booths will be judged when. Sorry.', due_at: ops_saturday + 13.hours },
+  { name: 'Concert', description: 'The Concert! On the mall. Rain location: Wiegand Gym. Student opener at 7:30pm.', due_at: ops_saturday + 19.hours + 30.minutes },
+  { name: 'Night Judging Ends', description: 'Judges will wander around Midway to judge booths after dusk and will return their packets/tablets after. Put them in the box, The Head of Booth or someone else will come get them later.', due_at: ops_saturday + 20.hours },
+  { name: 'Fireworks', description: 'Following the concert, pretty things go boom in the sky. Also on the mall. Cancelled in the case of rain.', due_at: ops_saturday + 22.hours },
   { name: 'Move Chairs for Awards', description: 'Send shifts to clear the chairs from the main tent to prepare for awards', due_at: ops_saturday + 16.hours + 15.minutes },
   { name: 'Awards', description: 'Orgs will rush the main tent to find out who won. Awards involve both buggy and booth.', due_at: ops_saturday + 17.hours },
   { name: 'Dumpsters for Teardown Arrive', description: 'Company should have layout and should drop dumpsters into place. Dumpster layout is in the documents section, if you need to reference it.', due_at: teardown + 6.hours },
@@ -426,14 +443,14 @@ puts '  Recurring Tasks'
   { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: tuesday + 1.hour},
   { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: wednesday + 1.hour},
   { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: operations + 1.hour},
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: ops_friday + 1.hour},
+  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: ops_saturday + 1.hour},
   { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: ops_saturday + 1.hour},
   { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: teardown + 1.hour},
   { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: operations + 15.hours},
-  { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: ops_friday + 11.hours},
+  { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: ops_saturday + 11.hours},
   { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: ops_saturday + 11.hours},
   { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: operations + 23.hours},
-  { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: ops_friday + 23.hours},
+  { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: ops_saturday + 23.hours},
   { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: ops_saturday + 23.hours },
   { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: move_on + 22.hours},
   { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: build_saturday + 22.hours },
@@ -479,10 +496,10 @@ ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, o
 ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 60.hours , ends_at: move_on + 16.hours + 64.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('chenhaoy'), clocked_in_at: move_on + 16.hours + 60.hours })
 ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 64.hours , ends_at: move_on + 16.hours + 68.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('prheinhe'), clocked_in_at: move_on + 16.hours + 64.hours })
 ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 68.hours , ends_at: move_on + 16.hours + 72.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('jlareau'), clocked_in_at: move_on + 16.hours + 68.hours })
-ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 72.hours , ends_at: move_on + 16.hours + 76.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('arakla'), clocked_in_at: move_on + 16.hours + 72.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 72.hours , ends_at: move_on + 16.hours + 76.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('jiyunkwo'), clocked_in_at: move_on + 16.hours + 72.hours })
 ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 76.hours , ends_at: move_on + 16.hours + 80.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('cbanuelo'), clocked_in_at: move_on + 16.hours + 76.hours })
 ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 80.hours , ends_at: move_on + 16.hours + 84.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('jcmertz'), clocked_in_at: move_on + 16.hours + 80.hours })
-ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 84.hours , ends_at: move_on + 16.hours + 88.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('jwesson'), clocked_in_at: move_on + 16.hours + 84.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 84.hours , ends_at: move_on + 16.hours + 88.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('tan'), clocked_in_at: move_on + 16.hours + 84.hours })
 ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 88.hours , ends_at: move_on + 16.hours + 92.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('amartine'), clocked_in_at: move_on + 16.hours + 88.hours })
 ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 92.hours , ends_at: move_on + 16.hours + 96.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('sasikalm'), clocked_in_at: move_on + 16.hours + 92.hours })
 ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 96.hours , ends_at: move_on + 16.hours + 100.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('yuanyua1'), clocked_in_at: move_on + 16.hours + 96.hours })
@@ -649,6 +666,32 @@ Shift.create({ shift_type: watch_shift, organization: tsa_org, starts_at: move_o
 
 # Security Shifts
 puts '  Security Shifts'
+Shift.create({ shift_type: security_shift, description: 'Midway Setup', organization: quidditch_org, starts_at: move_on + 21.hours, ends_at: move_on + 23.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'Midway Cleanup', organization: juntos_org, starts_at: operations + 11.hours, ends_at: operations + 15.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'Midway Setup', organization: rowing_org, starts_at: operations + 11.hours, ends_at: operations + 15.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'Award Ceremony Setup', organization: juntos_org, starts_at: ops_saturday + 14.hours, ends_at: ops_saturday + 16.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'Award Ceremony', organization: juntos_org, starts_at: ops_saturday + 16.hours, ends_at: ops_saturday + 18.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'Teardown Setup', organization: treblemakers_org, starts_at: teardown + 16.hours, ends_at: teardown + 18.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'Tent Setup', organization: originals_org, starts_at: operations + 21.hours, ends_at: operations + 21.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'Green Room', organization: originals_org, starts_at: ops_saturday + 13.hours, ends_at: ops_saturday + 16.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'Green Room', organization: originals_org, starts_at: ops_saturday + 13.hours, ends_at: ops_saturday + 16.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'Off-Night Event', organization: originals_org, starts_at: ops_saturday + 13.hours, ends_at: ops_saturday + 16.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: rowing_org, starts_at: operations + 15.hours, ends_at: operations + 17.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: rowing_org, starts_at: operations + 17.hours, ends_at: operations + 19.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: juntos_org, starts_at: operations + 19.hours, ends_at: operations + 21.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: juntos_org, starts_at: operations + 12.hours, ends_at: operations + 23.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: treblemakers_org, starts_at: ops_saturday + 10.hours, ends_at: ops_saturday + 13.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: treblemakers_org, starts_at: ops_saturday + 13.hours, ends_at: ops_saturday + 15.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: juntos_org, starts_at: ops_saturday + 15.hours, ends_at: ops_saturday + 17.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: juntos_org, starts_at: ops_saturday + 17.hours, ends_at: ops_saturday + 19.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: quidditch_org, starts_at: ops_saturday + 19.hours, ends_at: ops_saturday + 21.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: originals_org, starts_at: ops_saturday + 12.hours, ends_at: ops_saturday + 23.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: rowing_org, starts_at: ops_saturday + 10.hours, ends_at: ops_saturday + 13.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: rowing_org, starts_at: ops_saturday + 13.hours, ends_at: ops_saturday + 15.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: quidditch_org, starts_at: ops_saturday + 15.hours, ends_at: ops_saturday + 17.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: quidditch_org, starts_at: ops_saturday + 17.hours, ends_at: ops_saturday + 19.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: originals_org, starts_at: ops_saturday + 19.hours, ends_at: ops_saturday + 21.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: originals_org, starts_at: ops_saturday + 121.hours, ends_at: ops_saturday + 23.hours, required_number_of_participants: 2 })
 
 # Tools -------------------------------------------------------------------------
 puts 'Tools'
@@ -680,17 +723,4 @@ if  Rails.env.development?
   participant_user = User.create({ email: "#{participant_andrewid}@andrew.cmu.edu"})
   participant = Participant.create({ andrewid: participant_andrewid, user: participant_user })
   Membership.create({ organization: dtd_org, participant: participant })
-
-  # Tasks ---
-  # Task.create([{ name: "todo", due_at: Time.now + 1.hour, description: "Many things" },
-  #   {name: "done0", due_at: Time.now, completed_by: chase, is_completed: true },
-  #   {name: "done1", due_at: Time.now, completed_by: chase, is_completed: true },
-  #   {name: "done2", due_at: Time.now, completed_by: chase, is_completed: true },
-  #   {name: "not done1", due_at: Time.now + 1.hour, completed_by: chase, is_completed: true },
-  #   {name: "not done2", due_at: Time.now + 1.hour, completed_by: chase, is_completed: true },
-  #   {name: "not done3", due_at: Time.now + 1.hour, completed_by: chase, is_completed: true },
-  #   {name: "late1", due_at: Time.now - 30.minutes },
-  #   {name: "late2", due_at: Time.now - 30.minutes },
-  #   {name: "late3", due_at: Time.now - 30.minutes }
-  # ])
 end
