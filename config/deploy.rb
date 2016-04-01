@@ -6,7 +6,7 @@ set :application, 'binder-app'
 set :repo_url, 'https://github.com/sc0v/binder-app.git'
 
 # Default branch is :master
-# ask :branch, `git rev-parse --abbrev-ref HEAD`.chomp
+set :branch, ENV["branch"] if ENV["branch"]
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "/var/www/#{fetch :application}/#{fetch :stage}"
@@ -38,7 +38,7 @@ set :deploy_to, "/var/www/#{fetch :application}/#{fetch :stage}"
 
 # rbenv options
 set :rbenv_type, :system
-set :rbenv_ruby, '2.1.5'
+set :rbenv_ruby, '2.3.0'
 
 # NewRelic
 before 'deploy:finished', 'newrelic:notice_deployment'
@@ -58,11 +58,37 @@ end
 
 
 #
+# Apache Tasks
+#
+namespace :apache do
+
+  desc "Restart Apache"
+  task :restart do
+    on roles(:app) do |h|
+      sudo :service, :apache2, "restart"
+    end
+  end
+
+end
+
+#
 # Database Tasks
 #
 namespace :db do
 
-  desc 'Setup database'
+  desc 'Runs rake db:reset'
+  task :reset do
+    on roles(:db) do
+      within release_path do
+        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
+          execute :rake, 'db:reset'
+        end
+      end
+    end
+  end
+  before 'db:reset', 'bundler:install'
+
+  desc 'Runs rake db:setup'
   task :setup do
     on roles(:db) do
       within release_path do

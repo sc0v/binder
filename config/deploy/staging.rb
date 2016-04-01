@@ -1,4 +1,4 @@
-server 'binder.springcarnival.org', user: 'sc0v', roles: %w{app db web}
+server 'binder-dev.springcarnival.org', user: 'sc0v', roles: %w{app db web}
 set :rails_env, 'staging'
 
 # server-based syntax

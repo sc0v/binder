@@ -38,6 +38,12 @@ group :development do
 
   # passenger specific tasks in capistrano
   gem 'capistrano-passenger'
+
+  # hide passwords in capistrano
+  gem 'highline'
+
+  # sudo commands in capistrano
+  gem 'sshkit-sudo'
 end
 
 # Document attachments
