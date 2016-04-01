@@ -60,6 +60,9 @@ Trailerapp::Application.routes.draw do
       post 'add_to_cart',
            on: :member,
            controller: 'purchases'
+      post 'remove_from_cart',
+           on: :member,
+           controller: 'purchases'
     end
     resources 'purchase',
               controller: 'purchases',
