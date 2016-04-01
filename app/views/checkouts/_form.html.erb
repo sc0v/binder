@@ -8,6 +8,6 @@
   <div class="form-actions">
     <%= f.button :submit, "Check Tool Out", :class => 'btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-              tools_path, :class => 'btn' %>
+              @tool, :class => 'btn btn-default' %>
   </div>
 <% end %>
