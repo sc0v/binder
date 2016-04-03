@@ -11,7 +11,7 @@
     <div style='float: left; border: 1px solid #ccc; border-radius: 4px; padding: 6px; margin-right: 8px;'>
       <span style='font-weight: bold; margin-right: 5px'>Filter by Tool Type</span><br />
       <select name='type_filter' class='form-control' onchange='this.form.submit()'>
-        <%= raw("<option value='' #{params[:type_filter].present? ? '':'selected'}>All tools</option>") %>
+        <%= raw("<option value='' #{params[:type_filter].present? ? '':'selected'}>All tools (except hardhats/radios)</option>") %>
         <%= raw("<option value='all_tools' #{param_equals_s(:type_filter, 'all_tools') ? 'selected':''}>All tools (Include hardhats/radios)</option>") %>
         <% ToolType.all.to_a.each do |tool_type| %>
           <%= raw("<option value='#{tool_type.id}' #{param_equals_i(:type_filter, tool_type.id) ? 'selected' : ''}>#{tool_type.name}</option>") %>

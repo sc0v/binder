@@ -72,6 +72,14 @@ Trailerapp::Application.routes.draw do
   
   end
 
+  scope 'tool_cart' do
+    post 'add_tool', to: 'tool_cart#add_tool', as: :tool_cart_add_tool
+    post 'remove_tool', to: 'tool_cart#remove_tool', as: :tool_cart_remove_tool
+    post 'checkout', to: 'tool_cart#checkout', as: :tool_cart_checkout
+    post 'checkin', to: 'tool_cart#checkin', as: :tool_cart_checkin
+    post 'swap', to: 'tool_cart#swap', as: :tool_cart_swap
+  end
+
   # static pages
   get "milestones" => "home#milestones", :as => "milestones"
 

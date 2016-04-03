@@ -1,0 +1,13 @@
+(function(){
+  var $scan_tool_input = $('#tc_scan_tool'),
+      $scan_tool_list = $('#tc_tool_list');
+
+  $('[data-toggle="tooltip"]').tooltip('destroy');
+  $('#tool_cart_item-<%= barcode %>').remove();
+  $('[data-toggle="tooltip"]').tooltip();
+  $scan_tool_input.val('');
+  $scan_tool_input.focus();
+  <% if list_empty %>
+    $('#tc_tool_list_container').hide();
+  <% end %>
+})();

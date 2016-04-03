@@ -38,7 +38,7 @@ class Tool < ActiveRecord::Base
   scope :radios, -> { Tool.joins(:tool_type).where("lower(name) LIKE lower(?)", "%radio") }
   scope :just_tools, -> { Tool.joins(:tool_type).where("lower(name) NOT LIKE lower(?) AND lower(name) NOT LIKE lower(?)", "%radio", "%hardhat") }
   scope :search, lambda { |term| Tool.joins(:tool_type).where("lower(name) LIKE lower(?) OR CAST(barcode AS CHAR) LIKE lower(?) OR lower(description) LIKE lower(?)", "%#{term}%", "%#{term}%", "%#{term}%") }
-  scope :checked_out, -> { Tool.joins(:checkouts).where(checkouts: {checked_in_at: nil}) }
+  scope :checked_out, -> { joins(:checkouts).where(checkouts: {checked_in_at: nil}) }
   scope :checked_in, -> { where('tools.id NOT IN (SELECT checkouts.tool_id FROM checkouts WHERE checked_in_at IS NULL)') }
 
   def current_organization
@@ -51,6 +51,12 @@ class Tool < ActiveRecord::Base
 
   def is_checked_out?
     return not(self.checkouts.current.empty?)
+  end
+
+  def is_waitlist_critical?
+    num_on_waitlist = ToolWaitlist.for_tool_type(self.tool_type).count
+    num_available = Tool.by_type(self.tool_type).checked_in.count
+    return num_on_waitlist > 0 && num_on_waitlist >= num_available
   end
 
   def is_hardhat?
