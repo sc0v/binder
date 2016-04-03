@@ -27,8 +27,8 @@
 	<% end %>
 <% else %>
   <% if can?(:create, Checkout) %>
-    <%= link_to t('.checkout', :default => t("helpers.links.checkout")),
-                    new_tool_checkout_path(@tool), :class => 'btn btn-warning' %>
+    <%= link_to 'Add to Cart', tool_cart_add_tool_path(barcode: @tool.barcode),
+                method: :post, remote: true, :class => 'btn btn-warning' %>
   <% end %>
 <% end %>
 <% if can?(:create, ToolWaitlist) %>
