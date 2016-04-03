@@ -3,7 +3,7 @@ Trailerapp::Application.routes.draw do
   resources :documents
   resources :faqs, :except => [:show]
   resources :organizations do
-    resources :aliases, :controller => :organization_aliases, :shallow => true, :only => [:create, :new, :destroy]
+    resources :aliases, :controller => :organization_aliases, :shallow => true, :only => [:create, :new, :destroy, :index]
     resources :statuses, :controller => :organization_statuses, :as => :organization_statuses
     resources :participants, :only => [:index]
     resources :shifts, :only => [:index]
@@ -19,6 +19,7 @@ Trailerapp::Application.routes.draw do
   resources :charges do
     put 'approve', on: :member
   end
+
   resources :charge_types
   resources :participants do
     resources :memberships, :except => [:index, :show]

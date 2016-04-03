@@ -1,7 +1,14 @@
 class OrganizationAliasesController < ApplicationController
   # permissions error - when enabled, this tries to find a OrganizationAlias with the current related model id on creation
-  # load_and_authorize_resource
   responders :flash, :http_cache
+
+  def index
+    unless can? :read, OrganizationAlias
+      return redirect_to root_url, alert: "Not Authorized to see Aliases"
+    end
+    @organization = Organization.find(params[:organization_id])
+    @organization_aliases = @organization.organization_aliases.paginate(:page => params[:page]).per_page(10)
+  end
 
   def new
     @organization_alias = OrganizationAlias.new
@@ -11,16 +18,17 @@ class OrganizationAliasesController < ApplicationController
   end
 
   def create
+    @organization = Organization.find(params[:organization_id])
     @organization_alias = OrganizationAlias.new(alias_params)
     @organization_alias.save
-    respond_with(@organization_alias)
+    redirect_to organization_path(@organization), notice: "Alias was successfully created."
   end
 
   def destroy
     @organization_alias = OrganizationAlias.find(params[:id])
-    @org = @organization_alias.organization
+    @organization = @organization_alias.organization
     @organization_alias.destroy
-    respond_with(@organization_alias)
+    redirect_to organization_path(@organization), notice: "Alias was successfully deleted."
   end
 
   private
