@@ -1,4 +1,5 @@
 class ListOrganizationChargesReport < Dossier::Report
+  # Don't forget to restart server to test changes to reports.
 
   def self.binder_report_info
     {
