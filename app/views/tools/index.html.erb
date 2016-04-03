@@ -21,7 +21,6 @@
     <div style='float: left; border: 1px solid #ccc; border-radius: 4px; padding: 6px; margin-right: 8px;'>
       <span style='font-weight: bold; margin-right: 5px'>Filter Checked Out Status </span><br />
       <select name='inventory_filter' class='form-control' onchange='this.form.submit()'>
-        <option value='' <%= @tool_type.nil? ? 'selected' : ''%> disabled>Select a tool type</option>
         <%= raw("<option value='' #{params[:inventory_filter].present? ? '':'selected'}>All</option>") %>
         <%= raw("<option value='checked_in' #{(params[:inventory_filter].present? && params[:inventory_filter] == 'checked_in') ? 'selected':''}>Checked In Only</option>") %>
         <%= raw("<option value='checked_out' #{(params[:inventory_filter].present? && params[:inventory_filter] == 'checked_out') ? 'selected':''}>Checked Out Only</option>") %>

@@ -48,7 +48,8 @@
 <% if can?(:read, ToolWaitlist) && !@waitlist.empty? %>
   <br /><br />
   <div>
-    <h3>Waitlist for <%= @tool.tool_type.name.pluralize %></h3>
+    <h3>Waitlist for <%= link_to @tool.tool_type.name.pluralize, tools_path(type_filter: @tool.tool_type.id) %>
+      (<%= Tool.checked_in.by_type(@tool.tool_type).count %> remaining)</h3>
     <%= render partial: 'tool_waitlist' %>
   </div>
 <% end %>
