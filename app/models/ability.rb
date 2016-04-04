@@ -65,9 +65,12 @@ class Ability
       can :read, :all
       cannot :read, Role
 
+
       can [:create, :update], Charge
       can [:create, :update], Checkout
       can [:create, :update], Document
+      can [:create, :update], Event
+      can [:create, :update], EventType
       can [:create, :update, :destroy], Membership
       can [:hardhats, :read_basic_details, :read_all_details], Organization
       can [:create, :update, :destroy], OrganizationStatus

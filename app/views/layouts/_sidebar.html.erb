@@ -214,5 +214,38 @@
       </div>
     </div>
   <% end %>
+
+<%# Change to true to enable event sidebar %>
+  <% if true %>
+    <div class="panel panel-default">
+      <div class="panel-heading">
+        Notes
+      </div>
+      <div class="panel-body">
+        <table class="table table-condensed">
+          <thead>
+            <th style="text-align: center">Note</th>
+            <th>Actions</th>
+          </thead>
+          <tbody>
+            <% @events_sidebar.each do |event| %>
+                <tr>
+                  <td style="text-align: center;"><%= link_to event.description.truncate(150), event_path(event) %></td>
+                  <td>              
+                    <%= form_tag approve_event_path(event), method: :put %>
+                      <%= hidden_field_tag 'url', request.original_fullpath %>
+                      <% unless event.is_done %>
+                        <%= submit_tag 'OK', :class => 'btn btn-success btn-xs' %>
+                      <% end %>
+                </td>
+                </tr>
+            <% end %>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  <% end %>
+
+
 <% end %>
 

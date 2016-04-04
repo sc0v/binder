@@ -1,5 +1,9 @@
 Trailerapp::Application.routes.draw do
 
+  resources :event_types
+  resources :events do
+        put 'approve', on: :member
+  end
   resources :documents
   resources :faqs, :except => [:show]
   resources :organizations do

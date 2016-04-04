@@ -1,0 +1,15 @@
+<%= simple_form_for @event, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <%= f.association :event_type %>
+    <%= f.input :description %>
+    <%= f.input :is_done%>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                @event, :class => 'btn btn-default' %>
+  </div>
+<% end %>
