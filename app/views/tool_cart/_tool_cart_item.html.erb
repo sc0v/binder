@@ -6,13 +6,8 @@
   <div id='tool_cart_item-<%= tool.barcode %>' class='row cart-item'>
 <% end %>
   <div class='col-xs-3'><a href='/tools/<%= tool.id %>' class='btn btn-xs <%= tool.is_waitlist_critical? ? 'btn-warning':'btn-info'%>'><%= tool.barcode %></a></div>
-  <div class='col-xs-6'
-    <% if tool.is_checked_out? %>
-        data-toggle='tooltip' data-placement='bottom'
-        title='This tool is currently checked out. Checking it out will automatically check it in for the last person.'
-    <% end %>
-  >
-    <%= tool.name %><%= tool.is_checked_out? ? raw('<span>**</span>') : '' %>
+  <div class='col-xs-6'>
+    <%= tool.name %>
   </div>
   <div class='col-xs-3'><%= link_to 'Undo', tool_cart_remove_tool_path(barcode: tool.barcode), method: :post, remote: true, class: 'btn btn-danger btn-xs' %></div>
 </div>
