@@ -1,11 +1,15 @@
 class OrganizationTimelineEntriesController < ApplicationController
   authorize_resource
-  before_action :set_organization_timeline_entry, only: [:update, :destroy, :end]
+  before_action :set_organization_timeline_entry, only: [:update, :destroy, :end, :show]
 
   def index
     @organization = Organization.find(params[:organization_id]) unless params[:organization_id].blank?
     @entries = OrganizationTimelineEntry.downtime
     @entries = @entries.where({organization: @organization}) unless @organization.blank?
+  end
+
+  def show
+    @organization_timeline_entry = OrganizationTimelineEntry.find(params[:id])
   end
 
   # POST /organizations_timeline_entries
@@ -31,7 +35,7 @@ class OrganizationTimelineEntriesController < ApplicationController
   # PUT /organizations_timeline_entry/1.json
   def update
     @organization_timeline_entry.update_attributes(organization_timeline_entry_params)
-    redirect_to downtime_path 
+    redirect_to organization_downtime_index_path(@organization_timeline_entry.organization)
   end
   
   def edit
@@ -49,8 +53,10 @@ class OrganizationTimelineEntriesController < ApplicationController
   # DELETE /organizations_timeline_entry/1
   # DELETE /organizations_timeline_entry/1.json
   def destroy
+    @organization_timeline_entry = OrganizationTimelineEntry.find(params[:id])
     @organization_timeline_entry.destroy
-    respond_with(@organization_timeline_entry, location: params[:url])
+    flash[:notice] = "Successfully removed entry from downtime tracker"
+    redirect_to  organization_downtime_index_path(@organization_timeline_entry.organization) 
   end
 
   def electrical

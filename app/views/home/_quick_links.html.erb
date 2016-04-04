@@ -12,7 +12,7 @@
     <p><%= link_to "Sign Waiver", new_waiver_path, :class => "btn btn-primary" %></p>
   <% end %>
   <% if can?(:downtime, OrganizationTimelineEntry) %>
-    <p><%= link_to "Downtime Tracker", downtime_path, :class => "btn btn-primary" %></p>
+    <p><%= link_to "Downtime Tracker", downtime_index_path	, :class => "btn btn-primary" %></p>
   <% end %>
   <% if can?(:structural, OrganizationTimelineEntry) %>
     <p><%= link_to "Structural Queue", structural_path, :class => "btn btn-primary " %></p>

@@ -12,10 +12,12 @@ Trailerapp::Application.routes.draw do
     get 'hardhats', on: :member
     resources :downtime, :controller => :organization_timeline_entries, :only => [:index]
   end
-  resources :organization_timeline_entries, :controller => :organization_timeline_entries, :only => [:edit, :create, :update, :destroy] do
+  resources :organization_timeline_entries, :controller => :organization_timeline_entries, :only => [:show,:edit, :create, :update, :destroy] do
     put 'end', on: :member
   end
-  resources :organization_status_types , :except => [:show]
+  resources :organization_timeline_entries, :path => :downtime, :as => :downtime, :only => [:edit,:create,:update,:destroy]
+  get 'downtime', to: "home#downtime"
+
   resources :charges do
     put 'approve', on: :member
   end
@@ -98,7 +100,6 @@ Trailerapp::Application.routes.draw do
   get 'charge_overview' => "home#charge_overview", :as => "charge_overview"
   get 'structural' => "organization_timeline_entries#structural", :as => "structural"
   get 'electrical' => "organization_timeline_entries#electrical", :as => "electrical"
-  get 'downtime' => "home#downtime", :as => "downtime"
 
 
   devise_for :users,
