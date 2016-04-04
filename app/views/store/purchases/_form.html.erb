@@ -1,12 +1,31 @@
-<%= simple_form_for @charge, :html => { :class => 'form-horizontal' }, :url => store_cart_choose_organization_path, method: :post do |f| %>
+<%= simple_form_for @charge, :html => { :class => 'form-horizontal' }, :url => store_cart_checkout_path, method: :post do |f| %>
 <%= f.input :participant_id, required: true do %>
 <%= f.input_field :receiving_participant_id, as: :hidden, required: true %>
 <%= text_field_tag 'card-number-input', nil, class: 'form-control', required: true %>
-<div id="participant-info"></div>
+<div id="participant-info" style="text-align: left"></div>
 <% end %>
-<div class="form-actions">
-  <%= f.button :submit, "Complete Purchase", :class => 'btn-primary' %>
-  <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-  store_path, :class => 'btn' %>
-</div>
+
+  <div id="org_name_div" class="form-group" style="margin-left:70px; display: none">
+    <label for="org_name" class="col-sm-2 control-label">Choose Organization</label>
+    <div class="col-sm-10">
+      <select class="form-control" id="org_name" name="organization_id">
+      </select>
+    </div>
+  </div>
+  <div id="add_to_org_div" class="form-group" style="display: none">
+    <div class="col-sm-offset-2 col-sm-offset-3">
+      <input type="checkbox" id="add_to_org" name="add_membership" /> Add membership?
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, "Checkout", :class => 'btn-primary', :style => 'display: none', 
+    :id => 'checkout_submit_button' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+              store_path, :class => 'btn' %>
+  </div>
+<% end %>
+
+<%= javascript_tag do %>
+  Checkout.init();
 <% end %>
