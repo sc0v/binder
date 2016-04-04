@@ -1,4 +1,5 @@
 class ListOrganizationChargesReport < Dossier::Report
+  # Don't forget to restart server to test changes to reports.
 
   def self.binder_report_info
     {
@@ -22,8 +23,7 @@ class ListOrganizationChargesReport < Dossier::Report
   end
 
   def sql
-    query = Charge.joins(:organization, :charge_type, :issuing_participant,
-                         :receiving_participant, :creating_participant)
+    query = Charge.joins(:organization, :charge_type, :issuing_participant, :creating_participant)
                 .reorder('organizations.name, charges.charged_at')
 
     # Limit by organization
@@ -48,7 +48,7 @@ class ListOrganizationChargesReport < Dossier::Report
                  'charges.is_approved AS \'Approved\'',
                  'creating_participants_charges.andrewid AS \'Creator\'',
                  'participants.andrewid AS \'Issuer\'',
-                 'receiving_participants_charges.andrewid AS \'Receiver\'',
+                 '(SELECT participants.andrewid FROM participants WHERE participants.id = charges.receiving_participant_id) AS \'Receiver\'',
                  'charges.description AS \'Description\'').to_sql
   end
 end

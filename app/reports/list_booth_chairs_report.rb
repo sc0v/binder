@@ -1,4 +1,5 @@
 class ListBoothChairsReport < Dossier::Report
+  # Don't forget to restart server to test changes to reports.
 
   def self.binder_report_info
     {
@@ -8,13 +9,11 @@ class ListBoothChairsReport < Dossier::Report
     }
   end
 
-  def format_header(column_name)
-    return 'Organization' if column_name == 'name'
-    return 'Andrew ID' if column_name == 'andrewid'
-    column_name
-  end
-
   def sql
-    Membership.joins(:participant, :organization).booth_chairs.select('andrewid', 'name').order('andrewid').to_sql
+    Membership.joins(:organization, :participant).booth_chairs
+              .select('organizations.name AS \'Organization\'', 'andrewid AS \'Andrew ID\'',
+                      'phone_number AS \'Phone Number\'',
+                      '(SELECT phone_carriers.name FROM phone_carriers WHERE phone_carriers.id = participants.phone_carrier_id) AS \'Phone Carrier\'')
+              .order('organizations.name, andrewid').to_sql
   end
 end

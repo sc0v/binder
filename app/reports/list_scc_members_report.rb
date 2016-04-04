@@ -1,4 +1,5 @@
 class ListSccMembersReport < Dossier::Report
+  # Don't forget to restart server to test changes to reports.
 
   def self.binder_report_info
     {
@@ -7,12 +8,10 @@ class ListSccMembersReport < Dossier::Report
     }
   end
 
-  def format_header(column_name)
-    return 'Andrew ID' if column_name == 'andrewid'
-    column_name
-  end
-
   def sql
-    Participant.scc.select('andrewid').to_sql
+    Participant.scc.select('andrewid AS \'Andrew ID\'',
+                      'phone_number AS \'Phone Number\'',
+                      '(SELECT phone_carriers.name FROM phone_carriers WHERE phone_carriers.id = participants.phone_carrier_id) AS \'Phone Carrier\'')
+              .to_sql
   end
 end
