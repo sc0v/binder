@@ -70,6 +70,6 @@ class EventTypesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_type_params
-      params.require(:event_type).permit(:display, :name, :priority)
+      params.require(:event_type).permit(:display, :name)
     end
 end
