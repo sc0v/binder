@@ -129,6 +129,8 @@ var ToolCart = new function(){
           cko_participant['member_orgs'].forEach(function(org){
             $cko_organization_select.first().append('<option value="' + org['id'] + '">' + org['name'] + '</option>');
           });
+          // Add blank line
+          $cko_organization_select.first().append('<option value="" disabled></option>');
         }
         $cko_organization_select.append('<optgroup label="All Organizations"></optgroup>');
         cko_participant['non_member_orgs'].forEach(function(org){

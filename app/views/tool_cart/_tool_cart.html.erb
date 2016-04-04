@@ -1,6 +1,6 @@
 <div class="panel panel-default">
   <div class="panel-heading">
-    Rapid Tool Management Cart
+    Tool Cart
   </div>
 
   <div id='tc_alert' class='panel-body' style='display: none'>
@@ -27,14 +27,12 @@
     </div>
     <br />
     <div class="btn-group" style="width: 100%">
-      <%= button_tag 'Check Out', :class => "btn btn-default", :style => "width: 33%; white-space: normal; height: 55px",
-                     onclick: 'ToolCart.checkoutAction()'%>
+      <%= button_tag 'Check Out', :class => "btn btn-primary cart-button", onclick: 'ToolCart.checkoutAction()'%>
       <%= link_to 'Swap', tool_cart_swap_path, method: :post, remote: true,
-                     :class => "btn btn-default", :style => "width: 33%; white-space: normal; height: 55px; padding-top: 14px",
+                     :class => "btn btn-primary cart-button", :style => "padding-top: 14px",
                      'data-toggle' => 'tooltip', 'data-placement' => 'bottom',
                      title: 'Scan one checked out tool and one checked in tool then hit swap to swap them!'%>
-      <%= link_to 'Check In', tool_cart_checkin_path, method: :post, remote: true,
-                  :class => "btn btn-default", :style => "width: 33%; white-space: normal; height: 55px" %>
+      <%= link_to 'Check In', tool_cart_checkin_path, method: :post, remote: true, :class => "btn btn-primary cart-button" %>
     </div>
   </div>
 
