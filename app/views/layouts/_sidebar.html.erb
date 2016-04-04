@@ -86,9 +86,14 @@
     <% end %>
   <% end %>
 
-  
-  <%# Change to true to enable mass-check-in %>
+  <%# Change to true to enable the quick links to the tool cart. %>
   <% if true %>
+    <%= render 'tool_cart/tool_cart' %>
+  <% end %>
+
+
+  <%# Change to true to enable mass-check-in. DEPRECIATED use the tool cart instead. %>
+  <% if false %>
     <div class="panel panel-default">
       <div class="panel-heading">
         Rapid Tool Check-In
