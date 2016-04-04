@@ -20,4 +20,30 @@ $(document).on("ready page:change", function(){
   $('#query').focus();
   $('.sidebar-tooltip').tooltip({container: 'body', html: true});
   $('.sidebar-popover').popover({container: 'body', html: true});
-});
+
+  $('#card-number-input').focus(); 
+  $('#card-number-input').bind("change", function() {
+    $.ajax({
+      url: "/participants/lookup.json",
+      type: "POST",
+      data: {
+        card_number: $('#card-number-input').val()
+      }      
+    }).done( function(data) {
+      console.log(data['name']);
+      console.log($(this));
+      $('#card-number-input').parent().children().first().val(data['id']);
+      $('#card-number-input').parent().children().last().html("</br><div class=\"panel panel-success\"><div class=\"panel-heading\">Participant Info</div><div class=\"panel-body\">" + data["name"] + "</div>");
+    }).error( function(data) {
+      $('#card-number-input').parent().children().first().val("");
+      $('#card-number-input').parent().children().last().html("</br><div class=\"panel panel-danger\"><div class=\"panel-heading\">Participant Not Found</div><div class=\"panel-body\">If this message persists please try entering their andrewid instead.</div>")
+    });
+  });
+  
+  $('#card-number-input').bind("keydown", function() {
+    if (window.event && window.event.keyCode == 13) {
+      event.preventDefault();
+      $(':submit').focus()
+    }
+  });
+})

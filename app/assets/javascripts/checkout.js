@@ -2,7 +2,7 @@ var Checkout = new function() {
 
 	this.init = function() {
         // Prevent default submit action when you press enter 
-		$('#card-number-input').bind("keydown", function() {
+		$('#user-card-number-input').bind("keydown", function() {
 			if (window.event && window.event.keyCode == 13) {
 				event.preventDefault();
 				loadParticipant();
@@ -19,8 +19,8 @@ var Checkout = new function() {
 	      }
 	   	});
 
-		$('#card-number-input').focus(); 
-	  	$('#card-number-input').bind("change", function() {
+		$('#user-card-number-input').focus(); 
+	  	$('#user-card-number-input').bind("change", function() {
 	    	loadParticipant();
 	  	});
 	};
@@ -30,12 +30,15 @@ var Checkout = new function() {
 	        url: "/participants/lookup.json",
 	        type: "POST",
 	        data: {
-	          card_number: $('#card-number-input').val()
+	          card_number: $('#user-card-number-input').val()
 	        }      
 	    }).done( function(data) {
 	    	var cko_participant = data;
-		    $('#card-number-input').parent().children().first().val(data['id']);
-		    $('#card-number-input').parent().children().last().html("</br><div class=\"panel panel-success\"><div class=\"panel-heading\">Participant Info</div><div class=\"panel-body\">" + data["name"] + "</div>");
+		    $('#user-card-number-input').parent().children().first().val(data['id']);
+		    $('#user-card-number-input').parent().children().last().html("</br><div class=\"panel panel-success\"><div class=\"panel-heading\">Participant Info</div><div class=\"panel-body\">" + data["name"] + "</div>");
+	        if($('#charge_receiving_participant_id')) {
+	        	$('#charge_receiving_participant_id').val(data['id']);
+	        }
 	        $("#org_name_div").fadeIn(500);
 	        $("#checkout_submit_button").fadeIn(500);
 
@@ -61,8 +64,8 @@ var Checkout = new function() {
 
 	        if(cko_participant['member_orgs'].length == 0) $("#add_to_org_div").show();
 	    }).error( function(data) {
-	        $('#card-number-input').parent().children().first().val("");
-		    $('#card-number-input').parent().children().last().html("</br><div class=\"panel panel-danger\"><div class=\"panel-heading\">Participant Not Found</div><div class=\"panel-body\">If this message persists please try entering their andrewid instead.</div>")
+	        $('#user-card-number-input').parent().children().first().val("");
+		    $('#user-card-number-input').parent().children().last().html("</br><div class=\"panel panel-danger\"><div class=\"panel-heading\">Participant Not Found</div><div class=\"panel-body\">If this message persists please try entering their andrewid instead.</div>")
 		});
 	}
 };

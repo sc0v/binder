@@ -2,8 +2,8 @@
 	<%= f.input :tool_type_id, :as => :hidden %>
   <%= f.input :participant_id, required: true do %>
     <%= f.input_field :participant_id, as: :hidden, required: true %>
-    <%= text_field_tag 'card-number-input', nil, class: 'form-control', required: true %>
-    <div id="participant-info"></div>
+    <%= text_field_tag 'user-card-number-input', nil, class: 'form-control', required: true %>
+    <div id="user-participant-info"></div>
   <% end %>
   <%= f.input :note, :required => false %>
 

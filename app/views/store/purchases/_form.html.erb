@@ -1,8 +1,8 @@
 <%= simple_form_for @charge, :html => { :class => 'form-horizontal' }, :url => store_cart_checkout_path, method: :post do |f| %>
 <%= f.input :participant_id, required: true do %>
-<%= f.input_field :receiving_participant_id, as: :hidden, required: true %>
-<%= text_field_tag 'card-number-input', nil, class: 'form-control', required: true %>
-<div id="participant-info" style="text-align: left"></div>
+<%= f.input :receiving_participant_id, as: :hidden, required: true %>
+<%= text_field_tag 'user-card-number-input', nil, class: 'form-control', required: true %>
+<div id="user-participant-info" style="text-align: left"></div>
 <% end %>
 
   <div id="org_name_div" class="form-group" style="margin-left:70px; display: none">
@@ -13,7 +13,7 @@
     </div>
   </div>
   <div id="add_to_org_div" class="form-group" style="display: none">
-    <div class="col-sm-offset-2 col-sm-offset-3">
+    <div class="col-sm-offset-2 col-sm-offset-3" style="padding-right:516px">
       <input type="checkbox" id="add_to_org" name="add_membership" /> Add membership?
     </div>
   </div>
