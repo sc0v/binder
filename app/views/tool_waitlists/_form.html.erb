@@ -9,6 +9,6 @@
   <div class="form-actions">
     <%= f.button :submit, "Add to waitlist", :class => 'btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-              tools_path, :class => 'btn' %>
+              @tool, :class => 'btn btn-default' %>
   </div>
 <% end %>
