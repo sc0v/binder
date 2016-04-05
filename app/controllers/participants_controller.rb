@@ -18,7 +18,7 @@ class ParticipantsController < ApplicationController
   def lookup
     # Process request if barcode is present
     participant = Participant.find_by_card params[:card_number]
-    
+   
     unless participant.blank?
       render json: { :id => participant.id,
                      :name => participant.name,

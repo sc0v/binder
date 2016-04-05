@@ -21,7 +21,7 @@ class ToolWaitlistsController < ApplicationController
         wait_start_time: DateTime.now
     })
 
-    if params[:add].to_i == 1
+    if params[:add_membership]
       Membership.create({participant_id: params[:participant_id], organization_id: params[:organization_id]})
     end
 
@@ -34,17 +34,6 @@ class ToolWaitlistsController < ApplicationController
     end
   end
 
-  def choose_organization
-    @tool_type = ToolType.find(params[:tool_type_id])
-    @participant = Participant.find_by_card(params['card-number-input'])
-    @note = params[:note]
-    if @tool_type.blank?
-      redirect_to :back, alert: "Missing tool type"
-    elsif @participant.blank?
-      redirect_to :back, alert: "Missing participant to add to the waitlist"
-    end
-  end
-
   # DELETE /tool_waitlists/1
   # DELETE /tool_waitlists/1.json
   def destroy
@@ -53,6 +42,6 @@ class ToolWaitlistsController < ApplicationController
       @tool_waitlist.active = false
       @tool_waitlist.save
     end
-    redirect_to :back, alert: "Waitlist entry successfully removed"
+    redirect_to :back, notice: "Waitlist entry successfully removed"
   end
 end
