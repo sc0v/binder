@@ -25,7 +25,7 @@ class Task < ActiveRecord::Base
 
   default_scope { order('due_at ASC') }
   scope :upcoming, lambda{ where("due_at < ?", DateTime.now + 4.hour) }
-  scope :is_incomplete, lambda{ where(is_completed: false)}
+  scope :is_incomplete, lambda{ where('is_completed = FALSE OR is_completed IS NULL')}
   scope :is_complete, lambda{ where(is_completed: true)}
   def is_past_due
     return self.due_at < Time.now
