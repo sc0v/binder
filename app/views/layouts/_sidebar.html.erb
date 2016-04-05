@@ -1,289 +1,32 @@
+<% if current_user.participant.is_scc? %>
+  <%= render 'tool_cart/tool_cart' %>
+
+  <% if !@tasks_sidebar.blank? %>
+    <% cache ['tasks_sidebar', @tasks_sidebar] do %>
+      <%= render 'tasks/tasks_sidebar' %>
+    <% end %>
+  <% end %>
+<% end %>
+
 <% if !@current_shifts_sidebar.blank? or !@upcoming_shifts_sidebar.blank? %>
   <% cache ['shift_sidebar', 'current', @current_shifts_sidebar, 'upcoming', @upcoming_shifts_sidebar] do%>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <div class='row'>
-          <div class='col-xs-9'>Shifts</div>
-          <div class='col-xs-3'>
-            <a href="#sidebar-shifts-widget" onclick='_toggleText(this, "Show", "Hide")'
-               class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
-          </div>
-        </div>
-      </div>
-      <div id='sidebar-shifts-widget' class="collapse in panel-body">
-        <table class="table table-condensed" style="margin-bottom: 0;">
-          <thead>
-            <th>Current</th>
-            <th style="text-align: right;">Ends at</th>
-          </thead>
-          <tbody>
-            <% cache ['current_sidebar', @current_shifts_sidebar] do %>
-              <% @current_shifts_sidebar.each do |shift| %>
-                <tr class="sidebar-tooltip <%= shift.is_checked_in ? 'success' : 'danger' %>" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %><%=h ' - ' + shift.description + ' (' + shift.required_number_of_participants.to_s + ')'  unless shift.description.blank? %>">
-                  <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                    <% if (shift.shift_type.name == "Coordinator Shift") %>
-                      <%= link_to shift.shift_participants.first.participant.name, shift unless shift.shift_participants.blank? %>
-                    <% else %>
-                      <%= link_to shift.organization.short_name, shift unless shift.organization.blank? %>
-                      <%= link_to 'No Org Assigned', shift if shift.organization.blank? %>
-                    <% end %>
-                  </td>
-                  <td style="text-align: right;"><%= time shift.ends_at %></td>
-                </tr>
-              <% end %>
-            <% end %>
-          </tbody>
-        </table>
-        <table class="table table-condensed table-striped" style="margin-bottom: 0;">
-          <thead>
-            <th>Upcoming</th>
-            <th style="text-align: right;">Starts at</th>
-          </thead>
-          <tbody>
-            <% cache ['upcoming_sidebar', @upcoming_shifts_sidebar] do %>
-              <% @upcoming_shifts_sidebar.each do |shift| %>
-                <tr class="sidebar-tooltip <%= shift.is_checked_in ? 'success' : 'warning' %>" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %><%=h ' - ' + shift.description + ' (' + shift.required_number_of_participants.to_s + ')'  unless shift.description.blank? %>">
-                  <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
-                    <% if (shift.shift_type.name == "Coordinator Shift") %>
-                      <%= link_to shift.shift_participants.first.participant.name, shift unless shift.shift_participants.blank? %>
-                    <% else %>
-                      <%= link_to shift.organization.short_name, shift unless shift.organization.blank? %>
-                     <% end %>
-                  </td>
-                  <td style="text-align: right;"><%= time shift.starts_at %></td>
-                </tr>
-              <% end %>
-            <% end %>
-          </tbody>
-        </table>
-      </div>
-    </div>
+      <%= render 'shifts/shifts_sidebar' %>
   <% end %>
 <% end %>
 
 <% if current_user.participant.is_scc? %>
-  <% if !@tasks_sidebar.blank? %>
-    <% cache ['tasks_sidebar', @tasks_sidebar] do %>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <div class='row'>
-          <div class='col-xs-9'>Events/Tasks</div>
-          <div class='col-xs-3'>
-            <a href="#sidebar-tasks-widget" onclick='_toggleText(this, "Show", "Hide")'
-               class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
-          </div>
-        </div>
-        </div>
-        <div id='sidebar-tasks-widget' class="collapse in panel-body">
-          <table class="table table-condensed" style="margin-bottom: 0;">
-            <thead>
-              <th>Title</th>
-              <th style="text-align: right;">Due By</th>
-              <th style="text-align: center;">Action</th>
-            </thead>
-            <tbody>
-              <% @tasks_sidebar.each do |task| %>
-                <tr class="sidebar-tooltip" data-toggle="tooltip" data-placement="left" title="<%=h task.name %>: <%=h task.description %>">
-                  <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><%=h task.name %></td>
-                  <td style="text-align: right;"><%= time task.due_at%></td>
-                  <% if can?(:update, task) %>
-                    <td style="text-align: center;"><%= link_to t('.complete', :default => t("helpers.links.complete")),
-                        complete_task_path(task), :method => :post, :class => 'btn btn-xs btn-success' %></td>
-                  <% end %>
-                </tr>
-              <% end %>
-            </tbody>
-          </table>
-        </div>
-      </div>
-    <% end %>
-  <% end %>
-
-  <%# Change to true to enable the quick links to the tool cart. %>
-  <% if true %>
-    <%= render 'tool_cart/tool_cart' %>
-  <% end %>
-
-
-  <%# Change to true to enable mass-check-in. DEPRECIATED use the tool cart instead. %>
-  <% if false %>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <div class='row'>
-          <div class='col-xs-9'>Rapid Tool Check-In</div>
-          <div class='col-xs-3'>
-            <a href="#sidebar-rapidtoolcheckin-widget" onclick='_toggleText(this, "Show", "Hide")'
-               class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
-          </div>
-        </div>
-      </div>
-      <div id='sidebar-rapidtoolcheckin-widget' class="collapse in panel-body">
-        <h5>For Organization:</h5>
-        <%= simple_form_for Checkout.new, url: checkin_checkouts_path, remote: true do |f| %>
-          <%= f.input_field :organization_id, :as => :select, :collection => Organization.all %>
-          <div style="width: 100%; height: 5px; clear: both;"></div>
-          <%= text_field_tag :barcode, '', style: "width: 100%;"  %>
-          <div style="width: 100%; height: 5px; clear: both;"></div>
-          <%= hidden_field_tag 'url', request.original_fullpath %>
-          <div style="width: 100%; height: 10px; clear: both;"></div>
-          <%= f.submit 'Check-In', :class => "btn btn-primary", :style => "width: 100%" %>
-        <% end %>
-          
-        <div style="width: 100%; height: 20px; clear: both;"></div>
-        <div style="width: 100%; height: 0px; clear: both; border-top: 1px solid #dddddd;"></div>
-        <div style="width: 100%; height: 10px; clear: both;"></div>
-        
-        
-        <table class="table table-condensed" id="rapid-checkin-sidebar">
-          <thead>
-            <th style="text-align: center;">Org</th>
-            <th style="text-align: right;">Barcode</th>
-            <th></th>
-          </thead>
-          <tbody>
-            
-          </tbody>
-        </table>
-
-
-      </div>
-    </div>
-    <% end %>
-    
-  <%# Change to true to enable downtime %>
-  <% if true %>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <div class='row'>
-          <div class='col-xs-9'>Downtime</div>
-          <div class='col-xs-3'>
-            <a href="#sidebar-downtime-widget" onclick='_toggleText(this, "Show", "Hide")'
-               class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
-          </div>
-        </div>
-      </div>
-      <div id='sidebar-downtime-widget' class="collapse in panel-body">
-        <table class="table table-condensed">
-          <thead>
-            <th style="text-align: center;">Org</th>
-            <th style="text-align: right;">Left</th>
-            <th></th>
-          </thead>
-          <tbody>
-            <% @downtime_sidebar.each do |entry| %>
-              <tr <%= raw('class="danger"') if entry.organization.remaining_downtime < 0 %>>
-                <td style="text-align: center;"><%= link_to entry.organization.short_name, organization_downtime_index_path(entry.organization) %></td>
-                <td style="text-align: right;"><span id="countdown"><%= format_remaining_downtime entry.organization.remaining_downtime %></span></td>
-                <td><%= form_tag end_organization_timeline_entry_path(entry), method: :put do %><%= hidden_field_tag 'url', request.original_fullpath %><%= submit_tag 'Stop', class: 'btn btn-xs btn-danger' %><% end %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-        <div style="width: 100%; height: 0px; clear: both; border-top: 1px solid #dddddd;"></div>
-        <h5>Start Downtime:</h5>
-        <%= simple_form_for OrganizationTimelineEntry.new do |f| %>
-          <%= f.input_field :organization_id, :as => :select, :collection => Organization.all %>
-          <div style="width: 100%; height: 5px; clear: both;"></div>
-          <%= hidden_field_tag 'url', request.original_fullpath %>
-          <div style="width: 100%; height: 10px; clear: both;"></div>
-          <%= f.submit 'Downtime', :class => "btn btn-primary", :style => "width: 100%" %>
-        <% end %>
-      </div>
-    </div>
-  <% end %>
-
   <%# Change to true to enable queues %>
   <% if true %>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <div class='row'>
-          <div class='col-xs-9'>Queues</div>
-          <div class='col-xs-3'>
-            <a href="#sidebar-queues-widget" onclick='_toggleText(this, "Show", "Hide")'
-               class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
-          </div>
-        </div>
-      </div>
-      <div id='sidebar-queues-widget' class="collapse in panel-body">
-        <table class="table table-condensed" style="width: 50%; float: left; border-right: 1px solid #dddddd;">
-          <thead>
-            <th style="text-align: center;">Structural</th>
-          </thead>
-          <tbody>
-            <% @structural_queue_sidebar.each do |entry| %>
-              <tr class="sidebar-popover" data-toggle="popover" data-placement="left" title="Entered at <%= date_and_time entry.started_at %>" data-content='<%=h entry.description %></br><%= form_tag end_organization_timeline_entry_path(entry), method: :put do %><%= hidden_field_tag 'url', request.original_fullpath %><%= submit_tag 'Remove', class: 'btn btn-xs btn-danger' %><% end %>'>
-                <td style="text-align: center;"><%= entry.organization.short_name %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-        <table class="table table-condensed" style="width: 50%; border-left: 1px solid #dddddd;">
-          <thead>
-            <th style="text-align: center;">Electrical</th>
-          </thead>
-          <tbody>
-            <% @electrical_queue_sidebar.each do |entry| %>
-              <tr class="sidebar-popover" data-toggle="popover" data-placement="left" title="Entered at <%= date_and_time entry.started_at %>" data-content='<%=h entry.description %></br><%= form_tag end_organization_timeline_entry_path(entry), method: :put do %><%= hidden_field_tag 'url', request.original_fullpath %><%= submit_tag 'Remove', class: 'btn btn-xs btn-danger' %><% end %>'>
-                <td style="text-align: center;"><%= entry.organization.short_name %></td>
-              </tr>
-            <% end %>
-          </tbody>
-        </table>
-        <div style="width: 100%; height: 0px; clear: both; border-top: 1px solid #dddddd;"></div>
-        <h5>Add to Queue:</h5>
-        <%= simple_form_for OrganizationTimelineEntry.new do |f| %>
-          <%= f.input_field :organization_id, :as => :select, :collection => Organization.all %>
-          <div style="width: 100%; height: 5px; clear: both;"></div>
-          <%= f.input_field :description, :as => :string %>
-          <%= hidden_field_tag 'url', request.original_fullpath %>
-          <div style="width: 100%; height: 10px; clear: both;"></div>
-          <div class="btn-group" style="width: 100%;">
-            <%= f.submit 'Structural', :class => "btn btn-default", :style => "width: 50%;" %>
-            <%= f.submit 'Electrical', :class => "btn btn-default", :style => "width: 50%;" %>
-          </div>
-        <% end %>
-      </div>
-    </div>
+    <%= render 'organization_timeline_entries/queue_sidebar' %>    
   <% end %>
-
-<%# Change to true to enable event sidebar %>
+  
+  <%# Change to true to enable downtime %>
   <% if true %>
-    <div class="panel panel-default">
-      <div class="panel-heading">
-        <div class='row'>
-          <div class='col-xs-9'>Notes</div>
-          <div class='col-xs-3'>
-            <a href="#sidebar-events-widget" onclick='_toggleText(this, "Show", "Hide")'
-               class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
-          </div>
-        </div>
-      </div>
-      <div id='sidebar-events-widget' class="collapse in panel-body">
-        <table class="table table-condensed">
-          <thead>
-            <th style="text-align: center">Note</th>
-            <th>Actions</th>
-          </thead>
-          <tbody>
-            <% @events_sidebar.each do |event| %>
-                <tr>
-                  <td style="text-align: center;"><%= link_to event.description.truncate(150), event_path(event) %></td>
-                  <td>              
-                    <%= form_tag approve_event_path(event), method: :put %>
-                      <%= hidden_field_tag 'url', request.original_fullpath %>
-                      <% unless event.is_done %>
-                        <%= submit_tag 'OK', :class => 'btn btn-success btn-xs' %>
-                      <% end %>
-                </td>
-                </tr>
-            <% end %>
-          </tbody>
-        </table>
-        <%= link_to 'Create a new note', new_event_path, class: 'btn btn-xs btn-primary' %>
-      </div>
-    </div>
+    <%= render 'organization_timeline_entries/downtime_sidebar' %>
   <% end %>
 
-
+  <%# Change to true to enable event sidebar %>
+  <% if true %>
+    <%= render 'events/events_sidebar' %>
+  <% end %>
 <% end %>
-

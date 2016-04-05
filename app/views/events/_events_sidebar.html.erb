@@ -1,0 +1,34 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class='row'>
+      <div class='col-xs-9'>Notes</div>
+      <div class='col-xs-3'>
+        <a href="#sidebar-events-widget" onclick='_toggleText(this, "Show", "Hide")'
+           class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
+      </div>
+    </div>
+  </div>
+  <div id='sidebar-events-widget' class="collapse panel-body">
+    <table class="table table-condensed">
+      <thead>
+        <th>Note</th>
+        <th style="text-align: center">Actions</th>
+      </thead>
+      <tbody>
+        <% @events_sidebar.each do |event| %>
+            <tr>
+              <td style="text-align: center;"><%= link_to event.description.truncate(150), event_path(event) %></td>
+              <td>              
+                <%= form_tag approve_event_path(event), method: :put %>
+                  <%= hidden_field_tag 'url', request.original_fullpath %>
+                  <% unless event.is_done %>
+                    <%= submit_tag 'OK', :class => 'btn btn-success btn-xs' %>
+                  <% end %>
+            </td>
+            </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <%= link_to 'Create a new note', new_event_path, class: 'btn btn-primary', :style => "width: 100%" %>
+  </div>
+</div>
