@@ -309,6 +309,14 @@ ChargeType.create([
   { name: 'Other', description: 'Any other violation. Please document extensively and inform the Spring Carnival Chair.' }
 ])
 
+# Event Types --------------------------------------------------
+puts 'Event Types'
+
+EventType.create([
+  { name: 'Note', display: true },
+  { name: 'Phone Call', display: false }
+])
+
 # FAQs ------------------------------------------------------------------------
 puts 'FAQs'
 
@@ -702,6 +710,35 @@ Shift.create({ shift_type: security_shift, description: 'CFA Security', organiza
 puts 'Tools'
 
 generate_tools
+
+# Store -------------------------------------------------------------------------
+puts 'Store'
+
+StoreItem.create({ name: 'Drill Bit', price: 1, quantity: 1})
+StoreItem.create({ name: 'Drop Cloth', price: 2, quantity: 1})
+StoreItem.create({ name: 'Electrical Box - 1 Gang', price: 1, quantity: 1})
+StoreItem.create({ name: 'Electrical Box - 2 Gang', price: 1, quantity: 1})
+StoreItem.create({ name: 'Electrical Box - 4 in Round', price: 3, quantity: 1})
+StoreItem.create({ name: 'Electrical Box - 4 in Square', price: 3, quantity: 1})
+StoreItem.create({ name: 'Electrical Box Cover - 4 in Round', price: 1.5, quantity: 1})
+StoreItem.create({ name: 'Electrical Box Cover - 4 in Square', price: 1.5, quantity: 1})
+StoreItem.create({ name: 'Joist Hander - 2x6', price: 1.5, quantity: 1})
+StoreItem.create({ name: 'Joist Hander - 2x8', price: 1.5, quantity: 1})
+StoreItem.create({ name: 'Light Switch', price: 3, quantity: 1})
+StoreItem.create({ name: 'Light Switch Cover', price: 1, quantity: 1})
+StoreItem.create({ name: 'Outlet', price: 3, quantity: 1})
+StoreItem.create({ name: 'Outlet Cover - 1 Gang', price: 1, quantity: 1})
+StoreItem.create({ name: 'Outlet Cover - 2 Gang', price: 1, quantity: 1})
+StoreItem.create({ name: 'Plug - Angle', price: 12, quantity: 1})
+StoreItem.create({ name: 'Plug - Straight', price: 12, quantity: 1})
+StoreItem.create({ name: 'Romex 12/2 - 10ft', price: 5, quantity: 10})
+StoreItem.create({ name: 'Screw Bit - Phillips', price: 0.5, quantity: 1})
+StoreItem.create({ name: 'Screws', price: 1.5, quantity: 10})
+StoreItem.create({ name: 'Spade Bit - 3/4""', price: 5, quantity: 1})
+StoreItem.create({ name: 'Staple Gun Staples', price: 0.5, quantity: 1})
+StoreItem.create({ name: 'Tarp', price: 15, quantity: 1})
+StoreItem.create({ name: 'Wire Nuts', price: 1, quantity: 10})
+StoreItem.create({ name: 'Wire Staples', price: 1, quantity: 20})
 
 if  Rails.env.development?
   # Development Stuff -----------------------------------------------------------

@@ -4,11 +4,11 @@
   <div class="form-inputs">
     <div class='row'>
       <div class='col-xs-12 col-sm-9'>
-        <%= f.association :event_type %>
+        <%= f.input :event_type, :selected => 1 %>
       </div>
       <% if can?(:create, EventType) %>
         <div>
-          <%= link_to "Or create a new type", new_event_type_path(from_new_event: true), class: 'btn btn-primary' %>
+          <%= link_to "Or create a new event type", new_event_type_path, class: 'btn btn-primary' %>
         </div>
       <% end %>
     </div>
