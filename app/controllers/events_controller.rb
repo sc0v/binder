@@ -22,7 +22,7 @@ class EventsController < ApplicationController
   def approve
     @event.is_done = !@event.is_done
     @event.save
-    respond_with @event, location: -> {events_path}
+    redirect_to :back, notice: "The note was #{@event.is_done ? 'acknowledged':'unacknowledged'}"
   end
 
   # GET /events/1/edit

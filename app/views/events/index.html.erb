@@ -7,13 +7,13 @@
         <th>Event Type</th>
         <th>Description</th>
         <th>Created</th>
-        <th colspan="3"></th>
+        <th></th>
       </tr>
     </thead>
   
     <tbody>
       <% @events.each do |event| %>
-        <tr <%= raw('class="warning"') if !event.is_done %>>
+        <tr <%= raw('class="warning"') unless event.is_done %>>
           <td><%= link_to 'Show', event, :class => 'btn btn-info btn-xs' %></td>
           <td><%= event.event_type.name %></td>
           <td><%= event.description %></td>
@@ -28,9 +28,9 @@
                   <% end %>
               <% end %>
             <% end %>
+            <%= link_to 'Edit', edit_event_path(event),:class => 'btn btn-primary btn-xs' %>
+            <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' },:class => 'btn btn-danger btn-xs' %>
           </td>
-            <td><%= link_to 'Edit', edit_event_path(event),:class => 'btn btn-primary btn-xs' %></td>
-            <td><%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' },:class => 'btn btn-danger btn-xs' %></td>
         </tr>
       <% end %>
     </tbody>

@@ -2,9 +2,15 @@
   <% cache ['shift_sidebar', 'current', @current_shifts_sidebar, 'upcoming', @upcoming_shifts_sidebar] do%>
     <div class="panel panel-default">
       <div class="panel-heading">
-        Shifts
+        <div class='row'>
+          <div class='col-xs-9'>Shifts</div>
+          <div class='col-xs-3'>
+            <a href="#sidebar-shifts-widget" onclick='_toggleText(this, "Show", "Hide")'
+               class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
+          </div>
+        </div>
       </div>
-      <div class="panel-body">
+      <div id='sidebar-shifts-widget' class="collapse in panel-body">
         <table class="table table-condensed" style="margin-bottom: 0;">
           <thead>
             <th>Current</th>
@@ -19,6 +25,7 @@
                       <%= link_to shift.shift_participants.first.participant.name, shift unless shift.shift_participants.blank? %>
                     <% else %>
                       <%= link_to shift.organization.short_name, shift unless shift.organization.blank? %>
+                      <%= link_to 'No Org Assigned', shift if shift.organization.blank? %>
                     <% end %>
                   </td>
                   <td style="text-align: right;"><%= time shift.ends_at %></td>
@@ -59,9 +66,15 @@
     <% cache ['tasks_sidebar', @tasks_sidebar] do %>
       <div class="panel panel-default">
         <div class="panel-heading">
-          Events/Tasks
+          <div class='row'>
+          <div class='col-xs-9'>Events/Tasks</div>
+          <div class='col-xs-3'>
+            <a href="#sidebar-tasks-widget" onclick='_toggleText(this, "Show", "Hide")'
+               class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
+          </div>
         </div>
-        <div class="panel-body">
+        </div>
+        <div id='sidebar-tasks-widget' class="collapse in panel-body">
           <table class="table table-condensed" style="margin-bottom: 0;">
             <thead>
               <th>Title</th>
@@ -70,7 +83,7 @@
             </thead>
             <tbody>
               <% @tasks_sidebar.each do |task| %>
-                <tr class="sidebar-tooltip" data-toggle="tooltip" data-placement="left" title="<%=h task.name %>:</br></br><%=h task.description %>">
+                <tr class="sidebar-tooltip" data-toggle="tooltip" data-placement="left" title="<%=h task.name %>: <%=h task.description %>">
                   <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><%=h task.name %></td>
                   <td style="text-align: right;"><%= time task.due_at%></td>
                   <% if can?(:update, task) %>
@@ -96,9 +109,15 @@
   <% if false %>
     <div class="panel panel-default">
       <div class="panel-heading">
-        Rapid Tool Check-In
+        <div class='row'>
+          <div class='col-xs-9'>Rapid Tool Check-In</div>
+          <div class='col-xs-3'>
+            <a href="#sidebar-rapidtoolcheckin-widget" onclick='_toggleText(this, "Show", "Hide")'
+               class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
+          </div>
+        </div>
       </div>
-      <div class="panel-body">
+      <div id='sidebar-rapidtoolcheckin-widget' class="collapse in panel-body">
         <h5>For Organization:</h5>
         <%= simple_form_for Checkout.new, url: checkin_checkouts_path, remote: true do |f| %>
           <%= f.input_field :organization_id, :as => :select, :collection => Organization.all %>
@@ -135,9 +154,15 @@
   <% if true %>
     <div class="panel panel-default">
       <div class="panel-heading">
-        Downtime
+        <div class='row'>
+          <div class='col-xs-9'>Downtime</div>
+          <div class='col-xs-3'>
+            <a href="#sidebar-downtime-widget" onclick='_toggleText(this, "Show", "Hide")'
+               class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
+          </div>
+        </div>
       </div>
-      <div class="panel-body">
+      <div id='sidebar-downtime-widget' class="collapse in panel-body">
         <table class="table table-condensed">
           <thead>
             <th style="text-align: center;">Org</th>
@@ -171,9 +196,15 @@
   <% if true %>
     <div class="panel panel-default">
       <div class="panel-heading">
-        Queues
+        <div class='row'>
+          <div class='col-xs-9'>Queues</div>
+          <div class='col-xs-3'>
+            <a href="#sidebar-queues-widget" onclick='_toggleText(this, "Show", "Hide")'
+               class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
+          </div>
+        </div>
       </div>
-      <div class="panel-body">
+      <div id='sidebar-queues-widget' class="collapse in panel-body">
         <table class="table table-condensed" style="width: 50%; float: left; border-right: 1px solid #dddddd;">
           <thead>
             <th style="text-align: center;">Structural</th>
@@ -219,9 +250,15 @@
   <% if true %>
     <div class="panel panel-default">
       <div class="panel-heading">
-        Notes
+        <div class='row'>
+          <div class='col-xs-9'>Notes</div>
+          <div class='col-xs-3'>
+            <a href="#sidebar-events-widget" onclick='_toggleText(this, "Show", "Hide")'
+               class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
+          </div>
+        </div>
       </div>
-      <div class="panel-body">
+      <div id='sidebar-events-widget' class="collapse in panel-body">
         <table class="table table-condensed">
           <thead>
             <th style="text-align: center">Note</th>
@@ -242,6 +279,7 @@
             <% end %>
           </tbody>
         </table>
+        <%= link_to 'Create a new note', new_event_path, class: 'btn btn-xs btn-primary' %>
       </div>
     </div>
   <% end %>

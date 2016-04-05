@@ -42,8 +42,6 @@ class Store::PurchasesController < ApplicationController
       c.charge_type = t
       c.description = i.store_item.name + " (x #{i.quantity_purchased})"
       c.receiving_participant_id = params[:charge][:receiving_participant_id]
-      puts(c.receiving_participant_id)
-      puts("<><><><><><<<><<><><><")
       c.issuing_participant_id = current_user.participant.id
       c.creating_participant_id = current_user.participant.id
       c.charged_at = Time.now
