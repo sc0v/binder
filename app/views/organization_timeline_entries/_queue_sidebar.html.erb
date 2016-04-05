@@ -1,0 +1,50 @@
+<div class="panel panel-default">
+  <div class="panel-heading">
+    <div class='row'>
+      <div class='col-xs-9'>Queues</div>
+      <div class='col-xs-3'>
+        <a href="#sidebar-queues-widget" onclick='_toggleText(this, "Show", "Hide")'
+           class="btn btn-info btn-xs"  data-toggle="collapse">Show</a>
+      </div>
+    </div>
+  </div>
+  <div id='sidebar-queues-widget' class="collapse panel-body">
+    <table class="table table-condensed" style="width: 50%; float: left; border-right: 1px solid #dddddd;">
+      <thead>
+        <th style="text-align: center;">Structural</th>
+      </thead>
+      <tbody>
+        <% @structural_queue_sidebar.each do |entry| %>
+          <tr class="sidebar-popover" data-toggle="popover" data-placement="left" title="Entered at <%= date_and_time entry.started_at %>" data-content='<%=h entry.description %></br><%= form_tag end_organization_timeline_entry_path(entry), method: :put do %><%= hidden_field_tag 'url', request.original_fullpath %><%= submit_tag 'Remove', class: 'btn btn-xs btn-danger' %><% end %>'>
+            <td style="text-align: center;"><%= entry.organization.short_name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <table class="table table-condensed" style="width: 50%; border-left: 1px solid #dddddd;">
+      <thead>
+        <th style="text-align: center;">Electrical</th>
+      </thead>
+      <tbody>
+        <% @electrical_queue_sidebar.each do |entry| %>
+          <tr class="sidebar-popover" data-toggle="popover" data-placement="left" title="Entered at <%= date_and_time entry.started_at %>" data-content='<%=h entry.description %></br><%= form_tag end_organization_timeline_entry_path(entry), method: :put do %><%= hidden_field_tag 'url', request.original_fullpath %><%= submit_tag 'Remove', class: 'btn btn-xs btn-danger' %><% end %>'>
+            <td style="text-align: center;"><%= entry.organization.short_name %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+    <div style="width: 100%; height: 0px; clear: both; border-top: 1px solid #dddddd;"></div>
+    <h5>Add to Queue:</h5>
+    <%= simple_form_for OrganizationTimelineEntry.new do |f| %>
+      <%= f.input_field :organization_id, :as => :select, :collection => Organization.all %>
+      <div style="width: 100%; height: 5px; clear: both;"></div>
+      <%= f.input_field :description, :as => :string %>
+      <%= hidden_field_tag 'url', request.original_fullpath %>
+      <div style="width: 100%; height: 10px; clear: both;"></div>
+      <div class="btn-group" style="width: 100%;">
+        <%= f.submit 'Structural', :class => "btn btn-default", :style => "width: 50%;" %>
+        <%= f.submit 'Electrical', :class => "btn btn-default", :style => "width: 50%;" %>
+      </div>
+    <% end %>
+  </div>
+</div>

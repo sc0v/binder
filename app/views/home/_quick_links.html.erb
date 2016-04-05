@@ -1,32 +1,33 @@
 <div class="page-header">
-  <h1>Quick Links:</h1>
+  <h1>Binder</h1>
 </div>	
 
 <div class="col-xs-10 col-sm-6">
-  <p><%= link_to "Milestones", milestones_path, :class => "btn btn-primary" %></p>
-  <p><%= link_to "Documents", documents_path, :class => "btn btn-primary" %></p>
-  <% if can?(:read, Faq) %>
-    <p><%= link_to "Frequently Asked Questions", faqs_path, :class => "btn btn-primary " %></p>
+  <% if user_signed_in? and !current_user.participant.has_signed_waiver? then %>
+    <p><%= link_to "Sign Waiver", new_waiver_path, :class => "btn btn-success" %></p>
+    <br>
   <% end %>
-  <% if defined? user then %>
-    <p><%= link_to "Sign Waiver", new_waiver_path, :class => "btn btn-primary" %></p>
+
+  <% if can?(:read, Charge) %>
+    <p><%= link_to "Charges", charges_path, :class => "btn btn-primary" %></p>
+  <% end %>
+  <% if can?(:read, Document) %>
+    <p><%= link_to "Documents", documents_path, :class => "btn btn-primary" %></p>
   <% end %>
   <% if can?(:downtime, OrganizationTimelineEntry) %>
-    <p><%= link_to "Downtime Tracker", downtime_index_path	, :class => "btn btn-primary" %></p>
+    <p><%= link_to "Downtime", downtime_index_path, :class => "btn btn-primary" %></p>
   <% end %>
-  <% if can?(:structural, OrganizationTimelineEntry) %>
-    <p><%= link_to "Structural Queue", structural_path, :class => "btn btn-primary " %></p>
+  <% if can?(:read, Faq) %>
+    <p><%= link_to "FAQs", faqs_path, :class => "btn btn-primary" %></p>
   <% end %>
-  <% if can?(:electrical, OrganizationTimelineEntry) %>
-    <p><%= link_to "Electrical Queue", electrical_path, :class => "btn btn-primary " %></p>
+  <% if can?(:read, Shift) %>
+    <p><%= link_to "Shifts", shifts_path, :class => "btn btn-primary" %></p>
   <% end %>
-  <% if can?(:read, Event) %>
-    <p><%= link_to "Events", events_path, :class => "btn btn-primary " %></p>
+  <% if can?(:read, Task) %>
+    <p><%= link_to "Tasks", tasks_path, :class => "btn btn-primary" %></p>
   <% end %>
-  <% if can?(:approve, Charge) %>
-        <p><%= link_to "Charge Overview", charge_overview_path, :class => "btn btn-primary " %></p>
-        <p><%= link_to "Store", store_items_path, :class => "btn btn-primary " %></p>
-  <% end %>
+
+  <br>
 
   <%= form_tag(search_path, class: 'form-inline', role: 'search') do %>
     <div class="form-group">
