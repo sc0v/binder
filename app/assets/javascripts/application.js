@@ -47,3 +47,9 @@ $(document).on("ready page:change", function(){
     }
   });
 });
+
+function _toggleText(el, opt1, opt2){
+  var $el = $(el);
+  if($el.html().trim() == opt1.trim()) $el.html(opt2);
+  else if($el.html().trim() == opt2.trim()) $el.html(opt1);
+}

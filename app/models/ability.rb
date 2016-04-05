@@ -69,7 +69,7 @@ class Ability
       can [:create, :update], Charge
       can [:create, :update], Checkout
       can [:create, :update], Document
-      can [:create, :update], Event
+      can [:create, :update, :approve], Event
       can [:create, :update], EventType
       can [:create, :update, :destroy], Membership
       can [:hardhats, :read_basic_details, :read_all_details], Organization
@@ -79,7 +79,7 @@ class Ability
       can [:create, :update, :read_phone_number], Participant
       can :read_coord, Shift
       can :create, ShiftParticipant
-      can :update, Task
+      can [:complete, :update], Task
       can [:create, :update], Tool
       can [:create, :update], ToolType
       can [:create, :update , :destroy], ToolWaitlist

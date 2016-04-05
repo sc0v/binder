@@ -33,7 +33,7 @@ class TasksController < ApplicationController
   def complete
     @task.is_completed = true
     @task.save
-    redirect_to :back
+    redirect_to :back, notice: 'The task was successfully completed'
   end
 
   # POST /tasks
