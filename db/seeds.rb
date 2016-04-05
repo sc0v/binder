@@ -254,18 +254,18 @@ Membership.create({ organization: tsa_org, participant: Participant.create({ and
 puts 'Organization Status Types'
 
 OrganizationStatusType.create([
-  { name: "Authorized for Plan Deviation", display: false },
-  { name: "Structural Inspection", display: true },
-  { name: "First Floor Level", display: true },
-  { name: "First Floor Walls Approved", display: true },
-  { name: "Stairs Approved", display: true },
-  { name: "Second Floor Level", display: true },
-  { name: "Second Floor Walls Approved", display: true },
-  { name: "Roof Approved", display: true },
-  { name: "Electrical Inspection", display: true },
-  { name: "Electrical Approved", display: true },
-  { name: "Final Inspection Passed", display: true },
-  { name: "Note", display: false }
+  { name: 'Authorized for Plan Deviation', display: false },
+  { name: 'Structural Inspection', display: true },
+  { name: 'First Floor Level', display: true },
+  { name: 'First Floor Walls Approved', display: true },
+  { name: 'Stairs Approved', display: true },
+  { name: 'Second Floor Level', display: true },
+  { name: 'Second Floor Walls Approved', display: true },
+  { name: 'Roof Approved', display: true },
+  { name: 'Electrical Inspection', display: true },
+  { name: 'Electrical Approved', display: true },
+  { name: 'Final Inspection Passed', display: true },
+  { name: 'Note', display: false }
 ])
 
 # Charge Types ----------------------------------------------------------------
@@ -313,28 +313,48 @@ ChargeType.create([
 puts 'FAQs'
 
 Faq.create([
+  { question: "What if I don't know how to answer a question?",
+    answer: "Look at the FAQs on binder. Ask someone else in the trailer or contact someone on exec. Don't just make something up." },
+  { question: "What should I bring to my coordinator shift?",
+    answer: "Your blue hard hat and SCC jacket, this will give you the position of authority. If you are acting as an SCC member on midway you must wear your SCC hard hat." },
+  { question: "What is required to be on Midway?",
+    answer: "Hardhat, wristband, closed toed shoes, safety glasses (regular glasses are not enough)." },
+  { question: "What is the first thing I should do as a coordinator?",
+    answer: "Sign in on Binder. Ask the previous coordinator if there is anything you should be aware of.  Check to see if there are notes or upcoming tasks on Binder." },
+  { question: "Can I leave midway during my coordinator shift?",
+    answer: "No, someone must be in the trailer at all times. If you have to leave, you must get an SCC member to cover while you are out." },
+  { question: "Who is allowed in the trailer?",
+    answer: "Only SCC members are allowed in the trailer. No one else should be in the trailer without permission from an SCC member." },
+  { question: "The next coordinator doesn't show up. What do I do?",
+    answer: "Call them repeatedly. If that fails, call the Carnival Chair." },
+  { question: "The phone is rigning. What do I do? ",
+    answer: "Be polite and respectful. Answer their questions if you can, or tell them we will call them back with an answer. Log the phone call in Binder." },
+  { question: "What are the different radio channels?",
+    answer: "Channel 1 is for the watch shifts. Channel 2 is for SCC." },
+  { question: "I am having problems with the radio. What do I do?",
+    answer: "Check to make sure it is on and that the volume is high enough. Make sure that you are on Channel 2 and are not pressing down on the talk button. Press the button to talk and release when you are done to hear a response." },
+  { question: "When do dumpsters need to be taken out?",
+    answer: "Dumpsters must be taken to entrance of the parking lot at the corner of Tech Street and Margaret Morrison before 2am." },
+  { question: "What do the different wristbands mean?",
+    answer: "Red is Building, Blue is Non-Building, and Checkered is CFA access." },
+  { question: "Someone wants a wristband, What do I do?",
+    answer: "Have them sign the waiver on binder, fill out what org they need it for, and give them the correct colored wristband." },
+  { question: "What's the difference between a security and watch shift?",
+    answer: "Security is paid, watch is not. Watch shifts are booth orgs, while security are non-building orgs." },
+  { question: "A watch shift just showed up to the trailer, what should I do?",
+    answer: "Sign in the shift members on Binder, hand them each jackets, and check out a radio to one of them. Briefly teach them how to use the radio and tell them to check in with you every 15 minutes. Review their responsibilities and have them look over the cheat sheet." },
+  { question: "Booth watch shift doesn't show up. What do I do?",
+    answer: "Do not let previous watch shift leave. Call booth chairs of that org in order until someone answers. Fine them accordingly in Binder. If no one can show up and old watch shift has to leave, split the other watch shift." },
+  { question: "What do I do with my drunk watch/security shift that just showed up?",
+    answer: "Send them home, call their booth chair, and inform them of what happened and that they are getting fined unless they supply new, sober people." },
+  { question: "Drunk people won't listen. What do I do?",
+    answer: "Call the police." },  
   { question: "What is Booth?",
     answer:  "Booth is one of the biggest traditions of Spring Carnival. Student organizations build multi-story structures around our annual theme , hosting interactive games and elaborate decorations. The booths will be located on the CFA Lot." },
-  { question: "What do I do if something catches on fire?",
-    answer: "There are fire extinguishers located at every booth. Take one and follow the instructions listed on the can." },
-  { question: "Where does CMU get money for Carnival?",
-    answer: "Carnegie Mellon University's Spring Carnival is funded in part by your Student Activities Fee." },
-  { question: "What are the hours of booths?",
-    answer: "Thursday: 3PM-10PM, Friday: 11AM-10PM, Saturday: 11AM-10PM" },
-  { question: "What are the hours of rides?",
-    answer: "Thursday: 3PM-11PM, Friday: 10AM-11PM, Saturday: 10AM-11PM" },
-  { question: "How much are rides tickets?",
-    answer: "$1 per ride or $20 for 24 rides. Tickets are available at the ticket booth located on Midway." },
-  { question: "Are there group rates for rides tickets?",
-    answer: "No." },
-  { question: "Can I get a wristband for the comedian?",
-    answer: "Spring Carnival does not deal with the comedian. Talk to AB Comedy." },
-  { question: "Can I get a wristband for the concert?",
-    answer: "Spring Carnival does not deal with the concert. Talk to AB Concerts." },
-  { question: "Alumni needs something?",
-    answer: "Call the Head of Operations or Head of Marketing." },
-  { question: "When do dumpsters go out?",
-    answer: "They must be by the back of Morewood lot by 5am." },
+  { question: "Booth chair is asking questions I don't understand. What do I do?",
+    answer: "Add them to the Structural queue." },
+  { question: "A booth chair is freaking out, sad, angry, etc. What do I do?",
+    answer: "Call the Head of Booth." },
   { question: "What is downtime?",
     answer: "When a booth takes time to close their booth and have it not manned during Carnival. They must register the start of their downtime (you should track this) and put caution tape up to close off the doorways. They should also tell you when they are ending their downtime." },
   { question: "How much downtime does an org get?",
@@ -351,32 +371,34 @@ Faq.create([
     answer: "Call the Carnival Chair, Head of Booth, and/or Head of Operations immediately." },
   { question: "Golf cart problem?",
     answer: "Call Meg Richards." },
-  { question: "Missing golf cart?",
-    answer: "Call Meg Richards." },
-  { question: "A booth chair is freaking out, sad, angry, etc. What do I do?",
-    answer: "Call the Head of Booth." },
   { question: "University official wants to borrow something. What do I do?",
     answer: "Let them. They do not need to sign a waiver. Check it out to the Carnival Chair in Binder." },
-  { question: "The next coordinator doesn't show up. What do I do?",
-    answer: "Call them repeatedly. If that fails, call the Carnival Chair." },
-  { question: "Booth watch shift doesn't show up. What do I do?",
-    answer: "Do not let previous watch shift leave. Call booth chairs of that org in order until someone answers. Fine them accordingly in the app. If no one can show up and old watch shift has to leave, split the other watch shift." },
-  { question: "Drunk people won't listen. What do I do?",
-    answer: "Call the police." },
-  { question: "Booth chair is asking questions I don't understand. What do I do?",
-    answer: "Add them to the Structural queue." },
-  { question: "What's the difference between a security and watch shift?",
-    answer: "Security is paid, watch is not. Watch shifts are booth orgs, while security are non-building orgs." },
-  { question: "What do I do with my drunk watch/security shift that just showed up?",
-    answer: "Send them home, call their booth chair, and inform them of what happened and that they are getting fined unless they supply new, sober people." },
-  { question: "Taylor Rental or TriBoro Trailer needs something.",
-    answer: "Call the Head of Operations." },
   { question: "Madelyn Miller calls. What do I do?",
     answer: "Listen to her. Then call the Head of Booth and relay the message." },
+  { question: "Alumni needs something.",
+    answer: "Call the Head of Operations or Head of Marketing." },
+  { question: "Taylor Rental or TriBoro Trailer needs something.",
+    answer: "Call the Head of Operations." },
+  { question: "What do I do if something catches on fire?",
+    answer: "There are fire extinguishers located at every booth. Take one and follow the instructions listed on the can." },
   { question: "It's raining and people are losing electricity.",
     answer: "Tell them to wait until the rain stops, then we will deal with it." },
   { question: "It's super windy. Things are flying off of booths.",
-    answer: "Check weather on trailer computer. Call the Carnival Chair and Head of Booth with that information." }
+    answer: "Check weather on trailer computer. Call the Carnival Chair and Head of Booth with that information." },
+  { question: "What are the hours of booths?",
+    answer: "Thursday: 3PM-10PM, Friday: 11AM-10PM, Saturday: 11AM-10PM" },
+  { question: "What are the hours of rides?",
+    answer: "Thursday: 3PM-11PM, Friday: 10AM-11PM, Saturday: 10AM-11PM" },
+  { question: "How much are rides tickets?",
+    answer: "$1 per ride or $20 for 24 rides. Tickets are available at the ticket booth located on Midway." },
+  { question: "Are there group rates for rides tickets?",
+    answer: "No." },
+  { question: "Can I get a wristband for the comedian?",
+    answer: "Spring Carnival does not deal with the comedian. Talk to AB Comedy." },
+  { question: "Can I get a wristband for the concert?",
+    answer: "Spring Carnival does not deal with the concert. Talk to AB Concerts." },
+  { question: "Where does CMU get money for Carnival?",
+    answer: "Carnegie Mellon University's Spring Carnival is funded in part by your Student Activities Fee." }
 ])
 
 # Tasks ------------------------------------------------------------------------
@@ -389,65 +411,64 @@ monday = move_on + 2.days
 tuesday = move_on + 3.days
 wednesday = move_on + 4.days
 operations = move_on + 5.days
-ops_saturday = move_on + 6.days
+ops_friday = move_on + 6.days
 ops_saturday = move_on + 7.days
 teardown = move_on + 8.days
 
 puts '  One-Time Tasks'
 Task.create([
-  { name: 'Towing for Move On Begins', description: 'Any cars remaining on Morewood Lot after 5pm will be towed.', due_at: move_on + 14.hours },
-  { name: 'Move On Begins', description: 'Orgs start moving on to Midway', due_at: move_on + 18.hours },
-  { name: 'Final Booth Inspections', description: 'The University will show up to Midway. Help them find the Head of Booth so that they can inspect the state of the booths.', due_at: wednesday + 12.hours },
-  { name: 'Construction Ends', description: 'All but 4 members (full-size) or 2 members (blitz) of each org must clear Midway.', due_at: operations + 13.hours },
-  { name: 'Call for Cleaning Helpers', description: 'Each org must send 2 members at 1pm to the trailer to assist with Midway clean-up', due_at: operations + 13.hours },
-  { name: 'Final Fixes End', description: '4 members (full-size) or 2 members (blitz) of each org may stay to make final fixes between 1pm and 2:30pm. Everyone must be gone from Midway at 2:30pm.', due_at: operations + 14.hours + 30.minutes },
-  { name: 'Opening Ceremony', description: 'Speeches, ribbon cutting, and Midway officially opens to the public.', due_at: operations + 15.hours },
-  { name: 'Judging Begins', description: 'Judges will arrive with Rachel and will judge each booth. No, we do not have a schedule of which booths will be judged when. Sorry.', due_at: ops_saturday + 13.hours },
-  { name: 'Concert', description: 'The Concert! On the mall. Rain location: Wiegand Gym. Student opener at 7:30pm.', due_at: ops_saturday + 19.hours + 30.minutes },
-  { name: 'Night Judging Ends', description: 'Judges will wander around Midway to judge booths after dusk and will return their packets/tablets after. Put them in the box, The Head of Booth or someone else will come get them later.', due_at: ops_saturday + 20.hours },
-  { name: 'Fireworks', description: 'Following the concert, pretty things go boom in the sky. Also on the mall. Cancelled in the case of rain.', due_at: ops_saturday + 22.hours },
-  { name: 'Move Chairs for Awards', description: 'Send shifts to clear the chairs from the main tent to prepare for awards', due_at: ops_saturday + 16.hours + 15.minutes },
-  { name: 'Awards', description: 'Orgs will rush the main tent to find out who won. Awards involve both buggy and booth.', due_at: ops_saturday + 17.hours },
-  { name: 'Dumpsters for Teardown Arrive', description: 'Company should have layout and should drop dumpsters into place. Dumpster layout is in the documents section, if you need to reference it.', due_at: teardown + 6.hours },
-  { name: 'Start of Teardown', description: 'Orgs may begin to teardown no earlier than 8am. They must begin by 10am.', due_at: ops_saturday + 8.hours },
-  { name: 'End of Teardown', description: 'At this time, all orgs should be completed cleared from Midway. If they are not, fining begins at a rate of $1/hr until 5:30, $5 until 6pm, and $10 after 6pm.', due_at: teardown + 17.hours }
+  { name: "Move On Begins", description: "Orgs start moving on to Midway.", due_at: move_on + 18.hours },
+  { name: "Construction Begins", description: "Orgs may begin building their booth.", due_at: move_on + 21.hours },
+  { name: "Blitz Booth Move On Begins", description: "Blitz orgs move on to Midway.", due_at: build_saturday + 10.hours },
+  { name: "Final Booth Inspections", description: "University staff will arrive on Midway. Direct them to the Head of Booth so they can inspect the booths.", due_at: wednesday + 12.hours },
+  { name: "Construction Ends", description: "All but 4 members (full-size) or 2 members (blitz) of each org must clear Midway.", due_at: operations + 1.hours },
+  { name: "Cleanup Begins", description: "Each org must send 2 members to the trailer to assist with Midway cleanup.", due_at: operations + 1.hours },
+  { name: "Final Fixes Ends", description: "All members of each org must clear Midway", due_at: operations + 14.hours },
+  { name: "Opening Ceremony", description: "Speeches, ribbon cutting, and Midway officially opens to the public.", due_at: operations + 15.hours },
+  { name: "Judging Begins", description: "Judges will arrive on Midway. Direct them to the Carnival Chair or Head of Booth so they can begin judging.", due_at: ops_friday + 13.hours },
+  { name: "Night Judging Begins", description: "Alumni judges will arrive on Midway. Direct them to the Carnival Chair or Head of Booth so they can begin judging.", due_at: ops_friday + 20.hours },
+  { name: "Awards Ceremony", description: "Orgs may take close their booths without taking downtime for the Awards Ceremony.", due_at: ops_saturday + 16.hours },
+  { name: "Teardown Begins", description: "Orgs may begin to teardown.", due_at: teardown + 8.hours },
+  { name: "Teardown Required Start", description: "All orgs must have begun to teardown.", due_at: teardown + 10.hours },
+  { name: "Teardown Ends", description: "All orgs should have completely cleared Midway. If they have not, note when they finish so we can determine fines.", due_at: teardown + 5.hours }
 ])
 
 puts '  Recurring Tasks'
  Task.create([
-  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: build_saturday + 6.hours},
-  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: build_sunday + 6.hours },
-  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: monday + 6.hours},
-  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: tuesday + 6.hours},
-  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: wednesday + 6.hours},
-  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: operations +6.hours },
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: build_saturday + 1.hour },
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: build_sunday + 1.hour },
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: monday + 1.hour},
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: tuesday + 1.hour},
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: wednesday + 1.hour},
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: operations + 1.hour},
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: ops_saturday + 1.hour},
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: ops_saturday + 1.hour},
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: teardown + 1.hour},
-  { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: operations + 15.hours},
-  { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: ops_saturday + 11.hours},
-  { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: ops_saturday + 11.hours},
-  { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: operations + 23.hours},
-  { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: ops_saturday + 23.hours},
-  { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: ops_saturday + 23.hours },
-  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: move_on + 22.hours},
-  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: build_saturday + 22.hours },
-  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: build_sunday + 22.hours },
-  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: monday + 22.hours},
-  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: tuesday + 22.hours },
-  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: wednesday + 22.hours},
-  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: build_saturday + 7.hours },
-  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: build_sunday + 7.hours },
-  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: monday + 7.hours },
-  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: tuesday + 7.hours },
-  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: wednesday + 7.hours },
-  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: operations + 7.hours }
+  { name: "Truck Deliveries", description: "Orgs may bring a truck at a scheduled time to deliver supplies.  The fire lane must be clear until midnight.", due_at: build_saturday + 22.hours },
+  { name: "Truck Deliveries", description: "Orgs may bring a truck at a scheduled time to deliver supplies.  The fire lane must be clear until midnight.", due_at: build_sunday + 22.hours },
+  { name: "Truck Deliveries", description: "Orgs may bring a truck at a scheduled time to deliver supplies.  The fire lane must be clear until midnight.", due_at: monday + 22.hours },
+  { name: "Quiet Hours Start", description: "No loud noise on Midway. If you can hear something outside a booth it is too loud.", due_at: move_on + 22.hours },
+  { name: "Quiet Hours Start", description: "No loud noise on Midway. If you can hear something outside a booth it is too loud.", due_at: build_saturday + 22.hours },
+  { name: "Quiet Hours Start", description: "No loud noise on Midway. If you can hear something outside a booth it is too loud.", due_at: build_sunday + 22.hours },
+  { name: "Quiet Hours Start", description: "No loud noise on Midway. If you can hear something outside a booth it is too loud.", due_at: monday + 22.hours },
+  { name: "Quiet Hours Start", description: "No loud noise on Midway. If you can hear something outside a booth it is too loud.", due_at: tuesday + 22.hours },
+  { name: "Quiet Hours Start", description: "No loud noise on Midway. If you can hear something outside a booth it is too loud.", due_at: wednesday + 22.hours },
+  { name: "Quiet Hours End", description: "Noise is allowed on Midway.  Loud music that you can hear outside a booth are not allowed.", due_at: build_saturday + 7.hours },
+  { name: "Quiet Hours End", description: "Noise is allowed on Midway.  Loud music that you can hear outside a booth are not allowed.", due_at: build_sunday + 7.hours },
+  { name: "Quiet Hours End", description: "Noise is allowed on Midway.  Loud music that you can hear outside a booth are not allowed.", due_at: monday + 7.hours },
+  { name: "Quiet Hours End", description: "Noise is allowed on Midway.  Loud music that you can hear outside a booth are not allowed.", due_at: tuesday + 7.hours },
+  { name: "Quiet Hours End", description: "Noise is allowed on Midway.  Loud music that you can hear outside a booth are not allowed.", due_at: wednesday + 7.hours },
+  { name: "Quiet Hours End", description: "Noise is allowed on Midway.", due_at: operations + 7.hours },
+  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: build_saturday + 16.hours },
+  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: build_sunday + 16.hours },
+  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: monday + 16.hours },
+  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: tuesday + 16.hours },
+  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: wednesday + 16.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: build_saturday + 1.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: build_sunday + 1.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: monday + 1.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: tuesday + 1.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: wednesday + 1.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: operations + 1.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: ops_friday + 1.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: ops_saturday + 1.hours },
+  { name: "Midway Opens", description: "Each org must have 2 members staffing their booth.", due_at: operations + 15.hours },
+  { name: "Midway Closes", description: "Everyone must clear Midway.", due_at: operations + 22.hours },
+  { name: "Midway Opens", description: "Each org must have 2 members staffing their booth.", due_at: ops_friday + 11.hours },
+  { name: "Midway Closes", description: "Everyone must clear Midway.", due_at: ops_friday + 22.hours },
+  { name: "Midway Opens", description: "Each org must have 2 members staffing their booth.", due_at: ops_saturday + 11.hours },
+  { name: "Midway Closes", description: "Everyone must clear Midway.", due_at: ops_saturday + 22.hours }
  ])
 
 # Shift Types ----------------------------------------------------------------
@@ -657,25 +678,25 @@ Shift.create({ shift_type: security_shift, description: 'Award Ceremony Setup', 
 Shift.create({ shift_type: security_shift, description: 'Award Ceremony', organization: juntos_org, starts_at: ops_saturday + 16.hours, ends_at: ops_saturday + 18.hours, required_number_of_participants: 4 })
 Shift.create({ shift_type: security_shift, description: 'Teardown Setup', organization: treblemakers_org, starts_at: teardown + 16.hours, ends_at: teardown + 18.hours, required_number_of_participants: 4 })
 Shift.create({ shift_type: security_shift, description: 'Tent Setup', organization: originals_org, starts_at: operations + 21.hours, ends_at: operations + 21.hours, required_number_of_participants: 4 })
-Shift.create({ shift_type: security_shift, description: 'Green Room', organization: originals_org, starts_at: ops_saturday + 13.hours, ends_at: ops_saturday + 16.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'Green Room', organization: originals_org, starts_at: ops_friday + 13.hours, ends_at: ops_friday + 16.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: security_shift, description: 'Green Room', organization: originals_org, starts_at: ops_saturday + 13.hours, ends_at: ops_saturday + 16.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: security_shift, description: 'Off-Night Event', organization: originals_org, starts_at: ops_saturday + 13.hours, ends_at: ops_saturday + 16.hours, required_number_of_participants: 4 })
 Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: rowing_org, starts_at: operations + 15.hours, ends_at: operations + 17.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: rowing_org, starts_at: operations + 17.hours, ends_at: operations + 19.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: juntos_org, starts_at: operations + 19.hours, ends_at: operations + 21.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: juntos_org, starts_at: operations + 12.hours, ends_at: operations + 23.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: treblemakers_org, starts_at: ops_saturday + 10.hours, ends_at: ops_saturday + 13.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: treblemakers_org, starts_at: ops_saturday + 13.hours, ends_at: ops_saturday + 15.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: juntos_org, starts_at: ops_saturday + 15.hours, ends_at: ops_saturday + 17.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: juntos_org, starts_at: ops_saturday + 17.hours, ends_at: ops_saturday + 19.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: quidditch_org, starts_at: ops_saturday + 19.hours, ends_at: ops_saturday + 21.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: originals_org, starts_at: ops_saturday + 12.hours, ends_at: ops_saturday + 23.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: treblemakers_org, starts_at: ops_friday + 10.hours, ends_at: ops_friday + 13.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: treblemakers_org, starts_at: ops_friday + 13.hours, ends_at: ops_friday + 15.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: juntos_org, starts_at: ops_friday + 15.hours, ends_at: ops_friday + 17.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: juntos_org, starts_at: ops_friday + 17.hours, ends_at: ops_friday + 19.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: quidditch_org, starts_at: ops_friday + 19.hours, ends_at: ops_friday + 21.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: originals_org, starts_at: ops_friday + 21.hours, ends_at: ops_friday + 23.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: rowing_org, starts_at: ops_saturday + 10.hours, ends_at: ops_saturday + 13.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: rowing_org, starts_at: ops_saturday + 13.hours, ends_at: ops_saturday + 15.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: quidditch_org, starts_at: ops_saturday + 15.hours, ends_at: ops_saturday + 17.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: quidditch_org, starts_at: ops_saturday + 17.hours, ends_at: ops_saturday + 19.hours, required_number_of_participants: 2 })
 Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: originals_org, starts_at: ops_saturday + 19.hours, ends_at: ops_saturday + 21.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: originals_org, starts_at: ops_saturday + 121.hours, ends_at: ops_saturday + 23.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: originals_org, starts_at: ops_saturday + 21.hours, ends_at: ops_saturday + 23.hours, required_number_of_participants: 2 })
 
 # Tools -------------------------------------------------------------------------
 puts 'Tools'
@@ -686,10 +707,10 @@ if  Rails.env.development?
   # Development Stuff -----------------------------------------------------------
   puts 'Development Stuff'
 
-  admin_andrewid = "rcrown"
-  scc_andrewid = "cbrownel"
-  booth_chair_andrewid = "rpwhite"
-  participant_andrewid = "nharper"
+  admin_andrewid = 'rcrown'
+  scc_andrewid = 'cbrownel'
+  booth_chair_andrewid = 'rpwhite'
+  participant_andrewid = 'nharper'
 
   admin_user = User.create({ email: "#{admin_andrewid}@andrew.cmu.edu"})
   admin_user.add_role :admin
