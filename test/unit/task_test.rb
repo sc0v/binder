@@ -30,7 +30,7 @@ class TaskTest < ActiveSupport::TestCase
     setup do
       # Create 3 tasks
       @assign_rides = FactoryGirl.create(:task, :due_at => Time.now - 2.hour)
-      @buy_wood = FactoryGirl.create(:task, :due_at => Time.now + 1.hour)
+      @buy_wood = FactoryGirl.create(:task, :due_at => Time.now + 5.hour)
       @takeout_trash = FactoryGirl.create(:task, :is_completed => true, :due_at => Time.now + 1.hour)
     end
 

@@ -22,19 +22,50 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Other Links<b class="caret"></b></a>
             <ul class="dropdown-menu">
-              <li><%= link_to "Participants", participants_path %></li>
               <% if can?(:read, Charge) %>
                 <li><%= link_to "Charges", charges_path %></li>
               <% end %>
-              <li><%= link_to "Shifts", shifts_path(:type => "watch") %></li>
-              <li><%= link_to "Documents", documents_path %></li>
+              <% if can?(:read, Document) %>
+                <li><%= link_to "Documents", documents_path %></li>
+              <% end %>
               <% if can?(:read, Faq) %>
                 <li><%= link_to "FAQs", faqs_path %></li>
               <% end %>
-              <li><%= link_to "Milestones", milestones_path %></li>
-              <li><%= link_to "Sign Waiver", new_waiver_path %></li>
+              <% if can?(:read, Participant) %>
+                <li><%= link_to "Participants", participants_path %></li>
+              <% end %>
+              <% if can?(:read, Shift) %>
+                <li><%= link_to "Shifts", shifts_path(:type => "watch") %></li>
+              <% end %>
+              <% if can?(:read, Task) %>
+                <li><%= link_to "Tasks", tasks_path %></li>
+              <% end %>
             </ul>
           </li>
+
+          <% if current_user.participant.is_scc? %>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown">SCC Links<b class="caret"></b></a>
+              <ul class="dropdown-menu">
+                <% if can?(:downtime, OrganizationTimelineEntry) %>
+                  <li><%= link_to "Downtime", downtime_index_path %></li>
+                <% end %>
+                <% if can?(:structural, OrganizationTimelineEntry) %>
+                  <li><%= link_to "Structural Queue", structural_path %></li>
+                <% end %>
+                <% if can?(:electrical, OrganizationTimelineEntry) %>
+                  <li><%= link_to "Electrical Queue", electrical_path %></li>
+                <% end %>
+                <% if can?(:read, Event) %>
+                  <li><%= link_to "Event Log", events_path %></li>
+                <% end %>
+                <% if can?(:create, :reports) %>
+                  <li><%= link_to "Reports", reports_path %></li>
+                <% end %>
+              </ul>
+            </li>
+          <% end %>
+
         </ul>
         <!-- Searchbar -->
         <form class="navbar-form navbar-left" role="search" accept-charset="UTF-8" action="/search" method="get" >
@@ -49,6 +80,9 @@
           <li class="dropdown">
             <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= Rails.env.production? or Rails.env.staging? ? current_user.participant.name : session[:name] %><b class="caret"></b></a>
             <ul class="dropdown-menu">
+              <% if !current_user.participant.has_signed_waiver %>
+                <li><%= link_to "Sign Waiver", new_waiver_path %></li>
+              <% end %>
               <li>
                 <%= link_to 'Logout', destroy_user_session_path, :id => 'log_out' %>
               </li>

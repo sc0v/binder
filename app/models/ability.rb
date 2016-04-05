@@ -11,7 +11,7 @@ class Ability
     end
 
     can :read, [OrganizationAlias, OrganizationCategory, Organization, Participant, 
-                ShiftType, Tool, Membership]
+                ShiftType, Tool, ToolWaitlist, Membership]
 
     can :search
 
@@ -20,7 +20,7 @@ class Ability
     end
 
     can :read, Document do |d|
-      d.public? and ( d.organization.blank? or d.organization.participants.include?(user.participant) )
+      d.public? or (not d.organization.blank? and d.organization.participants.include?(user.participant))
     end
 
     can :read_basic_details, Organization do |o|
@@ -34,7 +34,9 @@ class Ability
     can :update, Participant, :id => user.participant.id
     can :read_phone_number, Participant, :id => user.participant.id
 
-    can :manage, Membership, :participant_id => user.participant.id
+    can :create, Membership, :participant_id => user.participant.id
+
+    can :read, StoreItem
 
     if user.participant.is_booth_chair?
       can :read, [ChargeType, Checkout, Shift]
@@ -46,10 +48,6 @@ class Ability
 
       can :read, Charge do |c|
         c.organization.booth_chairs.include?(user.participant)
-      end
-
-      can :read, Document do |d|
-        d.organization.blank? or d.organization.booth_chairs.include?(user.participant)
       end
 
       can :read_phone_number, Participant
@@ -69,18 +67,25 @@ class Ability
       can :read, :all
       cannot :read, Role
 
+
       can [:create, :update], Charge
       can [:create, :update], Checkout
       can [:create, :update], Document
+      can [:create, :update, :approve], Event
+      can [:create, :update], EventType
       can [:create, :update, :destroy], Membership
       can [:hardhats, :read_basic_details, :read_all_details], Organization
       can [:create, :update, :destroy], OrganizationStatus
-      can [:create, :end, :structural, :electrical, :downtime], OrganizationTimelineEntry
+      can [:create, :update], OrganizationStatusType
+      can [:create, :edit, :update, :end, :structural, :electrical, :downtime], OrganizationTimelineEntry
       can [:create, :update, :read_phone_number], Participant
       can :read_coord, Shift
       can :create, ShiftParticipant
-      can :update, Task
+      can [:create, :update], StoreItem
+      can [:complete, :update], Task
       can [:create, :update], Tool
+      can [:create, :update], ToolType
+      can [:create, :update , :destroy], ToolWaitlist
     end
 
     if user.has_role? :admin

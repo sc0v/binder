@@ -115,11 +115,16 @@ FactoryGirl.define do
     name "Assign rides"
   end
 
+  # tool type
+  factory :tool_type do
+    name "Hammer"
+  end
+
   # tool
   factory :tool do
     barcode { generate(:barcode) }
     description "HAMMER"
-    name "Hammer"
+    association :tool_type
   end
 
   # user

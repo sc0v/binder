@@ -12,6 +12,13 @@ class Store::PurchasesController < ApplicationController
     redirect_to store_url
   end
 
+  def remove_from_cart
+    @store_purchase = StorePurchase.find params[:id]
+    @store_purchase.destroy
+    #respond_with(@store_purchase)
+    redirect_to store_url
+  end
+
   def new
     @charge = Charge.new
   end
@@ -26,16 +33,6 @@ class Store::PurchasesController < ApplicationController
     redirect_to store_url
   end
 
-  def choose_organization
-    #@participant = Participant.find_by_andrewid(params['card-number-input'])
-    @participant = Participant.find_by_card(params['card-number-input'])
-    
-    respond_to do |format|
-      format.html { render "choose_organization", :participant => @participant }
- #     format.json { render json: @checkouts }
-    end
-  end
-
   def create
     t = ChargeType.find_by_name("Store Purchase")
     
@@ -44,7 +41,7 @@ class Store::PurchasesController < ApplicationController
       c.organization_id = params[:organization_id]      
       c.charge_type = t
       c.description = i.store_item.name + " (x #{i.quantity_purchased})"
-      c.receiving_participant_id = params[:participant_id]
+      c.receiving_participant_id = params[:charge][:receiving_participant_id]
       c.issuing_participant_id = current_user.participant.id
       c.creating_participant_id = current_user.participant.id
       c.charged_at = Time.now

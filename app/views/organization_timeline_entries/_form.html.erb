@@ -1,0 +1,13 @@
+<%= simple_form_for @organization_timeline_entry do |f| %>
+  <div class="form-inputs">
+    <%= f.input :description %>
+    <%= f.input :ended_at, placeholder: @organization_timeline_entry.ended_at %>
+    <%= f.input :started_at, placeholder: @organization_timeline_entry.started_at %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+              organization_downtime_index_path(@organization_timeline_entry.organization), :class => 'btn btn-default' %>
+  </div> 
+<% end %>

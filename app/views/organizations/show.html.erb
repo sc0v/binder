@@ -4,7 +4,11 @@
 
   <% if can?(:read, OrganizationAlias) %>
     <p>
-      <strong>Alias(es):</strong>
+      <% if can?(:create, OrganizationAlias) %>
+        <strong><%=link_to "Alias(es):", organization_aliases_path(@organization) %></strong>
+      <% else %>
+        <strong>Alias(es):</strong>
+      <% end %>
       <% unless @organization.organization_aliases.blank? %>
         <%= @organization.organization_aliases.pluck(:name).join(", ") %>
       <% end %>
@@ -16,7 +20,7 @@
   <% end %>
   <% if can?(:read, OrganizationStatus) %>
     <p>
-      <strong>Status: </strong>
+      <strong><%=link_to "Status:", organization_organization_statuses_path(@organization)%> </strong>
       <% unless @organization.organization_statuses.displayable.last.blank? or not can?(:read, @organization.organization_statuses.displayable.last) %>
         <%= link_to @organization.organization_statuses.displayable.last.organization_status_type.name, organization_organization_statuses_path(@organization) %> on <%= date_and_time @organization.organization_statuses.displayable.last.created_at %>
       <% end %>
@@ -25,6 +29,11 @@
           [:new, @organization, :organization_status], :class => 'btn btn-primary btn-xs' %>
       <% end %>
     </p>
+  <% end %>
+  <% if can?(:edit, OrganizationTimelineEntry) %>
+    <p><Strong>Downtime Remaining: </Strong><%=link_to format_remaining_downtime(@organization.remaining_downtime), organization_downtime_index_path(@organization)%></p>
+  <% else %>
+    <p><Strong>Downtime Remaining: </Strong><%= format_remaining_downtime(@organization.remaining_downtime) %></p>
   <% end %>
 </div>
 

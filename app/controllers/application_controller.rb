@@ -42,16 +42,24 @@ class ApplicationController < ActionController::Base
   def sidebar
     @current_shifts_sidebar = Shift.current
     @upcoming_shifts_sidebar = Shift.upcoming
-    @tasks_sidebar = Task.upcoming
+    @tasks_sidebar = Task.upcoming.is_incomplete
     @structural_queue_sidebar = OrganizationTimelineEntry.structural.current
     @electrical_queue_sidebar = OrganizationTimelineEntry.electrical.current
-
+    @events_sidebar = Event.displayable
     @downtime_sidebar = OrganizationTimelineEntry.downtime.current
+    session[:tool_cart] = session[:tool_cart] || []
+    @tool_cart = session[:tool_cart].map{|barcode| Tool.find_by_barcode(barcode)}.reverse
   end
 
   def require_authenticated_user
     if current_user.nil?
       redirect_to main_app.user_omniauth_authorize_path(:shibboleth)
+    end
+  end
+
+  def authorize_report_access
+    unless can?(:create, :reports)
+      redirect_to root_path, notice: "You are not authorized to see reports"
     end
   end
 end

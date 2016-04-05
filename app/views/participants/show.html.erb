@@ -23,9 +23,15 @@
             <li>
               <%= link_to membership.organization_name_formatted, membership.organization %>
               <% if can?(:edit, membership) %>
-                <%= link_to 'Edit Membership', 
+                <%= link_to 'Edit', 
                             edit_participant_membership_path(@participant, membership), 
                             :class => 'btn btn-primary btn-xs' %>
+              <% end %>
+              <% if can?(:destrory, membership) %>
+                <%= link_to 'Remove', 
+                            participant_membership_path(@participant, membership),
+                            :method => :delete,
+                            :class => 'btn btn-danger btn-xs' %>
               <% end %>
             </li>
           <% end %>
@@ -75,7 +81,7 @@
     <%= link_to t('.edit', :default => t("helpers.links.edit")),
               edit_participant_path(@participant), :class => 'btn btn-primary' %>
   <% end %>
-  <% if can?(:create, Membership) %>
+  <% if can?(:destroy, Membership) %>
     <%= link_to 'Add Memberships',
               new_participant_membership_path(@participant), :class => 'btn btn-success' %>
     <% end %>
@@ -83,9 +89,6 @@
     <% if current_user.participant.is_scc? %>
     <%= link_to 'Sign Waiver',
         new_participant_waiver_path(@participant), :class => 'btn btn-success' %>
-    <% else %>
-    <%= link_to 'Sign Waiver',
-        new_waiver_path, :class => 'btn btn-success' %>
     <% end %>
 
   <% if can?(:destroy, @participant) %>

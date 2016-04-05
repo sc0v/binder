@@ -11,13 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150401144320) do
-
-  create_table "cell_carriers", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
+ActiveRecord::Schema.define(version: 20160404161512) do
 
   create_table "charge_types", force: :cascade do |t|
     t.string   "name",                          limit: 255
@@ -64,6 +58,20 @@ ActiveRecord::Schema.define(version: 20150401144320) do
     t.datetime "updated_at"
     t.integer  "organization_id", limit: 4
     t.boolean  "public",          limit: 1
+  end
+
+  create_table "event_types", force: :cascade do |t|
+    t.boolean "display",  limit: 1
+    t.string  "name",     limit: 255
+    t.integer "priority", limit: 4
+  end
+
+  create_table "events", force: :cascade do |t|
+    t.boolean  "is_done",       limit: 1
+    t.integer  "event_type_id", limit: 4
+    t.datetime "created_at"
+    t.text     "description",   limit: 65535
+    t.datetime "updated_at"
   end
 
   create_table "faqs", force: :cascade do |t|
@@ -272,15 +280,35 @@ ActiveRecord::Schema.define(version: 20150401144320) do
     t.boolean  "is_completed",    limit: 1
   end
 
-  create_table "tools", force: :cascade do |t|
-    t.string   "name",        limit: 255,   null: false
-    t.integer  "barcode",     limit: 4
-    t.text     "description", limit: 65535
+  create_table "tool_types", force: :cascade do |t|
+    t.string   "name",       limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
+  create_table "tool_waitlists", force: :cascade do |t|
+    t.integer  "tool_type_id",    limit: 4
+    t.datetime "wait_start_time"
+    t.integer  "participant_id",  limit: 4
+    t.integer  "organization_id", limit: 4
+    t.string   "note",            limit: 255
+    t.boolean  "active",          limit: 1,   default: true
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "tool_waitlists", ["tool_type_id"], name: "index_tool_waitlists_on_tool_type_id", using: :btree
+
+  create_table "tools", force: :cascade do |t|
+    t.integer  "barcode",      limit: 4
+    t.text     "description",  limit: 65535
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "tool_type_id", limit: 4
+  end
+
   add_index "tools", ["barcode"], name: "index_tools_on_barcode", using: :btree
+  add_index "tools", ["tool_type_id"], name: "index_tools_on_tool_type_id", using: :btree
 
   create_table "users", force: :cascade do |t|
     t.string   "email",                  limit: 255, default: "", null: false

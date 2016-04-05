@@ -62,6 +62,9 @@ gem 'rails_real_favicon'
 # Twilio for SMS
 gem 'twilio-ruby'
 
+# Dossier for reports
+gem 'dossier'
+
 group :development do
   # Automatically generate comments in models and such based on schema
   gem 'annotate'

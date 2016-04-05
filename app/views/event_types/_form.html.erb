@@ -1,0 +1,16 @@
+<%= simple_form_for @event_type, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.error_notification %>
+  <%= hidden_field(nil, :from_new_event, :value => params[:from_new_event]) %>
+
+  <div class="form-inputs">
+    <%= f.input :name %>
+    <%= f.input :display,:label => "Dispaly in Sidebar?" %>
+
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                @event_type, :class => 'btn btn-default' %>
+  </div>
+<% end %>

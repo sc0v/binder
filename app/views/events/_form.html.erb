@@ -1,0 +1,25 @@
+<%= simple_form_for @event, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-inputs">
+    <div class='row'>
+      <div class='col-xs-12 col-sm-9'>
+        <%= f.input :event_type, :selected => 1 %>
+      </div>
+      <% if can?(:create, EventType) %>
+        <div>
+          <%= link_to "Or create a new event type", new_event_type_path, class: 'btn btn-primary' %>
+        </div>
+      <% end %>
+    </div>
+    <div class='row'>
+      <div class='col-xs-12 col-sm-9'><%= f.input :description %></div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, 'Create Note', :class => 'btn-primary' %>
+    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
+                @event, :class => 'btn btn-default' %>
+  </div>
+<% end %>

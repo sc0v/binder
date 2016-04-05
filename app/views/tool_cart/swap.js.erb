@@ -1,0 +1,6 @@
+(function(){
+  ToolCart.clearCartItems();
+  ToolCart.scanToolsAction();
+  ToolCart.showAlert('Successfully swapped a <%= @old_tool_name %> for a <%= @new_tool_name %> for <%= @person_name %> in <%= @org_name %>.',
+                      true, 4500);
+})();

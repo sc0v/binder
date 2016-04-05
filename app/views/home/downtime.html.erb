@@ -18,7 +18,7 @@
         <td><%= link_to organization.short_name, organization_downtime_index_path(organization) %></td>
         <td><%= organization.organization_category.name %></td>
         <td style="text-align: right;"><%= format_downtime organization.downtime %></td>
-        <td style="text-align: right;"><%= format_downtime organization.remaining_downtime %></td>
+        <td style="text-align: right;"><%= format_remaining_downtime organization.remaining_downtime %></td>
       </tr>
     <% end %>
   </tbody>

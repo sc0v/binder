@@ -11,6 +11,7 @@ class HomeController < ApplicationController
     if params.blank? or params[:query].blank?
       flash[:error] = "Please enter a query"
       redirect_to root_url
+      return
     end
 
     @query = params[:query]
@@ -82,7 +83,7 @@ class HomeController < ApplicationController
   end
 
   def downtime
-    @organizations = Organization.joins(:organization_timeline_entries).where(organization_timeline_entries: {entry_type: 'downtime'}).distinct
+    @organizations = Organization.only_categories(['Fraternity', 'Sorority', 'Independent', 'Blitz', 'Concessions'])
   end
 
   def hardhat_return

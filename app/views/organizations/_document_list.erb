@@ -1,0 +1,26 @@
+<% if can?(:read, Document) %>
+  <%- model_class = Document -%>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th><%= model_class.human_attribute_name(:name) %></th>
+        <th><%= model_class.human_attribute_name(:public) %></th>
+		
+      </tr>
+    </thead>
+    <tbody>
+      <% document_list.each do |document| %>
+        <% if can?(:read, document) %>
+          <tr>
+            <td><%= link_to(document.name, document_path(document)) %></td>
+            <td><%= format_boolean document.public %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>
+
