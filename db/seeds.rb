@@ -52,7 +52,7 @@ sae_org = Organization.create({ name: 'Sigma Alpha Epsilon', organization_catego
 sigep_org = Organization.create({ name: 'Sigma Phi Epsilon', organization_category: fraternity, short_name: 'SigEp' })
 
 puts '  Sorority'
-aphi_org = Organization.create({ name: 'Alpha Phi', organization_category: sorority, short_name: 'Alpha Phi' })
+aphi_org = Organization.create({ name: 'Alpha Phi', organization_category: sorority })
   OrganizationAlias.create({ organization: aphi_org, name: 'APhi' })
 axo_org = Organization.create({ name: 'Alpha Chi Omega', organization_category: sorority, short_name: 'AXO' })
   OrganizationAlias.create({ organization: axo_org, name: 'Alpha Chi' })
@@ -66,7 +66,7 @@ kkg_org = Organization.create({ name: 'Kappa Kappa Gamma', organization_category
 
 puts '  Independent'
 asa_org = Organization.create({ name: 'Asian Students Association', organization_category: independent, short_name: 'ASA' })
-fringe_org = Organization.create({ name: 'Fringe', organization_category: independent, short_name: 'Fringe' })
+fringe_org = Organization.create({ name: 'Fringe', organization_category: independent })
 kgb_org = Organization.create({ name: 'KGB', organization_category: independent, short_name: 'KGB' })
 tsa_org = Organization.create({ name: 'Taiwanese Students Association', organization_category: independent, short_name: 'TSA' })
 
@@ -81,12 +81,16 @@ sigchi_org = Organization.create({ name: 'Sigma Chi', organization_category: bli
 spirit_org = Organization.create({ name: 'Spirit', organization_category: blitz })
 
 puts '  Non-Building'
-crew_org = Organization.create({ name: 'Rowing Club', organization_category: non_building, short_name: 'Rowing' })
-  OrganizationAlias.create({ organization: crew_org, name: 'Crew' })
-originals_org = Organization.create({ name: 'The Originals', organization_category: non_building, short_name: 'The O\'s' })
+habitat_org = Organization.create({ name: 'Habitat for Humanity', organization_category: non_building, short_name: 'Habitat' })
+juntos_org = Organization.create({ name: 'Juntos', organization_category: non_building })
+quidditch_org = Organization.create({ name: 'Quidditch Club', organization_category: non_building, short_name: 'Quidditch' })
+rowing_org = Organization.create({ name: 'Rowing Club', organization_category: non_building, short_name: 'Rowing' })
+  OrganizationAlias.create({ organization: rowing_org, name: 'Crew' })
+originals_org = Organization.create({ name: 'The Originals', organization_category: non_building })
+treblemakers_org = Organization.create({ name: 'The Treblemakers', organization_category: non_building })
 
 # Cell phone carriers ---------------------------------------------------------
-puts 'Phone carriers'
+puts 'Phone Carriers'
 
 ['Verizon Wireless','Sprint','AT&T','T-Mobile','Metro PCS','US Cellular','Cricket','Virgin Mobile','Boost Mobile'].each do |name|
   PhoneCarrier.create({ name: name})
@@ -127,130 +131,141 @@ meg_user.add_role :admin
 meg = Participant.create({ andrewid: meg_andrewid })
 Membership.create({ organization: scc_org, participant: meg })
 
-['aborie',
- 'afmeyer',
- 'agotsis',
- 'agurvich',
- 'amartine',
- 'amoran',
- 'bbzhang',
- 'bhunttob',
- 'cbanuelo',
- 'chenhaoy',
- 'clohman',
- 'cmorin',
- 'dmiele',
- 'egarbade',
- 'hkoschme',
- 'jcmertz',
- 'jcp',
- 'jiyunkwo',
- 'jlareau',
- 'jwesson',
- 'jzak',
- 'lawrencx',
- 'mreager',
- 'msingal',
- 'ncoauett',
- 'nehull',
- 'nhoran',
- 'nkawakam',
- 'prheinhe',
- 'rahsan',
- 'saclark',
- 'sasikalm',
- 'sromero',
- 'tan',
- 'tmedirat',
- 'yuanyua1',
- 'zileig'].each do |andrewid|
-  Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: andrewid }) })
-end
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'aborie' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'afmeyer' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'agotsis' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'agurvich' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'amartine' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'amoran' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'bbzhang' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'bhunttob' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'cbanuelo' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'chenhaoy' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'clohman' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'cmorin' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'dmiele' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'egarbade' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'hkoschme' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'jcmertz' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'jcp' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'jiyunkwo' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'jlareau' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'jwesson' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'jzak' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'lawrencx' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'mreager' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'msingal' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'ncoauett' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'nehull' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'nhoran' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'nkawakam' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'prheinhe' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'rahsan' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'saclark' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'sasikalm' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'sromero' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'tan' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'tmedirat' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'yuanyua1' }) })
+Membership.create({ organization: scc_org, participant: Participant.create({ andrewid: 'zileig' }) })
 
 # Booth Chairs ----------------------------------------------------------------
 puts 'Booth Chairs'
 
-Membership.create({ organization: aepi_org, participant: Participant.create({ andrewid: 'bgardine', phone_number: 7039948442}), is_booth_chair: true })
-Membership.create({ organization: aepi_org, participant: Participant.create({ andrewid: 'gya'}), is_booth_chair: true })
-Membership.create({ organization: aepi_org, participant: Participant.create({ andrewid: 'ssharea'}), is_booth_chair: true })
-Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'bhunttob', phone_number: 2246009586}), is_booth_chair: true })
-Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'seanders', phone_number: 6107374187}), is_booth_chair: true })
-Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'vsivakum', phone_number: 9172444241}), is_booth_chair: true })
-Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'kndu', phone_number: 7133444667}), is_booth_chair: true })
-Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'lcody', phone_number: 3144485994}), is_booth_chair: true })
-Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'nflorman', phone_number: 6199522671}), is_booth_chair: true })
-Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'vpereira'}), is_booth_chair: true })
-Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'zhangw'}), is_booth_chair: true })
-Membership.create({ organization: aphio_org, participant: Participant.create({ andrewid: 'fla', phone_number: 8143312119}), is_booth_chair: true })
-Membership.create({ organization: asa_org, participant: Participant.create({ andrewid: 'bjli', phone_number: 9785057460}), is_booth_chair: true })
-Membership.create({ organization: asa_org, participant: Participant.create({ andrewid: 'jylu', phone_number: 6095329694}), is_booth_chair: true })
-Membership.create({ organization: astro_org, participant: Participant.create({ andrewid: 'amarano', phone_number: 9144209281}), is_booth_chair: true })
-Membership.create({ organization: astro_org, participant: Participant.create({ andrewid: 'oce', phone_number: 2675950677}), is_booth_chair: true })
-Membership.create({ organization: ddd_org, participant: Participant.create({ andrewid: 'gjackson', phone_number: 4124207887}), is_booth_chair: true })
-Membership.create({ organization: ddd_org, participant: Participant.create({ andrewid: 'csharkey', phone_number: 6142579397}), is_booth_chair: true })
-Membership.create({ organization: ddd_org, participant: Participant.create({ andrewid: 'smosshor'}), is_booth_chair: true })
-Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'atjones', phone_number: 4438444424}), is_booth_chair: true })
-Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'casantil', phone_number: 6104208343}), is_booth_chair: true })
-Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'elawlis', phone_number: 8326930740}), is_booth_chair: true })
-Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'lcwillia', phone_number: 2677461544}), is_booth_chair: true })
-Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'tyv', phone_number: 6469431119}), is_booth_chair: true })
-Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'aperley', phone_number: 7202522781}), is_booth_chair: true })
-Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'achisolm', phone_number: 6315468835}), is_booth_chair: true })
-Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'haozheg', phone_number: 9084034261}), is_booth_chair: true })
-Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'rmckinne', phone_number: 9419141174}), is_booth_chair: true })
-Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'tfs', phone_number: 7173195528}), is_booth_chair: true })
-Membership.create({ organization: fringe_org, participant: Participant.create({ andrewid: 'jacobbro', phone_number: 5037479771}), is_booth_chair: true })
-Membership.create({ organization: fringe_org, participant: Participant.create({ andrewid: 'jzak', phone_number: 4127351981}), is_booth_chair: true })
-Membership.create({ organization: fringe_org, participant: Participant.create({ andrewid: 'kkwilkin', phone_number: 7077380375}), is_booth_chair: true })
-Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'aritchie', phone_number: 2155108559}), is_booth_chair: true })
-Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'ihlee', phone_number: 9713408528}), is_booth_chair: true })
-Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'rwolfing', phone_number: 9259897941}), is_booth_chair: true })
-Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'snarburg', phone_number: 6094770540}), is_booth_chair: true })
-Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'amcnulty', phone_number: 7816904444}), is_booth_chair: true })
-Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'acrigler', phone_number: 2038324033}), is_booth_chair: true })
-Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'clohman', phone_number: 3109717909}), is_booth_chair: true })
-Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'jry', phone_number: 6107376024}), is_booth_chair: true })
-Membership.create({ organization: kapsig_org, participant: Participant.create({ andrewid: 'efiedore', phone_number: 7138066105}), is_booth_chair: true })
-Membership.create({ organization: kapsig_org, participant: Participant.create({ andrewid: 'jbarry', phone_number: 2403837698}), is_booth_chair: true })
-Membership.create({ organization: kapsig_org, participant: Participant.create({ andrewid: 'ajcollin'}), is_booth_chair: true })
-Membership.create({ organization: kgb_org, participant: Participant.create({ andrewid: 'sctoor', phone_number: 7033029956}), is_booth_chair: true })
-Membership.create({ organization: kgb_org, participant: Participant.create({ andrewid: 'sguertin', phone_number: 8029893063}), is_booth_chair: true })
-Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'anqiwang', phone_number: 4123706158}), is_booth_chair: true })
-Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'colinkel', phone_number: 5714490561}), is_booth_chair: true })
-Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'dmehrle', phone_number: 6144588176}), is_booth_chair: true })
-Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'kborst', phone_number: 9143299391}), is_booth_chair: true })
-Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'zng', phone_number: 4434735523}), is_booth_chair: true })
-Membership.create({ organization: mayur_org, participant: Participant.create({ andrewid: 'gauryn', phone_number: 4123200623}), is_booth_chair: true })
-Membership.create({ organization: mcs_org, participant: Participant.create({ andrewid: 'kaitlinh', phone_number: 9142153025}), is_booth_chair: true })
-Membership.create({ organization: mcs_org, participant: Participant.create({ andrewid: 'jiyunkwo', phone_number: 4128633273}), is_booth_chair: true })
+Membership.create({ organization: aepi_org, participant: Participant.create({ andrewid: 'enumbers'}), is_booth_chair: true })
+Membership.create({ organization: aepi_org, participant: Participant.create({ andrewid: 'Ihaberma'}), is_booth_chair: true })
+Membership.create({ organization: aepi_org, participant: Participant.create({ andrewid: 'kjhernan'}), is_booth_chair: true })
+Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'arutt'}), is_booth_chair: true })
+Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'caseywon'}), is_booth_chair: true })
+Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'khofmann'}), is_booth_chair: true })
+Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'rza'}), is_booth_chair: true })
+Membership.create({ organization: aphi_org, participant: Participant.create({ andrewid: 'swl'}), is_booth_chair: true })
+Membership.create({ organization: aphio_org, participant: Participant.create({ andrewid: 'mwuebben'}), is_booth_chair: true })
+Membership.create({ organization: aphio_org, participant: Participant.create({ andrewid: 'mgraesse'}), is_booth_chair: true })
+Membership.create({ organization: asa_org, participant: Participant.create({ andrewid: 'ayu1'}), is_booth_chair: true })
+Membership.create({ organization: asa_org, participant: Participant.create({ andrewid: 'ichow'}), is_booth_chair: true })
+Membership.create({ organization: asig_org, participant: Participant.create({ andrewid: 'Lcervena '}), is_booth_chair: true })
+Membership.create({ organization: asig_org, participant: Participant.create({ andrewid: 'sheldons'}), is_booth_chair: true })
+Membership.create({ organization: astro_org, participant: Participant.create({ andrewid: 'bhaas'}), is_booth_chair: true })
+Membership.create({ organization: astro_org, participant: Participant.create({ andrewid: 'mspoerl'}), is_booth_chair: true })
+Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'edolinar'}), is_booth_chair: true })
+Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'nbaltzer'}), is_booth_chair: true })
+Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'pranjalb'}), is_booth_chair: true })
+Membership.create({ organization: axo_org, participant: Participant.create({ andrewid: 'vsivakum'}), is_booth_chair: true })
+Membership.create({ organization: ddd_org, participant: Participant.create({ andrewid: 'Nhb'}), is_booth_chair: true })
+Membership.create({ organization: ddd_org, participant: Participant.create({ andrewid: 'Smosshor'}), is_booth_chair: true })
+Membership.create({ organization: ddd_org, participant: Participant.create({ andrewid: 'Tbipat'}), is_booth_chair: true })
+Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'Elawlis'}), is_booth_chair: true })
+Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'imartins'}), is_booth_chair: true })
+Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'lgoldste'}), is_booth_chair: true })
+Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'Mbanks'}), is_booth_chair: true })
+Membership.create({ organization: dg_org, participant: Participant.create({ andrewid: 'rlahmad'}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'aperley'}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'Asekar'}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'lfj'}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'lgary'}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'Ldamasco'}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'rmckinne'}), is_booth_chair: true })
+Membership.create({ organization: dtd_org, participant: Participant.create({ andrewid: 'tfs'}), is_booth_chair: true })
+Membership.create({ organization: fringe_org, participant: Participant.create({ andrewid: 'bphodge'}), is_booth_chair: true })
+Membership.create({ organization: fringe_org, participant: Participant.create({ andrewid: 'lcody'}), is_booth_chair: true })
+Membership.create({ organization: kapsig_org, participant: Participant.create({ andrewid: 'dkkoopma'}), is_booth_chair: true })
+Membership.create({ organization: kapsig_org, participant: Participant.create({ andrewid: 'efiedore'}), is_booth_chair: true })
+Membership.create({ organization: kapsig_org, participant: Participant.create({ andrewid: 'tmi'}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'acicozi'}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'edonohue'}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'lolno'}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'Hholton'}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'ihlee'}), is_booth_chair: true })
+Membership.create({ organization: kat_org, participant: Participant.create({ andrewid: 'Urn '}), is_booth_chair: true })
+Membership.create({ organization: kgb_org, participant: Participant.create({ andrewid: 'cmorey'}), is_booth_chair: true })
+Membership.create({ organization: kgb_org, participant: Participant.create({ andrewid: 'dtv'}), is_booth_chair: true })
+Membership.create({ organization: kgb_org, participant: Participant.create({ andrewid: 'mvarner'}), is_booth_chair: true })
+Membership.create({ organization: kgb_org, participant: Participant.create({ andrewid: 'sctoor'}), is_booth_chair: true })
+Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'Alechner'}), is_booth_chair: true })
+Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'eswanson'}), is_booth_chair: true })
+Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'hnmcdona'}), is_booth_chair: true })
+Membership.create({ organization: kkg_org, participant: Participant.create({ andrewid: 'kmg'}), is_booth_chair: true })
+Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'kborst'}), is_booth_chair: true })
+Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'khanson'}), is_booth_chair: true })
+Membership.create({ organization: math_org, participant: Participant.create({ andrewid: 'kkuzemch'}), is_booth_chair: true })
+Membership.create({ organization: mayur_org, participant: Participant.create({ andrewid: 'ksanghav'}), is_booth_chair: true })
+Membership.create({ organization: mayur_org, participant: Participant.create({ andrewid: 'Schordia'}), is_booth_chair: true })
+Membership.create({ organization: mcs_org, participant: Participant.create({ andrewid: 'kschulz'}), is_booth_chair: true })
+Membership.create({ organization: mcs_org, participant: Participant.create({ andrewid: 'lparrell'}), is_booth_chair: true })
 Membership.create({ organization: phidelt_org, participant: Participant.create({ andrewid: 'resposit'}), is_booth_chair: true })
-Membership.create({ organization: sdc_org, participant: Participant.create({ andrewid: 'kswarts', phone_number: 5702491340}), is_booth_chair: true })
-Membership.create({ organization: sae_org, participant: Participant.create({ andrewid: 'ambaker', phone_number: 4125267380}), is_booth_chair: true })
-Membership.create({ organization: sae_org, participant: Participant.create({ andrewid: 'kschin', phone_number: 6319884058}), is_booth_chair: true })
-Membership.create({ organization: sae_org, participant: Participant.create({ andrewid: 'drmorale'}), is_booth_chair: true })
-Membership.create({ organization: sigchi_org, participant: Participant.create({ andrewid: 'pdominic', phone_number: 9788534116}), is_booth_chair: true })
-Membership.create({ organization: sigep_org, participant: Participant.create({ andrewid: 'bsiegel', phone_number: 2074752240}), is_booth_chair: true })
-Membership.create({ organization: sigep_org, participant: Participant.create({ andrewid: 'sjstark', phone_number: 9049622490}), is_booth_chair: true })
-Membership.create({ organization: spirit_org, participant: Participant.create({ andrewid: 'jmonroe', phone_number: 2035814082}), is_booth_chair: true })
-Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'kywang1', phone_number: 8583662883}), is_booth_chair: true })
-Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'hsienhsi', phone_number: 4123528929}), is_booth_chair: true })
+Membership.create({ organization: sae_org, participant: Participant.create({ andrewid: 'ahimmelr'}), is_booth_chair: true })
+Membership.create({ organization: sae_org, participant: Participant.create({ andrewid: 'msofia'}), is_booth_chair: true })
+Membership.create({ organization: sdc_org, participant: Participant.create({ andrewid: 'Colinkel'}), is_booth_chair: true })
+Membership.create({ organization: sdc_org, participant: Participant.create({ andrewid: 'djfranci'}), is_booth_chair: true })
+Membership.create({ organization: sdc_org, participant: Participant.create({ andrewid: 'Dbperry'}), is_booth_chair: true })
+Membership.create({ organization: sigchi_org, participant: Participant.create({ andrewid: 'progozen'}), is_booth_chair: true })
+Membership.create({ organization: sigchi_org, participant: Participant.create({ andrewid: 'pdominic'}), is_booth_chair: true })
+Membership.create({ organization: sigep_org, participant: Participant.create({ andrewid: 'Balper'}), is_booth_chair: true })
+Membership.create({ organization: sigep_org, participant: Participant.create({ andrewid: 'cdively'}), is_booth_chair: true })
+Membership.create({ organization: sigep_org, participant: Participant.create({ andrewid: 'Sjstark'}), is_booth_chair: true })
+Membership.create({ organization: spirit_org, participant: Participant.create({ andrewid: 'jccox'}), is_booth_chair: true })
+Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'cjwei'}), is_booth_chair: true })
+Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'joyces'}), is_booth_chair: true })
+Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'ppan'}), is_booth_chair: true })
+Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'pchao '}), is_booth_chair: true })
 
 # Organization Status Types --------------------------------------------------
 puts 'Organization Status Types'
 
 OrganizationStatusType.create([
-  { name: "Authorized for Plan Deviation", display: false },
-  { name: "Structural Inspection", display: true },
-  { name: "First Floor Level", display: true },
-  { name: "First Floor Walls Approved", display: true },
-  { name: "Stairs Approved", display: true },
-  { name: "Second Floor Level", display: true },
-  { name: "Second Floor Walls Approved", display: true },
-  { name: "Roof Approved", display: true },
-  { name: "Electrical Inspection", display: true },
-  { name: "Electrical Approved", display: true },
-  { name: "Final Inspection Passed", display: true },
-  { name: "Note", display: false }
+  { name: 'Authorized for Plan Deviation', display: false },
+  { name: 'Structural Inspection', display: true },
+  { name: 'First Floor Level', display: true },
+  { name: 'First Floor Walls Approved', display: true },
+  { name: 'Stairs Approved', display: true },
+  { name: 'Second Floor Level', display: true },
+  { name: 'Second Floor Walls Approved', display: true },
+  { name: 'Roof Approved', display: true },
+  { name: 'Electrical Inspection', display: true },
+  { name: 'Electrical Approved', display: true },
+  { name: 'Final Inspection Passed', display: true },
+  { name: 'Note', display: false }
 ])
 
 # Charge Types ----------------------------------------------------------------
@@ -298,334 +313,390 @@ ChargeType.create([
 puts 'FAQs'
 
 Faq.create([
+  { question: "What if I don't know how to answer a question?",
+    answer: "Look at the FAQs on binder. Ask someone else in the trailer or contact someone on exec. Don't just make something up." },
+  { question: "What should I bring to my coordinator shift?",
+    answer: "Your blue hard hat and SCC jacket, this will give you the position of authority. If you are acting as an SCC member on midway you must wear your SCC hard hat." },
+  { question: "What is required to be on Midway?",
+    answer: "Hardhat, wristband, closed toed shoes, safety glasses (regular glasses are not enough)." },
+  { question: "What is the first thing I should do as a coordinator?",
+    answer: "Sign in on Binder. Ask the previous coordinator if there is anything you should be aware of.  Check to see if there are notes or upcoming tasks on Binder." },
+  { question: "Can I leave midway during my coordinator shift?",
+    answer: "No, someone must be in the trailer at all times. If you have to leave, you must get an SCC member to cover while you are out." },
+  { question: "Who is allowed in the trailer?",
+    answer: "Only SCC members are allowed in the trailer. No one else should be in the trailer without permission from an SCC member." },
+  { question: "The next coordinator doesn't show up. What do I do?",
+    answer: "Call them repeatedly. If that fails, call the Carnival Chair." },
+  { question: "The phone is rigning. What do I do? ",
+    answer: "Be polite and respectful. Answer their questions if you can, or tell them we will call them back with an answer. Log the phone call in Binder." },
+  { question: "What are the different radio channels?",
+    answer: "Channel 1 is for the watch shifts. Channel 2 is for SCC." },
+  { question: "I am having problems with the radio. What do I do?",
+    answer: "Check to make sure it is on and that the volume is high enough. Make sure that you are on Channel 2 and are not pressing down on the talk button. Press the button to talk and release when you are done to hear a response." },
+  { question: "When do dumpsters need to be taken out?",
+    answer: "Dumpsters must be taken to entrance of the parking lot at the corner of Tech Street and Margaret Morrison before 2am." },
+  { question: "What do the different wristbands mean?",
+    answer: "Red is Building, Blue is Non-Building, and Checkered is CFA access." },
+  { question: "Someone wants a wristband, What do I do?",
+    answer: "Have them sign the waiver on binder, fill out what org they need it for, and give them the correct colored wristband." },
+  { question: "What's the difference between a security and watch shift?",
+    answer: "Security is paid, watch is not. Watch shifts are booth orgs, while security are non-building orgs." },
+  { question: "A watch shift just showed up to the trailer, what should I do?",
+    answer: "Sign in the shift members on Binder, hand them each jackets, and check out a radio to one of them. Briefly teach them how to use the radio and tell them to check in with you every 15 minutes. Review their responsibilities and have them look over the cheat sheet." },
+  { question: "Booth watch shift doesn't show up. What do I do?",
+    answer: "Do not let previous watch shift leave. Call booth chairs of that org in order until someone answers. Fine them accordingly in Binder. If no one can show up and old watch shift has to leave, split the other watch shift." },
+  { question: "What do I do with my drunk watch/security shift that just showed up?",
+    answer: "Send them home, call their booth chair, and inform them of what happened and that they are getting fined unless they supply new, sober people." },
+  { question: "Drunk people won't listen. What do I do?",
+    answer: "Call the police." },  
   { question: "What is Booth?",
-    answer:  "Booth is one of the biggest showpieces of Spring Carnival. Student organizations build multi-story structures around our annual theme (2015: Living Library), hosting interactive games and elaborate decorations. The booths will be placed on Midway, which is located in the Morewood Gardens Parking Lot." },
-  { question: "What do I do if something catches on fire?",
-    answer: "There are fire extinguishers located at every booth. Take one and follow the instructions listed on the can." },
-  { question: "Where does CMU get money for Carnival?",
-    answer: "Carnegie Mellon University's Spring Carnival is funded in part by your Student Activities Fee." },
-  { question: "What are the hours of rides?",
-    answer: "Thursday: 3PM-11PM, Friday: 11AM-11PM, Saturday: 11AM-11PM" },
-  { question: "How much are rides tickets?",
-    answer: "$1 per ride or $20 for 24 rides. Pre-sale is available at the UC Info Desk until 3pm on Thursday where ts $15 for 24 rides." },
-  { question: "Are there group rates for rides tickets?",
-    answer: "No." },
-  { question: "Where do you pick up presale tickets?",
-    answer: "UC Info Desk" },
-  { question: "Can I get a wristband for the comedian?",
-    answer: "Spring Carnival does not deal with the comedian. Talk to AB." },
-  { question: "Where do I go for the green room security shift?",
-    answer: "Morewood multipurpose room. You need a radio and jackets. And no, you cannot eat the food." },
-  { question: "What do I do if the comedian shows up?",
-    answer: "Call student activities (Tim)." },
-  { question: "Alumni is complaining about their tent.",
-    answer: "Call the Head of Operations (Dan)." },
-  { question: "Alumni needs something special.",
-    answer: "Call the Head of Operations (Dan)." },
-  { question: "When do dumpsters go out?",
-    answer: "They must be by the back of Morewood lot by 5am." },
+    answer:  "Booth is one of the biggest traditions of Spring Carnival. Student organizations build multi-story structures around our annual theme , hosting interactive games and elaborate decorations. The booths will be located on the CFA Lot." },
+  { question: "Booth chair is asking questions I don't understand. What do I do?",
+    answer: "Add them to the Structural queue." },
+  { question: "A booth chair is freaking out, sad, angry, etc. What do I do?",
+    answer: "Call the Head of Booth." },
   { question: "What is downtime?",
-    answer: "When a booth takes time to close their booth and have it not manned during operations. They must register the start of their downtime (you should track this) and put caution tape up to close off the doorways. They should also tell you when they are ending their downtime." },
+    answer: "When a booth takes time to close their booth and have it not manned during Carnival. They must register the start of their downtime (you should track this) and put caution tape up to close off the doorways. They should also tell you when they are ending their downtime." },
   { question: "How much downtime does an org get?",
     answer: "4 hours." },
   { question: "How do I check how much downtime an org has left?",
-    answer: "TBD" },
+    answer: "Remaining downtime is shown in Binder" },
   { question: "A booth tripped a breaker. What do I do?",
-    answer: "Add them to the Electrical queue. Mark the fine in app if applicable." },
+    answer: "Add them to the Electrical queue. Mark the fine in Binder if applicable." },
   { question: "Someone has a minor injury (splinter, small cut, dust in eye, etc.).",
     answer: "Give them equipment from the medical kit in the trailer. Tell them they can call EMS if they want. DO NOT ADMINISTER MEDICAL ASSISTANCE." },
   { question: "EMS is closed. What do I do?",
     answer: "Call them." },
   { question: "I saw an ambulance take someone to the hospital. What do I do?",
-    answer: "Call the Carnival Chair (Carrie), Head of Booth (Hannelie), and/or Head of Operations (Dan) immediately." },
-  { question: "Someone wants to drop off in the firelane. Can they do that?",
-    answer: "No, unless they are Cyert, food delivery for Underground, fire, police, EMS, FMS, people with passes, or an approved delivery (Carrie, Hannelie, or Dan says it's OK)." },
+    answer: "Call the Carnival Chair, Head of Booth, and/or Head of Operations immediately." },
   { question: "Golf cart problem?",
-    answer: "Call Meg." },
-  { question: "Missing golf cart.",
-    answer: "Call Meg." },
-  { question: "If someone legitimately needs a golf cart...",
-    answer: "...radio for golfcart." },
-  { question: "A booth chair is freaking out, sad, angry, etc. What do I do?",
-    answer: "Call the Head of Booth (Hannelie)." },
+    answer: "Call Meg Richards." },
   { question: "University official wants to borrow something. What do I do?",
-    answer: "Let them. They do not need to sign a waiver. Ideally, check it out to Carrie, Dan, or Hannelie to track it in the app." },
-  { question: "The next coordinator doesn't show up. What do I do?",
-    answer: "Call them repeatedly. If that fails, call the Head of Operations (Dan)." },
-  { question: "Booth watch shift doesn't show up. What do I do?",
-    answer: "Do not let previous watch shift leave. Call booth chairs of that org in order until someone answers. Fine them accordingly in the app. If no one can show up and old watch shift has to leave, split the other watch shift." },
-  { question: "Drunk people won't listen. What do I do?",
-    answer: "Call the police." },
-  { question: "Booth chair is asking questions I don't understand. What do I do?",
-    answer: "Put them in Hannelie's queue. Leave a note if necessary." },
-  { question: "Parking complains about Asian row. What do I do?",
-    answer: "Tell Asian row to clear their stuff out. If they won't listen, call Hannelie." },
-  { question: "What should the 12am-4am watch shifts do?",
-    answer: "MOVE THE DUMPSTERS TO THE FIRELANE BY THE TENT. Check the radio station parking lot. Make sure no one is doing anything stupid (climbing on roofs, having sex in booths, etc.)." },
-  { question: "What's the difference between a security and watch shift?",
-    answer: "Security is paid, watch is not. Watch shifts are booth orgs, while security are non-building orgs." },
-  { question: "What do I do with my drunk watch/security shift that just showed up?",
-    answer: "Send them home, call their booth chair, and inform them of what happened and that they are getting fined unless they supply new, sober people." },
-  { question: "AB tech asks for the keys to the scissor lift.",
-    answer: "Call the Head of Operations (Dan)." },
-  { question: "Taylor Rental needs something.",
-    answer: "Call the Head of Operations (Dan)." },
-  { question: "Where do I find the midway layout?",
-    answer: "In the app, under documents!" },
+    answer: "Let them. They do not need to sign a waiver. Check it out to the Carnival Chair in Binder." },
   { question: "Madelyn Miller calls. What do I do?",
-    answer: "Listen to her. Then call Carrie/Dan/Hannelie and relay the message." },
+    answer: "Listen to her. Then call the Head of Booth and relay the message." },
+  { question: "Alumni needs something.",
+    answer: "Call the Head of Operations or Head of Marketing." },
+  { question: "Taylor Rental or TriBoro Trailer needs something.",
+    answer: "Call the Head of Operations." },
+  { question: "What do I do if something catches on fire?",
+    answer: "There are fire extinguishers located at every booth. Take one and follow the instructions listed on the can." },
   { question: "It's raining and people are losing electricity.",
-    answer: "Wait until the rain stops, then tell them to suck it up and we'll deal with it." },
+    answer: "Tell them to wait until the rain stops, then we will deal with it." },
   { question: "It's super windy. Things are flying off of booths.",
-    answer: "Check weather on trailer computer. Call the Head of Booth (Rachel) and the Carnival Chair (Carrie) with that information." }
+    answer: "Check weather on trailer computer. Call the Carnival Chair and Head of Booth with that information." },
+  { question: "What are the hours of booths?",
+    answer: "Thursday: 3PM-10PM, Friday: 11AM-10PM, Saturday: 11AM-10PM" },
+  { question: "What are the hours of rides?",
+    answer: "Thursday: 3PM-11PM, Friday: 10AM-11PM, Saturday: 10AM-11PM" },
+  { question: "How much are rides tickets?",
+    answer: "$1 per ride or $20 for 24 rides. Tickets are available at the ticket booth located on Midway." },
+  { question: "Are there group rates for rides tickets?",
+    answer: "No." },
+  { question: "Can I get a wristband for the comedian?",
+    answer: "Spring Carnival does not deal with the comedian. Talk to AB Comedy." },
+  { question: "Can I get a wristband for the concert?",
+    answer: "Spring Carnival does not deal with the concert. Talk to AB Concerts." },
+  { question: "Where does CMU get money for Carnival?",
+    answer: "Carnegie Mellon University's Spring Carnival is funded in part by your Student Activities Fee." }
 ])
 
 # Tasks ------------------------------------------------------------------------
 puts 'Tasks'
 
-move_on = DateTime.rfc3339('2015-04-10T00:00:00-04:00')
+move_on = DateTime.rfc3339('2016-04-08T00:00:00-04:00')
 build_saturday = move_on + 1.day
 build_sunday = move_on + 2.days
-monday = move_on + 2.days
-tuesday = move_on + 3.days
-wednesday = move_on + 4.days
-operations = move_on + 5.days
-ops_friday = move_on + 6.days
-ops_saturday = move_on + 7.days
-teardown = move_on + 8.days
+monday = move_on + 3.days
+tuesday = move_on + 4.days
+wednesday = move_on + 5.days
+operations = move_on + 6.days
+ops_friday = move_on + 7.days
+ops_saturday = move_on + 8.days
+teardown = move_on + 9.days
 
 puts '  One-Time Tasks'
 Task.create([
-  { name: 'Towing for Move On Begins', description: 'Any cars remaining on Morewood Lot after 5pm will be towed.', due_at: move_on + 14.hours },
-  { name: 'Move On Begins', description: 'Orgs start moving on to Midway', due_at: move_on + 18.hours },
-  { name: 'Final Booth Inspections', description: 'The University will show up to Midway. Help them find the Head of Booth so that they can inspect the state of the booths.', due_at: wednesday + 12.hours },
-  { name: 'Construction Ends', description: 'All but 4 members (full-size) or 2 members (blitz) of each org must clear Midway.', due_at: operations + 13.hours },
-  { name: 'Call for Cleaning Helpers', description: 'Each org must send 2 members at 1pm to the trailer to assist with Midway clean-up', due_at: operations + 13.hours },
-  { name: 'Final Fixes End', description: '4 members (full-size) or 2 members (blitz) of each org may stay to make final fixes between 1pm and 2:30pm. Everyone must be gone from Midway at 2:30pm.', due_at: operations + 14.hours + 30.minutes },
-  { name: 'Opening Ceremony', description: 'Speeches, ribbon cutting, and Midway officially opens to the public.', due_at: operations + 15.hours },
-  { name: 'Judging Begins', description: 'Judges will arrive with Rachel and will judge each booth. No, we do not have a schedule of which booths will be judged when. Sorry.', due_at: ops_friday + 13.hours },
-  { name: 'Concert', description: 'The Concert! On the mall. Rain location: Wiegand Gym. Student opener at 7:30pm.', due_at: ops_friday + 19.hours + 30.minutes },
-  { name: 'Night Judging Ends', description: 'Judges will wander around Midway to judge booths after dusk and will return their packets/tablets after. Put them in the box, The Head of Booth or someone else will come get them later.', due_at: ops_friday + 20.hours },
-  { name: 'Fireworks', description: 'Following the concert, pretty things go boom in the sky. Also on the mall. Cancelled in the case of rain.', due_at: ops_friday + 22.hours },
-  { name: 'Move Chairs for Awards', description: 'Send shifts to clear the chairs from the main tent to prepare for awards', due_at: ops_saturday + 16.hours + 15.minutes },
-  { name: 'Awards', description: 'Orgs will rush the main tent to find out who won. Awards involve both buggy and booth.', due_at: ops_saturday + 17.hours },
-  { name: 'Dumpsters for Teardown Arrive', description: 'Company should have layout and should drop dumpsters into place. Dumpster layout is in the documents section, if you need to reference it.', due_at: teardown + 6.hours },
-  { name: 'Start of Teardown', description: 'Orgs may begin to teardown no earlier than 8am. They must begin by 10am.', due_at: ops_saturday + 8.hours },
-  { name: 'End of Teardown', description: 'At this time, all orgs should be completed cleared from Midway. If they are not, fining begins at a rate of $1/hr until 5:30, $5 until 6pm, and $10 after 6pm.', due_at: teardown + 17.hours }
+  { name: "Move On Begins", description: "Orgs start moving on to Midway.", due_at: move_on + 18.hours },
+  { name: "Construction Begins", description: "Orgs may begin building their booth.", due_at: move_on + 21.hours },
+  { name: "Blitz Booth Move On Begins", description: "Blitz orgs move on to Midway.", due_at: build_saturday + 10.hours },
+  { name: "Final Booth Inspections", description: "University staff will arrive on Midway. Direct them to the Head of Booth so they can inspect the booths.", due_at: wednesday + 12.hours },
+  { name: "Construction Ends", description: "All but 4 members (full-size) or 2 members (blitz) of each org must clear Midway.", due_at: operations + 1.hours },
+  { name: "Cleanup Begins", description: "Each org must send 2 members to the trailer to assist with Midway cleanup.", due_at: operations + 1.hours },
+  { name: "Final Fixes Ends", description: "All members of each org must clear Midway", due_at: operations + 14.hours },
+  { name: "Opening Ceremony", description: "Speeches, ribbon cutting, and Midway officially opens to the public.", due_at: operations + 15.hours },
+  { name: "Judging Begins", description: "Judges will arrive on Midway. Direct them to the Carnival Chair or Head of Booth so they can begin judging.", due_at: ops_friday + 13.hours },
+  { name: "Night Judging Begins", description: "Alumni judges will arrive on Midway. Direct them to the Carnival Chair or Head of Booth so they can begin judging.", due_at: ops_friday + 20.hours },
+  { name: "Awards Ceremony", description: "Orgs may take close their booths without taking downtime for the Awards Ceremony.", due_at: ops_saturday + 16.hours },
+  { name: "Teardown Begins", description: "Orgs may begin to teardown.", due_at: teardown + 8.hours },
+  { name: "Teardown Required Start", description: "All orgs must have begun to teardown.", due_at: teardown + 10.hours },
+  { name: "Teardown Ends", description: "All orgs should have completely cleared Midway. If they have not, note when they finish so we can determine fines.", due_at: teardown + 5.hours }
 ])
 
 puts '  Recurring Tasks'
  Task.create([
-  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: build_saturday + 6.hours},
-  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: build_sunday + 6.hours },
-  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: monday + 6.hours},
-  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: tuesday + 6.hours},
-  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: wednesday + 6.hours},
-  { name: 'Move dumpsters', description: 'Have a watch shift move dumpsters to the gate by the tent by 6am', due_at: operations +6.hours },
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: build_saturday + 1.hour },
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: build_sunday + 1.hour },
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: monday + 1.hour},
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: tuesday + 1.hour},
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: wednesday + 1.hour},
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: operations + 1.hour},
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: ops_friday + 1.hour},
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: ops_saturday + 1.hour},
-  { name: 'Check Perimeter', description: 'Make sure that Asian Row +AEPI is not out in the lot and that no one is building in the WQED Parking Lot. Also fix snow fencing.', due_at: teardown + 1.hour},
-  { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: operations + 15.hours},
-  { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: ops_friday + 11.hours},
-  { name: 'Midway Opens', description: '2 members from each org are allowed on Midway 15 mins before opening, but that is it.', due_at: ops_saturday + 11.hours},
-  { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: operations + 23.hours},
-  { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: ops_friday + 23.hours},
-  { name: 'Midway Closes', description: '2 members from each org are allowed on Midway up until 15 mins after closing, but everyone else must clear out.', due_at: ops_saturday + 23.hours },
-  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: move_on + 22.hours},
-  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: build_saturday + 22.hours },
-  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: build_sunday + 22.hours },
-  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: monday + 22.hours},
-  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: tuesday + 22.hours },
-  { name: 'Quiet Hours Start', description: 'No more loud noise on Midway. If you can hear something outside a booth it\'s probably too loud, if you can hear it at the trailer then it\'s WAY too loud. Don\'t want to wake the neighbors. Tell booth orgs, "Shh, time to go to bed..."', due_at: wednesday + 22.hours},
-  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: build_saturday + 7.hours },
-  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: build_sunday + 7.hours },
-  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: monday + 7.hours },
-  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: tuesday + 7.hours },
-  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: wednesday + 7.hours },
-  { name: 'Quiet Hours End', description: 'Noise is allowed again. Hooray Power Tools!', due_at: operations + 7.hours }
+  { name: "Truck Deliveries", description: "Orgs may bring a truck at a scheduled time to deliver supplies.  The fire lane must be clear until midnight.", due_at: build_saturday + 22.hours },
+  { name: "Truck Deliveries", description: "Orgs may bring a truck at a scheduled time to deliver supplies.  The fire lane must be clear until midnight.", due_at: build_sunday + 22.hours },
+  { name: "Truck Deliveries", description: "Orgs may bring a truck at a scheduled time to deliver supplies.  The fire lane must be clear until midnight.", due_at: monday + 22.hours },
+  { name: "Quiet Hours Start", description: "No loud noise on Midway. If you can hear something outside a booth it is too loud.", due_at: move_on + 22.hours },
+  { name: "Quiet Hours Start", description: "No loud noise on Midway. If you can hear something outside a booth it is too loud.", due_at: build_saturday + 22.hours },
+  { name: "Quiet Hours Start", description: "No loud noise on Midway. If you can hear something outside a booth it is too loud.", due_at: build_sunday + 22.hours },
+  { name: "Quiet Hours Start", description: "No loud noise on Midway. If you can hear something outside a booth it is too loud.", due_at: monday + 22.hours },
+  { name: "Quiet Hours Start", description: "No loud noise on Midway. If you can hear something outside a booth it is too loud.", due_at: tuesday + 22.hours },
+  { name: "Quiet Hours Start", description: "No loud noise on Midway. If you can hear something outside a booth it is too loud.", due_at: wednesday + 22.hours },
+  { name: "Quiet Hours End", description: "Noise is allowed on Midway.  Loud music that you can hear outside a booth are not allowed.", due_at: build_saturday + 7.hours },
+  { name: "Quiet Hours End", description: "Noise is allowed on Midway.  Loud music that you can hear outside a booth are not allowed.", due_at: build_sunday + 7.hours },
+  { name: "Quiet Hours End", description: "Noise is allowed on Midway.  Loud music that you can hear outside a booth are not allowed.", due_at: monday + 7.hours },
+  { name: "Quiet Hours End", description: "Noise is allowed on Midway.  Loud music that you can hear outside a booth are not allowed.", due_at: tuesday + 7.hours },
+  { name: "Quiet Hours End", description: "Noise is allowed on Midway.  Loud music that you can hear outside a booth are not allowed.", due_at: wednesday + 7.hours },
+  { name: "Quiet Hours End", description: "Noise is allowed on Midway.", due_at: operations + 7.hours },
+  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: build_saturday + 16.hours },
+  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: build_sunday + 16.hours },
+  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: monday + 16.hours },
+  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: tuesday + 16.hours },
+  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: wednesday + 16.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: build_saturday + 1.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: build_sunday + 1.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: monday + 1.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: tuesday + 1.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: wednesday + 1.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: operations + 1.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: ops_friday + 1.hours },
+  { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: ops_saturday + 1.hours },
+  { name: "Midway Opens", description: "Each org must have 2 members staffing their booth.", due_at: operations + 15.hours },
+  { name: "Midway Closes", description: "Everyone must clear Midway.", due_at: operations + 22.hours },
+  { name: "Midway Opens", description: "Each org must have 2 members staffing their booth.", due_at: ops_friday + 11.hours },
+  { name: "Midway Closes", description: "Everyone must clear Midway.", due_at: ops_friday + 22.hours },
+  { name: "Midway Opens", description: "Each org must have 2 members staffing their booth.", due_at: ops_saturday + 11.hours },
+  { name: "Midway Closes", description: "Everyone must clear Midway.", due_at: ops_saturday + 22.hours }
  ])
 
 # Shift Types ----------------------------------------------------------------
 puts 'Shift Types'
 
 watch_shift = ShiftType.create({ name: 'Watch Shift' })
-sec_shift = ShiftType.create({ name: 'Security Shift' })
-coord_shift = ShiftType.create({ name: 'Coordinator Shift' })
+security_shift = ShiftType.create({ name: 'Security Shift' })
+coordinator_shift = ShiftType.create({ name: 'Coordinator Shift' })
 
 # Shifts ---------------------------------------------------------------------
 puts 'Shifts'
 
 # Coordinator Shifts
 puts '  Coordinator Shifts'
-#shift = Shift.create({ shift_type: coord_shift, starts_at: DateTime.rfc3339('2015-04-11T16:00:00-04:00'), ends_at: DateTime.rfc3339('2014-04-04T16:00:00-04:00') + 4.hours, organization: scc_org, required_number_of_participants: 1 })
-#ShiftParticipant.create({ shift: shift, participant: Participant.find_by_andrewid('arakla'), clocked_in_at: Time.now })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 0.hours , ends_at: move_on + 16.hours + 4.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('arakla'), clocked_in_at: move_on + 16.hours + 0.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 4.hours , ends_at: move_on + 16.hours + 8.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('jcmertz'), clocked_in_at: move_on + 16.hours + 4.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 8.hours , ends_at: move_on + 16.hours + 12.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('nhoran'), clocked_in_at: move_on + 16.hours + 8.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 12.hours , ends_at: move_on + 16.hours + 16.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('nkawakam'), clocked_in_at: move_on + 16.hours + 12.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 16.hours , ends_at: move_on + 16.hours + 20.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('mreager'), clocked_in_at: move_on + 16.hours + 16.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 20.hours , ends_at: move_on + 16.hours + 24.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('bhunttob'), clocked_in_at: move_on + 16.hours + 20.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 24.hours , ends_at: move_on + 16.hours + 28.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('sasikalm'), clocked_in_at: move_on + 16.hours + 24.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 28.hours , ends_at: move_on + 16.hours + 32.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('zileig'), clocked_in_at: move_on + 16.hours + 28.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 32.hours , ends_at: move_on + 16.hours + 36.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('clohman'), clocked_in_at: move_on + 16.hours + 32.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 36.hours , ends_at: move_on + 16.hours + 40.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('agotsis'), clocked_in_at: move_on + 16.hours + 36.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 40.hours , ends_at: move_on + 16.hours + 44.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('jzak'), clocked_in_at: move_on + 16.hours + 40.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 44.hours , ends_at: move_on + 16.hours + 48.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('rahsan'), clocked_in_at: move_on + 16.hours + 44.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 48.hours , ends_at: move_on + 16.hours + 52.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('egarbade'), clocked_in_at: move_on + 16.hours + 48.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 52.hours , ends_at: move_on + 16.hours + 56.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('tan'), clocked_in_at: move_on + 16.hours + 52.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 56.hours , ends_at: move_on + 16.hours + 60.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('bbzhang'), clocked_in_at: move_on + 16.hours + 56.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 60.hours , ends_at: move_on + 16.hours + 64.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('chenhaoy'), clocked_in_at: move_on + 16.hours + 60.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 64.hours , ends_at: move_on + 16.hours + 68.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('prheinhe'), clocked_in_at: move_on + 16.hours + 64.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 68.hours , ends_at: move_on + 16.hours + 72.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('jlareau'), clocked_in_at: move_on + 16.hours + 68.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 72.hours , ends_at: move_on + 16.hours + 76.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('jiyunkwo'), clocked_in_at: move_on + 16.hours + 72.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 76.hours , ends_at: move_on + 16.hours + 80.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('cbanuelo'), clocked_in_at: move_on + 16.hours + 76.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 80.hours , ends_at: move_on + 16.hours + 84.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('jcmertz'), clocked_in_at: move_on + 16.hours + 80.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 84.hours , ends_at: move_on + 16.hours + 88.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('tan'), clocked_in_at: move_on + 16.hours + 84.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 88.hours , ends_at: move_on + 16.hours + 92.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('amartine'), clocked_in_at: move_on + 16.hours + 88.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 92.hours , ends_at: move_on + 16.hours + 96.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('sasikalm'), clocked_in_at: move_on + 16.hours + 92.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 96.hours , ends_at: move_on + 16.hours + 100.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('yuanyua1'), clocked_in_at: move_on + 16.hours + 96.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 100.hours , ends_at: move_on + 16.hours + 104.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('nehull'), clocked_in_at: move_on + 16.hours + 100.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 104.hours , ends_at: move_on + 16.hours + 108.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('cmorin'), clocked_in_at: move_on + 16.hours + 104.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 108.hours , ends_at: move_on + 16.hours + 112.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('lawrencx'), clocked_in_at: move_on + 16.hours + 108.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 112.hours , ends_at: move_on + 16.hours + 116.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('agurvich'), clocked_in_at: move_on + 16.hours + 112.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 116.hours , ends_at: move_on + 16.hours + 120.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('amoran'), clocked_in_at: move_on + 16.hours + 116.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 120.hours , ends_at: move_on + 16.hours + 124.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('jcp'), clocked_in_at: move_on + 16.hours + 120.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 124.hours , ends_at: move_on + 16.hours + 128.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('cmorin'), clocked_in_at: move_on + 16.hours + 124.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 128.hours , ends_at: move_on + 16.hours + 132.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('saclark'), clocked_in_at: move_on + 16.hours + 128.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 132.hours , ends_at: move_on + 16.hours + 136.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('mreager'), clocked_in_at: move_on + 16.hours + 132.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 136.hours , ends_at: move_on + 16.hours + 140.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('cbanuelo'), clocked_in_at: move_on + 16.hours + 136.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 140.hours , ends_at: move_on + 16.hours + 144.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('amartine'), clocked_in_at: move_on + 16.hours + 140.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 144.hours , ends_at: move_on + 16.hours + 148.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('yuanyua1'), clocked_in_at: move_on + 16.hours + 144.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 148.hours , ends_at: move_on + 16.hours + 152.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('jcp'), clocked_in_at: move_on + 16.hours + 148.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 152.hours , ends_at: move_on + 16.hours + 156.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('zileig'), clocked_in_at: move_on + 16.hours + 152.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 156.hours , ends_at: move_on + 16.hours + 160.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('amoran'), clocked_in_at: move_on + 16.hours + 156.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 160.hours , ends_at: move_on + 16.hours + 164.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('msingal'), clocked_in_at: move_on + 16.hours + 160.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 164.hours , ends_at: move_on + 16.hours + 168.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('chenhaoy'), clocked_in_at: move_on + 16.hours + 164.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 168.hours , ends_at: move_on + 16.hours + 172.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('tmedirat'), clocked_in_at: move_on + 16.hours + 168.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 172.hours , ends_at: move_on + 16.hours + 176.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('hkoschme'), clocked_in_at: move_on + 16.hours + 172.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 176.hours , ends_at: move_on + 16.hours + 180.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('jwesson'), clocked_in_at: move_on + 16.hours + 176.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 180.hours , ends_at: move_on + 16.hours + 184.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('nkawakam'), clocked_in_at: move_on + 16.hours + 180.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 184.hours , ends_at: move_on + 16.hours + 188.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('meribyte'), clocked_in_at: move_on + 16.hours + 184.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 188.hours , ends_at: move_on + 16.hours + 192.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('lawrencx'), clocked_in_at: move_on + 16.hours + 188.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 192.hours , ends_at: move_on + 16.hours + 196.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('saclark'), clocked_in_at: move_on + 16.hours + 192.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 196.hours , ends_at: move_on + 16.hours + 200.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('msingal'), clocked_in_at: move_on + 16.hours + 196.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 200.hours , ends_at: move_on + 16.hours + 204.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('nehull'), clocked_in_at: move_on + 16.hours + 200.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 204.hours , ends_at: move_on + 16.hours + 208.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('rahsan'), clocked_in_at: move_on + 16.hours + 204.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 208.hours , ends_at: move_on + 16.hours + 212.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('nhoran'), clocked_in_at: move_on + 16.hours + 208.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 212.hours , ends_at: move_on + 16.hours + 216.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('agotsis'), clocked_in_at: move_on + 16.hours + 212.hours })
+ShiftParticipant.create({ shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: move_on + 16.hours + 216.hours , ends_at: move_on + 16.hours + 220.hours, required_number_of_participants: 1 }), participant: Participant.find_by_andrewid('arakla'), clocked_in_at: move_on + 16.hours + 216.hours })
 
 # Watch Shifts
 puts '  Watch Shifts'
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: astro_org, starts_at: move_on + 17.hours + 214.hours , ends_at: move_on + 17.hours + 216.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: astro_org, starts_at: move_on + 17.hours + 40.hours , ends_at: move_on + 17.hours + 42.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: astro_org, starts_at: move_on + 17.hours + 164.hours , ends_at: move_on + 17.hours + 166.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aepi_org, starts_at: move_on + 17.hours + 14.hours , ends_at: move_on + 17.hours + 16.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aepi_org, starts_at: move_on + 17.hours + 10.hours , ends_at: move_on + 17.hours + 12.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aepi_org, starts_at: move_on + 17.hours + 12.hours , ends_at: move_on + 17.hours + 14.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aepi_org, starts_at: move_on + 17.hours + 120.hours , ends_at: move_on + 17.hours + 122.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aepi_org, starts_at: move_on + 17.hours + 116.hours , ends_at: move_on + 17.hours + 118.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aepi_org, starts_at: move_on + 17.hours + 98.hours , ends_at: move_on + 17.hours + 100.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kat_org, starts_at: move_on + 17.hours + 210.hours , ends_at: move_on + 17.hours + 212.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kat_org, starts_at: move_on + 17.hours + 212.hours , ends_at: move_on + 17.hours + 214.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kat_org, starts_at: move_on + 17.hours + 4.hours , ends_at: move_on + 17.hours + 6.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kat_org, starts_at: move_on + 17.hours + 122.hours , ends_at: move_on + 17.hours + 124.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kat_org, starts_at: move_on + 17.hours + 94.hours , ends_at: move_on + 17.hours + 96.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kat_org, starts_at: move_on + 17.hours + 70.hours , ends_at: move_on + 17.hours + 72.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: phidelt_org, starts_at: move_on + 17.hours + 38.hours , ends_at: move_on + 17.hours + 40.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: phidelt_org, starts_at: move_on + 17.hours + 160.hours , ends_at: move_on + 17.hours + 162.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: phidelt_org, starts_at: move_on + 17.hours + 190.hours , ends_at: move_on + 17.hours + 192.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: phidelt_org, starts_at: move_on + 17.hours + 90.hours , ends_at: move_on + 17.hours + 92.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: phidelt_org, starts_at: move_on + 17.hours + 140.hours , ends_at: move_on + 17.hours + 142.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: phidelt_org, starts_at: move_on + 17.hours + 70.hours , ends_at: move_on + 17.hours + 72.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sigep_org, starts_at: move_on + 17.hours + 146.hours , ends_at: move_on + 17.hours + 148.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sigep_org, starts_at: move_on + 17.hours + 146.hours , ends_at: move_on + 17.hours + 148.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sigep_org, starts_at: move_on + 17.hours + 164.hours , ends_at: move_on + 17.hours + 166.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sigep_org, starts_at: move_on + 17.hours + 168.hours , ends_at: move_on + 17.hours + 170.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sigep_org, starts_at: move_on + 17.hours + 144.hours , ends_at: move_on + 17.hours + 146.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sigep_org, starts_at: move_on + 17.hours + 98.hours , ends_at: move_on + 17.hours + 100.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sigep_org, starts_at: move_on + 17.hours + 46.hours , ends_at: move_on + 17.hours + 48.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dg_org, starts_at: move_on + 17.hours + 42.hours , ends_at: move_on + 17.hours + 44.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dg_org, starts_at: move_on + 17.hours + 72.hours , ends_at: move_on + 17.hours + 74.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dg_org, starts_at: move_on + 17.hours + 72.hours , ends_at: move_on + 17.hours + 74.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dg_org, starts_at: move_on + 17.hours + 120.hours , ends_at: move_on + 17.hours + 122.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dg_org, starts_at: move_on + 17.hours + 74.hours , ends_at: move_on + 17.hours + 76.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dg_org, starts_at: move_on + 17.hours + 44.hours , ends_at: move_on + 17.hours + 46.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dg_org, starts_at: move_on + 17.hours + 52.hours , ends_at: move_on + 17.hours + 54.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kkg_org, starts_at: move_on + 17.hours + 186.hours , ends_at: move_on + 17.hours + 188.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kkg_org, starts_at: move_on + 17.hours + 170.hours , ends_at: move_on + 17.hours + 172.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kkg_org, starts_at: move_on + 17.hours + 190.hours , ends_at: move_on + 17.hours + 192.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kkg_org, starts_at: move_on + 17.hours + 166.hours , ends_at: move_on + 17.hours + 168.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kkg_org, starts_at: move_on + 17.hours + 68.hours , ends_at: move_on + 17.hours + 70.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kkg_org, starts_at: move_on + 17.hours + 118.hours , ends_at: move_on + 17.hours + 120.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kkg_org, starts_at: move_on + 17.hours + 88.hours , ends_at: move_on + 17.hours + 90.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 184.hours , ends_at: move_on + 17.hours + 186.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 160.hours , ends_at: move_on + 17.hours + 162.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 174.hours , ends_at: move_on + 17.hours + 176.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 174.hours , ends_at: move_on + 17.hours + 176.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 198.hours , ends_at: move_on + 17.hours + 200.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 198.hours , ends_at: move_on + 17.hours + 200.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 196.hours , ends_at: move_on + 17.hours + 198.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ddd_org, starts_at: move_on + 17.hours + 188.hours , ends_at: move_on + 17.hours + 190.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ddd_org, starts_at: move_on + 17.hours + 170.hours , ends_at: move_on + 17.hours + 172.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ddd_org, starts_at: move_on + 17.hours + 168.hours , ends_at: move_on + 17.hours + 170.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ddd_org, starts_at: move_on + 17.hours + 166.hours , ends_at: move_on + 17.hours + 168.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ddd_org, starts_at: move_on + 17.hours + 74.hours , ends_at: move_on + 17.hours + 76.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ddd_org, starts_at: move_on + 17.hours + 172.hours , ends_at: move_on + 17.hours + 174.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: ddd_org, starts_at: move_on + 17.hours + 174.hours , ends_at: move_on + 17.hours + 176.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sae_org, starts_at: move_on + 17.hours + 0.hours , ends_at: move_on + 17.hours + 2.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sae_org, starts_at: move_on + 17.hours + 2.hours , ends_at: move_on + 17.hours + 4.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sae_org, starts_at: move_on + 17.hours + 92.hours , ends_at: move_on + 17.hours + 94.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sae_org, starts_at: move_on + 17.hours + 94.hours , ends_at: move_on + 17.hours + 96.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sae_org, starts_at: move_on + 17.hours + 96.hours , ends_at: move_on + 17.hours + 98.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sae_org, starts_at: move_on + 17.hours + 24.hours , ends_at: move_on + 17.hours + 26.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sae_org, starts_at: move_on + 17.hours + 112.hours , ends_at: move_on + 17.hours + 114.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: math_org, starts_at: move_on + 17.hours + 0.hours , ends_at: move_on + 17.hours + 2.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: math_org, starts_at: move_on + 17.hours + 2.hours , ends_at: move_on + 17.hours + 4.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: math_org, starts_at: move_on + 17.hours + 30.hours , ends_at: move_on + 17.hours + 32.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: math_org, starts_at: move_on + 17.hours + 16.hours , ends_at: move_on + 17.hours + 18.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: axo_org, starts_at: move_on + 17.hours + 186.hours , ends_at: move_on + 17.hours + 188.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: axo_org, starts_at: move_on + 17.hours + 192.hours , ends_at: move_on + 17.hours + 194.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: axo_org, starts_at: move_on + 17.hours + 162.hours , ends_at: move_on + 17.hours + 164.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: axo_org, starts_at: move_on + 17.hours + 150.hours , ends_at: move_on + 17.hours + 152.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: axo_org, starts_at: move_on + 17.hours + 86.hours , ends_at: move_on + 17.hours + 88.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: axo_org, starts_at: move_on + 17.hours + 110.hours , ends_at: move_on + 17.hours + 112.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: axo_org, starts_at: move_on + 17.hours + 64.hours , ends_at: move_on + 17.hours + 66.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: fringe_org, starts_at: move_on + 17.hours + 62.hours , ends_at: move_on + 17.hours + 64.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: fringe_org, starts_at: move_on + 17.hours + 128.hours , ends_at: move_on + 17.hours + 130.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: fringe_org, starts_at: move_on + 17.hours + 32.hours , ends_at: move_on + 17.hours + 34.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: fringe_org, starts_at: move_on + 17.hours + 104.hours , ends_at: move_on + 17.hours + 106.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: fringe_org, starts_at: move_on + 17.hours + 136.hours , ends_at: move_on + 17.hours + 138.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: fringe_org, starts_at: move_on + 17.hours + 8.hours , ends_at: move_on + 17.hours + 10.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: fringe_org, starts_at: move_on + 17.hours + 134.hours , ends_at: move_on + 17.hours + 136.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: mcs_org, starts_at: move_on + 17.hours + 188.hours , ends_at: move_on + 17.hours + 190.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: mcs_org, starts_at: move_on + 17.hours + 194.hours , ends_at: move_on + 17.hours + 196.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: mcs_org, starts_at: move_on + 17.hours + 196.hours , ends_at: move_on + 17.hours + 198.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: mcs_org, starts_at: move_on + 17.hours + 144.hours , ends_at: move_on + 17.hours + 146.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aphio_org, starts_at: move_on + 17.hours + 210.hours , ends_at: move_on + 17.hours + 212.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aphio_org, starts_at: move_on + 17.hours + 216.hours , ends_at: move_on + 17.hours + 218.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aphio_org, starts_at: move_on + 17.hours + 4.hours , ends_at: move_on + 17.hours + 6.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aphio_org, starts_at: move_on + 17.hours + 76.hours , ends_at: move_on + 17.hours + 78.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aphio_org, starts_at: move_on + 17.hours + 100.hours , ends_at: move_on + 17.hours + 102.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aphio_org, starts_at: move_on + 17.hours + 124.hours , ends_at: move_on + 17.hours + 126.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aphio_org, starts_at: move_on + 17.hours + 158.hours , ends_at: move_on + 17.hours + 160.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: move_on + 17.hours + 156.hours , ends_at: move_on + 17.hours + 158.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: move_on + 17.hours + 154.hours , ends_at: move_on + 17.hours + 156.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: move_on + 17.hours + 154.hours , ends_at: move_on + 17.hours + 156.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: move_on + 17.hours + 132.hours , ends_at: move_on + 17.hours + 134.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: move_on + 17.hours + 106.hours , ends_at: move_on + 17.hours + 108.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: move_on + 17.hours + 152.hours , ends_at: move_on + 17.hours + 154.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: dtd_org, starts_at: move_on + 17.hours + 56.hours , ends_at: move_on + 17.hours + 58.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sdc_org, starts_at: move_on + 17.hours + 202.hours , ends_at: move_on + 17.hours + 204.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sdc_org, starts_at: move_on + 17.hours + 192.hours , ends_at: move_on + 17.hours + 194.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sdc_org, starts_at: move_on + 17.hours + 162.hours , ends_at: move_on + 17.hours + 164.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sdc_org, starts_at: move_on + 17.hours + 138.hours , ends_at: move_on + 17.hours + 140.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sdc_org, starts_at: move_on + 17.hours + 142.hours , ends_at: move_on + 17.hours + 144.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sdc_org, starts_at: move_on + 17.hours + 48.hours , ends_at: move_on + 17.hours + 50.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sdc_org, starts_at: move_on + 17.hours + 200.hours , ends_at: move_on + 17.hours + 202.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aphi_org, starts_at: move_on + 17.hours + 194.hours , ends_at: move_on + 17.hours + 196.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aphi_org, starts_at: move_on + 17.hours + 102.hours , ends_at: move_on + 17.hours + 104.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aphi_org, starts_at: move_on + 17.hours + 54.hours , ends_at: move_on + 17.hours + 56.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aphi_org, starts_at: move_on + 17.hours + 140.hours , ends_at: move_on + 17.hours + 142.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aphi_org, starts_at: move_on + 17.hours + 142.hours , ends_at: move_on + 17.hours + 144.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aphi_org, starts_at: move_on + 17.hours + 118.hours , ends_at: move_on + 17.hours + 120.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: aphi_org, starts_at: move_on + 17.hours + 204.hours , ends_at: move_on + 17.hours + 206.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: spirit_org, starts_at: move_on + 17.hours + 36.hours , ends_at: move_on + 17.hours + 38.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: spirit_org, starts_at: move_on + 17.hours + 60.hours , ends_at: move_on + 17.hours + 62.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: spirit_org, starts_at: move_on + 17.hours + 84.hours , ends_at: move_on + 17.hours + 86.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: spirit_org, starts_at: move_on + 17.hours + 34.hours , ends_at: move_on + 17.hours + 36.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: tsa_org, starts_at: move_on + 17.hours + 126.hours , ends_at: move_on + 17.hours + 128.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: tsa_org, starts_at: move_on + 17.hours + 78.hours , ends_at: move_on + 17.hours + 80.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: tsa_org, starts_at: move_on + 17.hours + 66.hours , ends_at: move_on + 17.hours + 68.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: tsa_org, starts_at: move_on + 17.hours + 138.hours , ends_at: move_on + 17.hours + 140.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: tsa_org, starts_at: move_on + 17.hours + 96.hours , ends_at: move_on + 17.hours + 98.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: tsa_org, starts_at: move_on + 17.hours + 50.hours , ends_at: move_on + 17.hours + 52.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: tsa_org, starts_at: move_on + 17.hours + 80.hours , ends_at: move_on + 17.hours + 82.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: asa_org, starts_at: move_on + 17.hours + 176.hours , ends_at: move_on + 17.hours + 178.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: asa_org, starts_at: move_on + 17.hours + 176.hours , ends_at: move_on + 17.hours + 178.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: asa_org, starts_at: move_on + 17.hours + 178.hours , ends_at: move_on + 17.hours + 180.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: asa_org, starts_at: move_on + 17.hours + 178.hours , ends_at: move_on + 17.hours + 180.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: asa_org, starts_at: move_on + 17.hours + 152.hours , ends_at: move_on + 17.hours + 154.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: asa_org, starts_at: move_on + 17.hours + 152.hours , ends_at: move_on + 17.hours + 154.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: asa_org, starts_at: move_on + 17.hours + 200.hours , ends_at: move_on + 17.hours + 202.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kapsig_org, starts_at: move_on + 17.hours + 148.hours , ends_at: move_on + 17.hours + 150.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kapsig_org, starts_at: move_on + 17.hours + 148.hours , ends_at: move_on + 17.hours + 150.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kapsig_org, starts_at: move_on + 17.hours + 206.hours , ends_at: move_on + 17.hours + 208.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kapsig_org, starts_at: move_on + 17.hours + 208.hours , ends_at: move_on + 17.hours + 210.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kapsig_org, starts_at: move_on + 17.hours + 208.hours , ends_at: move_on + 17.hours + 210.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kapsig_org, starts_at: move_on + 17.hours + 172.hours , ends_at: move_on + 17.hours + 174.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kgb_org, starts_at: move_on + 17.hours + 18.hours , ends_at: move_on + 17.hours + 20.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kgb_org, starts_at: move_on + 17.hours + 22.hours , ends_at: move_on + 17.hours + 24.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kgb_org, starts_at: move_on + 17.hours + 122.hours , ends_at: move_on + 17.hours + 124.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kgb_org, starts_at: move_on + 17.hours + 20.hours , ends_at: move_on + 17.hours + 22.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kgb_org, starts_at: move_on + 17.hours + 28.hours , ends_at: move_on + 17.hours + 30.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: kgb_org, starts_at: move_on + 17.hours + 26.hours , ends_at: move_on + 17.hours + 28.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: mayur_org, starts_at: move_on + 17.hours + 6.hours , ends_at: move_on + 17.hours + 8.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: mayur_org, starts_at: move_on + 17.hours + 6.hours , ends_at: move_on + 17.hours + 8.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: mayur_org, starts_at: move_on + 17.hours + 130.hours , ends_at: move_on + 17.hours + 132.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: mayur_org, starts_at: move_on + 17.hours + 114.hours , ends_at: move_on + 17.hours + 116.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sigchi_org, starts_at: move_on + 17.hours + 180.hours , ends_at: move_on + 17.hours + 182.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sigchi_org, starts_at: move_on + 17.hours + 182.hours , ends_at: move_on + 17.hours + 184.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sigchi_org, starts_at: move_on + 17.hours + 150.hours , ends_at: move_on + 17.hours + 152.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: sigchi_org, starts_at: move_on + 17.hours + 58.hours , ends_at: move_on + 17.hours + 60.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 184.hours , ends_at: move_on + 17.hours + 186.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 150.hours , ends_at: move_on + 17.hours + 152.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 108.hours , ends_at: move_on + 17.hours + 110.hours, required_number_of_participants: 2 })
-Shift.create({ shift_type: ShiftType.find_by_name('Watch Shift'), organization: scc_org, starts_at: move_on + 17.hours + 82.hours , ends_at: move_on + 17.hours + 84.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aepi_org, starts_at: move_on + 21.hours + 166.hours , ends_at: move_on + 21.hours + 168.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aepi_org, starts_at: move_on + 21.hours + 164.hours , ends_at: move_on + 21.hours + 166.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aepi_org, starts_at: move_on + 21.hours + 158.hours , ends_at: move_on + 21.hours + 160.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aepi_org, starts_at: move_on + 21.hours + 48.hours , ends_at: move_on + 21.hours + 50.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aepi_org, starts_at: move_on + 21.hours + 48.hours , ends_at: move_on + 21.hours + 50.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aepi_org, starts_at: move_on + 21.hours + 18.hours , ends_at: move_on + 21.hours + 20.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aphi_org, starts_at: move_on + 21.hours + 188.hours , ends_at: move_on + 21.hours + 190.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aphi_org, starts_at: move_on + 21.hours + 186.hours , ends_at: move_on + 21.hours + 188.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aphi_org, starts_at: move_on + 21.hours + 182.hours , ends_at: move_on + 21.hours + 184.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aphi_org, starts_at: move_on + 21.hours + 22.hours , ends_at: move_on + 21.hours + 24.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aphi_org, starts_at: move_on + 21.hours + 46.hours , ends_at: move_on + 21.hours + 48.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aphi_org, starts_at: move_on + 21.hours + 38.hours , ends_at: move_on + 21.hours + 40.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aphio_org, starts_at: move_on + 21.hours + 200.hours , ends_at: move_on + 21.hours + 202.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aphio_org, starts_at: move_on + 21.hours + 102.hours , ends_at: move_on + 21.hours + 104.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aphio_org, starts_at: move_on + 21.hours + 56.hours , ends_at: move_on + 21.hours + 58.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aphio_org, starts_at: move_on + 21.hours + 6.hours , ends_at: move_on + 21.hours + 8.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aphio_org, starts_at: move_on + 21.hours + 174.hours , ends_at: move_on + 21.hours + 176.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: aphio_org, starts_at: move_on + 21.hours + 28.hours , ends_at: move_on + 21.hours + 30.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: asa_org, starts_at: move_on + 21.hours + 148.hours , ends_at: move_on + 21.hours + 150.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: asa_org, starts_at: move_on + 21.hours + 148.hours , ends_at: move_on + 21.hours + 150.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: asa_org, starts_at: move_on + 21.hours + 196.hours , ends_at: move_on + 21.hours + 198.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: asa_org, starts_at: move_on + 21.hours + 196.hours , ends_at: move_on + 21.hours + 198.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: asa_org, starts_at: move_on + 21.hours + 172.hours , ends_at: move_on + 21.hours + 174.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: asa_org, starts_at: move_on + 21.hours + 170.hours , ends_at: move_on + 21.hours + 172.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: asig_org, starts_at: move_on + 21.hours + 54.hours , ends_at: move_on + 21.hours + 56.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: asig_org, starts_at: move_on + 21.hours + 78.hours , ends_at: move_on + 21.hours + 80.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: asig_org, starts_at: move_on + 21.hours + 32.hours , ends_at: move_on + 21.hours + 34.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: asig_org, starts_at: move_on + 21.hours + 58.hours , ends_at: move_on + 21.hours + 60.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: asig_org, starts_at: move_on + 21.hours + 82.hours , ends_at: move_on + 21.hours + 84.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: astro_org, starts_at: move_on + 21.hours + 134.hours , ends_at: move_on + 21.hours + 136.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: astro_org, starts_at: move_on + 21.hours + 206.hours , ends_at: move_on + 21.hours + 208.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: astro_org, starts_at: move_on + 21.hours + 86.hours , ends_at: move_on + 21.hours + 88.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: axo_org, starts_at: move_on + 21.hours + 122.hours , ends_at: move_on + 21.hours + 124.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: axo_org, starts_at: move_on + 21.hours + 50.hours , ends_at: move_on + 21.hours + 52.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: axo_org, starts_at: move_on + 21.hours + 50.hours , ends_at: move_on + 21.hours + 52.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: axo_org, starts_at: move_on + 21.hours + 146.hours , ends_at: move_on + 21.hours + 148.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: axo_org, starts_at: move_on + 21.hours + 26.hours , ends_at: move_on + 21.hours + 28.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: axo_org, starts_at: move_on + 21.hours + 26.hours , ends_at: move_on + 21.hours + 28.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: ddd_org, starts_at: move_on + 21.hours + 34.hours , ends_at: move_on + 21.hours + 36.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: ddd_org, starts_at: move_on + 21.hours + 12.hours , ends_at: move_on + 21.hours + 14.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: ddd_org, starts_at: move_on + 21.hours + 36.hours , ends_at: move_on + 21.hours + 38.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: ddd_org, starts_at: move_on + 21.hours + 24.hours , ends_at: move_on + 21.hours + 26.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: ddd_org, starts_at: move_on + 21.hours + 90.hours , ends_at: move_on + 21.hours + 92.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: ddd_org, starts_at: move_on + 21.hours + 72.hours , ends_at: move_on + 21.hours + 74.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: dg_org, starts_at: move_on + 21.hours + 2.hours , ends_at: move_on + 21.hours + 4.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: dg_org, starts_at: move_on + 21.hours + 98.hours , ends_at: move_on + 21.hours + 100.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: dg_org, starts_at: move_on + 21.hours + 74.hours , ends_at: move_on + 21.hours + 76.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: dg_org, starts_at: move_on + 21.hours + 74.hours , ends_at: move_on + 21.hours + 76.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: dg_org, starts_at: move_on + 21.hours + 72.hours , ends_at: move_on + 21.hours + 74.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: dg_org, starts_at: move_on + 21.hours + 116.hours , ends_at: move_on + 21.hours + 118.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: dtd_org, starts_at: move_on + 21.hours + 0.hours , ends_at: move_on + 21.hours + 2.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: dtd_org, starts_at: move_on + 21.hours + 96.hours , ends_at: move_on + 21.hours + 98.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: dtd_org, starts_at: move_on + 21.hours + 92.hours , ends_at: move_on + 21.hours + 94.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: dtd_org, starts_at: move_on + 21.hours + 94.hours , ends_at: move_on + 21.hours + 96.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: dtd_org, starts_at: move_on + 21.hours + 30.hours , ends_at: move_on + 21.hours + 32.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: dtd_org, starts_at: move_on + 21.hours + 4.hours , ends_at: move_on + 21.hours + 6.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: fringe_org, starts_at: move_on + 21.hours + 190.hours , ends_at: move_on + 21.hours + 192.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: fringe_org, starts_at: move_on + 21.hours + 210.hours , ends_at: move_on + 21.hours + 212.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: fringe_org, starts_at: move_on + 21.hours + 208.hours , ends_at: move_on + 21.hours + 210.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: fringe_org, starts_at: move_on + 21.hours + 138.hours , ends_at: move_on + 21.hours + 140.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: fringe_org, starts_at: move_on + 21.hours + 64.hours , ends_at: move_on + 21.hours + 66.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: fringe_org, starts_at: move_on + 21.hours + 66.hours , ends_at: move_on + 21.hours + 68.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kapsig_org, starts_at: move_on + 21.hours + 180.hours , ends_at: move_on + 21.hours + 182.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kapsig_org, starts_at: move_on + 21.hours + 204.hours , ends_at: move_on + 21.hours + 206.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kapsig_org, starts_at: move_on + 21.hours + 132.hours , ends_at: move_on + 21.hours + 134.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kapsig_org, starts_at: move_on + 21.hours + 132.hours , ends_at: move_on + 21.hours + 134.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kapsig_org, starts_at: move_on + 21.hours + 156.hours , ends_at: move_on + 21.hours + 158.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kapsig_org, starts_at: move_on + 21.hours + 142.hours , ends_at: move_on + 21.hours + 144.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kat_org, starts_at: move_on + 21.hours + 128.hours , ends_at: move_on + 21.hours + 130.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kat_org, starts_at: move_on + 21.hours + 198.hours , ends_at: move_on + 21.hours + 200.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kat_org, starts_at: move_on + 21.hours + 150.hours , ends_at: move_on + 21.hours + 152.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kat_org, starts_at: move_on + 21.hours + 154.hours , ends_at: move_on + 21.hours + 156.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kat_org, starts_at: move_on + 21.hours + 172.hours , ends_at: move_on + 21.hours + 174.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kat_org, starts_at: move_on + 21.hours + 170.hours , ends_at: move_on + 21.hours + 172.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kgb_org, starts_at: move_on + 21.hours + 192.hours , ends_at: move_on + 21.hours + 194.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kgb_org, starts_at: move_on + 21.hours + 136.hours , ends_at: move_on + 21.hours + 138.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kgb_org, starts_at: move_on + 21.hours + 184.hours , ends_at: move_on + 21.hours + 186.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kgb_org, starts_at: move_on + 21.hours + 138.hours , ends_at: move_on + 21.hours + 140.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kgb_org, starts_at: move_on + 21.hours + 144.hours , ends_at: move_on + 21.hours + 146.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kgb_org, starts_at: move_on + 21.hours + 118.hours , ends_at: move_on + 21.hours + 120.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kkg_org, starts_at: move_on + 21.hours + 202.hours , ends_at: move_on + 21.hours + 204.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kkg_org, starts_at: move_on + 21.hours + 204.hours , ends_at: move_on + 21.hours + 206.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kkg_org, starts_at: move_on + 21.hours + 60.hours , ends_at: move_on + 21.hours + 62.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kkg_org, starts_at: move_on + 21.hours + 108.hours , ends_at: move_on + 21.hours + 110.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kkg_org, starts_at: move_on + 21.hours + 84.hours , ends_at: move_on + 21.hours + 86.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: kkg_org, starts_at: move_on + 21.hours + 68.hours , ends_at: move_on + 21.hours + 70.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: math_org, starts_at: move_on + 21.hours + 134.hours , ends_at: move_on + 21.hours + 136.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: math_org, starts_at: move_on + 21.hours + 136.hours , ends_at: move_on + 21.hours + 138.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: math_org, starts_at: move_on + 21.hours + 62.hours , ends_at: move_on + 21.hours + 64.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: mayur_org, starts_at: move_on + 21.hours + 8.hours , ends_at: move_on + 21.hours + 10.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: mayur_org, starts_at: move_on + 21.hours + 194.hours , ends_at: move_on + 21.hours + 196.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: mayur_org, starts_at: move_on + 21.hours + 194.hours , ends_at: move_on + 21.hours + 196.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: mcs_org, starts_at: move_on + 21.hours + 126.hours , ends_at: move_on + 21.hours + 128.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: mcs_org, starts_at: move_on + 21.hours + 152.hours , ends_at: move_on + 21.hours + 154.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: mcs_org, starts_at: move_on + 21.hours + 52.hours , ends_at: move_on + 21.hours + 54.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: phidelt_org, starts_at: move_on + 21.hours + 212.hours , ends_at: move_on + 21.hours + 214.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: phidelt_org, starts_at: move_on + 21.hours + 210.hours , ends_at: move_on + 21.hours + 212.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: phidelt_org, starts_at: move_on + 21.hours + 206.hours , ends_at: move_on + 21.hours + 208.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: phidelt_org, starts_at: move_on + 21.hours + 208.hours , ends_at: move_on + 21.hours + 210.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: phidelt_org, starts_at: move_on + 21.hours + 88.hours , ends_at: move_on + 21.hours + 90.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: phidelt_org, starts_at: move_on + 21.hours + 70.hours , ends_at: move_on + 21.hours + 72.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sae_org, starts_at: move_on + 21.hours + 100.hours , ends_at: move_on + 21.hours + 102.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sae_org, starts_at: move_on + 21.hours + 76.hours , ends_at: move_on + 21.hours + 78.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sae_org, starts_at: move_on + 21.hours + 168.hours , ends_at: move_on + 21.hours + 170.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sae_org, starts_at: move_on + 21.hours + 146.hours , ends_at: move_on + 21.hours + 148.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sae_org, starts_at: move_on + 21.hours + 140.hours , ends_at: move_on + 21.hours + 142.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sae_org, starts_at: move_on + 21.hours + 44.hours , ends_at: move_on + 21.hours + 46.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sdc_org, starts_at: move_on + 21.hours + 178.hours , ends_at: move_on + 21.hours + 180.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sdc_org, starts_at: move_on + 21.hours + 10.hours , ends_at: move_on + 21.hours + 12.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sdc_org, starts_at: move_on + 21.hours + 106.hours , ends_at: move_on + 21.hours + 108.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sigchi_org, starts_at: move_on + 21.hours + 176.hours , ends_at: move_on + 21.hours + 178.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sigchi_org, starts_at: move_on + 21.hours + 80.hours , ends_at: move_on + 21.hours + 82.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sigchi_org, starts_at: move_on + 21.hours + 104.hours , ends_at: move_on + 21.hours + 106.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sigep_org, starts_at: move_on + 21.hours + 120.hours , ends_at: move_on + 21.hours + 122.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sigep_org, starts_at: move_on + 21.hours + 110.hours , ends_at: move_on + 21.hours + 112.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sigep_org, starts_at: move_on + 21.hours + 112.hours , ends_at: move_on + 21.hours + 114.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sigep_org, starts_at: move_on + 21.hours + 24.hours , ends_at: move_on + 21.hours + 26.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sigep_org, starts_at: move_on + 21.hours + 114.hours , ends_at: move_on + 21.hours + 116.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: sigep_org, starts_at: move_on + 21.hours + 40.hours , ends_at: move_on + 21.hours + 42.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: spirit_org, starts_at: move_on + 21.hours + 124.hours , ends_at: move_on + 21.hours + 126.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: spirit_org, starts_at: move_on + 21.hours + 130.hours , ends_at: move_on + 21.hours + 132.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: tsa_org, starts_at: move_on + 21.hours + 160.hours , ends_at: move_on + 21.hours + 162.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: tsa_org, starts_at: move_on + 21.hours + 162.hours , ends_at: move_on + 21.hours + 164.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: tsa_org, starts_at: move_on + 21.hours + 14.hours , ends_at: move_on + 21.hours + 16.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: tsa_org, starts_at: move_on + 21.hours + 16.hours , ends_at: move_on + 21.hours + 18.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: tsa_org, starts_at: move_on + 21.hours + 20.hours , ends_at: move_on + 21.hours + 22.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: watch_shift, organization: tsa_org, starts_at: move_on + 21.hours + 42.hours , ends_at: move_on + 21.hours + 44.hours, required_number_of_participants: 2 })
 
 # Security Shifts
-#puts '  Security Shifts'
+puts '  Security Shifts'
+Shift.create({ shift_type: security_shift, description: 'Midway Setup', organization: quidditch_org, starts_at: move_on + 21.hours, ends_at: move_on + 23.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'Midway Cleanup', organization: juntos_org, starts_at: operations + 11.hours, ends_at: operations + 15.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'Midway Setup', organization: rowing_org, starts_at: operations + 11.hours, ends_at: operations + 15.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'Award Ceremony Setup', organization: juntos_org, starts_at: ops_saturday + 14.hours, ends_at: ops_saturday + 16.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'Award Ceremony', organization: juntos_org, starts_at: ops_saturday + 16.hours, ends_at: ops_saturday + 18.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'Teardown Setup', organization: treblemakers_org, starts_at: teardown + 16.hours, ends_at: teardown + 18.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'Tent Setup', organization: originals_org, starts_at: operations + 21.hours, ends_at: operations + 21.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'Green Room', organization: originals_org, starts_at: ops_friday + 13.hours, ends_at: ops_friday + 16.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'Green Room', organization: originals_org, starts_at: ops_saturday + 13.hours, ends_at: ops_saturday + 16.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'Off-Night Event', organization: originals_org, starts_at: ops_saturday + 13.hours, ends_at: ops_saturday + 16.hours, required_number_of_participants: 4 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: rowing_org, starts_at: operations + 15.hours, ends_at: operations + 17.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: rowing_org, starts_at: operations + 17.hours, ends_at: operations + 19.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: juntos_org, starts_at: operations + 19.hours, ends_at: operations + 21.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: juntos_org, starts_at: operations + 12.hours, ends_at: operations + 23.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: treblemakers_org, starts_at: ops_friday + 10.hours, ends_at: ops_friday + 13.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: treblemakers_org, starts_at: ops_friday + 13.hours, ends_at: ops_friday + 15.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: juntos_org, starts_at: ops_friday + 15.hours, ends_at: ops_friday + 17.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: juntos_org, starts_at: ops_friday + 17.hours, ends_at: ops_friday + 19.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: quidditch_org, starts_at: ops_friday + 19.hours, ends_at: ops_friday + 21.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: originals_org, starts_at: ops_friday + 21.hours, ends_at: ops_friday + 23.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: rowing_org, starts_at: ops_saturday + 10.hours, ends_at: ops_saturday + 13.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: rowing_org, starts_at: ops_saturday + 13.hours, ends_at: ops_saturday + 15.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: quidditch_org, starts_at: ops_saturday + 15.hours, ends_at: ops_saturday + 17.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: quidditch_org, starts_at: ops_saturday + 17.hours, ends_at: ops_saturday + 19.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: originals_org, starts_at: ops_saturday + 19.hours, ends_at: ops_saturday + 21.hours, required_number_of_participants: 2 })
+Shift.create({ shift_type: security_shift, description: 'CFA Security', organization: originals_org, starts_at: ops_saturday + 21.hours, ends_at: ops_saturday + 23.hours, required_number_of_participants: 2 })
 
 # Tools -------------------------------------------------------------------------
 puts 'Tools'
@@ -636,10 +707,10 @@ if  Rails.env.development?
   # Development Stuff -----------------------------------------------------------
   puts 'Development Stuff'
 
-  admin_andrewid = "rcrown"
-  scc_andrewid = "cbrownel"
-  booth_chair_andrewid = "rpwhite"
-  participant_andrewid = "nharper"
+  admin_andrewid = 'rcrown'
+  scc_andrewid = 'cbrownel'
+  booth_chair_andrewid = 'rpwhite'
+  participant_andrewid = 'nharper'
 
   admin_user = User.create({ email: "#{admin_andrewid}@andrew.cmu.edu"})
   admin_user.add_role :admin
@@ -657,17 +728,4 @@ if  Rails.env.development?
   participant_user = User.create({ email: "#{participant_andrewid}@andrew.cmu.edu"})
   participant = Participant.create({ andrewid: participant_andrewid, user: participant_user })
   Membership.create({ organization: dtd_org, participant: participant })
-
-  # Tasks ---
-  # Task.create([{ name: "todo", due_at: Time.now + 1.hour, description: "Many things" },
-  #   {name: "done0", due_at: Time.now, completed_by: chase, is_completed: true },
-  #   {name: "done1", due_at: Time.now, completed_by: chase, is_completed: true },
-  #   {name: "done2", due_at: Time.now, completed_by: chase, is_completed: true },
-  #   {name: "not done1", due_at: Time.now + 1.hour, completed_by: chase, is_completed: true },
-  #   {name: "not done2", due_at: Time.now + 1.hour, completed_by: chase, is_completed: true },
-  #   {name: "not done3", due_at: Time.now + 1.hour, completed_by: chase, is_completed: true },
-  #   {name: "late1", due_at: Time.now - 30.minutes },
-  #   {name: "late2", due_at: Time.now - 30.minutes },
-  #   {name: "late3", due_at: Time.now - 30.minutes }
-  # ])
 end
