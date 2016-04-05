@@ -404,16 +404,16 @@ Faq.create([
 # Tasks ------------------------------------------------------------------------
 puts 'Tasks'
 
-move_on = DateTime.rfc3339('2015-04-08T00:00:00-04:00')
+move_on = DateTime.rfc3339('2016-04-08T00:00:00-04:00')
 build_saturday = move_on + 1.day
 build_sunday = move_on + 2.days
-monday = move_on + 2.days
-tuesday = move_on + 3.days
-wednesday = move_on + 4.days
-operations = move_on + 5.days
-ops_friday = move_on + 6.days
-ops_saturday = move_on + 7.days
-teardown = move_on + 8.days
+monday = move_on + 3.days
+tuesday = move_on + 4.days
+wednesday = move_on + 5.days
+operations = move_on + 6.days
+ops_friday = move_on + 7.days
+ops_saturday = move_on + 8.days
+teardown = move_on + 9.days
 
 puts '  One-Time Tasks'
 Task.create([
