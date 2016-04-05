@@ -36,6 +36,8 @@ class Ability
 
     can :create, Membership, :participant_id => user.participant.id
 
+    can :read, StoreItem
+
     if user.participant.is_booth_chair?
       can :read, [ChargeType, Checkout, Shift]
       can :read_basic_details, Organization
@@ -79,6 +81,7 @@ class Ability
       can [:create, :update, :read_phone_number], Participant
       can :read_coord, Shift
       can :create, ShiftParticipant
+      can [:create, :update], StoreItem
       can [:complete, :update], Task
       can [:create, :update], Tool
       can [:create, :update], ToolType
