@@ -24,7 +24,7 @@ gem 'ruby-ldap'
 gem 'activeldap', :require => 'active_ldap/railtie'
 
 # For Card-lookup requests
-gem 'rest-client'
+gem 'savon'
 
 # For Capistrano deployment
 group :development do

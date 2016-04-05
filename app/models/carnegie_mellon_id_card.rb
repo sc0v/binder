@@ -1,24 +1,75 @@
 class CarnegieMellonIDCard
 
-  def self.search full_card_number
-    
-    # Three track readers start with a % and then the card number 
-    # followed by lots of stuff.
-    # Single track readers will just spit out the card number
-    if full_card_number[0] == '%'
-      card_number = full_card_number[1,9]
-    else
-      card_number = full_card_number
-    end
+  def self.get_andrewid_by_card_id full_card_id
     
     begin
-      lookup = ActiveSupport::JSON.decode( RestClient.get( "http://merichar-dev.eberly.cmu.edu/cgi-bin/card-lookup?card_id=#{card_number}") )
-    rescue
+      client = Savon.client( wsdl: "https://idplusweb.cards.as.cmu.edu:8081/csgold/idtranslation.asmx?WSDL",
+                             basic_auth: [ENV["CARDSERVICE_USERNAME"], ENV["CARDSERVICE_PASSWORD"]], convert_request_keys_to: :camelcase, log_level: :error, log: true)
+      
+      # Three track readers start with a % and then the card number
+      # followed by lots of stuff.
+      # Single track readers will just spit out the card number
+      card_id = full_card_id[/\d{9}/]
+      
+      response = client.call(
+        :get_card_holder_by_card_id,
+        message: {
+          CardID: card_id,
+          CompleteRecordRequired: "false"
+        }
+      )
+      response_json = {
+        :first_name => response.body[:get_card_holder_by_card_id_response][:get_card_holder_by_card_id_result][:first_name],
+        :last_name => response.body[:get_card_holder_by_card_id_response][:get_card_holder_by_card_id_result][:last_name],
+        :andrewid => response.body[:get_card_holder_by_card_id_response][:get_card_holder_by_card_id_result][:andrew_id],
+        :active => response.body[:get_card_holder_by_card_id_response][:get_card_holder_by_card_id_result][:active],
+        :status => response.body[:get_card_holder_by_card_id_response][:get_card_holder_by_card_id_result][:status],
+        :expiration => response.body[:get_card_holder_by_card_id_response][:get_card_holder_by_card_id_result][:expiration_date]
+      }
+
+    rescue Errno::ECONNREFUSED
       return nil
     end
-    
-    unless lookup.nil?
-      lookup['andrewid']
+
+    unless response_json.nil?
+      response_json[:andrewid]
+    end
+  end
+
+
+  def self.get_andrewid_by_card_csn full_card_csn
+
+    begin
+      client = Savon.client( wsdl: "https://idplusweb.cards.as.cmu.edu:8081/csgold/idtranslation.asmx?WSDL",
+                             basic_auth: [ENV["CARDSERVICE_USERNAME"], ENV["CARDSERVICE_PASSWORD"]], convert_request_keys_to: :camelcase, log_level: :error, log: true)
+
+      # Three track readers start with a % and then the card number
+      # followed by lots of stuff.
+      # Single track readers will just spit out the card number
+      card_csn = full_card_csn[/[0-9a-fA-F]{8}/].upcase
+
+      response = client.call(
+        :get_card_holder_by_smar_card_csn,
+        message: {
+          SmartCardCSN: card_csn,
+          CompleteRecordRequired: "false"
+        }
+      )
+      response_json = {
+        :first_name => response.body[:get_card_holder_by_smar_card_csn_response][:get_card_holder_by_smar_card_csn_result][:first_name],
+        :last_name => response.body[:get_card_holder_by_smar_card_csn_response][:get_card_holder_by_smar_card_csn_result][:last_name],
+        :andrewid => response.body[:get_card_holder_by_smar_card_csn_response][:get_card_holder_by_smar_card_csn_result][:andrew_id],
+        :active => response.body[:get_card_holder_by_smar_card_csn_response][:get_card_holder_by_smar_card_csn_result][:active],
+        :status => response.body[:get_card_holder_by_smar_card_csn_response][:get_card_holder_by_smar_card_csn_result][:status],
+        :expiration => response.body[:get_card_holder_by_smar_card_csn_response][:get_card_holder_by_smar_card_csn_result][:expiration_date]
+      }
+
+    rescue Errno::ECONNREFUSED
+      return nil
+    end
+
+    unless response_json.nil?
+      return response_json[:andrewid]
     end
   end
 
