@@ -4,7 +4,11 @@
 
   <% if can?(:read, OrganizationAlias) %>
     <p>
-      <strong><%=link_to "Alias(es):", organization_aliases_path(@organization) %></strong>
+      <% if can?(:create, OrganizationAlias) %>
+        <strong><%=link_to "Alias(es):", organization_aliases_path(@organization) %></strong>
+      <% else %>
+        <strong>Alias(es):</strong>
+      <% end %>
       <% unless @organization.organization_aliases.blank? %>
         <%= @organization.organization_aliases.pluck(:name).join(", ") %>
       <% end %>
@@ -26,7 +30,11 @@
       <% end %>
     </p>
   <% end %>
-  <p><Strong>Downtime Remaining: </Strong><%=link_to format_remaining_downtime(@organization.remaining_downtime), organization_downtime_index_path(@organization)%></p>
+  <% if can?(:edit, OrganizationTimelineEntry) %>
+    <p><Strong>Downtime Remaining: </Strong><%=link_to format_remaining_downtime(@organization.remaining_downtime), organization_downtime_index_path(@organization)%></p>
+  <% else %>
+    <p><Strong>Downtime Remaining: </Strong><%= format_remaining_downtime(@organization.remaining_downtime) %></p>
+  <% end %>
 </div>
 
 <%= render partial: 'show_org' %>
