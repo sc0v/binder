@@ -29,7 +29,13 @@ class EventTypesController < ApplicationController
 
     respond_to do |format|
       if @event_type.save
-        format.html { redirect_to @event_type, notice: 'Event type was successfully created.' }
+        format.html {
+          if params[:from_new_event].present?
+            redirect_to new_event_path, notice: 'Event type was successfully created.'
+            return
+          end
+          redirect_to @event_type, notice: 'Event type was successfully created.'
+        }
         format.json { render :show, status: :created, location: @event_type }
       else
         format.html { render :new }

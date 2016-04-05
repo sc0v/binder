@@ -8,7 +8,7 @@
       </div>
       <% if can?(:create, EventType) %>
         <div>
-          <%= link_to "Or create a new type", new_event_type_path, class: 'btn btn-primary' %>
+          <%= link_to "Or create a new type", new_event_type_path(from_new_event: true), class: 'btn btn-primary' %>
         </div>
       <% end %>
     </div>
