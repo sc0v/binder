@@ -2,7 +2,7 @@ class Store::ItemsController < ApplicationController
   load_and_authorize_resource :store_item
   
   def index
-    @store_items = StoreItem.paginate(:page => params[:page]).per_page(20)
+    @store_items = StoreItem.order(:name).paginate(:page => params[:page]).per_page(20)
   end
 
   def show
@@ -26,6 +26,12 @@ class Store::ItemsController < ApplicationController
   def create
     @store_item = StoreItem.create( store_item_params )
     @store_item.save
+    respond_with(@store_item)
+  end
+
+  def destroy
+    @store_item = StoreItem.find( params[:id] )
+    @store_item.destroy
     respond_with(@store_item)
   end
 

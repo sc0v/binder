@@ -2,14 +2,9 @@
   <div class="form-inputs">
     <div class = "row">
       <div class = "col-md-8" style="margin-left:73px">
-        <%= f.association :organization_status_type, style: "margin-left:80px" %>
-      </div>
-      <div class = "col">
-        <% if can?(:create, OrganizationStatusType) %>
-          <%= link_to "Or create a new type", new_organization_status_type_path, class: 'btn btn-primary', style: "margin-left:48px" %>
-        <% end %>
       </div>
     </div>
+    <%= f.association :organization_status_type, style: "margin-left:80px" %>
     <%= f.input :organization_id, :as => :hidden %>
     <%= f.input :description, :as => :text %>
   </div>

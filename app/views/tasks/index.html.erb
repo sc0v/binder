@@ -7,7 +7,7 @@
   </div>
 
   <div class = "row">
-    <div class="col-md-4">
+    <div>
       <form action='<%= tasks_path %>' method='get'>
         <div style='float: left; border: 1px solid #ccc; border-radius: 4px; padding: 10px; margin-right: 8px;'>
             <span style='font-weight: bold; margin-right: 5px'>Filter by Task Completion</span><br />
@@ -19,7 +19,7 @@
         </div>
       </form>
     </div>
-    <div class="col-md-2">
+    <div>
       <% if can?(:create, Task) %>
         <div>
           <%= link_to t('.new', :default => t("helpers.links.New Task")),

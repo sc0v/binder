@@ -1,5 +1,14 @@
-  <h1>Events</h1>
-  
+  <div class="page-header">
+    <h1>Event Log</h1>
+  </div>
+
+  <% if can?(:create, Event) %>
+    <div>
+      <%= link_to 'New Event', new_event_path, :class => 'btn btn-primary'  %>
+    </div>
+    <br>
+  <% end %>
+
   <table class="table table-striped">
     <thead>
       <tr>
@@ -7,7 +16,7 @@
         <th>Event Type</th>
         <th>Description</th>
         <th>Created</th>
-        <th></th>
+        <th>Actions</th>
       </tr>
     </thead>
   
@@ -20,7 +29,7 @@
           <td><%= date_and_time event.created_at %></td>
           <td>
             <% if can?(:approveAll, Event) %>
-                <%= form_tag approve_event_path(event), method: :put do %>
+                <%= form_tag approve_event_path(event), :style => "display: inline", method: :put do %>
                   <% if !event.is_done %>
                     <%= submit_tag 'OK', :class => 'btn btn-success btn-xs' %>
                   <% else %>
@@ -29,12 +38,9 @@
               <% end %>
             <% end %>
             <%= link_to 'Edit', edit_event_path(event),:class => 'btn btn-primary btn-xs' %>
-            <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' },:class => 'btn btn-danger btn-xs' %>
+            <%= link_to 'Destory', event, method: :delete, data: { confirm: 'Are you sure?' },:class => 'btn btn-danger btn-xs' %>
           </td>
         </tr>
       <% end %>
     </tbody>
   </table>
-  
-  <br>
-  <%= link_to 'New Event', new_event_path,:class => 'btn btn-primary'  %>
