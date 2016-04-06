@@ -6,7 +6,7 @@
 <%= simple_form_for @membership, :html => { :class => 'form-horizontal' }, :url => participant_memberships_path(@participant) do |f| %>
 <%= f.hidden_field :participant_id, :value => @participant.id %>
        <%# TODO: This is disgusting %>
-       <% if @participant.is_scc? %>
+       <% if current_user.participant.is_scc? %>
        <% @categories = OrganizationCategory.all %>
        <% else %>
        <% @categories = OrganizationCategory.where("name!= 'SCC' and name!= 'Staff'") %>
