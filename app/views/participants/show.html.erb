@@ -51,18 +51,18 @@
     <% end %>
   
     <% unless @participant.shifts.blank? %>
-      <dt>Shifts</dt>
+      <dt>Shifts:</dt>
       <dd>
         <ul class="list-unstyled">
           <% @participant.shifts.each do |shift| %>
-            <li><%= shift.shift_type.name %>: <%= date_and_time shift.starts_at %></li>
+            <li><%= link_to shift.shift_type.name, shift %> - <%= date_and_time shift.starts_at %></li>
           <% end %>
         </ul>
       </dd>
     <% end %>
     
     <% unless @participant.checkouts.current.blank? %>
-      <dt>Tools</dt>
+      <dt>Tools:</dt>
       <dd>
         <ul class="list-unstyled">
           <% @participant.checkouts.current.each do |checkout| %>
@@ -82,8 +82,8 @@
               edit_participant_path(@participant), :class => 'btn btn-primary' %>
   <% end %>
   <% if can?(:destroy, Membership) %>
-    <%= link_to 'Add Memberships',
-              new_participant_membership_path(@participant), :class => 'btn btn-success' %>
+    <%= link_to 'Edit Memberships',
+              new_participant_membership_path(@participant), :class => 'btn btn-primary' %>
     <% end %>
 
     <% if current_user.participant.is_scc? %>
