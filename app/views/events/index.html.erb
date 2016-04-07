@@ -37,8 +37,12 @@
                   <% end %>
               <% end %>
             <% end %>
-            <%= link_to 'Edit', edit_event_path(event),:class => 'btn btn-primary btn-xs' %>
-            <%= link_to 'Destory', event, method: :delete, data: { confirm: 'Are you sure?' },:class => 'btn btn-danger btn-xs' %>
+            <% if can?(:update, Event) %>
+              <%= link_to 'Edit', edit_event_path(event),:class => 'btn btn-primary btn-xs' %>
+            <% end %>
+            <% if can?(:destroy, Event) %>
+              <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' },:class => 'btn btn-danger btn-xs' %>
+            <% end %>
           </td>
         </tr>
       <% end %>
