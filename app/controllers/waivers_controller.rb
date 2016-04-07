@@ -24,7 +24,7 @@ class WaiversController < ApplicationController
     
     
     if params[:adult].blank?
-      flash[:error] = "You must be 18 or older to sign the electronic waiver. Please contact Tim Leonard (leonardt@andrew.cmu.edu)."
+      flash[:error] = "You must be 18 or older to sign the electronic waiver. Please contact Andrew Greenwald (<a target='_blank' href='mailto:asgreen@andrew.cmu.edu'>asgreen@andrew.cmu.edu</a>)."
       redirect_to action: :new
     elsif params[:agree].blank?
       flash[:error] = "You must agree to the terms of the release."
