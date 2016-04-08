@@ -53,11 +53,9 @@ class MembershipsController < ApplicationController
           @membership.participant = @participant
         
           @membership.organization = Organization.find_by_id(new_org_id)
-          if @membership.organization.name!="Spring Carnival Committee" or @participant.is_scc?
-            if(!@membership.save!)
-              all_ok = false
-              break
-            end
+          if(!@membership.save!)
+            all_ok = false
+            break
           end
         end
       end
