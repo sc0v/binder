@@ -87,6 +87,7 @@ juntos_org = Organization.create({ name: 'Juntos', organization_category: non_bu
 quidditch_org = Organization.create({ name: 'Quidditch Club', organization_category: non_building, short_name: 'Quidditch' })
 rowing_org = Organization.create({ name: 'Rowing Club', organization_category: non_building, short_name: 'Rowing' })
   OrganizationAlias.create({ organization: rowing_org, name: 'Crew' })
+rowing_org = Organization.create({ name: 'Student Senate', organization_category: non_building, short_name: 'Senate' })
 originals_org = Organization.create({ name: 'The Originals', organization_category: non_building })
 treblemakers_org = Organization.create({ name: 'The Treblemakers', organization_category: non_building })
 
@@ -462,11 +463,12 @@ puts '  Recurring Tasks'
   { name: "Quiet Hours End", description: "Noise is allowed on Midway.  Loud music that you can hear outside a booth are not allowed.", due_at: tuesday + 7.hours },
   { name: "Quiet Hours End", description: "Noise is allowed on Midway.  Loud music that you can hear outside a booth are not allowed.", due_at: wednesday + 7.hours },
   { name: "Quiet Hours End", description: "Noise is allowed on Midway.", due_at: operations + 7.hours },
-  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: build_saturday + 16.hours },
-  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: build_sunday + 16.hours },
-  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: monday + 16.hours },
-  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: tuesday + 16.hours },
-  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: wednesday + 16.hours },
+  { name: "No Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: monday + 8.hours },
+  { name: "No Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: tuesday + 8.hours },
+  { name: "No Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: wednesday + 8.hours },
+  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: monday + 18.hours },
+  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: tuesday + 18.hours },
+  { name: "Loud Music Allowed", description: "Loud music is allowed on Midway.", due_at: wednesday + 18.hours },
   { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: build_saturday + 1.hours },
   { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: build_sunday + 1.hours },
   { name: "Move Dumpsters", description: "Have a watch shift move dumpsters to the entrance of the parking lot by corner of Tech St. and Margaret Morrison St.", due_at: monday + 1.hours },
@@ -718,31 +720,32 @@ generate_tools
 # Store -------------------------------------------------------------------------
 puts 'Store'
 
-StoreItem.create({ name: 'Drill Bit', price: 1, quantity: 1})
-StoreItem.create({ name: 'Drop Cloth', price: 2, quantity: 1})
-StoreItem.create({ name: 'Electrical Box - 1 Gang', price: 1, quantity: 1})
-StoreItem.create({ name: 'Electrical Box - 2 Gang', price: 1, quantity: 1})
-StoreItem.create({ name: 'Electrical Box - 4 in Round', price: 3, quantity: 1})
-StoreItem.create({ name: 'Electrical Box - 4 in Square', price: 3, quantity: 1})
-StoreItem.create({ name: 'Electrical Box Cover - 4 in Round', price: 2, quantity: 1})
-StoreItem.create({ name: 'Electrical Box Cover - 4 in Square', price: 2, quantity: 1})
-StoreItem.create({ name: 'Joist Hander - 2x6', price: 2, quantity: 1})
-StoreItem.create({ name: 'Joist Hander - 2x8', price: 2, quantity: 1})
-StoreItem.create({ name: 'Light Switch', price: 3, quantity: 1})
-StoreItem.create({ name: 'Light Switch Cover', price: 1, quantity: 1})
-StoreItem.create({ name: 'Outlet', price: 3, quantity: 1})
-StoreItem.create({ name: 'Outlet Cover - 1 Gang', price: 1, quantity: 1})
-StoreItem.create({ name: 'Outlet Cover - 2 Gang', price: 1, quantity: 1})
-StoreItem.create({ name: 'Plug - Angle', price: 12, quantity: 1})
-StoreItem.create({ name: 'Plug - Straight', price: 12, quantity: 1})
-StoreItem.create({ name: 'Romex 12/2 - 10ft', price: 5, quantity: 10})
-StoreItem.create({ name: 'Screw Bit - Phillips', price: 1, quantity: 1})
-StoreItem.create({ name: 'Screws', price: 1, quantity: 10})
-StoreItem.create({ name: 'Spade Bit - 3/4""', price: 5, quantity: 1})
-StoreItem.create({ name: 'Staple Gun Staples', price: 1, quantity: 1})
-StoreItem.create({ name: 'Tarp', price: 15, quantity: 1})
-StoreItem.create({ name: 'Wire Nuts', price: 1, quantity: 10})
-StoreItem.create({ name: 'Wire Staples', price: 1, quantity: 20})
+StoreItem.create({ name: '9 Volt Battery', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Drill Bit', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Drop Cloth', price: 2, quantity: 1000})
+StoreItem.create({ name: 'Electrical Box - 1 Gang', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Electrical Box - 2 Gang', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Electrical Box - 4 in Round', price: 3, quantity: 1000})
+StoreItem.create({ name: 'Electrical Box - 4 in Square', price: 3, quantity: 1000})
+StoreItem.create({ name: 'Electrical Box Cover - 4 in Round', price: 2, quantity: 1000})
+StoreItem.create({ name: 'Electrical Box Cover - 4 in Square', price: 2, quantity: 1000})
+StoreItem.create({ name: 'Joist Hander - 2x6', price: 2, quantity: 1000})
+StoreItem.create({ name: 'Joist Hander - 2x8', price: 2, quantity: 1000})
+StoreItem.create({ name: 'Light Switch', price: 3, quantity: 1000})
+StoreItem.create({ name: 'Light Switch Cover', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Outlet', price: 3, quantity: 1000})
+StoreItem.create({ name: 'Outlet Cover - 1 Gang', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Outlet Cover - 2 Gang', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Plug - Angle', price: 12, quantity: 1000})
+StoreItem.create({ name: 'Plug - Straight', price: 12, quantity: 1000})
+StoreItem.create({ name: 'Romex 12/2 - 10ft', price: 5, quantity: 1000})
+StoreItem.create({ name: 'Screw Bit - Phillips', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Screws', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Spade Bit - 3/4""', price: 5, quantity: 1000})
+StoreItem.create({ name: 'Staple Gun Staples', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Tarp', price: 15, quantity: 1000})
+StoreItem.create({ name: 'Wire Nuts', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Wire Staples', price: 1, quantity: 1000})
 
 if  Rails.env.development?
   # Development Stuff -----------------------------------------------------------
