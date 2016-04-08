@@ -23,21 +23,21 @@ class FaqsController < ApplicationController
   def create
     @faq = Faq.new(faq_params)
     @faq.save
-    respond_with(@faq)
+    redirect_to faqs_path
   end
 
   # PUT /faqs/1
   # PUT /faqs/1.json
   def update
     @faq.update_attributes(faq_params)
-    respond_with(@faq)
+    redirect_to faqs_path
   end
 
   # DELETE /faqs/1
   # DELETE /faqs/1.json
   def destroy
     @faq.destroy
-    respond_with(@faq)
+    redirect_to faqs_path
   end
 
   private

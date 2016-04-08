@@ -34,7 +34,7 @@ class ToolTypesController < ApplicationController
   # PATCH/PUT /tool_types/1.json
   def update
     @tool_type.update_attributes(tool_type_params)
-    respond_with(@tool_type)
+    redirect_to tool_types_url
   end
 
   # DELETE /tool_types/1
