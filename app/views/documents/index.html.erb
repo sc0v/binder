@@ -30,7 +30,7 @@
       <% @documents.each do |document| %>
         <% if can?(:read, document) %>
           <tr>
-            <td><%= link_to(document.name, document_path(document)) %></td>
+            <td><%= link_to(document.name, document.url.to_s) %></td>
             <td><%= format_boolean document.public %></td>
             <td><%= link_to(document.organization.name, document.organization) unless document.organization.blank? %></td>
 

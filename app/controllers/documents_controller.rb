@@ -24,7 +24,7 @@ class DocumentsController < ApplicationController
 
     if @document.save
       flash[:notice] = "#{@document.name} has been created."
-      redirect_to @document
+      redirect_to documents_path
     else
       render :action => 'new'
     end
@@ -35,7 +35,7 @@ class DocumentsController < ApplicationController
 
     if @document.update_attributes(update_document_params)
       flash[:notice] = "#{@document.name} was updated."
-      redirect_to @document
+      redirect_to documents_path
     else
       render :action => 'edit'
     end
@@ -46,7 +46,7 @@ class DocumentsController < ApplicationController
     @document.destroy
 
     flash[:notice] = "Successfully removed #{@document.name} from BOA."
-    redirect_to documents_url
+    redirect_to documents_path
   end
 
   private

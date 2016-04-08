@@ -4,7 +4,7 @@ Trailerapp::Application.routes.draw do
   resources :events do
         put 'approve', on: :member
   end
-  resources :documents
+  resources :documents, :except => [:show]
   resources :faqs, :except => [:show]
   resources :organizations do
     resources :aliases, :controller => :organization_aliases, :shallow => true, :only => [:create, :new, :destroy, :index]
