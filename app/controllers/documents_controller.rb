@@ -2,7 +2,7 @@ class DocumentsController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
 
   def index
-    @documents = Document.all
+    @documents = Document.order(:name)
   end
 
   def show
