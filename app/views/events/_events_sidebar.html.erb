@@ -1,14 +1,17 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <div class='row'>
-      <div class='col-xs-9'>Notes</div>
+      <div class='col-xs-6'>Notes</div>
+      <div class='col-xs-3'>
+        <%= link_to 'New', new_event_path, class: 'btn btn-primary btn-xs' %>
+      </div>
       <div class='col-xs-3'>
         <a href="#sidebar-events-widget" onclick='_toggleText(this, "Show", "Hide")'
-           class="btn btn-info btn-xs"  data-toggle="collapse">Show</a>
+           class="btn btn-info btn-xs"  data-toggle="collapse"><%= @events_sidebar.empty? ? "Show" : "Hide" %></a>
       </div>
     </div>
   </div>
-  <div id='sidebar-events-widget' class="collapse panel-body">
+  <div id='sidebar-events-widget' class="collapse <%= "in" if !@events_sidebar.empty? %> panel-body">
     <table class="table table-condensed">
       <thead>
         <th>Note</th>
@@ -29,6 +32,5 @@
         <% end %>
       </tbody>
     </table>
-    <%= link_to 'Create a new note', new_event_path, class: 'btn btn-primary', :style => "width: 100%" %>
   </div>
 </div>

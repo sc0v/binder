@@ -6,15 +6,18 @@
       <%= render 'tasks/tasks_sidebar' %>
     <% end %>
   <% end %>
-<% end %>
 
-<% if !@current_shifts_sidebar.blank? or !@upcoming_shifts_sidebar.blank? %>
-  <% cache ['shift_sidebar', 'current', @current_shifts_sidebar, 'upcoming', @upcoming_shifts_sidebar] do%>
-      <%= render 'shifts/shifts_sidebar' %>
+  <%# Change to true to enable event sidebar %>
+  <% if true %>
+    <%= render 'events/events_sidebar' %>
   <% end %>
-<% end %>
 
-<% if current_user.participant.is_scc? %>
+  <% if !@current_shifts_sidebar.blank? or !@upcoming_shifts_sidebar.blank? %>
+    <% cache ['shift_sidebar', 'current', @current_shifts_sidebar, 'upcoming', @upcoming_shifts_sidebar] do%>
+      <%= render 'shifts/shifts_sidebar' %>
+    <% end %>
+  <% end %>
+
   <%# Change to true to enable queues %>
   <% if true %>
     <%= render 'organization_timeline_entries/queue_sidebar' %>    
@@ -23,10 +26,5 @@
   <%# Change to true to enable downtime %>
   <% if true %>
     <%= render 'organization_timeline_entries/downtime_sidebar' %>
-  <% end %>
-
-  <%# Change to true to enable event sidebar %>
-  <% if true %>
-    <%= render 'events/events_sidebar' %>
   <% end %>
 <% end %>

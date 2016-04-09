@@ -4,11 +4,11 @@
       <div class='col-xs-9'>Queues</div>
       <div class='col-xs-3'>
         <a href="#sidebar-queues-widget" onclick='_toggleText(this, "Show", "Hide")'
-           class="btn btn-info btn-xs"  data-toggle="collapse">Show</a>
+           class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
       </div>
     </div>
   </div>
-  <div id='sidebar-queues-widget' class="collapse panel-body">
+  <div id='sidebar-queues-widget' class="collapse in panel-body">
     <table class="table table-condensed" style="width: 50%; float: left; border-right: 1px solid #dddddd;">
       <thead>
         <th style="text-align: center;">Structural</th>
@@ -36,9 +36,9 @@
     <div style="width: 100%; height: 0px; clear: both; border-top: 1px solid #dddddd;"></div>
     <h5>Add to Queue:</h5>
     <%= simple_form_for OrganizationTimelineEntry.new do |f| %>
-      <%= f.input_field :organization_id, :as => :select, :collection => Organization.all %>
+      <%= f.input_field :organization_id, :as => :select, :collection => Organization.all, :style => "width: 100%" %>
       <div style="width: 100%; height: 5px; clear: both;"></div>
-      <%= f.input_field :description, :as => :string %>
+      <%= f.input_field :description, :as => :string, :style => "width: 100%" %>
       <%= hidden_field_tag 'url', request.original_fullpath %>
       <div style="width: 100%; height: 10px; clear: both;"></div>
       <div class="btn-group" style="width: 100%;">

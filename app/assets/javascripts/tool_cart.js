@@ -49,7 +49,6 @@ var ToolCart = new function(){
   this.scanToolsAction = function(){
     $checkout_action.hide();
     $scan_tools_action.show();
-    $scan_tool_input.focus();
 
     // Reset checkout action
     $cko_andrewid_input.val('');
