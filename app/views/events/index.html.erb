@@ -15,7 +15,7 @@
         <th></th>
         <th>Event Type</th>
         <th>Description</th>
-        <th>Created</th>
+        <th class="hidden-xs">Created</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -26,7 +26,7 @@
           <td><%= link_to 'Show', event, :class => 'btn btn-info btn-xs' %></td>
           <td><%= event.event_type.name %></td>
           <td><%= event.description %></td>
-          <td><%= date_and_time event.created_at %></td>
+          <td class="hidden-xs"><%= date_and_time event.created_at %></td>
           <td>
             <% if can?(:approveAll, Event) %>
                 <%= form_tag approve_event_path(event), :style => "display: inline", method: :put do %>
