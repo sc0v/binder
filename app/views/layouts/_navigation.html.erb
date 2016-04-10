@@ -15,7 +15,7 @@
       <% if user_signed_in? %>
         <ul class="nav navbar-nav navbar-left">
           <!-- Normal Navbar LI's -->
-          <li><%= link_to "Organizations", organizations_path %></li>
+          <li><%= link_to "Organizations", organizations_path(:type => "building") %></li>
           <li><%= link_to "Tools", tools_path %></li>
           <li><%= link_to "Store", store_items_path %></li>
 

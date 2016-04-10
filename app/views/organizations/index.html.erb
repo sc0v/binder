@@ -3,13 +3,10 @@
   <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
 </div>
 
-<% if can?(:create, Organization) %>
-  <div>
-    <%= link_to t('.new', :default => t("helpers.links.new_organiztion")),
-            new_organization_path,
-            :class => 'btn btn-primary' %>
-  </div>
-  <br>
-<% end %>
+<p>
+  <%= link_to raw("All"), organizations_path, :class => 'btn btn-default' unless params[:type].blank? %>
+  <%= link_to raw("Building"), organizations_path(:type => "building"), :class => 'btn btn-default' unless params[:type] == "building" %>
+  <%= link_to "New", new_organization_path, :class => 'btn btn-primary' if can?(:create, Organization) %>
+</p>
 
 <%= render partial: 'organizations', locals: {organizations: @organizations} %>
