@@ -13,7 +13,7 @@
       <thead>
         <th>Title</th>
         <th style="text-align: right;">Due By</th>
-        <th style="text-align: center;">Action</th>
+        <th></th>
       </thead>
       <tbody>
         <% @tasks_sidebar.each do |task| %>
@@ -21,7 +21,7 @@
             <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><%=h task.name %></td>
             <td style="text-align: right;"><%= time task.due_at%></td>
             <% if can?(:update, task) %>
-              <td style="text-align: center;"><%= link_to t('.complete', :default => t("helpers.links.complete")),
+              <td style="text-align: right;"><%= link_to t('.complete', :default => t("helpers.links.complete")),
                   complete_task_path(task), :method => :post, :class => 'btn btn-xs btn-success' %></td>
             <% end %>
           </tr>
