@@ -86,9 +86,8 @@
               new_participant_membership_path(@participant), :class => 'btn btn-primary' %>
     <% end %>
 
-    <% if current_user.participant.is_scc? %>
-    <%= link_to 'Sign Waiver',
-        new_participant_waiver_path(@participant), :class => 'btn btn-success' %>
+    <% if current_user.participant.is_scc? and !@participant.has_signed_waiver? %>
+      <%= link_to 'Sign Waiver', new_participant_waiver_path(@participant), :class => 'btn btn-success' %>
     <% end %>
 
   <% if can?(:destroy, @participant) %>
