@@ -2,7 +2,9 @@ Trailerapp::Application.routes.draw do
 
   resources :event_types
   resources :events do
-        put 'approve', on: :member
+     member do
+      post 'approve'
+    end
   end
   resources :documents, :except => [:show]
   resources :faqs, :except => [:show]

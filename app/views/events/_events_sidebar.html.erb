@@ -21,12 +21,8 @@
         <% @events_sidebar.each do |event| %>
             <tr>
               <td><%= link_to event.description.truncate(150), event_path(event) %></td>
-              <td style="text-align: right">
-                <%= form_tag approve_event_path(event), method: :put %>
-                  <%= hidden_field_tag 'url', request.original_fullpath %>
-                  <% unless event.is_done %>
-                    <%= submit_tag 'OK', :class => 'btn btn-success btn-xs' %>
-                  <% end %>
+                <td style="text-align: right;">
+                  <%= link_to 'OK', approve_event_path(event), :method => :post, :class => 'btn btn-xs btn-success' %></td>
               </td>
             </tr>
         <% end %>
