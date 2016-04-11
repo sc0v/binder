@@ -25,10 +25,6 @@
       <% end %>
     </tbody>
   </table>
-
-  <% if (organization_shift_list.length == 10) %>
-    <%= link_to raw("View more…"), organization_shifts_path(@organization), :class => 'btn btn-xs' %></h2>
-  <% end %>
 <% else %>
   </br>
   This organization has no shifts.

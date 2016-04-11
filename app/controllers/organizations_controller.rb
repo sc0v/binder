@@ -12,10 +12,12 @@ class OrganizationsController < ApplicationController
   # GET /organizations/1
   # GET /organizations/1.json
   def show
-    @charges = @organization.charges.last(10)
     @booth_chairs = @organization.booth_chairs
-    @tools = Tool.checked_out_by_organization(@organization).just_tools.first(10)
-    @shifts = @organization.shifts.future.first(10)
+    @tools = Tool.checked_out_by_organization(@organization).just_tools
+    @shifts = @organization.shifts.future
+    @participants = @organization.participants
+    @documents = @organization.documents
+    @charges = @organization.charges
   end
 
   # GET /organizations/new

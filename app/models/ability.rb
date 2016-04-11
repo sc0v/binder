@@ -27,6 +27,10 @@ class Ability
       o.participants.include?(user.participant)
     end
 
+    can :read_org_details, Organization do |o|
+      o.participants.include?(user.participant)
+    end
+
     can :read, Shift do |s|
       s.organization.participants.include?(user.participant) unless s.organization.nil?
     end
@@ -43,7 +47,7 @@ class Ability
       can :read_basic_details, Organization
 
       can :read_all_details, Organization do |o|
-        o.booth_chairs.include?(user.participant)
+        o.participants.include?(user.participant)
       end
 
       can :read, Charge do |c|
