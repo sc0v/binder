@@ -82,7 +82,7 @@ class Ability
       can :read_coord, Shift
       can :create, ShiftParticipant
       can [:create, :update], StoreItem
-      can [:complete, :update], Task
+      can [:create, :complete, :update], Task
       can [:create, :update], Tool
       can [:create, :update], ToolType
       can [:create, :update , :destroy], ToolWaitlist
