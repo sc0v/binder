@@ -739,13 +739,13 @@ StoreItem.create({ name: 'Outlet Cover - 2 Gang', price: 1, quantity: 1000})
 StoreItem.create({ name: 'Plug - Angle', price: 12, quantity: 1000})
 StoreItem.create({ name: 'Plug - Straight', price: 12, quantity: 1000})
 StoreItem.create({ name: 'Romex 12/2 - 10ft', price: 5, quantity: 1000})
-StoreItem.create({ name: 'Screw Bit - Phillips', price: 1, quantity: 1000})
-StoreItem.create({ name: 'Screws', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Screw Bit - Phillips (x2)', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Screws (x10)', price: 1, quantity: 1000})
 StoreItem.create({ name: 'Spade Bit - 3/4""', price: 5, quantity: 1000})
-StoreItem.create({ name: 'Staple Gun Staples', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Staple Gun Staples (x4 Rows)', price: 1, quantity: 1000})
 StoreItem.create({ name: 'Tarp', price: 15, quantity: 1000})
-StoreItem.create({ name: 'Wire Nuts', price: 1, quantity: 1000})
-StoreItem.create({ name: 'Wire Staples', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Wire Nuts (x10)', price: 1, quantity: 1000})
+StoreItem.create({ name: 'Wire Staples (x20)', price: 1, quantity: 1000})
 
 if  Rails.env.development?
   # Development Stuff -----------------------------------------------------------
