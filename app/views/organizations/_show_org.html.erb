@@ -2,15 +2,17 @@
 <ul class="nav nav-tabs">
   <li class="active"><a href="#chairs" data-toggle="tab">Booth Chairs</a></li>
   <% if can?(:read_basic_details, @organization) %>
+    <li><a href="#members" data-toggle="tab">Members</a></li>
     <li><a href="#tools" data-toggle="tab">Tools</a></li>
     <li><a href="#shifts" data-toggle="tab">Shifts</a></li>
-    <li><a href="#members" data-toggle="tab">Members</a></li>
-    <li><a href="#documents" data-toggle="tab">Documents</a></li>
-
   <% end %>
 
   <% if can?(:read_all_details, @organization) %>
     <li><a href="#charges" data-toggle="tab">Charges</a></li>
+  <% end %>
+
+  <% if can?(:read_org_details, @organization) %>
+    <li><a href="#documents" data-toggle="tab">Documents</a></li>
   <% end %>
 </ul>
 
@@ -19,9 +21,10 @@
   <div id="chairs" class="tab-pane active">
     <%= render :partial => 'participants/organization_booth_chair_list', :object => @booth_chairs %>
   </div>
+
   <% if can?(:read_basic_details, @organization) %>
     <div id="members" class="tab-pane">
-      <%= render :partial => "participants/organization_participant_list", :object => @organization.memberships %>
+      <%= render :partial => "participants/organization_participant_list", :object => @participants %>
     </div>
     <div id="shifts" class="tab-pane">
       <%= render :partial => "shifts/organization_shift_list.html.erb", :object => @shifts %>
@@ -29,14 +32,17 @@
     <div id="tools" class="tab-pane">
       <%= render :partial => "tools/organization_tool_list", :object => @tools %>
     </div>
-    <div id="documents" class="tab-pane">
-      <%= render :partial => "organizations/document_list", :object => @organization.documents %>
-    </div>
   <% end %>
 
   <% if can?(:read_all_details, @organization) %>
     <div id="charges" class="tab-pane">
       <%= render :partial => "charges/organization_charge_list", :object => @charges %>
+    </div>
+  <% end %>
+
+  <% if can?(:read_org_details, @organization) %>
+    <div id="documents" class="tab-pane">
+      <%= render :partial => "documents/organization_document_list", :object => @documents %>
     </div>
   <% end %>
 </div>

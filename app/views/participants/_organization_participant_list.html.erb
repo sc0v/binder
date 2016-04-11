@@ -1,4 +1,3 @@
-<% if can?(:read, Participant) %>
 <%- model_class = Participant -%>
 <table class="table table-striped">
   <thead>
@@ -12,7 +11,7 @@
     </tr>
   </thead>
   <tbody>
-    <% organization_participant_list.collect(&:participant).each do |participant| %>
+    <% @participants.each do |participant| %>
     <% if can?(:read, participant) %>
     <tr>
       <td><%= link_to participant.name, participant %></td>
@@ -26,8 +25,3 @@
     <% end %>
   </tbody>
 </table>
-
-
-<% else %>
-<h3>Not Authorized!</h3>
-<% end %>

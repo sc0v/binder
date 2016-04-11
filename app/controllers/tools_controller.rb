@@ -24,7 +24,7 @@ class ToolsController < ApplicationController
       end
     else
       @tools = @tools.just_tools
-      @title = "Tools (hardhats/radios hidden)"
+      @title = "Tools"
     end
 
     # Fitler by inventory status

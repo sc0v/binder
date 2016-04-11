@@ -1,13 +1,5 @@
-<br />
-<%= link_to raw("View all tools for #{@organization.short_name}"), organization_tools_path(@organization), :class => 'btn btn-primary' %>
 <% unless organization_tool_list.empty? %>
   <%= render partial: 'tools/tools', locals: {tools: organization_tool_list, page: "org"} %>
-  <% if (organization_tool_list.length >= 10) %>
-    <p>Only the first 10 tools are shown above, <%= link_to 'view more', organization_tools_path(@organization) %> </p>
-  <% end %>
-<% else %>
-  <br />
-  <span>This organization currently has no actual tools checked out.</span><br />
 <% end %>
-<span>This organization has <%= pluralize(Tool.checked_out_by_organization(@organization).hardhats.count, 'hardhat') %>  checked out.</span><br />
-<span>This organization has <%= pluralize(Tool.checked_out_by_organization(@organization).radios.count, 'radio') %> checked out.</span><br />
+<span>This organization currently has <%= pluralize(Tool.checked_out_by_organization(@organization).just_tools.count, 'tools') %>, <%= pluralize(Tool.checked_out_by_organization(@organization).hardhats.count, 'hardhat') %>, and <%= pluralize(Tool.checked_out_by_organization(@organization).radios.count, 'radio') %> checked out. <%= link_to "View all", organization_tools_path(@organization) %></span>
+
