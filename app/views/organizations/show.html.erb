@@ -38,16 +38,6 @@
 <p>
   <%= link_to t('.back', :default => t("helpers.links.back")),
     organizations_path, :class => 'btn btn-default' %>
-  <% if can?(:read, Membership) %>
-    <%= link_to raw("Members"), [@organization, :participants], :class => 'btn btn-info' %>
-  <% end %>
-  <%# remove false for hardhat checkout %>
-  <% if can?(:hardhats, @organization) and false %>
-    <%= link_to raw("Hardhats"), hardhats_organization_path(@organization), :class => 'btn btn-info' %>
-  <% elsif can?(:read_all_details, @organization) %>
-    <%= link_to raw("Hardhats"), organization_tools_path(@organization, :type => "hardhats"), :class => 'btn btn-info' %>
-  <% end %>
-
   <% if can?(:update, @organization) %>
     <%= link_to t('.edit', :default => t("helpers.links.edit")),
       edit_organization_path(@organization), :class => 'btn btn-primary' %>
