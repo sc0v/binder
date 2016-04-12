@@ -16,7 +16,7 @@ class ToolCartController < ApplicationController
     end
 
     session[:tool_cart].append(@tool.barcode)
-    render action: 'add_tool'
+    render action: 'add_tool', locals: {count: session[:tool_cart].size}
   end
 
   def remove_tool
@@ -28,7 +28,13 @@ class ToolCartController < ApplicationController
     end
 
     session[:tool_cart].delete(params[:barcode].to_i)
-    render action: 'remove_tool', locals: {barcode: params[:barcode], list_empty: session[:tool_cart].empty?}
+    render action: 'remove_tool',
+           locals: {barcode: params[:barcode], list_empty: session[:tool_cart].empty?, count: session[:tool_cart].size}
+  end
+
+  def remove_all
+    session[:tool_cart] = []
+    redirect_to :back
   end
 
   def checkout
