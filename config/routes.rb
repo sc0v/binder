@@ -87,6 +87,7 @@ Trailerapp::Application.routes.draw do
   scope 'tool_cart' do
     post 'add_tool', to: 'tool_cart#add_tool', as: :tool_cart_add_tool
     post 'remove_tool', to: 'tool_cart#remove_tool', as: :tool_cart_remove_tool
+    post 'remove_all', to: 'tool_cart#remove_all', as: :tool_cart_remove_all
     post 'checkout', to: 'tool_cart#checkout', as: :tool_cart_checkout
     post 'checkin', to: 'tool_cart#checkin', as: :tool_cart_checkin
     post 'swap', to: 'tool_cart#swap', as: :tool_cart_swap
