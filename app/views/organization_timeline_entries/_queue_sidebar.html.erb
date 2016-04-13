@@ -12,7 +12,7 @@
     <% if !@structural_queue_sidebar.blank? %>
       <table class="table table-condensed" style="margin-bottom: 5px;">
         <thead>
-          <th style="text-align: center;">Structural</th>
+          <th style="text-align: center;"><%= link_to 'Structural', structural_path %></th>
           <th style="text-align: left;">Reason</th>
           <th></th>
         </thead>
@@ -20,7 +20,7 @@
           <% @structural_queue_sidebar.each do |entry| %>
             <tr class="sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="Entered at <%= date_and_time entry.started_at %>">
               <td style="text-align: center;">
-                <%= link_to entry.organization.short_name, entry %>
+                <%= link_to entry.organization.short_name, entry.organization %>
               </td>
               <td style="text-align: left;"><%= entry.description %></td>
               <td style="text-align: right;">
@@ -45,7 +45,7 @@
           <% @electrical_queue_sidebar.each do |entry| %>
             <tr class="sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="Entered at <%= date_and_time entry.started_at %>">
               <td style="text-align: center;">
-                <%= link_to entry.organization.short_name, entry %>
+                <%= link_to entry.organization.short_name, entry.organization %>
               </td>
               <td style="text-align: left;"><%= entry.description %></td>
               <td style="text-align: right;">
