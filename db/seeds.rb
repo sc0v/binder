@@ -448,9 +448,6 @@ Task.create([
 
 puts '  Recurring Tasks'
  Task.create([
-  { name: "Truck Deliveries", description: "Orgs may bring a truck at a scheduled time to deliver supplies.  The fire lane must be clear until midnight.", due_at: build_saturday + 22.hours },
-  { name: "Truck Deliveries", description: "Orgs may bring a truck at a scheduled time to deliver supplies.  The fire lane must be clear until midnight.", due_at: build_sunday + 22.hours },
-  { name: "Truck Deliveries", description: "Orgs may bring a truck at a scheduled time to deliver supplies.  The fire lane must be clear until midnight.", due_at: monday + 22.hours },
   { name: "Quiet Hours Start", description: "No loud noise on Midway. If you can hear something outside a booth it is too loud.", due_at: move_on + 22.hours },
   { name: "Quiet Hours Start", description: "No loud noise on Midway. If you can hear something outside a booth it is too loud.", due_at: build_saturday + 22.hours },
   { name: "Quiet Hours Start", description: "No loud noise on Midway. If you can hear something outside a booth it is too loud.", due_at: build_sunday + 22.hours },
