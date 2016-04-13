@@ -65,7 +65,7 @@
     <div style="width: 100%; height: 0px; clear: both; border-top: 1px solid #dddddd;"></div>
     <h5><strong>Add to Queue:</strong></h5>
     <%= simple_form_for OrganizationTimelineEntry.new do |f| %>
-      <%= f.input_field :organization_id, :as => :select, :collection => Organization.all, :style => "width: 100%" %>
+      <%= f.input_field :organization_id, :as => :select, :collection => Organization.only_categories(['Fraternity', 'Sorority', 'Independent', 'Blitz', 'Concessions']), :style => "width: 100%" %>
       <div style="width: 100%; height: 5px; clear: both;"></div>
       <%= f.input_field :description, :as => :string, :style => "width: 100%" %>
       <%= hidden_field_tag 'url', request.original_fullpath %>
