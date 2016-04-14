@@ -270,6 +270,7 @@ OrganizationStatusType.create([
   { name: 'Electrical Inspection', display: true },
   { name: 'Electrical Approved', display: true },
   { name: 'Final Inspection Passed', display: true },
+  { name: 'Teardown Plot Clean', display: true },
   { name: 'Note', display: false }
 ])
 
@@ -288,6 +289,7 @@ ChargeType.create([
   { name: 'Watch Shift - Missed 2nd time', description: 'Watch shift was more than 15 minutes late for the 2nd time. Fine per person. If they show up 15-45 mins late and complete their obligationsthe fine will be halved.', default_amount: 100 },
   { name: 'Watch Shift - Missed 3rd+ time', description: 'Watch shift was more than 15 minutes late for the 3rd or more time.  Fine determined by Rules Committee.  If they show up 15-45 mins late and complete their obligationsthe fine will be halved.' },
   { name: 'Building - Impeding fire lane or spillover space', description: "Impeding designated fire lanes or other organizations spill-over space.", default_amount: 25 },
+  { name: 'Building - Spilled paint', description: "Paint spilled on the parking lot while painting a booth..", default_amount: 50 },
   { name: 'Building - Missing hardhat, wristband, and/or safety glasses', description: 'Being on Midway without a wristband, hardhat, and/or safety glasses.', default_amount: 15 },
   { name: 'Building - Non-builders helping build', description: 'Non-builders helping with the construction of a booth.', default_amount: 15 },
   { name: 'Building - Quiet hours', description: "Making noise during quiet hours that can be heard more than 20 feet from a booth.", default_amount: 25 },
