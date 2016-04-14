@@ -43,7 +43,7 @@ $(document).on("ready page:change", function(){
   $('#card-number-input').bind("keydown", function() {
     if (window.event && window.event.keyCode == 13) {
       event.preventDefault();
-      $(':submit').focus()
+      $('#main-content-div :submit').focus()
     }
   });
 });
