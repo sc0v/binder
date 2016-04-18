@@ -56,6 +56,11 @@ class ChargesController < ApplicationController
   # DELETE /charges/1
   # DELETE /charges/1.json
   def destroy
+    return redirect_to :back unless @charge.present?
+    if @charge.charge_type == ChargeType.find_by_name('Store Purchase')
+      charge_store_purchase = StorePurchase.find_by_charge_id(@charge.id)
+      charge_store_purchase.destroy
+    end
     @charge.destroy
     respond_with(@charge)
   end
