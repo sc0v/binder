@@ -442,7 +442,7 @@ Task.create([
   { name: "Opening Ceremony", description: "Speeches, ribbon cutting, and Midway officially opens to the public.", due_at: operations + 15.hours },
   { name: "Judging Begins", description: "Judges will arrive on Midway. Direct them to the Carnival Chair or Head of Booth so they can begin judging.", due_at: ops_friday + 13.hours },
   { name: "Night Judging Begins", description: "Alumni judges will arrive on Midway. Direct them to the Carnival Chair or Head of Booth so they can begin judging.", due_at: ops_friday + 20.hours },
-  { name: "Awards Ceremony", description: "Orgs may take close their booths without taking downtime for the Awards Ceremony.", due_at: ops_saturday + 16.hours },
+  { name: "Awards Ceremony", description: "Orgs may take close their booths without taking downtime for the Awards Ceremony.", due_at: ops_saturday + 16.hours + 30.minutes },
   { name: "Teardown Begins", description: "Orgs may begin to teardown.", due_at: teardown + 8.hours },
   { name: "Teardown Required Start", description: "All orgs must have begun to teardown.", due_at: teardown + 10.hours },
   { name: "Teardown Ends", description: "All orgs should have completely cleared Midway. If they have not, note when they finish so we can determine fines.", due_at: teardown + 5.hours }
