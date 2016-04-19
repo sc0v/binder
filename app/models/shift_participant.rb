@@ -28,6 +28,8 @@ class ShiftParticipant < ActiveRecord::Base
   belongs_to :shift, :touch => true
   belongs_to :participant, :touch => true
 
+  scope :checked_in_late, lambda{ joins(:shift).where('starts_at < ? AND clocked_in_at > starts_at', Time.zone.now)}
+
   # For lookups
   def card_number=( card_number )
     @card_number = card_number
