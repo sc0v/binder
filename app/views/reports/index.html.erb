@@ -13,7 +13,7 @@
       </div>
       <div id="collapse<%= index %>" class="panel-collapse collapse">
         <div class="panel-body">
-          <p><%= report[:description] %></p>
+          <p><%= raw(report[:description]) %></p>
           <div class="form-inputs">
             <%= form_tag report[:url], method: :get do |f| %>
                 <%= hidden_field_tag "options[footer]", value: 1 %>
