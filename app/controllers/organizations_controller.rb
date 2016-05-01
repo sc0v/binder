@@ -14,7 +14,7 @@ class OrganizationsController < ApplicationController
   def show
     @booth_chairs = @organization.booth_chairs
     @tools = Tool.checked_out_by_organization(@organization).just_tools
-    @shifts = @organization.shifts.future
+    @shifts = @organization.shifts
     @participants = @organization.participants
     @documents = @organization.documents
     @charges = @organization.charges
