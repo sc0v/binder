@@ -5,13 +5,13 @@
 #   gem 'sqlite3'
 #
 development:
-  adapter: mysql
+  adapter: mysql2
   encoding: utf8
   reconnect: false
   database: binder_development
   pool: 5
-  username: root
-  password:
+  username: <%= ENV["MYSQL_USERNAME"] %>
+  password: <%= ENV["MYSQL_PASSWORD"] %>
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -21,7 +21,7 @@ test:
   database: db/binder_test.sqlite3
 
 staging:
-  adapter: mysql
+  adapter: mysql2
   encoding: utf8
   reconnect: false
   database: binder_staging
@@ -31,7 +31,7 @@ staging:
   socket: /var/run/mysqld/mysqld.sock
 
 production:
-  adapter: mysql
+  adapter: mysql2
   encoding: utf8
   reconnect: false
   database: binder_production
