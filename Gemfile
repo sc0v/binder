@@ -83,7 +83,7 @@ end
 
 group :development, :staging, :production do
   gem 'newrelic_rpm'
-  gem 'mysql'
+  gem 'mysql2'
 end
 
 group :test do
