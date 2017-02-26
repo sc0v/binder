@@ -13,12 +13,7 @@
 
 class EventTypeTest < ActiveSupport::TestCase
   # Relationships
+  should have_many(:events)
   
-
-  # Validations
-
-  # Scopes
-
-  # Methods
 
 end
