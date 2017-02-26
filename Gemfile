@@ -65,6 +65,9 @@ gem 'twilio-ruby'
 # Dossier for reports
 gem 'dossier'
 
+# Single test gem for unit testing
+gem 'single_test'
+
 group :development do
   # Automatically generate comments in models and such based on schema
   gem 'annotate'
