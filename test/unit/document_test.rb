@@ -40,7 +40,7 @@ class DocumentTest < ActiveSupport::TestCase
     #scopes 
     should "show that search scope works" do
     	@doc = Document.search('booth')
-    #WHen acutally testing you can see the name, but will default back to document when asserting it for some reason
+    #When actually testing you can see the name, but will default back to document when asserting it for some reason
       assert_equal 'Booth', @doc
 
     end
