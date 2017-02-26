@@ -22,7 +22,7 @@ class DocumentTest < ActiveSupport::TestCase
   # Relationships
   should belong_to(:organization)
 
-  # Validations
+  # Validations- how ot test validates_associated
 
   # Scopes
 
