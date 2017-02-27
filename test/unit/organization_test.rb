@@ -89,6 +89,79 @@ class OrganizationTest < ActiveSupport::TestCase
       assert_equal [], @long_org.booth_chairs
     end
 
+    # --------------------------- End of Methods testing
 
+    # Dependencies
+    should 'delete all associated organization_aliases once the organization is removed' do
+      alias1 = FactoryGirl.create(:organization_alias, organization: @short_org)
+      alias2 = FactoryGirl.create(:organization_alias, organization: @short_org)
+      alias3 = FactoryGirl.create(:organization_alias, organization: @long_org)
+      assert_equal 3, OrganizationAlias.all.size
+
+      @short_org.destroy
+      assert_equal 1, OrganizationAlias.all.size
+    end
+
+    should 'delete all associated organization_statuses once the organization is removed' do
+      person1 = FactoryGirl.create(:participant)
+      person2 = FactoryGirl.create(:participant)
+      status_type = FactoryGirl.create(:organization_status_type)
+      status1 = FactoryGirl.create(:organization_status, organization: @short_org,
+                                    participant: person1, organization_status_type: status_type)
+      status2 = FactoryGirl.create(:organization_status, organization: @long_org,
+                                   participant: person2, organization_status_type: status_type)
+
+      assert_equal 2, OrganizationStatus.all.size
+
+      @short_org.destroy
+      assert_equal 1, OrganizationStatus.all.size
+    end
+
+    should 'delete all associated organization_timeline_entries once the organization is removed' do
+      entry1 = FactoryGirl.create(:organization_timeline_entry, organization: @short_org)
+      entry2 = FactoryGirl.create(:organization_timeline_entry, organization: @short_org)
+      entry3 = FactoryGirl.create(:organization_timeline_entry, organization: @long_org)
+
+      assert_equal 3, OrganizationTimelineEntry.all.size
+      @short_org.destroy
+      assert_equal 1, OrganizationTimelineEntry.all.size
+    end
+
+    should 'delete all associated charges once the organization is removed' do
+      issuer = FactoryGirl.create(:participant)
+      type = FactoryGirl.create(:charge_type)
+
+      charge1 = FactoryGirl.create(:charge,
+               organization: @short_org, issuing_participant: issuer, charge_type: type)
+      charge2 = FactoryGirl.create(:charge,
+                                   organization: @short_org, issuing_participant: issuer,
+                                   charge_type: type, is_approved: true)
+      charge3 = FactoryGirl.create(:charge,
+                                   organization: @long_org, issuing_participant: issuer, charge_type: type)
+
+      assert_equal 3, Charge.all.size
+
+      @short_org.destroy
+
+      assert_equal 1, Charge.all.size
+    end
+
+    should 'delete all associated documents once the organization is removed' do
+      doc1 = FactoryGirl.create(:document, organization: @short_org)
+      doc2 = FactoryGirl.create(:document, organization: @short_org)
+      doc3 = FactoryGirl.create(:document, organization: @long_org)
+      assert_equal 3, Document.all.size
+      @short_org.destroy
+      assert_equal 1, Document.all.size
+    end
+
+    should 'delete all checkouts once the organization is removed' do
+      type = FactoryGirl.create(:tool_type)
+      tool = FactoryGirl.create(:tool, tool_type: type)
+      checkout = FactoryGirl.create(:checkout, tool: tool, organization: @short_org)
+      assert_equal 1, Checkout.all.size
+      @short_org.destroy
+      assert_equal 0, Checkout.all.size
+    end
   end
 end
