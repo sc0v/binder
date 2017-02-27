@@ -34,7 +34,7 @@ class OrganizationStatusTest < ActiveSupport::TestCase
   should validate_presence_of(:organization)
   should validate_presence_of(:participant)
 
-  context "With a proper context, " do
+  context 'With a proper context,'  do
     setup do
       @status_type1 = FactoryGirl.create(:organization_status_type)
       @status_type2 = FactoryGirl.create(:organization_status_type, :display => true)
@@ -57,12 +57,12 @@ class OrganizationStatusTest < ActiveSupport::TestCase
       @status2 = nil
     end
 
-    should "show that all factories are properly created" do
+    should 'show that all factories are properly created' do
       assert_equal 2, OrganizationStatus.all.size
     end
 
     # Scope
-    should "display statuses that are only displayable" do
+    should 'display statuses that are only displayable' do
       assert_equal 1, OrganizationStatus.displayable.size
     end
   end

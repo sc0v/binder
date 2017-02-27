@@ -24,7 +24,7 @@ class OrganizationStatusTypeTest < ActiveSupport::TestCase
   should validate_presence_of(:name)
   should validate_uniqueness_of(:name)
 
-  context "With a proper context, " do
+  context 'With a proper context, ' do
     setup do
       @type1 = FactoryGirl.create(:organization_status_type)
       @person = FactoryGirl.create(:participant)
@@ -40,14 +40,12 @@ class OrganizationStatusTypeTest < ActiveSupport::TestCase
       @status = nil
     end
     #
-    should "show that all factories are properly created" do
+    should 'show that all factories are properly created' do
       assert_equal 1, OrganizationStatusType.all.size
     end
 
     # Dependency
-    should "delete status if status type is destroyed" do
-
-
+    should 'delete status if status type is destroyed' do
       @type1.update_attribute(:display, true)
       assert(@status.valid?)
       assert_equal 1, OrganizationStatus.all.size
