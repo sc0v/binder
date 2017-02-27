@@ -104,8 +104,9 @@ class ShiftTest < ActiveSupport::TestCase
 
     should "have a method 'formatted_name' that works" do
       @type = FactoryGirl.create(:shift_type, :name => "Bob")
-      @ex = FactoryGirl.create(:shift, :shift_type_id => @type.id, :ends_at => Time.local(2001,1,1,16,0,0), :starts_at => Time.local(2000,1,1,14,10,0))
-      assert_equal 'Bob @ Jan  1 at  2:10 PM', @ex.formatted_name
+      @ex = FactoryGirl.create(:shift, :shift_type_id => @type.id, :ends_at => Time.local(2001,1,1,16,0,0), :starts_at => Time.new(2000,1,1))
+      assert_equal 'Bob @ Jan  1 at 12:00 AM', @ex.formatted_name
+
     end
   end
 end
