@@ -35,19 +35,30 @@ class ShiftParticipantTest < ActiveSupport::TestCase
 
   context "With a proper context, " do
     setup do
-      FactoryGirl.create(:shift_participant)
+      @shift = FactoryGirl.create(:shift, :ends_at => Time.zone.now + 2.hour, :starts_at => Time.zone.now)
+      @late= FactoryGirl.create(:shift_participant, :shift_id => @shift.id, :clocked_in_at => Time.zone.now + 1.hour)
+      @not_late= FactoryGirl.create(:shift_participant, :shift_id => @shift.id, :clocked_in_at => Time.zone.now)
     end
 
     teardown do
     end
 
     should "show that all factories are properly created" do
-      assert_equal 1, ShiftParticipant.all.size
+      assert_equal 2, ShiftParticipant.all.size
     end
 
     # Scopes
+    should "show that scope 'checked in late' is working" do
+      assert_equal @late.id , ShiftParticipant.checked_in_late[0].id
+    end
 
     # Methods
 
   end
 end
+
+
+
+
+
+
