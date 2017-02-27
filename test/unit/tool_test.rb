@@ -136,9 +136,13 @@ class ToolTest < ActiveSupport::TestCase
     end
 
     should "show that is_waitlist_critical works" do
+      #wait until waitlist is done
+      #assert_equal false, @hammer.is_waitlist_critical?
     end
 
     should "show that is_hardhat works" do
+      assert @hard_hat_1.is_hardhat?
+      deny @radio.is_hardhat?
     end
 
     should "show that the 'self.checked_out_by_organization(organization)' method works" do
@@ -146,10 +150,12 @@ class ToolTest < ActiveSupport::TestCase
     end
 
     should "show that name works" do
+      assert_equal 'Radio', @radio.name
     end
 
     should "show that that the method formatted name works" do
-
+      assert_equal '12810: Radio - RADIO', @radio.formatted_name
+      assert_equal '12012: Ladder - LADDER', @ladder.formatted_name
     end
     
   end
