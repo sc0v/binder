@@ -83,6 +83,14 @@ FactoryGirl.define do
     name { generate(:random_string) }
   end
 
+  # organization_status_type
+  # factory :organization_status_type do
+  #   name { generate(:random_string) }
+  #   display false
+  #
+  #   association :organization_status
+  # end
+
   # organization_timeline_entry
   factory :organization_timeline_entry do
     description { generate(:random_string) }
