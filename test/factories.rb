@@ -40,6 +40,16 @@ FactoryGirl.define do
     url "MyString"
   end
 
+  #event 
+  factory :event do
+    association :event_type
+  end
+
+  #event_type
+  factory :event_type do
+    name { generate(:random_string) }
+  end
+
   # faq
   factory :faq do
     question "MyText"
