@@ -83,10 +83,24 @@ class OrganizationTest < ActiveSupport::TestCase
                    is_booth_chair: true,
                    organization: @short_org,
                    participant: chair_person)
-      # random_part.update_attribute(:is_booth_chair, true)
-      # random_part.update_attribute(:organization, @short_org)
       assert_equal [chair_person.andrewid], @short_org.booth_chairs.map { |bc| bc.andrewid }
       assert_equal [], @long_org.booth_chairs
+    end
+
+    should 'give back the correct hour of current downtime' do
+      t = Time.now
+      entry = FactoryGirl.create(:organization_timeline_entry, entry_type: 2,
+      started_at: t - 2.hours, ended_at: t, organization: @short_org)
+
+      assert_equal 2.hours, @short_org.downtime
+    end
+
+    should 'give back the correct hour of remaining downtime' do
+      t = Time.now
+      entry = FactoryGirl.create(:organization_timeline_entry, entry_type: 2,
+                                 started_at: t - 3.hours, ended_at: t, organization: @short_org)
+
+      assert_equal 1.hours, @short_org.remaining_downtime
     end
 
     # --------------------------- End of Methods testing
