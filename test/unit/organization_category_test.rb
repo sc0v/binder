@@ -19,6 +19,8 @@ class OrganizationCategoryTest < ActiveSupport::TestCase
   should have_many(:organizations)
 
   # Validations
+  should validate_presence_of(:name)
+  should validate_uniqueness_of(:name)
 
   context "With a proper context, " do
     setup do
@@ -31,10 +33,5 @@ class OrganizationCategoryTest < ActiveSupport::TestCase
     should "show that all factories are properly created" do
       assert_equal 1, OrganizationCategory.all.size
     end
-
-    # Scopes
-
-    # Methods
-
   end
 end
