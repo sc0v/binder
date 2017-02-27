@@ -140,6 +140,7 @@ FactoryGirl.define do
    # tool waitlist
   factory :tool_waitlist do
     wait_start_time Time.now
+    tool_type_id 1
 
     association :tool_type
     association :organization
