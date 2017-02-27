@@ -31,10 +31,10 @@ class OrganizationAliasTest < ActiveSupport::TestCase
   should validate_presence_of(:organization)
   should validate_uniqueness_of(:name)
 
-  context "With a proper context, " do
+  context 'With a proper context, ' do
     setup do
-      @alias1 = FactoryGirl.create(:organization_alias, name: "winner")
-      @alias2 = FactoryGirl.create(:organization_alias, name: "loser")
+      @alias1 = FactoryGirl.create(:organization_alias, name: 'winner')
+      @alias2 = FactoryGirl.create(:organization_alias, name: 'loser')
       @org1 = FactoryGirl.create(:organization)
       @org2 = FactoryGirl.create(:organization)
       @alias1.organization = @org1
@@ -48,21 +48,21 @@ class OrganizationAliasTest < ActiveSupport::TestCase
       @org2 = nil
     end
 
-    should "show that all factories are properly created" do
+    should 'show that all factories are properly created' do
       assert_equal 2, OrganizationAlias.all.size
     end
 
     # Scopes
 
     # Search scope
-    should "the search by term function should work correctly" do
+    should 'the search by term function should work correctly' do
       assert_equal 1, OrganizationAlias.search("winner").size
       assert_equal 1, OrganizationAlias.search("loser").size
       assert_equal 0, Organization.search("blah").size
     end
 
     # Methods
-    should "formatted name should return the organization name followed by the alias in parathesis" do
+    should 'formatted name should return the organization name followed by the alias in parathesis' do
       answer1 = "#{@org1.name} (winner)"
       answer2 = "#{@org2.name} (loser)"
       assert_equal answer1, @alias1.formatted_name
