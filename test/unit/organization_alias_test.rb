@@ -27,6 +27,8 @@ class OrganizationAliasTest < ActiveSupport::TestCase
   should belong_to(:organization)
 
   # Validations
+  should validate_presence_of(:name)
+  should validate_presence_of(:organization)
 
   context "With a proper context, " do
     setup do
