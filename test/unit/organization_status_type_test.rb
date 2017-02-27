@@ -11,16 +11,7 @@
 # **`name`**     | `string(255)`      |
 ## ## Schema Information
 #
-# Table name: `organization_status_types`
-#
-# ### Columns
-#
-# Name           | Type               | Attributes
-# -------------- | ------------------ | ---------------------------
-# **`display`**  | `boolean`          |
-# **`id`**       | `integer`          | `not null, primary key`
-# **`name`**     | `string(255)`      |
-#
+
 
 require 'test_helper'
 
