@@ -88,5 +88,7 @@ class OrganizationTest < ActiveSupport::TestCase
       assert_equal [chair_person.andrewid], @short_org.booth_chairs.map { |bc| bc.andrewid }
       assert_equal [], @long_org.booth_chairs
     end
+
+
   end
 end
