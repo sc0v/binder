@@ -23,6 +23,9 @@ class ChargeTypeTest < ActiveSupport::TestCase
 
   # Validations
 
+  should validate_presence_of(:name)
+  should validate_uniqueness_of(:name)
+
   context "With a proper context, " do
     setup do
       FactoryGirl.create(:charge_type)
