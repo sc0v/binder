@@ -9,6 +9,7 @@
 # **`display`**   | `boolean`          |
 # **`id`**        | `integer`          | `not null, primary key`
 # **`name`**      | `string(255)`      |
+# **`priority`**  | `integer`          |
 #
 
 class EventTypeTest < ActiveSupport::TestCase
