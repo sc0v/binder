@@ -28,7 +28,7 @@ FactoryGirl.define do
 
   # checkout
   factory :checkout do
-    checked_out_at Time.now
+    checked_out_at Time.now - 1.hour
 
     association :tool
     association :organization
