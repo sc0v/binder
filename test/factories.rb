@@ -146,5 +146,4 @@ FactoryGirl.define do
     name "Hammer"
 
   end
-
 end

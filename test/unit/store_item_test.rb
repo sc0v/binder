@@ -22,6 +22,8 @@ class StoreItemTest < ActiveSupport::TestCase
 
   should have_many(:store_purchases)
 
+  #methods
+  
   context "With a proper context, " do
     setup do
       # Create store 
