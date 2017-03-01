@@ -135,4 +135,16 @@ FactoryGirl.define do
     association :participant
   end
 
+  #store_purchase
+  factory :store_purchase do
+
+    association :store_item
+  end
+
+  #store_item
+  factory :store_item do
+    name "Hammer"
+
+  end
+
 end
