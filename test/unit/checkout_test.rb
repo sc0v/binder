@@ -63,8 +63,5 @@ class CheckoutTest < ActiveSupport::TestCase
     should "show that old scope works" do
       assert_equal 2, Checkout.old.size
     end
-
-
-
   end
 end

@@ -45,8 +45,12 @@ class ParticipantTest < ActiveSupport::TestCase
 
   context "With a proper context, " do
     setup do
-      @participant = FactoryGirl.create(:participant, :phone_number => 1234567890)
+      @participant = FactoryGirl.create(:participant, :phone_number => 1234567890, :andrewid => "agoradia", :cached_name => "Akshay Goradia")
+      @organization_category = FactoryGirl.create(:organization_category)
+      @organization = FactoryGirl.create(:organization, :name => "Spring Carnival Committee", :organization_category => @organization_category)
       @temp_participant = FactoryGirl.create(:participant)
+      @membership = FactoryGirl.create(:membership, :is_booth_chair => true, :participant => @participant, :organization => @organization)
+
     end
 
     teardown do
@@ -57,12 +61,32 @@ class ParticipantTest < ActiveSupport::TestCase
     end
 
     context "Testing participants" do
+
+      should "show that search scope works properly" do
+        assert_equal [@participant], Participant.search("agoradia")
+        assert_equal [], Participant.search("rkelly")
+      end
+
+      should "show that scc scope works properly" do
+        assert_equal [@participant], Participant.scc
+      end
+
       should "correctly format a participant's phone number" do
         assert_equal "(123) 456-7890", @participant.formatted_phone_number
-
         assert_equal "N/A", @temp_participant.formatted_phone_number
       end
+
+      should "show that is_booth_chair method works correctly" do
+        assert_equal true, @participant.is_booth_chair?
+      end
+
+      should "show that is_scc method works correctly" do
+        assert_equal true, @participant.is_scc?
+      end
+
+      should "show that formatted_name method works correctly" do
+        assert_equal "Akshay Goradia (agoradia)", @participant.formatted_name
+      end
     end
-    
   end
 end
