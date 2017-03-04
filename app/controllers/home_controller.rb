@@ -71,11 +71,13 @@ class HomeController < ApplicationController
 
   def hardhats
     @organizations = Organization.joins(:tools).distinct
+    authorize! :read, @organizations
     @total = Tool.hardhats.checked_out.count
   end
 
   def charge_overview
     @organizations = Organization.joins(:charges).distinct.includes(:charges)
+    authorize! :read, @organizations
     @charge_types = ChargeType.all.includes(:charges)
     @approved_total = Charge.approved.sum('amount')
     @pending_total = Charge.pending.sum('amount')
@@ -84,6 +86,7 @@ class HomeController < ApplicationController
 
   def downtime
     @organizations = Organization.only_categories(['Fraternity', 'Sorority', 'Independent', 'Blitz', 'Concessions'])
+    authorize! :read, @organizations
   end
 
   def hardhat_return
