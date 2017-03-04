@@ -5,5 +5,5 @@ bundler_args: --without development staging production
 sudo: false
 before_script:
   - bundle exec rake db:test:prepare
-  - echo 'Canada/Pacific' | sudo tee /etc/timezone
+  - echo 'US/Eastern' | sudo tee /etc/timezone
   - sudo dpkg-reconfigure --frontend noninteractive tzdata
