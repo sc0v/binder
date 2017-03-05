@@ -5,6 +5,5 @@ bundler_args: --without development staging production
 sudo: false
 before_script:
   - bundle exec rake db:test:prepare
-  - echo 'America/New_York' | sudo tee /etc/timezone
-  - sudo dpkg-reconfigure --fronted noninteractive tzdata
+
 
