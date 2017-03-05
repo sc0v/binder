@@ -21,6 +21,7 @@
 # **`phone_number`**               | `string(255)`      |
 # **`updated_at`**                 | `datetime`         |
 # **`user_id`**                    | `integer`          |
+# **`waiver_start`**               | `datetime`         |
 #
 # ### Indexes
 #
@@ -48,6 +49,15 @@ class Participant < ActiveRecord::Base
   default_scope { order('andrewid') }
   scope :search, lambda { |term| where('lower(andrewid) LIKE lower(?) OR lower(cached_name) LIKE lower(?)', "%#{term}%", "%#{term}%") }
   scope :scc, -> { joins(:organizations).where(organizations: {name: 'Spring Carnival Committee'}) }
+
+  def start_waiver_timer
+    self.waiver_start = DateTime.now
+    self.save
+  end
+
+  def is_waiver_cheater?
+    (self.waiver_start + 3.minutes + 37.seconds) > DateTime.now
+  end
 
   def is_booth_chair?
     !memberships.booth_chairs.blank?

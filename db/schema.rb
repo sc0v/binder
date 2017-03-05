@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404161512) do
+ActiveRecord::Schema.define(version: 20170305040259) do
 
   create_table "charge_types", force: :cascade do |t|
     t.string   "name",                          limit: 255
@@ -198,6 +198,7 @@ ActiveRecord::Schema.define(version: 20160404161512) do
     t.string   "cached_student_class",      limit: 255
     t.datetime "cache_updated"
     t.integer  "phone_carrier_id",          limit: 4
+    t.datetime "waiver_start"
   end
 
   add_index "participants", ["phone_carrier_id"], name: "index_participants_on_phone_carrier_id", using: :btree

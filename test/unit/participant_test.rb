@@ -21,6 +21,7 @@
 # **`phone_number`**               | `string(255)`      |
 # **`updated_at`**                 | `datetime`         |
 # **`user_id`**                    | `integer`          |
+# **`waiver_start`**               | `datetime`         |
 #
 # ### Indexes
 #
@@ -45,7 +46,7 @@ class ParticipantTest < ActiveSupport::TestCase
 
   context "With a proper context, " do
     setup do
-      @participant = FactoryGirl.create(:participant, :phone_number => 1234567890)
+      @participant = FactoryGirl.create(:participant, :phone_number => 1234567890, :waiver_start => DateTime.now - 10.minutes)
       @temp_participant = FactoryGirl.create(:participant)
     end
 
@@ -61,6 +62,12 @@ class ParticipantTest < ActiveSupport::TestCase
         assert_equal "(123) 456-7890", @participant.formatted_phone_number
 
         assert_equal "N/A", @temp_participant.formatted_phone_number
+      end
+
+      should "correctly determine if participant skipped video" do
+        assert_equal false, @participant.is_waiver_cheater?
+
+        assert_equal true, @temp_participant.is_waiver_cheater?
       end
     end
     
