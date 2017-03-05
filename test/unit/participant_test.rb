@@ -50,6 +50,10 @@ class ParticipantTest < ActiveSupport::TestCase
       @organization = FactoryGirl.create(:organization, :name => "Spring Carnival Committee", :organization_category => @organization_category)
       @temp_participant = FactoryGirl.create(:participant)
       @membership = FactoryGirl.create(:membership, :is_booth_chair => true, :participant => @participant, :organization => @organization)
+      @checkout = FactoryGirl.create(:checkout, :participant => @participant)
+      @shift_participant = FactoryGirl.create(:shift_participant, :participant => @participant)
+      @organization_status = FactoryGirl.create(:organization_status, :participant => @participant)
+      @user = FactoryGirl.create(:user, :participant => @participant)
 
     end
 
@@ -61,6 +65,37 @@ class ParticipantTest < ActiveSupport::TestCase
     end
 
     context "Testing participants" do
+
+
+      should "show that dependency on checkout works" do
+        assert_equal 1, Checkout.all.size        
+        @participant.destroy
+        assert_equal 0, Checkout.all.size        
+      end
+
+      should "show that dependency on membership works" do
+        assert_equal 1, Membership.all.size        
+        @participant.destroy
+        assert_equal 0, Membership.all.size        
+      end
+
+      should "show that dependency on shift_participant works" do
+        assert_equal 1, ShiftParticipant.all.size        
+        @participant.destroy
+        assert_equal 0, ShiftParticipant.all.size        
+      end
+
+      should "show that dependency on organization_status works" do
+        assert_equal 1, OrganizationStatus.all.size        
+        @participant.destroy
+        assert_equal 0, OrganizationStatus.all.size        
+      end
+
+      should "show that dependency on user works" do
+        assert_equal 1, User.all.size        
+        @participant.destroy
+        assert_equal 0, User.all.size        
+      end
 
       should "show that search scope works properly" do
         assert_equal [@participant], Participant.search("agoradia")
