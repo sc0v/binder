@@ -5,5 +5,4 @@ bundler_args: --without development staging production
 sudo: false
 before_script:
   - bundle exec rake db:test:prepare
-  - echo 'US/Eastern' | sudo tee /etc/timezone
-  - sudo dpkg-reconfigure --frontend noninteractive tzdata
+  - export TZ = America/New_York
