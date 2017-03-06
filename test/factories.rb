@@ -40,6 +40,16 @@ FactoryGirl.define do
     url "MyString"
   end
 
+  #event 
+  factory :event do
+    association :event_type
+  end
+
+  #event_type
+  factory :event_type do
+    name { generate(:random_string) }
+  end
+
   # faq
   factory :faq do
     question "MyText"
@@ -71,6 +81,19 @@ FactoryGirl.define do
   # organization_category
   factory :organization_category do
     name { generate(:random_string) }
+  end
+
+  # organization_status
+  factory :organization_status do
+    association :organization
+    association :organization_status_type
+    association :participant
+  end
+
+  # organization_status_type
+  factory :organization_status_type do
+    name { generate(:random_string) }
+    display false
   end
 
   # organization_timeline_entry
@@ -125,6 +148,16 @@ FactoryGirl.define do
     barcode { generate(:barcode) }
     description "HAMMER"
     association :tool_type
+  end
+
+   # tool waitlist
+  factory :tool_waitlist do
+    wait_start_time Time.now
+    tool_type_id 1
+
+    association :tool_type
+    association :organization
+    association :participant
   end
 
   # user
