@@ -1,70 +1,65 @@
-<% if can?(:read, Charge) %>
-  <%- model_class = Charge -%>
-  <div class="page-header">
-    <h1>
-      <%= link_to @organization.name.possessive, @organization unless @organization.blank? %>
-      <%=t '.title', :default => model_class.model_name.human.pluralize %>
-    </h1>
+<%- model_class = Charge -%>
+<div class="page-header">
+  <h1>
+    <%= link_to @organization.name.possessive, @organization unless @organization.blank? %>
+    <%=t '.title', :default => model_class.model_name.human.pluralize %>
+  </h1>
+</div>
+
+<% if can?(:create, Charge) %>
+  <div>
+  <%= link_to t('.new', :default => t("helpers.links.new_charge")),
+          new_charge_path,
+          :class => 'btn btn-primary' %>
   </div>
-
-  <% if can?(:create, Charge) %>
-    <div>
-    <%= link_to t('.new', :default => t("helpers.links.new_charge")),
-            new_charge_path,
-            :class => 'btn btn-primary' %>
-    </div>
-    <br>
-  <% end %>
-
-  <p>
-    If a row is yellow then the charge is still pending approval by an admin.
-  </p>
-
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th> </th>
-        <th><%= model_class.human_attribute_name(:charge_type) %></th>
-        <th><%= model_class.human_attribute_name(:amount) %></th>
-        <th><%= "Org" unless !@organization.blank? %></th>
-        <th class="hidden-xs"><%= model_class.human_attribute_name(:charged_at) %></th>
-        <% if can?(:approve, Charge) %>
-          <th class="hidden-xs">Approve</th>
-        <% end %>
-      </tr>
-    </thead>
-    <tbody>
-      <% @charges.each do |charge| %>
-        <% if can?(:read, charge) %>
-          <tr <%= raw('class="warning"') if !charge.is_approved? %>>
-            <td><%= link_to "show", charge, class: 'btn btn-info btn-xs' %></td>
-            <td><%= charge.charge_type.name %></td>
-            <td><%= number_to_currency charge.amount %></td>
-            <td><%= link_to charge.organization.short_name, charge.organization unless !@organization.blank? %></td>
-            <td class="hidden-xs"><%= date_and_time(charge.charged_at) %></td>
-            <% if can?(:approve, Charge) %>
-              <td class="hidden-xs">
-                <% unless charge.is_approved? %>
-                  <%= form_tag approve_charge_path(charge), method: :put do -%>
-                    <%= hidden_field_tag 'url', request.original_fullpath %>
-                    <%= submit_tag 'Approve', :class => 'btn btn-success btn-xs' %>
-                  <% end -%>
-                <% else %>
-                  <%= form_tag approve_charge_path(charge), method: :put do -%>
-                    <%= hidden_field_tag 'url', request.original_fullpath %>
-                    <%= submit_tag 'Un-Approve', :class => 'btn btn-danger btn-xs' %>
-                  <% end -%>
-                <% end %>
-              </td>
-            <% end %>
-          </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
-  
-  <%= will_paginate @charges, renderer: BootstrapPagination::Rails %>
-
-<% else %>
-  <h3>Not Authorized!</h3>
+  <br>
 <% end %>
+
+<p>
+  If a row is yellow then the charge is still pending approval by an admin.
+</p>
+
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th> </th>
+      <th><%= model_class.human_attribute_name(:charge_type) %></th>
+      <th><%= model_class.human_attribute_name(:amount) %></th>
+      <th><%= "Org" unless !@organization.blank? %></th>
+      <th class="hidden-xs"><%= model_class.human_attribute_name(:charged_at) %></th>
+      <% if can?(:approve, Charge) %>
+        <th class="hidden-xs">Approve</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @charges.each do |charge| %>
+      <% if can?(:read, charge) %>
+        <tr <%= raw('class="warning"') if !charge.is_approved? %>>
+          <td><%= link_to "show", charge, class: 'btn btn-info btn-xs' %></td>
+          <td><%= charge.charge_type.name %></td>
+          <td><%= number_to_currency charge.amount %></td>
+          <td><%= link_to charge.organization.short_name, charge.organization unless !@organization.blank? %></td>
+          <td class="hidden-xs"><%= date_and_time(charge.charged_at) %></td>
+          <% if can?(:approve, Charge) %>
+            <td class="hidden-xs">
+              <% unless charge.is_approved? %>
+                <%= form_tag approve_charge_path(charge), method: :put do -%>
+                  <%= hidden_field_tag 'url', request.original_fullpath %>
+                  <%= submit_tag 'Approve', :class => 'btn btn-success btn-xs' %>
+                <% end -%>
+              <% else %>
+                <%= form_tag approve_charge_path(charge), method: :put do -%>
+                  <%= hidden_field_tag 'url', request.original_fullpath %>
+                  <%= submit_tag 'Un-Approve', :class => 'btn btn-danger btn-xs' %>
+                <% end -%>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+  
+<%= will_paginate @charges, renderer: BootstrapPagination::Rails %>

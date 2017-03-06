@@ -29,7 +29,7 @@
           <td class="hidden-xs"><%= date_and_time event.created_at %></td>
           <td>
             <% if can?(:approve, Event) %>
-                <%= form_tag approve_event_path(event), :style => "display: inline", method: :put do %>
+                <%= form_tag approve_event_path(event), :style => "display: inline", method: :post do %>
                   <% if !event.is_done %>
                     <%= submit_tag 'OK', :class => 'btn btn-success btn-xs' %>
                   <% else %>
