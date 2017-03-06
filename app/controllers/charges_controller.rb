@@ -76,7 +76,7 @@ class ChargesController < ApplicationController
   # PUT /charges/1.json
   def update
     @charge.is_approved = false
-    @charge.update(charge_params)
+    @charge.update_attributes(charge_params)
     respond_with(@charge)
   end
 
