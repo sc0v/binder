@@ -32,13 +32,16 @@ class ChargesController < ApplicationController
   # GET /charges
   # GET /charges.json
   def index
-    unless ( params[:organization_id].blank? )
-      @organization = Organization.find(params[:organization_id])
-      @charges = @organization.charges
-    else
+    if (current_user.has_role? :admin)
       @charges = Charge.all
+    elsif (current_user.participant.is_scc?)
+      @charges = Charge.all
+    else
+      @orgs = current_user.participant.memberships.map {|mem| mem.organization.id}
+      unless @orgs.nil?
+        @charges = Charge.for_organizations(@orgs)
+      end
     end
-
     @charges = @charges.paginate(:page => params[:page]).per_page(20)
   end
 

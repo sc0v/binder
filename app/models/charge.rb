@@ -39,5 +39,13 @@ class Charge < ActiveRecord::Base
   default_scope { order('charged_at DESC') }
   scope :approved, -> { where(is_approved: true) }
   scope :pending, -> { where(is_approved: false) }
+
+  def self.for_organizations(organizations)
+    if (organizations.nil?)
+      all
+    else
+      where("organization_id IN (?)", organizations)
+    end
+  end
 end
 
