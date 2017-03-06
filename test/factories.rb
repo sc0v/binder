@@ -147,18 +147,4 @@ FactoryGirl.define do
 
   end
 
-  #organization_status
-  factory :organization_status do
-
-    association :organization
-    association :organization_status_type
-    association :participant
-  end
-
-  #organization_status_type
-  factory :organization_status_type do
-
-    name { generate(:random_string) }
-  end
-
 end
