@@ -26,7 +26,7 @@
 #
 
 class ChargesController < ApplicationController
-  load_and_authorize_resource skip_load_resource only: [:create] 
+  load_and_authorize_resource 
   before_action :set_charge, only: [:show, :edit, :update, :destroy, :approve]
 
   # GET /charges
