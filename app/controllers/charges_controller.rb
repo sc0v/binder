@@ -59,6 +59,7 @@ class ChargesController < ApplicationController
 
   # GET /charges/1/edit
   def edit
+    @current_receiving_participant = @charge.receiving_participant.nil? ? "" : @charge.receiving_participant.formatted_name
   end
 
   # POST /charges
@@ -76,7 +77,7 @@ class ChargesController < ApplicationController
   # PUT /charges/1.json
   def update
     @charge.is_approved = false
-    @charge.update(charge_params)
+    @charge.update_attributes(charge_params)
     respond_with(@charge)
   end
 
@@ -96,7 +97,8 @@ class ChargesController < ApplicationController
   def approve
     @charge.is_approved = !@charge.is_approved
     @charge.save
-    respond_with @charge, location: -> {charges_path}
+
+    respond_with(@charge, location: @charge.organization)
   end
 
   private
