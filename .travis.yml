@@ -5,5 +5,3 @@ bundler_args: --without development staging production
 sudo: false
 before_script:
   - bundle exec rake db:test:prepare
-
-
