@@ -6,6 +6,7 @@ class FaqsController < ApplicationController
   # GET /faqs.json
   def index
     @faqs = Faq.all
+    authorize! :read, @faqs
   end
 
   # GET /faqs/new
