@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170321154153) do
+ActiveRecord::Schema.define(version: 20170322031706) do
 
   create_table "certification_types", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -295,6 +295,16 @@ ActiveRecord::Schema.define(version: 20170321154153) do
     t.boolean  "is_completed"
   end
 
+  create_table "tool_type_certifications", force: :cascade do |t|
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "tool_type_id",          limit: 4
+    t.integer  "certification_type_id", limit: 4
+  end
+
+  add_index "tool_type_certifications", ["certification_type_id"], name: "index_tool_type_certifications_on_certification_type_id", using: :btree
+  add_index "tool_type_certifications", ["tool_type_id"], name: "index_tool_type_certifications_on_tool_type_id", using: :btree
+
   create_table "tool_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -353,4 +363,6 @@ ActiveRecord::Schema.define(version: 20170321154153) do
 
   add_foreign_key "certifications", "certification_types"
   add_foreign_key "certifications", "participants"
+  add_foreign_key "tool_type_certifications", "certification_types"
+  add_foreign_key "tool_type_certifications", "tool_types"
 end
