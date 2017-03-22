@@ -34,6 +34,18 @@ class ParticipantsController < ApplicationController
   # GET /participants/1.json
   def show
     @memberships = @participant.memberships.all
+
+    building_statuses = @memberships.map { |m| m.organization.organization_category.building_status }
+    building = building_statuses.include?(true)
+    if @memberships.empty?
+      @wristband = "None - No organizations"
+    elsif !@participant.has_signed_waiver
+      @wristband = "None - No waiver signature"
+    elsif building
+      @wristband = "Red"
+    else
+      @wristband = "Blue"
+    end
   end
 
   # GET /participants/new
