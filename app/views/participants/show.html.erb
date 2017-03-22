@@ -60,7 +60,27 @@
         </ul>
       </dd>
     <% end %>
-    
+
+    <dt>Certifications:</dt>
+    <dd>
+      <ul class="list-unstyled">
+        <% @participant.certifications.each do |cert| %>
+          <li>
+            <%= cert.certification_type.name %>
+            <%= link_to "Delete",
+                        participant_certification_path(@participant, cert),
+                        :method => :delete,
+                        :class => 'btn btn-danger btn-xs'  %>
+          </li>
+        <% end %>
+        <% if @participant.certifications.size < CertificationType.all.size %>
+          <li><%= link_to "Add",
+                          new_participant_certification_path(@participant),
+                          :class => 'btn btn-primary btn-xs'  %></li>
+        <% end %>
+      </ul>
+    </dd>
+
     <% unless @participant.checkouts.current.blank? %>
       <dt>Tools:</dt>
       <dd>
