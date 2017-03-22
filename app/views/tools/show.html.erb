@@ -14,14 +14,16 @@
 		<dt><strong>Checked out at:</strong></dt>
 		<dd><%= date_and_time @tool.checkouts.current.first.checked_out_at %></dd>
   <% end %>
-  <dt>Required Certifications:</dt>
-  <dd>
-    <ul class="list-unstyled">
-      <% @tool.tool_type.tool_type_certifications.each do |cert| %>
-        <li><%= cert.certification_type.name %></li>
-      <% end %>
-    </ul>
-  </dd>
+  <% if !@tool.tool_type.tool_type_certifications.empty? %>
+    <dt>Required Certifications:</dt>
+    <dd>
+      <ul class="list-unstyled">
+        <% @tool.tool_type.tool_type_certifications.each do |cert| %>
+          <li><%= cert.certification_type.name %></li>
+        <% end %>
+      </ul>
+    </dd>
+  <% end %>
 </dl>
 
 <%= link_to t('.back', :default => t("helpers.links.back")),
