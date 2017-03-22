@@ -27,7 +27,7 @@
 require 'test_helper'
 
 class JudgementTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+  # Relationships
+  should belong_to(:judgement_category)
+  should belong_to(:judge)
 end

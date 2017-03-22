@@ -17,6 +17,7 @@ require 'test_helper'
 class ToolTypeTest < ActiveSupport::TestCase
 
   should have_many(:tools)
+  should have_many(:tool_waitlists)
   should validate_presence_of(:name)
   should validate_uniqueness_of(:name)
 
