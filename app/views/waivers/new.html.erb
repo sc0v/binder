@@ -64,6 +64,11 @@
   </div>
 
   <div style="margin-top: 30px;">
+    <p>By typing your full name below you are digitally signing this document.</p>
+    <%= label_tag :signature, "Required electronic signature:" %>
+    <%= text_field_tag :signature %>
+  </div>
+  <div>
     <%= submit_tag "Submit", class: "btn btn-primary" %>
   </div>
 
@@ -91,17 +96,19 @@
   });
   }
 
-  // autoplay video
+  // autoplay video if there were no flashed errors
   function onPlayerReady(event) {
-  event.target.playVideo();
+    <%= (flash[:error] == nil)? "event.target.playVideo();" : "showWaiver();" %>
   }
 
   // when video ends
   function onPlayerStateChange(event) {
-  if(event.data === 0) {
-  $('#player').slideUp();
-  $('#waiver').slideDown();
+    if(event.data === 0) showWaiver();
   }
+
+  function showWaiver() {
+    $('#player').slideUp();
+    $('#waiver').slideDown();
   }
 
 </script>
