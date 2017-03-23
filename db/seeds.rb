@@ -719,7 +719,7 @@ generate_tools
 # Store -------------------------------------------------------------------------
 puts 'Store'
 
-StoreItem.create({ name: '9 Volt Battery', price: 1, quantity: 1000})
+StoreItem.create({ name: '9 Volt Battery', price: 0.99, quantity: 1000})
 StoreItem.create({ name: 'Drill Bit', price: 1, quantity: 1000})
 StoreItem.create({ name: 'Drop Cloth', price: 2, quantity: 1000})
 StoreItem.create({ name: 'Electrical Box - 1 Gang', price: 1, quantity: 1000})

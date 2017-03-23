@@ -250,20 +250,20 @@ ActiveRecord::Schema.define(version: 20160404161512) do
   add_index "shifts", ["organization_id"], name: "index_shifts_on_organization_id"
 
   create_table "store_items", force: :cascade do |t|
-    t.string   "name"
-    t.decimal  "price"
-    t.integer  "quantity"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",       limit: 255
+    t.decimal  "price",                  precision: 8, scale: 2
+    t.integer  "quantity",   limit: 4
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
   end
 
   create_table "store_purchases", force: :cascade do |t|
-    t.integer  "charge_id"
-    t.integer  "store_item_id"
-    t.decimal  "price_at_purchase"
-    t.integer  "quantity_purchased"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.integer  "charge_id",          limit: 4
+    t.integer  "store_item_id",      limit: 4
+    t.decimal  "price_at_purchase",            precision: 8, scale: 2
+    t.integer  "quantity_purchased", limit: 4
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
   end
 
   add_index "store_purchases", ["charge_id"], name: "index_store_purchases_on_charge_id"
