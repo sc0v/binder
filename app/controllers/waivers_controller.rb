@@ -11,7 +11,9 @@ class WaiversController < ApplicationController
     if @user.has_signed_waiver
       flash[:notice] = "You have already agreed to the release."
     end
-    
+
+    @should_see_video = !current_user.participant.is_scc? or params[:participant_id] == nil
+
   end
 
 
