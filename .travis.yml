@@ -5,3 +5,4 @@ bundler_args: --without development staging production
 sudo: false
 before_script:
   - bundle exec rake db:test:prepare
+  - bundle exec rake db:migrate RAILS_ENV=test
