@@ -12,7 +12,7 @@ class WaiversController < ApplicationController
       flash[:notice] = "You have already agreed to the release."
     end
 
-    @should_see_video = !@user.is_scc? or params[:participant_id] == nil
+    @should_see_video = !@user.is_scc?
 
   end
 
