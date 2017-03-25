@@ -24,6 +24,8 @@ module Trailerapp
     # Do not swallow errors in after_commit/after_rollback callbacks.
     config.active_record.raise_in_transactional_callbacks = true
 
+    config.autoload_paths += %W(#{config.root}/lib)
+
     WillPaginate::ViewHelpers.pagination_options[:inner_window] = 1
     WillPaginate::ViewHelpers.pagination_options[:outer_window] = 0
   end
