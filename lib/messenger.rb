@@ -15,8 +15,19 @@ module Messenger
     )
   end
 
-  def receive_sms
+  # def receive_sms
+  #   body = params["Body"]
+  #   puts "\n\n\nbody text right here boy: #{body}\n\n\n"
+  #   Twilio::TwiML::Response.new do |r|
+  #     if body == "renew"
+  #       return 1
+  #     elsif body == "cancel"
+  #       return 0
+  #     else
+  #       return -1
+  #     end
+  #   end
+  # end
 
-  end
 
 end
