@@ -1,3 +1,16 @@
+# ## Schema Information
+#
+# Table name: `event_types`
+#
+# ### Columns
+#
+# Name           | Type               | Attributes
+# -------------- | ------------------ | ---------------------------
+# **`display`**  | `boolean`          |
+# **`id`**       | `integer`          | `not null, primary key`
+# **`name`**     | `string(255)`      |
+#
+
 class EventTypesController < ApplicationController
   load_and_authorize_resource
   before_action :set_event_type, only: [:show, :edit, :update, :destroy]

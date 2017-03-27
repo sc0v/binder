@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404161512) do
+ActiveRecord::Schema.define(version: 20170326233627) do
 
   create_table "charge_types", force: :cascade do |t|
     t.string   "name",                          limit: 255
-    t.boolean  "requires_booth_chair_approval", limit: 1
+    t.boolean  "requires_booth_chair_approval"
     t.decimal  "default_amount",                              precision: 8, scale: 2
     t.text     "description",                   limit: 65535
     t.datetime "created_at"
@@ -32,7 +32,7 @@ ActiveRecord::Schema.define(version: 20160404161512) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.datetime "charged_at"
-    t.boolean  "is_approved",              limit: 1
+    t.boolean  "is_approved"
     t.integer  "creating_participant_id",  limit: 4
   end
 
@@ -50,6 +50,22 @@ ActiveRecord::Schema.define(version: 20160404161512) do
 
   add_index "checkouts", ["tool_id"], name: "index_checkouts_on_tool_id", using: :btree
 
+  create_table "delayed_jobs", force: :cascade do |t|
+    t.integer  "priority",   limit: 4,     default: 0, null: false
+    t.integer  "attempts",   limit: 4,     default: 0, null: false
+    t.text     "handler",    limit: 65535,             null: false
+    t.text     "last_error", limit: 65535
+    t.datetime "run_at"
+    t.datetime "locked_at"
+    t.datetime "failed_at"
+    t.string   "locked_by",  limit: 255
+    t.string   "queue",      limit: 255
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
+
   create_table "documents", force: :cascade do |t|
     t.integer  "document_id",     limit: 4
     t.string   "name",            limit: 255
@@ -57,17 +73,16 @@ ActiveRecord::Schema.define(version: 20160404161512) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "organization_id", limit: 4
-    t.boolean  "public",          limit: 1
+    t.boolean  "public"
   end
 
   create_table "event_types", force: :cascade do |t|
-    t.boolean "display",  limit: 1
-    t.string  "name",     limit: 255
-    t.integer "priority", limit: 4
+    t.boolean "display"
+    t.string  "name",    limit: 255
   end
 
   create_table "events", force: :cascade do |t|
-    t.boolean  "is_done",       limit: 1
+    t.boolean  "is_done"
     t.integer  "event_type_id", limit: 4
     t.datetime "created_at"
     t.text     "description",   limit: 65535
@@ -115,7 +130,7 @@ ActiveRecord::Schema.define(version: 20160404161512) do
     t.integer  "participant_id",    limit: 4
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_booth_chair",    limit: 1
+    t.boolean  "is_booth_chair"
     t.string   "title",             limit: 255
     t.integer  "booth_chair_order", limit: 4
   end
@@ -141,7 +156,7 @@ ActiveRecord::Schema.define(version: 20160404161512) do
 
   create_table "organization_status_types", force: :cascade do |t|
     t.string  "name",    limit: 255
-    t.boolean "display", limit: 1
+    t.boolean "display"
   end
 
   create_table "organization_statuses", force: :cascade do |t|
@@ -187,9 +202,9 @@ ActiveRecord::Schema.define(version: 20160404161512) do
     t.string   "andrewid",                  limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "has_signed_waiver",         limit: 1
+    t.boolean  "has_signed_waiver"
     t.string   "phone_number",              limit: 255
-    t.boolean  "has_signed_hardhat_waiver", limit: 1
+    t.boolean  "has_signed_hardhat_waiver"
     t.integer  "user_id",                   limit: 4
     t.string   "cached_name",               limit: 255
     t.string   "cached_surname",            limit: 255
@@ -277,7 +292,7 @@ ActiveRecord::Schema.define(version: 20160404161512) do
     t.text     "description",     limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "is_completed",    limit: 1
+    t.boolean  "is_completed"
   end
 
   create_table "tool_types", force: :cascade do |t|
@@ -292,7 +307,7 @@ ActiveRecord::Schema.define(version: 20160404161512) do
     t.integer  "participant_id",  limit: 4
     t.integer  "organization_id", limit: 4
     t.string   "note",            limit: 255
-    t.boolean  "active",          limit: 1,   default: true
+    t.boolean  "active",                      default: true
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -336,10 +351,4 @@ ActiveRecord::Schema.define(version: 20160404161512) do
 
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
 
-  add_foreign_key "judgements", "judgement_categories"
-  add_foreign_key "judgements", "judges"
-  add_foreign_key "judgements", "organizations"
-  add_foreign_key "participants", "phone_carriers"
-  add_foreign_key "store_purchases", "charges"
-  add_foreign_key "store_purchases", "store_items"
 end

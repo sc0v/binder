@@ -6,7 +6,7 @@ module Messenger
 
     @client = Twilio::REST::Client.new sid, auth
 
-    from = "+14123854063"
+    from = "+14123854063 "
 
     message = @client.account.messages.create(
              :from => from,
