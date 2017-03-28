@@ -21,6 +21,7 @@
 # **`phone_number`**               | `string(255)`      |
 # **`updated_at`**                 | `datetime`         |
 # **`user_id`**                    | `integer`          |
+# **`waiver_start`**               | `datetime`         |
 #
 # ### Indexes
 #
@@ -45,7 +46,7 @@ class ParticipantTest < ActiveSupport::TestCase
 
   context "With a proper context, " do
     setup do
-      @participant = FactoryGirl.create(:participant, :phone_number => 1234567890, :andrewid => "agoradia", :cached_name => "Akshay Goradia",)
+      @participant = FactoryGirl.create(:participant, :phone_number => 1234567890, :andrewid => "agoradia", :cached_name => "Akshay Goradia", :waiver_start => DateTime.now - 10.minutes)
       @organization_category = FactoryGirl.create(:organization_category)
       @organization = FactoryGirl.create(:organization, :name => "Spring Carnival Committee", :organization_category => @organization_category)
       @temp_participant = FactoryGirl.create(:participant)
@@ -111,6 +112,12 @@ class ParticipantTest < ActiveSupport::TestCase
         assert_equal "N/A", @temp_participant.formatted_phone_number
       end
 
+      should "correctly determine if participant skipped video" do
+        assert_equal false, @participant.is_waiver_cheater?
+
+        assert_equal true, @temp_participant.is_waiver_cheater?
+      end
+      
       should "show that is_booth_chair method works correctly" do
         assert_equal true, @participant.is_booth_chair?
       end
