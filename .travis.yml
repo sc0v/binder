@@ -6,3 +6,4 @@ sudo: false
 before_script:
   - bundle exec rake test:prepare
   - bundle exec rake db:migrate
+  - export TZ='America/New_York'
