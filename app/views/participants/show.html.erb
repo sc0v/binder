@@ -25,12 +25,12 @@
             <li>
               <%= link_to membership.organization_name_formatted, membership.organization %>
               <% if can?(:edit, membership) %>
-                <%= link_to 'Edit', 
-                            edit_participant_membership_path(@participant, membership), 
+                <%= link_to 'Edit',
+                            edit_participant_membership_path(@participant, membership),
                             :class => 'btn btn-primary btn-xs' %>
               <% end %>
               <% if can?(:destrory, membership) %>
-                <%= link_to 'Remove', 
+                <%= link_to 'Remove',
                             participant_membership_path(@participant, membership),
                             :method => :delete,
                             :class => 'btn btn-danger btn-xs' %>
@@ -51,7 +51,7 @@
         <% end %>
       <% end %>
     <% end %>
-  
+
     <% unless @participant.shifts.blank? %>
       <dt>Shifts:</dt>
       <dd>
@@ -62,7 +62,29 @@
         </ul>
       </dd>
     <% end %>
-    
+
+    <dt>Certifications:</dt>
+    <dd>
+      <ul class="list-unstyled">
+        <% @participant.certifications.each do |cert| %>
+          <li>
+            <%= cert.certification_type.name %>
+            <% if can?(:destroy, Certification) %>
+              <%= link_to "Delete",
+                          participant_certification_path(@participant, cert),
+                          :method => :delete,
+                          :class => 'btn btn-danger btn-xs' %>
+            <% end %>
+          </li>
+        <% end %>
+        <% if can?(:create, Certification) && @participant.certifications.size < CertificationType.all.size %>
+          <li><%= link_to "Add",
+                          new_participant_certification_path(@participant),
+                          :class => 'btn btn-primary btn-xs' %></li>
+        <% end %>
+      </ul>
+    </dd>
+
     <% unless @participant.checkouts.current.blank? %>
       <dt>Tools:</dt>
       <dd>
@@ -74,8 +96,8 @@
       </dd>
     <% end %>
   </dl>
-  
-      
+
+
 
   <%= link_to t('.back', :default => t("helpers.links.back")),
               participants_path, :class => 'btn btn-default' %>
@@ -103,4 +125,3 @@
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>
-

@@ -11,7 +11,23 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170305040259) do
+ActiveRecord::Schema.define(version: 20170322031706) do
+
+  create_table "certification_types", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "certifications", force: :cascade do |t|
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "participant_id",        limit: 4
+    t.integer  "certification_type_id", limit: 4
+  end
+
+  add_index "certifications", ["certification_type_id"], name: "index_certifications_on_certification_type_id", using: :btree
+  add_index "certifications", ["participant_id"], name: "index_certifications_on_participant_id", using: :btree
 
   create_table "charge_types", force: :cascade do |t|
     t.string   "name"
@@ -280,6 +296,16 @@ ActiveRecord::Schema.define(version: 20170305040259) do
     t.boolean  "is_completed"
   end
 
+  create_table "tool_type_certifications", force: :cascade do |t|
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "tool_type_id",          limit: 4
+    t.integer  "certification_type_id", limit: 4
+  end
+
+  add_index "tool_type_certifications", ["certification_type_id"], name: "index_tool_type_certifications_on_certification_type_id", using: :btree
+  add_index "tool_type_certifications", ["tool_type_id"], name: "index_tool_type_certifications_on_tool_type_id", using: :btree
+
   create_table "tool_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at"
@@ -336,4 +362,8 @@ ActiveRecord::Schema.define(version: 20170305040259) do
 
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
 
+  add_foreign_key "certifications", "certification_types"
+  add_foreign_key "certifications", "participants"
+  add_foreign_key "tool_type_certifications", "certification_types"
+  add_foreign_key "tool_type_certifications", "tool_types"
 end
