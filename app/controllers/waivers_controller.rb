@@ -13,7 +13,9 @@ class WaiversController < ApplicationController
     else
       @user.start_waiver_timer
     end
-    
+
+    @should_see_video = !@user.is_scc?
+
   end
 
 
@@ -34,7 +36,10 @@ class WaiversController < ApplicationController
       flash[:error] = "You must agree to the terms of the release."
       redirect_to action: :new
     elsif params[:phone_number] == ""
-      flash[:error] = "You must provide a mobile phone number"
+      flash[:error] = "You must provide a mobile phone number."
+      redirect_to action: :new
+    elsif params[:signature] != @participant.name
+      flash[:error] = "You must electronically sign the waiver with your full name as it appears on the waiver."
       redirect_to action: :new
     else
       @participant.phone_number = params[:phone_number]
