@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160404161512) do
+ActiveRecord::Schema.define(version: 20170305040259) do
 
   create_table "charge_types", force: :cascade do |t|
     t.string   "name"
@@ -196,6 +196,7 @@ ActiveRecord::Schema.define(version: 20160404161512) do
     t.string   "cached_department"
     t.string   "cached_student_class"
     t.datetime "cache_updated"
+    t.datetime "waiver_start"
     t.integer  "phone_carrier_id"
   end
 

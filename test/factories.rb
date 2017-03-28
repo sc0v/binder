@@ -108,6 +108,7 @@ FactoryGirl.define do
   # participant
   factory :participant, :aliases => [:completed_by, :issuing_participant, :receiving_participant] do
     andrewid { generate(:random_string) }
+    waiver_start DateTime.now
   end
 
   # shift

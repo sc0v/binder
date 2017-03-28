@@ -10,6 +10,8 @@ class WaiversController < ApplicationController
     
     if @user.has_signed_waiver
       flash[:notice] = "You have already agreed to the release."
+    else
+      @user.start_waiver_timer
     end
     
   end
@@ -21,9 +23,11 @@ class WaiversController < ApplicationController
     else
       @participant = Participant.find params[:participant_id]
     end
-    
-    
-    if params[:adult].blank?
+
+    if @participant.is_waiver_cheater?
+      @participant.start_waiver_timer
+      redirect_to '/cheating.html'
+    elsif params[:adult].blank?
       flash[:error] = "You must be 18 or older to sign the electronic waiver. Please contact Andrew Greenwald (<a target='_blank' href='mailto:asgreen@andrew.cmu.edu'>asgreen@andrew.cmu.edu</a>)."
       redirect_to action: :new
     elsif params[:agree].blank?
