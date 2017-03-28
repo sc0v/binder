@@ -1,4 +1,5 @@
 class CertificationsController < ApplicationController
+  load_and_authorize_resource
 
   before_action :set_participant, only: [:new, :create]
   before_action :set_certification, only: [:destroy]
