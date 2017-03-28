@@ -1,7 +1,8 @@
 class ParticipantsController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
   before_action :set_participant, only: [:show, :edit, :update, :destroy]
-  
+  before_action :set_wristband_colors
+
   # GET /participants
   # GET /participants.json
   def index
@@ -35,16 +36,16 @@ class ParticipantsController < ApplicationController
   def show
     @memberships = @participant.memberships.all
 
-    building_statuses = @memberships.map { |m| m.organization.organization_category.building_status }
-    building = building_statuses.include?(true)
+    building_statuses = @memberships.map { |m| m.organization.organization_category.is_building }
+    is_building = building_statuses.include?(true)
     if @memberships.empty?
       @wristband = "None - No organizations"
     elsif !@participant.has_signed_waiver
       @wristband = "None - No waiver signature"
-    elsif building
-      @wristband = "Red"
+    elsif is_building
+      @wristband = @wristband_colors[:building]
     else
-      @wristband = "Blue"
+      @wristband = @wristband_colors[:nonbuilding]
     end
   end
 
@@ -92,5 +93,8 @@ class ParticipantsController < ApplicationController
   def participant_update_params
     params.require(:participant).permit(:phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)
   end
-end
 
+  def set_wristband_colors
+    @wristband_colors = { :building => "Red", :nonbuilding => "Blue" }
+  end
+end
