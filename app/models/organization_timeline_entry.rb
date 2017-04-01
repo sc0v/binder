@@ -39,9 +39,7 @@ class OrganizationTimelineEntry < ActiveRecord::Base
 
   #notifcations 
   after_create :notifyStart
-  after_create :notifyEnd
-
-  @@REMINDER_TIME = 239.minutes # minutes before it will end 
+  after_update :notifyEnd
 
   def notifyStart
     for chair in organization.booth_chairs
@@ -54,15 +52,8 @@ class OrganizationTimelineEntry < ActiveRecord::Base
   def notifyEnd
     for chair in organization.booth_chairs
       if chair.phone_number.length == 10
-        send_sms(chair.phone_number, "Downtime for your organization, " +organziation.name+", ends in 10 minutes.")
+        send_sms(chair.phone_number, "Downtime for your organization, " +organization.name+", has ended. You have "+Time.at(organization.remaining_downtime).utc.strftime("%H hours %M minutes")+" left.")
       end
     end
   end
-
-  def when_to_run
-    ended_at - @@REMINDER_TIME
-  end
-
-  handle_asynchronously :notifyEnd, :run_at => Proc.new { |i| i.when_to_run }
-
 end
