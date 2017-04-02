@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170326233627) do
+ActiveRecord::Schema.define(version: 20170402012413) do
 
   create_table "charge_types", force: :cascade do |t|
     t.string   "name",                          limit: 255
@@ -83,10 +83,11 @@ ActiveRecord::Schema.define(version: 20170326233627) do
 
   create_table "events", force: :cascade do |t|
     t.boolean  "is_done"
-    t.integer  "event_type_id", limit: 4
+    t.integer  "event_type_id",  limit: 4
     t.datetime "created_at"
-    t.text     "description",   limit: 65535
+    t.text     "description",    limit: 65535
     t.datetime "updated_at"
+    t.integer  "participant_id", limit: 4
   end
 
   create_table "faqs", force: :cascade do |t|

@@ -14,6 +14,7 @@
       <tr>
         <th></th>
         <th>Event Type</th>
+        <th>Assigned To</th>
         <th>Description</th>
         <th class="hidden-xs">Created</th>
         <th>Actions</th>
@@ -25,6 +26,7 @@
         <tr <%= raw('class="warning"') unless event.is_done %>>
           <td><%= link_to 'Show', event, :class => 'btn btn-info btn-xs' %></td>
           <td><%= event.event_type.name %></td>
+          <td><%= event.participant.name if event.participant != nil %></td>
           <td><%= event.description %></td>
           <td class="hidden-xs"><%= date_and_time event.created_at %></td>
           <td>

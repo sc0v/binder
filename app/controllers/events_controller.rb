@@ -4,14 +4,15 @@
 #
 # ### Columns
 #
-# Name                 | Type               | Attributes
-# -------------------- | ------------------ | ---------------------------
-# **`created_at`**     | `datetime`         |
-# **`description`**    | `text(65535)`      |
-# **`event_type_id`**  | `integer`          |
-# **`id`**             | `integer`          | `not null, primary key`
-# **`is_done`**        | `boolean`          |
-# **`updated_at`**     | `datetime`         |
+# Name                  | Type               | Attributes
+# --------------------- | ------------------ | ---------------------------
+# **`created_at`**      | `datetime`         |
+# **`description`**     | `text(65535)`      |
+# **`event_type_id`**   | `integer`          |
+# **`id`**              | `integer`          | `not null, primary key`
+# **`is_done`**         | `boolean`          |
+# **`participant_id`**  | `integer`          |
+# **`updated_at`**      | `datetime`         |
 #
 
 class EventsController < ApplicationController
@@ -32,6 +33,7 @@ class EventsController < ApplicationController
   # GET /events/new
   def new
     @event = Event.new
+    @scc_members = Participant.all.scc
   end
 
   # PUT
@@ -43,6 +45,7 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
+    @scc_members = Participant.all.scc
     @event.updated_at = DateTime.now
     @event.save
   end
@@ -97,6 +100,6 @@ class EventsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def event_params
-      params.require(:event).permit(:is_done, :title, :created_at, :description, :updated_at, :display, :event_type_id)
+      params.require(:event).permit(:is_done, :title, :created_at, :description, :updated_at, :display, :event_type_id, :participant_id)
     end
 end
