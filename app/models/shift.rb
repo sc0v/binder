@@ -52,8 +52,8 @@ class Shift < ActiveRecord::Base
   scope :sec_shifts, -> { where('shift_type_id = ?', 2) }
   scope :coord_shifts, -> { where('shift_type_id = ?', 3) }
 
-  @@notify = 10.seconds
-  @@notify2 = 15.seconds
+  @@notify = 1.hour
+  @@notify2 = 5.minutes
 
   after_create :send_notifications
   after_create :send_late_notifications
