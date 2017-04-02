@@ -52,10 +52,11 @@ class Shift < ActiveRecord::Base
   scope :sec_shifts, -> { where('shift_type_id = ?', 2) }
   scope :coord_shifts, -> { where('shift_type_id = ?', 3) }
 
-  @@notify = 1.hour
-  #@@notify2 = 5.minutes
+  @@notify = 10.seconds
+  @@notify2 = 15.seconds
 
   after_create :send_notifications
+  after_create :send_late_notifications
 
   def formatted_name
     if organization.blank?
@@ -69,24 +70,38 @@ class Shift < ActiveRecord::Base
     return participants.size == required_number_of_participants
   end
 
-  def when_to_run
+  def when_to_run_normal
     self.starts_at - @@notify
   end
 
+  def when_to_run_late
+    self.starts_at + @@notify2
+  end
+
+  #send notification to booth chairs of shift's org 1 hour before watch shift starts
   def send_notifications
-    for chair in organization.booth_chairs
-        if chair.phone_number.length == 10
-          send_sms(chair.phone_number, "A watch shift for " + organization.name + " starts in 1 hour.")
-        end
+    if shift_type.name == "Watch Shift"
+      for chair in organization.booth_chairs
+          if chair.phone_number.length == 10
+            send_sms(chair.phone_number, "A watch shift for " + organization.name + " starts in 1 hour.")
+          end
+      end
     end
   end
 
-  #def check_clocked_in
-  #  if is_checked_in == false
-  #    send_sms(chair.phone_number, "Only "+participants.size+ " members of your organization, "+organization.name+ ", checked in for their watch shift.")
-  #  end
-  #end
+  #send notification to booth chairs of shift's org if required # of people haven't clocked in
+  def send_late_notifications
+    if shift_type.name == "Watch Shift" && is_checked_in == false
+      for chair in organization.booth_chairs
+          if chair.phone_number.length == 10
+            send_sms(chair.phone_number, "Only " + participants.size.to_s + " of " + required_number_of_participants.to_s + " people for your watch shift have checked in. Please send more people as soon as possible.")
+          end
+      end
+    end
+  end
   
-  handle_asynchronously :send_notifications, :run_at => Proc.new { |i| i.when_to_run }
+  #delays all jobs using delayed_jobs gem
+  handle_asynchronously :send_notifications, :run_at => Proc.new { |i| i.when_to_run_normal }
+  handle_asynchronously :send_late_notifications, :run_at => Proc.new { |i| i.when_to_run_late }
 
 end
