@@ -32,6 +32,7 @@ class ChargeTest < ActiveSupport::TestCase
   should belong_to(:organization)
   should belong_to(:issuing_participant)
   should belong_to(:receiving_participant)
+  should belong_to(:creating_participant)
   should belong_to(:charge_type)
 
   # Validations
