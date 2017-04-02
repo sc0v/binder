@@ -55,11 +55,13 @@ class Checkout < ActiveRecord::Base
       waitlist = ToolWaitlist.for_tool_type(toolCategory.id).by_wait_start_time
       if (waitlist.count != 0)
         nextPerson = waitlist.first.participant
-        number = nextPerson.phone_number
-        puts ("\n\n\nThis guy is: #{nextPerson.name}")
-        puts ("\n\n\nThis guy's number is: #{number}\n\n\n")
-        content = "#{toolCategory.name} is now available at the trailer. Please come pick it up within 5 minutes!"
-        send_sms(number, content)
+        unless (nextPerson.phone_number.blank?)
+          number = nextPerson.phone_number
+          puts ("\n\n\nThis guy is: #{nextPerson.name}")
+          puts ("\n\n\nThis guy's number is: #{number}\n\n\n")
+          content = "#{toolCategory.name} is now available at the trailer. Please come pick it up within 5 minutes!"
+          send_sms(number, content)
+        end
       end
     end
   end
