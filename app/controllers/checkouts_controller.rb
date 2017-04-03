@@ -136,8 +136,6 @@ class CheckoutsController < ApplicationController
         format.html { redirect_to tool_path(checkout.tool), notice: "Error" }
       end
     end
-
-    
   end
 
 
@@ -181,5 +179,11 @@ class CheckoutsController < ApplicationController
       end
     end
   end
+
+  # def reply
+  #   message_body = params['Body']
+  #   @checkout = Checkout.find(params[:id])
+  #   @checkout.reply_to(message_body)
+  # end
 end
 
