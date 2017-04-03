@@ -8,26 +8,23 @@ module Messenger
 
     from = "+14123854063"
 
-    message = @client.account.messages.create(
-             :from => from,
-             :to => '+1'+number,
-             :body => content
-    )
+    # The following try-rescue block is needed in case user unsubscribe
+    # if the user ubsubscribe and we attempt to message them
+    # the api will report an error
+
+    begin
+      message = @client.account.messages.create(
+          :from => from,
+          :to => '+1'+number,
+          :body => content
+      )
+    rescue Twilio::REST::RequestError => e
+      case e.code
+        when 21610
+          puts e.message
+      end
+    end
+
   end
-
-  # def receive_sms
-  #   body = params["Body"]
-  #   puts "\n\n\nbody text right here boy: #{body}\n\n\n"
-  #   Twilio::TwiML::Response.new do |r|
-  #     if body == "renew"
-  #       return 1
-  #     elsif body == "cancel"
-  #       return 0
-  #     else
-  #       return -1
-  #     end
-  #   end
-  # end
-
 
 end
