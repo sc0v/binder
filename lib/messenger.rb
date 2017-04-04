@@ -24,7 +24,6 @@ module Messenger
           puts e.message
       end
     end
-
   end
 
 end

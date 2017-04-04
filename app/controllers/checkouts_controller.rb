@@ -180,10 +180,5 @@ class CheckoutsController < ApplicationController
     end
   end
 
-  # def reply
-  #   message_body = params['Body']
-  #   @checkout = Checkout.find(params[:id])
-  #   @checkout.reply_to(message_body)
-  # end
 end
 

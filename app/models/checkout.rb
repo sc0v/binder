@@ -33,10 +33,6 @@ class Checkout < ActiveRecord::Base
     @card_number
   end
 
-  # def reply_to(message_content)
-  #   process_text(message_content)
-  # end
-
   validates_presence_of :tool, :organization
   validates_associated :tool, :organization, :participant
 
@@ -68,24 +64,4 @@ class Checkout < ActiveRecord::Base
     end
   end
 
-  # def process_text(message_content)
-  #   mc = message_content.downcase
-  #   if (!self.checked_in_at.blank?)
-  #     if (mc.match("cancel"))
-  #       toolCategory = self.tool.tool_type
-  #       waitlist = ToolWaitlist.for_tool_type(toolCategory.id).by_wait_start_time
-  #       nextPerson = waitlist.first.participant
-  #       first_wait = waitlist.first
-  #       first_wait.destroy
-  #       unless (nextPerson.phone_number.blank?)
-  #         number = nextPerson.phone_number
-  #         content = "You have been removed from the waitlist for #{toolCategory.name}! Happy building!"
-  #         send_sms(number, content)
-  #         puts("I sent out my text boy!!!! \n\n\n")
-  #       end
-  #     else
-  #       puts("Don't send non-keywords back!")
-  #     end
-  #   end
-  # end
 end

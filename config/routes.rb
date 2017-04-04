@@ -63,12 +63,6 @@ Trailerapp::Application.routes.draw do
     post 'uncheckin', on: :member
   end
 
-  # resource :checkouts do
-  #   collection do
-  #     post 'reply'
-  #   end
-  # end
-
   get "store" => "store/items#index"
   namespace :store do
     resources 'items' do
