@@ -1,3 +1,5 @@
+USER_UNSUBSCRIBED_FROM_TWILIO_ERROR_CODE = 21610
+
 module Messenger
 
   def send_sms(number, content)
@@ -20,7 +22,7 @@ module Messenger
       )
     rescue Twilio::REST::RequestError => e
       case e.code
-        when 21610
+        when USER_UNSUBSCRIBED_FROM_TWILIO_ERROR_CODE
           puts e.message
       end
     end
