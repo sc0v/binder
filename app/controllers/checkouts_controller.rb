@@ -160,8 +160,6 @@ class CheckoutsController < ApplicationController
         format.html { redirect_to tool_path(checkout.tool), notice: "Error" }
       end
     end
-
-    
   end
 
 
@@ -205,5 +203,6 @@ class CheckoutsController < ApplicationController
       end
     end
   end
+
 end
 
