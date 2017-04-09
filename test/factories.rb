@@ -28,7 +28,7 @@ FactoryGirl.define do
 
   # checkout
   factory :checkout do
-    checked_out_at Time.now
+    checked_out_at Time.now - 1.hour
 
     association :tool
     association :organization
@@ -166,6 +166,18 @@ FactoryGirl.define do
     email { generate(:random_string) + "@andrew.cmu.edu" }
 
     association :participant
+  end
+
+  #store_purchase
+  factory :store_purchase do
+
+    association :store_item
+  end
+
+  #store_item
+  factory :store_item do
+    name "Hammer"
+
   end
 
 end

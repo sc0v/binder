@@ -4,11 +4,11 @@
 #
 # ### Columns
 #
-# Name            | Type               | Attributes
-# --------------- | ------------------ | ---------------------------
-# **`display`**   | `boolean`          |
-# **`id`**        | `integer`          | `not null, primary key`
-# **`name`**      | `string(255)`      |
+# Name           | Type               | Attributes
+# -------------- | ------------------ | ---------------------------
+# **`display`**  | `boolean`          |
+# **`id`**       | `integer`          | `not null, primary key`
+# **`name`**     | `string(255)`      |
 #
 
 class EventType < ActiveRecord::Base

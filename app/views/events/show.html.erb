@@ -5,8 +5,10 @@
   <dd><%= @event.event_type.name %></dd>
   <dt><strong>Created At:</strong></dt>
   <dd><%= date_and_time @event.created_at %></dd>
-  <dt><strong>Is done:</strong></dt>
+  <dt><strong>Is Done:</strong></dt>
   <dd><%= format_boolean @event.is_done %></dd>
+  <dt><strong>Assigned To:</strong></dt>
+  <dd><%= @event.participant.name if @event.participant != nil %></dd>
   <dt><strong>Description:</strong></dt>
   <dd><%= @event.description %></dd>
 </dl>

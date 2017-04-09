@@ -26,6 +26,9 @@ module Trailerapp
 
     config.autoload_paths += %W(#{config.root}/lib)
 
+
+    config.active_job.queue_adapter = :delayed_job
+    
     WillPaginate::ViewHelpers.pagination_options[:inner_window] = 1
     WillPaginate::ViewHelpers.pagination_options[:outer_window] = 0
   end

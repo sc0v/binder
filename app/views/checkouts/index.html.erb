@@ -1,35 +1,32 @@
-<% if can?(:read, Checkout) %>
-  <%- model_class = Checkout -%>
-  <div class="page-header">
-    <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
-  </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th><%= model_class.human_attribute_name(:id) %></th>
-        <th><%= model_class.human_attribute_name(:tool) %></th>
-        <th><%= model_class.human_attribute_name(:checked_out_at) %></th>
-        <th><%= model_class.human_attribute_name(:checked_in_at) %></th>
-        <th><%= model_class.human_attribute_name(:participant_id) %></th>
-        <th><%= model_class.human_attribute_name(:organization_id) %></th>
+<%- model_class = Checkout -%>
+<div class="page-header">
+  <h1><%=t '.title', :default => model_class.model_name.human.pluralize %></h1>
+</div>
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:id) %></th>
+      <th><%= model_class.human_attribute_name(:tool) %></th>
+      <th><%= model_class.human_attribute_name(:checked_out_at) %></th>
+      <th><%= model_class.human_attribute_name(:checked_in_at) %></th>
+      <th><%= model_class.human_attribute_name(:participant_id) %></th>
+      <th><%= model_class.human_attribute_name(:organization_id) %></th>
       </tr>
-    </thead>
-    <tbody>
-      <% @checkouts.each do |checkout| %>
-        <% if can?(:read, checkout) %>
-          <tr>
-            <td><%= checkout.id %></td>
-            <td><%= checkout.tool.name %></td>
-            <td><%= date_and_time(checkout.checked_out_at) unless checkout.checked_out_at.nil? %></td>
-            <td><%= date_and_time(checkout.checked_in_at) unless checkout.checked_in_at.nil? %></td>
-            <td><%= checkout.participant.andrewid unless checkout.participant.nil? %></td>
-            <td><%= checkout.organization.name unless checkout.organization.nil?%></td>
-          </tr>
-        <% end %>
+  </thead>
+  <tbody>
+    <% @checkouts.each do |checkout| %>
+      <% if can?(:read, checkout) %>
+        <tr>
+          <td><%= checkout.id %></td>
+          <td><%= checkout.tool.name %></td>
+          <td><%= date_and_time(checkout.checked_out_at) unless checkout.checked_out_at.nil? %></td>
+          <td><%= date_and_time(checkout.checked_in_at) unless checkout.checked_in_at.nil? %></td>
+          <td><%= checkout.participant.andrewid unless checkout.participant.nil? %></td>
+          <td><%= checkout.organization.name unless checkout.organization.nil?%></td>
+        </tr>
       <% end %>
-    </tbody>
-  </table>
-<% else %>
-  <h3>Not Authorized!</h3>
-<% end %>
+    <% end %>
+  </tbody>
+</table>
+
 

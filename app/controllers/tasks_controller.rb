@@ -1,3 +1,21 @@
+# ## Schema Information
+#
+# Table name: `tasks`
+#
+# ### Columns
+#
+# Name                   | Type               | Attributes
+# ---------------------- | ------------------ | ---------------------------
+# **`completed_by_id`**  | `integer`          |
+# **`created_at`**       | `datetime`         |
+# **`description`**      | `text(65535)`      |
+# **`due_at`**           | `datetime`         |
+# **`id`**               | `integer`          | `not null, primary key`
+# **`is_completed`**     | `boolean`          |
+# **`name`**             | `string(255)`      |
+# **`updated_at`**       | `datetime`         |
+#
+
 class TasksController < ApplicationController
   load_and_authorize_resource
   

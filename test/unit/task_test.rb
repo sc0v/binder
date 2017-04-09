@@ -46,6 +46,13 @@ class TaskTest < ActiveSupport::TestCase
        assert_equal 2, Task.upcoming.size
     end
 
+    should "have a scope 'is_incomplete' that works" do
+       assert_equal 2, Task.is_incomplete.size
+    end
+
+    should "have a scope 'is_complete' that works" do
+       assert_equal 1, Task.is_complete.size
+    end
     # Methods
     should "show that the is_past_due method works" do
       assert_equal true, @assign_rides.is_past_due

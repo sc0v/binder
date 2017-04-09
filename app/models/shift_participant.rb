@@ -38,5 +38,5 @@ class ShiftParticipant < ActiveRecord::Base
   def card_number
     @card_number
   end
-end
 
+end

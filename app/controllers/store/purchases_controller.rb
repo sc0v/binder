@@ -1,13 +1,21 @@
 class Store::PurchasesController < ApplicationController
 
   def add_to_cart
-    @store_purchase = StorePurchase.new
+    all_store_items = StorePurchase.all.map { |s| s.store_item }
     item = StoreItem.find params[:id]
-    @store_purchase.quantity_purchased = 1
-    @store_purchase.price_at_purchase = item.price
-    @store_purchase.store_item = item
-    @store_purchase.save
-
+    if all_store_items.include?(item)
+      @old_store_purchase = StorePurchase.where("store_item_id= ?", item.id)
+      @old_store_purchase[0].quantity_purchased += 1
+      @old_store_purchase[0].price_at_purchase = item.price
+      @old_store_purchase[0].store_item = item
+      @old_store_purchase[0].save
+    else
+      @store_purchase = StorePurchase.new
+      @store_purchase.quantity_purchased = 1
+      @store_purchase.price_at_purchase = item.price
+      @store_purchase.store_item = item
+      @store_purchase.save
+    end
     #respond_with(@store_purchase)
     redirect_to store_url
   end
