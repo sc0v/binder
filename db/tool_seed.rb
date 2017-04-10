@@ -6,6 +6,7 @@
 # It is the responsibility of the administrator to login afterwards to
 # ensure there aren't any duplicate tool types (there shouldn't be as long as there
 # aren't spelling errors below).
+
 def generate_tools
   TOOLS.each do |tool|
     tool_type ||= ToolType.find_by_name(tool[:type].strip)
