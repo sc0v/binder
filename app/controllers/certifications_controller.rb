@@ -11,7 +11,7 @@ class CertificationsController < ApplicationController
   end
 
   def create
-    @certification = Certification.new(create_certification_params)
+    @certification = Certification.new(certification_params)
     @certification.participant = @participant
     @certification.save
     respond_with @certification, location: -> { @certification.participant }
@@ -37,7 +37,7 @@ class CertificationsController < ApplicationController
     end
   end
 
-  def create_certification_params
+  def certification_params
     params.require(:certification).permit(:participant_id, :certification_type_id)
   end
 
