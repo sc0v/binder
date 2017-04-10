@@ -1,20 +1,20 @@
 class WaiversController < ApplicationController
   before_filter :require_authenticated_user
-  
+
   def new
     if params[:participant_id].nil? or !current_user.participant.is_scc?
       @user = current_user.participant
     else
       @user = Participant.find params[:participant_id]
     end
-    
+
     if @user.has_signed_waiver
       flash[:notice] = "You have already agreed to the release."
     else
       @user.start_waiver_timer
     end
 
-    @should_see_video = !@user.is_scc?
+    @should_see_video = cannot?(:skip_video, WaiversController)
 
   end
 
@@ -26,7 +26,7 @@ class WaiversController < ApplicationController
       @participant = Participant.find params[:participant_id]
     end
 
-    if @participant.is_waiver_cheater?
+    if @participant.is_waiver_cheater? && cannot?(:skip_video, WaiversController)
       @participant.start_waiver_timer
       redirect_to '/cheating.html'
     elsif params[:adult].blank?

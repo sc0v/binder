@@ -95,6 +95,7 @@ class Ability
 
     if user.has_role? :admin
       can :manage, :all
+      can :skip_video, WaiversController
     end
   end
 end
