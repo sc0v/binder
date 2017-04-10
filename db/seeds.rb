@@ -15,14 +15,14 @@ puts
 # Organization Categories -----------------------------------------------------
 puts 'Organization Categories'
 
-fraternity = OrganizationCategory.create({ name: 'Fraternity', building_status: true })
-sorority = OrganizationCategory.create({ name: 'Sorority', building_status: true })
-independent = OrganizationCategory.create({ name: 'Independent', building_status: true})
-blitz = OrganizationCategory.create({ name: 'Blitz', building_status: true })
-concessions = OrganizationCategory.create({ name: 'Concessions', building_status: true })
-non_building = OrganizationCategory.create({ name: 'Non-Building', building_status: false })
-scc = OrganizationCategory.create({ name: 'SCC', building_status: false })
-staff = OrganizationCategory.create({ name: 'Staff', building_status: false })
+fraternity = OrganizationCategory.create({ name: 'Fraternity', is_building: true })
+sorority = OrganizationCategory.create({ name: 'Sorority', is_building: true })
+independent = OrganizationCategory.create({ name: 'Independent', is_building: true})
+blitz = OrganizationCategory.create({ name: 'Blitz', is_building: true })
+concessions = OrganizationCategory.create({ name: 'Concessions', is_building: true })
+non_building = OrganizationCategory.create({ name: 'Non-Building', is_building: false })
+scc = OrganizationCategory.create({ name: 'SCC', is_building: false })
+staff = OrganizationCategory.create({ name: 'Staff', is_building: false })
 
 # Organizations ---------------------------------------------------------------
 puts 'Organizations'
