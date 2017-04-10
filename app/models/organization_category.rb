@@ -4,13 +4,13 @@
 #
 # ### Columns
 #
-# Name                   | Type               | Attributes
-# ---------------------- | ------------------ | ---------------------------
-# **`building_status`**  | `boolean`          |
-# **`created_at`**       | `datetime`         |
-# **`id`**               | `integer`          | `not null, primary key`
-# **`name`**             | `string(255)`      |
-# **`updated_at`**       | `datetime`         |
+# Name               | Type               | Attributes
+# ------------------ | ------------------ | ---------------------------
+# **`created_at`**   | `datetime`         |
+# **`id`**           | `integer`          | `not null, primary key`
+# **`is_building`**  | `boolean`          |
+# **`name`**         | `string(255)`      |
+# **`updated_at`**   | `datetime`         |
 #
 
 class OrganizationCategory < ActiveRecord::Base
