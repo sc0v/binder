@@ -45,8 +45,10 @@ class Participant < ActiveRecord::Base
   has_many :shift_participants, dependent: :destroy
   has_many :certifications, dependent: :destroy
   has_many :organization_statuses, dependent: :destroy
+  has_many :events
   belongs_to :phone_carrier
   belongs_to :user, dependent: :destroy
+
 
   default_scope { order('andrewid') }
   scope :search, lambda { |term| where('lower(andrewid) LIKE lower(?) OR lower(cached_name) LIKE lower(?)', "%#{term}%", "%#{term}%") }
@@ -210,4 +212,3 @@ class Participant < ActiveRecord::Base
     self.phone_number = phone_number
   end
 end
-

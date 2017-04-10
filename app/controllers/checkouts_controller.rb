@@ -1,3 +1,26 @@
+# ## Schema Information
+#
+# Table name: `checkouts`
+#
+# ### Columns
+#
+# Name                   | Type               | Attributes
+# ---------------------- | ------------------ | ---------------------------
+# **`checked_in_at`**    | `datetime`         |
+# **`checked_out_at`**   | `datetime`         |
+# **`created_at`**       | `datetime`         |
+# **`id`**               | `integer`          | `not null, primary key`
+# **`organization_id`**  | `integer`          |
+# **`participant_id`**   | `integer`          |
+# **`tool_id`**          | `integer`          |
+# **`updated_at`**       | `datetime`         |
+#
+# ### Indexes
+#
+# * `index_checkouts_on_tool_id`:
+#     * **`tool_id`**
+#
+
 class CheckoutsController < ApplicationController
   # permissions error - when enabled, this tries to find a Checkout with the current related model id on creation
   # load_and_authorize_resource
@@ -137,8 +160,6 @@ class CheckoutsController < ApplicationController
         format.html { redirect_to tool_path(checkout.tool), notice: "Error" }
       end
     end
-
-    
   end
 
 
@@ -182,5 +203,6 @@ class CheckoutsController < ApplicationController
       end
     end
   end
+
 end
 
