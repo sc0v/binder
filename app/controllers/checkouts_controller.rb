@@ -30,6 +30,7 @@ class CheckoutsController < ApplicationController
   def index
     @tool = Tool.find(params[:tool_id])
     @checkouts = @tool.checkouts
+    authorize! :read, @checkouts
 
     respond_to do |format|
       format.html # index.html.erb
