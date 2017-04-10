@@ -87,7 +87,7 @@ unenforceable or ineffective, they shall be deemed severable and all other provi
 
   // autoplay video if there were no flashed errors
   function onPlayerReady(event) {
-    <%= (@should_see_video and flash[:error] == nil)? "event.target.playVideo();" : "showWaiver();" %>
+    <%= @should_see_video ? "event.target.playVideo();" : "showWaiver();" %>
   }
 
   // when video ends

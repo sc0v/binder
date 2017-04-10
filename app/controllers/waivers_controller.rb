@@ -10,11 +10,11 @@ class WaiversController < ApplicationController
 
     if @user.has_signed_waiver
       flash[:notice] = "You have already agreed to the release."
-    else
+    elsif !flash[:error]
       @user.start_waiver_timer
     end
 
-    @should_see_video = cannot?(:skip_video, WaiversController)
+    @should_see_video = !flash[:error] && cannot?(:skip_video, WaiversController)
 
   end
 
