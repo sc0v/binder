@@ -67,20 +67,22 @@ class ParticipantsController < ApplicationController
   def show
     @memberships = @participant.memberships.all
 
-    building_statuses = @memberships.map { |m| m.organization.organization_category.is_building }
-    is_building = building_statuses.include?(true)
     if @memberships.empty?
       @wristband = "None - No organizations"
     elsif !@participant.has_signed_waiver
       @wristband = "None - No waiver signature"
-    elsif is_building
-      @wristband = @wristband_colors[:building]
     else
-      @wristband = @wristband_colors[:nonbuilding]
-    end
+      building_statuses = @memberships.map { |m| m.organization.organization_category.is_building }
+      if building_statuses.include?(true)
+        @wristband = @wristband_colors[:building]
+      else
+        @wristband = @wristband_colors[:nonbuilding]
+      end
 
-    if @participant.certs.include?(CertificationType.find_by_name("Scissor Lift"))
-      @wristband += " and Green"
+      certs = @participant.certifications.map { |cert| cert.certification_type }
+      if certs.include?(CertificationType.find_by_name("Scissor Lift"))
+        @wristband += " and " + @wristband_colors[:scissor_lift]
+      end
     end
   end
 
@@ -130,6 +132,7 @@ class ParticipantsController < ApplicationController
   end
 
   def set_wristband_colors
-    @wristband_colors = { :building => "Red", :nonbuilding => "Blue" }
+    @wristband_colors = { :building => "Red", :nonbuilding => "Blue", :scissor_lift => "Green" }
   end
+
 end
