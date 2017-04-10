@@ -47,6 +47,10 @@ class ParticipantsController < ApplicationController
     else
       @wristband = @wristband_colors[:nonbuilding]
     end
+
+    if @participant.certs.include?(CertificationType.find_by_name("Scissor Lift"))
+      @wristband += " and Green"
+    end
   end
 
   # GET /participants/new
