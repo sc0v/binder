@@ -78,6 +78,8 @@ GEM
     capistrano-rbenv (2.0.4)
       capistrano (~> 3.1)
       sshkit (~> 1.3)
+    capistrano3-delayed-job (1.7.2)
+      capistrano (~> 3.0, >= 3.0.0)
     carrierwave (0.11.0)
       activemodel (>= 3.2.0)
       activesupport (>= 3.2.0)
@@ -344,6 +346,7 @@ DEPENDENCIES
   capistrano-passenger
   capistrano-rails
   capistrano-rbenv
+  capistrano3-delayed-job
   carrierwave
   coffee-rails
   coveralls
@@ -393,4 +396,4 @@ RUBY VERSION
    ruby 2.3.0p0
 
 BUNDLED WITH
-   1.14.3
+   1.14.5
