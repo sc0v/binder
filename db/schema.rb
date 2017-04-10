@@ -11,7 +11,24 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20170402012413) do
+
+  create_table "certification_types", force: :cascade do |t|
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
+  end
+
+  create_table "certifications", force: :cascade do |t|
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "participant_id",        limit: 4
+    t.integer  "certification_type_id", limit: 4
+  end
+
+  add_index "certifications", ["certification_type_id"], name: "index_certifications_on_certification_type_id", using: :btree
+  add_index "certifications", ["participant_id"], name: "index_certifications_on_participant_id", using: :btree
 
   create_table "charge_types", force: :cascade do |t|
 
@@ -214,6 +231,7 @@ ActiveRecord::Schema.define(version: 20170402012413) do
     t.string   "cached_department"
     t.string   "cached_student_class"
     t.datetime "cache_updated"
+    t.datetime "waiver_start"
     t.integer  "phone_carrier_id"
   end
 
@@ -268,20 +286,20 @@ ActiveRecord::Schema.define(version: 20170402012413) do
   add_index "shifts", ["organization_id"], name: "index_shifts_on_organization_id"
 
   create_table "store_items", force: :cascade do |t|
-    t.string   "name"
-    t.decimal  "price"
-    t.integer  "quantity"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",       limit: 255
+    t.decimal  "price",                  precision: 8, scale: 2
+    t.integer  "quantity",   limit: 4
+    t.datetime "created_at",                                     null: false
+    t.datetime "updated_at",                                     null: false
   end
 
   create_table "store_purchases", force: :cascade do |t|
-    t.integer  "charge_id"
-    t.integer  "store_item_id"
-    t.decimal  "price_at_purchase"
-    t.integer  "quantity_purchased"
-    t.datetime "created_at",         null: false
-    t.datetime "updated_at",         null: false
+    t.integer  "charge_id",          limit: 4
+    t.integer  "store_item_id",      limit: 4
+    t.decimal  "price_at_purchase",            precision: 8, scale: 2
+    t.integer  "quantity_purchased", limit: 4
+    t.datetime "created_at",                                           null: false
+    t.datetime "updated_at",                                           null: false
   end
 
   add_index "store_purchases", ["charge_id"], name: "index_store_purchases_on_charge_id"
@@ -296,6 +314,16 @@ ActiveRecord::Schema.define(version: 20170402012413) do
     t.datetime "updated_at"
     t.boolean  "is_completed"
   end
+
+  create_table "tool_type_certifications", force: :cascade do |t|
+    t.datetime "created_at",                      null: false
+    t.datetime "updated_at",                      null: false
+    t.integer  "tool_type_id",          limit: 4
+    t.integer  "certification_type_id", limit: 4
+  end
+
+  add_index "tool_type_certifications", ["certification_type_id"], name: "index_tool_type_certifications_on_certification_type_id", using: :btree
+  add_index "tool_type_certifications", ["tool_type_id"], name: "index_tool_type_certifications_on_tool_type_id", using: :btree
 
   create_table "tool_types", force: :cascade do |t|
     t.string   "name"
@@ -353,4 +381,8 @@ ActiveRecord::Schema.define(version: 20170402012413) do
 
   add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
 
+  add_foreign_key "certifications", "certification_types"
+  add_foreign_key "certifications", "participants"
+  add_foreign_key "tool_type_certifications", "certification_types"
+  add_foreign_key "tool_type_certifications", "tool_types"
 end

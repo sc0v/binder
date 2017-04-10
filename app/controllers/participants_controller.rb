@@ -21,6 +21,7 @@
 # **`phone_number`**               | `string(255)`      |
 # **`updated_at`**                 | `datetime`         |
 # **`user_id`**                    | `integer`          |
+# **`waiver_start`**               | `datetime`         |
 #
 # ### Indexes
 #
@@ -31,7 +32,8 @@
 class ParticipantsController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
   before_action :set_participant, only: [:show, :edit, :update, :destroy]
-  
+  before_action :set_wristband_colors
+
   # GET /participants
   # GET /participants.json
   def index
@@ -64,6 +66,22 @@ class ParticipantsController < ApplicationController
   # GET /participants/1.json
   def show
     @memberships = @participant.memberships.all
+
+    building_statuses = @memberships.map { |m| m.organization.organization_category.is_building }
+    is_building = building_statuses.include?(true)
+    if @memberships.empty?
+      @wristband = "None - No organizations"
+    elsif !@participant.has_signed_waiver
+      @wristband = "None - No waiver signature"
+    elsif is_building
+      @wristband = @wristband_colors[:building]
+    else
+      @wristband = @wristband_colors[:nonbuilding]
+    end
+
+    if @participant.certs.include?(CertificationType.find_by_name("Scissor Lift"))
+      @wristband += " and Green"
+    end
   end
 
   # GET /participants/new
@@ -110,5 +128,8 @@ class ParticipantsController < ApplicationController
   def participant_update_params
     params.require(:participant).permit(:phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)
   end
-end
 
+  def set_wristband_colors
+    @wristband_colors = { :building => "Red", :nonbuilding => "Blue" }
+  end
+end
