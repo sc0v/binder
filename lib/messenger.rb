@@ -1,3 +1,5 @@
+USER_UNSUBSCRIBED_FROM_TWILIO_ERROR_CODE = 21610
+
 module Messenger
 
   def send_sms(number, content)
@@ -8,15 +10,18 @@ module Messenger
 
     from = "+14123854063 "
 
-    message = @client.account.messages.create(
-             :from => from,
-             :to => '+1'+number,
-             :body => content
-    )
-  end
-
-  def receive_sms
-
+    begin
+      message = @client.account.messages.create(
+          :from => from,
+          :to => '+1'+number,
+          :body => content
+      )
+    rescue Twilio::REST::RequestError => e
+      case e.code
+        when USER_UNSUBSCRIBED_FROM_TWILIO_ERROR_CODE
+          puts e.message
+      end
+    end
   end
 
 end
