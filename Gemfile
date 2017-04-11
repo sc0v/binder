@@ -48,6 +48,7 @@ group :development do
 
   # sudo commands in capistrano
   gem 'sshkit-sudo'
+
 end
 
 # Document attachments
@@ -85,7 +86,6 @@ group :development do
   gem 'rails-erd'
   gem 'spring'
   gem 'delayed_job'
-
 end
 
 group :development, :test do
@@ -95,6 +95,7 @@ end
 group :development, :staging, :production do
   gem 'newrelic_rpm'
   gem 'mysql2'
+  gem 'capistrano3-delayed-job'
 end
 
 group :test do

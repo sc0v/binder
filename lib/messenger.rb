@@ -8,7 +8,11 @@ module Messenger
 
     @client = Twilio::REST::Client.new sid, auth
 
-    from = "+14123854063 "
+    from = "+14123854063"
+
+    # The following try-rescue block is needed in case user unsubscribe
+    # if the user ubsubscribe and we attempt to message them
+    # the api will report an error
 
     begin
       message = @client.account.messages.create(
