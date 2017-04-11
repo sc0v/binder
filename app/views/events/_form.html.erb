@@ -7,7 +7,7 @@
         <%= f.association :event_type, :prompt => 'Select an event type', :selected => 1 %>
       </div>
       <div class='col-xs-12 col-sm-9'>
-        <%= f.association :participant, collection: Participant.scc, :prompt => 'Select a member of SCC (optional)' %>
+        <%= f.association :participant, collection: Participant.exec, :prompt => 'Select a member of SCC (optional)' %>
       </div>
       <% if can?(:create, EventType) %>
         <div>

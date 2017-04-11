@@ -25,8 +25,8 @@ module Trailerapp
     config.active_record.raise_in_transactional_callbacks = true
 
     config.autoload_paths += %W(#{config.root}/lib)
-
-
+    
+    # Enables delay_job gem to queue up tasks
     config.active_job.queue_adapter = :delayed_job
     
     WillPaginate::ViewHelpers.pagination_options[:inner_window] = 1

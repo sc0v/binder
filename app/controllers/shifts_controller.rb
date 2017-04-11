@@ -101,4 +101,5 @@ class ShiftsController < ApplicationController
   def shift_params
     params.require(:shift).permit(:starts_at, :ends_at, :shift_type_id, :organization_id, :required_number_of_participants, :description)
   end
+  
 end
