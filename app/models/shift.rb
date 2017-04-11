@@ -21,6 +21,11 @@
 # * `index_shifts_on_organization_id`:
 #     * **`organization_id`**
 #
+include Messenger
+require 'twilio-ruby' 
+require 'daemons'
+require 'delayed_job'
+require 'delayed_job_active_record'
 
 class Shift < ActiveRecord::Base
   validates_presence_of :starts_at, :ends_at, :required_number_of_participants, :shift_type
@@ -47,6 +52,12 @@ class Shift < ActiveRecord::Base
   scope :sec_shifts, -> { where('shift_type_id = ?', 2) }
   scope :coord_shifts, -> { where('shift_type_id = ?', 3) }
 
+  @@notify = 1.hour
+  @@notify2 = 5.minutes
+
+  after_create :send_notifications
+  after_create :send_late_notifications
+
   def formatted_name
     if organization.blank?
       shift_type.name + " @ " + starts_at.strftime("%b %e at %l:%M %p")
@@ -58,5 +69,45 @@ class Shift < ActiveRecord::Base
   def is_checked_in
     return participants.size == required_number_of_participants
   end
-end
 
+  def when_to_run_normal
+    self.starts_at - @@notify
+  end
+
+  def when_to_run_late
+    self.starts_at + @@notify2
+  end
+
+  #send notification to booth chairs of shift's org 1 hour before watch shift starts
+  def send_notifications
+    if shift_type.name == "Watch Shift"
+      for chair in organization.booth_chairs
+          if chair.phone_number.length == 10
+            send_sms(chair.phone_number, "A watch shift for " + organization.name + " starts in 1 hour.")
+          end
+      end
+    end
+  end
+
+  #send notification to booth chairs of shift's org if required # of people haven't clocked in
+  def send_late_notifications
+    if shift_type.name == "Watch Shift" && is_checked_in == false
+      for chair in organization.booth_chairs
+          if chair.phone_number.length == 10
+            send_sms(chair.phone_number, "Only " + participants.size.to_s + " of " + required_number_of_participants.to_s + " people for your watch shift have checked in. Please send more people as soon as possible.")
+          end
+      end
+    elsif shift_type.name == "Watch Shift" && is_checked_in == true
+      for chair in organization.booth_chairs
+          if chair.phone_number.length == 10
+            send_sms(chair.phone_number, "The required number of people for your watch shift have checked in. Thank you!")
+          end
+      end      
+    end
+  end
+  
+  #delays all jobs using delayed_jobs gem
+  handle_asynchronously :send_notifications, :run_at => Proc.new { |i| i.when_to_run_normal }
+  handle_asynchronously :send_late_notifications, :run_at => Proc.new { |i| i.when_to_run_late }
+
+end

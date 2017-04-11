@@ -2637,5 +2637,12 @@ TOOLS = [
     { barcode:   9995, type: 'Socket Wrench Set' },
     { barcode:   9996, type: 'Socket Wrench Set' },
     { barcode:   9997, type: 'Square', description: '12\'' },
-    { barcode:   9998, type: 'Square', description: '12\'' }
+    { barcode:   9998, type: 'Square', description: '12\'' },
+    { barcode:  10001, type: 'Golf Cart', description: 'Four seater' },
+    { barcode:  10002, type: 'Golf Cart', description: 'Four seater' },
+    { barcode:  10003, type: 'Golf Cart', description: 'Four seater' },
+    { barcode:  10004, type: 'Golf Cart', description: 'Two seater with bed' },
+    { barcode:  10005, type: 'Golf Cart', description: 'Two seater with bed' },
+    { barcode:  10011, type: 'Scissor Lift', description: '12\' scissor lift' },
+    { barcode:  10012, type: 'Scissor Lift', description: '12\' scissor lift' }
 ]

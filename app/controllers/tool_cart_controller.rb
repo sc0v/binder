@@ -62,6 +62,18 @@ class ToolCartController < ApplicationController
                     locals: {message: "Invalid organization"}
     end
 
+    participant_certs = participant.certifications.map { |cert| cert.certification_type.name }
+    session[:tool_cart].each do |tool|
+      tool = Tool.find_by_barcode(tool)
+      required_certs = tool.tool_type.tool_type_certifications.map { |cert| cert.certification_type.name }
+      required_certs.each do |required_cert|
+        if !participant_certs.include?(required_cert)
+          return render action: 'tool_cart_error',
+                        locals: {message: "#{required_cert} certification required for #{tool.name} tool!"}
+        end
+      end
+    end
+
     # Add membership
     if params[:add_membership]
       Membership.create({participant_id: params[:participant_id], organization_id: params[:organization_id]})

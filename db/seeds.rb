@@ -16,14 +16,14 @@ puts
 # Organization Categories -----------------------------------------------------
 puts 'Organization Categories'
 
-fraternity = OrganizationCategory.create({ name: 'Fraternity'})
-sorority = OrganizationCategory.create({ name: 'Sorority'})
-independent = OrganizationCategory.create({ name: 'Independent'})
-blitz = OrganizationCategory.create({ name: 'Blitz'})
-concessions = OrganizationCategory.create({ name: 'Concessions'})
-non_building = OrganizationCategory.create({ name: 'Non-Building' })
-scc = OrganizationCategory.create({ name: 'SCC'})
-staff = OrganizationCategory.create({ name: 'Staff' })
+fraternity = OrganizationCategory.create({ name: 'Fraternity', is_building: true })
+sorority = OrganizationCategory.create({ name: 'Sorority', is_building: true })
+independent = OrganizationCategory.create({ name: 'Independent', is_building: true})
+blitz = OrganizationCategory.create({ name: 'Blitz', is_building: true })
+concessions = OrganizationCategory.create({ name: 'Concessions', is_building: true })
+non_building = OrganizationCategory.create({ name: 'Non-Building', is_building: false })
+scc = OrganizationCategory.create({ name: 'SCC', is_building: false })
+staff = OrganizationCategory.create({ name: 'Staff', is_building: false })
 
 
 # Organizations ---------------------------------------------------------------
@@ -219,6 +219,12 @@ Membership.create({ organization: tsa_org, participant: Participant.create({ and
 Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'mlbaek' }), is_booth_chair: true })
 Membership.create({ organization: tsa_org, participant: Participant.create({ andrewid: 'tchiang' }), is_booth_chair: true })
 
+
+# Certification Types --------------------------------------------------------
+puts 'Certification Types'
+
+golf_cart_cert = CertificationType.new({ name: 'Golf Cart' })
+scissor_lift_cert = CertificationType.new({ name: 'Scissor Lift' })
 
 # Organization Status Types --------------------------------------------------
 puts 'Organization Status Types'
@@ -762,6 +768,8 @@ puts 'Tools'
 
 generate_tools
 
+ToolTypeCertification.create({ tool_type: ToolType.find_by_name("Golf Cart"), certification_type: golf_cart_cert })
+ToolTypeCertification.create({ tool_type: ToolType.find_by_name("Scissor Lift"), certification_type: scissor_lift_cert })
 
 # Store -------------------------------------------------------------------------
 puts 'Store'

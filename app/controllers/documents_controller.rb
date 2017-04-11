@@ -1,3 +1,21 @@
+# ## Schema Information
+#
+# Table name: `documents`
+#
+# ### Columns
+#
+# Name                   | Type               | Attributes
+# ---------------------- | ------------------ | ---------------------------
+# **`created_at`**       | `datetime`         |
+# **`document_id`**      | `integer`          |
+# **`id`**               | `integer`          | `not null, primary key`
+# **`name`**             | `string(255)`      |
+# **`organization_id`**  | `integer`          |
+# **`public`**           | `boolean`          |
+# **`updated_at`**       | `datetime`         |
+# **`url`**              | `string(255)`      |
+#
+
 class DocumentsController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
 

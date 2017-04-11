@@ -21,6 +21,7 @@
 # **`phone_number`**               | `string(255)`      |
 # **`updated_at`**                 | `datetime`         |
 # **`user_id`**                    | `integer`          |
+# **`waiver_start`**               | `datetime`         |
 #
 # ### Indexes
 #
@@ -30,24 +31,38 @@
 
 class Participant < ActiveRecord::Base
   before_save :reformat_phone
-  
+
   validates :andrewid, :presence => true, :uniqueness => true
   # validates :has_signed_waiver, :acceptance => {:accept => true}
   validates_format_of :phone_number, :with => /\A\(?\d{3}\)?[-. ]?\d{3}[-.]?\d{4}\Z/, :message => "should be 10 digits (area code needed) and delimited with dashes only", :allow_blank => true
 
   has_many :organizations, :through => :memberships
   has_many :shifts, :through => :shift_participants
+  has_many :certs, :through => :certifications, source: :participant
   has_many :checkouts, dependent: :destroy
   has_many :tools, :through => :checkouts
   has_many :memberships, dependent: :destroy
   has_many :shift_participants, dependent: :destroy
+  has_many :certifications, dependent: :destroy
   has_many :organization_statuses, dependent: :destroy
+  has_many :events
   belongs_to :phone_carrier
   belongs_to :user, dependent: :destroy
+
 
   default_scope { order('andrewid') }
   scope :search, lambda { |term| where('lower(andrewid) LIKE lower(?) OR lower(cached_name) LIKE lower(?)', "%#{term}%", "%#{term}%") }
   scope :scc, -> { joins(:organizations).where(organizations: {name: 'Spring Carnival Committee'}) }
+  scope :exec, -> { joins(:organizations).where(organizations: {name: 'Spring Carnival Committee'}).joins(:memberships).where(memberships: {is_booth_chair: true}) }
+
+  def start_waiver_timer
+    self.waiver_start = DateTime.now
+    self.save
+  end
+
+  def is_waiver_cheater?
+    (self.waiver_start + 3.minutes + 30.seconds) > DateTime.now
+  end
 
   def is_booth_chair?
     !memberships.booth_chairs.blank?
@@ -197,5 +212,5 @@ class Participant < ActiveRecord::Base
     phone_number.gsub!(/[^0-9]/,"")
     self.phone_number = phone_number
   end
+  
 end
-

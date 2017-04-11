@@ -5,12 +5,12 @@ class Ability
     user ||= User.new # guest user (not logged in)
 
     cannot :manage, :all
-    
+
     if (user.participant.blank?)
       return
     end
 
-    can :read, [OrganizationAlias, OrganizationCategory, Organization, Participant, 
+    can :read, [OrganizationAlias, OrganizationCategory, Organization, Participant,
                 ShiftType, Tool, ToolWaitlist, Membership]
 
     can :search
@@ -90,10 +90,12 @@ class Ability
       can [:create, :update], Tool
       can [:create, :update], ToolType
       can [:create, :update , :destroy], ToolWaitlist
+      can [:create, :destroy], Certification
     end
 
     if user.has_role? :admin
       can :manage, :all
+      can :skip_video, WaiversController
     end
   end
 end

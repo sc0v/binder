@@ -1,5 +1,32 @@
+# ## Schema Information
+#
+# Table name: `charges`
+#
+# ### Columns
+#
+# Name                            | Type               | Attributes
+# ------------------------------- | ------------------ | ---------------------------
+# **`amount`**                    | `decimal(8, 2)`    |
+# **`charge_type_id`**            | `integer`          |
+# **`charged_at`**                | `datetime`         |
+# **`created_at`**                | `datetime`         |
+# **`creating_participant_id`**   | `integer`          |
+# **`description`**               | `text(65535)`      |
+# **`id`**                        | `integer`          | `not null, primary key`
+# **`is_approved`**               | `boolean`          |
+# **`issuing_participant_id`**    | `integer`          |
+# **`organization_id`**           | `integer`          |
+# **`receiving_participant_id`**  | `integer`          |
+# **`updated_at`**                | `datetime`         |
+#
+# ### Indexes
+#
+# * `index_charges_on_organization_id`:
+#     * **`organization_id`**
+#
+
 class ChargesController < ApplicationController
-  load_and_authorize_resource skip_load_resource only: [:create] 
+  load_and_authorize_resource 
   before_action :set_charge, only: [:show, :edit, :update, :destroy, :approve]
 
   # GET /charges
@@ -32,6 +59,7 @@ class ChargesController < ApplicationController
 
   # GET /charges/1/edit
   def edit
+    @current_receiving_participant = @charge.receiving_participant? ? "" : @charge.receiving_participant.formatted_name
   end
 
   # POST /charges
@@ -49,7 +77,7 @@ class ChargesController < ApplicationController
   # PUT /charges/1.json
   def update
     @charge.is_approved = false
-    @charge.update(charge_params)
+    @charge.update_attributes(charge_params)
     respond_with(@charge)
   end
 
@@ -69,7 +97,8 @@ class ChargesController < ApplicationController
   def approve
     @charge.is_approved = !@charge.is_approved
     @charge.save
-    respond_with @charge, location: -> {charges_path}
+
+    respond_with(@charge, location: @charge.organization)
   end
 
   private

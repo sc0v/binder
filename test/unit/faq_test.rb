@@ -16,12 +16,22 @@
 require 'test_helper'
 
 class FaqTest < ActiveSupport::TestCase
-  # Relationships
 
-  # Validations
+    context "With a proper context, " do
+    setup do
+      @faq1 = FactoryGirl.create(:faq, :question => "how to sign a waiver?")
+      @faq2 = FactoryGirl.create(:faq, :question => "how to build a booth?")
+    end
 
-  # Scopes
+    teardown do
+    end
 
-  # Methods
+    # Scope 
+    should "show that a search scope works" do
+      @ans = Faq.search("sign a waiver?")
+      assert_equal "how to sign a waiver?",  @ans[0].question
+    end
+    
+  end
 
 end
