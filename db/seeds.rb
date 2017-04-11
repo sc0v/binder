@@ -746,15 +746,16 @@ security_shift = ShiftType.create({ name: 'Security Shift' })
 coordinator_shift = ShiftType.create({ name: 'Coordinator Shift' })
 
 SPECIAL_WATCH_SHIFTS.each { |shift| Shift.create({ shift_type: watch_shift, organization: Organization.find_by_short_name(shift[:org]), starts_at: shift[:starts_at], ends_at: shift[:starts_at] + 2.hours, required_number_of_participants: 2 }) }
+
 WATCH_SHIFTS.each_with_index do |org, i|
-  starts_at = move_on + 17.hours + (i * 4.hours)
+  starts_at = move_on + 17.hours + (i * 2).hours
   Shift.create({ shift_type: watch_shift, organization: Organization.find_by_short_name(org), starts_at: starts_at, ends_at: starts_at + 2.hours, required_number_of_participants: 2 })
 end
 
 SECURITY_SHIFTS.each { |shift| Shift.create({ shift_type: security_shift, description: shift[:desc], organization: Organization.find_by_short_name(shift[:org]), starts_at: shift[:starts_at], ends_at: shift[:starts_at] + 2.hours, required_number_of_participants: 2 }) }
 
 COORDINATOR_SHIFTS.each_with_index do |andrewid, i|
-  starts_at = move_on + 16.hours + (i * 4.hours)
+  starts_at = move_on + 16.hours + (i * 4).hours
   ShiftParticipant.create({
     shift: Shift.create({ shift_type: coordinator_shift, organization: scc_org, starts_at: starts_at, ends_at: starts_at + 4.hours, required_number_of_participants: 1 }),
     participant: Participant.find_by_andrewid(andrewid),
