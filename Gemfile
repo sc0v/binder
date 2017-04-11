@@ -26,9 +26,10 @@ gem 'activeldap', :require => 'active_ldap/railtie'
 # For Card-lookup requests
 gem 'savon'
 
-gem 'delayed_job'
-gem 'delayed_job_active_record'
+# For delayed jobs
 gem 'daemons'
+gem 'delayed_jobs'
+gem 'delayed_jobs_active_record'
 
 # For Capistrano deployment
 group :development do
@@ -73,8 +74,6 @@ gem 'dossier'
 # Single test gem for unit testing
 gem 'single_test'
 
-gem 'daemons'
-
 group :development do
   # Automatically generate comments in models and such based on schema
   gem 'annotate'
@@ -85,7 +84,6 @@ group :development do
   gem 'rails_layout'
   gem 'rails-erd'
   gem 'spring'
-  gem 'delayed_job'
 end
 
 group :development, :test do
@@ -125,5 +123,5 @@ end
 
 group :staging, :production do
   gem 'passenger'
-  gem 'delayed_job_active_record'
+
 end
