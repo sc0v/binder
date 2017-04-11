@@ -32,6 +32,7 @@ Trailerapp::Application.routes.draw do
   resources :participants do
     resources :memberships, :except => [:index, :show]
     resource :waiver, :except => [:edit, :destroy, :show, :update]
+    resources :certifications, :only => [:new, :create, :destroy]
     post 'lookup', on: :collection
   end
 

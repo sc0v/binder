@@ -28,7 +28,7 @@ FactoryGirl.define do
 
   # checkout
   factory :checkout do
-    checked_out_at Time.now
+    checked_out_at Time.now - 1.hour
 
     association :tool
     association :organization
@@ -38,6 +38,16 @@ FactoryGirl.define do
   factory :document do
     name "MyString"
     url "MyString"
+  end
+
+  #event 
+  factory :event do
+    association :event_type
+  end
+
+  #event_type
+  factory :event_type do
+    name { generate(:random_string) }
   end
 
   # faq
@@ -73,6 +83,19 @@ FactoryGirl.define do
     name { generate(:random_string) }
   end
 
+  # organization_status
+  factory :organization_status do
+    association :organization
+    association :organization_status_type
+    association :participant
+  end
+
+  # organization_status_type
+  factory :organization_status_type do
+    name { generate(:random_string) }
+    display false
+  end
+
   # organization_timeline_entry
   factory :organization_timeline_entry do
     description { generate(:random_string) }
@@ -85,6 +108,7 @@ FactoryGirl.define do
   # participant
   factory :participant, :aliases => [:completed_by, :issuing_participant, :receiving_participant] do
     andrewid { generate(:random_string) }
+    waiver_start DateTime.now
   end
 
   # shift
@@ -127,12 +151,34 @@ FactoryGirl.define do
     association :tool_type
   end
 
+   # tool waitlist
+  factory :tool_waitlist do
+    wait_start_time Time.now
+    tool_type_id 1
+
+    association :tool_type
+    association :organization
+    association :participant
+  end
+
   # user
   factory :user do
     name "Default Factory User"
     email { generate(:random_string) + "@andrew.cmu.edu" }
 
     association :participant
+  end
+
+  #store_purchase
+  factory :store_purchase do
+
+    association :store_item
+  end
+
+  #store_item
+  factory :store_item do
+    name "Hammer"
+
   end
 
 end

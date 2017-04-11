@@ -26,6 +26,11 @@ gem 'activeldap', :require => 'active_ldap/railtie'
 # For Card-lookup requests
 gem 'savon'
 
+# For delayed jobs
+gem 'daemons'
+gem 'delayed_job'
+gem 'delayed_job_active_record'
+
 # For Capistrano deployment
 group :development do
   gem 'capistrano-rbenv', require: false
@@ -44,6 +49,7 @@ group :development do
 
   # sudo commands in capistrano
   gem 'sshkit-sudo'
+
 end
 
 # Document attachments
@@ -65,6 +71,9 @@ gem 'twilio-ruby'
 # Dossier for reports
 gem 'dossier'
 
+# Single test gem for unit testing
+gem 'single_test'
+
 group :development do
   # Automatically generate comments in models and such based on schema
   gem 'annotate'
@@ -84,6 +93,7 @@ end
 group :development, :staging, :production do
   gem 'newrelic_rpm'
   gem 'mysql2'
+  gem 'capistrano3-delayed-job'
 end
 
 group :test do
@@ -113,4 +123,5 @@ end
 
 group :staging, :production do
   gem 'passenger'
+
 end
