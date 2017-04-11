@@ -27,7 +27,9 @@ class Event < ActiveRecord::Base
   def send_notifications
     if self.participant != nil
       if self.participant.phone_number.length == 10
-        send_sms(self.participant.phone_number, "An event in Binder has been assigned to you.")
+        #grab first 95 characters of description to serve as a preview
+        description_preview = self.description[0...95]
+        send_sms(self.participant.phone_number, "An event in Binder has been assigned to you: " + description_preview + "...")
       end
     end
   end

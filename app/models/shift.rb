@@ -97,6 +97,12 @@ class Shift < ActiveRecord::Base
             send_sms(chair.phone_number, "Only " + participants.size.to_s + " of " + required_number_of_participants.to_s + " people for your watch shift have checked in. Please send more people as soon as possible.")
           end
       end
+    elsif shift_type.name == "Watch Shift" && is_checked_in == true
+      for chair in organization.booth_chairs
+          if chair.phone_number.length == 10
+            send_sms(chair.phone_number, "The required number of people for your watch shift have checked in. Thank you!")
+          end
+      end      
     end
   end
   

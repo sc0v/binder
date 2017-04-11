@@ -22,6 +22,7 @@
 # **`updated_at`**                 | `datetime`         |
 # **`user_id`**                    | `integer`          |
 # **`waiver_start`**               | `datetime`         |
+
 #
 # ### Indexes
 #

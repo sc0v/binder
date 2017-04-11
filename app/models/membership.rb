@@ -40,5 +40,5 @@ class Membership < ActiveRecord::Base
       organization.name
     end
   end
+  
 end
-

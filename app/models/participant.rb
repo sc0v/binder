@@ -53,6 +53,7 @@ class Participant < ActiveRecord::Base
   default_scope { order('andrewid') }
   scope :search, lambda { |term| where('lower(andrewid) LIKE lower(?) OR lower(cached_name) LIKE lower(?)', "%#{term}%", "%#{term}%") }
   scope :scc, -> { joins(:organizations).where(organizations: {name: 'Spring Carnival Committee'}) }
+  scope :exec, -> { joins(:organizations).where(organizations: {name: 'Spring Carnival Committee'}).joins(:memberships).where(memberships: {is_booth_chair: true}) }
 
   def start_waiver_timer
     self.waiver_start = DateTime.now
@@ -211,4 +212,5 @@ class Participant < ActiveRecord::Base
     phone_number.gsub!(/[^0-9]/,"")
     self.phone_number = phone_number
   end
+  
 end

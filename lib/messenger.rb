@@ -27,5 +27,5 @@ module Messenger
       end
     end
   end
-  
+
 end

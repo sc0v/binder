@@ -26,9 +26,10 @@ gem 'activeldap', :require => 'active_ldap/railtie'
 # For Card-lookup requests
 gem 'savon'
 
+# For delayed jobs
+gem 'daemons'
 gem 'delayed_job'
 gem 'delayed_job_active_record'
-gem 'daemons'
 
 # For Capistrano deployment
 group :development do
@@ -83,7 +84,6 @@ group :development do
   gem 'rails_layout'
   gem 'rails-erd'
   gem 'spring'
-
 end
 
 group :development, :test do
@@ -123,4 +123,5 @@ end
 
 group :staging, :production do
   gem 'passenger'
+
 end
