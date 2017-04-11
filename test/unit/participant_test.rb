@@ -126,11 +126,6 @@ class ParticipantTest < ActiveSupport::TestCase
         assert_equal true, @participant.is_scc?
       end
 
-      should "show that card_number and card_number= methods works correctly" do
-        @participant.card_number=("818603330")
-        assert_equal "818603330", @participant.card_number
-      end
-
       should "show that name method works correctly" do
         assert_equal "Akshay Goradia", @participant.name
       end
