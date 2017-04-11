@@ -28,8 +28,8 @@ gem 'savon'
 
 # For delayed jobs
 gem 'daemons'
-gem 'delayed_jobs'
-gem 'delayed_jobs_active_record'
+gem 'delayed_job'
+gem 'delayed_job_active_record'
 
 # For Capistrano deployment
 group :development do
