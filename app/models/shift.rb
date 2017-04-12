@@ -58,5 +58,13 @@ class Shift < ActiveRecord::Base
   def is_checked_in
     return participants.size == required_number_of_participants
   end
+
+  def self.for_organizations(organizations)
+    if (organizations.nil?)
+      all
+    else
+      where("organization_id IN (?)", organizations)
+    end
+  end
 end
 
