@@ -1,9 +1,16 @@
 <div class="page-header">
-  <h1>Binder</h1>
-</div>	
+  <h1>Welcome to Binder!</h1>
+</div>
 
 <div class="col-xs-10 col-sm-6">
-  <% if user_signed_in? and !current_user.participant.has_signed_waiver? then %>
+  <% if !user_signed_in? then %>
+    <% if Rails.env.staging? or Rails.env.production? %>
+      <p><%= link_to "Login to Begin", main_app.user_omniauth_authorize_path(:shibboleth), :class => "btn btn-success" %></p>
+      <br>
+    <% elsif %>
+      <p>Please login to continue.</p>
+    <% end %>
+  <% elsif user_signed_in? and !current_user.participant.has_signed_waiver? then %>
     <p><%= link_to "Sign Waiver", new_waiver_path, :class => "btn btn-success" %></p>
     <br>
   <% end %>
@@ -29,15 +36,16 @@
 
   <br>
 
-  <%= form_tag(search_path, class: 'form-inline', role: 'search') do %>
-    <div class="form-group">
-      <div class="input-group">
-        <%= text_field_tag('query', '', :size => 10, :class => 'form-control col-md-6') %>
-        <span class="input-group-btn">
-          <%= submit_tag('Search', :class => 'btn btn-default') %>
-        </span>
+  <% if user_signed_in? then %>
+    <%= form_tag(search_path, class: 'form-inline', role: 'search') do %>
+      <div class="form-group">
+        <div class="input-group">
+          <%= text_field_tag('query', '', :size => 10, :class => 'form-control col-md-6') %>
+          <span class="input-group-btn">
+            <%= submit_tag('Search', :class => 'btn btn-default') %>
+          </span>
+        </div>
       </div>
-    </div>
+    <% end %>
   <% end %>
 </div>
-

@@ -1,7 +1,40 @@
+# ## Schema Information
+#
+# Table name: `participants`
+#
+# ### Columns
+#
+# Name                             | Type               | Attributes
+# -------------------------------- | ------------------ | ---------------------------
+# **`andrewid`**                   | `string(255)`      |
+# **`cache_updated`**              | `datetime`         |
+# **`cached_department`**          | `string(255)`      |
+# **`cached_email`**               | `string(255)`      |
+# **`cached_name`**                | `string(255)`      |
+# **`cached_student_class`**       | `string(255)`      |
+# **`cached_surname`**             | `string(255)`      |
+# **`created_at`**                 | `datetime`         |
+# **`has_signed_hardhat_waiver`**  | `boolean`          |
+# **`has_signed_waiver`**          | `boolean`          |
+# **`id`**                         | `integer`          | `not null, primary key`
+# **`phone_carrier_id`**           | `integer`          |
+# **`phone_number`**               | `string(255)`      |
+# **`updated_at`**                 | `datetime`         |
+# **`user_id`**                    | `integer`          |
+# **`waiver_start`**               | `datetime`         |
+
+#
+# ### Indexes
+#
+# * `index_participants_on_phone_carrier_id`:
+#     * **`phone_carrier_id`**
+#
+
 class ParticipantsController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
   before_action :set_participant, only: [:show, :edit, :update, :destroy]
-  
+  before_action :set_wristband_colors
+
   # GET /participants
   # GET /participants.json
   def index
@@ -34,6 +67,24 @@ class ParticipantsController < ApplicationController
   # GET /participants/1.json
   def show
     @memberships = @participant.memberships.all
+
+    if @memberships.empty?
+      @wristband = "None - No organizations"
+    elsif !@participant.has_signed_waiver
+      @wristband = "None - No waiver signature"
+    else
+      building_statuses = @memberships.map { |m| m.organization.organization_category.is_building }
+      if building_statuses.include?(true)
+        @wristband = @wristband_colors[:building]
+      else
+        @wristband = @wristband_colors[:nonbuilding]
+      end
+
+      certs = @participant.certifications.map { |cert| cert.certification_type }
+      if certs.include?(CertificationType.find_by_name("Scissor Lift"))
+        @wristband += " and " + @wristband_colors[:scissor_lift]
+      end
+    end
   end
 
   # GET /participants/new
@@ -80,5 +131,9 @@ class ParticipantsController < ApplicationController
   def participant_update_params
     params.require(:participant).permit(:phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)
   end
-end
 
+  def set_wristband_colors
+    @wristband_colors = { :building => "Red", :nonbuilding => "Blue", :scissor_lift => "Green" }
+  end
+
+end

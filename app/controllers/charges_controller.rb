@@ -62,7 +62,7 @@ class ChargesController < ApplicationController
 
   # GET /charges/1/edit
   def edit
-    @current_receiving_participant = @charge.receiving_participant.nil? ? "" : @charge.receiving_participant.formatted_name
+    @current_receiving_participant = @charge.receiving_participant? ? "" : @charge.receiving_participant.formatted_name
   end
 
   # POST /charges

@@ -1,3 +1,16 @@
+# ## Schema Information
+#
+# Table name: `organization_status_types`
+#
+# ### Columns
+#
+# Name           | Type               | Attributes
+# -------------- | ------------------ | ---------------------------
+# **`display`**  | `boolean`          |
+# **`id`**       | `integer`          | `not null, primary key`
+# **`name`**     | `string(255)`      |
+#
+
 class OrganizationStatusTypesController < ApplicationController
   load_and_authorize_resource
 
