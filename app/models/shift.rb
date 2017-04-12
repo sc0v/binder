@@ -77,7 +77,6 @@ class Shift < ActiveRecord::Base
       where("organization_id IN (?)", organizations)
     end
   end
-end
 
   def when_to_run_normal
     self.starts_at - @@notify
@@ -114,7 +113,6 @@ end
       end      
     end
   end
-  
   #delays all jobs using delayed_jobs gem
   handle_asynchronously :send_notifications, :run_at => Proc.new { |i| i.when_to_run_normal }
   handle_asynchronously :send_late_notifications, :run_at => Proc.new { |i| i.when_to_run_late }
