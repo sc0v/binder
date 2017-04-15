@@ -1,10 +1,10 @@
 class Store::PurchasesController < ApplicationController
 
   def add_to_cart
-    all_store_items = StorePurchase.all.map { |s| s.store_item }
+    all_store_items = StorePurchase.items_in_cart.map { |s| s.store_item }
     item = StoreItem.find params[:id]
     if all_store_items.include?(item)
-      @old_store_purchase = StorePurchase.where("store_item_id= ?", item.id)
+      @old_store_purchase = StorePurchase.items_in_cart.where("store_item_id= ?", item.id)
       @old_store_purchase[0].quantity_purchased += 1
       @old_store_purchase[0].price_at_purchase = item.price
       @old_store_purchase[0].store_item = item
