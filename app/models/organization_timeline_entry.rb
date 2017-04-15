@@ -37,9 +37,9 @@ class OrganizationTimelineEntry < ActiveRecord::Base
     return DateTime.now.to_i - started_at.to_i
   end
 
-  #notifcations 
-  after_create :notifyStart
-  after_update :notifyEnd
+  #notifcations
+  #after_create :notifyStart
+  #after_update :notifyEnd
 
   def notifyStart
     for chair in organization.booth_chairs
