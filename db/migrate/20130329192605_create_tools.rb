@@ -10,6 +10,6 @@ class CreateTools < ActiveRecord::Migration
       t.timestamps
     end
 
-    add_index :tools, :barcode
+    add_index :tools, :barcode, unique: true
   end
 end
