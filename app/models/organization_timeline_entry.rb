@@ -38,8 +38,8 @@ class OrganizationTimelineEntry < ActiveRecord::Base
   end
 
   #notifcations
-  #after_create :notifyStart
-  #after_update :notifyEnd
+  after_create :notifyStart
+  after_update :notifyEnd
 
   def notifyStart
     for chair in organization.booth_chairs
