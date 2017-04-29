@@ -106,7 +106,6 @@ class ShiftTest < ActiveSupport::TestCase
       @type = FactoryGirl.create(:shift_type, :name => "Bob")
       @ex = FactoryGirl.create(:shift, :shift_type_id => @type.id, :ends_at => Time.local(2001,1,1,16,0,0), :starts_at => Time.new(2000,1,1))
       assert_equal 'Bob @ Jan  1 at 12:00 AM', @ex.formatted_name
-
     end
   end
 end

@@ -30,12 +30,23 @@ class ShiftsController < ApplicationController
   # GET /shifts.json
   # Regular index is watch shifts by default
   def index
-    unless ( params[:organization_id].blank? )
-      @organization = Organization.find(params[:organization_id])
-      @shifts = @organization.shifts
+    if (current_user.has_role? :admin)
+      @shifts = Shift.all
+    elsif (current_user.participant.is_scc?)
+      @shifts = Shift.all
     else
-      @shifts = Shift
+      @orgs = current_user.participant.memberships.map {|mem| mem.organization.id}
+      unless @orgs.nil?
+        @shifts = Shift.for_organizations(@orgs)
+      end
     end
+
+    # unless ( params[:organization_id].blank? )
+    #   @organization = Organization.find(params[:organization_id])
+    #   @shifts = @organization.shifts
+    # else
+    #   @shifts = Shift
+    # end
 
     if (params[:type].blank?)
       @title = "Shifts"

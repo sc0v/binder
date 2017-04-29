@@ -70,6 +70,14 @@ class Shift < ActiveRecord::Base
     return participants.size == required_number_of_participants
   end
 
+  def self.for_organizations(organizations)
+    if (organizations.nil?)
+      all
+    else
+      where("organization_id IN (?)", organizations)
+    end
+  end
+
   def when_to_run_normal
     self.starts_at - @@notify
   end
@@ -105,7 +113,6 @@ class Shift < ActiveRecord::Base
       end      
     end
   end
-  
   #delays all jobs using delayed_jobs gem
   handle_asynchronously :send_notifications, :run_at => Proc.new { |i| i.when_to_run_normal }
   handle_asynchronously :send_late_notifications, :run_at => Proc.new { |i| i.when_to_run_late }

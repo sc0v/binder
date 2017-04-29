@@ -56,9 +56,3 @@ class ShiftParticipantTest < ActiveSupport::TestCase
 
   end
 end
-
-
-
-
-
-
