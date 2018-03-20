@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170410184313) do
+ActiveRecord::Schema.define(version: 20180320203946) do
 
   create_table "certification_types", force: :cascade do |t|
     t.string   "name"
@@ -170,6 +170,13 @@ ActiveRecord::Schema.define(version: 20170410184313) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.boolean  "is_building"
+  end
+
+  create_table "organization_lists", force: :cascade do |t|
+    t.integer  "organization_id"
+    t.string   "andrew_id"
+    t.datetime "created_at",      null: false
+    t.datetime "updated_at",      null: false
   end
 
   create_table "organization_status_types", force: :cascade do |t|
