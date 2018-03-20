@@ -2,7 +2,7 @@ class OrganizationListController < ApplicationController
   
   # Worry about authorization later
   
-  load_and_authorize_resource skip_load_resource only: [:create] 
+  # load_and_authorize_resource skip_load_resource only: [:create] 
 
   # have an index page showing the pending memberships
   
@@ -14,23 +14,14 @@ class OrganizationListController < ApplicationController
 
   # new organizion list
   def new
-    @document = OrganizationList.new
+    # @document = OrganizationList.new
   end
 
   # no need for edit page
 
 
-  # need to
-  def create
-    
-    @organization_list = OrganizationList.new(organization_list_params)
-
-    if @organization_list.save
-      flash[:notice] = "Organization list has been uploaded."
-      redirect_to organization_list_path
-    else
-      render :action => 'new'
-    end
+  def import
+    User.import(params[:org_name], params[:file])
   end
 
 
@@ -42,9 +33,11 @@ class OrganizationListController < ApplicationController
 
   private
 
-  def organization_list_params
-    params.require(:organization_list).permit(:organization_name, :andrew_id)
-  end
+  # need to add security to the params 
+  
+  # def organization_list_params
+  #   params.require(:organization_list).permit(:organization_name, :file)
+  # end
 
   
 end

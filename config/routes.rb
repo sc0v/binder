@@ -127,6 +127,8 @@ Trailerapp::Application.routes.draw do
     post 'dev_login' => "home#dev_login", :as => "dev_login"
   end
   
-  resources :organization_lists
+  resources :organization_lists do
+    collection { post :import }
+  end
 end
 
