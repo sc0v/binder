@@ -6,19 +6,19 @@
 #
 # Name                             | Type               | Attributes
 # -------------------------------- | ------------------ | ---------------------------
-# **`andrewid`**                   | `string(255)`      |
+# **`andrewid`**                   | `string`           |
 # **`cache_updated`**              | `datetime`         |
-# **`cached_department`**          | `string(255)`      |
-# **`cached_email`**               | `string(255)`      |
-# **`cached_name`**                | `string(255)`      |
-# **`cached_student_class`**       | `string(255)`      |
-# **`cached_surname`**             | `string(255)`      |
+# **`cached_department`**          | `string`           |
+# **`cached_email`**               | `string`           |
+# **`cached_name`**                | `string`           |
+# **`cached_student_class`**       | `string`           |
+# **`cached_surname`**             | `string`           |
 # **`created_at`**                 | `datetime`         |
 # **`has_signed_hardhat_waiver`**  | `boolean`          |
 # **`has_signed_waiver`**          | `boolean`          |
 # **`id`**                         | `integer`          | `not null, primary key`
 # **`phone_carrier_id`**           | `integer`          |
-# **`phone_number`**               | `string(255)`      |
+# **`phone_number`**               | `string`           |
 # **`updated_at`**                 | `datetime`         |
 # **`user_id`**                    | `integer`          |
 # **`waiver_start`**               | `datetime`         |
@@ -61,7 +61,8 @@ class Participant < ActiveRecord::Base
   end
 
   def is_waiver_cheater?
-    (self.waiver_start + 3.minutes + 30.seconds) > DateTime.now
+    # (self.waiver_start + 3.minutes + 30.seconds) > DateTime.now
+    (self.waiver_start + 5.seconds) > DateTime.now
   end
 
   def is_booth_chair?

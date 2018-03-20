@@ -8,9 +8,9 @@
 # ------------------------------------ | ------------------ | ---------------------------
 # **`created_at`**                     | `datetime`         |
 # **`default_amount`**                 | `decimal(8, 2)`    |
-# **`description`**                    | `text(65535)`      |
+# **`description`**                    | `text`             |
 # **`id`**                             | `integer`          | `not null, primary key`
-# **`name`**                           | `string(255)`      |
+# **`name`**                           | `string`           |
 # **`requires_booth_chair_approval`**  | `boolean`          |
 # **`updated_at`**                     | `datetime`         |
 #

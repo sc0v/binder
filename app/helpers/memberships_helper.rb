@@ -12,7 +12,7 @@
 # **`is_booth_chair`**     | `boolean`          |
 # **`organization_id`**    | `integer`          |
 # **`participant_id`**     | `integer`          |
-# **`title`**              | `string(255)`      |
+# **`title`**              | `string`           |
 # **`updated_at`**         | `datetime`         |
 #
 # ### Indexes
