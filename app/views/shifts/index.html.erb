@@ -18,6 +18,9 @@
   <thead>
     <tr>
       <th></th>
+      <% if params[:type].blank? %>
+        <th><%= model_class.human_attribute_name(:type) %></th>
+      <% end %>
       <th><%= model_class.human_attribute_name(:starts_at) %></th>
       <th class="hidden-xs"><%= model_class.human_attribute_name(:ends_at) %></th>
       <th class="hidden-xs"><%= model_class.human_attribute_name(:required_number_of_participants) %></th>
@@ -41,6 +44,9 @@
         <tr>
           <td><%= link_to t('.show', :default => t("helpers.links.show")),
                         shift_path(shift), :class => 'btn btn-info btn-xs' %></td>
+          <% if params[:type].blank? %>
+            <td><%= shift.shift_type.name %></td>
+          <% end %>
           <td><%= date_and_time shift.starts_at %></td>
           <td class="hidden-xs"><%= date_and_time shift.ends_at %></td>
           <td class="hidden-xs"><%= shift.required_number_of_participants %></td>
