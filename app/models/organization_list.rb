@@ -17,13 +17,12 @@ class OrganizationList < ActiveRecord::Base
 require 'csv'
 belongs_to :organization
 
-def user_orgs(and_id)
-	OrganizationList.where(andrew_id: and_id).to_a 
-end
+scope :user_orgs, ->(and_id) { where(andrew_id: and_id) }
+
 
 def self.import (org, file)
 	CSV.foreach(file.path, headers: true) do |row|
-		OrganizationList.create!(organization_id: org, andrew_id: row)
+		OrganizationList.create!(organization_id: org, andrew_id: row['andrew_id'].strip)
 	end
 end
 end

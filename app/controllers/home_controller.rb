@@ -1,5 +1,16 @@
 class HomeController < ApplicationController
   def index
+    # need to find a way to get user
+    if user_signed_in?
+      @user = current_user
+      @pending_memberships = OrganizationList.user_orgs(@user.participant.andrewid)
+      if !@pending_memberships.empty?
+        for pending_membership in @pending_memberships
+          Membership.create!(organization_id: pending_membership.organization_id, participant_id: @user.participant.id)
+          OrganizationList.destroy(pending_membership)
+        end
+      end
+    end
   end
 
   def milestones
