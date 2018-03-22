@@ -24,7 +24,7 @@
         <tr>
           <td class="hidden-xs"><%= date_and_time(entry.started_at) %></td>
           <td class="hidden-xs"><%= date_and_time entry.ended_at unless entry.ended_at.blank? %></td>
-          <td class="hidden-xs"><%= format_downtime entry.duration %></td>
+          <td class="hidden-xs"><%= format_duration entry.duration %></td>
           <% if can?(:update, OrganizationTimelineEntry) or can?(:destroy, OrganizationTimelineEntry) %>
             <td class="hidden-xs">
               <% if can?(:update, OrganizationTimelineEntry) %>

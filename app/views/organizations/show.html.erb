@@ -27,9 +27,9 @@
     </p>
   <% end %>
   <% if can?(:edit, OrganizationTimelineEntry) and @organization.organization_category.is_building %>
-    <p><Strong>Downtime Remaining: </Strong><%=link_to format_remaining_downtime(@organization.remaining_downtime), organization_downtime_index_path(@organization)%></p>
+    <p><Strong>Downtime Remaining: </Strong><%=link_to format_duration(@organization.remaining_downtime), organization_downtime_index_path(@organization)%></p>
   <% elsif @organization.organization_category.is_building %>
-    <p><Strong>Downtime Remaining: </Strong><%= format_remaining_downtime(@organization.remaining_downtime) %></p>
+    <p><Strong>Downtime Remaining: </Strong><%= format_duration(@organization.remaining_downtime) %></p>
   <% end %>
 </div>
 
