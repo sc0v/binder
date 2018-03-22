@@ -359,7 +359,7 @@ Faq.create([
   { question: 'I saw an ambulance take someone to the hospital. What do I do?',
     answer: 'Call the Carnival Chair, Head of Booth, and/or Head of Operations immediately.' },
   { question: 'Golf cart problem?',
-    answer: 'Call Meg Richards.' },
+    answer: 'Call Meg Richards (meribyte).' },
   { question: 'University official wants to borrow something. What do I do?',
     answer: 'Let them. They do not need to sign a waiver. Check it out to the Carnival Chair in Binder.' },
   { question: 'Madelyn Miller calls. What do I do?',
