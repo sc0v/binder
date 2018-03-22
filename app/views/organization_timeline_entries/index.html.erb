@@ -10,7 +10,7 @@
   <thead>
     <tr>
       <th><%= model_class.human_attribute_name(:started_at) %></th>
-      <th><%= model_class.human_attribute_name(:ended_at) %></th>
+      <th class="hidden-xs"><%= model_class.human_attribute_name(:ended_at) %></th>
       <th>Duration</th>
       <% if can?(:update, Task) or can?(:destroy, Task) %>
           <th class="hidden-xs"><%=t '.actions', :default => t("helpers.actions") %></th>
@@ -22,9 +22,9 @@
     <% @entries.each do |entry| %>
       <% if can?(:read, entry) %>
         <tr>
-          <td class="hidden-xs"><%= date_and_time(entry.started_at) %></td>
+          <td><%= date_and_time(entry.started_at) %></td>
           <td class="hidden-xs"><%= date_and_time entry.ended_at unless entry.ended_at.blank? %></td>
-          <td class="hidden-xs"><%= format_duration entry.duration %></td>
+          <td><%= format_duration entry.duration %></td>
           <% if can?(:update, OrganizationTimelineEntry) or can?(:destroy, OrganizationTimelineEntry) %>
             <td class="hidden-xs">
               <% if can?(:update, OrganizationTimelineEntry) %>
@@ -43,4 +43,13 @@
       <% end %>
     <% end %>
   </tbody>
+
+  <tfoot>
+    <tr>
+      <th>Remaining:</th>
+      <td class="hidden-xs"></td>
+      <th><%= format_duration(@organization.remaining_downtime) %></th>
+      <td class="hidden-xs"></td>
+    </tr>
+  </tfoot>
 </table>
