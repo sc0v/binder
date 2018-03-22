@@ -362,7 +362,7 @@ Faq.create([
     answer: 'Call Meg Richards (meribyte).' },
   { question: 'University official wants to borrow something. What do I do?',
     answer: 'Let them. They do not need to sign a waiver. Check it out to the Carnival Chair in Binder.' },
-  { question: 'Madelyn Miller calls. What do I do?',
+  { question: 'Melanie Lucht calls. What do I do?',
     answer: 'Listen to her. Then call the Head of Booth and relay the message.' },
   { question: 'Alumni needs something.',
     answer: 'Call the Head of Operations or Head of Marketing.' },
