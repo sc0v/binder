@@ -22,9 +22,9 @@ scope :user_orgs, ->(and_id) { where(andrew_id: and_id) }
 
 
 def self.import (org, file)
-	CSV.foreach(file.path, headers: true) do |row|
+	CSV.foreach(file.path, headers: false) do |row|
 		begin
-	     OrganizationList.create(organization_id: org, andrew_id: row['andrew_id'].strip)
+	     OrganizationList.create(organization_id: org, andrew_id: row[0].strip)
 	  rescue
 	  else
 	  end
