@@ -44,6 +44,13 @@
   <% if can?(:read_all_details, @organization) %>
     <%= link_to raw("Charges"), organization_charges_path(@organization), :class => 'btn btn-info' %>
   <% end %>
+
+
+  <% if can?(:read_all_details, @organization) %>
+    <%= link_to raw("Add Members"), organization_lists_path, :class => 'btn btn-info' %>
+  <% end %>
+
+
   <% if can?(:update, @organization) %>
     <%= link_to t('.edit', :default => t("helpers.links.edit")),
       edit_organization_path(@organization), :class => 'btn btn-primary' %>

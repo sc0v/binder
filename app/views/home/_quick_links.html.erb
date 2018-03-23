@@ -32,8 +32,8 @@
   <% end %>
 
   <!-- if they are a booth chair, they can add members to their org -->
-  <% if can?(:read, OrganizationList) %>
-    <p><%= link_to "Add Members ", organization_lists_path, :class => "btn btn-primary" %></p>
+  <% if can?(:skip_video, @user) %>
+    <p><%= link_to "Add Members to an Org ", organization_lists_path, :class => "btn btn-primary" %></p>
   <% end %>
 
 
