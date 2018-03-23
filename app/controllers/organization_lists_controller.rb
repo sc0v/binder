@@ -18,6 +18,8 @@ class OrganizationListsController < ApplicationController
   # Worry about authorization later
   
   # load_and_authorize_resource skip_load_resource only: [:create] 
+  before_action :set_organization_list, only: [:destroy]
+
 
   # have an index page showing the pending memberships
   
@@ -55,8 +57,16 @@ class OrganizationListsController < ApplicationController
 
 # no need for destroy
 
+  def destroy
+    @organization_list.destroy
+  end
+
 
   private
+  
+  def set_organization_list
+    @organization_list = OrganizationList.find(params[:id])
+  end
 
   # need to add security to the params 
   
