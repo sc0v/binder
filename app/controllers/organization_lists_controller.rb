@@ -24,6 +24,13 @@ class OrganizationListsController < ApplicationController
   def index
     @user = current_user
     @members = OrganizationList.all
+    @user.participant.memberships.each do |membership|
+      if membership.is_booth_chair?
+        @org_name = membership.organization_name_formatted
+        @org_name = @org_name.slice(0, @org_name.length-14)
+      end
+    end
+
   end
 
   # no need for show page

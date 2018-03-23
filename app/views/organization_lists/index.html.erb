@@ -10,6 +10,7 @@
 
   <%= flash[:notice] %>
 
+
   <table>
     <thead>
       <tr>
@@ -32,16 +33,21 @@
   </p>
 
 
-    <%= form_tag import_organization_lists_path, multipart: true do %>
+  <%= form_tag import_organization_lists_path, multipart: true do %>
+    <!-- only admins can skip videos -->
+    <% if can?(:skip_video, @user) %>
       <%= select_tag(:org_name, options_for_select(Organization.all.to_a.map{|o| [o.name, o.id]})) %>
-      <br /><br />
-      <p>
-        Then, upload a .csv of your members and import the file:
-      </p>
-      <%= file_field_tag :file %>
-      <br />
-      <%= submit_tag "Import File", :class => "btn btn-primary" %>
+    <% else %>
+      <%= text_field_tag(:org_name, @org_name,:readonly => true, :size => 60 )%>
     <% end %>
+    <br /><br />
+    <p>
+      Then, upload a .csv of your members and import the file:
+    </p>
+    <%= file_field_tag :file %>
+    <br />
+    <%= submit_tag "Import File", :class => "btn btn-primary" %>
+  <% end %>
 
   <br />
 
