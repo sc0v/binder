@@ -3,11 +3,16 @@ class HomeController < ApplicationController
     # need to find a way to get user
     if user_signed_in?
       @user = current_user
+      @curr_memberships = @user.participant.memberships
       @pending_memberships = OrganizationList.user_orgs(@user.participant.andrewid)
       if !@pending_memberships.empty?
         for pending_membership in @pending_memberships
-          Membership.create!(organization_id: pending_membership.organization_id, participant_id: @user.participant.id)
-          OrganizationList.destroy(pending_membership)
+          for mem in @curr_memberships
+            if (mem.organization_id != pending_membership.organization_id)
+              Membership.create!(organization_id: pending_membership.organization_id, participant_id: @user.participant.id)
+              OrganizationList.destroy(pending_membership)
+            end
+          end
         end
       end
     end
