@@ -30,26 +30,9 @@
     </div>
 
 
-
     <div id="pending_members" class="tab-pane">
-
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th>andrew ID</th>
-          </tr>
-        </thead>
-        <% @pending_memberships.each do |member| %>
-          <tr>
-            <td><%= member.andrew_id %></td>
-          </tr>
-        <% end %>
-      </table>
-      
+      <%= render :partial => "organization_lists/pending_members", :object => @pending_memberships %>
     </div>
-
-
-
 
     <div id="shifts" class="tab-pane">
       <%= render :partial => "shifts/organization_shift_list.html.erb", :object => @shifts %>

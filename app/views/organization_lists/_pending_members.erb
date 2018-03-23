@@ -1,0 +1,12 @@
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th>andrew ID</th>
+    </tr>
+  </thead>
+  <% @pending_memberships.each do |member| %>
+    <tr>
+      <td><%= member.andrew_id %></td>
+    </tr>
+  <% end %>
+</table>

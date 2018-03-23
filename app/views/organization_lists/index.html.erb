@@ -2,7 +2,7 @@
   <%- model_class = OrganizationList -%>
   <div class="page-header">
     <h1>
-      Add Members to Your Organization
+      Add Members to An Organization
       <%= link_to @organization.name.possessive, @organization unless @organization.blank? %>
       <!-- <%=t '.title', :default => model_class.model_name.human.pluralize %> -->
     </h1>
@@ -11,40 +11,27 @@
   <%= flash[:notice] %>
 
 
-  <table>
-    <thead>
-      <tr>
-          <th> Organization </th>
-          <th> andrewID </th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @members.each do |member| %>
-        <tr>
-          <td><%= member.organization.name %></td>
-          <td><%= member.andrew_id %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-
-  <p>
-    First, select your organization:
-  </p>
-
+  <!-- only admins can skip videos -->
+  <% if can?(:skip_video, @user) %>
+    <p>
+      Select the organization you want to add members to:
+    </p>
+  <% end %>
 
   <%= form_tag import_organization_lists_path, multipart: true do %>
-    <!-- only admins can skip videos -->
     <% if can?(:skip_video, @user) %>
       <%= select_tag(:org_name, options_for_select(Organization.all.to_a.map{|o| [o.name, o.id]})) %>
     <% else %>
-      <%= @org_name %>
+      <span> <strong>Your organization: </strong></span><%= @org_name %>
       <%= hidden_field_tag(:org_name, @org_id )%>
     <% end %>
+
     <br /><br />
+
     <p>
-      Then, upload a .csv of your members and import the file:
+      Upload a .csv of your members and import the file:
     </p>
+
     <%= file_field_tag :file %>
     <br />
     <%= submit_tag "Import File", :class => "btn btn-primary" %>
