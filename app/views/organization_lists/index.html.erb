@@ -1,53 +1,57 @@
-<%- model_class = Charge -%>
-<div class="page-header">
-  <h1>
-    Add Members to Your Organization
-    <%= link_to @organization.name.possessive, @organization unless @organization.blank? %>
-    <!-- <%=t '.title', :default => model_class.model_name.human.pluralize %> -->
-  </h1>
-</div>
+<% if @user.participant.is_booth_chair? %>
+  <%- model_class = OrganizationList -%>
+  <div class="page-header">
+    <h1>
+      Add Members to Your Organization
+      <%= link_to @organization.name.possessive, @organization unless @organization.blank? %>
+      <!-- <%=t '.title', :default => model_class.model_name.human.pluralize %> -->
+    </h1>
+  </div>
 
-<%= flash[:notice] %>
+  <%= flash[:notice] %>
 
-<table>
-  <thead>
-    <tr>
-        <th> Organization </th>
-        <th> andrewID </th>
-    </tr>
-  </thead>
-  <tbody>
-    <% @members.each do |member| %>
+  <table>
+    <thead>
       <tr>
-        <td><%= member.organization.name %></td>
-        <td><%= member.andrew_id %></td>
+          <th> Organization </th>
+          <th> andrewID </th>
       </tr>
+    </thead>
+    <tbody>
+      <% @members.each do |member| %>
+        <tr>
+          <td><%= member.organization.name %></td>
+          <td><%= member.andrew_id %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  <p>
+    First, select your organization:
+  </p>
+
+
+    <%= form_tag import_organization_lists_path, multipart: true do %>
+      <%= select_tag(:org_name, options_for_select(Organization.all.to_a.map{|o| [o.name, o.id]})) %>
+      <br /><br />
+      <p>
+        Then, upload a .csv of your members and import the file:
+      </p>
+      <%= file_field_tag :file %>
+      <br />
+      <%= submit_tag "Import File", :class => "btn btn-primary" %>
     <% end %>
-  </tbody>
-</table>
 
-<p>
-  First, select your organization:
-</p>
+  <br />
 
+  <p>
+    The format of the .csv should look like the image below:
+  </p>
 
-  <%= form_tag import_organization_lists_path, multipart: true do %>
-    <%= select_tag(:org_name, options_for_select(Organization.all.to_a.map{|o| [o.name, o.id]})) %>
-    <br /><br />
-    <p>
-      Then, upload a .csv of your members and import the file:
-    </p>
-    <%= file_field_tag :file %>
-    <br />
-    <%= submit_tag "Import File", :class => "btn btn-primary" %>
-  <% end %>
-
-<br />
-
-<p>
-  The format of the .csv should look like the image below:
-</p>
-
-<div>
-  <%= image_tag("format.png") %>
-</div>
+  <div>
+    <%= image_tag("format.png") %>
+  </div>
+<% else %>
+  <p> You do not have access to this page! </p>
+<% end %>

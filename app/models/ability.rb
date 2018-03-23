@@ -10,6 +10,8 @@ class Ability
       return
     end
 
+    cannot :read, OrganizationList
+
     can :read, [OrganizationAlias, OrganizationCategory, Organization, Participant,
                 ShiftType, Tool, ToolWaitlist, Membership]
 
@@ -43,7 +45,7 @@ class Ability
     can :read, StoreItem
 
     if user.participant.is_booth_chair?
-      can :read, [ChargeType, Checkout, Shift]
+      can :read, [ChargeType, Checkout, Shift, OrganizationList]
       can :read_basic_details, Organization
 
       can :read_all_details, Organization do |o|
@@ -70,7 +72,7 @@ class Ability
     if user.participant.is_scc?
       can :read, :all
       cannot :read, Role
-
+      cannot :read, OrganizationList
 
       can [:create, :update], Charge
       can [:create, :update], Checkout
