@@ -22,6 +22,7 @@ class OrganizationListsController < ApplicationController
   # have an index page showing the pending memberships
   
   def index
+    @user = current_user
     @members = OrganizationList.all
   end
 
