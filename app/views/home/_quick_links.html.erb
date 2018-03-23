@@ -35,7 +35,8 @@
   <% if can?(:read, OrganizationList) %>
     <p><%= link_to "Add Members ", organization_lists_path, :class => "btn btn-primary" %></p>
   <% end %>
-  <!-- should be organization_lists_path, not charges_path -->
+
+
 
 
   <% if can?(:read, Task) %>
