@@ -38,7 +38,8 @@
     <% if can?(:skip_video, @user) %>
       <%= select_tag(:org_name, options_for_select(Organization.all.to_a.map{|o| [o.name, o.id]})) %>
     <% else %>
-      <%= text_field_tag(:org_name, @org_name,:readonly => true, :size => 60 )%>
+      <%= @org_name %>
+      <%= hidden_field_tag(:org_name, @org_id )%>
     <% end %>
     <br /><br />
     <p>
