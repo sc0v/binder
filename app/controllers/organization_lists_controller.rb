@@ -48,7 +48,7 @@ class OrganizationListsController < ApplicationController
 
   def import
     OrganizationList.import(params[:org_name], params[:file])
-    redirect_to organization_lists_path, notice: "Successfully added members to your organization!"
+    redirect_to organization_lists_path, notice: "Successfully added members to the organization!"
   end
 
 

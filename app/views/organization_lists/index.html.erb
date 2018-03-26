@@ -8,9 +8,6 @@
     </h1>
   </div>
 
-  <%= flash[:notice] %>
-
-
   <!-- only admins can skip videos -->
   <% if can?(:skip_video, @user) %>
     <p>
@@ -25,7 +22,6 @@
       <span> <strong>Your organization: </strong></span><%= @org_name %>
       <%= hidden_field_tag(:org_name, @org_id )%>
     <% end %>
-
     <br /><br />
 
     <p>

@@ -1,47 +1,65 @@
 <%- model_class = Charge -%>
 <div class="page-header">
   <h1>
-    Add Members to Your Organization
     <%= link_to @organization.name.possessive, @organization unless @organization.blank? %>
-    <!-- <%=t '.title', :default => model_class.model_name.human.pluralize %> -->
+    <%=t '.title', :default => model_class.model_name.human.pluralize %>
   </h1>
 </div>
 
-<p>
-  First, select your organization:
-</p>
-
-<form>
-  <div style='float:left; margin-right: 8px;'>
-    <div class="field">
-        <select name='org_select' class='form-control''>
-          <% Organization.all.to_a.each do |org_name| %>
-            <option value='<%= org_name.id %>' <%= param_equals_i(:org_select, org_name.id) ? 'selected' : '' %>><%= org_name.name %></option>
-          <% end %>
-        </select>
-    </div>
+<% if can?(:create, Charge) %>
+  <div>
+  <%= link_to t('.new', :default => t("helpers.links.new_charge")),
+          new_charge_path,
+          :class => 'btn btn-primary' %>
   </div>
-  <br /><br />
-  <br />
-  <p>
-    Then, upload a .csv of your members and import the file:
-  </p>
-
-  <%= form_tag charges_path, multipart: true do %>
-    <%= file_field_tag :file %>
-    <br />
-    <%= submit_tag "Import File", :class => "btn btn-primary" %>
-  <% end %>
-</form>
-
-<br />
+  <br>
+<% end %>
 
 <p>
-  The format of the .csv should look like the image below:
+  If a row is yellow then the charge is still pending approval by an admin.
 </p>
 
-<div>
-  <%= image_tag("format.png") %>
-</div>
-
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th> </th>
+      <th><%= model_class.human_attribute_name(:charge_type) %></th>
+      <th><%= model_class.human_attribute_name(:amount) %></th>
+      <th><%= "Org" unless !@organization.blank? %></th>
+      <th class="hidden-xs"><%= model_class.human_attribute_name(:charged_at) %></th>
+      <% if can?(:approve, Charge) %>
+        <th class="hidden-xs">Approve</th>
+      <% end %>
+    </tr>
+  </thead>
+  <tbody>
+    <% @charges.each do |charge| %>
+      <% if can?(:read, charge) %>
+        <tr <%= raw('class="warning"') if !charge.is_approved? %>>
+          <td><%= link_to "show", charge, class: 'btn btn-info btn-xs' %></td>
+          <td><%= charge.charge_type.name %></td>
+          <td><%= number_to_currency charge.amount %></td>
+          <td><%= link_to charge.organization.short_name, charge.organization unless !@organization.blank? %></td>
+          <td class="hidden-xs"><%= date_and_time(charge.charged_at) %></td>
+          <% if can?(:approve, Charge) %>
+            <td class="hidden-xs">
+              <% unless charge.is_approved? %>
+                <%= form_tag approve_charge_path(charge), method: :put do -%>
+                  <%= hidden_field_tag 'url', request.original_fullpath %>
+                  <%= submit_tag 'Approve', :class => 'btn btn-success btn-xs' %>
+                <% end -%>
+              <% else %>
+                <%= form_tag approve_charge_path(charge), method: :put do -%>
+                  <%= hidden_field_tag 'url', request.original_fullpath %>
+                  <%= submit_tag 'Un-Approve', :class => 'btn btn-danger btn-xs' %>
+                <% end -%>
+              <% end %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    <% end %>
+  </tbody>
+</table>
+  
 <%= will_paginate @charges, renderer: BootstrapPagination::Rails %>

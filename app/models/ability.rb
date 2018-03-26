@@ -52,6 +52,11 @@ class Ability
         o.participants.include?(user.participant)
       end
 
+      # can :read_all_details, Organization do |o|
+      #   o.booth_chairs.include?(user.participant)
+      # end
+
+
       can :read, Charge do |c|
         c.organization.booth_chairs.include?(user.participant)
       end
