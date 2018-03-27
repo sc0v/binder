@@ -7,12 +7,10 @@ class HomeController < ApplicationController
       @pending_memberships = OrganizationList.user_orgs(@user.participant.andrewid)
       if !@pending_memberships.empty?
         for pending_membership in @pending_memberships
-          for mem in @curr_memberships
-            if (mem.organization_id != pending_membership.organization_id)
+          unless @curr_memberships.map(&:organization_id).include?(pending_membership.organization_id)
               Membership.create!(organization_id: pending_membership.organization_id, participant_id: @user.participant.id)
-              OrganizationList.destroy(pending_membership)
-            end
           end
+          OrganizationList.destroy(pending_membership)
         end
       end
     end
