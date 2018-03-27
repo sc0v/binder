@@ -38,9 +38,14 @@ class OrganizationListsController < ApplicationController
 
   # no need for show page
 
-  # new organizion list
+  # new organization list
   def new
-    # @document = OrganizationList.new
+  end
+
+  # new organization list
+  def add
+    OrganizationList.add(params[:org_name], params[:andrew_id])
+    redirect_to organization_lists_path, notice: "Successfully added this member to the organization!"
   end
 
   # no need for edit page
