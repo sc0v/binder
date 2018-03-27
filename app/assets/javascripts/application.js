@@ -46,6 +46,11 @@ $(document).on("ready page:change", function(){
       $('#main-content-div :submit').focus()
     }
   });
+  
+  $( ".pending-member" ).click(function() {
+    $("#" + this.id).remove();
+  });
+  
 });
 
 function _toggleText(el, opt1, opt2){
