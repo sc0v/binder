@@ -129,6 +129,7 @@ Trailerapp::Application.routes.draw do
   
   resources :organization_lists do
     collection { post :import }
+    collection { post :add }
   end
 end
 

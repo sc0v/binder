@@ -38,17 +38,30 @@ class OrganizationListsController < ApplicationController
 
   # no need for show page
 
-  # new organizion list
+  # new organization list
   def new
-    # @document = OrganizationList.new
+  end
+
+  # new organization list
+  def add
+    if params[:andrew_id].empty?
+        redirect_to organization_lists_path, alert: "No andrew ID entered!"
+    else
+      OrganizationList.add(params[:org_name], params[:andrew_id])
+      redirect_to organization_lists_path, notice: "Successfully added this member to the organization!"
+    end
   end
 
   # no need for edit page
 
 
   def import
-    OrganizationList.import(params[:org_name], params[:file])
-    redirect_to organization_lists_path, notice: "Successfully added members to the organization!"
+    if params[:file].nil?
+        redirect_to organization_lists_path, alert: "No CSV file chosen!"
+    else
+      OrganizationList.import(params[:org_name], params[:file])
+      redirect_to organization_lists_path, notice: "Successfully added members to the organization!"
+    end
   end
 
 

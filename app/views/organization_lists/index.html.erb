@@ -8,6 +8,33 @@
     </h1>
   </div>
 
+
+  <% if can?(:skip_video, @user) %>
+    <p>
+      Select the organization you want to add a member to:
+    </p>
+  <% else %>
+    <span> <strong>Your organization: </strong></span><%= @org_name %>
+  <% end %>
+
+  <%= form_tag add_organization_lists_path, multipart: true do%>
+    <% if can?(:skip_video, @user) %>
+      <%= select_tag(:org_name, options_for_select(Organization.all.to_a.map{|o| [o.name, o.id]})) %>
+    <% else %>
+      <%= hidden_field_tag(:org_name, @org_id )%>
+    <% end %>
+    <br>  <br>
+    <p>
+      Enter a student's andrew ID to add the student to the org:
+    </p>
+
+    <br>
+    <%= text_field_tag(:andrew_id) %>
+    <%= submit_tag "Add Member", :class => "btn btn-primary" %>
+  <% end %>
+
+  <hr>
+
   <!-- only admins can skip videos -->
   <% if can?(:skip_video, @user) %>
     <p>
@@ -19,13 +46,12 @@
     <% if can?(:skip_video, @user) %>
       <%= select_tag(:org_name, options_for_select(Organization.all.to_a.map{|o| [o.name, o.id]})) %>
     <% else %>
-      <span> <strong>Your organization: </strong></span><%= @org_name %>
       <%= hidden_field_tag(:org_name, @org_id )%>
     <% end %>
-    <br /><br />
+    <br />
 
     <p>
-      Upload a .csv of your members and import the file:
+      Or, upload a .csv of your members and import the file:
     </p>
 
     <%= file_field_tag :file %>
