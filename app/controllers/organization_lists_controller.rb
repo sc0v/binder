@@ -59,6 +59,11 @@ class OrganizationListsController < ApplicationController
 
   def destroy
     @organization_list.destroy
+    respond_to do |format|
+      format.js
+      format.html { redirect_to(organizations_url) }
+
+    end
   end
 
 
