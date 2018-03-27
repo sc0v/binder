@@ -21,6 +21,10 @@ validates_uniqueness_of :andrew_id, :scope => :organization_id
 scope :user_orgs, ->(and_id) { where(andrew_id: and_id) }
 
 
+def self.add(org, andrew_id)
+    OrganizationList.create(organization_id: org, andrew_id: andrew_id)
+end 
+
 def self.import (org, file)
 	CSV.foreach(file.path, headers: false) do |row|
 		begin
