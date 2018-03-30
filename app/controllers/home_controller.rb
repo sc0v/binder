@@ -6,12 +6,26 @@ class HomeController < ApplicationController
       @curr_memberships = @user.participant.memberships
       @pending_memberships = OrganizationList.user_orgs(@user.participant.andrewid)
       if !@pending_memberships.empty?
+        msg = "Successfully added to "
         for pending_membership in @pending_memberships
           unless @curr_memberships.map(&:organization_id).include?(pending_membership.organization_id)
               Membership.create!(organization_id: pending_membership.organization_id, participant_id: @user.participant.id)
+              if @pending_memberships.length > 1 and pending_membership != @pending_memberships.last
+                msg = msg + pending_membership.organization.name + ", "
+              else
+                msg = msg + pending_membership.organization.name
+              end
           end
           OrganizationList.destroy(pending_membership)
         end
+      redirect_to root_path, notice: msg
+      
+      
+      
+      
+      
+      
+
       end
     end
   end
