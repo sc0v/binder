@@ -29,13 +29,16 @@ def self.import (org, file)
     # if file.nil?
     #     puts "no file"
     # else
+        count = 0
     	CSV.foreach(file.path, headers: false) do |row|
     	  begin
     	     OrganizationList.create(organization_id: org, andrew_id: row[0].strip)
+             count += 1
     	  rescue
     	  else
     	  end
     	end
+        return count
     # end
 end
 end
