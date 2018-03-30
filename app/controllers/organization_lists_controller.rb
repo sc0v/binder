@@ -48,7 +48,7 @@ class OrganizationListsController < ApplicationController
         redirect_to organization_lists_path, alert: "No AndrewID entered!"
     else
       OrganizationList.add(params[:org_name], params[:andrew_id])
-      redirect_to organization_lists_path, notice: "Successfully added this member to the organization!"
+      redirect_to organization_lists_path, notice: "Successfully added "+ params[:andrew_id] + " to " + Organization.find(params[:org_name]).name
     end
   end
 
@@ -60,7 +60,7 @@ class OrganizationListsController < ApplicationController
         redirect_to organization_lists_path, alert: "No CSV file chosen!"
     else
       OrganizationList.import(params[:org_name], params[:file])
-      redirect_to organization_lists_path, notice: "Successfully added members to the organization!"
+      redirect_to organization_lists_path, notice: "Successfully added members to " + Organization.find(params[:org_name]).name
     end
   end
 
