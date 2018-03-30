@@ -2,12 +2,14 @@
   <%- model_class = OrganizationList -%>
   <div class="page-header">
     <h1>
-      Add Members to An Organization
-      <%= link_to @organization.name.possessive, @organization unless @organization.blank? %>
-      <!-- <%=t '.title', :default => model_class.model_name.human.pluralize %> -->
+      <!-- basically: if user is an admin (only admins can skip videos) -->
+      <% if can?(:skip_video, @user) %>
+        Add Members to an Organization
+      <% else %>
+        Add Members to <%= @org_name %>
+      <% end %>
     </h1>
   </div>
-
 
   <% if can?(:skip_video, @user) %>
     <p>
@@ -25,7 +27,7 @@
     <% end %>
     <br>  <br>
     <p>
-      Enter a student's andrew ID to add the student to the org:
+      Enter a student's AndrewID to add the student to the org. Once the individual members log into Binder, they will be automatically added:
     </p>
 
     <br>
@@ -35,7 +37,6 @@
 
   <hr>
 
-  <!-- only admins can skip videos -->
   <% if can?(:skip_video, @user) %>
     <p>
       Select the organization you want to add members to:

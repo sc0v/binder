@@ -45,8 +45,7 @@
     <%= link_to raw("Charges"), organization_charges_path(@organization), :class => 'btn btn-info' %>
   <% end %>
 
-
-  <% if can?(:read_all_details, @organization) %>
+  <% if can?(:add_members_to_org, @organization) %>
     <%= link_to raw("Add Members"), organization_lists_path, :class => 'btn btn-info' %>
   <% end %>
   <% if can?(:update, @organization) %>
