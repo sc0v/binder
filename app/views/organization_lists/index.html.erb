@@ -2,7 +2,7 @@
   <%- model_class = OrganizationList -%>
   <div class="page-header">
     <h1>
-      Add Members to An Organization
+      Add Members to <%= @org_name %>
       <%= link_to @organization.name.possessive, @organization unless @organization.blank? %>
       <!-- <%=t '.title', :default => model_class.model_name.human.pluralize %> -->
     </h1>
@@ -25,7 +25,7 @@
     <% end %>
     <br>  <br>
     <p>
-      Enter a student's andrew ID to add the student to the org:
+      Enter a student's andrew ID to add the student to the org. Once the individual members log into Binder, they will be automatically added:
     </p>
 
     <br>
