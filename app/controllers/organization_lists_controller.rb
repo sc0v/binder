@@ -59,8 +59,8 @@ class OrganizationListsController < ApplicationController
     if params[:file].nil?
         redirect_to organization_lists_path, alert: "No CSV file chosen!"
     else
-      OrganizationList.import(params[:org_name], params[:file])
-      redirect_to organization_lists_path, notice: "Successfully added members to " + Organization.find(params[:org_name]).name
+      count = OrganizationList.import(params[:org_name], params[:file])
+      redirect_to organization_lists_path, notice: "Successfully added " + count.to_s + " members to " + Organization.find(params[:org_name]).name
     end
   end
 
