@@ -45,7 +45,7 @@ class OrganizationListsController < ApplicationController
   # new organization list
   def add
     if params[:andrew_id].empty?
-        redirect_to organization_lists_path, alert: "No andrew ID entered!"
+        redirect_to organization_lists_path, alert: "No AndrewID entered!"
     else
       OrganizationList.add(params[:org_name], params[:andrew_id])
       redirect_to organization_lists_path, notice: "Successfully added this member to the organization!"
