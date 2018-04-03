@@ -1,8 +1,2 @@
-<% if @user %>
-<%= @user.participant.andrewid %>
-<% end %>
-<% if !@pending_memberships.nil? and !@pending_memberships.empty? %>
-<%= @pending_memberships.first %>
-<% end %>
 <%= render :partial => 'quick_links' %>
 
