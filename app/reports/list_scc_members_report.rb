@@ -4,7 +4,7 @@ class ListSccMembersReport < Dossier::Report
   def self.binder_report_info
     {
         title: "List all SCC Member",
-        description: "This report lists the AndrewIDs of all SCC members."
+        description: "This report lists the andrew ids of all SCC members."
     }
   end
 
