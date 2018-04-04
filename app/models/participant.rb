@@ -61,7 +61,7 @@ class Participant < ActiveRecord::Base
   end
 
   def is_waiver_cheater?
-    (self.waiver_start + 3.minutes + 30.seconds) > DateTime.now
+    (self.waiver_start + 3.minutes) > DateTime.now
   end
 
   def is_booth_chair?
