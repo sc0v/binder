@@ -7,11 +7,11 @@
 # Name               | Type               | Attributes
 # ------------------ | ------------------ | ---------------------------
 # **`created_at`**   | `datetime`         | `not null`
-# **`description`**  | `string(255)`      |
+# **`description`**  | `string`           |
 # **`grouping`**     | `integer`          |
 # **`id`**           | `integer`          | `not null, primary key`
 # **`max_value`**    | `integer`          |
-# **`name`**         | `string(255)`      |
+# **`name`**         | `string`           |
 # **`updated_at`**   | `datetime`         | `not null`
 #
 

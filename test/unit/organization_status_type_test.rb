@@ -8,10 +8,8 @@
 # -------------- | ------------------ | ---------------------------
 # **`display`**  | `boolean`          |
 # **`id`**       | `integer`          | `not null, primary key`
-# **`name`**     | `string(255)`      |
-## ## Schema Information
+# **`name`**     | `string`           |
 #
-
 
 require 'test_helper'
 

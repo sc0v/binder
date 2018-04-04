@@ -84,6 +84,7 @@ Trailerapp::Application.routes.draw do
     end
   
   end
+  
 
   scope 'tool_cart' do
     post 'add_tool', to: 'tool_cart#add_tool', as: :tool_cart_add_tool
@@ -124,6 +125,11 @@ Trailerapp::Application.routes.draw do
   
   unless Rails.env.staging? or Rails.env.production?
     post 'dev_login' => "home#dev_login", :as => "dev_login"
+  end
+  
+  resources :organization_lists do
+    collection { post :import }
+    collection { post :add }
   end
 end
 

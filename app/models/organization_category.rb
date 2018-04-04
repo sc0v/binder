@@ -9,7 +9,7 @@
 # **`created_at`**   | `datetime`         |
 # **`id`**           | `integer`          | `not null, primary key`
 # **`is_building`**  | `boolean`          |
-# **`name`**         | `string(255)`      |
+# **`name`**         | `string`           |
 # **`updated_at`**   | `datetime`         |
 #
 

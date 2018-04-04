@@ -8,9 +8,9 @@
 # ------------------------------- | ------------------ | ---------------------------
 # **`created_at`**                | `datetime`         |
 # **`id`**                        | `integer`          | `not null, primary key`
-# **`name`**                      | `string(255)`      |
+# **`name`**                      | `string`           |
 # **`organization_category_id`**  | `integer`          |
-# **`short_name`**                | `string(255)`      |
+# **`short_name`**                | `string`           |
 # **`updated_at`**                | `datetime`         |
 #
 # ### Indexes
@@ -34,7 +34,8 @@ class Organization < ActiveRecord::Base
   has_many :documents, :dependent => :destroy
   has_many :tools, :through => :checkouts
   has_many :checkouts, :dependent => :destroy
-  has_many :shifts  
+  has_many :shifts
+  
 
   default_scope { order('name asc') }
 

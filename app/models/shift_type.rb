@@ -8,8 +8,8 @@
 # ----------------- | ------------------ | ---------------------------
 # **`created_at`**  | `datetime`         |
 # **`id`**          | `integer`          | `not null, primary key`
-# **`name`**        | `string(255)`      |
-# **`short_name`**  | `string(255)`      |
+# **`name`**        | `string`           |
+# **`short_name`**  | `string`           |
 # **`updated_at`**  | `datetime`         |
 #
 

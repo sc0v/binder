@@ -7,7 +7,7 @@
 # Name                               | Type               | Attributes
 # ---------------------------------- | ------------------ | ---------------------------
 # **`created_at`**                   | `datetime`         |
-# **`description`**                  | `string(255)`      |
+# **`description`**                  | `string`           |
 # **`id`**                           | `integer`          | `not null, primary key`
 # **`organization_id`**              | `integer`          |
 # **`organization_status_type_id`**  | `integer`          |

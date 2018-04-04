@@ -9,7 +9,7 @@
 # **`active`**           | `boolean`          | `default(TRUE)`
 # **`created_at`**       | `datetime`         |
 # **`id`**               | `integer`          | `not null, primary key`
-# **`note`**             | `string(255)`      |
+# **`note`**             | `string`           |
 # **`organization_id`**  | `integer`          |
 # **`participant_id`**   | `integer`          |
 # **`tool_type_id`**     | `integer`          |
