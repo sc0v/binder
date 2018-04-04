@@ -11,7 +11,7 @@ class ListBuildersReport < Dossier::Report
 
   def sql
     Organization.joins(:participants).only_categories(%w[Fraternity Sorority Independent Blitz Concessions])
-        .select('REPLACE( participants.cached_name, participants.cached_surname, "") AS \'First Name\'','participants.cached_surname AS \'Last Name\'','organizations.name AS \'Organization\'', 'participants.cached_email AS \'Andrew ID\'',
+        .select('organizations.name AS \'Organization\'', 'andrewid AS \'Andrew ID\'',
                 'phone_number AS \'Phone Number\'',
                 '(SELECT phone_carriers.name FROM phone_carriers WHERE phone_carriers.id = participants.phone_carrier_id) AS \'Phone Carrier\'')
         .reorder('organizations.name').to_sql
