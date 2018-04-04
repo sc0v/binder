@@ -139,11 +139,11 @@ class ParticipantTest < ActiveSupport::TestCase
       end
 
       should "show that department method works correctly" do
-        assert_equal "Dietrich College Interdisciplinary, Human-Computer Interaction", @participant.department
+        assert_equal "Dietrich College Interdisciplinary, SCS: Human-Computer Interaction", @participant.department
       end
 
       should "show that student_class method works correctly" do
-        assert_equal "Junior", @participant.student_class
+        assert_equal "Senior", @participant.student_class
       end
 
       should "show that formatted_phone_number method works correctly" do
