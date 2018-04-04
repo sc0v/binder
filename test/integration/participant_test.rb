@@ -32,7 +32,7 @@ class ParticipantTest < ActiveSupport::TestCase
     end
 
     should "return student class from directory" do
-      assert_equal "Junior", @participant.student_class
+      assert_equal "Senior", @participant.student_class
     end
   end
 end
