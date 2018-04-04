@@ -108,7 +108,6 @@ end
 puts 'SCC Members'
 scc_members = [
   { andrewid: 'amartine', title: 'Carnival Chair', binder_admin: true, exec_board: true },
-  { andrewid: 'kbokil', title: 'Site Admin', binder_admin: true, exec_board: true },
   { andrewid: 'asgreen', title: 'Advisor', binder_admin: true },
   { andrewid: 'grickstr', title: 'Head of Marketing', exec_board: true },
   { andrewid: 'hkoschme', title: 'Head of Entertainment', exec_board: true },
@@ -119,7 +118,6 @@ scc_members = [
   { andrewid: 'saclark', title: 'Assistant Head of Operations', binder_admin: true, exec_board: true },
   { andrewid: 'zileig', title: 'Treasurer', binder_admin: true, exec_board: true },
   { andrewid: 'meribyte', binder_admin: true },
-  { andrewid: 'ritikas' },
   { andrewid: 'agotsis' },
   { andrewid: 'awhyte' },
   { andrewid: 'ayang1' },
@@ -177,7 +175,6 @@ Membership.create({ organization: aphio_org, participant: Participant.create({ a
 Membership.create({ organization: aphio_org, participant: Participant.create({ andrewid: 'stevengu' }), is_booth_chair: true })
 Membership.create({ organization: asig_org, participant: Participant.create({ andrewid: 'eda' }), is_booth_chair: true })
 Membership.create({ organization: asig_org, participant: Participant.create({ andrewid: 'mfaith' }), is_booth_chair: true })
-Membership.create({ organization: asa_org, participant: Participant.create({ andrewid: 'akim1' }), is_booth_chair: true })
 Membership.create({ organization: asa_org, participant: Participant.create({ andrewid: 'shenghah' }), is_booth_chair: true })
 Membership.create({ organization: asa_org, participant: Participant.create({ andrewid: 'rhkim' }), is_booth_chair: true })
 Membership.create({ organization: asa_org, participant: Participant.create({ andrewid: 'munsungk' }), is_booth_chair: true })

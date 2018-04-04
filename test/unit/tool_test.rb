@@ -8,7 +8,7 @@
 # ------------------- | ------------------ | ---------------------------
 # **`barcode`**       | `integer`          |
 # **`created_at`**    | `datetime`         |
-# **`description`**   | `text`             |
+# **`description`**   | `text(65535)`      |
 # **`id`**            | `integer`          | `not null, primary key`
 # **`tool_type_id`**  | `integer`          |
 # **`updated_at`**    | `datetime`         |

@@ -65,7 +65,7 @@ var Checkout = new function() {
 	        if(cko_participant['member_orgs'].length == 0) $("#add_to_org_div").show();
 	    }).error( function(data) {
 	        $('#user-card-number-input').parent().children().first().val("");
-		    $('#user-card-number-input').parent().children().last().html("</br><div class=\"panel panel-danger\"><div class=\"panel-heading\">Participant Not Found</div><div class=\"panel-body\">If this message persists please try entering their AndrewID instead.</div>")
+		    $('#user-card-number-input').parent().children().last().html("</br><div class=\"panel panel-danger\"><div class=\"panel-heading\">Participant Not Found</div><div class=\"panel-body\">If this message persists please try entering their andrewid instead.</div>")
 		});
 	}
 };

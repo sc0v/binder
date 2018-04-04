@@ -87,42 +87,6 @@ namespace :db do
     end
   end
   before 'db:reset', 'bundler:install'
-  
-  desc 'Runs rake db:drop'
-  task :drop do
-    on roles(:db) do
-      within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          execute :rake, 'db:drop'
-        end
-      end
-    end
-  end
-  before 'db:drop', 'bundler:install'
-  
-  desc 'Runs rake db:seed'
-  task :seed do
-    on roles(:db) do
-      within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          execute :rake, 'db:seed'
-        end
-      end
-    end
-  end
-  before 'db:seed', 'bundler:install'
-  
-  desc 'Runs rake db:migrate'
-  task :migrate do
-    on roles(:db) do
-      within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          execute :rake, 'db:migrate'
-        end
-      end
-    end
-  end
-  before 'db:migrate', 'bundler:install'
 
   desc 'Runs rake db:setup'
   task :setup do

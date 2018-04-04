@@ -138,7 +138,7 @@ var ToolCart = new function(){
 
         if(cko_participant['member_orgs'].length == 0) $cko_add_membership_div.show();
       }).error( function(data) {
-        ToolCart.showAlert('Could not load person\'s information. Try manually entering their AndrewID or ask for help.', false, 4500);
+        ToolCart.showAlert('Could not load person\'s information. Try manually entering their Andrew ID or ask for help.', false, 4500);
       });
     });
   }

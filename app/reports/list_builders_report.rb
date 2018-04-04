@@ -15,7 +15,6 @@ class ListBuildersReport < Dossier::Report
                 'phone_number AS \'Phone Number\'',
                 '(SELECT phone_carriers.name FROM phone_carriers WHERE phone_carriers.id = participants.phone_carrier_id) AS \'Phone Carrier\'')
         .reorder('organizations.name').to_sql
-
   end
 
 end

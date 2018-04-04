@@ -36,7 +36,7 @@ $(document).on("ready page:change", function(){
       $('#card-number-input').parent().children().last().html("</br><div class=\"panel panel-success\"><div class=\"panel-heading\">Participant Info</div><div class=\"panel-body\">" + data["name"] + "</div>");
     }).error( function(data) {
       $('#card-number-input').parent().children().first().val("");
-      $('#card-number-input').parent().children().last().html("</br><div class=\"panel panel-danger\"><div class=\"panel-heading\">Participant Not Found</div><div class=\"panel-body\">If this message persists please try entering their AndrewID instead.</div>")
+      $('#card-number-input').parent().children().last().html("</br><div class=\"panel panel-danger\"><div class=\"panel-heading\">Participant Not Found</div><div class=\"panel-body\">If this message persists please try entering their andrewid instead.</div>")
     });
   });
   
@@ -46,11 +46,6 @@ $(document).on("ready page:change", function(){
       $('#main-content-div :submit').focus()
     }
   });
-  
-  $( ".pending-member" ).click(function() {
-    $("#" + this.id).remove();
-  });
-  
 });
 
 function _toggleText(el, opt1, opt2){

@@ -1,25 +1,3 @@
-# ## Schema Information
-#
-# Table name: `certifications`
-#
-# ### Columns
-#
-# Name                         | Type               | Attributes
-# ---------------------------- | ------------------ | ---------------------------
-# **`certification_type_id`**  | `integer`          |
-# **`created_at`**             | `datetime`         | `not null`
-# **`id`**                     | `integer`          | `not null, primary key`
-# **`participant_id`**         | `integer`          |
-# **`updated_at`**             | `datetime`         | `not null`
-#
-# ### Indexes
-#
-# * `index_certifications_on_certification_type_id`:
-#     * **`certification_type_id`**
-# * `index_certifications_on_participant_id`:
-#     * **`participant_id`**
-#
-
 class CertificationsController < ApplicationController
   load_and_authorize_resource
 

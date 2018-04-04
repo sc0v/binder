@@ -8,7 +8,7 @@
 # ---------------------- | ------------------ | ---------------------------
 # **`created_at`**       | `datetime`         |
 # **`id`**               | `integer`          | `not null, primary key`
-# **`name`**             | `string`           |
+# **`name`**             | `string(255)`      |
 # **`organization_id`**  | `integer`          |
 # **`updated_at`**       | `datetime`         |
 #
