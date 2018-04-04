@@ -48,7 +48,9 @@ class WaiversController < ApplicationController
       @participant.has_signed_waiver = true
       @participant.save!
       flash[:notice] = "Thank you for completing the waiver."
-      redirect_to root_path
+
+      @membership = Membership.new(participant: @participant)
+      render 'memberships/new'
     end
 
   end

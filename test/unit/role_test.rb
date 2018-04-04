@@ -8,9 +8,9 @@
 # -------------------- | ------------------ | ---------------------------
 # **`created_at`**     | `datetime`         |
 # **`id`**             | `integer`          | `not null, primary key`
-# **`name`**           | `string`           |
+# **`name`**           | `string(255)`      |
 # **`resource_id`**    | `integer`          |
-# **`resource_type`**  | `string`           |
+# **`resource_type`**  | `string(255)`      |
 # **`updated_at`**     | `datetime`         |
 #
 # ### Indexes

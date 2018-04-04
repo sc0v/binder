@@ -8,11 +8,11 @@
 # ---------------------- | ------------------ | ---------------------------
 # **`completed_by_id`**  | `integer`          |
 # **`created_at`**       | `datetime`         |
-# **`description`**      | `text`             |
+# **`description`**      | `text(65535)`      |
 # **`due_at`**           | `datetime`         |
 # **`id`**               | `integer`          | `not null, primary key`
 # **`is_completed`**     | `boolean`          |
-# **`name`**             | `string`           |
+# **`name`**             | `string(255)`      |
 # **`updated_at`**       | `datetime`         |
 #
 
