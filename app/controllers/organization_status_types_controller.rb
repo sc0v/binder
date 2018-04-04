@@ -8,7 +8,7 @@
 # -------------- | ------------------ | ---------------------------
 # **`display`**  | `boolean`          |
 # **`id`**       | `integer`          | `not null, primary key`
-# **`name`**     | `string(255)`      |
+# **`name`**     | `string`           |
 #
 
 class OrganizationStatusTypesController < ApplicationController

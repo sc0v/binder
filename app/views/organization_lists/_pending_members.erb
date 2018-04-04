@@ -1,0 +1,13 @@
+<table class="pending-members-table table table-striped">
+  <thead>
+    <tr>
+      <th>AndrewID/th>
+    </tr>
+  </thead>
+  <% @pending_memberships.each do |member| %>
+    <tr id="<%= member.id %>">
+      <td class="col-xs-2"><%= member.andrew_id %></td>
+      <td><%= link_to "Delete", organization_list_path(member), remote: true, method: :delete, id: member.id.to_s, class: "pending-member btn btn-danger btn-xs" %></td>
+    </tr>
+  <% end %>
+</table>
