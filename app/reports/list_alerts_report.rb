@@ -3,7 +3,7 @@ class ListAlertsReport < Dossier::Report
 
   def self.binder_report_info
     {
-        title: "List alerts info",
+        title: "List alerts information",
         description: "This report lists the information needed by CMU Alerts for all Carnival members"
     }
   end
