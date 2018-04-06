@@ -31,7 +31,7 @@ class ChargeTypesController < ApplicationController
   def show
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @charge_type.default_amount.to_json, :status => 200}
+      format.json { render :json => ActiveSupport::NumberHelper.number_to_currency(@charge_type.default_amount, unit: '', delimiter: '').to_json, :status => 200}
     end
   end
 
