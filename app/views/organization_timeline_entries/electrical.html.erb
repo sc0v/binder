@@ -1,5 +1,7 @@
 <div class="page-header">
   <h1>Electrical Queue</h1>
+
+  <%= render partial: 'queue_add_form', locals: {queue_type: 'Electrical'} %>
 </div>
 
 <%= render partial: 'organization_timeline_entries', locals: {entries: @organization_timeline_entries} %>
