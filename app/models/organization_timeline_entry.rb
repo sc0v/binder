@@ -20,6 +20,7 @@
 # * `index_organization_timeline_entries_on_organization_id`:
 #     * **`organization_id`**
 #
+include Messenger
 
 class OrganizationTimelineEntry < ActiveRecord::Base
   validates_presence_of :organization, :started_at, :entry_type
@@ -43,7 +44,7 @@ class OrganizationTimelineEntry < ActiveRecord::Base
   end
 
   #notifcations 
-  after_create :notifyStart
+  after_create :notifyStart, :notify_booth_committee
   after_update :notifyEnd
 
   def notifyStart
@@ -63,6 +64,13 @@ class OrganizationTimelineEntry < ActiveRecord::Base
           send_sms(chair.phone_number, "Downtime for your organization, " +organization.name+", has ended. You have "+Time.at(organization.remaining_downtime).utc.strftime("%H hours %M minutes")+" left.")
         end
       end
+    end
+  end
+
+  def notify_booth_committee
+    # post in the booth committee groupme when someone joins a queue
+    if ['structural', 'electrical'].include?(entry_type)
+      send_groupme("8a6cab13d71d09562023b48658","#{entry_type.titlecase} Queue: #{organization.short_name} needs #{description}")
     end
   end
 end
