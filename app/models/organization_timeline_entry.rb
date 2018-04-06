@@ -37,6 +37,11 @@ class OrganizationTimelineEntry < ActiveRecord::Base
     return DateTime.now.to_i - started_at.to_i
   end
 
+  def already_in_queue?
+    ['structural', 'electrical'].include?(entry_type) &&
+      !organization.organization_timeline_entries.current.send(entry_type).empty?
+  end
+
   #notifcations 
   after_create :notifyStart
   after_update :notifyEnd

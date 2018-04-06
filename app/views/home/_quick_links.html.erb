@@ -33,6 +33,12 @@
   <% if can?(:read, Task) %>
     <p><%= link_to "Tasks", tasks_path, :class => "btn btn-primary" %></p>
   <% end %>
+  <% if can?(:structural, OrganizationTimelineEntry) %>
+    <p><%= link_to "Structural Queue", structural_path, :class => "btn btn-primary" %></p>
+  <% end %>
+  <% if can?(:electrical, OrganizationTimelineEntry) %>
+    <p><%= link_to "Electrical Queue", electrical_path, :class => "btn btn-primary" %></p>
+  <% end %>
 
   <br>
 

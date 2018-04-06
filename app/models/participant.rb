@@ -68,6 +68,10 @@ class Participant < ActiveRecord::Base
     !memberships.booth_chairs.blank?
   end
 
+  def booth_chair_organizations
+    memberships.booth_chairs.map(&:organization) & Organization.only_categories(['Fraternity', 'Sorority', 'Independent', 'Blitz', 'Concessions'])
+  end
+
   def is_scc?
     !organizations.find_by(name: "Spring Carnival Committee").blank?
   end
