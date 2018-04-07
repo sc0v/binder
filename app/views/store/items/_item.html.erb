@@ -1,6 +1,6 @@
 <tr>
   <td><%= link_to item.name, item, :class => 'btn btn-info btn-xs'  %></td>
-  <td>$ <%= item.price %></td>
+  <td><%= number_to_currency item.price %></td>
   <td><%= item.quantity_available %></td>
   <td>
     <% if can?(:create, Charge) %>
