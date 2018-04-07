@@ -38,7 +38,7 @@ class Ability
     can :update, Participant, :id => user.participant.id
     can :read_phone_number, Participant, :id => user.participant.id
 
-    can :create, Membership, :participant_id => user.participant.id
+    # can :create, Membership, :participant_id => user.participant.id
 
     can :read, StoreItem
 
