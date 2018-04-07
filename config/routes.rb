@@ -125,5 +125,10 @@ Trailerapp::Application.routes.draw do
   unless Rails.env.staging? or Rails.env.production?
     post 'dev_login' => "home#dev_login", :as => "dev_login"
   end
+  
+  resources :organization_lists do
+    collection { post :import }
+    collection { post :add }
+  end
 end
 

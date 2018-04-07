@@ -50,7 +50,6 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.can?(:read, Checkout.new(:organization => @org))
       assert ability.cannot?(:read, Checkout.new(:organization => @scc))
 
-      assert ability.can?(:create, Membership)
       assert ability.can?(:read, Membership)
 
       assert ability.cannot?(:create, Organization)
@@ -196,6 +195,7 @@ class AbilityTest < ActiveSupport::TestCase
     should "allow an admin to manage everything" do
       ability = Ability.new(@admin_user)
       assert ability.can?(:manage, :all)
+      assert ability.can?(:create, Membership)
     end
   end
 end
