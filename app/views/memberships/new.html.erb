@@ -1,4 +1,4 @@
-<% if can?(:skip_video, @user) %>
+<% if current_user.participant.is_scc? %>
 
   <%- model_class = Membership -%>
   <div class="page-header">
