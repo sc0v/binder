@@ -42,7 +42,7 @@ class OrganizationsController < ApplicationController
         @org_id = membership.organization_id
       end
     end
-    if @user.roles.map(&:name).include?("admin")
+    if is_admin?
       @org_id = Organization.find(params[:id])
     end
     @pending_memberships = OrganizationList.where(organization_id: @org_id)

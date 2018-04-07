@@ -2,8 +2,7 @@
   <%- model_class = OrganizationList -%>
   <div class="page-header">
     <h1>
-      <!-- basically: if user is an admin (only admins can skip videos) -->
-      <% if can?(:skip_video, @user) %>
+      <% if is_admin? %>
         Add Members to an Organization
       <% else %>
         Add Members to <%= @org_name %>
@@ -11,7 +10,7 @@
     </h1>
   </div>
 
-  <% if can?(:skip_video, @user) %>
+  <% if is_admin? %>
     <p>
       Select the organization you want to add a member to:
     </p>
@@ -20,7 +19,7 @@
   <% end %>
 
   <%= form_tag add_organization_lists_path, multipart: true do%>
-    <% if can?(:skip_video, @user) %>
+    <% if is_admin? %>
       <%= select_tag(:org_name, options_for_select(Organization.all.to_a.map{|o| [o.name, o.id]})) %>
     <% else %>
       <%= hidden_field_tag(:org_name, @org_id )%>
@@ -37,7 +36,7 @@
 
   <hr>
 
-  <% if can?(:skip_video, @user) %>
+  <% if is_admin? %>
     <p>
       Select the organization you want to add members to:
     </p>
