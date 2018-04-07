@@ -117,6 +117,8 @@ cap <environment> deploy branch=<branch>
 
 <br>
 To list all available Capistrano tasks, run the following command in the Binder repository directory:
+<br>
+Cap tasks listed in /config/deploy.rb
 
 ```
 cap -T

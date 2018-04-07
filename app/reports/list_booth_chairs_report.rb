@@ -4,7 +4,7 @@ class ListBoothChairsReport < Dossier::Report
   def self.binder_report_info
     {
         title: "List all booth chairs",
-        description: "This report lists the andrew id of all users that are
+        description: "This report lists the AndrewID of all users that are
                       booth chairs and the organization they are a booth chair of."
     }
   end

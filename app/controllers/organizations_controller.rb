@@ -36,6 +36,17 @@ class OrganizationsController < ApplicationController
     @booth_chairs = @organization.booth_chairs
     @tools = Tool.checked_out_by_organization(@organization).just_tools
     @shifts = @organization.shifts
+    @user = current_user
+    @user.participant.memberships.each do |membership|
+      if membership.is_booth_chair?
+        @org_id = membership.organization_id
+      end
+    end
+    if is_admin?
+      @org_id = Organization.find(params[:id])
+    end
+    @pending_memberships = OrganizationList.where(organization_id: @org_id)
+    
     @participants = @organization.participants
     @documents = @organization.documents
     @charges = @organization.charges

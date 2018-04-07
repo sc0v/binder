@@ -26,6 +26,8 @@ class WaiversController < ApplicationController
       @participant = Participant.find params[:participant_id]
     end
 
+
+
     if @participant.is_waiver_cheater? && cannot?(:skip_video, WaiversController)
       @participant.start_waiver_timer
       redirect_to '/cheating.html'
@@ -47,10 +49,14 @@ class WaiversController < ApplicationController
       @participant.phone_carrier = c
       @participant.has_signed_waiver = true
       @participant.save!
-      flash[:notice] = "Thank you for completing the waiver."
 
-      @membership = Membership.new(participant: @participant)
-      render 'memberships/new'
+      if is_admin?
+        @membership = Membership.new(participant: @participant)
+        render 'memberships/new'
+      else
+        flash[:notice] = "Thank you for completing the waiver."
+        redirect_to root_path
+      end
     end
 
   end
