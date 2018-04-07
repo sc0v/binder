@@ -2,7 +2,9 @@
   <td><%= link_to organization.name, organization_path(organization) %></td>
   <% if can?(:read, OrganizationStatus) %>
     <td>
-      <% if can?(:read, organization.organization_statuses.displayable.last) %>
+      <% if !organization.organization_category.is_building %>
+        &mdash;
+      <% elsif can?(:read, organization.organization_statuses.displayable.last) %>
         <%= link_to organization.organization_statuses.displayable.last.organization_status_type.name, [organization, :organization_statuses] unless organization.organization_statuses.displayable.blank? %>
       <% end %>
     </td>

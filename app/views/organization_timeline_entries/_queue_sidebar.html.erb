@@ -37,7 +37,7 @@
     <% if !@electrical_queue_sidebar.blank? %>
       <table class="table table-condensed">
         <thead>
-          <th style="text-align: center;">Electrical</th>
+          <th style="text-align: center;"><%= link_to 'Electrical', electrical_path %></th>
           <th style="text-align: left;">Reason</th>
           <th></th>
         </thead>
@@ -67,7 +67,7 @@
     <%= simple_form_for OrganizationTimelineEntry.new do |f| %>
       <%= f.input_field :organization_id, :as => :select, :collection => Organization.only_categories(['Fraternity', 'Sorority', 'Independent', 'Blitz', 'Concessions']), :style => "width: 100%" %>
       <div style="width: 100%; height: 5px; clear: both;"></div>
-      <%= f.input_field :description, :as => :string, :style => "width: 100%" %>
+      <%= f.input_field :description, :as => :string, :style => "width: 100%", :placeholder => "Enter reason..." %>
       <%= hidden_field_tag 'url', request.original_fullpath %>
       <div style="width: 100%; height: 10px; clear: both;"></div>
       <div class="btn-group" style="width: 100%;">

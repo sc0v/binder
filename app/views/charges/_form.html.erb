@@ -17,7 +17,7 @@ When adding a charge, please ensure that you add a detailed description. This al
     <%= f.input :amount do %>
       <div class="input-group">
   			<%= content_tag :span, "$", :class => 'input-group-addon' %>
-  			<%= f.input_field :amount, :as => :string %>
+  			<%= f.input_field :amount, :as => :string, :value => number_to_currency(f.object.amount, unit: '', delimiter: '') %>
       </div>
 		<% end %>
 
@@ -27,7 +27,7 @@ When adding a charge, please ensure that you add a detailed description. This al
 
     <%= f.input :receiving_participant do %>
       <%= f.input_field :receiving_participant_id, as: :hidden %>
-      <%= text_field_tag 'card-number-input', nil, placeholder: @current_receiving_participant, class: 'form-control'%>
+      <%= text_field_tag 'card-number-input', nil, value: @current_receiving_participant, placeholder: 'Tap card or enter andrewid...', class: 'form-control'%>
       <div id="participant-info"></div>
     <% end %>
   </div>
