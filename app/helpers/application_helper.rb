@@ -34,25 +34,17 @@ module ApplicationHelper
     number_to_currency(display_currency)
   end
 
-  def format_downtime(downtime)
-    downtime = downtime.to_i
-    hours = downtime / 3600
-    minutes = (downtime % 3600) / 60
-    return ("%d" % hours) + ":" + ("%02d" % minutes)
-  end
-
-  def format_remaining_downtime(downtime)
-    downtime = downtime.to_i
-    if downtime < 0
-      neg = '-'
-      downtime *= -1
+  def format_duration(time)
+    time = time.to_i
+    if time < 0
+      neg = '&minus;'.html_safe
+      time *= -1
     else
       neg = ''
     end
 
-    downtime += 59
-    hours = downtime / 3600
-    minutes = (downtime % 3600) / 60
+    hours = time / 3600
+    minutes = (time % 3600) / 60
     return neg + ("%d" % hours) + ":" + ("%02d" % minutes)
   end
 

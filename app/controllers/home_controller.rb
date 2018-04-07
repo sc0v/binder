@@ -1,5 +1,6 @@
 class HomeController < ApplicationController
   def index
+    
     # need to find a way to get user
     if user_signed_in?
       @user = current_user
@@ -20,12 +21,6 @@ class HomeController < ApplicationController
         end
       redirect_to root_path, notice: msg
       
-      
-      
-      
-      
-      
-
       end
     end
   end

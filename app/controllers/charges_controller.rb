@@ -11,7 +11,7 @@
 # **`charged_at`**                | `datetime`         |
 # **`created_at`**                | `datetime`         |
 # **`creating_participant_id`**   | `integer`          |
-# **`description`**               | `text`             |
+# **`description`**               | `text(65535)`      |
 # **`id`**                        | `integer`          | `not null, primary key`
 # **`is_approved`**               | `boolean`          |
 # **`issuing_participant_id`**    | `integer`          |
@@ -59,7 +59,7 @@ class ChargesController < ApplicationController
 
   # GET /charges/1/edit
   def edit
-    @current_receiving_participant = @charge.receiving_participant? ? "" : @charge.receiving_participant.formatted_name
+    @current_receiving_participant = @charge.receiving_participant.nil? ? "" : @charge.receiving_participant.formatted_name
   end
 
   # POST /charges

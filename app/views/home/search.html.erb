@@ -1,7 +1,9 @@
 <h2>Search result for term <em>'<%= @query %>'</em> </h2>
 <p class="supertiny">&nbsp;</p>
+<% result_shown = false %>
 
 <% unless @new_participant.blank? or !can?(:create, Participant) %>
+  <% result_shown = true %>
   <p>
     <%= simple_form_for @new_participant do |f| %>
       <%= f.input :andrewid, :input_html => { :value => @new_participant.andrewid }, :as => :hidden %>
@@ -11,23 +13,26 @@
 <% end %>
 
 <% unless @tools.blank? %>
-	<p><em><strong>Tools matching term '<%= @query %>'</strong></em></p>
-  <%= render partial: "tools/tools", locals: {tools: @tools} %>
-	<p class="smtext">&nbsp;</p>
+  <% result_shown = true %>
+  <p><em><strong>Tools matching term '<%= @query %>'</strong></em></p>
+    <%= render partial: "tools/tools", locals: {tools: @tools} %>
+  <p class="smtext">&nbsp;</p>
 <% end %>
 
 <% unless @participants.blank? %>
-	<p><em><strong>Participants matching term '<%= @query %>'</strong></em></p>
-	<ul>
-		<% for participant in @participants do %>
-			<li><%= link_to participant.formatted_name, participant %></li>
-		<% end %>
-	</ul>
-	<p class="supertiny">&nbsp;</p>
+  <% result_shown = true %>
+  <p><em><strong>Participants matching term '<%= @query %>'</strong></em></p>
+  <ul>
+    <% for participant in @participants do %>
+      <li><%= link_to participant.formatted_name, participant %></li>
+    <% end %>
+  </ul>
+  <p class="supertiny">&nbsp;</p>
 <% end %>
 
 <% unless @organizations.blank? and @organization_aliases.blank? %>
-	<p><em><strong>Organizations matching term '<%= @query %>'</strong></em></p>
+  <% result_shown = true %>
+  <p><em><strong>Organizations matching term '<%= @query %>'</strong></em></p>
   <ul>
     <% unless @organizations.blank? %>
       <li><em>Names matching term '<%= @query %>'</em></li>
@@ -51,24 +56,29 @@
 <% end %>
 
 <% unless @faqs.blank? or !can?(:read, Faq) %>
-	<p><em><strong>Frequently Asked Questions matching term '<%= @query %>'</strong></em></p>
-	<ul>
-		<% for faq in @faqs do %>
-			<li><%= link_to faq.question, faqs_path %><br> <%= "#{faq.answer}" %></li>
-		<% end %>
-	</ul>
-	<p class="supertiny">&nbsp;</p>
+  <% result_shown = true %>
+  <p><em><strong>Frequently Asked Questions matching term '<%= @query %>'</strong></em></p>
+  <ul>
+    <% for faq in @faqs do %>
+      <li><%= link_to faq.question, faqs_path %><br> <%= "#{faq.answer}" %></li>
+    <% end %>
+  </ul>
+  <p class="supertiny">&nbsp;</p>
 <% end %>
 
 <% unless @documents.blank? %>
-	<p><em><strong>Documents matching term '<%= @query %>'</strong></em></p>
-	<ul>
-		<% for doc in @documents do %>
+  <% result_shown = true %>
+  <p><em><strong>Documents matching term '<%= @query %>'</strong></em></p>
+  <ul>
+    <% for doc in @documents do %>
       <% if can?(:read, doc )%>
-  			<li><%= link_to doc.name, doc %></li>
+        <li><%= link_to doc.name, doc %></li>
       <% end %>
-		<% end %>
-	</ul>
-	<p class="supertiny">&nbsp;</p>
+    <% end %>
+  </ul>
+  <p class="supertiny">&nbsp;</p>
 <% end %>
 
+<% unless result_shown %>
+  <p><em>No results found for '<%= @query %>'</em></p>
+<% end %>

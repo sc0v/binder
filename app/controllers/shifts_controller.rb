@@ -7,7 +7,7 @@
 # Name                                   | Type               | Attributes
 # -------------------------------------- | ------------------ | ---------------------------
 # **`created_at`**                       | `datetime`         |
-# **`description`**                      | `string`           |
+# **`description`**                      | `string(255)`      |
 # **`ends_at`**                          | `datetime`         |
 # **`id`**                               | `integer`          | `not null, primary key`
 # **`organization_id`**                  | `integer`          |
@@ -30,28 +30,33 @@ class ShiftsController < ApplicationController
   # GET /shifts.json
   # Regular index is watch shifts by default
   def index
-    unless ( params[:organization_id].blank? )
-      @organization = Organization.find(params[:organization_id])
-      @shifts = @organization.shifts
+    if (current_user.has_role? :admin)
+      shifts = Shift.all
+    elsif (current_user.participant.is_scc?)
+      shifts = Shift.all
     else
-      @shifts = Shift
+      @orgs = current_user.participant.memberships.map {|mem| mem.organization.id}
+      unless @orgs.nil?
+        shifts = Shift.for_organizations(@orgs)
+      end
     end
 
     if (params[:type].blank?)
       @title = "Shifts"
-      @shifts = @shifts
+      shifts = shifts
     elsif (params[:type] == "watch")
       @title = "Watch Shifts"
-      @shifts = @shifts.watch_shifts
+      shifts = shifts.watch_shifts
     elsif (params[:type] == "security")
       @title = "Security Shifts"
-      @shifts = @shifts.sec_shifts
+      shifts = shifts.sec_shifts
     elsif (params[:type] == "coordinator")
       @title = "Coordinator Shifts"
-      @shifts = @shifts.coord_shifts
+      shifts = shifts.coord_shifts
     end
 
-    @shifts = @shifts.paginate(:page => params[:page]).per_page(20)
+    @shifts_upcoming = shifts.where("ends_at > ?", Time.now).paginate(:page => params[:upcoming_page]).per_page(15).reorder('starts_at ASC')
+    @shifts_past = shifts.where("ends_at <= ?", Time.now).paginate(:page => params[:past_page]).per_page(15).reorder('starts_at DESC')
   end
 
   # GET /shifts/1

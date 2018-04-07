@@ -11,7 +11,7 @@
 # **`charged_at`**                | `datetime`         |
 # **`created_at`**                | `datetime`         |
 # **`creating_participant_id`**   | `integer`          |
-# **`description`**               | `text`             |
+# **`description`**               | `text(65535)`      |
 # **`id`**                        | `integer`          | `not null, primary key`
 # **`is_approved`**               | `boolean`          |
 # **`issuing_participant_id`**    | `integer`          |

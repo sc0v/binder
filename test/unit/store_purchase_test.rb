@@ -9,7 +9,7 @@
 # **`charge_id`**           | `integer`          |
 # **`created_at`**          | `datetime`         | `not null`
 # **`id`**                  | `integer`          | `not null, primary key`
-# **`price_at_purchase`**   | `decimal(8, 2)`    |
+# **`price_at_purchase`**   | `decimal(10, )`    |
 # **`quantity_purchased`**  | `integer`          |
 # **`store_item_id`**       | `integer`          |
 # **`updated_at`**          | `datetime`         | `not null`

@@ -7,7 +7,7 @@
 # Name                                   | Type               | Attributes
 # -------------------------------------- | ------------------ | ---------------------------
 # **`created_at`**                       | `datetime`         |
-# **`description`**                      | `string`           |
+# **`description`**                      | `string(255)`      |
 # **`ends_at`**                          | `datetime`         |
 # **`id`**                               | `integer`          | `not null, primary key`
 # **`organization_id`**                  | `integer`          |
@@ -21,7 +21,6 @@
 # * `index_shifts_on_organization_id`:
 #     * **`organization_id`**
 #
-
 include Messenger
 require 'twilio-ruby' 
 require 'daemons'
@@ -69,6 +68,14 @@ class Shift < ActiveRecord::Base
 
   def is_checked_in
     return participants.size == required_number_of_participants
+  end
+
+  def self.for_organizations(organizations)
+    if (organizations.nil?)
+      all
+    else
+      where("organization_id IN (?)", organizations)
+    end
   end
 
   def when_to_run_normal

@@ -8,9 +8,9 @@
 # ------------------------------------ | ------------------ | ---------------------------
 # **`created_at`**                     | `datetime`         |
 # **`default_amount`**                 | `decimal(8, 2)`    |
-# **`description`**                    | `text`             |
+# **`description`**                    | `text(65535)`      |
 # **`id`**                             | `integer`          | `not null, primary key`
-# **`name`**                           | `string`           |
+# **`name`**                           | `string(255)`      |
 # **`requires_booth_chair_approval`**  | `boolean`          |
 # **`updated_at`**                     | `datetime`         |
 #
@@ -31,7 +31,7 @@ class ChargeTypesController < ApplicationController
   def show
     respond_to do |format|
       format.html # new.html.erb
-      format.json { render :json => @charge_type.default_amount.to_json, :status => 200}
+      format.json { render :json => ActiveSupport::NumberHelper.number_to_currency(@charge_type.default_amount, unit: '', delimiter: '').to_json, :status => 200}
     end
   end
 

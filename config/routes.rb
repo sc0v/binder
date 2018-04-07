@@ -84,7 +84,6 @@ Trailerapp::Application.routes.draw do
     end
   
   end
-  
 
   scope 'tool_cart' do
     post 'add_tool', to: 'tool_cart#add_tool', as: :tool_cart_add_tool
