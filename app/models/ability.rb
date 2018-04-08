@@ -71,6 +71,10 @@ class Ability
       can [:create, :end], OrganizationTimelineEntry do |e|
         ['structural', 'electrical'].include?(e.entry_type) && e.organization.booth_chairs.include?(user.participant)
       end
+
+      can :read, OrganizationStatus do |s|
+        s.organization.booth_chairs.include?(user.participant)
+      end
     end
 
     if user.participant.is_scc?
