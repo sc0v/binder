@@ -38,9 +38,9 @@ Trailerapp::Application.routes.draw do
 
   get 'waiver' => 'waivers#new'
   resource :waiver, :except => [:edit, :destroy, :show, :update]
-  
+
   resources :shifts do
-    resources :participants, :controller => :shift_participants, :only => [:new, :create, :destroy]
+    resources :participants, :controller => :shift_participants, :only => [:new, :create, :update, :destroy]
   end
   resources :tasks do
     member do
