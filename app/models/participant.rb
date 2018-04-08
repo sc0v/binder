@@ -69,7 +69,9 @@ class Participant < ActiveRecord::Base
   end
 
   def booth_chair_organizations
-    memberships.booth_chairs.map(&:organization) & Organization.only_categories(['Fraternity', 'Sorority', 'Independent', 'Blitz', 'Concessions'])
+    memberships.booth_chairs.map(&:organization).select do |org|
+      org.organization_category.is_building
+    end
   end
 
   def is_scc?
