@@ -68,9 +68,17 @@ class OrganizationTimelineEntry < ActiveRecord::Base
   end
 
   def notify_booth_committee
-    # post in the booth committee groupme when someone joins a queue
-    if ['structural', 'electrical'].include?(entry_type)
-      send_groupme("8a6cab13d71d09562023b48658","#{entry_type.titlecase} Queue: #{organization.short_name} needs #{description}")
+    # post in the relevant groupme when someone joins a queue
+    bot_id = case entry_type
+      when 'structural'
+        ENV["STRUCTURAL_BOT_ID"]
+      when 'electrical'
+        ENV["ELECTRICAL_BOT_ID"]
+    end
+
+    if not bot_id.nil?
+      description_text = description.blank? ? "was added" : "needs #{description}"
+      send_groupme(bot_id, "#{entry_type.titlecase} Queue: #{organization.short_name} #{description_text}")
     end
   end
 end
