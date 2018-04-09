@@ -38,6 +38,9 @@
 <p>
   <%= link_to t('.back', :default => t("helpers.links.back")),
     organizations_path, :class => 'btn btn-default' %>
+  <% if can?(:create, Membership.new(organization: @organization)) %>
+    <%= link_to raw("Add Member"), new_organization_membership_path(@organization), :class => 'btn btn-info' %>
+  <% end %>
   <% if can?(:read_basic_details, @organization) %>
     <%= link_to raw("Tools"), organization_tools_path(@organization), :class => 'btn btn-info' %>
   <% end %>
@@ -45,9 +48,6 @@
     <%= link_to raw("Charges"), organization_charges_path(@organization), :class => 'btn btn-info' %>
   <% end %>
 
-  <% if can?(:add_members_to_org, @organization) %>
-    <%= link_to raw("Add Members"), organization_lists_path, :class => 'btn btn-info' %>
-  <% end %>
   <% if can?(:update, @organization) %>
     <%= link_to t('.edit', :default => t("helpers.links.edit")),
       edit_organization_path(@organization), :class => 'btn btn-primary' %>

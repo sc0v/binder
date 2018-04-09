@@ -31,11 +31,6 @@
     <p><%= link_to "Shifts", shifts_path, :class => "btn btn-primary" %></p>
   <% end %>
 
-  <!-- if they are a booth chair, they can add members to their org -->
-  <% if can?(:read, OrganizationList) %>
-    <p><%= link_to "Add Members to Organization", organization_lists_path, :class => "btn btn-primary" %></p>
-  <% end %>
-
   <% if can?(:read, Task) %>
     <p><%= link_to "Tasks", tasks_path, :class => "btn btn-primary" %></p>
   <% end %>

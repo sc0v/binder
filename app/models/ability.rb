@@ -38,8 +38,6 @@ class Ability
     can :update, Participant, :id => user.participant.id
     can :read_phone_number, Participant, :id => user.participant.id
 
-    # can :create, Membership, :participant_id => user.participant.id
-
     can :read, StoreItem
 
     can [:read, :structural, :electrical], OrganizationTimelineEntry
@@ -52,18 +50,13 @@ class Ability
         o.participants.include?(user.participant)
       end
 
-      can :add_members_to_org, Organization do |o|
-        o.booth_chairs.include?(user.participant)
-      end
-
-
       can :read, Charge do |c|
         c.organization.booth_chairs.include?(user.participant)
       end
 
       can :read_phone_number, Participant
 
-      can :update, Membership do |m|
+      can [:create, :update, :destroy], Membership do |m|
         m.organization.booth_chairs.include?(user.participant)
       end
 
