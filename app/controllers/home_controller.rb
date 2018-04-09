@@ -18,13 +18,7 @@ class HomeController < ApplicationController
 
     @participant_lookup = Participant.find_by_card(@query, true)
     unless @participant_lookup.nil?
-      if @participant_lookup.organizations.blank? and can?(:create, Membership)
-        redirect_to new_participant_membership_path(@participant_lookup)
-        return
-      else
-        redirect_to @participant_lookup
-        return
-      end
+      redirect_to @participant_lookup
     end
 
     @tool_lookup = Tool.find_by_barcode(@query)
