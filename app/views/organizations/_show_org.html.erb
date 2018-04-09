@@ -3,6 +3,7 @@
   <li class="active"><a href="#chairs" data-toggle="tab">Booth Chairs</a></li>
   <% if can?(:read_basic_details, @organization) %>
     <li><a href="#members" data-toggle="tab">Members</a></li>
+    <li><a href="#pending_members" data-toggle="tab">Pending Members</a></li>
     <li><a href="#tools" data-toggle="tab">Tools</a></li>
     <li><a href="#shifts" data-toggle="tab">Shifts</a></li>
   <% end %>
@@ -21,11 +22,18 @@
   <div id="chairs" class="tab-pane active">
     <%= render :partial => 'participants/organization_booth_chair_list', :object => @booth_chairs %>
   </div>
-
   <% if can?(:read_basic_details, @organization) %>
+
+
     <div id="members" class="tab-pane">
       <%= render :partial => "participants/organization_participant_list", :object => @participants %>
     </div>
+
+
+    <div id="pending_members" class="tab-pane">
+      <%= render :partial => "organization_lists/pending_members", :object => @pending_memberships %>
+    </div>
+
     <div id="shifts" class="tab-pane">
       <%= render :partial => "shifts/organization_shift_list.html.erb", :object => @shifts %>
     </div>
