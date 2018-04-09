@@ -38,12 +38,23 @@ class ShiftParticipantsController < ApplicationController
     @shift_participant.shift = shift
   end
 
-  # POST
-  def create
-    @shift_participant = ShiftParticipant.new(params.require(:shift_participant).permit(:shift_id, :participant_id))
+  # UPDATE
+  def update
+    @shift_participant = ShiftParticipant.find(params[:id])
     @shift_participant.clocked_in_at = Time.now
     @shift_participant.save
     respond_with @shift_participant, location: -> { @shift_participant.shift }
   end
-end
 
+  # POST
+  def create
+    clock_in_now = params[:shift_participant][:clock_in_now]
+    @shift_participant = ShiftParticipant.new(params.require(:shift_participant).permit(:shift_id, :participant_id))
+    
+    if clock_in_now
+      @shift_participant.clocked_in_at = Time.now
+    end
+    @shift_participant.save
+    respond_with @shift_participant, location: -> { @shift_participant.shift }
+  end
+end
