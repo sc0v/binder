@@ -1,0 +1,31 @@
+name,organization_category,short_name,is_building
+Spring Carnival Committee,SCC,SCC,FALSE
+AIAS Pavilion,Other Building,AIAS,TRUE
+Alpha Chi Omega,Sorority,AXO,TRUE
+Alpha Epsilon Pi,Fraternity,AEPi,TRUE
+Alpha Phi,Sorority,Alphi Phi,TRUE
+Alpha Phi Omega,Independent,APhiO,TRUE
+Alpha Sigma Phi,Fraternity,AlphaSig,TRUE
+American Society of Civil Engineers,Blitz,ASCE,TRUE
+Asian Student Association,Independent,ASA,TRUE
+Astronomy Club,Blitz,Astro,TRUE
+Chinese Students Association,Blitz,CSA,TRUE
+Delta Delta Delta,Sorority,TriDelt,TRUE
+Delta Gamma,Sorority,DG,TRUE
+Delta Tau Delta,Fraternity,Delt,TRUE
+Fringe,Independent,Fringe,TRUE
+Kappa Alpha Theta,Sorority,KAT,TRUE
+Kappa Kappa Gamma,Sorority,KKG,TRUE
+Kappa Sigma,Blitz,KapSig,TRUE
+KGB,Independent,KGB,TRUE
+Math Club,Blitz,Math,TRUE
+Phi Delta Theta,Fraternity,PhiDelt,TRUE
+Sigma Phi Epsilon,Fraternity,SigEp,TRUE
+Singapore Students Association,Independent,SSA,TRUE
+Student Dormitory Council,Independent,SDC,TRUE
+Taiwanese Student Association,Independent,TSA,TRUE
+CMU Alpine Racing and Freestyle,Non-Building,Snow Team,FALSE
+The Originals,Non-Building,Originals,FALSE
+Habitat For Humanity,Non-Building,Habitat,FALSE
+University Rowing Club,Non-Building,Rowing,FALSE
+Juntos,Non-Building,Juntos,FALSE

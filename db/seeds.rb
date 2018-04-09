@@ -48,12 +48,17 @@ csv.each do |row|
     puts '    Organization (' + row['organization'].strip + ') does not exist error'
     fail
   end
-  user = User.create(email: row['andrewid'].strip + "@andrew.cmu.edu")
-  if row['admin'] == "TRUE"
-    user.add_role :admin
+
+  participant = Participant.find_by_andrewid(row['andrewid'].strip)
+  if !participant
+    user = User.create(email: row['andrewid'].strip + "@andrew.cmu.edu")
+    if row['admin'] == "TRUE"
+      user.add_role :admin
+    end
+    participant = Participant.create(andrewid: row['andrewid'], user: user)
   end
-  participant = Participant.create(andrewid: row['andrewid'], user: user)
-  Membership.create(organization: organization, participant: participant, title: row['title'].strip, is_booth_chair: row['is_booth_chair'] == "TRUE")
+
+  Membership.create(organization: organization, participant: participant, title: row['title'], is_booth_chair: row['is_booth_chair'] == "TRUE")
 end
 
 puts '  Organization Status Types'
@@ -111,13 +116,16 @@ csv.each do |row|
   shift_type ||= ShiftType.create(name: row['shift_type'].strip)
 
   shift = Shift.create(organization: organization, shift_type: shift_type, starts_at: DateTime.strptime(row['starts_at'], '%m/%d/%Y %H:%M:%S'), ends_at: DateTime.strptime(row['ends_at'], '%m/%d/%Y %H:%M:%S'), required_number_of_participants: Integer(row['required_number_of_participants']))
-  participant = Participant.find_by_andrewid(row['andrewid'].strip)
-  if !participant
-    puts '    Participant (' + row['andrewid'].strip + ') does not exist'
-    fail
-  end
 
-  ShiftParticipant.create(shift: shift, participant: participant)
+  if (row['andrewid'] || "") != ""
+    participant = Participant.find_by_andrewid(row['andrewid'].strip)
+    if !participant
+      puts '    Participant (' + row['andrewid'] + ') does not exist'
+      fail
+    end
+
+    ShiftParticipant.create(shift: shift, participant: participant)
+  end
 end
 
 puts '  Store'
@@ -148,8 +156,8 @@ csv.each do |row|
   if !certification_type
     tool_type = ToolType.find_by_name(row['certification'].strip)
     if !tool_type
-      puts '    ToolType (' + row['certification'].strip + ') does not exist'
-      fail
+      tool_type = ToolType.create(name: row['certification'].strip)
+      puts '    ToolType (' + row['certification'].strip + ') did not exist, created it'
     end
 
     certification_type = CertificationType.create(name: row['certification'].strip)
