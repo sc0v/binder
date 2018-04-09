@@ -58,7 +58,7 @@ csv.each do |row|
     participant = Participant.create(andrewid: row['andrewid'], user: user)
   end
 
-  Membership.create(organization: organization, participant: participant, title: row['title'], is_booth_chair: row['is_booth_chair'] == "TRUE")
+  Membership.create(organization: organization, participant: participant, title: row['title'], is_booth_chair: row['booth_chair'] == "TRUE")
 end
 
 puts '  Organization Status Types'
