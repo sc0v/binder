@@ -35,7 +35,6 @@ class Organization < ActiveRecord::Base
   has_many :tools, :through => :checkouts
   has_many :checkouts, :dependent => :destroy
   has_many :shifts
-  
 
   default_scope { order('name asc') }
 
