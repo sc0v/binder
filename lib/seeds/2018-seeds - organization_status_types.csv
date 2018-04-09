@@ -1,0 +1,15 @@
+name,display
+Authorized for Plan Deviation,FALSE
+Structural Inspection,TRUE
+First Floor Level,TRUE
+First Floor Walls Approved,TRUE
+Stairs Approved,TRUE
+Second Floor Level,TRUE
+Second Floor Walls Approved,TRUE
+Roof Approved,TRUE
+Electrical Inspection I,TRUE
+Electrical Inspection II,TRUE
+Electrical Inspection Final,TRUE
+Final Inspection Passed,TRUE
+Teardown Plot Clean,TRUE
+Note,FALSE
