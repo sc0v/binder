@@ -105,10 +105,6 @@
     <%= link_to t('.edit', :default => t("helpers.links.edit")),
               edit_participant_path(@participant), :class => 'btn btn-primary' %>
   <% end %>
-  <% if can?(:destroy, Membership) %>
-    <%= link_to 'Edit Memberships',
-              new_participant_membership_path(@participant), :class => 'btn btn-primary' %>
-    <% end %>
 
     <% if current_user.participant.is_scc? and !@participant.has_signed_waiver? %>
       <%= link_to 'Sign Waiver', new_participant_waiver_path(@participant), :class => 'btn btn-success' %>

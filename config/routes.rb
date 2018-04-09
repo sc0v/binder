@@ -17,6 +17,7 @@ Trailerapp::Application.routes.draw do
     resources :charges, :only => [:index]
     get 'hardhats', on: :member
     resources :downtime, :controller => :organization_timeline_entries, :only => [:index]
+    resources :memberships, :only => [:new, :create, :destroy]
   end
   resources :organization_timeline_entries, :controller => :organization_timeline_entries, :only => [:show,:edit, :create, :update, :destroy] do
     put 'end', on: :member
@@ -124,11 +125,6 @@ Trailerapp::Application.routes.draw do
   
   unless Rails.env.staging? or Rails.env.production?
     post 'dev_login' => "home#dev_login", :as => "dev_login"
-  end
-  
-  resources :organization_lists do
-    collection { post :import }
-    collection { post :add }
   end
 end
 

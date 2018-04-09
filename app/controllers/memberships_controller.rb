@@ -25,7 +25,7 @@
 
 class MembershipsController < ApplicationController
   load_and_authorize_resource 
-  skip_load_resource :only => [:create, :update]
+  skip_load_resource :only => [:new, :create, :update]
   responders :flash, :http_cache
 
   # GET /memberships
@@ -41,8 +41,28 @@ class MembershipsController < ApplicationController
   class ParticipantNotExist < Exception
   end
 
-  # POST
+  def new
+    @organization = Organization.find(params.require(:organization_id))
+    @membership = Membership.new
+    @membership.organization = @organization
+  end
+
   def create
+    @membership = Membership.new(params.require(:membership).permit(:participant_id, :is_booth_chair))
+    @organization = Organization.find(params.require(:organization_id))
+    @membership.organization = @organization
+    authorize! :create, @membership
+    if @membership.save
+      flash[:notice] = 'Member added'
+      redirect_to @organization
+    else
+      flash[:error] = 'Error adding member'
+      redirect_to @organization
+    end
+  end
+
+  # POST
+  def old_create
     @new_organization_ids = params.permit(:organization_ids => [])[:organization_ids]
     logger.info(@new_organization_ids)
 
@@ -105,7 +125,7 @@ class MembershipsController < ApplicationController
 
   # GET /memberships/new
   # GET /memberships/new.json
-  def new
+  def old_new
     @participant = Participant.find(params[:participant_id])
   end
 
@@ -119,6 +139,7 @@ class MembershipsController < ApplicationController
   def update
     @participant = Participant.find(params[:participant_id])
     @membership = Membership.find(params[:id])
+    authorize! :update, @membership
     @membership.update_attributes(update_params)
     respond_with @membership, location: -> { @participant }
   end
@@ -126,9 +147,10 @@ class MembershipsController < ApplicationController
   # DELETE /memberships/1
   # DELETE /memberships/1.json
   def destroy
-    @participant = Participant.find(params[:participant_id])
+    @membership = Membership.find(params[:id]);
+    @organization = @membership.organization
     @membership.destroy
-    respond_with @membership, location: -> { @participant }
+    redirect_to @organization
   end
   
   private
