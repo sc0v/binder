@@ -46,6 +46,13 @@ class OrganizationTimelineEntriesController < ApplicationController
       else 'downtime'
     end
 
+    authorize! :create, @organization_timeline_entry
+
+    if @organization_timeline_entry.already_in_queue?
+      redirect_to :back, alert: "You're already on the queue!"
+      return
+    end
+
     if(@organization_timeline_entry.valid?)
       @organization_timeline_entry.save
       respond_with(@organization_timeline_entry, location: params[:url])
@@ -68,6 +75,8 @@ class OrganizationTimelineEntriesController < ApplicationController
   # PUT /organizations_timeline_entry/1/end
   # PUT /organizations_timeline_entry/1/end.json
   def end
+    authorize! :end, @organization_timeline_entry
+
     @organization_timeline_entry.ended_at = DateTime.now
     @organization_timeline_entry.save
     respond_with(@organization_timeline_entry, location: params[:url])
