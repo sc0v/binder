@@ -68,6 +68,12 @@ class Participant < ActiveRecord::Base
     !memberships.booth_chairs.blank?
   end
 
+  def booth_chair_organizations
+    memberships.booth_chairs.map(&:organization).select do |org|
+      org.organization_category.is_building
+    end
+  end
+
   def is_scc?
     !organizations.find_by(name: "Spring Carnival Committee").blank?
   end

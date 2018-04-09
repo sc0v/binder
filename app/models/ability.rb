@@ -42,6 +42,8 @@ class Ability
 
     can :read, StoreItem
 
+    can [:read, :structural, :electrical], OrganizationTimelineEntry
+
     if user.participant.is_booth_chair?
       can :read, [ChargeType, Checkout, Shift]
       can :read_basic_details, Organization
@@ -69,6 +71,14 @@ class Ability
 
       can :read, ShiftParticipant do |s|
         s.shift.organization.booth_chairs.include?(user.participant)
+      end
+
+      can [:create, :end], OrganizationTimelineEntry do |e|
+        ['structural', 'electrical'].include?(e.entry_type) && e.organization.booth_chairs.include?(user.participant)
+      end
+
+      can :read, OrganizationStatus do |s|
+        s.organization.booth_chairs.include?(user.participant)
       end
     end
 
