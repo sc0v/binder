@@ -101,9 +101,9 @@ end
 # SCC Members -----------------------------------------------------------------
 puts 'SCC Members'
 
-chair_andrewid = 'phkoenig'
-treasurer_andrewid = 'arakla'
-head_booth_andrewid = 'rwolfing'
+chair_andrewid = 'kbokil'
+treasurer_andrewid = 'ritikas'
+head_booth_andrewid = 'akim1'
 advisor_andrewid = 'asgreen'
 meg_andrewid = 'meribyte'
 
