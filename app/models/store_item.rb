@@ -8,7 +8,7 @@
 # ----------------- | ------------------ | ---------------------------
 # **`created_at`**  | `datetime`         | `not null`
 # **`id`**          | `integer`          | `not null, primary key`
-# **`name`**        | `string(255)`      |
+# **`name`**        | `string`           |
 # **`price`**       | `decimal(8, 2)`    |
 # **`quantity`**    | `integer`          |
 # **`updated_at`**  | `datetime`         | `not null`

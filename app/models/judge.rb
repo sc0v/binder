@@ -9,7 +9,7 @@
 # **`category`**    | `integer`          |
 # **`created_at`**  | `datetime`         | `not null`
 # **`id`**          | `integer`          | `not null, primary key`
-# **`name`**        | `string(255)`      |
+# **`name`**        | `string`           |
 # **`updated_at`**  | `datetime`         | `not null`
 #
 

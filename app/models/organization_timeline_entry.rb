@@ -7,7 +7,7 @@
 # Name                   | Type               | Attributes
 # ---------------------- | ------------------ | ---------------------------
 # **`created_at`**       | `datetime`         |
-# **`description`**      | `text(65535)`      |
+# **`description`**      | `text`             |
 # **`ended_at`**         | `datetime`         |
 # **`entry_type`**       | `integer`          |
 # **`id`**               | `integer`          | `not null, primary key`
@@ -20,6 +20,7 @@
 # * `index_organization_timeline_entries_on_organization_id`:
 #     * **`organization_id`**
 #
+
 include Messenger
 
 class OrganizationTimelineEntry < ActiveRecord::Base

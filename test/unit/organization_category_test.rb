@@ -4,12 +4,13 @@
 #
 # ### Columns
 #
-# Name              | Type               | Attributes
-# ----------------- | ------------------ | ---------------------------
-# **`created_at`**  | `datetime`         |
-# **`id`**          | `integer`          | `not null, primary key`
-# **`name`**        | `string(255)`      |
-# **`updated_at`**  | `datetime`         |
+# Name               | Type               | Attributes
+# ------------------ | ------------------ | ---------------------------
+# **`created_at`**   | `datetime`         |
+# **`id`**           | `integer`          | `not null, primary key`
+# **`is_building`**  | `boolean`          |
+# **`name`**         | `string`           |
+# **`updated_at`**   | `datetime`         |
 #
 
 require 'test_helper'

@@ -9,11 +9,11 @@
 # **`created_at`**       | `datetime`         |
 # **`document_id`**      | `integer`          |
 # **`id`**               | `integer`          | `not null, primary key`
-# **`name`**             | `string(255)`      |
+# **`name`**             | `string`           |
 # **`organization_id`**  | `integer`          |
 # **`public`**           | `boolean`          |
 # **`updated_at`**       | `datetime`         |
-# **`url`**              | `string(255)`      |
+# **`url`**              | `string`           |
 #
 
 class DocumentsController < ApplicationController

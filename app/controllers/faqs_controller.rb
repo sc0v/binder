@@ -6,10 +6,10 @@
 #
 # Name              | Type               | Attributes
 # ----------------- | ------------------ | ---------------------------
-# **`answer`**      | `text(65535)`      |
+# **`answer`**      | `text`             |
 # **`created_at`**  | `datetime`         |
 # **`id`**          | `integer`          | `not null, primary key`
-# **`question`**    | `text(65535)`      |
+# **`question`**    | `text`             |
 # **`updated_at`**  | `datetime`         |
 #
 
