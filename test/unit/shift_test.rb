@@ -41,9 +41,9 @@ class ShiftTest < ActiveSupport::TestCase
   context "With a proper context, " do
     setup do
       # Create 3 shifts
-      @type1 = FactoryGirl.create(:shift_type, :id => 1)
-      @type2 = FactoryGirl.create(:shift_type, :id => 2)
-      @type3 = FactoryGirl.create(:shift_type, :id => 3)
+      @type1 = FactoryGirl.create(:shift_type, :id => 1, :name => "Watch Shift")
+      @type2 = FactoryGirl.create(:shift_type, :id => 2, :name => "Security Shift")
+      @type3 = FactoryGirl.create(:shift_type, :id => 3, :name => "Coordinator Shift")
 
       @upcomming = FactoryGirl.create(:shift, :shift_type_id => @type1.id, :ends_at => Time.local(2021,1,1,16,0,0), :starts_at => Time.zone.now + 1.hour)
       @future = FactoryGirl.create(:shift, :shift_type_id => @type2.id, :ends_at => Time.local(2021,1,1,16,0,0), :starts_at => Time.zone.now + 7.hour)

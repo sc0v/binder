@@ -48,9 +48,10 @@ class Shift < ActiveRecord::Base
                                     WHERE shift_participants.shift_id = shifts.id)")}
 
   #scopes for each type of shift, selected by their shift_type ID
-  scope :watch_shifts, -> { where('shift_type_id = ?', 1) }
-  scope :sec_shifts, -> { where('shift_type_id = ?', 2) }
-  scope :coord_shifts, -> { where('shift_type_id = ?', 3) }
+  # TODO: These can almost definitely be made more elegant
+  scope :watch_shifts, -> { where('shift_type_id = ?', ShiftType.where('name = "Watch Shift"').first.id) }
+  scope :sec_shifts, -> { where('shift_type_id = ?', ShiftType.where('name = "Security Shift"').first.id) }
+  scope :coord_shifts, -> { where('shift_type_id = ?', ShiftType.where('name = "Coordinator Shift"').first.id) }
 
   @@notify = 1.hour
   @@notify2 = 5.minutes
