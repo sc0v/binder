@@ -104,8 +104,8 @@ puts 'SCC Members'
 chair_andrewid = 'kbokil'
 treasurer_andrewid = 'ritikas'
 head_booth_andrewid = 'akim1'
-advisor_andrewid = 'asgreen'
-meg_andrewid = 'meribyte'
+advisor_andrewid = 'hkoschme'
+meg_andrewid = 'saclark'
 
 chair_user = User.create({ email: "#{chair_andrewid}@andrew.cmu.edu"})
 chair_user.add_role :admin
