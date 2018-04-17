@@ -1,6 +1,9 @@
 require "application_responder"
 
 class ApplicationController < ActionController::Base
+
+  before_action :set_event_list
+
   self.responder = ApplicationResponder
   respond_to :html
   responders :flash, :http_cache
@@ -62,4 +65,35 @@ class ApplicationController < ActionController::Base
       redirect_to root_path, notice: "You are not authorized to see reports"
     end
   end
+
+  private
+
+  def set_event_list
+    client = Signet::OAuth2::Client.new(client_options)
+    client.update!(session[:authorization])
+
+    service = Google::Apis::CalendarV3::CalendarService.new
+    service.authorization = client
+
+    @event_list = service.list_events('sccakim1@gmail.com')
+    
+    rescue Google::Apis::AuthorizationError
+      response = client.refresh!
+
+      session[:authorization] = session[:authorization].merge(response)
+
+      retry
+  end
+  
+  def client_options
+    {
+      client_id: Rails.application.secrets.google_client_id,
+      client_secret: Rails.application.secrets.google_client_secret,
+      authorization_uri: 'https://accounts.google.com/o/oauth2/auth',
+      token_credential_uri: 'https://accounts.google.com/o/oauth2/token',
+      scope: Google::Apis::CalendarV3::AUTH_CALENDAR,
+      redirect_uri: callback_url
+    }
+  end
+
 end

@@ -130,5 +130,11 @@ Trailerapp::Application.routes.draw do
     collection { post :import }
     collection { post :add }
   end
+
+  get '/redirect', to: 'tasks#redirect', as: 'redirect'
+  get '/callback', to: 'tasks#callback', as: 'callback'
+  get '/calendars', to: 'tasks#calendars', as: 'calendars'
+  get '/gevents/:calendar_id', to: 'tasks#gevents', as: 'index', calendar_id: /[^\/]+/
+
 end
 

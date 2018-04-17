@@ -49,6 +49,7 @@ group :development do
 
   # sudo commands in capistrano
   gem 'sshkit-sudo'
+  gem 'google-api-client', require: 'google/apis/calendar_v3'
 
 end
 

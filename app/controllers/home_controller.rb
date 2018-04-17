@@ -1,4 +1,5 @@
 class HomeController < ApplicationController
+
   def index
     
     # need to find a way to get user
@@ -114,4 +115,7 @@ class HomeController < ApplicationController
 
   def hardhat_return
   end
+
+
+
 end

@@ -19,12 +19,16 @@
           <%= render 'layouts/messages' %>
           <%= yield %>
         </div>
+
+
         <div class="col-xs-12 col-md-3 col-lg-3">
           <% if user_signed_in? %>
             <br class="hidden-lg">
-            <%= render 'layouts/sidebar' %>
+            <%=render 'layouts/sidebar' %>
           <% end %>
         </div>
+
+
       </div>
     </div>
   </body>
