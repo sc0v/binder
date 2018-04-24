@@ -42,16 +42,27 @@
       </tr>
     </thead>
     <tbody>
+
+
       <% @event_list.items.each do |task| %>
-         <% task.color_id = '7' %>
         <tr>
           <td><%=task.summary %></td>
           <td><%=task.description %></td>
-          <td><%=task.end.date_time %></td>
-          <td><%=task.color_id %></td>
-
+          <td><%=task.end.date_time.strftime("%D %I:%M %p") %></td>
+          <td>
+            <% if can?(:update, task) %>
+              <!-- if the task is complete -->
+              <% if task.color_id == "2" %>
+                <%= link_to t('.uncomplete'), task_uncomplete_path(task.id), :method => :patch, :class => 'btn btn-xs btn-danger' %>
+              <% else %>
+                <%= link_to t('.complete'), task_complete_path(task.id), :method => :patch, :class => 'btn btn-xs btn-success' %>
+              <% end %>
+            <% end %>
+          </td>
         </tr>
       <% end %>
+
+      
     </tbody>
   </table>
   

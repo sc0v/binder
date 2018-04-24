@@ -33,6 +33,7 @@ gem 'delayed_job_active_record'
 
 # For Capistrano deployment
 group :development do
+  gem 'binding_of_caller'
   gem 'capistrano-rbenv', require: false
 
   # bundler specific tasks in capistrano

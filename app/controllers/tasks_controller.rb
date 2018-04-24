@@ -55,11 +55,11 @@ class TasksController < ApplicationController
     @task = Task.find(params[:id])
   end
 
-  def complete
-    @task.is_completed = true
-    @task.save
-    redirect_to :back, notice: 'The task was successfully completed'
-  end
+  # def complete
+  #   @task.is_completed = true
+    # @task.save
+    # redirect_to :back, notice: 'The task was successfully completed'
+  # end
 
   # POST /tasks
   # POST /tasks.json
@@ -88,6 +88,25 @@ class TasksController < ApplicationController
 
   def index
   end
+
+
+  def complete
+    id = params[:task_id]
+    task = @calendar.get_event(GoogleCalendarHelper::CALENDAR_ID, id)
+    task.color_id = "2"
+    @calendar.update_event(GoogleCalendarHelper::CALENDAR_ID, task.id, task)
+    redirect_to :back, notice: 'The task was successfully completed'
+  end
+
+
+  def uncomplete
+    id = params[:task_id]
+    task = @calendar.get_event(GoogleCalendarHelper::CALENDAR_ID, id)
+    task.color_id = "1"
+    @calendar.update_event(GoogleCalendarHelper::CALENDAR_ID, task.id, task)
+    redirect_to :back, notice: 'The task was successfully uncompleted'
+  end
+
 
 
   private
@@ -123,6 +142,8 @@ class TasksController < ApplicationController
 
     @event_list = response
   end
+
+
 
 
   def task_params
