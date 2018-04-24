@@ -26,6 +26,7 @@ module Trailerapp
 
     config.autoload_paths += %W(#{config.root}/lib)
     
+    
     # Enables delay_job gem to queue up tasks
     config.active_job.queue_adapter = :delayed_job
     
