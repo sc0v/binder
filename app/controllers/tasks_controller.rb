@@ -16,10 +16,15 @@
 # **`updated_at`**       | `datetime`         |
 #
 
+
+# require_relative "../helpers/google_calender_module_helper.rb"
+
 class TasksController < ApplicationController
   load_and_authorize_resource
+  # require_relative "../helpers/google_calender_module_helper.rb"
+  
 
-  # before_action :set_event_list
+  before_action :set_event_list
   
   # GET /tasks
   # GET /tasks.json
@@ -80,61 +85,45 @@ class TasksController < ApplicationController
     respond_with(@task)
   end
 
-  def redirect
-    client = Signet::OAuth2::Client.new(client_options)
-
-    redirect_to client.authorization_uri.to_s
-  end
-
-  def callback
-    client = Signet::OAuth2::Client.new(client_options)
-    client.code = params[:code]
-
-    response = client.fetch_access_token!
-
-    session[:authorization] = response
-
-    redirect_to calendars_url
-  end
-
-  def calendars
-    client = Signet::OAuth2::Client.new(client_options)
-    client.update!(session[:authorization])
-
-    service = Google::Apis::CalendarV3::CalendarService.new
-    service.authorization = client
-
-    @calendar_list = service.list_calendar_lists
-  end
 
   def index
-    # client = Signet::OAuth2::Client.new(client_options)
-    # client.update!(session[:authorization])
-
-    # service = Google::Apis::CalendarV3::CalendarService.new
-    # service.authorization = client
-
-    # @event_list = service.list_events('sccakim1@gmail.com')
-    # rescue Google::Apis::AuthorizationError
-    #   response = client.refresh!
-
-    #   session[:authorization] = session[:authorization].merge(response)
-
-    #   retry
   end
+
 
   private
 
-  def client_options
-    {
-      client_id: Rails.application.secrets.google_client_id,
-      client_secret: Rails.application.secrets.google_client_secret,
-      authorization_uri: 'https://accounts.google.com/o/oauth2/auth',
-      token_credential_uri: 'https://accounts.google.com/o/oauth2/token',
-      scope: Google::Apis::CalendarV3::AUTH_CALENDAR,
-      redirect_uri: callback_url
-    }
+  def set_event_list
+    # Initialize the API via our helper
+    @calendar_helper = GoogleCalendarHelper.new
+    @calendar = @calendar_helper.calendar
+
+    # List all calendars that the service account has access to
+    page_token = nil
+    begin
+      result = @calendar.list_calendar_lists(page_token: page_token)
+      if result.items.empty?
+      puts "No access to any calendar!"
+      else
+      result.items.each do |c|
+        puts "CAL: #{c.summary}"
+      end
+      if result.next_page_token != page_token
+        page_token = result.next_page_token
+      else
+        page_token = nil
+      end
+      end
+    end while !page_token.nil?
+
+    response = @calendar.list_events(GoogleCalendarHelper::CALENDAR_ID,
+                                  max_results: 10,
+                                  single_events: true,
+                                  order_by: 'startTime',
+                                  time_min: Time.now.iso8601)
+
+    @event_list = response
   end
+
 
   def task_params
     params.require(:task).permit(:name, :due_at, :completed_by_id, :is_completed, :description)
