@@ -38,4 +38,24 @@
       </div>
     </div>
   <% end %>
+<div class="panel panel-default">
+        <div class="panel-heading">
+          <h4 class="panel-title">
+            <a data-toggle="collapse" data-parent="#accordion" href="#collapse<%=@reports.length %>" class="collapsed" aria-expanded="false">
+              Convert unreturned tools into charges
+            </a>
+          </h4>
+        </div>
+        <div id="collapse<%=@reports.length %>" class="panel-collapse collapse" aria-expanded="false">
+          <div class="panel-body">
+            <p>Converts all tools that were checket out but not checked in into charges to the organizations.</p>
+            <div class="form-inputs">
+              <form>
+                <br><br>
+                <%= link_to 'Convert tools', tool_to_charge_path, class: 'btn btn-primary' %>
+              </form>          
+            </div>
+          </div>
+        </div>
+      </div>
 </div>

@@ -27,6 +27,7 @@ Trailerapp::Application.routes.draw do
   resources :charges do
     put 'approve', on: :member
   end
+  get 'tool_to_charge', to: 'charges#tool_to_charge', as: :tool_to_charge
 
   resources :charge_types
   resources :participants do

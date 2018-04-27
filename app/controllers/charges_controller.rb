@@ -42,6 +42,28 @@ class ChargesController < ApplicationController
     @charges = @charges.paginate(:page => params[:page]).per_page(20)
   end
 
+  def tool_to_charge
+    unless ChargeType.where('name LIKE ?', 'Tool - Not returned').any?
+      ChargeType.create!(default_amount: 0, description: "Participant did not checking tool within deadline", name: 'Tool - Not returned', requires_booth_chair_approval: true)
+    end
+    @charge_type = ChargeType.where('name LIKE ?', 'Tool - Not returned').first
+    @checkouts = Checkout.where("checked_out_at IS NOT NULL AND checked_in_at IS NULL")
+    if @checkouts.empty?
+      redirect_to charges_path, notice: "All tools were checked in."
+    else
+      count = 0
+      @checkouts.each do |checkout|
+        t = checkout.tool
+        Charge.create!(amount: 0,is_approved: false, charged_at: DateTime.now, description: t.description + "\n Checked out at " + checkout.checked_out_at.strftime("%F"), issuing_participant_id: current_user.participant.id, receiving_participant_id: checkout.participant_id, organization_id: checkout.organization_id,charge_type_id: @charge_type.id)
+        count += 1
+        Checkout.destroy(checkout)
+        Tool.destroy(t)
+      end
+      redirect_to charges_path, notice: "Successfully added #{count} tools as charges."
+    end
+
+  end
+
   def export
     @charges = Charge.all
   end
