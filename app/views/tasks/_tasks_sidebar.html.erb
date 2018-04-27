@@ -18,16 +18,14 @@
       <tbody>
 
 
-        <% @event_list.items.each do |task| %>
+        <% @event_list.each do |task| %>
           <% if task.color_id != "2" %>
             <tr class="sidebar-tooltip" data-toggle="tooltip" data-placement="left" title="<%=task.summary %>: <%=task.description %>">
               <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><%= task.summary %></td>
               <td style="text-align: right;"><%= task.end.date_time.strftime("%I:%M%p")%></td>
 
               <td>
-                <% if can?(:update, task) %>
-                  <%= link_to t('.complete'), task_complete_path(task.id), :method => :patch, :class => 'btn btn-xs btn-success' %>
-                <% end %>
+                <%= link_to t('.complete'), task_complete_path(task.id), :method => :patch, :class => 'btn btn-xs btn-success' %>
               </td>
             </tr>
           <% end %>

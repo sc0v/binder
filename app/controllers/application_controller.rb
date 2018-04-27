@@ -91,13 +91,46 @@ class ApplicationController < ActionController::Base
       end
     end while !page_token.nil?
 
-    response = @calendar.list_events(GoogleCalendarHelper::CALENDAR_ID,
-                                  max_results: 10,
-                                  single_events: true,
-                                  order_by: 'startTime',
-                                  time_min: Time.now.iso8601)
 
-    @event_list = response
+    month = Time.now.month
+    if month > 1 and month < 8
+      min_year = Time.now.year - 1
+      max_year = Time.now.year
+    else
+      min_year = Time.now.year
+      max_year = Time.now.year + 1
+    end
+      
+    min_date = Time.new(min_year, 8).iso8601
+    max_date = Time.new(max_year, 6).iso8601
+
+    response = @calendar.list_events(GoogleCalendarHelper::CALENDAR_ID,
+                                   single_events: true,
+                                   order_by: 'startTime',
+                                   time_min: min_date,
+                                   time_max: max_date)
+
+    if(params[:task_filter].blank?)
+      @event_list = response.items
+    elsif(params[:task_filter] == "completed_tasks")
+      @event_list = Array.new
+      unless response.items.empty?
+        response.items.each do |task|
+          if task.color_id == "2"
+            @event_list.push(task)
+          end
+        end
+      end
+    elsif(params[:task_filter] == "incomplete_tasks")
+      @event_list = Array.new
+      unless response.items.empty?
+        response.items.each do |task|
+          if task.color_id != "2"
+            @event_list.push(task)
+          end
+        end
+      end
+    end
   end
   
 end
