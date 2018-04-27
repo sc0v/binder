@@ -30,7 +30,6 @@ class OrganizationListsController < ApplicationController
       if membership.is_booth_chair?
         @org_id = membership.organization_id
         @org_name = membership.organization.name
-        # @org_name = @org_name.slice(0, @org_name.length-14)
       end
     end
 
