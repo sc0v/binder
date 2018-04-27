@@ -22,8 +22,7 @@
     <div>
       <% if can?(:create, Task) %>
         <div>
-          <%= link_to t('.new', :default => t("helpers.links.New Task")),
-                  new_task_path, :class => 'btn btn-primary' %>
+          <%= link_to "New Task", "https://calendar.google.com/calendar/r/eventedit",:class => 'btn btn-primary', target: :_blank  %>
         </div>
         <br>
       <% end %>
@@ -44,7 +43,8 @@
 
       <% @event_list.each do |task| %>
         <tr>
-          <td><%=task.summary %></td>
+          <td><%= link_to task.summary, task.html_link, target: :_blank %></td>
+          <!-- <td><%=task.summary %></td> -->
           <td><%=task.description %></td>
           <td><%=task.end.date_time.strftime("%D %I:%M %p") %></td>
           <td>
