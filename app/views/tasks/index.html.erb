@@ -43,14 +43,15 @@
 
       <% @event_list.each do |task| %>
         <tr>
+          <!-- name of task links to the event on the google calendar (html_link) -->
           <td><%= link_to task.summary, task.html_link, target: :_blank %></td>
-          <!-- <td><%=task.summary %></td> -->
           <td><%=task.description %></td>
           <td><%=task.end.date_time.strftime("%D %I:%M %p") %></td>
           <td>
             <!-- if the task is complete -->
             <% if task.color_id == "2" %>
               <%= link_to t('.uncomplete'), task_uncomplete_path(task.id), :method => :patch, :class => 'btn btn-xs btn-danger' %>
+            <!-- if the task is not complete -->
             <% else %>
               <%= link_to t('.complete'), task_complete_path(task.id), :method => :patch, :class => 'btn btn-xs btn-success' %>
             <% end %>

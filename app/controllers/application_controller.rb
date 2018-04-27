@@ -101,7 +101,9 @@ class ApplicationController < ActionController::Base
       max_year = Time.now.year + 1
     end
       
+    # earliest date to get tasks from is august of the previous year
     min_date = Time.new(min_year, 8).iso8601
+    # latest date to get tasks from is june of the current year
     max_date = Time.new(max_year, 6).iso8601
 
     response = @calendar.list_events(GoogleCalendarHelper::CALENDAR_ID,
@@ -110,21 +112,29 @@ class ApplicationController < ActionController::Base
                                    time_min: min_date,
                                    time_max: max_date)
 
+
+    # if the "all tasks" filter is selected
     if(params[:task_filter].blank?)
       @event_list = response.items
+    # if the "completed tasks" filter is selected
     elsif(params[:task_filter] == "completed_tasks")
+      # create an empty array and only put the complete tasks in 
       @event_list = Array.new
       unless response.items.empty?
         response.items.each do |task|
+          # a task with color id of 2 is complete
           if task.color_id == "2"
             @event_list.push(task)
           end
         end
       end
+    # if the "incomplete tasks" filter is selected
     elsif(params[:task_filter] == "incomplete_tasks")
+      # create an empty array and only put the incomplete tasks in 
       @event_list = Array.new
       unless response.items.empty?
         response.items.each do |task|
+          # any task that does not have a color if of 2 is incomplete
           if task.color_id != "2"
             @event_list.push(task)
           end

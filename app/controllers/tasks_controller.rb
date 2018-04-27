@@ -17,15 +17,10 @@
 #
 
 
-# require_relative "../helpers/google_calender_module_helper.rb"
-
 class TasksController < ApplicationController
   load_and_authorize_resource
-  # require_relative "../helpers/google_calender_module_helper.rb"
   
 
-  before_action :set_event_list
-  
   # GET /tasks
   # GET /tasks.json
   # def index
@@ -53,12 +48,6 @@ class TasksController < ApplicationController
   def edit
     @task = Task.find(params[:id])
   end
-
-  # def complete
-  #   @task.is_completed = true
-    # @task.save
-    # redirect_to :back, notice: 'The task was successfully completed'
-  # end
 
   # POST /tasks
   # POST /tasks.json
@@ -92,6 +81,7 @@ class TasksController < ApplicationController
   def complete
     id = params[:task_id]
     task = @calendar.get_event(GoogleCalendarHelper::CALENDAR_ID, id)
+    # a task with a color id of "2" is complete
     task.color_id = "2"
     @calendar.update_event(GoogleCalendarHelper::CALENDAR_ID, task.id, task)
     redirect_to :back, notice: 'The task was successfully completed'
@@ -101,80 +91,14 @@ class TasksController < ApplicationController
   def uncomplete
     id = params[:task_id]
     task = @calendar.get_event(GoogleCalendarHelper::CALENDAR_ID, id)
+    # any task that does not have a color if of 2 is incomplete
     task.color_id = "1"
     @calendar.update_event(GoogleCalendarHelper::CALENDAR_ID, task.id, task)
     redirect_to :back, notice: 'The task was successfully uncompleted'
   end
 
 
-
   private
-
-  def set_event_list
-    # Initialize the API via our helper
-    @calendar_helper = GoogleCalendarHelper.new
-    @calendar = @calendar_helper.calendar
-
-    # List all calendars that the service account has access to
-    page_token = nil
-    begin
-      result = @calendar.list_calendar_lists(page_token: page_token)
-      if result.items.empty?
-      puts "No access to any calendar!"
-      else
-      result.items.each do |c|
-        puts "CAL: #{c.summary}"
-      end
-      if result.next_page_token != page_token
-        page_token = result.next_page_token
-      else
-        page_token = nil
-      end
-      end
-    end while !page_token.nil?
-
-
-    month = Time.now.month
-    if month > 1 and month < 8
-      min_year = Time.now.year - 1
-      max_year = Time.now.year
-    else
-      min_year = Time.now.year
-      max_year = Time.now.year + 1
-    end
-      
-    min_date = Time.new(min_year, 8).iso8601
-    max_date = Time.new(max_year, 6).iso8601
-
-    response = @calendar.list_events(GoogleCalendarHelper::CALENDAR_ID,
-                                   single_events: true,
-                                   order_by: 'startTime',
-                                   time_min: min_date,
-                                   time_max: max_date)
-
-    if(params[:task_filter].blank?)
-      @event_list = response.items
-    elsif(params[:task_filter] == "completed_tasks")
-      @event_list = Array.new
-      unless response.items.empty?
-        response.items.each do |task|
-          if task.color_id == "2"
-            @event_list.push(task)
-          end
-        end
-      end
-    elsif(params[:task_filter] == "incomplete_tasks")
-      @event_list = Array.new
-      unless response.items.empty?
-        response.items.each do |task|
-          if task.color_id != "2"
-            @event_list.push(task)
-          end
-        end
-      end
-    end
-  end
-
 
   def task_params
     params.require(:task).permit(:name, :due_at, :completed_by_id, :is_completed, :description)

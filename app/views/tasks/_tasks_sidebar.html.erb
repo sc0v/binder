@@ -21,7 +21,7 @@
         <% @event_list.each do |task| %>
           <% if task.color_id != "2" %>
             <tr class="sidebar-tooltip" data-toggle="tooltip" data-placement="left" title="<%=task.summary %>: <%=task.description %>">
-              <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><%= link_to task.summary, tasks_path%></td>
+              <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><%= link_to task.summary, tasks_path %></td>
               <td style="text-align: right;"><%= task.end.date_time.strftime("%I:%M%p")%></td>
 
               <td>
