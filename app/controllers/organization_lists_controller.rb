@@ -15,9 +15,6 @@
 
 class OrganizationListsController < ApplicationController
   
-  # Worry about authorization later
-  
-  # load_and_authorize_resource skip_load_resource only: [:create] 
   before_action :set_organization_list, only: [:destroy]
 
 
@@ -67,8 +64,6 @@ class OrganizationListsController < ApplicationController
 # no need for update
 
 
-# no need for destroy
-
   def destroy
     @organization_list.destroy
     respond_to do |format|
@@ -85,11 +80,4 @@ class OrganizationListsController < ApplicationController
     @organization_list = OrganizationList.find(params[:id])
   end
 
-  # need to add security to the params 
-  
-  # def organization_list_params
-  #   params.require(:organization_list).permit(:organization_name, :file)
-  # end
-
-  
 end

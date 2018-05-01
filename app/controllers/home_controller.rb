@@ -2,16 +2,18 @@ class HomeController < ApplicationController
 
   def index
     
-    # need to find a way to get user
     if user_signed_in?
       @user = current_user
       @curr_memberships = @user.participant.memberships
+      # find pending memberships user should be part of upon login
       @pending_memberships = OrganizationList.user_orgs(@user.participant.andrewid)
       if !@pending_memberships.empty?
         msg = "Successfully added to "
         for pending_membership in @pending_memberships
+          # Don't add them to same org if already a part of it
           unless @curr_memberships.map(&:organization_id).include?(pending_membership.organization_id)
               Membership.create!(organization_id: pending_membership.organization_id, participant_id: @user.participant.id)
+              # Provide different confirmation message if added to one or many orgs
               if @pending_memberships.length > 1 and pending_membership != @pending_memberships.last
                 msg = msg + pending_membership.organization.name + ", "
               else

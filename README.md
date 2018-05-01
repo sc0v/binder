@@ -1,3 +1,4 @@
+
 # Binder
 
 [![Build Status](https://travis-ci.org/sc0v/binder-app.svg?branch=master)](https://travis-ci.org/sc0v/binder-app)
@@ -6,7 +7,7 @@
 [![Coverage Status](https://img.shields.io/coveralls/sc0v/binder-app.svg)](https://coveralls.io/r/sc0v/binder-app?branch=master)
 [![Code Climate](https://codeclimate.com/github/sc0v/binder-app/badges/gpa.svg)](https://codeclimate.com/github/sc0v/binder-app)
 
-Binder is a Spring Carnival management application built for [Carnegie Mellon Spring Carnival](https://www.springcarnival.org) using [Ruby on Rails](http://rubyonrails.org/).  Binder is used by Spring Carnival Committee and booth building organizations to do things including tracking build progress, managing tool checkouts, selling building supplies, assessing fines/charges, and supervising student shifts.
+Binder is a Spring Carnival management application built for [Carnegie Mellon Spring Carnival](https://www.springcarnival.org) using [Ruby on Rails](http://rubyonrails.org/).  Binder is used by Spring Carnival Committee and booth building organizations to do things including tracking build progress, managing tool checkouts, selling building supplies, assessing fines/charges, generating reports, and supervising student shifts.
 
 Carnegie Mellon's Spring Carnival Committee hosts two live instances of Binder:
 * **Production** (https://binder.springcarnival.org) - This environment is the production environment used to manage Spring Carnival and contains real data. *Do not deploy changes to this instance without first testing in the staging instance*.
@@ -17,7 +18,7 @@ Carnegie Mellon's Spring Carnival Committee hosts two live instances of Binder:
 
 To work on and contribute to Binder, you will need to run Binder in a local development environment.
 
-It is highly recommended that you use a Linux environment for development, preferably in a Debian-based distribution. [Ubuntu](http://www.ubuntu.com), [Debian](https://www.debian.org/), and [Linux Mint](https://www.linuxmint.com/) are some popular Debian-based Linux distributions (the Spring Carnival Committee server that hosts Binder runs Ubuntu). The easiest way to quickly set up a Linux development environment is by using a VM.
+It is highly recommended that you use a Linux environment for development, preferably in a Debian-based distribution. [Ubuntu](http://www.ubuntu.com), [Debian](https://www.debian.org/), and [Linux Mint](https://www.linuxmint.com/) are some popular Debian-based Linux distributions (the Spring Carnival Committee server that hosts Binder runs Ubuntu). The easiest way to quickly set up a Linux development environment is by using [AWS Cloud9](https://aws.amazon.com/cloud9/).
 
 The following set up instructions are for Debian-based systems (specifically, Ubuntu). However, the general procedure is applicable for setting up Binder in any development environment, although the details of each step will likely differ.
 
@@ -45,6 +46,8 @@ echo 'export MYSQL_PASSWORD=<your_mysql_password>' >> ~/.bashrc
 ```
 
 #### 3. Install Ruby
+
+If using Cloud9, you can select a workspace with Ruby on Rails already, otherwise proceed to installing it locally on your machine.
 
 Binder is a [Ruby on Rails](http://rubyonrails.org/) application, so running it requires an installation of [Ruby](https://www.ruby-lang.org). It is highly recommended that you use [rbenv](https://github.com/rbenv/rbenv) and [ruby-build](https://github.com/rbenv/ruby-build) to install and manage the Ruby versions installed in your development environment. To install Ruby:
 
@@ -109,12 +112,15 @@ To deploy Binder to the staging or production instance, run the following comman
 ```
 cap <environment> deploy
 ```
-By default, Capistrano deploys Binder from the `master` branch.  However, when testing new features or improvements we often want to deploy from a different branch. To deploy from a specified branch, run the following command (where `<branch>` is replaced with the name of the branch to deploy from):
-
+By default, Capistrano deploys Binder from the `master` branch.  However, when testing new features or improvements we often want to deploy from a different branch. To deploy from a specified branch, run the following command (where `<branch>` is replaced with the name of the branch to deploy from, either ):
 ```
 cap <environment> deploy branch=<branch>
 ```
-
+To seed the staging or production instance, run the following command:
+```
+cap <environment> db:setup
+```
+If any of the above commands do not work, try prepending them with ```bundle exec```.
 <br>
 To list all available Capistrano tasks, run the following command in the Binder repository directory:
 <br>
@@ -123,3 +129,21 @@ Cap tasks listed in /config/deploy.rb
 ```
 cap -T
 ```
+
+## Documentation
+In order to understand the code before you develop, we've included in /docs relevant documents from prior years' work. 
+
+The Entity Relationship Diagram is particularly useful to understand how the different tables work together.  Furthermore, you may see project report details from various years regarding what features have been added and further opportunities to explore for development.
+
+We recommend reading through development notes in ``` git log --oneline --graph``` as well as exploring through the code for various comments.  You will notice at the top of every model and controller the fields and types for the relevant table.  Please update these comments if you adjust these fields.
+
+It is also helpful to understand the gems the application uses in \Gemfile.  Some specifics include:
+
+ - [CanCanCan](https://github.com/CanCanCommunity/cancancan): handles authorization
+ - [Dossier](https://github.com/tma1/dossier): handles report generation
+ - [CarrierWave](https://github.com/carrierwaveuploader/carrierwave): handles fille uploads
+ - [SimpleForm](https://github.com/plataformatec/simple_form): handles forms
+
+The current design of the site is accomplished through the [Bootstrap](https://getbootstrap.com/) framework, although you can find additional CSS overwrites in \app\assets\stylesheets.
+
+We ask that you update the documentation after any major code adjustments by adding comments, utilizing git [effectively](https://www.git-tower.com/learn/git/ebook/en/command-line/appendix/best-practices), updating the ERD with ```bundle exec erd ```, and adding relevant documents to \docs.  
