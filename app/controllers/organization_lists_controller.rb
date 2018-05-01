@@ -13,6 +13,8 @@
 # **`updated_at`**       | `datetime`         | `not null`
 #
 
+# credit goes to http://www.mattmorgante.com/technology/csv for the CSV import code
+
 class OrganizationListsController < ApplicationController
   
   before_action :set_organization_list, only: [:destroy]

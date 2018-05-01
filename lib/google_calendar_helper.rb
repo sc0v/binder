@@ -1,7 +1,8 @@
 require 'googleauth'
 require 'google/apis/calendar_v3'
 
-  
+# This code was used from http://cirefice.me/software%20development/integrating-rails-with-google-apis 
+# Credit goes to Christopher S. Cirefice
 class GoogleCalendarHelper
   attr_reader :calendar
   SCOPE = ["https://www.googleapis.com/auth/calendar"]

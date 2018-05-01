@@ -67,6 +67,8 @@ class ApplicationController < ActionController::Base
 
   private
 
+  # This code was used from http://cirefice.me/software%20development/integrating-rails-with-google-apis 
+  # Credit goes to Christopher S. Cirefice
   def set_event_list
     # Initialize the API via our helper
     @calendar_helper = GoogleCalendarHelper.new
