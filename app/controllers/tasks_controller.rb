@@ -16,25 +16,26 @@
 # **`updated_at`**       | `datetime`         |
 #
 
+
 class TasksController < ApplicationController
   load_and_authorize_resource
   
+
   # GET /tasks
   # GET /tasks.json
-  def index
-    if(params[:task_filter].blank?)
-      @tasks = Task.all
-    elsif(params[:task_filter] == "completed_tasks")
-      @tasks = Task.is_complete
-    elsif(params[:task_filter] == "incomplete_tasks")
-      @tasks = Task.is_incomplete
-    end
-  end
+  # def index
+  #   if(params[:task_filter].blank?)
+  #     @tasks = Task.all
+  #   elsif(params[:task_filter] == "completed_tasks")
+  #     @tasks = Task.is_complete
+  #   elsif(params[:task_filter] == "incomplete_tasks")
+  #     @tasks = Task.is_incomplete
+  #   end
+  # end
 
   # GET /tasks/1
   # GET /tasks/1.json
   def show
-    @task = Task.find(params[:id])
   end
 
   # GET /tasks/new
@@ -46,12 +47,6 @@ class TasksController < ApplicationController
   # GET /tasks/1/edit
   def edit
     @task = Task.find(params[:id])
-  end
-
-  def complete
-    @task.is_completed = true
-    @task.save
-    redirect_to :back, notice: 'The task was successfully completed'
   end
 
   # POST /tasks
@@ -77,6 +72,31 @@ class TasksController < ApplicationController
     @task.destroy
     respond_with(@task)
   end
+
+
+  def index
+  end
+
+
+  def complete
+    id = params[:task_id]
+    task = @calendar.get_event(GoogleCalendarHelper::CALENDAR_ID, id)
+    # a task with a color id of "2" is complete
+    task.color_id = "2"
+    @calendar.update_event(GoogleCalendarHelper::CALENDAR_ID, task.id, task)
+    redirect_to :back, notice: 'The task was successfully completed'
+  end
+
+
+  def uncomplete
+    id = params[:task_id]
+    task = @calendar.get_event(GoogleCalendarHelper::CALENDAR_ID, id)
+    # any task that does not have a color if of 2 is incomplete
+    task.color_id = "1"
+    @calendar.update_event(GoogleCalendarHelper::CALENDAR_ID, task.id, task)
+    redirect_to :back, notice: 'The task was successfully uncompleted'
+  end
+
 
   private
 

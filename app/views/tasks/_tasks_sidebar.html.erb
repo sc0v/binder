@@ -16,16 +16,23 @@
         <th></th>
       </thead>
       <tbody>
-        <% @tasks_sidebar.each do |task| %>
-          <tr class="sidebar-tooltip" data-toggle="tooltip" data-placement="left" title="<%=h task.name %>: <%=h task.description %>">
-            <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><%= link_to task.name, tasks_path(task) %></td>
-            <td style="text-align: right;"><%= time task.due_at%></td>
-            <% if can?(:update, task) %>
-              <td style="text-align: right;"><%= link_to t('.complete', :default => t("helpers.links.complete")),
-                  complete_task_path(task), :method => :post, :class => 'btn btn-xs btn-success' %></td>
-            <% end %>
-          </tr>
+
+
+        <% @event_list.each do |task| %>
+          <% if task.color_id != "2" %>
+            <tr class="sidebar-tooltip" data-toggle="tooltip" data-placement="left" title="<%=task.summary %>: <%=task.description %>">
+              <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><%= link_to task.summary, tasks_path %></td>
+              <td style="text-align: right;"><%= task.end.date_time.strftime("%I:%M%p")%></td>
+
+              <td>
+                <%= link_to t('.complete'), task_complete_path(task.id), :method => :patch, :class => 'btn btn-xs btn-success' %>
+              </td>
+            </tr>
+          <% end %>
         <% end %>
+
+
+
       </tbody>
     </table>
   </div>

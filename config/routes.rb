@@ -27,6 +27,7 @@ Trailerapp::Application.routes.draw do
   resources :charges do
     put 'approve', on: :member
   end
+  get 'tool_to_charge', to: 'charges#tool_to_charge', as: :tool_to_charge
 
   resources :charge_types
   resources :participants do
@@ -42,11 +43,12 @@ Trailerapp::Application.routes.draw do
   resources :shifts do
     resources :participants, :controller => :shift_participants, :only => [:new, :create, :update, :destroy]
   end
+
   resources :tasks do
-    member do
-      post 'complete'
-    end
+    patch 'complete', :to => 'tasks#complete', :as => :complete
+    patch 'uncomplete', :to => 'tasks#uncomplete', :as => :uncomplete
   end
+
   resources :tools do
     resources :checkouts, :only => [:new, :create, :update, :index] do
       post 'choose_organization', on: :collection
@@ -130,5 +132,9 @@ Trailerapp::Application.routes.draw do
     collection { post :import }
     collection { post :add }
   end
+
+
+
+
 end
 

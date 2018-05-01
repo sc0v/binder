@@ -33,6 +33,7 @@ gem 'delayed_job_active_record'
 
 # For Capistrano deployment
 group :development do
+  gem 'binding_of_caller'
   gem 'capistrano-rbenv', require: false
 
   # bundler specific tasks in capistrano
@@ -49,6 +50,7 @@ group :development do
 
   # sudo commands in capistrano
   gem 'sshkit-sudo'
+  gem 'google-api-client', require: 'google/apis/calendar_v3'
 
 end
 
