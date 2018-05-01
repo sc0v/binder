@@ -1,10 +1,8 @@
 <% if current_user.participant.is_scc? %>
   <%= render 'tool_cart/tool_cart' %>
 
-  <% if !@tasks_sidebar.blank? %>
-    <% cache ['tasks_sidebar', @tasks_sidebar] do %>
+  <% if !@event_list.empty? %>
       <%= render 'tasks/tasks_sidebar' %>
-    <% end %>
   <% end %>
 
   <%# Change to true to enable event sidebar %>
