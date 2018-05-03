@@ -1,4 +1,6 @@
 class WaiversController < ApplicationController
+  include ApplicationHelper
+  
   before_filter :require_authenticated_user
 
   def new
