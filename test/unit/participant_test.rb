@@ -46,7 +46,7 @@ class ParticipantTest < ActiveSupport::TestCase
 
   context "With a proper context, " do
     setup do
-      @participant = FactoryGirl.create(:participant, :phone_number => 1234567890, :andrewid => "agoradia", :cached_name => "Akshay Goradia", :waiver_start => DateTime.now - 10.minutes)
+      @participant = FactoryGirl.create(:participant, :phone_number => 1234567890, :andrewid => "saclark", :cached_name => "Stephen Clark", :waiver_start => DateTime.now - 10.minutes)
       @organization_category = FactoryGirl.create(:organization_category)
       @organization = FactoryGirl.create(:organization, :name => "Spring Carnival Committee", :organization_category => @organization_category)
       @temp_participant = FactoryGirl.create(:participant)
@@ -99,7 +99,7 @@ class ParticipantTest < ActiveSupport::TestCase
       end
 
       should "show that search scope works properly" do
-        assert_equal [@participant], Participant.search("agoradia")
+        assert_equal [@participant], Participant.search("saclark")
         assert_equal [], Participant.search("rkelly")
       end
 
@@ -127,19 +127,19 @@ class ParticipantTest < ActiveSupport::TestCase
       end
 
       should "show that name method works correctly" do
-        assert_equal "Akshay Goradia", @participant.name
+        assert_equal "Stephen Clark", @participant.name
       end
 
       should "show that surname method works correctly" do
-        assert_equal "Goradia", @participant.surname
+        assert_equal "Clark", @participant.surname
       end
 
       should "show that email method works correctly" do
-        assert_equal "agoradia@cmu.edu", @participant.email
+        assert_equal "saclark@cmu.edu", @participant.email
       end
 
       should "show that department method works correctly" do
-        assert_equal "Dietrich College Interdisciplinary, SCS: Human-Computer Interaction", @participant.department
+        assert_equal "SCS: Computer Science", @participant.department
       end
 
       should "show that student_class method works correctly" do
@@ -151,7 +151,7 @@ class ParticipantTest < ActiveSupport::TestCase
       end
 
       should "show that formatted_name method works correctly" do
-        assert_equal "Akshay Goradia (agoradia)", @participant.formatted_name
+        assert_equal "Stephen Clark (saclark)", @participant.formatted_name
       end
 
     end

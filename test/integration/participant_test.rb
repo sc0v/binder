@@ -4,7 +4,7 @@ class ParticipantTest < ActiveSupport::TestCase
 
   context "With a refreshed ldap cache, " do
     setup do
-      @participant = FactoryGirl.create(:participant, :andrewid => "erwilson")
+      @participant = FactoryGirl.create(:participant, :andrewid => "saclark")
     end
 
     teardown do
@@ -16,19 +16,19 @@ class ParticipantTest < ActiveSupport::TestCase
     end
 
     should "return name from directory" do
-      assert_equal "Eleanor Wilson", @participant.name
+      assert_equal "Stephen Clark", @participant.name
     end
 
     should "return surname from directory" do
-      assert_equal "Wilson", @participant.surname
+      assert_equal "Clark", @participant.surname
     end
 
     should "return email from directory" do
-      assert_equal "erwilson@andrew.cmu.edu", @participant.email
+      assert_equal "saclark@cmu.edu", @participant.email
     end
 
     should "return department from directory" do
-      assert_equal "Dietrich College Interdisciplinary", @participant.department
+      assert_equal "SCS: Computer Science", @participant.department
     end
 
     should "return student class from directory" do
