@@ -29,3 +29,5 @@
 
 # Ignore rbenv ruby version file
 .ruby-version
+
+.DS_Store
