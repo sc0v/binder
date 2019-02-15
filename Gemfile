@@ -50,6 +50,9 @@ group :development do
   # sudo commands in capistrano
   gem 'sshkit-sudo'
 
+  # generate erd
+  gem "rails-erd"
+
 end
 
 # Document attachments
