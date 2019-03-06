@@ -46,7 +46,6 @@ class Participant < ActiveRecord::Base
   has_many :certifications, dependent: :destroy
   has_many :organization_statuses, dependent: :destroy
   has_many :events
-  belongs_to :phone_carrier
   belongs_to :user, dependent: :destroy
 
 
