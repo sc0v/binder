@@ -20,8 +20,6 @@ class ListAlertsReport < Dossier::Report
   	  ON m.organization_id = o.id
   	LEFT JOIN users_roles as r
   	  ON r.user_id = u.id
-  	LEFT JOIN phone_carriers as pc
-  	  ON pc.id = p.phone_carrier_id
   	LEFT JOIN (  	
   			    SELECT tmp_p.id as 'id', 'x' as scc_member
 			  	  FROM participants as tmp_p
