@@ -10,7 +10,7 @@ class ListAlertsReport < Dossier::Report
 
   def sql
     "SELECT 
-  REPLACE(p.cached_name, p.cached_surname, '') as 'First Name', p.cached_surname as 'Last Name', p.andrewid as 'Andrew ID', p.phone_number as 'Phone Number', pc.name as 'Phone Carrier', CASE WHEN r.role_id = 1 THEN 'x' ELSE NULL END as 'SC Admins', CASE WHEN count(CASE WHEN m.is_booth_chair = 't' THEN 1 ELSE NULL END) THEN 'x' ELSE NULL END as 'SC Booth Chairs', 'x' as 'SC Booth Members', scc_member as 'SC Carnival Committee'
+  REPLACE(p.cached_name, p.cached_surname, '') as 'First Name', p.cached_surname as 'Last Name', p.andrewid as 'Andrew ID', p.phone_number as 'Phone Number', CASE WHEN r.role_id = 1 THEN 'x' ELSE NULL END as 'SC Admins', CASE WHEN count(CASE WHEN m.is_booth_chair = 't' THEN 1 ELSE NULL END) THEN 'x' ELSE NULL END as 'SC Booth Chairs', 'x' as 'SC Booth Members', scc_member as 'SC Carnival Committee'
   	FROM participants as p
   	LEFT JOIN users as u
   	  ON p.user_id = u.id
@@ -20,8 +20,6 @@ class ListAlertsReport < Dossier::Report
   	  ON m.organization_id = o.id
   	LEFT JOIN users_roles as r
   	  ON r.user_id = u.id
-  	LEFT JOIN phone_carriers as pc
-  	  ON pc.id = p.phone_carrier_id
   	LEFT JOIN (  	
   			    SELECT tmp_p.id as 'id', 'x' as scc_member
 			  	  FROM participants as tmp_p

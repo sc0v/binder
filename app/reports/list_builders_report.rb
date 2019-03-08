@@ -12,8 +12,7 @@ class ListBuildersReport < Dossier::Report
   def sql
     Organization.joins(:participants).only_categories(%w[Fraternity Sorority Independent Blitz Concessions])
         .select('organizations.name AS \'Organization\'', 'andrewid AS \'Andrew ID\'',
-                'phone_number AS \'Phone Number\'',
-                '(SELECT phone_carriers.name FROM phone_carriers WHERE phone_carriers.id = participants.phone_carrier_id) AS \'Phone Carrier\'')
+                'phone_number AS \'Phone Number\'')
         .reorder('organizations.name').to_sql
 
   end

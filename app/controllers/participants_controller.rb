@@ -22,6 +22,12 @@
 # **`updated_at`**                 | `datetime`         |
 # **`user_id`**                    | `integer`          |
 # **`waiver_start`**               | `datetime`         |
+#
+# ### Indexes
+#
+# * `index_participants_on_phone_carrier_id`:
+#     * **`phone_carrier_id`**
+#
 
 #
 # ### Indexes
