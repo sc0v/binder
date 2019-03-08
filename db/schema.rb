@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20170410184313) do
+ActiveRecord::Schema.define(version: 20190227204757) do
 
   create_table "certification_types", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -65,22 +65,6 @@ ActiveRecord::Schema.define(version: 20170410184313) do
   end
 
   add_index "checkouts", ["tool_id"], name: "index_checkouts_on_tool_id", using: :btree
-
-  create_table "delayed_jobs", force: :cascade do |t|
-    t.integer  "priority",   limit: 4,     default: 0, null: false
-    t.integer  "attempts",   limit: 4,     default: 0, null: false
-    t.text     "handler",    limit: 65535,             null: false
-    t.text     "last_error", limit: 65535
-    t.datetime "run_at"
-    t.datetime "locked_at"
-    t.datetime "failed_at"
-    t.string   "locked_by",  limit: 255
-    t.string   "queue",      limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
 
   create_table "delayed_jobs", force: :cascade do |t|
     t.integer  "priority",   limit: 4,     default: 0, null: false
@@ -251,12 +235,6 @@ ActiveRecord::Schema.define(version: 20170410184313) do
   end
 
   add_index "participants", ["phone_carrier_id"], name: "index_participants_on_phone_carrier_id", using: :btree
-
-  create_table "phone_carriers", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
-  end
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",          limit: 255

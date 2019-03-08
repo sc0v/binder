@@ -49,10 +49,6 @@ unenforceable or ineffective, they shall be deemed severable and all other provi
       <%= label_tag :emergency_phone, "Cell Phone:" %>
       <%= text_field_tag :phone_number %>
     </div>
-    <div>
-      <%= label_tag :emergency_phone, "Phone Carrier:" %>
-      <%= collection_select(:participant, :phone_carrier_id, PhoneCarrier.all, :id, :name) %>
-    </div>
   </div>
 
   <div style="margin-top: 30px;">
