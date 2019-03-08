@@ -171,6 +171,8 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
+    materialize-sass (1.0.0)
+      autoprefixer-rails (>= 6.0.3)
     mime-types (2.99.1)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
@@ -359,6 +361,7 @@ DEPENDENCIES
   highline
   jbuilder
   jquery-rails
+  materialize-sass
   mysql2
   newrelic_rpm
   omniauth
@@ -396,4 +399,4 @@ RUBY VERSION
    ruby 2.3.0p0
 
 BUNDLED WITH
-   1.14.5
+   1.17.3
