@@ -34,7 +34,6 @@ class OrganizationTest < ActiveSupport::TestCase
   should have_many(:shifts)
   should have_many(:organization_timeline_entries)
   should have_many(:organization_statuses)
-  should have_many(:documents)
 
   # Validations
   should validate_presence_of(:organization_category)
@@ -158,15 +157,6 @@ class OrganizationTest < ActiveSupport::TestCase
       @short_org.destroy
 
       assert_equal 1, Charge.all.size
-    end
-
-    should 'delete all associated documents once the organization is removed' do
-      doc1 = FactoryGirl.create(:document, organization: @short_org)
-      doc2 = FactoryGirl.create(:document, organization: @short_org)
-      doc3 = FactoryGirl.create(:document, organization: @long_org)
-      assert_equal 3, Document.all.size
-      @short_org.destroy
-      assert_equal 1, Document.all.size
     end
 
     should 'delete all checkouts once the organization is removed' do
