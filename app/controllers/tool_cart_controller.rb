@@ -97,16 +97,8 @@ class ToolCartController < ApplicationController
       checkout.participant = participant
       checkout.organization = organization
 
-      if checkout.save
-        checkout.tool.tool_type.tool_waitlists.each do |waitlist|
-          if waitlist.organization == checkout.organization
-            # Automatically remove the person from the waitlist
-            waitlist.active = false
-            waitlist.save
-            break
-          end
-        end
-      end
+      checkout.save
+
     end
 
     @num_tools = session[:tool_cart].size
@@ -173,16 +165,7 @@ class ToolCartController < ApplicationController
     checkout.participant = checkedout_tool.current_participant
     checkout.organization = checkedout_tool.current_organization
 
-    if checkout.save
-      checkout.tool.tool_type.tool_waitlists.each do |waitlist|
-        if waitlist.organization == checkout.organization
-          # Automatically remove the person from the waitlist
-          waitlist.active = false
-          waitlist.save
-          break
-        end
-      end
-    end
+    checkout.save
 
     # Checkin old tool
     old_checkout = checkedout_tool.checkouts.current.first

@@ -1,6 +1,6 @@
 (function(){
   ToolCart.clearCartItems();
   ToolCart.scanToolsAction();
-  ToolCart.showAlert('Successfully checked out <%= pluralize(@num_tools, 'tool') %> to <%= @person_name %> for <%= @org_name %>. All waitlists were automatically updated.',
+  ToolCart.showAlert('Successfully checked out <%= pluralize(@num_tools, 'tool') %> to <%= @person_name %> for <%= @org_name %>.',
                       true, 4500);
 })();

@@ -151,16 +151,6 @@ FactoryGirl.define do
     association :tool_type
   end
 
-   # tool waitlist
-  factory :tool_waitlist do
-    wait_start_time Time.now
-    tool_type_id 1
-
-    association :tool_type
-    association :organization
-    association :participant
-  end
-
   # user
   factory :user do
     name "Default Factory User"
