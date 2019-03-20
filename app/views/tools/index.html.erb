@@ -46,37 +46,15 @@
 </div>
 <br />
 <br />
-<% if @tool_type.present? && (@waitlist.present? || @num_available < 1) %>
+<% if @tool_type.present? %>
     <div class="alert alert-info alert-inline">
       <div class="row">
         <div class="col-xs-7">
-          <% if @waitlist.present? %>
-            There <%= "#{@waitlist.size == 1 ? 'is' : 'are'}" %> <%= pluralize(@waitlist.size, 'person') %> waiting for <%= @title %>.
-          <% else %>
-            All <%= @title %> are checked out!
-          <% end %>
-        </div>
-        <div class="col-xs-2">
-          <% if @waitlist.present? %>
-            <a href="#tool-type-waitlist" class="btn btn-info btn-sm" data-toggle="collapse">Show/Hide Waitlist</a>
-          <% end %>
+          All <%= @title %> are checked out!
         </div>
         <div class="col-xs-1"></div>
-        <div class="col-xs-2">
-          <% if can?(:create, ToolWaitlist) %>
-            <%= link_to raw("<strong>Add to Waitlist</strong>"), new_tool_type_waitlist_path(@tool_type),
-                        class: "btn btn-warning btn-sm" %>
-          <% end %>
-        </div>
       </div>
     </div>
-
-    <% if @waitlist.present? %>
-      <div id="tool-type-waitlist" class="collapse out">
-        <h3><%= @title %> Waitlist</h3>
-        <%= render partial: 'tool_waitlist' %>
-      </div>
-    <% end %>
 <% end %>
 <%= render partial: 'tools', locals: {tools: @tools, organization: @organization} %>
 

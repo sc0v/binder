@@ -15,7 +15,7 @@
         <th>Name</th>
       <% end %>
       <th>Number of tools with this type</th>
-      <% if can?(:update, ToolWaitlist) %>
+      <% if can?(:update, ToolType) %>
         <th>Edit</th>
       <% end %>
       <% if can?(:destroy, ToolType) %>
@@ -32,7 +32,7 @@
           <td><%= tool_type.name %></td>
         <% end %>
         <td><%= tool_type.tools.count %></td>
-        <% if can?(:update, ToolWaitlist) %>
+        <% if can?(:update, ToolType) %>
           <td><%= link_to "Edit", edit_tool_type_path(tool_type), :class => 'btn btn-primary btn-xs'  %></td>
         <% end %>
         <% if can?(:destroy, tool_type) %>
