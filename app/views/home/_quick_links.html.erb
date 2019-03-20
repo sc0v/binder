@@ -25,10 +25,10 @@
     <!-- <p><%# link_to "Downtime", downtime_index_path, :class => "btn btn-primary" %></p> -->
   <%# end %>
   <% if can?(:read, Faq) && !(current_user.has_role? :admin) %>
-    <p><%= link_to "FAQs", faqs_path, :class => "btn btn-primary" %></p>
+    <p><%= link_to "FAQs", faqs_path, :class => "btn btn-primary" %>
   <% end %>
   <% if can?(:read, Shift) && !(current_user.has_role? :admin) %>
-    <p><%= link_to "Shifts", shifts_path, :class => "btn btn-primary" %></p>
+    <%= link_to "Shifts", shifts_path, :class => "btn btn-primary" %></p>
   <% end %>
   <%# if can?(:read, Task) %>
     <!-- <p><%# link_to "Tasks", tasks_path, :class => "btn btn-primary" %></p> -->
@@ -39,8 +39,6 @@
   <%# if can?(:electrical, OrganizationTimelineEntry) %>
     <!-- <p><%# link_to "Electrical Queue", electrical_path, :class => "btn btn-primary" %></p> -->
   <%# end %>
-
-  <br>
 
 <!--   <%# if user_signed_in? then %>
     <%# form_tag(search_path, class: 'form-inline', role: 'search') do %>
@@ -60,15 +58,13 @@
 
 <br><br><br><br><br>
 
-<div class="row">
+<div class="">
 
   <% if user_signed_in? %>
 
     <% if current_user.participant.is_scc? %>
 
-       <div class="col s5">
       <%= render 'tool_cart/tool_cart' %>
-    </div>
 
       <% if !@tasks_sidebar.blank? %>
         <% cache ['tasks_sidebar', @tasks_sidebar] do %>
