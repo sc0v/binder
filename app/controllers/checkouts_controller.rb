@@ -97,19 +97,7 @@ class CheckoutsController < ApplicationController
 
     respond_to do |format|
       if @checkout.save
-        removed_from_waitlist = ""
-        @checkout.tool.tool_type.tool_waitlists.each do |waitlist|
-          if waitlist.organization == @checkout.organization
-            # Automatically remove the person from the waitlist
-            waitlist.active = false
-            waitlist.save
-            removed_from_waitlist =
-                "  #{waitlist.participant.name} was removed from the waitlist for #{waitlist.tool_type.name.pluralize}."
-            break
-          end
-        end
-
-        format.html { redirect_to tool_path(@checkout.tool), notice: "Checkout was successfully created.#{removed_from_waitlist}" }
+        format.html { redirect_to tool_path(@checkout.tool), notice: "#{@checkout.tool.tool_type.name} was successfully checked out to #{@checkout.participant.name}" }
         format.json { render json: @checkout.tool, status: :created, location: @checkout.tool }
       else
         format.html { render action: "new" }

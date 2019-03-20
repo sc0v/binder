@@ -135,13 +135,6 @@ class ToolTest < ActiveSupport::TestCase
       deny @ladder.is_checked_out?
     end
 
-    should "show that is_waitlist_critical works" do
-       @wait1 = FactoryGirl.create(:tool_waitlist, :tool_type_id => @saw.id) 
-       @wait2 = FactoryGirl.create(:tool_waitlist, :tool_type_id => @saw.id) 
-       assert_equal true, @saw.is_waitlist_critical?
-       assert_equal false, @ladder.is_waitlist_critical?
-    end
-
     should "show that is_hardhat works" do
       assert @hard_hat_1.is_hardhat?
       deny @radio.is_hardhat?
