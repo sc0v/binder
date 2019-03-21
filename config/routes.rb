@@ -6,7 +6,7 @@ Trailerapp::Application.routes.draw do
       post 'approve'
     end
   end
-  resources :documents, :except => [:show]
+  
   resources :faqs, :except => [:show]
   resources :organizations do
     resources :aliases, :controller => :organization_aliases, :shallow => true, :only => [:create, :new, :destroy, :index]

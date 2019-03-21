@@ -12,7 +12,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20190320032323) do
-
+  
   create_table "certification_types", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.datetime "created_at",             null: false
@@ -81,16 +81,6 @@ ActiveRecord::Schema.define(version: 20190320032323) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
-
-  create_table "documents", force: :cascade do |t|
-    t.integer  "document_id",     limit: 4
-    t.string   "name",            limit: 255
-    t.string   "url",             limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "organization_id", limit: 4
-    t.boolean  "public"
-  end
 
   create_table "event_types", force: :cascade do |t|
     t.boolean "display"

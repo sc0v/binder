@@ -10,10 +10,6 @@
   <% if can?(:read_all_details, @organization) %>
     <li><a href="#charges" data-toggle="tab">Charges</a></li>
   <% end %>
-
-  <% if can?(:read_org_details, @organization) %>
-    <li><a href="#documents" data-toggle="tab">Documents</a></li>
-  <% end %>
 </ul>
 
 <!-- Details -->
@@ -38,12 +34,6 @@
   <% if can?(:read_all_details, @organization) %>
     <div id="charges" class="tab-pane">
       <%= render :partial => "charges/organization_charge_list", :object => @charges %>
-    </div>
-  <% end %>
-
-  <% if can?(:read_org_details, @organization) %>
-    <div id="documents" class="tab-pane">
-      <%= render :partial => "documents/organization_document_list", :object => @documents %>
     </div>
   <% end %>
 </div>

@@ -66,19 +66,6 @@
   <p class="supertiny">&nbsp;</p>
 <% end %>
 
-<% unless @documents.blank? %>
-  <% result_shown = true %>
-  <p><em><strong>Documents matching term '<%= @query %>'</strong></em></p>
-  <ul>
-    <% for doc in @documents do %>
-      <% if can?(:read, doc )%>
-        <li><%= link_to doc.name, doc %></li>
-      <% end %>
-    <% end %>
-  </ul>
-  <p class="supertiny">&nbsp;</p>
-<% end %>
-
 <% unless result_shown %>
   <p><em>No results found for '<%= @query %>'</em></p>
 <% end %>

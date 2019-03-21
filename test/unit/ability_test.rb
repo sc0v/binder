@@ -38,7 +38,6 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(:manage, CarnegieMellonPerson), "to not change a person"
       assert ability.cannot?(:manage, Charge), "to not edit a charge"
       assert ability.cannot?(:manage, ChargeType), "to not edit a charge type"
-      assert ability.cannot?(:manage, Document), "to not edit a document"
       assert ability.cannot?(:manage, Faq), "to not edit an FAQ"
       assert ability.cannot?(:manage, ShiftParticipant), "to not edit a shift participant"
       assert ability.cannot?(:manage, Task), "to not edit a task"
@@ -119,11 +118,6 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(:destroy, Checkout)
       assert ability.can?(:read, Checkout)
 
-      assert ability.cannot?(:create, Document)
-      assert ability.cannot?(:update, Document)
-      assert ability.cannot?(:destroy, Document)
-      assert ability.can?(:read, Document)
-
       assert ability.cannot?(:create, Faq)
       assert ability.cannot?(:update, Faq)
       assert ability.cannot?(:destroy, Faq)
@@ -159,7 +153,6 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.can?(:read, Charge)
       assert ability.can?(:read, ChargeType)
       assert ability.can?(:read, Checkout)
-      assert ability.can?(:read, Document)
       assert ability.can?(:read, Faq)
       assert ability.can?(:read, Membership)
       assert ability.can?(:read, Organization)

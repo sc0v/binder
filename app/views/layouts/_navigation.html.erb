@@ -34,9 +34,6 @@
               <% if can?(:read, Charge) %>
                 <li><%= link_to "Charges", charges_path %></li>
               <% end %>
-              <% if can?(:read, Document) %>
-                <li><%= link_to "Documents", documents_path %></li>
-              <% end %>
               <% if can?(:read, Faq) %>
                 <li><%= link_to "FAQs", faqs_path %></li>
               <% end %>

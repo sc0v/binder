@@ -34,12 +34,6 @@ FactoryGirl.define do
     association :organization
   end
 
-  # document
-  factory :document do
-    name "MyString"
-    url "MyString"
-  end
-
   #event 
   factory :event do
     association :event_type
