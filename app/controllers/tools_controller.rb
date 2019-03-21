@@ -42,7 +42,6 @@ class ToolsController < ApplicationController
         @tool_type = ToolType.find(params[:type_filter])
         @title = @tool_type.name.pluralize
         @tools = @tools.by_type(@tool_type)
-        @waitlist = @tool_type.tool_waitlists.by_wait_start_time
         @num_available = Tool.by_type(@tool_type).size - Tool.by_type(@tool_type).checked_out.size
       end
     else
@@ -62,7 +61,6 @@ class ToolsController < ApplicationController
   # GET /tools/1
   # GET /tools/1.json
   def show
-    @waitlist = @tool.tool_type.tool_waitlists.by_wait_start_time
   end
 
   # GET /tools/new

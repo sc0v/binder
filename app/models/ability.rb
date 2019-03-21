@@ -11,7 +11,7 @@ class Ability
     end
 
     can :read, [OrganizationAlias, OrganizationCategory, Organization, Participant,
-                ShiftType, Tool, ToolWaitlist, Membership]
+                ShiftType, Tool, Membership]
 
     can :search
 
@@ -92,7 +92,6 @@ class Ability
       can [:create, :complete, :update], Task
       can [:create, :update], Tool
       can [:create, :update], ToolType
-      can [:create, :update , :destroy], ToolWaitlist
       can [:create, :destroy], Certification
     end
 
