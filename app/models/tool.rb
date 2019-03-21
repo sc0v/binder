@@ -53,12 +53,6 @@ class Tool < ActiveRecord::Base
     return not(self.checkouts.current.empty?)
   end
 
-  def is_waitlist_critical?
-    num_on_waitlist = ToolWaitlist.for_tool_type(self.tool_type).count
-    num_available = Tool.by_type(self.tool_type).checked_in.count
-    return num_on_waitlist > 0 && num_on_waitlist >= num_available
-  end
-
   def is_hardhat?
     return self.name.downcase.include?('hardhat')
   end

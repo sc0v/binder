@@ -41,9 +41,6 @@
                 method: :post, remote: true, :class => 'btn btn-warning' %>
   <% end %>
 <% end %>
-<% if can?(:create, ToolWaitlist) %>
-  <%= link_to "Add to Waitlist", new_tool_type_waitlist_path(@tool.tool_type), class: 'btn btn-info' %>
-<% end %>
 <% if can?(:update, @tool) %>
   <%= link_to t('.edit', :default => t("helpers.links.edit")),
           edit_tool_path(@tool), :class => 'btn btn-primary' %>
@@ -54,12 +51,4 @@
           :method => 'delete',
           :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
           :class => 'btn btn-danger' %>
-<% end %>
-<% if can?(:read, ToolWaitlist) && !@waitlist.empty? %>
-  <br /><br />
-  <div>
-    <h3>Waitlist for <%= link_to @tool.tool_type.name.pluralize, tools_path(type_filter: @tool.tool_type.id) %>
-      (<%= Tool.checked_in.by_type(@tool.tool_type).count %> remaining)</h3>
-    <%= render partial: 'tool_waitlist' %>
-  </div>
 <% end %>

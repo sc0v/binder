@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190313163240) do
+ActiveRecord::Schema.define(version: 20190320032323) do
 
   create_table "certification_types", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -81,16 +81,6 @@ ActiveRecord::Schema.define(version: 20190313163240) do
   end
 
   add_index "delayed_jobs", ["priority", "run_at"], name: "delayed_jobs_priority", using: :btree
-
-  create_table "documents", force: :cascade do |t|
-    t.integer  "document_id",     limit: 4
-    t.string   "name",            limit: 255
-    t.string   "url",             limit: 255
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "organization_id", limit: 4
-    t.boolean  "public"
-  end
 
   create_table "event_types", force: :cascade do |t|
     t.boolean "display"
@@ -202,10 +192,7 @@ ActiveRecord::Schema.define(version: 20190313163240) do
     t.string   "cached_student_class",      limit: 255
     t.datetime "cache_updated"
     t.datetime "waiver_start"
-    t.integer  "phone_carrier_id",          limit: 4
   end
-
-  add_index "participants", ["phone_carrier_id"], name: "index_participants_on_phone_carrier_id", using: :btree
 
   create_table "roles", force: :cascade do |t|
     t.string   "name",          limit: 255
@@ -295,19 +282,6 @@ ActiveRecord::Schema.define(version: 20190313163240) do
     t.datetime "updated_at"
   end
 
-  create_table "tool_waitlists", force: :cascade do |t|
-    t.integer  "tool_type_id",    limit: 4
-    t.datetime "wait_start_time"
-    t.integer  "participant_id",  limit: 4
-    t.integer  "organization_id", limit: 4
-    t.string   "note",            limit: 255
-    t.boolean  "active",                      default: true
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "tool_waitlists", ["tool_type_id"], name: "index_tool_waitlists_on_tool_type_id", using: :btree
-
   create_table "tools", force: :cascade do |t|
     t.integer  "barcode",      limit: 4
     t.text     "description",  limit: 65535
@@ -347,6 +321,12 @@ ActiveRecord::Schema.define(version: 20190313163240) do
 
   add_foreign_key "certifications", "certification_types"
   add_foreign_key "certifications", "participants"
+  add_foreign_key "judgements", "judgement_categories"
+  add_foreign_key "judgements", "judges"
+  add_foreign_key "judgements", "organizations"
+  add_foreign_key "store_purchases", "charges"
+  add_foreign_key "store_purchases", "store_items"
   add_foreign_key "tool_type_certifications", "certification_types"
   add_foreign_key "tool_type_certifications", "tool_types"
+  add_foreign_key "tools", "tool_types"
 end
