@@ -18,9 +18,6 @@
   <% if can?(:read, Charge) %>
     <p><%= link_to "Charges", charges_path, :class => "btn btn-primary" %></p>
   <% end %>
-  <% if can?(:read, Document) %>
-    <p><%= link_to "Documents", documents_path, :class => "btn btn-primary" %></p>
-  <% end %>
   <% if can?(:downtime, OrganizationTimelineEntry) %>
     <p><%= link_to "Downtime", downtime_index_path, :class => "btn btn-primary" %></p>
   <% end %>
