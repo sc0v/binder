@@ -12,7 +12,7 @@
 # It's strongly recommended that you check this file into your version control system.
 
 ActiveRecord::Schema.define(version: 20190320032323) do
-  
+
   create_table "certification_types", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.datetime "created_at",             null: false
@@ -101,35 +101,6 @@ ActiveRecord::Schema.define(version: 20190320032323) do
     t.text     "answer",     limit: 65535
     t.datetime "created_at"
     t.datetime "updated_at"
-  end
-
-  create_table "judgement_categories", force: :cascade do |t|
-    t.integer  "grouping",    limit: 4
-    t.string   "name",        limit: 255
-    t.integer  "max_value",   limit: 4
-    t.string   "description", limit: 255
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
-  end
-
-  create_table "judgements", force: :cascade do |t|
-    t.integer  "judgement_category_id", limit: 4
-    t.integer  "value",                 limit: 4
-    t.integer  "judge_id",              limit: 4
-    t.integer  "organization_id",       limit: 4
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-  end
-
-  add_index "judgements", ["judge_id"], name: "index_judgements_on_judge_id", using: :btree
-  add_index "judgements", ["judgement_category_id"], name: "index_judgements_on_judgement_category_id", using: :btree
-  add_index "judgements", ["organization_id"], name: "index_judgements_on_organization_id", using: :btree
-
-  create_table "judges", force: :cascade do |t|
-    t.string   "name",       limit: 255
-    t.integer  "category",   limit: 4
-    t.datetime "created_at",             null: false
-    t.datetime "updated_at",             null: false
   end
 
   create_table "memberships", force: :cascade do |t|
