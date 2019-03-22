@@ -74,33 +74,40 @@
         <% end %>
       </div>
 
+      <div class= "col col-sm-3">
+        <%= render 'store_cart/store_cart' %>
+      </div>
+
       <div class = "col col-sm-3">
         <%= render 'tool_cart/tool_cart' %>
       </div>
-    
-
-      <div class= "col col-sm-3">
-        <%# Change to true to enable event sidebar %>
-        <% if true %>
-          <%= render 'events/events_sidebar' %>
-        <% end %>
-      </div>
-
 
   </div>
 
-      <% if !@tasks_sidebar.blank? %>
-          <% cache ['tasks_sidebar', @tasks_sidebar] do %>
-            <%= render 'tasks/tasks_sidebar' %>
-          <% end %>
-      <% end %>
 
+   <div class="row">
 
-
-      <% if !@current_shifts_sidebar.blank? or !@upcoming_shifts_sidebar.blank? %>
-        <% cache ['shift_sidebar', 'current', @current_shifts_sidebar, 'upcoming', @upcoming_shifts_sidebar] do%>
-          <%= render 'shifts/shifts_sidebar' %>
+      <div class= "col col-sm-6">
+        <% if !@tasks_sidebar.blank? %>
+            <% cache ['tasks_sidebar', @tasks_sidebar] do %>
+              <%= render 'tasks/tasks_sidebar' %>
+            <% end %>
         <% end %>
+      </div>
+
+      <div class= "col col-sm-6">
+        <% if !@current_shifts_sidebar.blank? or !@upcoming_shifts_sidebar.blank? %>
+          <% cache ['shift_sidebar', 'current', @current_shifts_sidebar, 'upcoming', @upcoming_shifts_sidebar] do%>
+            <%= render 'shifts/shifts_sidebar' %>
+          <% end %>
+        <% end %>
+      </div>
+
+  </div>
+
+      <%# Change to true to enable event sidebar %>
+      <% if true %>
+        <%= render 'events/events_sidebar' %>
       <% end %>
 
 
