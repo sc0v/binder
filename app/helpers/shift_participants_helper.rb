@@ -6,6 +6,7 @@
 #
 # Name                  | Type               | Attributes
 # --------------------- | ------------------ | ---------------------------
+# **`active`**          | `boolean`          | `default(TRUE)`
 # **`clocked_in_at`**   | `datetime`         |
 # **`created_at`**      | `datetime`         |
 # **`id`**              | `integer`          | `not null, primary key`

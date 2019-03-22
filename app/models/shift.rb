@@ -6,6 +6,7 @@
 #
 # Name                                   | Type               | Attributes
 # -------------------------------------- | ------------------ | ---------------------------
+# **`active`**                           | `boolean`          | `default(TRUE)`
 # **`created_at`**                       | `datetime`         |
 # **`description`**                      | `string(255)`      |
 # **`ends_at`**                          | `datetime`         |
@@ -21,6 +22,7 @@
 # * `index_shifts_on_organization_id`:
 #     * **`organization_id`**
 #
+
 include Messenger
 require 'twilio-ruby' 
 require 'daemons'
@@ -52,6 +54,9 @@ class Shift < ActiveRecord::Base
   scope :watch_shifts, -> { where('shift_type_id = ?', ShiftType.where('name = "Watch Shift"').first.id) }
   scope :sec_shifts, -> { where('shift_type_id = ?', ShiftType.where('name = "Security Shift"').first.id) }
   scope :coord_shifts, -> { where('shift_type_id = ?', ShiftType.where('name = "Coordinator Shift"').first.id) }
+  
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
 
   @@notify = 1.hour
   @@notify2 = 5.minutes

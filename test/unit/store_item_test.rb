@@ -6,6 +6,7 @@
 #
 # Name              | Type               | Attributes
 # ----------------- | ------------------ | ---------------------------
+# **`active`**      | `boolean`          | `default(TRUE)`
 # **`created_at`**  | `datetime`         | `not null`
 # **`id`**          | `integer`          | `not null, primary key`
 # **`name`**        | `string(255)`      |

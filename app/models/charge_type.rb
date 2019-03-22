@@ -6,6 +6,7 @@
 #
 # Name                                 | Type               | Attributes
 # ------------------------------------ | ------------------ | ---------------------------
+# **`active`**                         | `boolean`          | `default(TRUE)`
 # **`created_at`**                     | `datetime`         |
 # **`default_amount`**                 | `decimal(8, 2)`    |
 # **`description`**                    | `text(65535)`      |
@@ -21,5 +22,8 @@ class ChargeType < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
 
   has_many :charges, dependent: :destroy
+  
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
   
 end

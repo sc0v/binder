@@ -6,6 +6,7 @@
 #
 # Name                | Type               | Attributes
 # ------------------- | ------------------ | ---------------------------
+# **`active`**        | `boolean`          | `default(TRUE)`
 # **`barcode`**       | `integer`          |
 # **`created_at`**    | `datetime`         |
 # **`description`**   | `text(65535)`      |

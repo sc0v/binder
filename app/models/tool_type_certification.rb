@@ -6,6 +6,7 @@
 #
 # Name                         | Type               | Attributes
 # ---------------------------- | ------------------ | ---------------------------
+# **`active`**                 | `boolean`          | `default(TRUE)`
 # **`certification_type_id`**  | `integer`          |
 # **`created_at`**             | `datetime`         | `not null`
 # **`id`**                     | `integer`          | `not null, primary key`
@@ -23,4 +24,6 @@
 class ToolTypeCertification < ActiveRecord::Base
   belongs_to :tool_type
   belongs_to :certification_type
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
 end

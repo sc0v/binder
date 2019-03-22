@@ -6,6 +6,7 @@
 #
 # Name              | Type               | Attributes
 # ----------------- | ------------------ | ---------------------------
+# **`active`**      | `boolean`          | `default(TRUE)`
 # **`created_at`**  | `datetime`         |
 # **`id`**          | `integer`          | `not null, primary key`
 # **`name`**        | `string(255)`      |
@@ -19,4 +20,6 @@ class ToolType < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
 
   default_scope {order(:name)}
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
 end

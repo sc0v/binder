@@ -6,6 +6,7 @@
 #
 # Name                     | Type               | Attributes
 # ------------------------ | ------------------ | ---------------------------
+# **`active`**             | `boolean`          | `default(TRUE)`
 # **`booth_chair_order`**  | `integer`          |
 # **`created_at`**         | `datetime`         |
 # **`id`**                 | `integer`          | `not null, primary key`
