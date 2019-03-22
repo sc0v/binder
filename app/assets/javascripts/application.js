@@ -14,6 +14,7 @@
 //= require jquery_ujs
 //= require bootstrap
 //= require turbolinks
+//= require datatables
 //= require_tree .
 
 $(document).on("ready page:change", function(){
