@@ -321,9 +321,6 @@ ActiveRecord::Schema.define(version: 20190320032323) do
 
   add_foreign_key "certifications", "certification_types"
   add_foreign_key "certifications", "participants"
-  add_foreign_key "judgements", "judgement_categories"
-  add_foreign_key "judgements", "judges"
-  add_foreign_key "judgements", "organizations"
   add_foreign_key "store_purchases", "charges"
   add_foreign_key "store_purchases", "store_items"
   add_foreign_key "tool_type_certifications", "certification_types"
