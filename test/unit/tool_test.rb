@@ -44,7 +44,7 @@ class ToolTest < ActiveSupport::TestCase
       @shannon_participant = FactoryGirl.create(:participant)
 
       # Create 6 tools
-      @hammer = FactoryGirl.create(:tool, :barcode => 12811)
+      @hammer = FactoryGirl.create(:tool, :barcode => 12811, :description => "")
 
       @saw_type = FactoryGirl.create(:tool_type, name: 'Saw')
       @saw = FactoryGirl.create(:tool, :barcode => 12390, :description => "SAW", tool_type: @saw_type)
@@ -151,6 +151,7 @@ class ToolTest < ActiveSupport::TestCase
     should "show that that the method formatted name works" do
       assert_equal '12810: Radio - RADIO', @radio.formatted_name
       assert_equal '12012: Ladder - LADDER', @ladder.formatted_name
+      assert_equal '12811: Hammer', @hammer.formatted_name
     end
     
   end
