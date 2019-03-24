@@ -1,83 +1,32 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <div class='row'>
-      <div class='col-xs-9'>Store Cart <span id='tc_title_count'><%= "(#{@tool_cart.size})" unless @tool_cart.empty? %></span></div>
+      <div class='col-xs-6'>Store Cart</div>
       <div class='col-xs-3'>
-        <a href="#tc_actions" onclick='_toggleText(this, "Show", "Hide")'
-           class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
+        <%= link_to 'New', new_event_path, class: 'btn btn-primary btn-xs' %>
+      </div>
+      <div class='col-xs-3'>
+        <a href="#sidebar-events-widget" onclick='_toggleText(this, "Show", "Hide")'
+           class="btn btn-info btn-xs"  data-toggle="collapse"><%= @events_sidebar.empty? ? "Show" : "Hide" %></a>
       </div>
     </div>
   </div>
-
-  <div id='tc_alert' class='panel-body' style='display: none'>
-    <span id='tc_alert_message'>The checkout was unsuccessful. Please try again at another time or ask someone for help.</span>
-  </div>
-
-  <div id='tc_actions' class='collapse in'>
-    <div id='tc_scan_tools_action' class='panel-body'>
-      <%= form_tag(tool_cart_add_tool_path, method: :post, remote: true) do %>
-        <label for='tc_scan_tool'>Scan Tools</label>
-        <input id='tc_scan_tool' autocomplete="off" name="barcode" type='text' style='width: 100%' />
-      <% end %>
-      <div id='tc_tool_list_container' style='margin-bottom: 2px; <%= @tool_cart.empty? ? raw("display: none'"): ''%>'>
-        <br />
-        <div class="row">
-          <div class='col-xs-3'><strong>Barcode</strong></div>
-          <div class='col-xs-4'><strong>Name</strong></div>
-          <div class='col-xs-5' style='padding-bottom: 2px' >
-            <%= link_to('Remove All', tool_cart_remove_all_path, class: 'btn btn-danger btn-xs', method: :post,
-                        data: {confirm: 'Are you sure you want to remove all tools?'}) %>
-          </div>
-        </div>
-        <div id="tc_tool_list" style="overflow: auto; max-height: 300px">
-          <% @tool_cart.each do |tool| %>
-            <%= render partial: 'tool_cart/tool_cart_item', locals: {tool: tool} %>
-          <% end %>
-        </div>
-      </div>
-      <br />
-      <div class="btn-group" style="width: 100%">
-        <%= button_tag 'Check Out', :class => "btn btn-primary cart-button", onclick: 'ToolCart.checkoutAction()'%>
-        <%= link_to 'Swap', tool_cart_swap_path, method: :post, remote: true,
-                       :class => "btn btn-primary cart-button", :style => "padding-top: 14px",
-                       'data-toggle' => 'tooltip', 'data-placement' => 'bottom',
-                       title: 'Scan one checked out tool and one checked in tool then hit swap to swap them!'%>
-        <%= link_to 'Check In', tool_cart_checkin_path, method: :post, remote: true, :class => "btn btn-primary cart-button" %>
-      </div>
-    </div>
-
-    <div id='tc_checkout_action' class="panel-body" style='display: none'>
-      <%= form_tag tool_cart_checkout_path, method: :post, remote: true, id: 'tc_checkout_form' do %>
-        <div id='tc_checkout_scan_andrewid_div'>
-          <label for='tc_checkout_scan_andrewid'>Scan AndrewID: </label>
-          <input id='tc_checkout_scan_andrewid' autocomplete="off" type='text' style='width: 100%' />
-        </div>
-
-        <br />
-        <div id='tc_checkout_loaded_participant_div' style='display: none'>
-          <span><strong>Checkout <span id='tc_checkout_tools_count'></span> to: </strong></span><br />
-          <span id='tc_checkout_loaded_participant' style='font-weight: bold; font-size: 1.4em; color: black'>Israel Madueme</span><br />
-          <input id='tc_checkout_loaded_participant_id' name='participant_id' type='hidden' />
-
-          <br />
-          <label for='tc_checkout_select_organization'>Select Organization: </label>
-          <select id='tc_checkout_select_organization' name='organization_id' style='width: 100%'>
-          </select>
-          <div id='tc_checkout_add_membership_div' style='display: none'>
-            <span>Add Membership?</span>
-            <input id='tc_checkout_add_membership' name='add_membership' type='checkbox' />
-          </div>
-        </div>
-
-        <br />
-        <%= button_tag 'Checkout Tools', class: 'btn btn-success', style: 'width: 60%' %>
-        <%= button_tag 'Cancel', type: :button, onclick: 'ToolCart.scanToolsAction()', class: 'btn btn-default', style: 'width: 30%; float: right' %>
-        <br style='clear: both' />
-      <% end %>
-    </div>
+  <div id='sidebar-events-widget' class="collapse <%= "in" if !@events_sidebar.empty? %> panel-body">
+    <table class="table table-condensed" style="margin-bottom: 0;">
+      <thead>
+        <th>Note</th>
+        <th></th>
+      </thead>
+      <tbody>
+        <% @events_sidebar.each do |event| %>
+            <tr>
+              <td><%= link_to event.description.truncate(150), event_path(event) %></td>
+                <td style="text-align: right;">
+                  <%= link_to 'OK', approve_event_path(event), :method => :post, :class => 'btn btn-xs btn-success' %></td>
+              </td>
+            </tr>
+        <% end %>
+      </tbody>
+    </table>
   </div>
 </div>
-
-<%= javascript_tag do %>
-  ToolCart.initSidebarWidget();
-<% end %>
