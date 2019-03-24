@@ -41,7 +41,7 @@ class ParticipantTest < ActiveSupport::TestCase
   context "With a proper context, " do
     setup do
       @participant = FactoryGirl.create(:participant, :phone_number => 1234567890, :andrewid => "saclark", :cached_name => "Stephen Clark", :waiver_start => DateTime.now - 10.minutes)
-      @organization_category = FactoryGirl.create(:organization_category)
+      @organization_category = FactoryGirl.create(:organization_category, :is_building => true)
       @organization = FactoryGirl.create(:organization, :name => "Spring Carnival Committee", :organization_category => @organization_category)
       @temp_participant = FactoryGirl.create(:participant)
       @membership = FactoryGirl.create(:membership, :is_booth_chair => true, :participant => @participant, :organization => @organization)
@@ -110,6 +110,12 @@ class ParticipantTest < ActiveSupport::TestCase
         assert_equal false, @participant.is_waiver_cheater?
 
         assert_equal true, @temp_participant.is_waiver_cheater?
+      end
+
+      should "show that booth_chair_organizations method works correctly" do
+        assert_equal [@organization], @participant.booth_chair_organizations
+
+        assert_equal [], @temp_participant.booth_chair_organizations
       end
       
       should "show that is_booth_chair method works correctly" do

@@ -70,14 +70,6 @@ class Participant < ActiveRecord::Base
   def is_scc?
     !organizations.find_by(name: "Spring Carnival Committee").blank?
   end
-
-  def card_number=( card_number )
-    @card_number = card_number
-  end
-
-  def card_number
-    @card_number
-  end
   
   def name
     cached_name

@@ -24,15 +24,6 @@
 class Checkout < ActiveRecord::Base
   include Messenger
 
-  # For lookups
-  def card_number=( card_number )
-    @card_number = card_number
-  end
-
-  def card_number
-    @card_number
-  end
-
   validates_presence_of :tool, :organization
   validates_associated :tool, :organization, :participant
 
