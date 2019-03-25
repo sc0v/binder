@@ -6,6 +6,7 @@
 #
 # Name                                   | Type               | Attributes
 # -------------------------------------- | ------------------ | ---------------------------
+# **`active`**                           | `boolean`          | `default(TRUE)`
 # **`created_at`**                       | `datetime`         |
 # **`description`**                      | `string(255)`      |
 # **`ends_at`**                          | `datetime`         |

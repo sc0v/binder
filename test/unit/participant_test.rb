@@ -6,6 +6,7 @@
 #
 # Name                             | Type               | Attributes
 # -------------------------------- | ------------------ | ---------------------------
+# **`active`**                     | `boolean`          | `default(TRUE)`
 # **`andrewid`**                   | `string(255)`      |
 # **`cache_updated`**              | `datetime`         |
 # **`cached_department`**          | `string(255)`      |

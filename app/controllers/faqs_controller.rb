@@ -6,6 +6,7 @@
 #
 # Name              | Type               | Attributes
 # ----------------- | ------------------ | ---------------------------
+# **`active`**      | `boolean`          | `default(TRUE)`
 # **`answer`**      | `text(65535)`      |
 # **`created_at`**  | `datetime`         |
 # **`id`**          | `integer`          | `not null, primary key`

@@ -6,6 +6,7 @@
 #
 # Name                   | Type               | Attributes
 # ---------------------- | ------------------ | ---------------------------
+# **`active`**           | `boolean`          | `default(TRUE)`
 # **`created_at`**       | `datetime`         |
 # **`description`**      | `text(65535)`      |
 # **`ended_at`**         | `datetime`         |
@@ -20,6 +21,7 @@
 # * `index_organization_timeline_entries_on_organization_id`:
 #     * **`organization_id`**
 #
+
 include Messenger
 
 class OrganizationTimelineEntry < ActiveRecord::Base
@@ -32,6 +34,8 @@ class OrganizationTimelineEntry < ActiveRecord::Base
 
   default_scope { order('started_at asc') }
   scope :current, -> { where(ended_at: nil) }
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
 
   def duration
     return ended_at.to_i - started_at.to_i unless ended_at.blank?

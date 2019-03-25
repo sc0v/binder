@@ -6,6 +6,7 @@
 #
 # Name                               | Type               | Attributes
 # ---------------------------------- | ------------------ | ---------------------------
+# **`active`**                       | `boolean`          | `default(TRUE)`
 # **`created_at`**                   | `datetime`         |
 # **`description`**                  | `string(255)`      |
 # **`id`**                           | `integer`          | `not null, primary key`
@@ -29,4 +30,6 @@ class OrganizationStatus < ActiveRecord::Base
   belongs_to :participant
 
   scope :displayable, -> { joins(:organization_status_type).where('organization_status_types.display = ?', true) }
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
 end

@@ -6,6 +6,7 @@
 #
 # Name                      | Type               | Attributes
 # ------------------------- | ------------------ | ---------------------------
+# **`active`**              | `boolean`          | `default(TRUE)`
 # **`charge_id`**           | `integer`          |
 # **`created_at`**          | `datetime`         | `not null`
 # **`id`**                  | `integer`          | `not null, primary key`

@@ -6,6 +6,7 @@
 #
 # Name                            | Type               | Attributes
 # ------------------------------- | ------------------ | ---------------------------
+# **`active`**                    | `boolean`          | `default(TRUE)`
 # **`amount`**                    | `decimal(8, 2)`    |
 # **`charge_type_id`**            | `integer`          |
 # **`charged_at`**                | `datetime`         |
@@ -39,5 +40,7 @@ class Charge < ActiveRecord::Base
   default_scope { order('charged_at DESC') }
   scope :approved, -> { where(is_approved: true) }
   scope :pending, -> { where(is_approved: false) }
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
 end
 

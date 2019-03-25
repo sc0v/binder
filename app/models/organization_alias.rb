@@ -6,6 +6,7 @@
 #
 # Name                   | Type               | Attributes
 # ---------------------- | ------------------ | ---------------------------
+# **`active`**           | `boolean`          | `default(TRUE)`
 # **`created_at`**       | `datetime`         |
 # **`id`**               | `integer`          | `not null, primary key`
 # **`name`**             | `string(255)`      |
@@ -28,6 +29,8 @@ class OrganizationAlias < ActiveRecord::Base
   belongs_to :organization
 
   scope :search, lambda { |term| where('lower(name) LIKE lower(?)', "#{term}%") }
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
 
   def formatted_name
     organization.name + " (" + name + ")"

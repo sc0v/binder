@@ -6,6 +6,7 @@
 #
 # Name                             | Type               | Attributes
 # -------------------------------- | ------------------ | ---------------------------
+# **`active`**                     | `boolean`          | `default(TRUE)`
 # **`andrewid`**                   | `string(255)`      |
 # **`cache_updated`**              | `datetime`         |
 # **`cached_department`**          | `string(255)`      |
@@ -47,7 +48,9 @@ class Participant < ActiveRecord::Base
   scope :search, lambda { |term| where('lower(andrewid) LIKE lower(?) OR lower(cached_name) LIKE lower(?)', "%#{term}%", "%#{term}%") }
   scope :scc, -> { joins(:organizations).where(organizations: {name: 'Spring Carnival Committee'}).group(:id) }
   scope :exec, -> { joins(:organizations).where(organizations: {name: 'Spring Carnival Committee'}).joins(:memberships).where(memberships: {is_booth_chair: true}).group(:id) }
-
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
+  
   def start_waiver_timer
     self.waiver_start = DateTime.now
     self.save

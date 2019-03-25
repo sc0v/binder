@@ -6,6 +6,7 @@
 #
 # Name                          | Type               | Attributes
 # ----------------------------- | ------------------ | ---------------------------
+# **`active`**                  | `boolean`          | `default(TRUE)`
 # **`created_at`**              | `datetime`         |
 # **`current_sign_in_at`**      | `datetime`         |
 # **`current_sign_in_ip`**      | `string(255)`      |

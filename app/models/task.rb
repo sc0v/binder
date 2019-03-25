@@ -6,6 +6,7 @@
 #
 # Name                   | Type               | Attributes
 # ---------------------- | ------------------ | ---------------------------
+# **`active`**           | `boolean`          | `default(TRUE)`
 # **`completed_by_id`**  | `integer`          |
 # **`created_at`**       | `datetime`         |
 # **`description`**      | `text(65535)`      |
@@ -27,6 +28,9 @@ class Task < ActiveRecord::Base
   scope :upcoming, lambda{ where("due_at < ?", DateTime.now + 4.hour) }
   scope :is_incomplete, lambda{ where(is_completed: [false, nil])}
   scope :is_complete, lambda{ where(is_completed: true)}
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
+  
   def is_past_due
     return self.due_at < Time.now
   end

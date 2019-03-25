@@ -6,6 +6,7 @@
 #
 # Name                            | Type               | Attributes
 # ------------------------------- | ------------------ | ---------------------------
+# **`active`**                    | `boolean`          | `default(TRUE)`
 # **`amount`**                    | `decimal(8, 2)`    |
 # **`charge_type_id`**            | `integer`          |
 # **`charged_at`**                | `datetime`         |

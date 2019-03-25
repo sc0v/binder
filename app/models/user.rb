@@ -6,6 +6,7 @@
 #
 # Name                          | Type               | Attributes
 # ----------------------------- | ------------------ | ---------------------------
+# **`active`**                  | `boolean`          | `default(TRUE)`
 # **`created_at`**              | `datetime`         |
 # **`current_sign_in_at`**      | `datetime`         |
 # **`current_sign_in_ip`**      | `string(255)`      |
@@ -44,6 +45,8 @@ class User < ActiveRecord::Base
   has_one :participant
 
   scope :search, lambda { |term| where('lower(name) LIKE lower(?) OR lower(email) LIKE lower(?)', "#{term}%", "#{term}%") }
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
 
   def self.find_for_shibboleth_oauth(request, _signed_in_resource=nil)
     user = User.where(:email => request.env["eppn"]).first

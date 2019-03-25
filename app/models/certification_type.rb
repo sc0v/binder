@@ -6,6 +6,7 @@
 #
 # Name              | Type               | Attributes
 # ----------------- | ------------------ | ---------------------------
+# **`active`**      | `boolean`          | `default(TRUE)`
 # **`created_at`**  | `datetime`         | `not null`
 # **`id`**          | `integer`          | `not null, primary key`
 # **`name`**        | `string(255)`      |
@@ -14,4 +15,6 @@
 
 class CertificationType < ActiveRecord::Base
   validates :name, :presence => true, :uniqueness => true
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
 end
