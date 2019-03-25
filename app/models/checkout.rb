@@ -6,6 +6,7 @@
 #
 # Name                   | Type               | Attributes
 # ---------------------- | ------------------ | ---------------------------
+# **`active`**           | `boolean`          | `default(TRUE)`
 # **`checked_in_at`**    | `datetime`         |
 # **`checked_out_at`**   | `datetime`         |
 # **`created_at`**       | `datetime`         |
@@ -45,5 +46,7 @@ class Checkout < ActiveRecord::Base
   default_scope { order('tool_id ASC, checked_out_at DESC') }
   scope :old, -> { where('checked_in_at IS NOT NULL') }
   scope :current, -> { where('checked_in_at IS NULL') }
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
 
 end

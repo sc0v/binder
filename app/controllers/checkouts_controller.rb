@@ -6,6 +6,7 @@
 #
 # Name                   | Type               | Attributes
 # ---------------------- | ------------------ | ---------------------------
+# **`active`**           | `boolean`          | `default(TRUE)`
 # **`checked_in_at`**    | `datetime`         |
 # **`checked_out_at`**   | `datetime`         |
 # **`created_at`**       | `datetime`         |

@@ -6,6 +6,7 @@
 #
 # Name                      | Type               | Attributes
 # ------------------------- | ------------------ | ---------------------------
+# **`active`**              | `boolean`          | `default(TRUE)`
 # **`charge_id`**           | `integer`          |
 # **`created_at`**          | `datetime`         | `not null`
 # **`id`**                  | `integer`          | `not null, primary key`
@@ -27,6 +28,10 @@ class StorePurchase < ActiveRecord::Base
   belongs_to :charge
   belongs_to :store_item
   has_one :organization, through: :charge
+  
+  #scopes
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
 
   #methods
   def self.items_in_cart
