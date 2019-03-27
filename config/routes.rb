@@ -1,5 +1,9 @@
 Trailerapp::Application.routes.draw do
 
+  get 'create_carnival', to: 'carnival_creation#showUploader', as: :show_uploader
+
+  get 'carnival_creation/showDiff'
+
   resources :event_types
   resources :events do
      member do
