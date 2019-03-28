@@ -1,8 +1,11 @@
 Trailerapp::Application.routes.draw do
 
-  get 'create_carnival', to: 'carnival_creation#showUploader', as: :show_uploader
+  get 'create_carnival', to: 'carnival_creation#show_uploader', as: :show_uploader
+  get 'create_carnival/show_diff', to: 'carnival_creation#show_diff', as: :show_diff
+  get 'create_carnival/show_end_index', to: 'carnival_creation#show_end_index', as: :show_end_index
 
-  get 'carnival_creation/showDiff'
+  post 'create_carnival/upload_csvs', to: 'carnival_creation#upload_csvs', as: :upload_csvs
+  post 'create_carnival/commit_changes', to: 'carnival_creation#commit_changes', as: :commit_changes
 
   resources :event_types
   resources :events do

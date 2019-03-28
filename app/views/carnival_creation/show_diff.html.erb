@@ -1,0 +1,14 @@
+<h1>CarnivalCreation#showDiff</h1>
+<h2>TO ADD:</h2>
+<% Rails.cache.read('organization_insertions').each do |e| %>
+  <p> <%= e %> </p>
+<% end %>
+
+<h2>TO DEACTIVATE</h2>
+<% Rails.cache.read('organization_deactivations').each do |e| %>
+  <p> <%= e %> </p>
+<% end %>
+
+<%= form_tag("/create_carnival/commit_changes", method: 'post') do %>
+  <%= submit_tag("Commit changes to DB") %>
+<% end %>
