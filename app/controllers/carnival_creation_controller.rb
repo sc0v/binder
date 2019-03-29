@@ -7,6 +7,7 @@ class CarnivalCreationController < ApplicationController
     @participant_adds = Rails.cache.read('participant_insertions') | Rails.cache.read('participant_reactivations')
     @membership_adds = Rails.cache.read('membership_insertions') |  Rails.cache.read('membership_reactivations')
     @tool_adds = Rails.cache.read('tool_insertions') |  Rails.cache.read('tool_reactivations')
+    @shift_adds = Rails.cache.read('shift_insertions')
 
     @organization_deactivations = Rails.cache.read('organization_deactivations')
     @participant_deactivations = Rails.cache.read('participant_deactivations')
@@ -20,6 +21,7 @@ class CarnivalCreationController < ApplicationController
     c.add_from_csv(params[:participant_csv].tempfile, 'participant')
     c.add_from_csv(params[:participant_csv].tempfile, 'membership')
     c.add_from_csv(params[:tool_csv].tempfile, 'tool')
+    c.add_from_csv(params[:shift_csv].tempfile, 'shift')
     redirect_to :show_diff
   end
 

@@ -14,12 +14,16 @@ class CsvUpdater
       add_organizations_from_csv(input_file)
     elsif tablename == 'tool'
       add_tools_from_csv(input_file)
-    else
+    elsif tablename == 'shift'
+      add_shifts_from_csv(input_file)
       # handle anything that is completely deactivated (incl. shifts)
     end
 
-    add_from_database(tablename)
-    compare(tablename)
+    if ['organization', 'tool', 'participant'].include?(tablename)
+      add_from_database(tablename)
+      compare(tablename)
+    end
+
     if tablename == 'participant'
       add_from_database('membership')
       compare('membership')
@@ -110,6 +114,24 @@ class CsvUpdater
     Rails.cache.write(full_string, full_set)
   end
 
+  def add_shifts_from_csv(input_file)
+    names_set = Set.new
+    full_set = Set.new
+
+    csv_text = File.read(input_file)
+    csv = CSV.parse(csv_text, :headers => true)
+
+    csv.each do |row|
+      full_set.add(row)
+    end
+
+    # not making shift_full_new because no comparison is done
+    full_string = 'shift_insertions'
+
+    # storing hashes in the default Rails cache
+    Rails.cache.write(full_string, full_set)
+  end
+
   # -------------------------------------------------------------------------------------
   # add_from_database methods
   # -------------------------------------------------------------------------------------
@@ -195,6 +217,7 @@ class CsvUpdater
     seed_participants()
     seed_memberships()
     seed_tools()
+    seed_shifts()
   end
   
   def seed_organizations
@@ -330,6 +353,40 @@ class CsvUpdater
         t.update(active: true)
       end
     end
+  end
+
+  def seed_shifts
+    # Deactivate all current shifts
+    Shift.active.each do |s|
+      s.update(active: false)
+    end
+
+    # Insert uploaded shifts
+    insertions = Rails.cache.read('shift_insertions')
+
+    insertions.each do |row|
+      organization = Organization.find_by_name(row['organization'].strip)
+      if !organization
+        puts '    Organization (' + row['organization'].strip + ') does not exist'
+        # error out
+      end
+    
+      shift_type ||= ShiftType.find_by_name(row['shift_type'].strip)
+      shift_type ||= ShiftType.create(name: row['shift_type'].strip)
+    
+      shift = Shift.create(organization: organization, shift_type: shift_type, starts_at: DateTime.strptime(row['starts_at'], '%m/%d/%Y %H:%M:%S'), ends_at: DateTime.strptime(row['ends_at'], '%m/%d/%Y %H:%M:%S'), required_number_of_participants: Integer(row['required_number_of_participants']))
+    
+      if (row['andrewid'] || "") != ""
+        participant = Participant.find_by_andrewid(row['andrewid'].strip)
+        if !participant
+          puts '    Participant (' + row['andrewid'] + ') does not exist'
+          # error out
+        end
+    
+        ShiftParticipant.create(shift: shift, participant: participant)
+      end
+    end
+    
   end
 
   
