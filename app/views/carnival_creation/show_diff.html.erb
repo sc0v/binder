@@ -1,51 +1,125 @@
-<h1>CarnivalCreation#showDiff</h1>
-<h2>TO ADD:</h2>
-<h3>Organizations</h3>
-<% @organization_adds.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
 
-<h3>Participants</h3>
-<% @participant_adds.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
+<h1> Carnival Creation Differences </h1>
 
-<h3>Memberships</h3>
-<% @membership_adds.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
+<div class="container">
+  <div class="row">
+    <div class="col-sm">
+      One of three columns
+    </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+    <div class="col-sm">
+      One of three columns
+    </div>
+  </div>
+</div>
 
-<h3>Tools</h3>
-<% @tool_adds.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
+<div class = "row">
 
-<h3>Shifts</h3>
-<% @shift_adds.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
+  <div class = "col-6">
+  ADDITIONS
+  </div>
 
-<h2>TO DEACTIVATE</h2>
-<h3>Organizations</h3>
-<% @organization_deactivations.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
+  <div class = "col-6">
+  DEACTIVATIONS
+  </div>
 
-<h3>Participants</h3>
-<% @participant_deactivations.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
+</div>
 
-<h3>Memberships</h3>
-<% @membership_deactivations.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
 
-<h3>Tools</h3>
-<% @tool_deactivations.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
+<div class = "row">
+  <div class = "col-6">
+    <table class="table table-striped table-add">
+      <thead><tr><th>Organizations</th></tr></thead>
+      <tbody>
+        <% @organization_adds.each do |e| %>
+          <tr class="table-success"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class = "col-6">
+    <table class="table table-striped table-deactivate">
+      <thead><tr><th>Organizations</th></tr></thead>
+      <tbody>
+        <% @organization_deactivations.each do |e| %>
+          <tr class="table-success"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<table class="table table-striped table-add">
+  <thead><tr><th>Participants</th></tr></thead>
+  <tbody>
+    <% @participant_adds.each do |e| %>
+      <tr class="table-success"><td> <%= e %> </td></tr>
+    <% end %>
+  </tbody>
+</table>
+
+<table class="table table-striped table-add">
+  <thead><tr><th>Participants</th></tr></thead>
+  <tbody>
+    <% @participant_deactivations.each do |e| %>
+      <tr class="table-success"><td> <%= e %> </td></tr>
+    <% end %>
+  </tbody>
+</table>
+
+<table class="table table-striped table-add">
+  <thead><tr><th>Memberships</th></tr></thead>
+  <tbody>
+    <% @membership_adds.each do |e| %>
+      <tr class="table-success"><td> <%= e %> </td></tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<table class="table table-striped table-add">
+  <thead><tr><th>Memberships</th></tr></thead>
+  <tbody>
+    <% @membership_deactivations.each do |e| %>
+      <tr class="table-success"><td> <%= e %> </td></tr>
+    <% end %>
+  </tbody>
+</table>
+
+
+<table class="table table-striped table-add">
+  <thead><tr><th>Tools</th></tr></thead>
+  <tbody>
+    <% @tool_adds.each do |e| %>
+      <tr class="table-success"><td> <%= e %> </td></tr>
+    <% end %>
+  </tbody>
+</table>
+
+<table class="table table-striped table-add">
+  <thead><tr><th>Tools</th></tr></thead>
+  <tbody>
+    <% @tool_deactivations.each do |e| %>
+      <tr class="table-success"><td> <%= e %> </td></tr>
+    <% end %>
+  </tbody>
+</table>
+
+<table class="table table-striped table-add">
+  <thead><tr><th>Shifts</th></tr></thead>
+  <tbody>
+    <% @shift_adds.each do |e| %>
+      <tr class="table-success"><td> <%= e %> </td></tr>
+    <% end %>
+  </tbody>
+</table>
+
 
 <%= form_tag("/create_carnival/commit_changes", method: 'post') do %>
   <%= submit_tag("Commit changes to DB") %>
 <% end %>
+
+
