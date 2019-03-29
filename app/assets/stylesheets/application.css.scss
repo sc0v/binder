@@ -10,9 +10,11 @@
  *
  *= require_self
  *= require_tree .
+ *= require datatables
 */
 
 @import "bootstrap";
+@import 'datatables';
 
 body {
   padding-bottom: 30px;
