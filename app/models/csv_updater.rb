@@ -12,14 +12,18 @@ class CsvUpdater
       add_memberships_from_csv(input_file)
     elsif tablename == 'organization'
       add_organizations_from_csv(input_file)
-    elsif tablename == 'tools'
+    elsif tablename == 'tool'
       add_tools_from_csv(input_file)
-    else
+    elsif tablename == 'shift'
+      add_shifts_from_csv(input_file)
       # handle anything that is completely deactivated (incl. shifts)
     end
 
-    add_from_database(tablename)
-    compare(tablename)
+    if ['organization', 'tool', 'participant'].include?(tablename)
+      add_from_database(tablename)
+      compare(tablename)
+    end
+
     if tablename == 'participant'
       add_from_database('membership')
       compare('membership')
@@ -50,7 +54,7 @@ class CsvUpdater
     Rails.cache.write(full_string, full_set)
   end
 
-  def add_tool_from_csv(input_file)
+  def add_tools_from_csv(input_file)
     names_set = Set.new
     full_set = Set.new
 
@@ -58,7 +62,7 @@ class CsvUpdater
     csv = CSV.parse(csv_text, :headers => true)
 
     csv.each do |row|
-      names_set.add(row['barcode'])
+      names_set.add(Integer(row['barcode']))
       full_set.add(row)
     end
 
@@ -101,16 +105,30 @@ class CsvUpdater
       names_set.add(row['andrewid'] + '.' + row['organization'].strip)
       full_set.add(row)
     end
-    puts("hi there")
-    full_set.each do |i|
-      puts i
-    end
 
     names_string = 'membership_names_new'
     full_string = 'membership_full_new'
 
     # storing hashes in the default Rails cache
     Rails.cache.write(names_string, names_set)
+    Rails.cache.write(full_string, full_set)
+  end
+
+  def add_shifts_from_csv(input_file)
+    names_set = Set.new
+    full_set = Set.new
+
+    csv_text = File.read(input_file)
+    csv = CSV.parse(csv_text, :headers => true)
+
+    csv.each do |row|
+      full_set.add(row)
+    end
+
+    # not making shift_full_new because no comparison is done
+    full_string = 'shift_insertions'
+
+    # storing hashes in the default Rails cache
     Rails.cache.write(full_string, full_set)
   end
 
@@ -194,6 +212,14 @@ class CsvUpdater
   # seed methods
   # -------------------------------------------------------------------------------------
 
+  def run_seeds
+    seed_organizations()
+    seed_participants()
+    seed_memberships()
+    seed_tools()
+    seed_shifts()
+  end
+  
   def seed_organizations
     insertions = Rails.cache.read('organization_insertions')
     deactivations = Rails.cache.read('organization_deactivations')
@@ -209,7 +235,7 @@ class CsvUpdater
           # error out somehow
           return nil
         end
-        Organization.create(name: row['name'].strip.titleize, organization_category: organization_category, short_name: row['short_name'])
+        Organization.create(name: row['name'].strip, organization_category: organization_category, short_name: row['short_name'])
       elsif reactivations.include? row['name']
         Organization.search(row['name']).first.update(active: true)
       end
@@ -218,9 +244,6 @@ class CsvUpdater
     # Deactivations
     Organization.active.each do |org|
       if deactivations.include? org.name
-        org.memberships.each do |m|
-          m.update(active: false)
-        end
         org.update(active: false)
       end
     end
@@ -248,18 +271,14 @@ class CsvUpdater
 
     # Deactivations
     # Should Users be deactivated along with Participants? (similarly with org aliases etc)
-    Participant.active.each do |p|
-      if deactivations.include? p
-        p.memberships.each do |m|
-          m.update(active: false)
-        end
-        p.update(active: false)
+    Participant.active.each do |i|
+      if deactivations.include?(i.andrewid)
+        i.update(active: false)
       end
     end
   end
 
   def seed_memberships
-    puts 'SEED MEMBERSHIPS'
     insertions = Rails.cache.read('membership_insertions')
     deactivations = Rails.cache.read('membership_deactivations')
     reactivations = Rails.cache.read('membership_reactivations')
@@ -282,9 +301,6 @@ class CsvUpdater
         participant = Participant.find_by_andrewid(andrewid)
 
         Membership.create(organization: organization, participant: participant, title: title, is_booth_chair: booth_chair)
-        puts 'created membership with'
-        puts andrewid
-        puts org
       end
     end
 
@@ -296,7 +312,84 @@ class CsvUpdater
       end
     end
 
+    # Reactivations
+   
+    Membership.inactive.each do |t|
+      if reactivations.include?(t)
+        t.update(active: true)
+      end
+    end
+
   end
+
+  def seed_tools
+    insertions = Rails.cache.read('tool_insertions')
+    deactivations = Rails.cache.read('tool_deactivations')
+    reactivations = Rails.cache.read('tool_reactivations')
+
+    # Insertions
+
+    Rails.cache.read('tool_full_new').each do |row|
+      barcode = Integer(row['barcode'])
+      if insertions.include?(barcode)
+        tool_type ||= ToolType.find_by_name(row['tool_type'].strip)
+        tool_type ||= ToolType.create(name: row['tool_type'].strip)
+        Tool.create(barcode: Integer(barcode), tool_type: tool_type, description: row['description'])
+      end
+    end
+
+    # Deactivations
+
+    Tool.active.each do |t|
+      if deactivations.include?(t.barcode)
+        t.update(active: false)
+      end
+    end
+
+    # Reactivations
+
+    Tool.inactive.each do |t|
+      if reactivations.include?(t.barcode)
+        t.update(active: true)
+      end
+    end
+  end
+
+  def seed_shifts
+    # Deactivate all current shifts
+    Shift.active.each do |s|
+      s.update(active: false)
+    end
+
+    # Insert uploaded shifts
+    insertions = Rails.cache.read('shift_insertions')
+
+    insertions.each do |row|
+      organization = Organization.find_by_name(row['organization'].strip)
+      if !organization
+        puts '    Organization (' + row['organization'].strip + ') does not exist'
+        # error out
+      end
+    
+      shift_type ||= ShiftType.find_by_name(row['shift_type'].strip)
+      shift_type ||= ShiftType.create(name: row['shift_type'].strip)
+    
+      shift = Shift.create(organization: organization, shift_type: shift_type, starts_at: DateTime.strptime(row['starts_at'], '%m/%d/%Y %H:%M:%S'), ends_at: DateTime.strptime(row['ends_at'], '%m/%d/%Y %H:%M:%S'), required_number_of_participants: Integer(row['required_number_of_participants']))
+    
+      if (row['andrewid'] || "") != ""
+        participant = Participant.find_by_andrewid(row['andrewid'].strip)
+        if !participant
+          puts '    Participant (' + row['andrewid'] + ') does not exist'
+          # error out
+        end
+    
+        ShiftParticipant.create(shift: shift, participant: participant)
+      end
+    end
+    
+  end
+
+  
   
 
 end
