@@ -4,10 +4,13 @@
 
   <%= form_tag("/create_carnival/upload_csvs", method: 'post', multipart: true) do %>
 
-    <h4>Organizations</h4><%= file_field_tag 'organization_csv'%><br>
-    <h4>Participants</h4><%= file_field_tag 'participant_csv'%> <br>
-    <h4>Tools</h4><%= file_field_tag 'tool_csv'%> <br>
-    <h4>Shifts</h4><%= file_field_tag 'shift_csv'%> <br>
+    <h4 class = "required">Organizations</h4><%= file_field_tag 'organization_csv', :required => true  %><br>
+    <h4 class = "required">Participants</h4><%= file_field_tag 'participant_csv', :required => true %> <br>
+    <h4 class = "required">Tools</h4><%= file_field_tag 'tool_csv', :required => true %> <br>
+    <h4 class = "required">Shifts</h4><%= file_field_tag 'shift_csv', :required => true %> <br>
+	<h4>Tasks</h4><%= file_field_tag 'task_csv'%> <br>
+	<h4>Certifications</h4><%= file_field_tag 'certification_csv'%> <br>
+
 
   <%= link_to "Upload CSVs", show_diff_path, :class => 'btn btn-primary' %>
   <% end %>

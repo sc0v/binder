@@ -23,3 +23,9 @@ input[type='file'] {
 .table-danger {
   background-color: #edb8b4;
 }
+
+.required:after { 
+  content:"*";
+  color: red;
+}
+
