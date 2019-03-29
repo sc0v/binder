@@ -31,7 +31,7 @@ class CarnivalCreationController < ApplicationController
     c.run_mandatory_seeds()
 
     # clear the cache, where all info about insertions/deletions was stored
-    # Rails.cache.clear
+    Rails.cache.clear
     
     redirect_to :show_end_index
   end
