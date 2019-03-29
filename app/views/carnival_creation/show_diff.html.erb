@@ -29,9 +29,10 @@
     <table class="table">
       <thead><tr><th>Participant Additions</th></tr></thead>
       <tbody>
-        <% @participant_adds.each do |e| %>
-          <tr class="table-success"><td> <%= e %> </td></tr>
-        <% end %>
+        <tr class="table-success"><th> Number of new participants is <%= @participant_adds.count %></th> </tr>
+<!--           <%# @participant_adds.each do |e| %>
+            <tr class="table-success"><td> <%# e %> </td></tr>
+          <%# end %> -->
       </tbody>
     </table>
   </div>
@@ -40,9 +41,10 @@
     <table class="table">
       <thead><tr><th>Participant Deactivations</th></tr></thead>
       <tbody>
-        <% @participant_deactivations.each do |e| %>
-          <tr class="table-danger"><td> <%= e %> </td></tr>
-        <% end %>
+        <tr class="table-danger"><th> Number of deactivated participants is <%= @participant_deactivations.count %></th> </tr>
+ <!--          <%# @participant_deactivations.each do |e| %>
+            <tr class="table-danger"><td> <%# e %> </td></tr>
+          <%# end %> -->
       </tbody>
     </table>
   </div>
