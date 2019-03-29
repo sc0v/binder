@@ -75,5 +75,9 @@ class Tool < ActiveRecord::Base
       return "#{barcode}: " + name
     end
   end
+
+  def active?
+    self.active
+  end
 end
 

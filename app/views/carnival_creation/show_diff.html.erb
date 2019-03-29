@@ -15,6 +15,11 @@
   <p> <%= e %> </p>
 <% end %>
 
+<h3>Tools</h3>
+<% @tool_adds.each do |e| %>
+  <p> <%= e %> </p>
+<% end %>
+
 <h2>TO DEACTIVATE</h2>
 <h3>Organizations</h3>
 <% @organization_deactivations.each do |e| %>
@@ -22,7 +27,17 @@
 <% end %>
 
 <h3>Participants</h3>
-<% @organization_deactivations.each do |e| %>
+<% @participant_deactivations.each do |e| %>
+  <p> <%= e %> </p>
+<% end %>
+
+<h3>Memberships</h3>
+<% @membership_deactivations.each do |e| %>
+  <p> <%= e %> </p>
+<% end %>
+
+<h3>Tools</h3>
+<% @tool_deactivations.each do |e| %>
   <p> <%= e %> </p>
 <% end %>
 

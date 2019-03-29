@@ -3,7 +3,14 @@
 <%= form_tag("/create_carnival/upload_csvs", method: 'post', multipart: true) do %>
   <p>Organizations!</p>
   <%= file_field_tag 'organization_csv' %>
+  
   <p>Participants!</p>
   <%= file_field_tag 'participant_csv' %>
+  
+  <p>Tools!</p>
+  <%= file_field_tag 'tool_csv' %>
+  
+  <br/>
+  <hr/>
   <%= submit_tag("upload csv's") %>
 <% end %>

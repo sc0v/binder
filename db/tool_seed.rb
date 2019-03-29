@@ -11,7 +11,7 @@ def generate_tools
   TOOLS.each do |tool|
     tool_type ||= ToolType.find_by_name(tool[:type].strip)
     tool_type ||= ToolType.create(name: tool[:type].strip)
-    Tool.create(barcode: tool[:barcode], tool_type: tool_type, description: tool[:description])
+    Tool.create(barcode: tool[:barcode], tool_type: tool_type, description: tool[:description], active: true)
   end
 end
 
