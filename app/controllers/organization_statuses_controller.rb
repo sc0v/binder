@@ -29,7 +29,7 @@ class OrganizationStatusesController < ApplicationController
   # GET /organizations/1/statuses
   # GET /organizations/1/statuses.json
   def index
-    @organization_statuses = @organization.organization_statuses.paginate(:page => params[:page]).per_page(10)
+    @organization_statuses = @organization.organization_statuses.active.paginate(:page => params[:page]).per_page(10)
   end
 
   # GET /organizations/1/statuses/1

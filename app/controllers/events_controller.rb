@@ -23,7 +23,7 @@ class EventsController < ApplicationController
   # GET /events
   # GET /events.json
   def index
-    @events = Event.all
+    @events = Event.active
   end
 
   # GET /events/1
@@ -34,7 +34,7 @@ class EventsController < ApplicationController
   # GET /events/new
   def new
     @event = Event.new
-    @scc_members = Participant.all.scc
+    @scc_members = Participant.active.scc
   end
 
   # PUT
@@ -46,7 +46,7 @@ class EventsController < ApplicationController
 
   # GET /events/1/edit
   def edit
-    @scc_members = Participant.all.scc
+    @scc_members = Participant.active.scc
     @event.updated_at = DateTime.now
     @event.save
   end

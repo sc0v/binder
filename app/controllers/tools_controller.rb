@@ -31,7 +31,7 @@ class ToolsController < ApplicationController
     @tools = Tool
     unless params[:organization_id].blank?
       @organization = Organization.find(params[:organization_id])
-      @tools = Tool.checked_out_by_organization(@organization)
+      @tools = Tool.active.checked_out_by_organization(@organization)
     end
 
     # Filter by tools

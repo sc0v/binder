@@ -30,7 +30,7 @@ class CheckoutsController < ApplicationController
   # GET /checkouts.json
   def index
     @tool = Tool.find(params[:tool_id])
-    @checkouts = @tool.checkouts
+    @checkouts = @tool.checkouts.active
     authorize! :read, @checkouts
 
     respond_to do |format|

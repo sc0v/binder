@@ -41,9 +41,9 @@ class ParticipantsController < ApplicationController
   def index
     unless ( params[:organization_id].blank? )
       @organization = Organization.find(params[:organization_id])
-      @participants = @organization.participants
+      @participants = @organization.participants.active
     else
-      @participants = Participant.all
+      @participants = Participant.active
     end
 
     @participants = @participants.paginate(:page => params[:page]).per_page(20)

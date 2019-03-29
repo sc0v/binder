@@ -35,9 +35,9 @@ class ChargesController < ApplicationController
   def index
     unless ( params[:organization_id].blank? )
       @organization = Organization.find(params[:organization_id])
-      @charges = @organization.charges
+      @charges = @organization.charges.active 
     else
-      @charges = Charge.all
+      @charges = Charge.active
     end
 
     @charges = @charges.paginate(:page => params[:page]).per_page(20)

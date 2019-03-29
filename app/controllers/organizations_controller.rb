@@ -27,7 +27,7 @@ class OrganizationsController < ApplicationController
   # GET /organizations.json
   def index
     if (params[:type] == "building")
-      @organizations = @organizations.only_categories(['Fraternity', 'Sorority', 'Independent', 'Blitz', 'Concessions'])
+      @organizations = @organizations.active.only_categories(['Fraternity', 'Sorority', 'Independent', 'Blitz', 'Concessions'])
     end
   end
 
