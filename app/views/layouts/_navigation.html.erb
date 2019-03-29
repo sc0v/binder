@@ -73,6 +73,10 @@
                 <% if can?(:create, :reports) %>
                   <li><%= link_to "Reports", reports_path %></li>
                 <% end %>
+                <% if current_user.has_role?(:admin) %>
+                  <li><%= link_to "Create Carnival" %></li>
+                  <li><%= link_to "Edit Carnival" %></li>
+                <% end %> 
               </ul>
             </li>
           <% end %>

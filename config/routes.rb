@@ -1,5 +1,7 @@
 Trailerapp::Application.routes.draw do
 
+  get 'carnival_creation/show_wizard'
+
   resources :event_types
   resources :events do
      member do
