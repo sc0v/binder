@@ -45,8 +45,6 @@ class WaiversController < ApplicationController
       redirect_to action: :new
     else
       @participant.phone_number = params[:phone_number]
-      c = PhoneCarrier.find(params[:participant][:phone_carrier_id])
-      @participant.phone_carrier = c
       @participant.has_signed_waiver = true
       @participant.save!
 

@@ -11,16 +11,12 @@ class Ability
     end
 
     can :read, [OrganizationAlias, OrganizationCategory, Organization, Participant,
-                ShiftType, Tool, ToolWaitlist, Membership]
+                ShiftType, Tool, Membership]
 
     can :search
 
     can :read, Checkout do |c|
       c.organization.participants.include?(user.participant)
-    end
-
-    can :read, Document do |d|
-      d.public? or (not d.organization.blank? and d.organization.participants.include?(user.participant))
     end
 
     can :read_basic_details, Organization do |o|
@@ -82,7 +78,6 @@ class Ability
 
       can [:create, :update], Charge
       can [:create, :update], Checkout
-      can [:create, :update], Document
       can [:create, :update, :approve], Event
       can [:create, :update], EventType
       can [:create, :update, :destroy], Membership
@@ -97,7 +92,6 @@ class Ability
       can [:create, :complete, :update], Task
       can [:create, :update], Tool
       can [:create, :update], ToolType
-      can [:create, :update , :destroy], ToolWaitlist
       can [:create, :destroy], Certification
     end
 

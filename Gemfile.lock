@@ -178,7 +178,7 @@ GEM
     mini_portile2 (2.0.0)
     minitest (5.8.4)
     multi_json (1.11.2)
-    mysql2 (0.4.4)
+    mysql2 (0.4.10)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
     net-ssh (3.1.1)
@@ -364,7 +364,7 @@ DEPENDENCIES
   jquery-datatables
   jquery-rails
   materialize-sass
-  mysql2
+  mysql2 (~> 0.4.10)
   newrelic_rpm
   omniauth
   omniauth-shibboleth

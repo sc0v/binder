@@ -6,6 +6,7 @@
 #
 # Name                            | Type               | Attributes
 # ------------------------------- | ------------------ | ---------------------------
+# **`active`**                    | `boolean`          | `default(TRUE)`
 # **`created_at`**                | `datetime`         |
 # **`id`**                        | `integer`          | `not null, primary key`
 # **`name`**                      | `string(255)`      |
@@ -37,7 +38,6 @@ class OrganizationsController < ApplicationController
     @tools = Tool.checked_out_by_organization(@organization).just_tools
     @shifts = @organization.shifts
     @participants = @organization.participants
-    @documents = @organization.documents
     @charges = @organization.charges
   end
 

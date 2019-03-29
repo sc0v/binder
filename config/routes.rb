@@ -1,6 +1,11 @@
 Trailerapp::Application.routes.draw do
 
-  get 'carnival_creation/show_wizard'
+  get 'create_carnival', to: 'carnival_creation#show_uploader', as: :show_uploader
+  get 'create_carnival/show_diff', to: 'carnival_creation#show_diff', as: :show_diff
+  get 'create_carnival/show_end_index', to: 'carnival_creation#show_end_index', as: :show_end_index
+
+  post 'create_carnival/upload_csvs', to: 'carnival_creation#upload_csvs', as: :upload_csvs
+  post 'create_carnival/commit_changes', to: 'carnival_creation#commit_changes', as: :commit_changes
 
   resources :event_types
   resources :events do
@@ -8,7 +13,7 @@ Trailerapp::Application.routes.draw do
       post 'approve'
     end
   end
-  resources :documents, :except => [:show]
+  
   resources :faqs, :except => [:show]
   resources :organizations do
     resources :aliases, :controller => :organization_aliases, :shallow => true, :only => [:create, :new, :destroy, :index]
@@ -56,11 +61,7 @@ Trailerapp::Application.routes.draw do
     end
   end
 
-  resources :tool_types , :except => [:show] do
-    resources :tool_waitlists, :only => [:new, :create, :destroy], :as => :waitlists do
-      post 'choose_organization', on: :collection
-    end
-  end
+  resources :tool_types , :except => [:show]
 
   resources :checkouts, :only => [:create] do
     post 'checkin', on: :collection

@@ -94,7 +94,7 @@ end
 
 group :development, :staging, :production do
   gem 'newrelic_rpm'
-  gem 'mysql2'
+  gem 'mysql2', '~> 0.4.10'
   gem 'capistrano3-delayed-job'
 end
 

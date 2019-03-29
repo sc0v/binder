@@ -34,12 +34,6 @@ FactoryGirl.define do
     association :organization
   end
 
-  # document
-  factory :document do
-    name "MyString"
-    url "MyString"
-  end
-
   #event 
   factory :event do
     association :event_type
@@ -149,16 +143,6 @@ FactoryGirl.define do
     barcode { generate(:barcode) }
     description "HAMMER"
     association :tool_type
-  end
-
-   # tool waitlist
-  factory :tool_waitlist do
-    wait_start_time Time.now
-    tool_type_id 1
-
-    association :tool_type
-    association :organization
-    association :participant
   end
 
   # user
