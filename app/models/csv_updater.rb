@@ -14,9 +14,8 @@ class CsvUpdater
       add_organizations_from_csv(input_file)
     elsif tablename == 'tool'
       add_tools_from_csv(input_file)
-    elsif tablename == 'shift'
-      add_shifts_from_csv(input_file)
-      # handle anything that is completely deactivated (incl. shifts)
+    elsif ['shift', 'task', 'event', 'certification', 'organization_status', 'shift_participant', 'store_purchase', 'organization_timeline_entry'].include?(tablename)
+      csv_to_cache(input_file, tablename)
     end
 
     if ['organization', 'tool', 'participant'].include?(tablename)
@@ -114,7 +113,7 @@ class CsvUpdater
     Rails.cache.write(full_string, full_set)
   end
 
-  def add_shifts_from_csv(input_file)
+  def csv_to_cache(input_file, tablename)
     names_set = Set.new
     full_set = Set.new
 
@@ -126,7 +125,7 @@ class CsvUpdater
     end
 
     # not making shift_full_new because no comparison is done
-    full_string = 'shift_insertions'
+    full_string = tablename + '_insertions'
 
     # storing hashes in the default Rails cache
     Rails.cache.write(full_string, full_set)
@@ -212,7 +211,7 @@ class CsvUpdater
   # seed methods
   # -------------------------------------------------------------------------------------
 
-  def run_seeds
+  def run_mandatory_seeds
     seed_organizations()
     seed_participants()
     seed_memberships()
@@ -385,11 +384,6 @@ class CsvUpdater
     
         ShiftParticipant.create(shift: shift, participant: participant)
       end
-    end
-    
+    end 
   end
-
-  
-  
-
 end

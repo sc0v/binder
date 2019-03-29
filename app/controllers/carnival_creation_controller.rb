@@ -28,7 +28,7 @@ class CarnivalCreationController < ApplicationController
   def commit_changes
     # TODO: dump current DB state
     c = CsvUpdater.new()
-    c.run_seeds()
+    c.run_mandatory_seeds()
 
     # clear the cache, where all info about insertions/deletions was stored
     # Rails.cache.clear
