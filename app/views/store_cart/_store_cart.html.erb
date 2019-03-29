@@ -1,32 +1,39 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <div class='row'>
-      <div class='col-xs-6'>Store Cart</div>
+      <div class='col-xs-9'>Store Cart</div>
       <div class='col-xs-3'>
-        <%= link_to 'New', new_event_path, class: 'btn btn-primary btn-xs' %>
-      </div>
-      <div class='col-xs-3'>
-        <a href="#sidebar-events-widget" onclick='_toggleText(this, "Show", "Hide")'
-           class="btn btn-info btn-xs"  data-toggle="collapse"><%= @events_sidebar.empty? ? "Show" : "Hide" %></a>
+        <a href="#sc_actions" onclick='_toggleText(this, "Show", "Hide")'
+           class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
       </div>
     </div>
   </div>
-  <div id='sidebar-events-widget' class="collapse <%= "in" if !@events_sidebar.empty? %> panel-body">
-    <table class="table table-condensed" style="margin-bottom: 0;">
+
+  <div id='sc_actions' class="collapse in panel-body">
+
+  <% if show_cart? %>
+    <table class="table table-striped">
       <thead>
-        <th>Note</th>
-        <th></th>
+        <tr>
+          <th>Name</th>
+          <th>Total</th>
+          <th>Actions</th>
+        </tr>
       </thead>
+
       <tbody>
-        <% @events_sidebar.each do |event| %>
-            <tr>
-              <td><%= link_to event.description.truncate(150), event_path(event) %></td>
-                <td style="text-align: right;">
-                  <%= link_to 'OK', approve_event_path(event), :method => :post, :class => 'btn btn-xs btn-success' %></td>
-              </td>
-            </tr>
-        <% end %>
+
+        <%= render partial: 'store/items/cart_widget', collection: StorePurchase.items_in_cart %>
+
       </tbody>
     </table>
+    
+  <% end %>
+
+    <% if can?(:create, StoreItem) and @organization.blank? %>
+    <%= link_to t('.new_item', :default => t("helpers.links.new_item")),
+    new_store_item_path,
+    :class => 'btn btn-primary', :style => "width: 100%" %>
+    <% end %>
   </div>
 </div>

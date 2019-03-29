@@ -14,44 +14,9 @@
     <%= link_to "Sign Waiver", new_waiver_path, :class => "btn btn-success" %>
   <% end %>
 
-  <%# if can?(:read, Charge) %>
-    <!-- <p><%# link_to "Charges", charges_path, :class => "btn btn-primary" %></p> -->
-  <%# end %>
-  <%# if can?(:read, Document) %>
-    <!-- <p><%# link_to "Documents", documents_path, :class => "btn btn-primary" %></p> -->
-  <%# end %>
-  <%# if can?(:downtime, OrganizationTimelineEntry) %>
-    <!-- <p><%# link_to "Downtime", downtime_index_path, :class => "btn btn-primary" %></p> -->
-  <%# end %>
-  <% if can?(:read, Faq) && !(current_user.has_role? :admin) %>
+  <% if can?(:read, Faq) && %>
     <%= link_to "FAQs", faqs_path, :class => "btn btn-primary" %>
   <% end %>
-  <% if can?(:read, Shift) && !(current_user.has_role? :admin) %>
-    <%= link_to "Shifts", shifts_path, :class => "btn btn-primary" %>
-  <% end %>
-  <%# if can?(:read, Task) %>
-    <!-- <p><%# link_to "Tasks", tasks_path, :class => "btn btn-primary" %></p> -->
-  <%# end %>
-  <%# if can?(:structural, OrganizationTimelineEntry) %>
-    <!-- <p><%# link_to "Structural Queue", structural_path, :class => "btn btn-primary" %></p> -->
-  <%# end %>
-  <%# if can?(:electrical, OrganizationTimelineEntry) %>
-    <!-- <p><%# link_to "Electrical Queue", electrical_path, :class => "btn btn-primary" %></p> -->
-  <%# end %>
-
-<!--   <%# if user_signed_in? then %>
-    <%# form_tag(search_path, class: 'form-inline', role: 'search') do %>
-      <div class="form-group">
-        <div class="input-group">
-          <%# text_field_tag('query', '', :size => 10, :class => 'form-control col-md-6') %>
-          <span class="input-group-btn">
-            <%# submit_tag('Search', :class => 'btn btn-default') %>
-          </span>
-        </div>
-      </div>
-    <%# end %>
-  <%# end %> -->
-
 
 </div> <br>
 
@@ -113,4 +78,3 @@
 
     <% end %>
   <% end %>
-
