@@ -1,6 +1,9 @@
 <h1>CarnivalCreation#showUploader</h1>
-<p>butts</p>
+
 <%= form_tag("/create_carnival/upload_csvs", method: 'post', multipart: true) do %>
-  <%= file_field_tag 'csv_file' %>
+  <p>Organizations!</p>
+  <%= file_field_tag 'organization_csv' %>
+  <p>Participants!</p>
+  <%= file_field_tag 'participant_csv' %>
   <%= submit_tag("upload csv's") %>
 <% end %>

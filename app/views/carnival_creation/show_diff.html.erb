@@ -1,11 +1,28 @@
 <h1>CarnivalCreation#showDiff</h1>
 <h2>TO ADD:</h2>
-<% Rails.cache.read('organization_insertions').each do |e| %>
+<h3>Organizations</h3>
+<% @organization_adds.each do |e| %>
+  <p> <%= e %> </p>
+<% end %>
+
+<h3>Participants</h3>
+<% @participant_adds.each do |e| %>
+  <p> <%= e %> </p>
+<% end %>
+
+<h3>Memberships</h3>
+<% @membership_adds.each do |e| %>
   <p> <%= e %> </p>
 <% end %>
 
 <h2>TO DEACTIVATE</h2>
-<% Rails.cache.read('organization_deactivations').each do |e| %>
+<h3>Organizations</h3>
+<% @organization_deactivations.each do |e| %>
+  <p> <%= e %> </p>
+<% end %>
+
+<h3>Participants</h3>
+<% @organization_deactivations.each do |e| %>
   <p> <%= e %> </p>
 <% end %>
 
