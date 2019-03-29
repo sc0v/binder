@@ -1,1 +1,20 @@
-<h1>CarnivalCreation#show_end_index</h1>
+<div class = "card bg-light">
+
+<h1>Add More Data to Carnival</h1><br>
+
+<%= form_tag("/create_carnival/upload_csvs", method: 'post', multipart: true) do %>
+
+
+		<h4>Events</h4><%= file_field_tag 'event_csv'%><br>
+		<h4>Tasks</h4><%= file_field_tag 'task_csv'%> <br>
+		<h4>Certifications</h4><%= file_field_tag 'certification_csv'%> <br>
+		<h4>Store Purchases</h4><%= file_field_tag 'store_purchase_csv'%> <br>
+		<h4>Organization Timeline Entries</h4><%= file_field_tag 'organization_timeline_entry_csv'%> <br>
+		<h4>Shift Participants</h4><%= file_field_tag 'shift_participant_csv'%> <br>
+		<h4>Organization Statuses</h4><%= file_field_tag 'organization_status_csv'%> <br>
+
+
+<%= link_to "Upload CSVs", show_diff_path, :class => 'btn btn-primary' %>
+<% end %>
+
+</div> 

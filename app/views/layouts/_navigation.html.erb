@@ -70,6 +70,12 @@
                 <% if can?(:create, :reports) %>
                   <li><%= link_to "Reports", reports_path %></li>
                 <% end %>
+                <% if is_admin? %>
+                  <li><%= link_to "Create Carnival", show_uploader_path %></li>
+                <% end %>
+                <% if is_admin? %>
+                  <li><%= link_to "Edit Carnival", show_end_index_path %></li>
+                <% end %>
               </ul>
             </li>
           <% end %>

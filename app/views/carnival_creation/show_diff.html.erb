@@ -1,51 +1,117 @@
-<h1>CarnivalCreation#showDiff</h1>
-<h2>TO ADD:</h2>
-<h3>Organizations</h3>
-<% @organization_adds.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
+<h1> <center> Carnival Creation Differences </center> </h1>
 
-<h3>Participants</h3>
-<% @participant_adds.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
+<div class = "row">
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Organizations Additions </th></tr></thead>
+      <tbody>
+        <% @organization_adds.each do |e| %>
+          <tr class="table-success"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-<h3>Memberships</h3>
-<% @membership_adds.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Organizations Deactivations</th></tr></thead>
+      <tbody>
+        <% @organization_deactivations.each do |e| %>
+          <tr class="table-danger"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-<h3>Tools</h3>
-<% @tool_adds.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
+<div class = "row">
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Participants Additions</th></tr></thead>
+      <tbody>
+        <% @participant_adds.each do |e| %>
+          <tr class="table-success"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-<h3>Shifts</h3>
-<% @shift_adds.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Participants Deactivations</th></tr></thead>
+      <tbody>
+        <% @participant_deactivations.each do |e| %>
+          <tr class="table-danger"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-<h2>TO DEACTIVATE</h2>
-<h3>Organizations</h3>
-<% @organization_deactivations.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
 
-<h3>Participants</h3>
-<% @participant_deactivations.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
+<div class = "row">
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Memberships Additions</th></tr></thead>
+      <tbody>
+        <% @membership_adds.each do |e| %>
+          <tr class="table-success"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 
-<h3>Memberships</h3>
-<% @membership_deactivations.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Membership Deactivationss</th></tr></thead>
+      <tbody>
+        <% @membership_deactivations.each do |e| %>
+          <tr class="table-danger"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
 
-<h3>Tools</h3>
-<% @tool_deactivations.each do |e| %>
-  <p> <%= e %> </p>
-<% end %>
 
-<%= form_tag("/create_carnival/commit_changes", method: 'post') do %>
-  <%= submit_tag("Commit changes to DB") %>
-<% end %>
+
+<div class = "row">
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Tools Additions</th></tr></thead>
+      <tbody>
+        <% @tool_adds.each do |e| %>
+          <tr class="table-success"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Tools Deactivations</th></tr></thead>
+      <tbody>
+        <% @tool_deactivations.each do |e| %>
+          <tr class="table-danger"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class = "row">
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Shifts Additions</th></tr></thead>
+      <tbody>
+        <% @shift_adds.each do |e| %>
+          <tr class="table-success"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  <%= form_tag("/create_carnival/commit_changes", method: 'post') do %>
+    <%= submit_tag "Commit changes to DB" , :class => 'btn btn-primary'  %>
+  <% end %>
