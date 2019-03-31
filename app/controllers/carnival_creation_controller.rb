@@ -1,4 +1,6 @@
 class CarnivalCreationController < ApplicationController
+  before_filter { authorize! :manage, :carnival_creation }
+
   def show_uploader
   end
 
