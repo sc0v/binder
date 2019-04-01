@@ -78,7 +78,7 @@ class OrganizationTimelineEntry < ActiveRecord::Base
       when 'structural'
         ENV["SLACK_BOT_STRUCTURAL_CHANNEL"]
       when 'electrical'
-        ENV["SLACK_BOT_ELECTRICSL_CHANNEL"]
+        ENV["SLACK_BOT_ELECTRICAL_CHANNEL"]
     end
     
     groupme_bot_id = case entry_type
