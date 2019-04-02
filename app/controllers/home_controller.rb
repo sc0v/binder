@@ -16,19 +16,19 @@ class HomeController < ApplicationController
 
     @query = params[:query]
 
-    @participant_lookup = Participant.find_by_card(@query, true)
+    @participant_lookup = Participant.active.find_by_card(@query, true)
     unless @participant_lookup.nil?
       redirect_to @participant_lookup
     end
 
-    @tool_lookup = Tool.find_by_barcode(@query)
+    @tool_lookup = Tool.active.find_by_barcode(@query)
     unless @tool_lookup.nil?
       redirect_to @tool_lookup
       return
     end
 
-    @org = Organization.where('lower(name) = lower(?) OR lower(short_name) = lower(?)', @query, @query).first
-    org_alias = OrganizationAlias.where('lower(name) = lower(?)', @query).first unless !@org.blank?
+    @org = Organization.active.where('lower(name) = lower(?) OR lower(short_name) = lower(?)', @query, @query).first
+    org_alias = OrganizationAlias.active.where('lower(name) = lower(?)', @query).first unless !@org.blank?
     @org = org_alias.organization unless org_alias.blank?
 
     unless @org.blank?
@@ -36,13 +36,13 @@ class HomeController < ApplicationController
       return
     end
 
-    @faqs = Faq.search(@query) if can?(:read, Faq)
-    @participants = Participant.search(@query)
-    @tools = Tool.search(@query)
-    @organizations = Organization.search(@query)
-    @organization_aliases = OrganizationAlias.search(@query)
+    @faqs = Faq.active.search(@query) if can?(:read, Faq)
+    @participants = Participant.active.search(@query)
+    @tools = Tool.active.search(@query)
+    @organizations = Organization.active.search(@query)
+    @organization_aliases = OrganizationAlias.active.search(@query)
 
-    @new_participant = Participant.search_ldap(@query)
+    @new_participant = Participant.active.search_ldap(@query)
   end
 
   def dev_login
