@@ -218,6 +218,16 @@ class CsvUpdater
     seed_tools()
     seed_shifts()
   end
+
+  def run_optional_seeds
+    if Rails.cache.read('task_insertions')
+      seed_tasks()
+    end
+
+    if Rails.cache.read('certification_insertions')
+      seed_certifications()
+    end
+  end
   
   def seed_organizations
     insertions = Rails.cache.read('organization_insertions')
@@ -386,4 +396,76 @@ class CsvUpdater
       end
     end 
   end
+
+  def seed_certifications
+    insertions = Rails.cache.read('certification_insertions')
+
+    insertions.each do |row|
+      certification_type = CertificationType.find_by_name(row['certification'].strip)
+      if !certification_type
+        tool_type = ToolType.find_by_name(row['certification'].strip)
+        if !tool_type
+          tool_type = ToolType.create(name: row['certification'].strip)
+          puts '    ToolType (' + row['certification'].strip + ') did not exist, created it'
+        end
+    
+        certification_type = CertificationType.create(name: row['certification'].strip)
+        ToolTypeCertification.create(tool_type: tool_type, certification_type: certification_type)
+      end
+    
+      participant = Participant.find_by_andrewid(row['andrewid'].strip)
+      if !participant
+        user = User.create(email: row['andrewid'].strip + "@andrew.cmu.edu")
+        participant = Participant.create(andrewid: row['andrewid'], user: user)
+      end
+    
+      Certification.create(participant: participant, certification_type: certification_type)
+    end
+  end
+
+  def seed_tasks
+    insertions = Rails.cache.read('task_insertions')
+
+    insertions.each do |row|
+      Task.create(name: row['name'].strip, description: row['description'].strip, due_at: DateTime.strptime(row['due_at'], '%m/%d/%Y %H:%M:%S'))
+    end
+  end
+
+  # -------------------------------------------------------------------------------------
+  # deactivation methods
+  # -------------------------------------------------------------------------------------
+
+  def deactivate_tables
+    Certification.active.each do |e|
+      e.update(active:false)
+    end
+    Task.active.each do |e|
+      e.update(active:false)
+    end
+    Event.active.each do |e|
+      e.update(active:false)
+    end
+    OrganizationStatus.active.each do |e|
+      e.update(active:false)
+    end
+    ShiftParticipant.active.each do |e|
+      e.update(active:false)
+    end
+    StorePurchase.active.each do |e|
+      e.update(active:false)
+    end
+    OrganizationTimelineEntry.active.each do |e|
+      e.update(active:false)
+    end
+  end
+
+  def deactivate_optional_tables
+    Task.active.each do |e|
+      e.update(active:false)
+    end
+    Certification.active.each do |e|
+      e.update(active:false)
+    end
+  end
+
 end

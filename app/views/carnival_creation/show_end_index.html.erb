@@ -2,7 +2,7 @@
 
 <h1>Add More Data to Carnival</h1><br>
 
-<%= form_tag("/create_carnival/upload_csvs", method: 'post', multipart: true) do %>
+<%= form_tag("/create_carnival/upload_optional_csvs", method: 'post', multipart: true) do %>
 
 
 		<h4>Tasks</h4><%= file_field_tag 'task_csv'%> <br>

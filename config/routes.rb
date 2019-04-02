@@ -6,6 +6,7 @@ Trailerapp::Application.routes.draw do
 
   post 'create_carnival/upload_csvs', to: 'carnival_creation#upload_csvs', as: :upload_csvs
   post 'create_carnival/commit_changes', to: 'carnival_creation#commit_changes', as: :commit_changes
+  post 'create_carnival/upload_optional_csvs', to: 'carnival_creation#upload_optional_csvs', as: :upload_optional_csvs
 
   resources :event_types
   resources :events do
