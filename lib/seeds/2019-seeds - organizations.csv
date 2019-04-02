@@ -14,7 +14,7 @@ Architecture Pavilion (Entranceway),Independent,Architecture,TRUE
 Sigma Phi Epsilon,Fraternity,SigEp,TRUE
 Asian Student Association,Independent,ASA,TRUE
 Kappa Kappa Gamma,Sorority,Kappa,TRUE
-Delta Delta Dleta,Sorority,TriDelt,TRUE
+Delta Delta Delta,Sorority,TriDelt,TRUE
 Taiwanese Students Association,Independent,TSA,TRUE
 Alpha Phi Omega,Concessions,APhiO,TRUE
 The Old Mill,Other Building,,TRUE
@@ -25,3 +25,5 @@ Alpha Epsilon Pi,Fraternity,AEPi,TRUE
 Chinese Students Association,Independent,CSA,TRUE
 "Student Leadership, Involvement, and Civic Engagement",Staff,SLICE,FALSE
 Department of Student Affairs,Staff,DoSA,FALSE
+University Rowing Club,Non-Building,Rowing,FALSE
+Juntos,Non-Building,,FALSE
