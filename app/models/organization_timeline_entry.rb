@@ -72,17 +72,32 @@ class OrganizationTimelineEntry < ActiveRecord::Base
   end
 
   def notify_booth_committee
-    # post in the relevant groupme when someone joins a queue
-    bot_id = case entry_type
+    # post in the relevant groupme/slack when someone joins a queue
+    
+    slack_channel = case entry_type
       when 'structural'
-        ENV["STRUCTURAL_BOT_ID"]
+        ENV["SLACK_BOT_STRUCTURAL_CHANNEL"]
       when 'electrical'
-        ENV["ELECTRICAL_BOT_ID"]
+        ENV["SLACK_BOT_ELECTRICAL_CHANNEL"]
     end
-
-    if not bot_id.nil?
-      description_text = description.blank? ? "was added" : "needs #{description}"
-      send_groupme(bot_id, "#{entry_type.titlecase} Queue: #{organization.short_name} #{description_text}")
+    
+    groupme_bot_id = case entry_type
+      when 'structural'
+        ENV["GROUPME_STRUCTURAL_BOT_ID"]
+      when 'electrical'
+        ENV["GROUPME_ELECTRICAL_BOT_ID"]
     end
+    
+    description_text = description.blank? ? "was added" : "was added for: #{description}"
+    message_text = "#{entry_type.titlecase} Queue: #{organization.short_name} #{description_text}"
+    
+    if not slack_channel.nil?
+      send_slack(slack_channel, message_text)
+    end
+    
+    if not groupme_bot_id.nil?
+      send_groupme(groupme_bot_id, message_text)
+    end
+    
   end
 end
