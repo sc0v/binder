@@ -1,0 +1,30 @@
+name,description,default_amount
+Store Purchase,,
+Watch Shift - Failure to comply,Watch Shift refused to follow the orders of the coordinator.,25
+Watch Shift - Failure to remain,Watch Shift left before being dismissed by the coordinator. Fine per person.,25
+Watch Shift - Late Arrival,"Watch shift was less than 15 mins late. (Fine is per person, adjust as necessary)",20
+Watch Shift - Missed,"Watch shift was more than 15 minutes late. (Fine per person, adjust as necessary. If they show up 15-45 mins late and complete their obligations the fine will be halved.)",100
+Building - Impeding fire lane or spillover space,Impeding designated fire lanes or other organizations spill-over space.,25
+Building - Spilled paint,"Paint spilled on the parking lot while painting a booth. (Fine is per square foot, as measured by length times height rounded up to the nearest foot.)",50
+"Building - Missing hardhat, wristband, and/or safety glasses","Being on Midway without a wristband, hardhat, and/or safety glasses.",15
+Building - Non-builders helping build,Non-builders helping with the construction of a booth.,15
+Building - Quiet hours,Making noise during quiet hours that can be heard more than 20 feet from a booth.,25
+Building - Failure to comply with SCC,Failure to comply with a request by SCC or Structural Oversight Committee to structurally alter a booth.,100
+Building - Unauthorized plan deviation,Changing building or structural plans without approval. Fine to be determined by Rules Committee.,100
+Electrical - Circuit breaker trip,Causing a circuit breaker to trip.,25
+Electrical - Unauthorized electical connection,Connecting wiring to power that has not been approved.,100
+Electrical - Unsafe electical condition,Taking actions resulting in an unsafe electrical condition.,200
+Operations - Failure to clean plot,Failure to clean plot daily as directed by SCC.,25
+Operations - Clean-up hours,Failure to supply 6 man-hours of work for overall cleanup prior to opening. Fine per man-hour.,50
+Operations - On Midway when closed,Being on Midway without permission during the closed hours. Fine per person.,25
+Operations - Unauthorized vehicle,In a vehicle on Midway without permission. Fine determined by Rules Committee,0
+Staffing Booth - Intoxicated,Staffing a booth while intoxicated.,100
+Teardown - On Midway 5:00-5:30pm,"Tearing down 5:00-5:30pm. (Fine per minute, adjust as neccessary)",1
+Teardown - On Midway 5:30-6:00pm,"Tearing down 5:30-6:00pm. (Fine per minute, adjust as neccessary)",5
+Teardown - On Midway after 6:00pm,"Tearing down after 6:00pm. (Fine per minute, adjust as neccessary)",10
+Teardown - Vehicle assisted teardown,Using a vehicle to demolish a booth.,5
+Booth - Missed meeting,"Failure to attend a regularly scheduled meeting. (Fine per meeting, adjust as neccessary)",10
+Booth - Missed training,"Failure to attend a training session. (Fine per training, adjust as neccessary)",1000
+Booth - Missed deadline,"Missing a deadline set by Booth Committee. (Fine per day, adjust as neccessary)",25
+Booth - Fine credit,Credit towards fines.,50
+Other,Any other violation. Please document extensively and inform the Spring Carnival Chair and Head of Booth,10
