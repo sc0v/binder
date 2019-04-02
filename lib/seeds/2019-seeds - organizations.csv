@@ -1,0 +1,27 @@
+name,organization_category,short_name,is_building
+Spring Carnival Committee,SCC,SCC,FALSE
+Astronomy Club,Blitz,Astro,TRUE
+Fringe,Independent,,TRUE
+Sustainable Earth,Independent,SE,TRUE
+Alpha Phi,Sorority,APhi,TRUE
+Kappa Alpha Theta,Sorority,Theta,TRUE
+Alpha Chi Omega,Sorority,AXO,TRUE
+Delta Gamma,Sorority,DG,TRUE
+Taiwanese Students Association,Independent,TSA,TRUE
+Kappa Sigma,Blitz,KapSig,TRUE
+American Society of Chemical Engineers,Blitz,ASCE,TRUE
+Architecture Pavilion (Entranceway),Independent,Architecture,TRUE
+Sigma Phi Epsilon,Fraternity,SigEp,TRUE
+Asian Student Association,Independent,ASA,TRUE
+Kappa Kappa Gamma,Sorority,Kappa,TRUE
+Delta Delta Dleta,Sorority,TriDelt,TRUE
+Taiwanese Students Association,Independent,TSA,TRUE
+Alpha Phi Omega,Concessions,APhiO,TRUE
+The Old Mill,Other Building,,TRUE
+Phi Delta Theta,Fraternity,PhiDelt,TRUE
+Student Dormitory Council,Independent,SDC,TRUE
+Delta Tau Delta,Fraternity,Delt,TRUE
+Alpha Epsilon Pi,Fraternity,AEPi,TRUE
+Chinese Students Association,Independent,CSA,TRUE
+"Student Leadership, Involvement, and Civic Engagement",Staff,SLICE,FALSE
+Department of Student Affairs,Staff,DoSA,FALSE
