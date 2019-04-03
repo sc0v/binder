@@ -6,6 +6,7 @@
 #
 # Name              | Type               | Attributes
 # ----------------- | ------------------ | ---------------------------
+# **`active`**      | `boolean`          | `default(TRUE)`
 # **`created_at`**  | `datetime`         | `not null`
 # **`id`**          | `integer`          | `not null, primary key`
 # **`name`**        | `string(255)`      |
@@ -16,6 +17,9 @@
 
 class StoreItem < ActiveRecord::Base
   has_many :store_purchases
+  
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
 
   def quantity_available
     unless self.quantity.nil?

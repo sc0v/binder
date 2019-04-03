@@ -12,8 +12,7 @@ class ListBoothChairsReport < Dossier::Report
   def sql
     Membership.joins(:organization, :participant).booth_chairs
               .select('organizations.name AS \'Organization\'', 'andrewid AS \'Andrew ID\'',
-                      'phone_number AS \'Phone Number\'',
-                      '(SELECT phone_carriers.name FROM phone_carriers WHERE phone_carriers.id = participants.phone_carrier_id) AS \'Phone Carrier\'')
+                      'phone_number AS \'Phone Number\'')
               .order('organizations.name, andrewid').to_sql
   end
 end

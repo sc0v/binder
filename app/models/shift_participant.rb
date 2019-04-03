@@ -6,6 +6,7 @@
 #
 # Name                  | Type               | Attributes
 # --------------------- | ------------------ | ---------------------------
+# **`active`**          | `boolean`          | `default(TRUE)`
 # **`clocked_in_at`**   | `datetime`         |
 # **`created_at`**      | `datetime`         |
 # **`id`**              | `integer`          | `not null, primary key`
@@ -29,6 +30,8 @@ class ShiftParticipant < ActiveRecord::Base
   belongs_to :participant, :touch => true
 
   scope :checked_in_late, lambda{ joins(:shift).where('starts_at < ? AND clocked_in_at > starts_at', Time.zone.now)}
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
 
   # For lookups
   def card_number=( card_number )

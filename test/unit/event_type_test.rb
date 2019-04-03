@@ -4,12 +4,12 @@
 #
 # ### Columns
 #
-# Name            | Type               | Attributes
-# --------------- | ------------------ | ---------------------------
-# **`display`**   | `boolean`          |
-# **`id`**        | `integer`          | `not null, primary key`
-# **`name`**      | `string(255)`      |
-# **`priority`**  | `integer`          |
+# Name           | Type               | Attributes
+# -------------- | ------------------ | ---------------------------
+# **`active`**   | `boolean`          | `default(TRUE)`
+# **`display`**  | `boolean`          |
+# **`id`**       | `integer`          | `not null, primary key`
+# **`name`**     | `string(255)`      |
 #
 
 class EventTypeTest < ActiveSupport::TestCase

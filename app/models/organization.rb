@@ -6,6 +6,7 @@
 #
 # Name                            | Type               | Attributes
 # ------------------------------- | ------------------ | ---------------------------
+# **`active`**                    | `boolean`          | `default(TRUE)`
 # **`created_at`**                | `datetime`         |
 # **`id`**                        | `integer`          | `not null, primary key`
 # **`name`**                      | `string(255)`      |
@@ -31,7 +32,6 @@ class Organization < ActiveRecord::Base
   has_many :organization_timeline_entries, :dependent => :destroy
   has_many :participants, :through => :memberships
   has_many :charges, :dependent => :destroy
-  has_many :documents, :dependent => :destroy
   has_many :tools, :through => :checkouts
   has_many :checkouts, :dependent => :destroy
   has_many :shifts
@@ -40,6 +40,8 @@ class Organization < ActiveRecord::Base
 
   scope :only_categories, lambda {|category_name_array| joins(:organization_category).where(organization_categories: {name: category_name_array}) }
   scope :search, lambda { |term| where('lower(name) LIKE lower(?) OR lower(short_name) LIKE lower(?)', "%#{term}%", "%#{term}%") }
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
   
   def booth_chairs
     memberships.booth_chairs.map{|m| m.participant}

@@ -9,7 +9,7 @@
 
 require 'csv'
 
-gdrive_doc = "2018-seeds"
+gdrive_doc = "2019-seeds"
 gdrive_doc = gdrive_doc + " - "
 
 puts
@@ -28,14 +28,6 @@ csv.each do |row|
     fail
   end
   Organization.create(name: row['name'].strip, organization_category: organization_category, short_name: row['short_name'])
-end
-
-puts '  Phone Carriers'
-
-csv_text = File.read(Rails.root.join('lib', 'seeds', gdrive_doc + 'phone_carriers.csv'))
-csv = CSV.parse(csv_text, :headers => true)
-csv.each do |row|
-  PhoneCarrier.create(name: row['name'].strip)
 end
 
 puts '  Participants'

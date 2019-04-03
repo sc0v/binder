@@ -6,6 +6,7 @@
 #
 # Name                                 | Type               | Attributes
 # ------------------------------------ | ------------------ | ---------------------------
+# **`active`**                         | `boolean`          | `default(TRUE)`
 # **`created_at`**                     | `datetime`         |
 # **`default_amount`**                 | `decimal(8, 2)`    |
 # **`description`**                    | `text(65535)`      |

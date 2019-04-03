@@ -6,7 +6,7 @@ Trailerapp::Application.routes.draw do
       post 'approve'
     end
   end
-  resources :documents, :except => [:show]
+  
   resources :faqs, :except => [:show]
   resources :organizations do
     resources :aliases, :controller => :organization_aliases, :shallow => true, :only => [:create, :new, :destroy, :index]
@@ -54,11 +54,7 @@ Trailerapp::Application.routes.draw do
     end
   end
 
-  resources :tool_types , :except => [:show] do
-    resources :tool_waitlists, :only => [:new, :create, :destroy], :as => :waitlists do
-      post 'choose_organization', on: :collection
-    end
-  end
+  resources :tool_types , :except => [:show]
 
   resources :checkouts, :only => [:create] do
     post 'checkin', on: :collection

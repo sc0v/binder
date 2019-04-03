@@ -42,4 +42,18 @@ module Messenger
     end
   end
 
+  def send_slack(channel, text)
+    # Send a message using the slack API: https://api.slack.com/methods/chat.postMessage
+    slack_token = ENV["SLACK_BOT_TOKEN"]
+    
+    if (not Rails.env.test?) and (not slack_token.nil?)
+      uri = URI.parse('https://slack.com/api/chat.postMessage')
+      http = Net::HTTP.new(uri.host, uri.port)
+      http.use_ssl = true
+      req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+      req.body = {channel: channel, text: text, token: slack_token}.to_json
+      http.request(req)
+    end
+  end
+
 end

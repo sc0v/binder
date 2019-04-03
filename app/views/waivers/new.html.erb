@@ -10,7 +10,7 @@
 <h2><%= Time.now.year %> SPRING CARNIVAL MIDWAY RELEASE OF LIABILITY</h2>
 
 <p>
-I, <%= @user.name %>, want to participate in Carnegie Mellon University (“CMU”) <%= Time.now.year %> Spring Carnival Midway construction
+I, <strong><%= @user.name %></strong>, want to participate in Carnegie Mellon University (“CMU”) <%= Time.now.year %> Spring Carnival Midway construction
 activities and/or be present on the Midway construction site (collectively, the “Activities.”) I understand
 that the Activities may involve climbing, crawling, physical exertion, the use of and/or proximity to hand
 and power tools and construction materials and equipment.
@@ -48,10 +48,6 @@ unenforceable or ineffective, they shall be deemed severable and all other provi
     <div>
       <%= label_tag :emergency_phone, "Cell Phone:" %>
       <%= text_field_tag :phone_number %>
-    </div>
-    <div>
-      <%= label_tag :emergency_phone, "Phone Carrier:" %>
-      <%= collection_select(:participant, :phone_carrier_id, PhoneCarrier.all, :id, :name) %>
     </div>
   </div>
 

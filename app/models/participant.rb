@@ -6,6 +6,7 @@
 #
 # Name                             | Type               | Attributes
 # -------------------------------- | ------------------ | ---------------------------
+# **`active`**                     | `boolean`          | `default(TRUE)`
 # **`andrewid`**                   | `string(255)`      |
 # **`cache_updated`**              | `datetime`         |
 # **`cached_department`**          | `string(255)`      |
@@ -17,16 +18,10 @@
 # **`has_signed_hardhat_waiver`**  | `boolean`          |
 # **`has_signed_waiver`**          | `boolean`          |
 # **`id`**                         | `integer`          | `not null, primary key`
-# **`phone_carrier_id`**           | `integer`          |
 # **`phone_number`**               | `string(255)`      |
 # **`updated_at`**                 | `datetime`         |
 # **`user_id`**                    | `integer`          |
 # **`waiver_start`**               | `datetime`         |
-#
-# ### Indexes
-#
-# * `index_participants_on_phone_carrier_id`:
-#     * **`phone_carrier_id`**
 #
 
 class Participant < ActiveRecord::Base
@@ -46,7 +41,6 @@ class Participant < ActiveRecord::Base
   has_many :certifications, dependent: :destroy
   has_many :organization_statuses, dependent: :destroy
   has_many :events
-  belongs_to :phone_carrier
   belongs_to :user, dependent: :destroy
 
 
@@ -54,7 +48,9 @@ class Participant < ActiveRecord::Base
   scope :search, lambda { |term| where('lower(andrewid) LIKE lower(?) OR lower(cached_name) LIKE lower(?)', "%#{term}%", "%#{term}%") }
   scope :scc, -> { joins(:organizations).where(organizations: {name: 'Spring Carnival Committee'}).group(:id) }
   scope :exec, -> { joins(:organizations).where(organizations: {name: 'Spring Carnival Committee'}).joins(:memberships).where(memberships: {is_booth_chair: true}).group(:id) }
-
+  scope :active,       -> { where(active: true) }
+  scope :inactive,     -> { where(active: false) }
+  
   def start_waiver_timer
     self.waiver_start = DateTime.now
     self.save
