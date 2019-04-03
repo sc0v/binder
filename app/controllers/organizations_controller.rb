@@ -34,11 +34,11 @@ class OrganizationsController < ApplicationController
   # GET /organizations/1
   # GET /organizations/1.json
   def show
-    @booth_chairs = @organization.booth_chairs
-    @tools = Tool.checked_out_by_organization(@organization).just_tools
-    @shifts = @organization.shifts
-    @participants = @organization.participants
-    @charges = @organization.charges
+    @booth_chairs = @organization.booth_chairs.keep_if { |p| p.active }
+    @tools = Tool.checked_out_by_organization(@organization).just_tools.active
+    @shifts = @organization.shifts.active
+    @participants = @organization.memberships.active.map{|m| m.participant}
+    @charges = @organization.charges.active
   end
 
   # GET /organizations/new
@@ -72,7 +72,7 @@ class OrganizationsController < ApplicationController
   end
   
   def hardhats
-    @hardhats = Tool.checked_out_by_organization(@organization).hardhats
+    @hardhats = Tool.checked_out_by_organization(@organization).hardhats.active
   end
 
   private

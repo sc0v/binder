@@ -67,7 +67,7 @@ class ParticipantsController < ApplicationController
   # GET /participants/1
   # GET /participants/1.json
   def show
-    @memberships = @participant.memberships.all
+    @memberships = @participant.memberships.active
 
     if @memberships.empty?
       @wristband = "None - No organizations"
@@ -81,7 +81,7 @@ class ParticipantsController < ApplicationController
         @wristband = @wristband_colors[:nonbuilding]
       end
 
-      certs = @participant.certifications.map { |cert| cert.certification_type }
+      certs = @participant.certifications.active.map { |cert| cert.certification_type }
       if certs.include?(CertificationType.find_by_name("Scissor Lift"))
         @wristband += " and " + @wristband_colors[:scissor_lift]
       end

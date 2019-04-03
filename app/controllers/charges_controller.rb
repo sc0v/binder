@@ -44,7 +44,7 @@ class ChargesController < ApplicationController
   end
 
   def export
-    @charges = Charge.all
+    @charges = Charge.active
   end
 
   # GET /charges/1
