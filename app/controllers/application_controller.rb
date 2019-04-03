@@ -40,15 +40,15 @@ class ApplicationController < ActionController::Base
   end
   
   def sidebar
-    @current_shifts_sidebar = Shift.current
-    @upcoming_shifts_sidebar = Shift.upcoming
-    @tasks_sidebar = Task.upcoming.is_incomplete
-    @structural_queue_sidebar = OrganizationTimelineEntry.structural.current
-    @electrical_queue_sidebar = OrganizationTimelineEntry.electrical.current
-    @events_sidebar = Event.displayable
-    @downtime_sidebar = OrganizationTimelineEntry.downtime.current
+    @current_shifts_sidebar = Shift.active.current
+    @upcoming_shifts_sidebar = Shift.active.upcoming
+    @tasks_sidebar = Task.active.upcoming.is_incomplete
+    @structural_queue_sidebar = OrganizationTimelineEntry.active.structural.current
+    @electrical_queue_sidebar = OrganizationTimelineEntry.active.electrical.current
+    @events_sidebar = Event.active.displayable
+    @downtime_sidebar = OrganizationTimelineEntry.active.downtime.current
     session[:tool_cart] = session[:tool_cart] || []
-    @tool_cart = session[:tool_cart].map{|barcode| Tool.find_by_barcode(barcode)}.reverse
+    @tool_cart = session[:tool_cart].map{|barcode| Tool.active.find_by_barcode(barcode)}.reverse
   end
 
   def require_authenticated_user
