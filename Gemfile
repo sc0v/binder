@@ -7,14 +7,12 @@ gem 'sass-rails'
 gem 'uglifier'
 gem 'coffee-rails'
 gem 'jquery-rails'
-gem 'jquery-datatables'
 gem 'jbuilder'
 gem 'bootstrap-sass'
 gem 'simple_form'
 gem 'therubyracer', :platform=>:ruby
 gem 'omniauth'
 gem 'omniauth-shibboleth'
-gem 'materialize-sass'
 
 # User and role management
 gem 'cancancan'
