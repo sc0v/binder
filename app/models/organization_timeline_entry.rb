@@ -74,29 +74,33 @@ class OrganizationTimelineEntry < ActiveRecord::Base
   def notify_booth_committee
     # post in the relevant groupme/slack when someone joins a queue
     
-    slack_webhook_url = case entry_type
+    slack_webhook_urls = case entry_type
       when 'structural'
-        ENV["SLACK_BOT_STRUCTURAL_WEBHOOK_URL"]
+        [ ENV["SLACK_BOT_STRUCTURAL_WEBHOOK_URL"] ]
       when 'electrical'
-        ENV["SLACK_BOT_ELECTRICAL_WEBHOOK_URL"]
+        [ ENV["SLACK_BOT_ELECTRICAL_WEBHOOK_URL"], ENV["SLACK_BOT_ELECTRICAL_PRIVATE_WEBHOOK_URL"] ]
     end
     
-    groupme_bot_id = case entry_type
+    groupme_bot_ids = case entry_type
       when 'structural'
-        ENV["GROUPME_STRUCTURAL_BOT_ID"]
+        [ ENV["GROUPME_STRUCTURAL_BOT_ID"] ]
       when 'electrical'
-        ENV["GROUPME_ELECTRICAL_BOT_ID"]
+        [ ENV["GROUPME_ELECTRICAL_BOT_ID"] ]
     end
     
     description_text = description.blank? ? "was added" : "was added for: #{description}"
     message_text = "#{entry_type.titlecase} Queue: #{organization.short_name} #{description_text}"
-    
-    if not slack_webhook_url.nil?
-      send_slack(slack_webhook_url, message_text)
+
+    slack_webhook_urls.each do |slack_webhook_url|
+      if not slack_webhook_url.nil?
+        send_slack(slack_webhook_url, message_text)
+      end
     end
     
-    if not groupme_bot_id.nil?
-      send_groupme(groupme_bot_id, message_text)
+    groupme_bot_ids.each do |groupme_bot_id|
+      if not groupme_bot_id.nil?
+        send_groupme(groupme_bot_id, message_text)
+      end
     end
     
   end
