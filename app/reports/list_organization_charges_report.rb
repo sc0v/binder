@@ -44,7 +44,8 @@ class ListOrganizationChargesReport < Dossier::Report
     end
 
     query.select('organizations.name AS \'Organization\'', 'charges.amount AS \'Amount\'',
-                 'charge_types.name AS \'Charge Type\'', 'charges.charged_at AS \'Charged At\'',
+                 'charge_types.name AS \'Charge Type\'',
+                 'DATE_FORMAT(CONVERT_TZ (charges.charged_at, \'UTC\', \'US/Eastern\'), \'%m/%d/%Y %h:%i %p\') AS \'Charged At\'',
                  'charges.is_approved AS \'Approved\'',
                  'creating_participants_charges.andrewid AS \'Creator\'',
                  'participants.andrewid AS \'Issuer\'',
