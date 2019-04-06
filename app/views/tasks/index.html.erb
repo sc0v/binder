@@ -22,7 +22,7 @@
     <div>
       <% if can?(:create, Task) %>
         <div>
-          <%= link_to t('.new', :default => t("helpers.links.New Task")),
+          <%= link_to t('.new', :default => t("helpers.links.new_task")),
                   new_task_path, :class => 'btn btn-primary' %>
         </div>
         <br>
