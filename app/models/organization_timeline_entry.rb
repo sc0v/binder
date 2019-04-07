@@ -91,14 +91,14 @@ class OrganizationTimelineEntry < ActiveRecord::Base
     description_text = description.blank? ? "was added" : "was added for: #{description}"
     message_text = "#{entry_type.titlecase} Queue: #{organization.short_name} #{description_text}"
 
-    slack_webhook_urls.each do |slack_webhook_url|
-      if not slack_webhook_url.nil?
+    if not slack_webhook_urls.nil?
+      slack_webhook_urls.each do |slack_webhook_url|
         send_slack(slack_webhook_url, message_text)
       end
     end
     
-    groupme_bot_ids.each do |groupme_bot_id|
-      if not groupme_bot_id.nil?
+    if not groupme_bot_ids.nil?
+      groupme_bot_ids.each do |groupme_bot_id|
         send_groupme(groupme_bot_id, message_text)
       end
     end
