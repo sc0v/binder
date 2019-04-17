@@ -37,7 +37,7 @@ class StorePurchaseTest < ActiveSupport::TestCase
   context "With a proper context, " do
     setup do
       # Create store 
-      @store_item = FactoryGirl.create(:store_item, :name => "Hammer", :price => 20, :quantity => 3)
+      @store_item = FactoryGirl.create(:store_item, :name => "Hammer", :price => 20, :in_stock => true)
       # Create store_purchase 
       @store_purchase = FactoryGirl.create(:store_purchase, :price_at_purchase => 20, :quantity_purchased => 1, :store_item_id => @store_item.id)
     end
