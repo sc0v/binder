@@ -28,7 +28,7 @@ class StoreItemTest < ActiveSupport::TestCase
   context "With a proper context, " do
     setup do
       # Create store 
-      @store_item = FactoryGirl.create(:store_item, :name => "Hammer", :price => 20, :quantity => 5)
+      @store_item = FactoryGirl.create(:store_item, :name => "Hammer", :price => 20, :in_stock => true)
       # Create charge 
       @charge = FactoryGirl.create(:charge, :is_approved => true)
       # Create store_purchase 
@@ -38,8 +38,5 @@ class StoreItemTest < ActiveSupport::TestCase
     teardown do
     end
 
-    should "show that quantity_available method works correctly" do
-      assert_equal 4, @store_item.quantity_available 
-    end
   end
 end
