@@ -172,8 +172,6 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.4)
       mime-types (>= 1.16, < 4)
-    materialize-sass (1.0.0)
-      autoprefixer-rails (>= 6.0.3)
     mime-types (2.99.1)
     mini_portile2 (2.0.0)
     minitest (5.8.4)
