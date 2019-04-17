@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190322200326) do
+ActiveRecord::Schema.define(version: 20190417031413) do
 
   create_table "certification_types", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -261,10 +261,10 @@ ActiveRecord::Schema.define(version: 20190322200326) do
   create_table "store_items", force: :cascade do |t|
     t.string   "name",       limit: 255
     t.decimal  "price",                  precision: 8, scale: 2
-    t.integer  "quantity",   limit: 4
     t.datetime "created_at",                                                    null: false
     t.datetime "updated_at",                                                    null: false
     t.boolean  "active",                                         default: true
+    t.boolean  "in_stock"
   end
 
   create_table "store_purchases", force: :cascade do |t|
