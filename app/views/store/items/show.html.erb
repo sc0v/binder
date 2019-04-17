@@ -3,8 +3,14 @@
   <h1><%= @store_item.name %></h1>
   <dt><strong><%= model_class.human_attribute_name(:price) %>:</strong></dt>
   <dd><%= number_to_currency @store_item.price %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:quantity) %>:</strong></dt>
-  <dd><%= @store_item.quantity %></dd>
+  <dt><strong>Status:</strong></dt>
+  <dd>
+    <% if @store_item.in_stock? %>
+      Available
+    <% else %>
+      Out of Stock
+    <% end %>
+  </dd>
   
 </div>
 

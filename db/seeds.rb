@@ -125,7 +125,7 @@ puts '  Store'
 csv_text = File.read(Rails.root.join('lib', 'seeds', gdrive_doc + 'store.csv'))
 csv = CSV.parse(csv_text, :headers => true)
 csv.each do |row|
-  StoreItem.create(name: row['name'].strip, price: Integer(row['price'] || "0"), quantity: Integer(row['quantity'] || "0"))
+  StoreItem.create(name: row['name'].strip, price: Integer(row['price'] || "0"), in_stock: row['in_stock'] || true)
 end
 
 puts '  Tools'
