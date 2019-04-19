@@ -62,6 +62,10 @@ class CarnivalCreationController < ApplicationController
     c.run_mandatory_seeds()
     c.run_optional_seeds()
 
+    # set has_signed_waiver, has_signed_hardhat_waiver, and waiver_start vals
+    # of all participants to nil
+    c.reset_waiver_signatures()
+
     # clear the cache, where all info about insertions/deletions was stored
     Rails.cache.clear
     

@@ -432,7 +432,7 @@ class CsvUpdater
   end
 
   # -------------------------------------------------------------------------------------
-  # deactivation methods
+  # deactivation & waiver reset methods
   # -------------------------------------------------------------------------------------
 
   def deactivate_tables
@@ -465,6 +465,14 @@ class CsvUpdater
     end
     Certification.active.each do |e|
       e.update(active:false)
+    end
+  end
+
+  def reset_waiver_signatures
+    Participant.all.each do |p|
+      p.update(has_signed_waiver: nil)
+      p.update(has_signed_hardhat_waiver: nil)
+      p.update(waiver_start: nil)
     end
   end
 
