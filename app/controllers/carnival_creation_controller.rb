@@ -69,7 +69,7 @@ class CarnivalCreationController < ApplicationController
     # clear the cache, where all info about insertions/deletions was stored
     Rails.cache.clear
     
-    redirect_to :home
+    redirect_to :root
   end
 
   def show_end_index
