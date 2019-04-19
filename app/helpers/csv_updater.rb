@@ -205,31 +205,29 @@ class CsvUpdater
     Rails.cache.write(tablename + '_insertions', add_set)
     Rails.cache.write(tablename + '_deactivations', deactivate_set)
     Rails.cache.write(tablename + '_reactivations', reactivate_set)
+
+    add_to_seed_queue(tablename)
   end
 
   # -------------------------------------------------------------------------------------
   # seed methods
   # -------------------------------------------------------------------------------------
 
-  def run_mandatory_seeds
-    seed_organizations()
-    seed_participants()
-    seed_memberships()
-    seed_tools()
-    seed_shifts()
+  def add_to_seed_queue(tablename)
+    q = Rails.cache.read('seed_queue')
+    q ||= []
+    q << tablename
+    Rails.cache.write('seed_queue', q)
   end
 
-  def run_optional_seeds
-    if Rails.cache.read('task_insertions')
-      seed_tasks()
-    end
-
-    if Rails.cache.read('certification_insertions')
-      seed_certifications()
+  def run_seeds(is_optional)
+    Rails.cache.read('seed_queue').each do |tablename|
+      # is_optional boolean determines whether to deactivate tables not in uploaded .csv
+      send('seed_' + tablename.pluralize, is_optional)
     end
   end
   
-  def seed_organizations
+  def seed_organizations(is_optional)
     insertions = Rails.cache.read('organization_insertions')
     deactivations = Rails.cache.read('organization_deactivations')
     reactivations = Rails.cache.read('organization_reactivations')
@@ -251,14 +249,16 @@ class CsvUpdater
     end
 
     # Deactivations
-    Organization.active.each do |org|
-      if deactivations.include? org.name
-        org.update(active: false)
+    if !is_optional
+      Organization.active.each do |org|
+        if deactivations.include? org.name
+          org.update(active: false)
+        end
       end
     end
   end
 
-  def seed_participants
+  def seed_participants(is_optional)
     insertions = Rails.cache.read('participant_insertions')
     deactivations = Rails.cache.read('participant_deactivations')
     reactivations = Rails.cache.read('participant_reactivations')
@@ -280,14 +280,16 @@ class CsvUpdater
 
     # Deactivations
     # Should Users be deactivated along with Participants? (similarly with org aliases etc)
-    Participant.active.each do |i|
-      if deactivations.include?(i.andrewid)
-        i.update(active: false)
+    if !is_optional
+      Participant.active.each do |i|
+        if deactivations.include?(i.andrewid)
+          i.update(active: false)
+        end
       end
     end
   end
 
-  def seed_memberships
+  def seed_memberships(is_optional)
     insertions = Rails.cache.read('membership_insertions')
     deactivations = Rails.cache.read('membership_deactivations')
     reactivations = Rails.cache.read('membership_reactivations')
@@ -315,9 +317,11 @@ class CsvUpdater
 
     # Deactivations
 
-    Membership.active.each do |p|
-      if deactivations.include? p.participant.andrewid + '.' + p.organization.name
-        p.update(active: false)
+    if !is_optional
+      Membership.active.each do |p|
+        if deactivations.include? p.participant.andrewid + '.' + p.organization.name
+          p.update(active: false)
+        end
       end
     end
 
@@ -331,7 +335,7 @@ class CsvUpdater
 
   end
 
-  def seed_tools
+  def seed_tools(is_optional)
     insertions = Rails.cache.read('tool_insertions')
     deactivations = Rails.cache.read('tool_deactivations')
     reactivations = Rails.cache.read('tool_reactivations')
@@ -349,9 +353,11 @@ class CsvUpdater
 
     # Deactivations
 
-    Tool.active.each do |t|
-      if deactivations.include?(t.barcode)
-        t.update(active: false)
+    if !is_optional
+      Tool.active.each do |t|
+        if deactivations.include?(t.barcode)
+          t.update(active: false)
+        end
       end
     end
 
@@ -364,10 +370,12 @@ class CsvUpdater
     end
   end
 
-  def seed_shifts
-    # Deactivate all current shifts
-    Shift.active.each do |s|
-      s.update(active: false)
+  def seed_shifts(is_optional)
+    if !is_optional
+      # Deactivate all current shifts
+      Shift.active.each do |s|
+        s.update(active: false)
+      end
     end
 
     # Insert uploaded shifts
@@ -397,7 +405,13 @@ class CsvUpdater
     end 
   end
 
-  def seed_certifications
+  def seed_certifications(is_optional)
+    if !is_optional
+      Certification.active.each do |e|
+        e.update(active:false)
+      end
+    end
+
     insertions = Rails.cache.read('certification_insertions')
 
     insertions.each do |row|
@@ -423,7 +437,13 @@ class CsvUpdater
     end
   end
 
-  def seed_tasks
+  def seed_tasks(is_optional)
+    if !is_optional
+      Task.active.each do |e|
+        e.update(active:false)
+      end
+    end
+
     insertions = Rails.cache.read('task_insertions')
 
     insertions.each do |row|
@@ -435,7 +455,7 @@ class CsvUpdater
   # deactivation & waiver reset methods
   # -------------------------------------------------------------------------------------
 
-  def deactivate_tables
+  def deactivate_unseeded_tables
     Certification.active.each do |e|
       e.update(active:false)
     end
@@ -455,15 +475,6 @@ class CsvUpdater
       e.update(active:false)
     end
     OrganizationTimelineEntry.active.each do |e|
-      e.update(active:false)
-    end
-  end
-
-  def deactivate_optional_tables
-    Task.active.each do |e|
-      e.update(active:false)
-    end
-    Certification.active.each do |e|
       e.update(active:false)
     end
   end

@@ -20,18 +20,11 @@ class CarnivalCreationController < ApplicationController
   def upload_csvs
     c = CsvUpdater.new()
 
-    c.deactivate_tables()
-
-    c.add_from_csv(params[:organization_csv].tempfile, 'organization')
-    c.add_from_csv(params[:participant_csv].tempfile, 'participant')
-    c.add_from_csv(params[:participant_csv].tempfile, 'membership')
-    c.add_from_csv(params[:tool_csv].tempfile, 'tool')
-    c.add_from_csv(params[:shift_csv].tempfile, 'shift')
-    if params[:task_csv]
-      c.add_from_csv(params[:task_csv].tempfile, 'task')
-    end
-    if params[:certification_csv]
-      c.add_from_csv(params[:certification_csv].tempfile, 'certification')
+    # find params that have .csv files and cache their data
+    params.each do |key, val|
+      if key.include?('_csv')
+        c.add_from_csv(val.tempfile, key.chomp('_csv'))
+      end
     end
 
     redirect_to :show_diff
@@ -40,31 +33,36 @@ class CarnivalCreationController < ApplicationController
   def upload_optional_csvs
     c = CsvUpdater.new()
 
-    c.deactivate_optional_tables
+    # find params that have .csv files and cache their data
+    params.each do |key, val|
+      if key.include?('_csv')
+        c.add_from_csv(val.tempfile, key.chomp('_csv'))
+      end
+    end
 
-    if params[:task_csv]
-      c.add_from_csv(params[:task_csv].tempfile, 'task')
-    end
-    if params[:certification_csv]
-      c.add_from_csv(params[:certification_csv].tempfile, 'certification')
-    end
-    
-    c.run_optional_seeds()
+    # run seeds as optional, which prevents deactivation of rows
+    # not included in .csvs
+    c.run_seeds(true)
 
     Rails.cache.clear
     
-    redirect_to :home
+    redirect_to :root
   end
 
   def commit_changes
     # TODO: dump current DB state
     c = CsvUpdater.new()
-    c.run_mandatory_seeds()
-    c.run_optional_seeds()
+
+    # run seeds as mandatory, which deactivates any rows 
+    # not included in .csvs
+    c.run_seeds(false)
 
     # set has_signed_waiver, has_signed_hardhat_waiver, and waiver_start vals
     # of all participants to nil
     c.reset_waiver_signatures()
+
+    # deactivates all rows of tables not included in csv uploads
+    c.deactivate_unseeded_tables()
 
     # clear the cache, where all info about insertions/deletions was stored
     Rails.cache.clear
