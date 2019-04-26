@@ -55,23 +55,23 @@
             </ul>
           </li>
 
-          <% if current_user.is_admin? %> 
+
+          <% if current_user.participant.is_scc? %>
             <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Links<b class="caret"></b></a>
+              <% if is_admin? %>
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Links<b class="caret"></b></a>
+              <% else %>  
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">SCC Links<b class="caret"></b></a>
+              <% end %>
               <ul class="dropdown-menu">
                 <% if can?(:create, :reports) %>
                   <li><%= link_to "Reports", reports_path %></li>
                 <% end %>
-              </ul>
-            </li>
-          <% end %> 
-
-          <% if current_user.participant.is_scc? %>
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown">SCC Links<b class="caret"></b></a>
-              <ul class="dropdown-menu">
-                <% if can?(:create, :reports) %>
-                  <li><%= link_to "Reports", reports_path %></li>
+                <% if is_admin? %>
+                  <li><%# link_to "Create Carnival", show_uploader_path %></li>
+                <% end %>
+                <% if is_admin? %>
+                  <li><%= link_to "Edit Carnival" %></li>
                 <% end %>
               </ul>
             </li>
