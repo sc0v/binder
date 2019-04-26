@@ -32,19 +32,19 @@
         <% end %>
       </div>
 
-      <%# Change to true to enable downtime %>
-      <div class = "col col-sm-3">
-        <% if true %>
-          <%= render 'organization_timeline_entries/downtime_sidebar' %>
-        <% end %>
-      </div>
-
       <div class= "col col-sm-3">
         <%= render 'store_cart/store_cart' %>
       </div>
 
       <div class = "col col-sm-3">
         <%= render 'tool_cart/tool_cart' %>
+      </div>
+
+      <%# Change to true to enable downtime %>
+      <div class = "col col-sm-3">
+        <% if true %>
+          <%= render 'organization_timeline_entries/downtime_sidebar' %>
+        <% end %>
       </div>
 
   </div>
