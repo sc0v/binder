@@ -69,7 +69,7 @@ class ToolCartController < ApplicationController
                     locals: {message: "Invalid organization"}
     end
 
-    participant_certs = participant.certifications.map { |cert| cert.certification_type.name }
+    participant_certs = participant.certifications.active.map { |cert| cert.certification_type.name }
     session[:tool_cart].each do |tool|
       tool = Tool.find_by_barcode(tool)
       required_certs = tool.tool_type.tool_type_certifications.map { |cert| cert.certification_type.name }
