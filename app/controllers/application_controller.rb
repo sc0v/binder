@@ -48,7 +48,7 @@ class ApplicationController < ActionController::Base
     @events_sidebar = Event.active.displayable
     @downtime_sidebar = OrganizationTimelineEntry.active.downtime.current
     session[:tool_cart] = session[:tool_cart] || []
-    @tool_cart = session[:tool_cart].map{|barcode| Tool.active.find_by_barcode(barcode)}.reverse
+    @tool_cart = session[:tool_cart].map{|barcode| Tool.find_by_barcode(barcode)}.reverse
   end
 
   def require_authenticated_user

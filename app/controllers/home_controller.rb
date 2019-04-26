@@ -21,7 +21,7 @@ class HomeController < ApplicationController
       redirect_to @participant_lookup
     end
 
-    @tool_lookup = Tool.active.find_by_barcode(@query)
+    @tool_lookup = Tool.find_by_barcode(@query)
     unless @tool_lookup.nil?
       redirect_to @tool_lookup
       return
@@ -38,7 +38,7 @@ class HomeController < ApplicationController
 
     @faqs = Faq.active.search(@query) if can?(:read, Faq)
     @participants = Participant.active.search(@query)
-    @tools = Tool.active.search(@query)
+    @tools = Tool.search(@query)
     @organizations = Organization.active.search(@query)
     @organization_aliases = OrganizationAlias.active.search(@query)
 
