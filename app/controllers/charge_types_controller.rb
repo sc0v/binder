@@ -73,6 +73,6 @@ class ChargeTypesController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def charge_type_params
-      params.require(:charge_type).permit(:name, :default_amount, :description, :requires_booth_chair_approval)
+      params.require(:charge_type).permit(:name, :default_amount, :description, :requires_booth_chair_approval, :active)
     end
 end

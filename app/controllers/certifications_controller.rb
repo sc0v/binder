@@ -61,7 +61,7 @@ class CertificationsController < ApplicationController
   end
 
   def certification_params
-    params.require(:certification).permit(:participant_id, :certification_type_id)
+    params.require(:certification).permit(:participant_id, :certification_type_id, :active)
   end
 
 end

@@ -38,6 +38,6 @@ class Store::ItemsController < ApplicationController
   private
 
   def store_item_params
-    params.require(:store_item).permit(:name, :price, :quantity)
+    params.require(:store_item).permit(:name, :price, :quantity, :active)
   end
 end

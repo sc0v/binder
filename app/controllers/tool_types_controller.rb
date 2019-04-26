@@ -67,6 +67,6 @@ class ToolTypesController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def tool_type_params
-      params.require(:tool_type).permit(:name)
+      params.require(:tool_type).permit(:name, :active)
     end
 end

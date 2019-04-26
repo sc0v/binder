@@ -126,11 +126,11 @@ class ParticipantsController < ApplicationController
   end
 
   def participant_create_params
-    params.require(:participant).permit(:andrewid, :phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)
+    params.require(:participant).permit(:andrewid, :phone_number, :has_signed_waiver, :has_signed_hardhat_waiver, :active)
   end
 
   def participant_update_params
-    params.require(:participant).permit(:phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)
+    params.require(:participant).permit(:phone_number, :has_signed_waiver, :has_signed_hardhat_waiver, :active)
   end
 
   def set_wristband_colors

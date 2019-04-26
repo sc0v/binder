@@ -108,7 +108,7 @@ class ChargesController < ApplicationController
   end
 
   def charge_params
-    params.require(:charge).permit(:amount, :description, :issuing_participant_id, :receiving_participant_id, :organization_id, :charge_type_id)
+    params.require(:charge).permit(:amount, :description, :issuing_participant_id, :receiving_participant_id, :organization_id, :charge_type_id, :active)
   end
 end
 

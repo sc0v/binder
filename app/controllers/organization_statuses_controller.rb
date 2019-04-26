@@ -81,11 +81,11 @@ class OrganizationStatusesController < ApplicationController
   end 
 
   def create_organization_status_params
-    params.require(:organization_status).permit(:organization_id, :organization_status_type_id, :description)
+    params.require(:organization_status).permit(:organization_id, :organization_status_type_id, :description, :active)
   end
 
   def update_organization_status_params
-    params.require(:organization_status).permit(:description, :organization_status_type_id)
+    params.require(:organization_status).permit(:description, :organization_status_type_id, :active)
   end
 end
 
