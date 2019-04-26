@@ -115,5 +115,6 @@
 </div>
 
   <%= form_tag("/create_carnival/commit_changes", method: 'post') do %>
-    <%= submit_tag "Commit changes to DB" , :class => 'btn btn-primary'  %>
+    <%= submit_tag "Commit changes to DB" , :class => 'btn btn-primary', 
+        data: {confirm: "This action will push the data in the uploaded CSV files to the database. This change will deactivate EVERY RECORD that is not in the uploaded CSVs and reset EVERY PARTICIPANT'S waiver signatures. Are you sure you want to do this?"}  %>
   <% end %>

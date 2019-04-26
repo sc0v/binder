@@ -11,7 +11,8 @@
 	<h4>Tasks</h4><%= file_field_tag 'task_csv' %> <br>
 	<h4>Certifications</h4><%= file_field_tag 'certification_csv' %> <br>
 
-	<%= submit_tag "Upload CSVs", :class => 'btn btn-primary' %>
+	<%= submit_tag "Upload CSVs", :class => 'btn btn-primary',
+	    data: {confirm: "This action will push the data in the uploaded CSV files to the database. This change will not deactivate any records or nil out any waiver signatures. Are you sure you want to do this?"} %>
 
 <% end %>
 
