@@ -18,6 +18,8 @@
   <dd><%= date_and_time @charge.charged_at %></dd>
   <dt><strong><%= model_class.human_attribute_name(:is_approved) %></strong></dt>
   <dd><%= format_boolean @charge.is_approved %></dd>
+  <dt><Strong>Active: </Strong></dt>
+  <dd><%= @charge.active.to_s.capitalize %></dd>
 </dl>
   
 <div class="form-actions">

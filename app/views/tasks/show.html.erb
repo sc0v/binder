@@ -17,6 +17,8 @@
       <dt><strong><%= model_class.human_attribute_name(:completed_by_id) %>:</strong></dt>
       <dd><%= link_to @task.completed_by.name + " (" + @task.completed_by.andrewid + ")", @task.completed_by unless @task.completed_by.blank? %></dd>
     <% end %>
+    <dt><Strong>Active: </Strong></dt>
+    <dd><%= @task.active.to_s.capitalize %></dd>
   </dl>
   
   <div class="form-actions">

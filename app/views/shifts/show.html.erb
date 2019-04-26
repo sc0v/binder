@@ -49,6 +49,10 @@
         <% end %>
       </ul>
     </dd>
+    
+    <dt><Strong>Active: </Strong></dt>
+    <dd><%= @shift.active.to_s.capitalize %></dd>
+
   </dl>
   <div class="form-actions">
     <%= link_to t('.back', :default => t("helpers.links.back")),

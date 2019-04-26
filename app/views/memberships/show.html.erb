@@ -14,6 +14,8 @@
     <dd><%= @membership.title %></dd>
     <dt><strong><%= model_class.human_attribute_name(:booth_chair_order) %>:</strong></dt>
     <dd><%= @membership.booth_chair_order %></dd>
+    <dt><Strong>Active: </Strong></dt>
+    <dd><%= @membership.active.to_s.capitalize %></dd>
   </dl>
   <div class="form-actions">
     <%= link_to t('.back', :default => t("helpers.links.back")),

@@ -11,6 +11,8 @@
   <dd><%= @event.participant.name if @event.participant != nil %></dd>
   <dt><strong>Description:</strong></dt>
   <dd><%= @event.description %></dd>
+  <dt><Strong>Active: </Strong></dt>
+  <dd><%= @event.active.to_s.capitalize %></dd>
 </dl>
 
 

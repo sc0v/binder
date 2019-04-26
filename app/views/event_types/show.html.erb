@@ -5,6 +5,8 @@
   <dd><%= @event_type.name %></dd>
   <dt><strong>Display in Sidebar?</strong></dt>
   <dd><%= @event_type.display ? 'Yes':'No' %></dd>
+  <dt><Strong>Active: </Strong></dt>
+  <dd><%= @event_type.active.to_s.capitalize %></dd>
 </dl>
 
 
