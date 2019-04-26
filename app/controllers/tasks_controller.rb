@@ -24,11 +24,11 @@ class TasksController < ApplicationController
   # GET /tasks.json
   def index
     if(params[:task_filter].blank?)
-      @tasks = Task.all
+      @tasks = Task.active
     elsif(params[:task_filter] == "completed_tasks")
-      @tasks = Task.is_complete
+      @tasks = Task.active.is_complete
     elsif(params[:task_filter] == "incomplete_tasks")
-      @tasks = Task.is_incomplete
+      @tasks = Task.active.is_incomplete
     end
   end
 

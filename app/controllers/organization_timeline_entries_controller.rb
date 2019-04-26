@@ -28,7 +28,7 @@ class OrganizationTimelineEntriesController < ApplicationController
 
   def index
     @organization = Organization.find(params[:organization_id]) unless params[:organization_id].blank?
-    @entries = OrganizationTimelineEntry.downtime
+    @entries = OrganizationTimelineEntry.downtime.active
     @entries = @entries.where({organization: @organization}) unless @organization.blank?
   end
 

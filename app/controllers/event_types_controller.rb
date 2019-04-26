@@ -19,7 +19,7 @@ class EventTypesController < ApplicationController
   # GET /event_types
   # GET /event_types.json
   def index
-    @event_types = EventType.all
+    @event_types = EventType.active
   end
 
   # GET /event_types/1

@@ -40,10 +40,10 @@ class ToolsController < ApplicationController
         @tools = @tools.all
         @title = "Tools (hardhats/radios included)"
       else
-        @tool_type = ToolType.find(params[:type_filter])
+        @tool_type = ToolType.active.find(params[:type_filter])
         @title = @tool_type.name.pluralize
         @tools = @tools.by_type(@tool_type)
-        @num_available = Tool.by_type(@tool_type).size - Tool.by_type(@tool_type).checked_out.size
+        @num_available = Tool.active.by_type(@tool_type).size - Tool.active.by_type(@tool_type).checked_out.size
       end
     else
       @tools = @tools.just_tools
