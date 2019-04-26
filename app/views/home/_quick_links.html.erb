@@ -12,7 +12,7 @@
     <% end %>
   <% elsif user_signed_in? and !current_user.participant.has_signed_waiver? then %>
     <%= link_to "Sign Waiver", new_waiver_path, :class => "btn btn-success" %>
-  <% end %>
+  <% elsif  user_signed_in? and current_user.participant.has_signed_waiver? then%>
 
   <% if can?(:read, Faq) && %>
     <%= link_to "FAQs", faqs_path, :class => "btn btn-primary" %>
@@ -77,4 +77,5 @@
 
 
     <% end %>
+  <% end %>
   <% end %>
