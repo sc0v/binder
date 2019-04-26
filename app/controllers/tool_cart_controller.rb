@@ -15,8 +15,15 @@ class ToolCartController < ApplicationController
                     locals: {message: "Tool ##{@tool.barcode} is already in the cart"}
     end
 
+    # reactivate any inactive tools that are scanned, and send a flag to render an alert
+    prev_inactive = false
+    if !@tool.active
+      prev_inactive = true
+      @tool.update(active: true)
+    end
+
     session[:tool_cart].append(@tool.barcode)
-    render action: 'add_tool', locals: {count: session[:tool_cart].size}
+    render action: 'add_tool', locals: {count: session[:tool_cart].size, prev_inactive: prev_inactive}
   end
 
   def remove_tool
