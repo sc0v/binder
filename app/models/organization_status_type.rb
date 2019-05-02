@@ -4,12 +4,13 @@
 #
 # ### Columns
 #
-# Name           | Type               | Attributes
-# -------------- | ------------------ | ---------------------------
-# **`active`**   | `boolean`          | `default(TRUE)`
-# **`display`**  | `boolean`          |
-# **`id`**       | `integer`          | `not null, primary key`
-# **`name`**     | `string(255)`      |
+# Name                                 | Type               | Attributes
+# ------------------------------------ | ------------------ | ---------------------------
+# **`active`**                         | `boolean`          | `default(TRUE)`
+# **`display`**                        | `boolean`          |
+# **`id`**                             | `integer`          | `not null, primary key`
+# **`name`**                           | `string(255)`      |
+# **`org_status_type_categories_id`**  | `integer`          |
 #
 
 class OrganizationStatusType < ActiveRecord::Base

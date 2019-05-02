@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20190322200326) do
+ActiveRecord::Schema.define(version: 20190501184209) do
 
   create_table "certification_types", force: :cascade do |t|
     t.string   "name",       limit: 255
@@ -126,6 +126,11 @@ ActiveRecord::Schema.define(version: 20190322200326) do
   add_index "memberships", ["organization_id"], name: "index_memberships_on_organization_id", using: :btree
   add_index "memberships", ["participant_id"], name: "index_memberships_on_participant_id", using: :btree
 
+  create_table "org_status_type_categories", force: :cascade do |t|
+    t.string  "name",   limit: 255, null: false
+    t.boolean "active"
+  end
+
   create_table "organization_aliases", force: :cascade do |t|
     t.string   "name",            limit: 255
     t.integer  "organization_id", limit: 4
@@ -146,9 +151,10 @@ ActiveRecord::Schema.define(version: 20190322200326) do
   end
 
   create_table "organization_status_types", force: :cascade do |t|
-    t.string  "name",    limit: 255
+    t.string  "name",                          limit: 255
     t.boolean "display"
-    t.boolean "active",              default: true
+    t.boolean "active",                                    default: true
+    t.integer "org_status_type_categories_id", limit: 4
   end
 
   create_table "organization_statuses", force: :cascade do |t|
