@@ -7,6 +7,7 @@
       </div>
     </div>
     <%= f.association :certification_type, collection: CertificationType.all.select { |c| !current_certs.include?(c.name) }, style: "margin-left:80px" %>
+    <%= f.input :active %>
     <%= f.input :participant_id, :as => :hidden %>
   </div>
 

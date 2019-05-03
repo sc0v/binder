@@ -1,0 +1,18 @@
+<div class = "card bg-light">
+
+  <h1>Create a New Carnival</h1><br>
+
+  <%= form_tag("/create_carnival/upload_csvs", method: 'post', multipart: true) do %>
+
+    <h4 class = "required">Organizations</h4><%= file_field_tag 'organization_csv', :required => true  %><br>
+    <h4 class = "required">Participants</h4><%= file_field_tag 'participant_csv', :required => true %> <br>
+    <h4 class = "required">Tools</h4><%= file_field_tag 'tool_csv', :required => true %> <br>
+    <h4 class = "required">Shifts</h4><%= file_field_tag 'shift_csv', :required => true %> <br>
+	<h4>Tasks</h4><%= file_field_tag 'task_csv'%> <br>
+	<h4>Certifications</h4><%= file_field_tag 'certification_csv'%> <br>
+
+
+  <%= submit_tag "Upload CSVs", :class => 'btn btn-primary' %>
+  <% end %>
+
+</div> 

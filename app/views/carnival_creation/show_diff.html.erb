@@ -1,0 +1,120 @@
+<h1> <center> Carnival Creation Differences </center> </h1>
+
+<div class = "row">
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Organization Additions </th></tr></thead>
+      <tbody>
+        <% @organization_adds.each do |e| %>
+          <tr class="table-success"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Organization Deactivations</th></tr></thead>
+      <tbody>
+        <% @organization_deactivations.each do |e| %>
+          <tr class="table-danger"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class = "row">
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Participant Additions</th></tr></thead>
+      <tbody>
+        <tr class="table-success"><th> Number of new participants is <%= @participant_adds.count %></th> </tr>
+<!--           <%# @participant_adds.each do |e| %>
+            <tr class="table-success"><td> <%# e %> </td></tr>
+          <%# end %> -->
+      </tbody>
+    </table>
+  </div>
+
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Participant Deactivations</th></tr></thead>
+      <tbody>
+        <tr class="table-danger"><th> Number of deactivated participants is <%= @participant_deactivations.count %></th> </tr>
+ <!--          <%# @participant_deactivations.each do |e| %>
+            <tr class="table-danger"><td> <%# e %> </td></tr>
+          <%# end %> -->
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+<div class = "row">
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Membership Additions</th></tr></thead>
+      <tbody>
+        <% @membership_adds.each do |e| %>
+          <tr class="table-success"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Membership Deactivationss</th></tr></thead>
+      <tbody>
+        <% @membership_deactivations.each do |e| %>
+          <tr class="table-danger"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+
+
+<div class = "row">
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Tool Additions</th></tr></thead>
+      <tbody>
+        <% @tool_adds.each do |e| %>
+          <tr class="table-success"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Tool Deactivations</th></tr></thead>
+      <tbody>
+        <% @tool_deactivations.each do |e| %>
+          <tr class="table-danger"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class = "row">
+  <div class = "col col-sm-6">
+    <table class="table">
+      <thead><tr><th>Shift Additions</th></tr></thead>
+      <tbody>
+        <% @shift_adds.each do |e| %>
+          <tr class="table-success"><td> <%= e %> </td></tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+  <%= form_tag("/create_carnival/commit_changes", method: 'post') do %>
+    <%= submit_tag "Commit changes to DB" , :class => 'btn btn-primary', 
+        data: {confirm: "This action will push the data in the uploaded CSV files to the database. This change will deactivate EVERY RECORD that is not in the uploaded CSVs and reset EVERY PARTICIPANT'S waiver signatures. Are you sure you want to do this?"}  %>
+  <% end %>

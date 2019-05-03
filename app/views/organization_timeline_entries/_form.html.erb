@@ -3,6 +3,7 @@
     <%= f.input :description %>
     <%= f.input :ended_at, placeholder: @organization_timeline_entry.ended_at %>
     <%= f.input :started_at, placeholder: @organization_timeline_entry.started_at %>
+    <%= f.input :active, :as => :boolean %>
   </div>
 
   <div class="form-actions">

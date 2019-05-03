@@ -14,4 +14,8 @@
   $('[data-toggle="tooltip"]').tooltip();
   $scan_tool_input.val('');
   $scan_tool_input.focus();
+  <% if prev_inactive %>
+    ToolCart.showAlert('Scanned inactive tool with barcode <%= @tool.barcode %> has been reactivated.',
+                      true, 4500);
+  <% end %>
 })();

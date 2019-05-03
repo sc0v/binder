@@ -1,0 +1,31 @@
+// Place all the styles related to the CarnivalCreation controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: http://sass-lang.com/
+
+.card {
+  margin: auto;
+  width: 70%;
+  border: 2px solid #eeeeee;
+  border-radius: 7px;
+  padding: 10px 10px 50px;
+  background-color: #eeeeee;
+  text-align: center;
+}
+
+input[type='file'] {
+  margin: auto 35%;
+}
+
+.table-success {
+  background-color: #b5e2b9;
+}
+
+.table-danger {
+  background-color: #edb8b4;
+}
+
+.required:after { 
+  content:"*";
+  color: red;
+}
+

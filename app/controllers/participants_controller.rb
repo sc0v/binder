@@ -41,9 +41,9 @@ class ParticipantsController < ApplicationController
   def index
     unless ( params[:organization_id].blank? )
       @organization = Organization.find(params[:organization_id])
-      @participants = @organization.participants
+      @participants = @organization.participants.active
     else
-      @participants = Participant.all
+      @participants = Participant.active
     end
 
     @participants = @participants.paginate(:page => params[:page]).per_page(20)
@@ -67,7 +67,7 @@ class ParticipantsController < ApplicationController
   # GET /participants/1
   # GET /participants/1.json
   def show
-    @memberships = @participant.memberships.all
+    @memberships = @participant.memberships.active
 
     if @memberships.empty?
       @wristband = "None - No organizations"
@@ -81,7 +81,7 @@ class ParticipantsController < ApplicationController
         @wristband = @wristband_colors[:nonbuilding]
       end
 
-      certs = @participant.certifications.map { |cert| cert.certification_type }
+      certs = @participant.certifications.active.map { |cert| cert.certification_type }
       if certs.include?(CertificationType.find_by_name("Scissor Lift"))
         @wristband += " and " + @wristband_colors[:scissor_lift]
       end
@@ -126,11 +126,11 @@ class ParticipantsController < ApplicationController
   end
 
   def participant_create_params
-    params.require(:participant).permit(:andrewid, :phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)
+    params.require(:participant).permit(:andrewid, :phone_number, :has_signed_waiver, :has_signed_hardhat_waiver, :active)
   end
 
   def participant_update_params
-    params.require(:participant).permit(:phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)
+    params.require(:participant).permit(:phone_number, :has_signed_waiver, :has_signed_hardhat_waiver, :active)
   end
 
   def set_wristband_colors

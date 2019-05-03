@@ -35,16 +35,16 @@ class ChargesController < ApplicationController
   def index
     unless ( params[:organization_id].blank? )
       @organization = Organization.find(params[:organization_id])
-      @charges = @organization.charges
+      @charges = @organization.charges.active 
     else
-      @charges = Charge.all
+      @charges = Charge.active
     end
 
     @charges = @charges.paginate(:page => params[:page]).per_page(20)
   end
 
   def export
-    @charges = Charge.all
+    @charges = Charge.active
   end
 
   # GET /charges/1
@@ -108,7 +108,7 @@ class ChargesController < ApplicationController
   end
 
   def charge_params
-    params.require(:charge).permit(:amount, :description, :issuing_participant_id, :receiving_participant_id, :organization_id, :charge_type_id)
+    params.require(:charge).permit(:amount, :description, :issuing_participant_id, :receiving_participant_id, :organization_id, :charge_type_id, :active)
   end
 end
 

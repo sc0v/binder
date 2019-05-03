@@ -5,6 +5,8 @@
   <dd><%= number_to_currency @store_item.price %></dd>
   <dt><strong><%= model_class.human_attribute_name(:quantity) %>:</strong></dt>
   <dd><%= @store_item.quantity %></dd>
+  <dt><Strong>Active: </Strong></dt>
+  <dd><%= @store_item.active.to_s.capitalize %></dd>
   
 </div>
 

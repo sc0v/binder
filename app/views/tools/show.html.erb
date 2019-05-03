@@ -24,6 +24,8 @@
       </ul>
     </dd>
   <% end %>
+  <dt><Strong>Active: </Strong></dt>
+  <dd><%= @tool.active.to_s.capitalize %></dd>
 </dl>
 
 <%= link_to t('.back', :default => t("helpers.links.back")),

@@ -30,7 +30,7 @@ class OrganizationAliasesController < ApplicationController
       return redirect_to root_url, alert: "Not Authorized to see Aliases"
     end
     @organization = Organization.find(params[:organization_id])
-    @organization_aliases = @organization.organization_aliases.paginate(:page => params[:page]).per_page(10)
+    @organization_aliases = @organization.organization_aliases.active.paginate(:page => params[:page]).per_page(10)
   end
 
   def new

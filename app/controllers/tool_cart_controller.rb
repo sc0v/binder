@@ -15,8 +15,15 @@ class ToolCartController < ApplicationController
                     locals: {message: "Tool ##{@tool.barcode} is already in the cart"}
     end
 
+    # reactivate any inactive tools that are scanned, and send a flag to render an alert
+    prev_inactive = false
+    if !@tool.active
+      prev_inactive = true
+      @tool.update(active: true)
+    end
+
     session[:tool_cart].append(@tool.barcode)
-    render action: 'add_tool', locals: {count: session[:tool_cart].size}
+    render action: 'add_tool', locals: {count: session[:tool_cart].size, prev_inactive: prev_inactive}
   end
 
   def remove_tool
@@ -62,7 +69,7 @@ class ToolCartController < ApplicationController
                     locals: {message: "Invalid organization"}
     end
 
-    participant_certs = participant.certifications.map { |cert| cert.certification_type.name }
+    participant_certs = participant.certifications.active.map { |cert| cert.certification_type.name }
     session[:tool_cart].each do |tool|
       tool = Tool.find_by_barcode(tool)
       required_certs = tool.tool_type.tool_type_certifications.map { |cert| cert.certification_type.name }

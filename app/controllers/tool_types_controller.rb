@@ -19,7 +19,7 @@ class ToolTypesController < ApplicationController
   # GET /tool_types
   # GET /tool_types.json
   def index
-    @tool_types = @tool_types.paginate(:page => params[:page]).per_page(20)
+    @tool_types = @tool_types.active.paginate(:page => params[:page]).per_page(20)
   end
 
   # GET /tool_types/new
@@ -67,6 +67,6 @@ class ToolTypesController < ApplicationController
   private
     # Never trust parameters from the scary internet, only allow the white list through.
     def tool_type_params
-      params.require(:tool_type).permit(:name)
+      params.require(:tool_type).permit(:name, :active)
     end
 end

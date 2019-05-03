@@ -5,6 +5,7 @@
     <%= text_field_tag 'card-number-input', nil, class: 'form-control', required: true %>
     <div id="participant-info"></div>
   <% end %>
+  <%= f.input :active %>
   <div class="form-actions">
     <%= f.button :submit, "Check Tool Out", :class => 'btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

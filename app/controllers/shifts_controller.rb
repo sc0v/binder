@@ -32,13 +32,13 @@ class ShiftsController < ApplicationController
   # Regular index is watch shifts by default
   def index
     if (current_user.has_role? :admin)
-      shifts = Shift.all
+      shifts = Shift.active
     elsif (current_user.participant.is_scc?)
-      shifts = Shift.all
+      shifts = Shift.active
     else
-      @orgs = current_user.participant.memberships.map {|mem| mem.organization.id}
+      @orgs = current_user.participant.memberships.active.map {|mem| mem.organization.id}
       unless @orgs.nil?
-        shifts = Shift.for_organizations(@orgs)
+        shifts = Shift.active.for_organizations(@orgs)
       end
     end
 
@@ -105,7 +105,7 @@ class ShiftsController < ApplicationController
   end
 
   def shift_params
-    params.require(:shift).permit(:starts_at, :ends_at, :shift_type_id, :organization_id, :required_number_of_participants, :description)
+    params.require(:shift).permit(:starts_at, :ends_at, :shift_type_id, :organization_id, :required_number_of_participants, :description, :active)
   end
   
 end

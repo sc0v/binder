@@ -11,6 +11,7 @@
   <% end %>
   <%= f.input :description, :as => :text, textarea: "{ font-size:16px; }" %>
   <%= f.input :requires_booth_chair_approval, :as => :boolean %>
+  <%= f.input :active, :as => :boolean %>
   <div class="form-actions">
     <%= f.button :submit, :class => 'btn-primary' %>
     <%= link_to t('.cancel', :default => t("helpers.links.cancel")),

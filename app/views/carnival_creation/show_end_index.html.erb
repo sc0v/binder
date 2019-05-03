@@ -1,0 +1,19 @@
+<div class = "card bg-light">
+
+<h1>Add More Data to Carnival</h1><br>
+
+<%= form_tag("/create_carnival/upload_optional_csvs", method: 'post', multipart: true) do %>
+
+	<h4>Organizations</h4><%= file_field_tag 'organization_csv'  %><br>
+	<h4>Participants</h4><%= file_field_tag 'participant_csv' %> <br>
+	<h4>Tools</h4><%= file_field_tag 'tool_csv' %> <br>
+	<h4>Shifts</h4><%= file_field_tag 'shift_csv' %> <br>
+	<h4>Tasks</h4><%= file_field_tag 'task_csv' %> <br>
+	<h4>Certifications</h4><%= file_field_tag 'certification_csv' %> <br>
+
+	<%= submit_tag "Upload CSVs", :class => 'btn btn-primary',
+	    data: {confirm: "This action will push the data in the uploaded CSV files to the database. This change will not deactivate any records or nil out any waiver signatures. Are you sure you want to do this?"} %>
+
+<% end %>
+
+</div> 

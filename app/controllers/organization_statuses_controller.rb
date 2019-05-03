@@ -29,7 +29,7 @@ class OrganizationStatusesController < ApplicationController
   # GET /organizations/1/statuses
   # GET /organizations/1/statuses.json
   def index
-    @organization_statuses = @organization.organization_statuses.paginate(:page => params[:page]).per_page(10)
+    @organization_statuses = @organization.organization_statuses.active.paginate(:page => params[:page]).per_page(10)
   end
 
   # GET /organizations/1/statuses/1
@@ -81,11 +81,11 @@ class OrganizationStatusesController < ApplicationController
   end 
 
   def create_organization_status_params
-    params.require(:organization_status).permit(:organization_id, :organization_status_type_id, :description)
+    params.require(:organization_status).permit(:organization_id, :organization_status_type_id, :description, :active)
   end
 
   def update_organization_status_params
-    params.require(:organization_status).permit(:description, :organization_status_type_id)
+    params.require(:organization_status).permit(:description, :organization_status_type_id, :active)
   end
 end
 

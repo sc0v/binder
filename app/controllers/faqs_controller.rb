@@ -21,7 +21,7 @@ class FaqsController < ApplicationController
   # GET /faqs
   # GET /faqs.json
   def index
-    @faqs = Faq.all
+    @faqs = Faq.active
     authorize! :read, @faqs
   end
 

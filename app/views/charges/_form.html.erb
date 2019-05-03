@@ -30,6 +30,8 @@ When adding a charge, please ensure that you add a detailed description. This al
       <%= text_field_tag 'card-number-input', nil, value: @current_receiving_participant, placeholder: 'Tap card or enter andrewid...', class: 'form-control'%>
       <div id="participant-info"></div>
     <% end %>
+
+    <%= f.input :active %>
   </div>
 
   <div class="form-actions">
