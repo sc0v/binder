@@ -61,6 +61,8 @@ function _toggleText(el, opt1, opt2){
 }
 
 $(document).ready(function () {
-  $('#tasks').DataTable();
+  $('#tasks').DataTable({
+    "ordering": false
+});
 });
 
