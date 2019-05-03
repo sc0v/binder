@@ -9,7 +9,7 @@
   </div>
   </div>
   <div id='sidebar-tasks-widget' class="collapse in panel-body">
-    <table class="table table-condensed" style="margin-bottom: 0;">
+    <table id = "tasks" class="table table-condensed" style="margin-bottom: 0; width:100%;">
       <thead>
         <th>Title</th>
         <th style="text-align: right;">Due By</th>
@@ -18,7 +18,7 @@
       <tbody>
         <% @tasks_sidebar.each do |task| %>
           <tr class="sidebar-tooltip" data-toggle="tooltip" data-placement="left" title="<%=h task.name %>: <%=h task.description %>">
-            <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><%= link_to task.name, tasks_path(task) %></td>
+            <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><%= link_to task.name, task_path(task) %></td>
             <td style="text-align: right;"><%= time task.due_at%></td>
             <% if can?(:update, task) %>
               <td style="text-align: right;"><%= link_to t('.complete', :default => t("helpers.links.complete")),

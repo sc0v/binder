@@ -9,7 +9,7 @@
 
 require 'csv'
 
-gdrive_doc = "2018-seeds"
+gdrive_doc = "2019-seeds"
 gdrive_doc = gdrive_doc + " - "
 
 puts
@@ -139,6 +139,10 @@ csv.each do |row|
 end
 
 puts '  Certifications'
+# NOTE: This section also generates the ToolTypes for restricted tools as well
+# as creating the ToolTypeCertification which restricts their checkout.  If any
+# certification types are missing from the seeds at the time of seeding, these
+# will need to be manually created in the database later.
 
 csv_text = File.read(Rails.root.join('lib', 'seeds', gdrive_doc + 'certifications.csv'))
 csv = CSV.parse(csv_text, :headers => true)

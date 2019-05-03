@@ -52,7 +52,9 @@ class ShiftParticipantsController < ApplicationController
     clock_in_now = params[:shift_participant][:clock_in_now]
     @shift_participant = ShiftParticipant.new(params.require(:shift_participant).permit(:shift_id, :participant_id))
     
-    if clock_in_now
+    if clock_in_now == "0"
+      @shift_participant.clocked_in_at = nil
+    else
       @shift_participant.clocked_in_at = Time.now
     end
     @shift_participant.save

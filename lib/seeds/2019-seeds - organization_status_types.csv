@@ -1,0 +1,13 @@
+name,display
+Authorized for Plan Deviation,FALSE
+First Floor Level,TRUE
+First Floor Walls,TRUE
+Stairs,TRUE
+Second Floor Level,TRUE
+Second Floor Walls,TRUE
+Roof,TRUE
+Final Structural Inspection,TRUE
+First Floor Electrical,TRUE
+Second Floor Electrical,TRUE
+Final Electrical Inspection,TRUE
+Note,FALSE
