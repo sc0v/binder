@@ -127,8 +127,11 @@ ActiveRecord::Schema.define(version: 20190501184209) do
   add_index "memberships", ["participant_id"], name: "index_memberships_on_participant_id", using: :btree
 
   create_table "org_status_type_categories", force: :cascade do |t|
-    t.string  "name",   limit: 255, null: false
+    t.string  "name",       limit: 255, null: false
     t.boolean "active"
+    t.string  "electrical", limit: 255
+    t.string  "structural", limit: 255
+    t.string  "general",    limit: 255
   end
 
   create_table "organization_aliases", force: :cascade do |t|
@@ -155,6 +158,7 @@ ActiveRecord::Schema.define(version: 20190501184209) do
     t.boolean "display"
     t.boolean "active",                                    default: true
     t.integer "org_status_type_categories_id", limit: 4
+    t.string  "category",                      limit: 255
   end
 
   create_table "organization_statuses", force: :cascade do |t|

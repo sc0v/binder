@@ -7,6 +7,7 @@
 # Name                                 | Type               | Attributes
 # ------------------------------------ | ------------------ | ---------------------------
 # **`active`**                         | `boolean`          | `default(TRUE)`
+# **`category`**                       | `string(255)`      |
 # **`display`**                        | `boolean`          |
 # **`id`**                             | `integer`          | `not null, primary key`
 # **`name`**                           | `string(255)`      |
@@ -19,6 +20,8 @@ class OrganizationStatusType < ActiveRecord::Base
   has_many :organization_statuses, dependent: :destroy
   belongs_to :org_status_type_categories
   
+  scope :display,   -> { joins(:organization_status_types).where('organization_status_types.display = ?', true) }
   scope :active,       -> { where(active: true) }
   scope :inactive,     -> { where(active: false) }
+  
 end

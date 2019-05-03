@@ -56,13 +56,13 @@ end
 
 
 
-puts '  Organization Status Type Categories'
+# puts '  Organization Status Type Categories'
 
-csv_text = File.read(Rails.root.join('lib', 'seeds', gdrive_doc + 'organization_status_type_categories.csv'))
-csv = CSV.parse(csv_text, :headers => true)
-csv.each do |row|
-  OrgStatusTypeCategory.create(name: row['name'].strip, active: row['active'])
-end
+# csv_text = File.read(Rails.root.join('lib', 'seeds', gdrive_doc + 'organization_status_type_categories.csv'))
+# csv = CSV.parse(csv_text, :headers => true)
+# csv.each do |row|
+#   OrgStatusTypeCategory.create(name: row['name'].strip, active: row['active'], electrical: row['electrical'], structural: row['structural'], general: row['general'])
+# end
 
 puts '  Organization Status Types'
 
@@ -70,7 +70,7 @@ csv_text = File.read(Rails.root.join('lib', 'seeds', gdrive_doc + 'organization_
 csv = CSV.parse(csv_text, :headers => true)
 csv.each do |row|
   status_category ||= OrgStatusTypeCategory.find_by_name(row['category'].strip)
-  OrganizationStatusType.create(name: row['name'].strip, display: row['display'] == "TRUE", org_status_type_categories_id: status_category.id)
+  OrganizationStatusType.create(name: row['name'].strip, display: row['display'] == "TRUE", category: row['category'].strip)
 end
 
 puts '  Charge Types'

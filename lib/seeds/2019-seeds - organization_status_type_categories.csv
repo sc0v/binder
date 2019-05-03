@@ -1,4 +1,4 @@
-name,active
-structural,TRUE
-electrical,TRUE
-general,TRUE
+name,active,electrical,structural,general
+structural,TRUE,FALSE,TRUE,FALSE
+electrical,TRUE,TRUE,FALSE,FALSE
+general,TRUE,FALSE,FALSE,TRUE
