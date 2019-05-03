@@ -60,9 +60,7 @@
             <li class="dropdown">
               <% if is_admin? %>
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Links<b class="caret"></b></a>
-              <% else %>  
-                <a href="#" class="dropdown-toggle" data-toggle="dropdown">SCC Links<b class="caret"></b></a>
-              <% end %>
+              <% end %>  
               <ul class="dropdown-menu">
                 <% if can?(:create, :reports) %>
                   <li><%= link_to "Reports", reports_path %></li>
@@ -80,7 +78,7 @@
         </ul>
         <!-- Searchbar -->
         <form class="navbar-form navbar-left" role="search" accept-charset="UTF-8" action="/search" method="get" >
-          <input type="text" class="form-control" placeholder="Search..." id="query" name="query" style="width: 100px;">
+          <input type="text" class="form-control" placeholder="Search..." id="query" name="query" style="width: 200%;">
         </form>
       <% end %>
 
