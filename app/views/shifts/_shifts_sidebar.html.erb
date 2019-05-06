@@ -11,13 +11,15 @@
   <div id='sidebar-shifts-widget' class="collapse in panel-body">
     <table class="table table-condensed" style="margin-bottom: 5px;">
       <thead>
-        <th>Current</th>
-        <th style="text-align: right;">Ends at</th>
+        <% if !@current_shifts_sidebar.empty? %>
+          <th>Current</th>
+          <th style="text-align: right;">Ends at</th>
+        <% end %>
       </thead>
       <tbody>
         <% cache ['current_sidebar', @current_shifts_sidebar] do %>
           <% if @current_shifts_sidebar.empty? %>
-            <th> No current shifts </th>
+            <tr><th> No current shifts </th></tr>
           <% end %>
           <% @current_shifts_sidebar.each do |shift| %>
             <tr class="sidebar-tooltip <%= shift.is_checked_in ? 'success' : 'danger' %>" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %><%=h ' - ' + shift.description + ' (' + shift.required_number_of_participants.to_s + ')'  unless shift.description.blank? %>">
@@ -37,15 +39,17 @@
     </table>
     <table class="table table-condensed table-striped" style="margin-bottom: 0;">
       <thead>
+        <% if !@upcoming_shifts_sidebar.empty? %>
         <th>Upcoming</th>
         <th style="text-align: right;">Starts at</th>
+        <% end %>
       </thead>
       <tbody>
         <% cache ['upcoming_sidebar', @upcoming_shifts_sidebar] do %>
-          <% @upcoming_shifts_sidebar.each do |shift| %>
           <% if @upcoming_shifts_sidebar.empty? %>
-            <th> No upcoming shifts </th>
+            <tr><th> No upcoming shifts </th></tr>
           <% end %>
+          <% @upcoming_shifts_sidebar.each do |shift| %>
             <tr class="sidebar-tooltip <%= shift.is_checked_in ? 'success' : 'warning' %>" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %><%=h ' - ' + shift.description + ' (' + shift.required_number_of_participants.to_s + ')'  unless shift.description.blank? %>">
               <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                 <% if (shift.shift_type.name == "Coordinator Shift") %>

@@ -61,11 +61,9 @@
       </div>
 
       <div class= "col col-sm-6">
-        <% if !@current_shifts_sidebar.blank? or !@upcoming_shifts_sidebar.blank? %>
           <% cache ['shift_sidebar', 'current', @current_shifts_sidebar, 'upcoming', @upcoming_shifts_sidebar] do%>
             <%= render 'shifts/shifts_sidebar' %>
           <% end %>
-        <% end %>
       </div>
 
   </div>
