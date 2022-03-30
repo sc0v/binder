@@ -1,12 +1,12 @@
 class CarnegieMellonPerson < ActiveLdap::Base
   ldap_mapping :dn_attribute => "guid",
-               :prefix => "ou=Person",
-               :classes => ["cmuPerson"]
+               :prefix => "ou=AndrewPerson",
+               :classes => ["cmuAccountPerson"]
 
   def self.find_by_andrewid( andrewid )
     
     begin
-      person = find("cmuandrewid=#{andrewid}", :attributes => ['cmuandrewid',
+      person = find("cmuAndrewId=#{andrewid}", :attributes => ['cmuAndrewId',
                                                                'cn', 
                                                                'mail',
                                                                'sn',
@@ -19,7 +19,8 @@ class CarnegieMellonPerson < ActiveLdap::Base
       end
 
       return person unless person[:cn] == "Merged Person"
-    rescue
+    rescue => e
+      logger.error e
       return nil
     end
   end
