@@ -1,21 +1,3 @@
-# ## Schema Information
-#
-# Table name: `events`
-#
-# ### Columns
-#
-# Name                  | Type               | Attributes
-# --------------------- | ------------------ | ---------------------------
-# **`active`**          | `boolean`          | `default(TRUE)`
-# **`created_at`**      | `datetime`         |
-# **`description`**     | `text(65535)`      |
-# **`event_type_id`**   | `integer`          |
-# **`id`**              | `integer`          | `not null, primary key`
-# **`is_done`**         | `boolean`          |
-# **`participant_id`**  | `integer`          |
-# **`updated_at`**      | `datetime`         |
-#
-
 class EventsController < ApplicationController
   load_and_authorize_resource
   before_action :set_event, only: [:show, :edit, :update, :destroy,:approve]

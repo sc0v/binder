@@ -1,25 +1,10 @@
-# ## Schema Information
-#
-# Table name: `tool_types`
-#
-# ### Columns
-#
-# Name              | Type               | Attributes
-# ----------------- | ------------------ | ---------------------------
-# **`active`**      | `boolean`          | `default(TRUE)`
-# **`created_at`**  | `datetime`         |
-# **`id`**          | `integer`          | `not null, primary key`
-# **`name`**        | `string(255)`      |
-# **`updated_at`**  | `datetime`         |
-#
-
 class ToolTypesController < ApplicationController
   load_and_authorize_resource
 
   # GET /tool_types
   # GET /tool_types.json
   def index
-    @tool_types = @tool_types.paginate(:page => params[:page]).per_page(20)
+    #@tool_types = @tool_types.paginate(:page => params[:page]).per_page(20)
   end
 
   # GET /tool_types/new

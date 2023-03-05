@@ -1,33 +1,8 @@
-# ## Schema Information
-#
-# Table name: `shifts`
-#
-# ### Columns
-#
-# Name                                   | Type               | Attributes
-# -------------------------------------- | ------------------ | ---------------------------
-# **`active`**                           | `boolean`          | `default(TRUE)`
-# **`created_at`**                       | `datetime`         |
-# **`description`**                      | `string(255)`      |
-# **`ends_at`**                          | `datetime`         |
-# **`id`**                               | `integer`          | `not null, primary key`
-# **`organization_id`**                  | `integer`          |
-# **`required_number_of_participants`**  | `integer`          |
-# **`shift_type_id`**                    | `integer`          |
-# **`starts_at`**                        | `datetime`         |
-# **`updated_at`**                       | `datetime`         |
-#
-# ### Indexes
-#
-# * `index_shifts_on_organization_id`:
-#     * **`organization_id`**
-#
-
 include Messenger
-require 'twilio-ruby' 
-require 'daemons'
-require 'delayed_job'
-require 'delayed_job_active_record'
+#require 'twilio-ruby'
+#require 'daemons'
+#require 'delayed_job'
+#require 'delayed_job_active_record'
 
 class Shift < ActiveRecord::Base
   validates_presence_of :starts_at, :ends_at, :required_number_of_participants, :shift_type
@@ -121,7 +96,7 @@ class Shift < ActiveRecord::Base
   end
   
   #delays all jobs using delayed_jobs gem
-  handle_asynchronously :send_notifications, :run_at => Proc.new { |i| i.when_to_run_normal }
-  handle_asynchronously :send_late_notifications, :run_at => Proc.new { |i| i.when_to_run_late }
+  #handle_asynchronously :send_notifications, :run_at => Proc.new { |i| i.when_to_run_normal }
+  #handle_asynchronously :send_late_notifications, :run_at => Proc.new { |i| i.when_to_run_late }
 
 end

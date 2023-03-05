@@ -1,4 +1,4 @@
-class CreateToolWaitlists < ActiveRecord::Migration
+class CreateToolWaitlists < ActiveRecord::Migration[4.2]
   def change
     create_table :tool_waitlists do |t|
       t.references :tool_type, index: true

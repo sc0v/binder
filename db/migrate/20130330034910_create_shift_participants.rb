@@ -1,4 +1,4 @@
-class CreateShiftParticipants < ActiveRecord::Migration
+class CreateShiftParticipants < ActiveRecord::Migration[4.2]
   def change
     create_table :shift_participants do |t|
       t.references :shift

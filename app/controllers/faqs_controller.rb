@@ -1,19 +1,3 @@
-# ## Schema Information
-#
-# Table name: `faqs`
-#
-# ### Columns
-#
-# Name              | Type               | Attributes
-# ----------------- | ------------------ | ---------------------------
-# **`active`**      | `boolean`          | `default(TRUE)`
-# **`answer`**      | `text(65535)`      |
-# **`created_at`**  | `datetime`         |
-# **`id`**          | `integer`          | `not null, primary key`
-# **`question`**    | `text(65535)`      |
-# **`updated_at`**  | `datetime`         |
-#
-
 class FaqsController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
   before_action :set_faq, only: [:edit, :update, :destroy]

@@ -1,4 +1,4 @@
-class AddHasSignedWaiverToParticipants < ActiveRecord::Migration
+class AddHasSignedWaiverToParticipants < ActiveRecord::Migration[4.2]
   def change
     add_column :participants, :has_signed_waiver, :boolean
   end

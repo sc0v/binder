@@ -1,4 +1,4 @@
-class CreateStorePurchases < ActiveRecord::Migration
+class CreateStorePurchases < ActiveRecord::Migration[4.2]
   def change
     create_table :store_purchases do |t|
       t.references :charge, index: true

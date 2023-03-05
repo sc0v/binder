@@ -1,27 +1,3 @@
-# ## Schema Information
-#
-# Table name: `tools`
-#
-# ### Columns
-#
-# Name                | Type               | Attributes
-# ------------------- | ------------------ | ---------------------------
-# **`active`**        | `boolean`          | `default(TRUE)`
-# **`barcode`**       | `integer`          |
-# **`created_at`**    | `datetime`         |
-# **`description`**   | `text(65535)`      |
-# **`id`**            | `integer`          | `not null, primary key`
-# **`tool_type_id`**  | `integer`          |
-# **`updated_at`**    | `datetime`         |
-#
-# ### Indexes
-#
-# * `index_tools_on_barcode`:
-#     * **`barcode`**
-# * `index_tools_on_tool_type_id`:
-#     * **`tool_type_id`**
-#
-
 class ToolsController < ApplicationController
   load_and_authorize_resource
   
@@ -56,7 +32,7 @@ class ToolsController < ApplicationController
       @tools = @tools.checked_in if params[:inventory_filter].strip == 'checked_in'
     end
 
-    @tools = @tools.paginate(:page => params[:page]).per_page(20)
+    #@tools = @tools.paginate(:page => params[:page]).per_page(20)
   end
 
   # GET /tools/1

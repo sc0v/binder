@@ -1,4 +1,4 @@
-class ReplaceMembershipWithParticipantAndOrganizationInCheckouts < ActiveRecord::Migration
+class ReplaceMembershipWithParticipantAndOrganizationInCheckouts < ActiveRecord::Migration[4.2]
   def change
     add_column :checkouts, :participant_id, :integer
     add_column :checkouts, :organization_id, :integer

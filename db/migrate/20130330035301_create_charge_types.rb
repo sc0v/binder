@@ -1,4 +1,4 @@
-class CreateChargeTypes < ActiveRecord::Migration
+class CreateChargeTypes < ActiveRecord::Migration[4.2]
   def change
     create_table :charge_types do |t|
       t.string :name

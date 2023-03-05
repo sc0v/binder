@@ -1,26 +1,3 @@
-# ## Schema Information
-#
-# Table name: `organization_aliases`
-#
-# ### Columns
-#
-# Name                   | Type               | Attributes
-# ---------------------- | ------------------ | ---------------------------
-# **`active`**           | `boolean`          | `default(TRUE)`
-# **`created_at`**       | `datetime`         |
-# **`id`**               | `integer`          | `not null, primary key`
-# **`name`**             | `string(255)`      |
-# **`organization_id`**  | `integer`          |
-# **`updated_at`**       | `datetime`         |
-#
-# ### Indexes
-#
-# * `index_organization_aliases_on_name`:
-#     * **`name`**
-# * `index_organization_aliases_on_organization_id`:
-#     * **`organization_id`**
-#
-
 class OrganizationAliasesController < ApplicationController
   # permissions error - when enabled, this tries to find a OrganizationAlias with the current related model id on creation
   responders :flash, :http_cache
@@ -30,7 +7,7 @@ class OrganizationAliasesController < ApplicationController
       return redirect_to root_url, alert: "Not Authorized to see Aliases"
     end
     @organization = Organization.find(params[:organization_id])
-    @organization_aliases = @organization.organization_aliases.paginate(:page => params[:page]).per_page(10)
+    @organization_aliases = @organization.organization_aliases #.paginate(:page => params[:page]).per_page(10)
   end
 
   def new

@@ -1,4 +1,4 @@
-class AddDetailsToMembership < ActiveRecord::Migration
+class AddDetailsToMembership < ActiveRecord::Migration[4.2]
   def up
     add_column :memberships, :is_booth_chair, :boolean
     add_column :memberships, :title, :string

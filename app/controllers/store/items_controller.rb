@@ -2,7 +2,7 @@ class Store::ItemsController < ApplicationController
   load_and_authorize_resource :store_item
   
   def index
-    @store_items = StoreItem.order(:name).paginate(:page => params[:page]).per_page(20)
+    @store_items = StoreItem.order(:name) #.paginate(:page => params[:page]).per_page(20)
   end
 
   def show

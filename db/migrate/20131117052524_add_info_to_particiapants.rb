@@ -1,4 +1,4 @@
-class AddInfoToParticiapants < ActiveRecord::Migration
+class AddInfoToParticiapants < ActiveRecord::Migration[4.2]
   def change
     add_column :participants, :cached_name, :string
     add_column :participants, :cached_surname, :string

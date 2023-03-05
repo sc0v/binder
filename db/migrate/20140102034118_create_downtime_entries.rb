@@ -1,4 +1,4 @@
-class CreateDowntimeEntries < ActiveRecord::Migration
+class CreateDowntimeEntries < ActiveRecord::Migration[4.2]
   def change
     create_table :downtime_entries do |t|
       t.datetime :started_at

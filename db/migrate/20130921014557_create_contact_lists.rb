@@ -1,4 +1,4 @@
-class CreateContactLists < ActiveRecord::Migration
+class CreateContactLists < ActiveRecord::Migration[4.2]
   def change
     create_table :contact_lists do |t|
       t.integer :participant_id

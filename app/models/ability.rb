@@ -13,7 +13,7 @@ class Ability
     can :read, [OrganizationAlias, OrganizationCategory, Organization, Participant,
                 ShiftType, Tool, Membership]
 
-    can :search
+    can :search, :all
 
     can :read, Checkout do |c|
       c.organization.participants.include?(user.participant)

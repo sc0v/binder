@@ -1,127 +1,85 @@
-source 'https://rubygems.org'
-ruby '2.3.0'
-gem 'rails', '4.2.6'
-gem 'turbolinks'
+source "https://rubygems.org"
+git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
-gem 'sass-rails'
-gem 'uglifier'
-gem 'coffee-rails'
-gem 'jquery-rails'
-gem 'jbuilder'
-gem 'bootstrap-sass'
-gem 'simple_form'
-gem 'therubyracer', :platform=>:ruby
+ruby "3.2.1"
+
+# Bundle edge Rails instead: gem "rails", github: "rails/rails", branch: "main"
+gem "rails", "~> 7.0.4", ">= 7.0.4.2"
+
+# Use sqlite3 as the database for Active Record
+gem "sqlite3", "~> 1.4"
+
+# Use the Puma web server [https://github.com/puma/puma]
+gem "puma", "~> 5.0"
+
+# Use JavaScript with ESM import maps [https://github.com/rails/importmap-rails]
+gem "importmap-rails"
+
+# Hotwire's SPA-like page accelerator [https://turbo.hotwired.dev]
+gem "turbo-rails"
+
+# Hotwire's modest JavaScript framework [https://stimulus.hotwired.dev]
+gem "stimulus-rails"
+
+# Build JSON APIs with ease [https://github.com/rails/jbuilder]
+gem "jbuilder"
+
+# Use Redis adapter to run Action Cable in production
+# gem "redis", "~> 4.0"
+
+# Use Kredis to get higher-level data types in Redis [https://github.com/rails/kredis]
+# gem "kredis"
+
+# Use Active Model has_secure_password [https://guides.rubyonrails.org/active_model_basics.html#securepassword]
+# gem "bcrypt", "~> 3.1.7"
+
+# Windows does not include zoneinfo files, so bundle the tzinfo-data gem
+gem "tzinfo-data", platforms: %i[ mingw mswin x64_mingw jruby ]
+
+# Reduces boot times through caching; required in config/boot.rb
+gem "bootsnap", require: false
+
+# Use Active Storage variants [https://guides.rubyonrails.org/active_storage_overview.html#transforming-images]
+# gem "image_processing", "~> 1.2"
+
+# Manage users, roles, and permissions
+gem 'devise'
+gem 'rolify'
+gem 'cancancan'
+
+# Authenticate users with CMU Shibboleth
 gem 'omniauth'
 gem 'omniauth-shibboleth'
 
-# User and role management
-gem 'cancancan'
-gem 'devise'
-gem 'rolify'
+# Lookup CMU users in LDAP
+gem 'net-ldap'
+gem 'activeldap', require: 'active_ldap/railtie'
 
-# For LDAP calls to CMU's database
-gem 'ruby-ldap'
-gem 'activeldap', :require => 'active_ldap/railtie'
-
-# For Card-lookup requests
+# Connect to CMU's card service using SOAP
 gem 'savon'
 
-# For delayed jobs
-gem 'daemons'
-gem 'delayed_job'
-gem 'delayed_job_active_record'
-
-# For Capistrano deployment
-group :development do
-  gem 'capistrano-rbenv', require: false
-
-  # bundler specific tasks in capistrano
-  gem 'capistrano-bundler'
-
-  # rails specific tasks in capistrano
-  gem 'capistrano-rails'
-
-  # passenger specific tasks in capistrano
-  gem 'capistrano-passenger'
-
-  # hide passwords in capistrano
-  gem 'highline'
-
-  # sudo commands in capistrano
-  gem 'sshkit-sudo'
-
-end
-
-# Document attachments
-gem "carrierwave"
-
-# For Pagniation
-gem 'will_paginate'
-gem 'will_paginate-bootstrap'
-
-gem 'possessive'
-gem 'responders'
-
-# Favicons
-gem 'rails_real_favicon'
-
-# Twilio for SMS
-gem 'twilio-ruby'
-
-# Dossier for reports
-gem 'dossier'
-
-# Single test gem for unit testing
-gem 'single_test'
-
-group :development do
-  # Automatically generate comments in models and such based on schema
-  gem 'annotate'
-
-  gem 'better_errors'
-  gem 'binding_of_caller', :platforms=>[:mri_19, :mri_20, :rbx]
-  gem 'quiet_assets'
-  gem 'rails_layout'
-  gem 'rails-erd'
-  gem 'spring'
-end
+# Replace sprockets as asset pipeline
+gem 'propshaft'
 
 group :development, :test do
-  gem 'thin'
+  # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
+  gem "debug", platforms: %i[ mri mingw x64_mingw ]
 end
 
-group :development, :staging, :production do
-  gem 'newrelic_rpm'
-  gem 'mysql2', '~> 0.4.10'
-  gem 'capistrano3-delayed-job'
+group :development do
+  # Use console on exceptions pages [https://github.com/rails/web-console]
+  gem "web-console"
+
+  # Add speed badges [https://github.com/MiniProfiler/rack-mini-profiler]
+  # gem "rack-mini-profiler"
+
+  # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
+  # gem "spring"
 end
 
 group :test do
-  # Functional Test Framework (Capybara with Minitest
-  #gem 'capybara'
-  #gem 'minitest'
-  #gem 'minitest-spec-rails'
-  #gem 'minitest-wscolor'
-
-  # For mocking Web calls
-  gem 'webmock'
-
-  # For Improved Minitest Syntax
-  gem 'shoulda'
-  gem 'shoulda-matchers'
-
-  # For Factories
-  gem 'factory_girl_rails'
-
-  # For Travis
-  gem 'rake'
-
-  gem 'sqlite3'
-
-  gem 'coveralls', require: false
-end
-
-group :staging, :production do
-  gem 'passenger'
-
+  # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
+  gem "capybara"
+  gem "selenium-webdriver"
+  gem "webdrivers"
 end

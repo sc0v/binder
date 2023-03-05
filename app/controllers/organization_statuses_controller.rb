@@ -1,26 +1,3 @@
-# ## Schema Information
-#
-# Table name: `organization_statuses`
-#
-# ### Columns
-#
-# Name                               | Type               | Attributes
-# ---------------------------------- | ------------------ | ---------------------------
-# **`active`**                       | `boolean`          | `default(TRUE)`
-# **`created_at`**                   | `datetime`         |
-# **`description`**                  | `string(255)`      |
-# **`id`**                           | `integer`          | `not null, primary key`
-# **`organization_id`**              | `integer`          |
-# **`organization_status_type_id`**  | `integer`          |
-# **`participant_id`**               | `integer`          |
-# **`updated_at`**                   | `datetime`         |
-#
-# ### Indexes
-#
-# * `index_organization_statuses_on_organization_id`:
-#     * **`organization_id`**
-#
-
 class OrganizationStatusesController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
   before_action :set_organization_status, only: [:show, :edit, :update, :destroy]
@@ -29,7 +6,7 @@ class OrganizationStatusesController < ApplicationController
   # GET /organizations/1/statuses
   # GET /organizations/1/statuses.json
   def index
-    @organization_statuses = @organization.organization_statuses.paginate(:page => params[:page]).per_page(10)
+    @organization_statuses = @organization.organization_statuses #.paginate(:page => params[:page]).per_page(10)
   end
 
   # GET /organizations/1/statuses/1

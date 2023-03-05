@@ -1,4 +1,4 @@
-class RemoveCardnumberFromParticipants < ActiveRecord::Migration
+class RemoveCardnumberFromParticipants < ActiveRecord::Migration[4.2]
   def up
     remove_column :participants, :cardnumber
   end

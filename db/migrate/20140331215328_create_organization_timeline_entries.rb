@@ -1,4 +1,4 @@
-class CreateOrganizationTimelineEntries < ActiveRecord::Migration
+class CreateOrganizationTimelineEntries < ActiveRecord::Migration[4.2]
   def change
     create_table :organization_timeline_entries do |t|
       t.datetime :started_at

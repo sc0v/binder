@@ -1,19 +1,3 @@
-# ## Schema Information
-#
-# Table name: `shift_types`
-#
-# ### Columns
-#
-# Name              | Type               | Attributes
-# ----------------- | ------------------ | ---------------------------
-# **`active`**      | `boolean`          | `default(TRUE)`
-# **`created_at`**  | `datetime`         |
-# **`id`**          | `integer`          | `not null, primary key`
-# **`name`**        | `string(255)`      |
-# **`short_name`**  | `string(255)`      |
-# **`updated_at`**  | `datetime`         |
-#
-
 require 'test_helper'
 
 class ShiftTypeTest < ActiveSupport::TestCase

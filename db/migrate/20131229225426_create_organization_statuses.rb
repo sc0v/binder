@@ -1,4 +1,4 @@
-class CreateOrganizationStatuses < ActiveRecord::Migration
+class CreateOrganizationStatuses < ActiveRecord::Migration[4.2]
   def change
     create_table :organization_statuses do |t|
       t.belongs_to :organization_status_type
