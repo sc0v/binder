@@ -1,4 +1,4 @@
-class CreateJudgementCategories < ActiveRecord::Migration
+class CreateJudgementCategories < ActiveRecord::Migration[4.2]
   def change
     create_table :judgement_categories do |t|
       t.integer :grouping

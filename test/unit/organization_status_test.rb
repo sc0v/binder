@@ -1,26 +1,3 @@
-# ## Schema Information
-#
-# Table name: `organization_statuses`
-#
-# ### Columns
-#
-# Name                               | Type               | Attributes
-# ---------------------------------- | ------------------ | ---------------------------
-# **`active`**                       | `boolean`          | `default(TRUE)`
-# **`created_at`**                   | `datetime`         |
-# **`description`**                  | `string(255)`      |
-# **`id`**                           | `integer`          | `not null, primary key`
-# **`organization_id`**              | `integer`          |
-# **`organization_status_type_id`**  | `integer`          |
-# **`participant_id`**               | `integer`          |
-# **`updated_at`**                   | `datetime`         |
-#
-# ### Indexes
-#
-# * `index_organization_statuses_on_organization_id`:
-#     * **`organization_id`**
-#
-
 require 'test_helper'
 
 class OrganizationStatusTest < ActiveSupport::TestCase

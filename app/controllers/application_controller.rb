@@ -6,7 +6,7 @@ class ApplicationController < ActionController::Base
   responders :flash, :http_cache
 
   protect_from_forgery :with => :exception
-  before_filter :sidebar
+  before_action :sidebar
 
   rescue_from CanCan::AccessDenied do |exception|
     redirect_to root_path, :alert => exception.message

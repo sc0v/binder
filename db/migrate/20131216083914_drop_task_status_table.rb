@@ -1,4 +1,4 @@
-class DropTaskStatusTable < ActiveRecord::Migration
+class DropTaskStatusTable < ActiveRecord::Migration[4.2]
   def change
     remove_reference :tasks, :task_status
     drop_table :task_statuses

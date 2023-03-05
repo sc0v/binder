@@ -1,4 +1,4 @@
-class AddActiveFields < ActiveRecord::Migration
+class AddActiveFields < ActiveRecord::Migration[4.2]
   def change
     add_column :certification_types, :active, :boolean, default: true
     add_column :certifications, :active, :boolean, default: true

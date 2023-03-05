@@ -1,4 +1,4 @@
-class CreateEventLog < ActiveRecord::Migration
+class CreateEventLog < ActiveRecord::Migration[4.2]
   def change
       
     create_table :events, force: :cascade do |t|

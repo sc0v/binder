@@ -48,13 +48,13 @@ class HomeController < ApplicationController
   def dev_login
     unless Rails.env.staging? or Rails.env.production?
       email = case params[:role]
-        when 'Admin' then 'rcrown@andrew.cmu.edu'
-        when 'SCC Member' then 'cbrownel@andrew.cmu.edu'
-        when 'Booth Chair' then 'rpwhite@andrew.cmu.edu'
-        when 'Participant' then 'nharper@andrew.cmu.edu'
+        when 'Admin' then 'binder+admin_user@springcarnival.org'
+        when 'SCC Member' then 'binder+scc_user@springcarnival.org'
+        when 'Booth Chair' then 'binder+booth_chair_user@springcarnival.org'
+        when 'Participant' then 'binder+rando_user@springcarnival.org'
       end
 
-      sign_in(:user, User.find_by_email(email))
+      sign_in(User.find_by(email: email))
 
       session[:name] = params[:role]
     end

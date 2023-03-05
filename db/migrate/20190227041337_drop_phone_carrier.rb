@@ -1,7 +1,6 @@
-class DropPhoneCarrier < ActiveRecord::Migration
+class DropPhoneCarrier < ActiveRecord::Migration[4.2]
   def change
-    remove_foreign_key :participants, :phone_carrier
-    remove_reference :participants, :phone_carrier
+    remove_reference :participants, :phone_carrier, index: true, foreign_key: true
     drop_table :phone_carriers
   end
 end

@@ -1,4 +1,4 @@
-class CreateJudgements < ActiveRecord::Migration
+class CreateJudgements < ActiveRecord::Migration[4.2]
   def change
     create_table :judgements do |t|
       t.references :judgement_category, index: true

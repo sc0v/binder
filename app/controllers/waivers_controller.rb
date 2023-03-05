@@ -1,5 +1,5 @@
 class WaiversController < ApplicationController
-  before_filter :require_authenticated_user
+  before_action :require_authenticated_user
 
   def new
     if params[:participant_id].nil? or !current_user.participant.is_scc?

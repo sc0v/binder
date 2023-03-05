@@ -1,19 +1,3 @@
-# ## Schema Information
-#
-# Table name: `organization_categories`
-#
-# ### Columns
-#
-# Name               | Type               | Attributes
-# ------------------ | ------------------ | ---------------------------
-# **`active`**       | `boolean`          | `default(TRUE)`
-# **`created_at`**   | `datetime`         |
-# **`id`**           | `integer`          | `not null, primary key`
-# **`is_building`**  | `boolean`          |
-# **`name`**         | `string(255)`      |
-# **`updated_at`**   | `datetime`         |
-#
-
 require 'test_helper'
 
 class OrganizationCategoryTest < ActiveSupport::TestCase

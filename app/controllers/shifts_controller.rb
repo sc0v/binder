@@ -1,28 +1,3 @@
-# ## Schema Information
-#
-# Table name: `shifts`
-#
-# ### Columns
-#
-# Name                                   | Type               | Attributes
-# -------------------------------------- | ------------------ | ---------------------------
-# **`active`**                           | `boolean`          | `default(TRUE)`
-# **`created_at`**                       | `datetime`         |
-# **`description`**                      | `string(255)`      |
-# **`ends_at`**                          | `datetime`         |
-# **`id`**                               | `integer`          | `not null, primary key`
-# **`organization_id`**                  | `integer`          |
-# **`required_number_of_participants`**  | `integer`          |
-# **`shift_type_id`**                    | `integer`          |
-# **`starts_at`**                        | `datetime`         |
-# **`updated_at`**                       | `datetime`         |
-#
-# ### Indexes
-#
-# * `index_shifts_on_organization_id`:
-#     * **`organization_id`**
-#
-
 class ShiftsController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create] 
   before_action :set_shift, only: [:show, :edit, :update, :destroy]
@@ -56,8 +31,8 @@ class ShiftsController < ApplicationController
       shifts = shifts.coord_shifts
     end
 
-    @shifts_upcoming = shifts.where("ends_at > ?", Time.now).paginate(:page => params[:upcoming_page]).per_page(15).reorder('starts_at ASC')
-    @shifts_past = shifts.where("ends_at <= ?", Time.now).paginate(:page => params[:past_page]).per_page(15).reorder('starts_at DESC')
+    @shifts_upcoming = shifts.where("ends_at > ?", Time.now) #.paginate(:page => params[:upcoming_page]).per_page(15).reorder('starts_at ASC')
+    @shifts_past = shifts.where("ends_at <= ?", Time.now) #.paginate(:page => params[:past_page]).per_page(15).reorder('starts_at DESC')
   end
 
   # GET /shifts/1

@@ -4,7 +4,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= "Dev - " unless Rails.env.production? %><%= content_for?(:title) ? yield(:title) : "SCC Binder" %></title>
     <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Boa" %>">
-    <%= render 'favicon' %>
+    <%#= render 'favicon' %>
     <%= stylesheet_link_tag "application", :media => "all" %>
     <%= javascript_include_tag "application" %>
     <%= csrf_meta_tags %>

@@ -1,31 +1,3 @@
-# ## Schema Information
-#
-# Table name: `charges`
-#
-# ### Columns
-#
-# Name                            | Type               | Attributes
-# ------------------------------- | ------------------ | ---------------------------
-# **`active`**                    | `boolean`          | `default(TRUE)`
-# **`amount`**                    | `decimal(8, 2)`    |
-# **`charge_type_id`**            | `integer`          |
-# **`charged_at`**                | `datetime`         |
-# **`created_at`**                | `datetime`         |
-# **`creating_participant_id`**   | `integer`          |
-# **`description`**               | `text(65535)`      |
-# **`id`**                        | `integer`          | `not null, primary key`
-# **`is_approved`**               | `boolean`          |
-# **`issuing_participant_id`**    | `integer`          |
-# **`organization_id`**           | `integer`          |
-# **`receiving_participant_id`**  | `integer`          |
-# **`updated_at`**                | `datetime`         |
-#
-# ### Indexes
-#
-# * `index_charges_on_organization_id`:
-#     * **`organization_id`**
-#
-
 class Charge < ActiveRecord::Base
   validates_presence_of :charged_at, :issuing_participant, :organization, :charge_type, :amount
   validates_associated :issuing_participant, :organization, :charge_type, :receiving_participant, :creating_participant
