@@ -36,7 +36,12 @@
                             :class => 'btn btn-danger btn-xs' %>
               <% end %>
             </li>
-          <% end %>
+            <% end %>
+	    <%# if can?(:create, membership) %>
+          <li><%#= link_to "Add",
+                  new_participant_membership_path(@participant),
+                  :class => 'btn btn-primary btn-xs' %></li>
+          <%# end %>
         </ul>
       <% end %>
     </dd>

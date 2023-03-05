@@ -3,7 +3,7 @@ class CarnegieMellonIDCard
   def self.get_andrewid_by_card_id full_card_id
     
     begin
-      client = Savon.client( wsdl: "https://idplusweb.cards.as.cmu.edu:8081/csgold/idtranslation.asmx?WSDL",
+      client = Savon.client( wsdl: "https://csgapp.andrew.cmu.edu/csgoldwebservice/idtranslation.asmx?WSDL",
                              basic_auth: [ENV["CARDSERVICE_USERNAME"], ENV["CARDSERVICE_PASSWORD"]], convert_request_keys_to: :camelcase, log_level: :error, log: true)
       
       # Three track readers start with a % and then the card number
@@ -40,7 +40,7 @@ class CarnegieMellonIDCard
   def self.get_andrewid_by_card_csn full_card_csn
 
     begin
-      client = Savon.client( wsdl: "https://idplusweb.cards.as.cmu.edu:8081/csgold/idtranslation.asmx?WSDL",
+      client = Savon.client( wsdl: "https://csgapp.andrew.cmu.edu/csgoldwebservice/idtranslation.asmx?WSDL",
                              basic_auth: [ENV["CARDSERVICE_USERNAME"], ENV["CARDSERVICE_PASSWORD"]], convert_request_keys_to: :camelcase, log_level: :error, log: true)
 
       # Three track readers start with a % and then the card number

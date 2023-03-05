@@ -40,9 +40,11 @@ class WaiversController < ApplicationController
     elsif params[:phone_number] == ""
       flash[:error] = "You must provide a mobile phone number."
       redirect_to action: :new
-    elsif params[:signature] != @participant.name
-      flash[:error] = "You must electronically sign the waiver with your full name as it appears on the waiver."
-      redirect_to action: :new
+    elsif params[:signature] == ""
+      flash[:error] = "You must provide your name."
+      redirect_to action: :new    #elsif params[:signature] != @participant.name
+    #  flash[:error] = "You must electronically sign the waiver with your full name as it appears on the waiver."
+    #  redirect_to action: :new
     else
       @participant.phone_number = params[:phone_number]
       @participant.has_signed_waiver = true

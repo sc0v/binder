@@ -1,12 +1,11 @@
 class CarnegieMellonPerson < ActiveLdap::Base
-  ldap_mapping :dn_attribute => "guid",
-               :prefix => "ou=Person",
-               :classes => ["cmuPerson"]
+  ldap_mapping :dn_attribute => "uid",
+               :prefix => ""
 
   def self.find_by_andrewid( andrewid )
     
     begin
-      person = find("cmuandrewid=#{andrewid}", :attributes => ['cmuandrewid',
+      person = find("uid=#{andrewid}", :attributes => ['uid',
                                                                'cn', 
                                                                'mail',
                                                                'sn',

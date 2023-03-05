@@ -13,11 +13,13 @@ module ApplicationHelper
   end
 
   def time(display_time)
+    return "" if display_time.nil?
     time_zone = ActiveSupport::TimeZone.new("Eastern Time (US & Canada)")
     display_time.in_time_zone(time_zone).strftime("%I:%M%p")
   end
 
   def date(display_date)
+    return "" if display_date.nil?
     time_zone = ActiveSupport::TimeZone.new("Eastern Time (US & Canada)")
     display_date.in_time_zone(time_zone).strftime("%m/%d/%y")
   end
