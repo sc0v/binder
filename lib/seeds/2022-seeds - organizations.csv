@@ -1,0 +1,34 @@
+name,organization_category,short_name,is_building
+Spring Carnival Committee,SCC,SCC,FALSE
+Student Dormitory Council,Independent,SDC,TRUE
+Student Leadership Involvement and Civic Engagement,Staff,SLICE,FALSE
+Department of Student Affairs,Staff,DoSA,FALSE
+University Rowing Club,Non-Building,Rowing,FALSE
+Juntos,Non-Building,,FALSE
+Astronomy Club,Independent,Astro,TRUE
+Fringe,Independent,,TRUE
+Alpha Phi,Sorority,APhi,TRUE
+Kappa Alpha Theta,Sorority,Theta,TRUE
+Alpha Chi Omega,Sorority,AXO,TRUE
+Delta Gamma,Sorority,DG,TRUE
+Taiwanese Students Association,Independent,TSA,TRUE
+Kappa Sigma,Fraternity,KapSig,TRUE
+Architecture Pavilion (Entranceway),Independent,Architecture,TRUE
+Sigma Phi Epsilon,Fraternity,SigEp,TRUE
+Asian Student Association,Independent,ASA,TRUE
+Kappa Kappa Gamma,Sorority,Kappa,TRUE
+Delta Delta Delta,Sorority,TriDelt,TRUE
+Alpha Phi Omega,Other Building,APhiO,TRUE
+Phi Delta Theta,Fraternity,PhiDelt,TRUE
+Delta Tau Delta,Fraternity,Delt,TRUE
+Alpha Epsilon Pi,Fraternity,AEPi,TRUE
+Chinese Students Association,Independent,CSA,TRUE
+CMU KGB,Blitz,KGB,TRUE
+Singapore Students' Association,Blitz,SSA,TRUE
+Awareness of Roots in Chinese Culture,Doghouse,ARCC,TRUE
+Donner,Doghouse,,TRUE
+E-Tower,Doghouse,,TRUE
+Fifth Ave,Doghouse,,TRUE
+Habitat for Humanity,Doghouse,,TRUE
+Latino/a Graduate Student Association,Doghouse,LGSA,TRUE
+Senate,Doghouse,,TRUE

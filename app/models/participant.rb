@@ -31,13 +31,13 @@ class Participant < ActiveRecord::Base
   # validates :has_signed_waiver, :acceptance => {:accept => true}
   validates_format_of :phone_number, :with => /\A\(?\d{3}\)?[-. ]?\d{3}[-.]?\d{4}\Z/, :message => "should be 10 digits (area code needed) and delimited with dashes only", :allow_blank => true
 
+  has_many :memberships, dependent: :destroy
   has_many :organizations, :through => :memberships
+  has_many :shift_participants, dependent: :destroy
   has_many :shifts, :through => :shift_participants
   has_many :certs, :through => :certifications, source: :participant
   has_many :checkouts, dependent: :destroy
   has_many :tools, :through => :checkouts
-  has_many :memberships, dependent: :destroy
-  has_many :shift_participants, dependent: :destroy
   has_many :certifications, dependent: :destroy
   has_many :organization_statuses, dependent: :destroy
   has_many :events
@@ -206,7 +206,7 @@ class Participant < ActiveRecord::Base
       else
         write_attribute :cached_name, "N/A"
         write_attribute :cached_surname, "N/A"
-        write_attribute :cached_email, andrewid + "@andrew.cmu.edu"
+        write_attribute :cached_email, andrewid + "@andrew.cmu.edu" unless andrewid.nil?
         write_attribute :cached_department, "N/A"
         write_attribute :cached_student_class, "N/A"
       end
@@ -217,6 +217,7 @@ class Participant < ActiveRecord::Base
   end
   
   def reformat_phone
+    return if self.phone_number.blank?
     phone_number = self.phone_number.to_s
     phone_number.gsub!(/[^0-9]/,"")
     self.phone_number = phone_number
