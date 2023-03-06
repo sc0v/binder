@@ -6,7 +6,7 @@
   <% result_shown = true %>
   <p>
     <%= simple_form_for @new_participant do |f| %>
-      <%= f.input :andrewid, :input_html => { :value => @new_participant.andrewid }, :as => :hidden %>
+      <%= f.input :eppn, :input_html => { :value => @new_participant.eppn }, :as => :hidden %>
       <%= f.submit "Create a new Participant for " + @new_participant.name, :class => 'btn btn-success' %>
     <% end %>
   </p>

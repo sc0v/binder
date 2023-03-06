@@ -21,7 +21,7 @@
           <td><%= checkout.tool.name %></td>
           <td><%= date_and_time(checkout.checked_out_at) unless checkout.checked_out_at.nil? %></td>
           <td><%= date_and_time(checkout.checked_in_at) unless checkout.checked_in_at.nil? %></td>
-          <td><%= checkout.participant.andrewid unless checkout.participant.nil? %></td>
+          <td><%= checkout.participant.eppn unless checkout.participant.nil? %></td>
           <td><%= checkout.organization.name unless checkout.organization.nil?%></td>
         </tr>
       <% end %>

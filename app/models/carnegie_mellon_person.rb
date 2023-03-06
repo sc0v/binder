@@ -1,26 +1,21 @@
+# frozen_string_literal: true
+
 class CarnegieMellonPerson < ActiveLdap::Base
-  ldap_mapping :dn_attribute => "uid",
-               :prefix => ""
+  ldap_mapping dn_attribute: 'uid',
+               prefix: ''
 
-  def self.find_by_andrewid( andrewid )
-    
-    begin
-      person = find("uid=#{andrewid}", :attributes => ['uid',
-                                                               'cn', 
-                                                               'mail',
-                                                               'sn',
-                                                               'cmuDepartment',
-                                                               'cmuStudentClass'
-                                                              ]) 
+  def self.find_by_eppn(eppn)
+    person = find("eduPersonPrincipalName=#{eppn}", attributes: %w[uid
+                                                                   cn
+                                                                   mail
+                                                                   sn
+                                                                   cmuDepartment
+                                                                   cmuStudentClass])
 
-      if person['cmuDepartment'].is_a? Array
-        person['cmuDepartment'] = person['cmuDepartment'].join(', ')
-      end
+    person['cmuDepartment'] = person['cmuDepartment'].join(', ') if person['cmuDepartment'].is_a? Array
 
-      return person unless person[:cn] == "Merged Person"
-    rescue
-      return nil
-    end
+    return person unless person[:cn] == 'Merged Person'
+  rescue StandardError
+    nil
   end
-
 end

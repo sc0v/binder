@@ -1,7 +1,7 @@
 <% if can?(:read, @participant) %>
   <%- model_class = Participant -%>
   <div class="page-header">
-    <h1><%= @participant.name %> <small><%= @participant.andrewid %></small></h1>
+    <h1><%= @participant.name %> <small><%= @participant.eppn %></small></h1>
   </div>
 
   <dl class="dl-horizontal">

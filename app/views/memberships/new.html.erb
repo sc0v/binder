@@ -4,9 +4,9 @@
       <div class="col-sm-9">
 
         <div class="form-group">
-          <label class="col-sm-3 control-label" for="participant_andrewid">AndrewID</label>
+          <label class="col-sm-3 control-label" for="participant_eppn">AndrewID</label>
           <div class="col-sm-9">
-            <input id="participant_andrewid" class="form-control">
+            <input id="participant_eppn" class="form-control">
           </div>
         </div>
         <div class="form-group">
@@ -29,13 +29,13 @@
 
 <script>
 $(document).ready(function() {
-  $andrewid = $('#participant_andrewid');
+  $eppn = $('#participant_eppn');
   $participantid = $('#membership_participant_id');
   $participantname = $('#participant_name');
   $submitbutton = $('#membership_submit');
 
   var timeout = null;
-  $andrewid.keyup(function() {
+  $eppn.keyup(function() {
     clearTimeout(timeout);
 
     timeout = setTimeout(function() {
@@ -43,7 +43,7 @@ $(document).ready(function() {
         url: "/participants/lookup.json",
         type: "POST",
         data: {
-          card_number: $andrewid.val()
+          card_number: $eppn.val()
         }
       }).done(function(data) {
         $participantid.val(data['id']);

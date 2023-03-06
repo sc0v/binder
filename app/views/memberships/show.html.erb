@@ -7,7 +7,7 @@
     <dt><strong><%= model_class.human_attribute_name(:organization) %>:</strong></dt>
     <dd><%= @membership.organization.name %></dd>
     <dt><strong><%= model_class.human_attribute_name(:participant) %>:</strong></dt>
-    <dd><%= @membership.participant.andrewid %></dd>
+    <dd><%= @membership.participant.eppn %></dd>
     <dt><strong><%= model_class.human_attribute_name(:is_booth_chair) %>:</strong></dt>
     <dd><%= format_boolean(@membership.is_booth_chair?)  %></dd>
     <dt><strong><%= model_class.human_attribute_name(:title) %>:</strong></dt>

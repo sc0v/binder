@@ -1,22 +1,24 @@
+# frozen_string_literal: true
+
 class ToolCartController < ApplicationController
   before_action :check_permissions
 
   def add_tool
-    @tool = Tool.find_by_barcode(params[:barcode])
+    @tool = Tool.find_by(barcode: params[:barcode])
     session[:tool_cart] = session[:tool_cart] || []
 
-    unless @tool.present?
+    if @tool.blank?
       return render action: 'tool_cart_error',
-                    locals: {message: 'Could not load that tool. Try scanning it again or add the tool to the system.'}
+                    locals: { message: 'Could not load that tool. Try scanning it again or add the tool to the system.' }
     end
 
     if session[:tool_cart].include?(@tool.barcode)
       return render action: 'tool_cart_error',
-                    locals: {message: "Tool ##{@tool.barcode} is already in the cart"}
+                    locals: { message: "Tool ##{@tool.barcode} is already in the cart" }
     end
 
     session[:tool_cart].append(@tool.barcode)
-    render action: 'add_tool', locals: {count: session[:tool_cart].size}
+    render action: 'add_tool', locals: { count: session[:tool_cart].size }
   end
 
   def remove_tool
@@ -24,12 +26,13 @@ class ToolCartController < ApplicationController
 
     unless session[:tool_cart].include?(params[:barcode].to_i)
       return render action: 'tool_cart_error',
-                    locals: {message: "Tool is not in the cart"}
+                    locals: { message: 'Tool is not in the cart' }
     end
 
     session[:tool_cart].delete(params[:barcode].to_i)
     render action: 'remove_tool',
-           locals: {barcode: params[:barcode], list_empty: session[:tool_cart].empty?, count: session[:tool_cart].size}
+           locals: { barcode: params[:barcode], list_empty: session[:tool_cart].empty?,
+                     count: session[:tool_cart].size }
   end
 
   def remove_all
@@ -41,68 +44,67 @@ class ToolCartController < ApplicationController
     session[:tool_cart] = session[:tool_cart] || []
     if session[:tool_cart].empty?
       return render action: 'tool_cart_error',
-                    locals: {message: "Scan tools to checkout first"}
+                    locals: { message: 'Scan tools to checkout first' }
     end
 
     if params[:participant_id].empty? || params[:organization_id].empty?
       return render action: 'tool_cart_error',
-                    locals: {message: "Enter a valid participant and org. (Try pressing enter inside the input box)"}
+                    locals: { message: 'Enter a valid participant and org. (Try pressing enter inside the input box)' }
     end
     participant = Participant.find(params[:participant_id])
     organization = Organization.find(params[:organization_id])
 
     # Validations
-    unless participant.present?
+    if participant.blank?
       return render action: 'tool_cart_error',
-                    locals: {message: "Invalid participant"}
+                    locals: { message: 'Invalid participant' }
     end
 
-    unless organization.present?
+    if organization.blank?
       return render action: 'tool_cart_error',
-                    locals: {message: "Invalid organization"}
+                    locals: { message: 'Invalid organization' }
     end
 
     participant_certs = participant.certifications.map { |cert| cert.certification_type.name }
     session[:tool_cart].each do |tool|
-      tool = Tool.find_by_barcode(tool)
+      tool = Tool.find_by(barcode: tool)
       required_certs = tool.tool_type.tool_type_certifications.map { |cert| cert.certification_type.name }
       required_certs.each do |required_cert|
-        if !participant_certs.include?(required_cert)
+        if participant_certs.exclude?(required_cert)
           return render action: 'tool_cart_error',
-                        locals: {message: "#{required_cert} certification required for #{tool.name} tool!"}
+                        locals: { message: "#{required_cert} certification required for #{tool.name} tool!" }
         end
       end
     end
 
     # Add membership
     if params[:add_membership]
-      Membership.create({participant_id: params[:participant_id], organization_id: params[:organization_id]})
+      Membership.create({ participant_id: params[:participant_id], organization_id: params[:organization_id] })
     end
 
     # Create checkouts
     session[:tool_cart].each do |barcode|
-      tool = Tool.find_by_barcode(barcode)
+      tool = Tool.find_by(barcode:)
       next if tool.blank?
 
       # Checkin tool if it is already checked out
       if tool.is_checked_out?
         old_checkout = tool.checkouts.current.first
-        old_checkout.checked_in_at = Time.now
+        old_checkout.checked_in_at = Time.zone.now
         old_checkout.save
       end
 
       checkout = Checkout.new
-      checkout.checked_out_at = Time.now
+      checkout.checked_out_at = Time.zone.now
       checkout.tool = tool
       checkout.participant = participant
       checkout.organization = organization
 
       checkout.save
-
     end
 
     @num_tools = session[:tool_cart].size
-    @person_name = participant.andrewid
+    @person_name = participant.eppn
     @org_name = organization.short_name
 
     session[:tool_cart] = []
@@ -112,20 +114,19 @@ class ToolCartController < ApplicationController
     session[:tool_cart] = session[:tool_cart] || []
     if session[:tool_cart].empty?
       return render action: 'tool_cart_error',
-                    locals: {message: "Scan tools to checkin first"}
+                    locals: { message: 'Scan tools to checkin first' }
     end
 
-
     session[:tool_cart].each do |barcode|
-      tool = Tool.find_by_barcode(barcode)
+      tool = Tool.find_by(barcode:)
       next if tool.blank?
 
       # Checkin tool if it is already checked out
-      if tool.is_checked_out?
-        old_checkout = tool.checkouts.current.first
-        old_checkout.checked_in_at = Time.now
-        old_checkout.save
-      end
+      next unless tool.is_checked_out?
+
+      old_checkout = tool.checkouts.current.first
+      old_checkout.checked_in_at = Time.zone.now
+      old_checkout.save
     end
 
     @num_tools = session[:tool_cart].size
@@ -136,11 +137,11 @@ class ToolCartController < ApplicationController
     session[:tool_cart] = session[:tool_cart] || []
     if session[:tool_cart].size != 2
       return render action: 'tool_cart_error',
-                    locals: {message: "You must scan exactly 1 checked in tool and 1 checked out tool to use swap."}
+                    locals: { message: 'You must scan exactly 1 checked in tool and 1 checked out tool to use swap.' }
     end
 
-    first_tool = Tool.find_by_barcode(session[:tool_cart][0])
-    second_tool = Tool.find_by_barcode(session[:tool_cart][1])
+    first_tool = Tool.find_by(barcode: session[:tool_cart][0])
+    second_tool = Tool.find_by(barcode: session[:tool_cart][1])
 
     if first_tool.is_checked_out? && !second_tool.is_checked_out?
       checkedin_tool = second_tool
@@ -150,7 +151,7 @@ class ToolCartController < ApplicationController
       checkedout_tool = second_tool
     else
       return render action: 'tool_cart_error',
-                    locals: {message: "You must scan exactly 1 checked in tool and 1 checked out tool to use swap."}
+                    locals: { message: 'You must scan exactly 1 checked in tool and 1 checked out tool to use swap.' }
     end
 
     @old_tool_name = checkedout_tool.name
@@ -160,7 +161,7 @@ class ToolCartController < ApplicationController
 
     # Checkout new tool
     checkout = Checkout.new
-    checkout.checked_out_at = Time.now
+    checkout.checked_out_at = Time.zone.now
     checkout.tool = checkedin_tool
     checkout.participant = checkedout_tool.current_participant
     checkout.organization = checkedout_tool.current_organization
@@ -169,17 +170,17 @@ class ToolCartController < ApplicationController
 
     # Checkin old tool
     old_checkout = checkedout_tool.checkouts.current.first
-    old_checkout.checked_in_at = Time.now
+    old_checkout.checked_in_at = Time.zone.now
     old_checkout.save
 
     session[:tool_cart] = []
   end
 
   private
-  def check_permissions
-    unless can?(:create, Checkout)
-      redirect_to root_url, alert: 'You do not have permission to use the tool cart'
-    end
-  end
 
+  def check_permissions
+    return if can?(:create, Checkout)
+
+    redirect_to root_url, alert: 'You do not have permission to use the tool cart'
+  end
 end
