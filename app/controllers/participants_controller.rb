@@ -1,40 +1,34 @@
-#
-# ### Indexes
-#
-# * `index_participants_on_phone_carrier_id`:
-#     * **`phone_carrier_id`**
-#
+# frozen_string_literal: true
 
 class ParticipantsController < ApplicationController
-  load_and_authorize_resource skip_load_resource only: [:create] 
-  before_action :set_participant, only: [:show, :edit, :update, :destroy]
+  load_and_authorize_resource skip_load_resource only: [:create]
+  before_action :set_participant, only: %i[show edit update destroy]
   before_action :set_wristband_colors
 
   # GET /participants
   # GET /participants.json
   def index
-    unless ( params[:organization_id].blank? )
+    if params[:organization_id].blank?
+      @participants = Participant.all
+    else
       @organization = Organization.find(params[:organization_id])
       @participants = @organization.participants
-    else
-      @participants = Participant.all
     end
 
-    #@participants = @participants.paginate(:page => params[:page]).per_page(20)
+    # @participants = @participants.paginate(:page => params[:page]).per_page(20)
   end
 
   def lookup
     # Process request if barcode is present
-    participant = Participant.find_by_card params[:card_number]
-   
-    unless participant.blank?
-      render json: { :id => participant.id,
-                     :name => participant.name,
-                     :member_orgs => participant.organizations,
-                     :non_member_orgs => Organization.all.select{|org| !participant.organizations.include?(org)}
-      }
-    else
+    participant = Participant.find_by card: params[:card_number]
+
+    if participant.blank?
       render json: :nothing, status: :unprocessable_entity
+    else
+      render json: { id: participant.id,
+                     name: participant.name,
+                     member_orgs: participant.organizations,
+                     non_member_orgs: Organization.all.reject { |org| participant.organizations.exclude?(org) } }
     end
   end
 
@@ -44,20 +38,20 @@ class ParticipantsController < ApplicationController
     @memberships = @participant.memberships.all
 
     if @memberships.empty?
-      @wristband = "None - No organizations"
+      @wristband = 'None - No organizations'
     elsif !@participant.has_signed_waiver
-      @wristband = "None - No waiver signature"
+      @wristband = 'None - No waiver signature'
     else
       building_statuses = @memberships.map { |m| m.organization.organization_category.is_building }
-      if building_statuses.include?(true)
-        @wristband = @wristband_colors[:building]
-      else
-        @wristband = @wristband_colors[:nonbuilding]
-      end
+      @wristband = if building_statuses.include?(true)
+                     @wristband_colors[:building]
+                   else
+                     @wristband_colors[:nonbuilding]
+                   end
 
-      certs = @participant.certifications.map { |cert| cert.certification_type }
-      if certs.include?(CertificationType.find_by_name("Scissor Lift"))
-        @wristband += " and " + @wristband_colors[:scissor_lift]
+      certs = @participant.certifications.map(&:certification_type)
+      if certs.include?(CertificationType.find_by(name: 'Scissor Lift'))
+        @wristband += " and #{@wristband_colors[:scissor_lift]}"
       end
     end
   end
@@ -69,8 +63,7 @@ class ParticipantsController < ApplicationController
   end
 
   # GET /participants/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /participants
   # POST /participants.json
@@ -83,7 +76,7 @@ class ParticipantsController < ApplicationController
   # PUT /participants/1
   # PUT /participants/1.json
   def update
-    @participant.update_attributes(participant_update_params)
+    @participant.update(participant_update_params)
     respond_with(@participant)
   end
 
@@ -95,12 +88,13 @@ class ParticipantsController < ApplicationController
   end
 
   private
+
   def set_participant
     @participant = Participant.find(params[:id])
   end
 
   def participant_create_params
-    params.require(:participant).permit(:andrewid, :phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)
+    params.require(:participant).permit(:eppn, :phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)
   end
 
   def participant_update_params
@@ -108,7 +102,6 @@ class ParticipantsController < ApplicationController
   end
 
   def set_wristband_colors
-    @wristband_colors = { :building => "Red", :nonbuilding => "Blue", :scissor_lift => "Green" }
+    @wristband_colors = { building: 'Red', nonbuilding: 'Blue', scissor_lift: 'Green' }
   end
-
 end

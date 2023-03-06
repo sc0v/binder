@@ -12,7 +12,7 @@
       </button>
     </div>
     <div class="navbar-collapse collapse" id="navbar-collapse-main">
-      <% if user_signed_in? %>
+      <% if Current.user.present? %>
         <ul class="nav navbar-nav navbar-left">
           <!-- Normal Navbar LI's -->
           <li><%= link_to "Organizations", organizations_path(:type => "building") %></li>
@@ -83,10 +83,10 @@
 
       <!-- Right Navbar -->
       <ul class="nav navbar-nav navbar-right">
-        <% if user_signed_in? %>
+        <% if Current.user.present? %>
           <!-- User Account Section -->
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= (Rails.env.production? or Rails.env.staging?) ? current_user.participant.andrewid : session[:name] %><b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= (Rails.env.production? or Rails.env.staging?) ? current_user.participant.eppn : session[:name] %><b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li>
                 <%= link_to 'My Profile', participant_path(current_user.participant) %>

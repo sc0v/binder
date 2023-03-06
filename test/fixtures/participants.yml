@@ -2,22 +2,22 @@ admin_participant:
   cached_email: binder+admin_participant@springcarnival.org
   cached_name: Admin Participant
   user: admin_user
-  andrewid: ayk2
+  eppn: ayk2@andrew.cmu.edu
 
 scc_participant:
   cached_email: binder+scc_participant@springcarnival.org
   cached_name: SCC Committee
   user: scc_user
-  andrewid: jmmclaug
+  eppn: jmmclaug@andrew.cmu.edu
 
 booth_chair_participant:
   cached_email: binder+booth_chair_participant@springcarnival.org
   cached_name: Booth Chair
   user: booth_chair_user
-  andrewid: cmwu2
+  eppn: cmwu2@andrew.cmu.edu
 
 rando_participant:
   cached_email: binder+rando_participant@springcarnival.org
   cached_name: Unaffiliated Rando
   user: rando_user
-  andrewid: jiatong4
+  eppn: jiatong4@andrew.cmu.edu

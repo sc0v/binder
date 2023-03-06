@@ -20,7 +20,7 @@
         <tr>
           <td><%= link_to membership.id, membership_path(membership) %></td>
           <td><%= membership.organization.name %></td>
-          <td><%= membership.participant.andrewid %></td>
+          <td><%= membership.participant.eppn %></td>
           <td><%= format_boolean(membership.is_booth_chair?) %></td>
           <td><%= membership.title %></td>
           <td><%= membership.booth_chair_order %></td>
