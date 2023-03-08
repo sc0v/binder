@@ -18,7 +18,6 @@ class Participant < ApplicationRecord
   has_many :certifications, dependent: :destroy
   has_many :organization_statuses, dependent: :destroy
   has_many :events
-  belongs_to :user, dependent: :destroy
 
   default_scope { order('eppn') }
   scope :search, lambda { |term|
@@ -78,6 +77,14 @@ class Participant < ApplicationRecord
 
   # error handling here does not work?
   class NotRegistered < StandardError
+  end
+
+  # Initialize a user based on auth info from an Omniauth strategy
+  def self.from_omniauth(auth_info)
+    Rails.logger.debug auth_info
+    return if (eppn = auth_info['uid']).blank?
+
+    find_or_create_by!(eppn:)
   end
 
   def self.find_by_card(card_number, lookup_only = false)
@@ -178,7 +185,7 @@ class Participant < ApplicationRecord
     if ldap_reference.nil?
       self[:cached_name] = 'N/A'
       self[:cached_surname] = 'N/A'
-      self[:cached_email] = eppn.present? ? eppn : 'N/A'
+      self[:cached_email] = (eppn.presence || 'N/A')
       self[:cached_department] = 'N/A'
       self[:cached_student_class] = 'N/A'
     else

@@ -19,7 +19,7 @@
           <li><%= link_to "Tools", tools_path %></li>
           <li><%= link_to "Store", store_items_path %></li>
 
-          <% if current_user.participant.is_booth_chair? %>
+          <% if Current.user.is_booth_chair? %>
               <% if can?(:structural, OrganizationTimelineEntry) %>
                 <li><%= link_to "Structural", structural_path %></li>
               <% end %>
@@ -46,7 +46,7 @@
               <% if can?(:read, Task) %>
                 <li><%= link_to "Tasks", tasks_path %></li>
               <% end %>
-              <% if !current_user.participant.is_booth_chair? %>
+              <% if !Current.user.is_booth_chair? %>
                 <% if can?(:structural, OrganizationTimelineEntry) %>
                   <li><%= link_to "Structural Queue", structural_path %></li>
                 <% end %>
@@ -57,7 +57,7 @@
             </ul>
           </li>
 
-          <% if current_user.participant.is_scc? %>
+          <% if Current.user.is_scc? %>
             <li class="dropdown">
               <a href="#" class="dropdown-toggle" data-toggle="dropdown">SCC Links<b class="caret"></b></a>
               <ul class="dropdown-menu">
@@ -86,16 +86,16 @@
         <% if Current.user.present? %>
           <!-- User Account Section -->
           <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= (Rails.env.production? or Rails.env.staging?) ? current_user.participant.eppn : session[:name] %><b class="caret"></b></a>
+            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><%= (Rails.env.production? or Rails.env.staging?) ? Current.user.eppn : session[:name] %><b class="caret"></b></a>
             <ul class="dropdown-menu">
               <li>
-                <%= link_to 'My Profile', participant_path(current_user.participant) %>
+                <%= link_to 'My Profile', participant_path(Current.user) %>
               </li>
-              <% if !current_user.participant.has_signed_waiver? %>
+              <% if !Current.user.has_signed_waiver? %>
                 <li><%= link_to "Sign Waiver", new_waiver_path %></li>
               <% end %>
               <li>
-                <%= link_to 'Logout', destroy_user_session_path, :id => 'log_out' %>
+                <%= link_to 'Logout', logout_path %>
               </li>
             </ul>
           </li>

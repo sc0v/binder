@@ -1,23 +1,19 @@
 admin_participant:
   cached_email: binder+admin_participant@springcarnival.org
   cached_name: Admin Participant
-  user: admin_user
   eppn: ayk2@andrew.cmu.edu
 
 scc_participant:
   cached_email: binder+scc_participant@springcarnival.org
   cached_name: SCC Committee
-  user: scc_user
   eppn: jmmclaug@andrew.cmu.edu
 
 booth_chair_participant:
   cached_email: binder+booth_chair_participant@springcarnival.org
   cached_name: Booth Chair
-  user: booth_chair_user
   eppn: cmwu2@andrew.cmu.edu
 
 rando_participant:
   cached_email: binder+rando_participant@springcarnival.org
   cached_name: Unaffiliated Rando
-  user: rando_user
   eppn: jiatong4@andrew.cmu.edu

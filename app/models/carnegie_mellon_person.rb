@@ -4,7 +4,8 @@ class CarnegieMellonPerson < ActiveLdap::Base
   ldap_mapping dn_attribute: 'uid',
                prefix: ''
 
-  def self.find_by_eppn(eppn)
+  def self.find_by(params)
+    eppn = params[:eppn]
     person = find("eduPersonPrincipalName=#{eppn}", attributes: %w[uid
                                                                    cn
                                                                    mail
