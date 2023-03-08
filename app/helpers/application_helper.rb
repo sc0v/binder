@@ -1,7 +1,9 @@
-module ApplicationHelper
+# frozen_string_literal: true
 
-  def display_base_errors resource
-    return '' if (resource.errors.empty?) or (resource.errors[:base].empty?)
+module ApplicationHelper
+  def display_base_errors(resource)
+    return '' if resource.errors.empty? || resource.errors[:base].empty?
+
     messages = resource.errors[:base].map { |msg| content_tag(:p, msg) }.join
     html = <<-HTML
     <div class="alert alert-error alert-block">
@@ -13,23 +15,25 @@ module ApplicationHelper
   end
 
   def time(display_time)
-    return "" if display_time.nil?
-    time_zone = ActiveSupport::TimeZone.new("Eastern Time (US & Canada)")
-    display_time.in_time_zone(time_zone).strftime("%I:%M%p")
+    return '' if display_time.nil?
+
+    time_zone = ActiveSupport::TimeZone.new('Eastern Time (US & Canada)')
+    display_time.in_time_zone(time_zone).strftime('%I:%M%p')
   end
 
   def date(display_date)
-    return "" if display_date.nil?
-    time_zone = ActiveSupport::TimeZone.new("Eastern Time (US & Canada)")
-    display_date.in_time_zone(time_zone).strftime("%m/%d/%y")
+    return '' if display_date.nil?
+
+    time_zone = ActiveSupport::TimeZone.new('Eastern Time (US & Canada)')
+    display_date.in_time_zone(time_zone).strftime('%m/%d/%y')
   end
 
   def date_and_time(display_date_and_time)
-    [date(display_date_and_time), time(display_date_and_time)].compact.join(" ")
+    [date(display_date_and_time), time(display_date_and_time)].compact.join(' ')
   end
 
   def format_boolean(bool)
-    bool ? "Yes" : "No"
+    bool ? 'Yes' : 'No'
   end
 
   def currency(display_currency)
@@ -38,7 +42,7 @@ module ApplicationHelper
 
   def format_duration(time)
     time = time.to_i
-    if time < 0
+    if time.negative?
       neg = '&minus;'.html_safe
       time *= -1
     else
@@ -47,20 +51,18 @@ module ApplicationHelper
 
     hours = time / 3600
     minutes = (time % 3600) / 60
-    return neg + ("%d" % hours) + ":" + ("%02d" % minutes)
+    "#{neg}#{'%d' % hours}:#{'%02d' % minutes}"
   end
 
   def param_equals_i(param, value)
     return false if params[param].nil?
+
     params[param].to_i == value
   end
 
   def param_equals_s(param, value)
     return false if params[param].nil?
-    params[param].strip == value
-  end
 
-  def is_admin?
-    current_user.present? && current_user.has_role?(:admin)
+    params[param].strip == value
   end
 end

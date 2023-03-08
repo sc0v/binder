@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class ParticipantTest < ActiveSupport::TestCase
@@ -13,116 +15,115 @@ class ParticipantTest < ActiveSupport::TestCase
 
   # Validations
 
-  context "With a proper context, " do
+  context 'With a proper context, ' do
     setup do
-      @participant = FactoryGirl.create(:participant, :phone_number => 1234567890, :andrewid => "saclark", :cached_name => "Stephen Clark", :waiver_start => DateTime.now - 10.minutes)
+      @participant = FactoryGirl.create(:participant, phone_number: 1_234_567_890, andrewid: 'saclark',
+                                                      cached_name: 'Stephen Clark', waiver_start: DateTime.now - 10.minutes)
       @organization_category = FactoryGirl.create(:organization_category)
-      @organization = FactoryGirl.create(:organization, :name => "Spring Carnival Committee", :organization_category => @organization_category)
+      @organization = FactoryGirl.create(:organization, name: 'Spring Carnival Committee',
+                                                        organization_category: @organization_category)
       @temp_participant = FactoryGirl.create(:participant)
-      @membership = FactoryGirl.create(:membership, :is_booth_chair => true, :participant => @participant, :organization => @organization)
-      @checkout = FactoryGirl.create(:checkout, :participant => @participant)
-      @shift_participant = FactoryGirl.create(:shift_participant, :participant => @participant)
-      @organization_status = FactoryGirl.create(:organization_status, :participant => @participant)
-      @user = FactoryGirl.create(:user, :participant => @participant)
-
+      @membership = FactoryGirl.create(:membership, is_booth_chair: true, participant: @participant,
+                                                    organization: @organization)
+      @checkout = FactoryGirl.create(:checkout, participant: @participant)
+      @shift_participant = FactoryGirl.create(:shift_participant, participant: @participant)
+      @organization_status = FactoryGirl.create(:organization_status, participant: @participant)
+      @user = FactoryGirl.create(:user, participant: @participant)
     end
 
     teardown do
     end
 
-    should "show that all factories are properly created" do
+    should 'show that all factories are properly created' do
       assert_equal 2, Participant.all.size
     end
 
-    context "Testing participants" do
-
-
-      should "show that dependency on checkout works" do
-        assert_equal 1, Checkout.all.size        
+    context 'Testing participants' do
+      should 'show that dependency on checkout works' do
+        assert_equal 1, Checkout.all.size
         @participant.destroy
-        assert_equal 0, Checkout.all.size        
+        assert_equal 0, Checkout.all.size
       end
 
-      should "show that dependency on membership works" do
-        assert_equal 1, Membership.all.size        
+      should 'show that dependency on membership works' do
+        assert_equal 1, Membership.all.size
         @participant.destroy
-        assert_equal 0, Membership.all.size        
+        assert_equal 0, Membership.all.size
       end
 
-      should "show that dependency on shift_participant works" do
-        assert_equal 1, ShiftParticipant.all.size        
+      should 'show that dependency on shift_participant works' do
+        assert_equal 1, ShiftParticipant.all.size
         @participant.destroy
-        assert_equal 0, ShiftParticipant.all.size        
+        assert_equal 0, ShiftParticipant.all.size
       end
 
-      should "show that dependency on organization_status works" do
-        assert_equal 1, OrganizationStatus.all.size        
+      should 'show that dependency on organization_status works' do
+        assert_equal 1, OrganizationStatus.all.size
         @participant.destroy
-        assert_equal 0, OrganizationStatus.all.size        
+        assert_equal 0, OrganizationStatus.all.size
       end
 
-      should "show that dependency on user works" do
-        assert_equal 1, User.all.size        
+      should 'show that dependency on user works' do
+        assert_equal 1, User.all.size
         @participant.destroy
-        assert_equal 0, User.all.size        
+        assert_equal 0, User.all.size
       end
 
-      should "show that search scope works properly" do
-        assert_equal [@participant], Participant.search("saclark")
-        assert_equal [], Participant.search("rkelly")
+      should 'show that search scope works properly' do
+        assert_equal [@participant], Participant.search('saclark')
+        assert_equal [], Participant.search('rkelly')
       end
 
-      should "show that scc scope works properly" do
+      should 'show that scc scope works properly' do
         assert_equal [@participant], Participant.scc
       end
 
       should "correctly format a participant's phone number" do
-        assert_equal "(123) 456-7890", @participant.formatted_phone_number
-        assert_equal "N/A", @temp_participant.formatted_phone_number
+        assert_equal '(123) 456-7890', @participant.formatted_phone_number
+        assert_equal 'N/A', @temp_participant.formatted_phone_number
       end
 
-      should "correctly determine if participant skipped video" do
+      should 'correctly determine if participant skipped video' do
         assert_equal false, @participant.is_waiver_cheater?
 
         assert_equal true, @temp_participant.is_waiver_cheater?
       end
-      
-      should "show that is_booth_chair method works correctly" do
+
+      should 'show that is_booth_chair method works correctly' do
         assert_equal true, @participant.is_booth_chair?
       end
 
-      should "show that is_scc method works correctly" do
+      should 'show that is_scc method works correctly' do
         assert_equal true, @participant.is_scc?
       end
 
-      should "show that name method works correctly" do
-        assert_equal "Stephen Clark", @participant.name
+      should 'show that name method works correctly' do
+        assert_equal 'Stephen Clark', @participant.name
       end
 
-      should "show that surname method works correctly" do
-        assert_equal "Clark", @participant.surname
+      should 'show that surname method works correctly' do
+        assert_equal 'Clark', @participant.surname
       end
 
-      should "show that email method works correctly" do
-        assert_equal "saclark@cmu.edu", @participant.email
+      should 'show that email method works correctly' do
+        assert_equal 'saclark@cmu.edu', @participant.email
       end
 
-      should "show that department method works correctly" do
-        assert_equal "SCS: Computer Science", @participant.department
+      should 'show that department method works correctly' do
+        assert_equal 'SCS: Computer Science', @participant.department
       end
 
-      should "show that student_class method works correctly" do
-        assert_equal "Senior", @participant.student_class
+      should 'show that student_class method works correctly' do
+        assert_equal 'Senior', @participant.student_class
       end
 
-      should "show that formatted_phone_number method works correctly" do
-        assert_equal "(123) 456-7890", @participant.formatted_phone_number
+      should 'show that formatted_phone_number method works correctly' do
+        assert_equal '(123) 456-7890', @participant.formatted_phone_number
       end
 
-      should "show that formatted_name method works correctly" do
-        assert_equal "Stephen Clark (saclark)", @participant.formatted_name
+      should 'show that formatted_name method works correctly' do
+        assert_equal 'Stephen Clark (saclark)', @participant.formatted_name
       end
-
     end
   end
 end

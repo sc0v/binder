@@ -1,16 +1,17 @@
+# frozen_string_literal: true
+
 require 'net/http'
 
-USER_UNSUBSCRIBED_FROM_TWILIO_ERROR_CODE = 21610
+USER_UNSUBSCRIBED_FROM_TWILIO_ERROR_CODE = 21_610
 
 module Messenger
-
   def send_sms(number, content)
-    sid = ENV["TWILIO_ACCT_SID"]
-    auth = ENV["TWILIO_AUTH"]
+    sid = ENV.fetch('TWILIO_ACCT_SID', nil)
+    auth = ENV.fetch('TWILIO_AUTH', nil)
 
     @client = Twilio::REST::Client.new sid, auth
 
-    from = "+14123854063"
+    from = '+14123854063'
 
     # The following try-rescue block is needed in case user unsubscribe
     # if the user ubsubscribe and we attempt to message them
@@ -18,42 +19,41 @@ module Messenger
 
     begin
       message = @client.account.messages.create(
-          :from => from,
-          :to => '+1'+number,
-          :body => content
+        from:,
+        to: "+1#{number}",
+        body: content
       )
     rescue Twilio::REST::RequestError => e
       case e.code
-        when USER_UNSUBSCRIBED_FROM_TWILIO_ERROR_CODE
-          puts e.message
+      when USER_UNSUBSCRIBED_FROM_TWILIO_ERROR_CODE
+        Rails.logger.debug e.message
       end
     end
   end
 
   def send_groupme(bot_id, text)
     # Send a message using the groupme bot API: https://dev.groupme.com/tutorials/bots
-    if !Rails.env.test?
-      uri = URI.parse('https://api.groupme.com/v3/bots/post')
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-      req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
-      req.body = {bot_id: bot_id, text: text}.to_json
-      http.request(req)
-    end
+    return if Rails.env.test?
+
+    uri = URI.parse('https://api.groupme.com/v3/bots/post')
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+    req.body = { bot_id:, text: }.to_json
+    http.request(req)
   end
 
   def send_slack(webhook_url, text)
     # Send a message using the slack API: https://api.slack.com/methods/chat.postMessage
-    slack_token = ENV["SLACK_BOT_TOKEN"]
-    
-    if (not Rails.env.test?) and (not slack_token.nil?)
-      uri = URI.parse(webhook_url)
-      http = Net::HTTP.new(uri.host, uri.port)
-      http.use_ssl = true
-      req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
-      req.body = {text: text, token: slack_token}.to_json
-      http.request(req)
-    end
-  end
+    slack_token = ENV.fetch('SLACK_BOT_TOKEN', nil)
 
+    return unless !Rails.env.test? && !slack_token.nil?
+
+    uri = URI.parse(webhook_url)
+    http = Net::HTTP.new(uri.host, uri.port)
+    http.use_ssl = true
+    req = Net::HTTP::Post.new(uri, 'Content-Type' => 'application/json')
+    req.body = { text:, token: slack_token }.to_json
+    http.request(req)
+  end
 end

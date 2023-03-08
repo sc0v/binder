@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class ShiftTest < ActiveSupport::TestCase
@@ -8,33 +10,39 @@ class ShiftTest < ActiveSupport::TestCase
   should belong_to(:shift_type)
 
   # Validations
-  #does not need to have an organization
+  # does not need to have an organization
   should validate_presence_of(:starts_at)
   should validate_presence_of(:ends_at)
   should validate_presence_of(:shift_type)
   should validate_presence_of(:required_number_of_participants)
 
-  context "With a proper context, " do
+  context 'With a proper context, ' do
     setup do
       # Create 3 shifts
-      @type1 = FactoryGirl.create(:shift_type, :id => 1, :name => "Watch Shift")
-      @type2 = FactoryGirl.create(:shift_type, :id => 2, :name => "Security Shift")
-      @type3 = FactoryGirl.create(:shift_type, :id => 3, :name => "Coordinator Shift")
+      @type1 = FactoryGirl.create(:shift_type, id: 1, name: 'Watch Shift')
+      @type2 = FactoryGirl.create(:shift_type, id: 2, name: 'Security Shift')
+      @type3 = FactoryGirl.create(:shift_type, id: 3, name: 'Coordinator Shift')
 
-      @upcomming = FactoryGirl.create(:shift, :shift_type_id => @type1.id, :ends_at => Time.local(2021,1,1,16,0,0), :starts_at => Time.zone.now + 1.hour)
-      @future = FactoryGirl.create(:shift, :shift_type_id => @type2.id, :ends_at => Time.local(2021,1,1,16,0,0), :starts_at => Time.zone.now + 7.hour)
-      @current = FactoryGirl.create(:shift, :shift_type_id => @type3.id, :ends_at => Time.local(2020,1,1,16,0,0), :starts_at => Time.local(2016,1,1,13,4,0))
-      @past = FactoryGirl.create(:shift, :shift_type_id => @type1.id, :ends_at => Time.local(2001,1,1,16,0,0), :starts_at => Time.local(2000,1,1,14,10,0))
-      @not_checked_in = FactoryGirl.create(:shift, :shift_type_id => @type2.id,  :required_number_of_participants => 1, :ends_at => Time.local(2001,1,1,16,0,0), :starts_at => Time.local(2000,1,1,14,10,0))
-      @checked_in = FactoryGirl.create(:shift, :shift_type_id => @type2.id,  :required_number_of_participants => 2, :ends_at => Time.local(2001,1,1,16,0,0), :starts_at => Time.local(2000,1,1,14,10,0))
-      FactoryGirl.create(:shift_participant, :shift => @checked_in)
-      FactoryGirl.create(:shift_participant, :shift => @checked_in)
+      @upcomming = FactoryGirl.create(:shift, shift_type_id: @type1.id, ends_at: Time.zone.local(2021, 1, 1, 16, 0, 0),
+                                              starts_at: 1.hour.from_now)
+      @future = FactoryGirl.create(:shift, shift_type_id: @type2.id, ends_at: Time.zone.local(2021, 1, 1, 16, 0, 0),
+                                           starts_at: 7.hours.from_now)
+      @current = FactoryGirl.create(:shift, shift_type_id: @type3.id, ends_at: Time.zone.local(2020, 1, 1, 16, 0, 0),
+                                            starts_at: Time.zone.local(2016, 1, 1, 13, 4, 0))
+      @past = FactoryGirl.create(:shift, shift_type_id: @type1.id, ends_at: Time.zone.local(2001, 1, 1, 16, 0, 0),
+                                         starts_at: Time.zone.local(2000, 1, 1, 14, 10, 0))
+      @not_checked_in = FactoryGirl.create(:shift, shift_type_id: @type2.id, required_number_of_participants: 1,
+                                                   ends_at: Time.zone.local(2001, 1, 1, 16, 0, 0), starts_at: Time.zone.local(2000, 1, 1, 14, 10, 0))
+      @checked_in = FactoryGirl.create(:shift, shift_type_id: @type2.id, required_number_of_participants: 2,
+                                               ends_at: Time.zone.local(2001, 1, 1, 16, 0, 0), starts_at: Time.zone.local(2000, 1, 1, 14, 10, 0))
+      FactoryGirl.create(:shift_participant, shift: @checked_in)
+      FactoryGirl.create(:shift_participant, shift: @checked_in)
     end
 
     teardown do
     end
 
-    should "show that all factories are properly created" do
+    should 'show that all factories are properly created' do
       assert_equal 6, Shift.all.size
     end
 
@@ -79,10 +87,10 @@ class ShiftTest < ActiveSupport::TestCase
     end
 
     should "have a method 'formatted_name' that works" do
-      @type = FactoryGirl.create(:shift_type, :name => "Bob")
-      @ex = FactoryGirl.create(:shift, :shift_type_id => @type.id, :ends_at => Time.local(2001,1,1,16,0,0), :starts_at => Time.new(2000,1,1))
+      @type = FactoryGirl.create(:shift_type, name: 'Bob')
+      @ex = FactoryGirl.create(:shift, shift_type_id: @type.id, ends_at: Time.zone.local(2001, 1, 1, 16, 0, 0),
+                                       starts_at: Time.zone.local(2000, 1, 1))
       assert_equal 'Bob @ Jan  1 at 12:00 AM', @ex.formatted_name
-
     end
   end
 end

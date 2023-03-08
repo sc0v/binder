@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class OrganizationAliasTest < ActiveSupport::TestCase
@@ -34,9 +36,9 @@ class OrganizationAliasTest < ActiveSupport::TestCase
 
     # Search scope
     should 'the search by term function should work correctly' do
-      assert_equal 1, OrganizationAlias.search("winner").size
-      assert_equal 1, OrganizationAlias.search("loser").size
-      assert_equal 0, Organization.search("blah").size
+      assert_equal 1, OrganizationAlias.search('winner').size
+      assert_equal 1, OrganizationAlias.search('loser').size
+      assert_equal 0, Organization.search('blah').size
     end
 
     # Methods
@@ -46,6 +48,5 @@ class OrganizationAliasTest < ActiveSupport::TestCase
       assert_equal answer1, @alias1.formatted_name
       assert_equal answer2, @alias2.formatted_name
     end
-
   end
 end

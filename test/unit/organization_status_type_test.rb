@@ -1,7 +1,8 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class OrganizationStatusTypeTest < ActiveSupport::TestCase
-
   # Relationships
   should have_many(:organization_statuses)
 
@@ -15,7 +16,7 @@ class OrganizationStatusTypeTest < ActiveSupport::TestCase
       @person = FactoryGirl.create(:participant)
       @org = FactoryGirl.create(:organization)
       @status = FactoryGirl.create(:organization_status,
-                                  participant: @person, organization: @org, organization_status_type: @type1)
+                                   participant: @person, organization: @org, organization_status_type: @type1)
     end
 
     teardown do
@@ -24,7 +25,6 @@ class OrganizationStatusTypeTest < ActiveSupport::TestCase
       @org = nil
       @status = nil
     end
-    #
     should 'show that all factories are properly created' do
       assert_equal 1, OrganizationStatusType.all.size
     end
@@ -39,5 +39,4 @@ class OrganizationStatusTypeTest < ActiveSupport::TestCase
       assert_equal 0, OrganizationStatus.all.size
     end
   end
-
 end

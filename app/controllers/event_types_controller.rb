@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class EventTypesController < ApplicationController
   load_and_authorize_resource
-  before_action :set_event_type, only: [:show, :edit, :update, :destroy]
+  before_action :set_event_type, only: %i[show edit update destroy]
 
   # GET /event_types
   # GET /event_types.json
@@ -10,8 +12,7 @@ class EventTypesController < ApplicationController
 
   # GET /event_types/1
   # GET /event_types/1.json
-  def show
-  end
+  def show; end
 
   # GET /event_types/new
   def new
@@ -19,8 +20,7 @@ class EventTypesController < ApplicationController
   end
 
   # GET /event_types/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /event_types
   # POST /event_types.json
@@ -29,13 +29,13 @@ class EventTypesController < ApplicationController
 
     respond_to do |format|
       if @event_type.save
-        format.html {
+        format.html do
           if params[:from_new_event].present?
             redirect_to new_event_path, notice: 'Event type was successfully created.'
             return
           end
           redirect_to @event_type, notice: 'Event type was successfully created.'
-        }
+        end
         format.json { render :show, status: :created, location: @event_type }
       else
         format.html { render :new }
@@ -69,13 +69,14 @@ class EventTypesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_event_type
-      @event_type = EventType.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def event_type_params
-      params.require(:event_type).permit(:display, :name)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_event_type
+    @event_type = EventType.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def event_type_params
+    params.require(:event_type).permit(:display, :name)
+  end
 end

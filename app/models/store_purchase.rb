@@ -1,20 +1,21 @@
-class StorePurchase < ActiveRecord::Base
-  #relationships
+# frozen_string_literal: true
+
+class StorePurchase < ApplicationRecord
+  # relationships
   belongs_to :charge
   belongs_to :store_item
   has_one :organization, through: :charge
-  
-  #scopes
+
+  # scopes
   scope :active,       -> { where(active: true) }
   scope :inactive,     -> { where(active: false) }
 
-  #methods
+  # methods
   def self.items_in_cart
-    self.where(charge: nil)
+    where(charge: nil)
   end
 
   def self.items_in_cart?
-    items_in_cart.size > 0
+    items_in_cart.size.positive?
   end
-
 end

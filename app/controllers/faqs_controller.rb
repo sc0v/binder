@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 class FaqsController < ApplicationController
-  load_and_authorize_resource skip_load_resource only: [:create] 
-  before_action :set_faq, only: [:edit, :update, :destroy]
+  load_and_authorize_resource skip_load_resource only: [:create]
+  before_action :set_faq, only: %i[edit update destroy]
 
   # GET /faqs
   # GET /faqs.json
@@ -16,8 +18,7 @@ class FaqsController < ApplicationController
   end
 
   # GET /faqs/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /faqs
   # POST /faqs.json
@@ -30,7 +31,7 @@ class FaqsController < ApplicationController
   # PUT /faqs/1
   # PUT /faqs/1.json
   def update
-    @faq.update_attributes(faq_params)
+    @faq.update(faq_params)
     redirect_to faqs_path
   end
 
@@ -42,6 +43,7 @@ class FaqsController < ApplicationController
   end
 
   private
+
   def set_faq
     @faq = Faq.find(params[:id])
   end

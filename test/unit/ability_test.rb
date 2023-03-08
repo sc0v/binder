@@ -1,26 +1,28 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class AbilityTest < ActiveSupport::TestCase
   include FactoryGirl::Syntax::Methods
 
-  context "With a proper context, " do
+  context 'With a proper context, ' do
     setup do
       @org = create(:organization)
-      @scc = create(:organization, :name => "Spring Carnival Committee")
+      @scc = create(:organization, name: 'Spring Carnival Committee')
 
       @member_participant = create(:participant)
-      create(:membership, :participant => @member_participant, :organization => @org)
-      @member_user = create(:user, :participant => @member_participant)
+      create(:membership, participant: @member_participant, organization: @org)
+      @member_user = create(:user, participant: @member_participant)
       @member_user.add_role(:member)
 
       @booth_chair_participant = create(:participant)
-      create(:membership, :participant => @booth_chair_participant, :organization => @org, :is_booth_chair => true)
-      @booth_chair_user = create(:user, :participant => @booth_chair_participant)
+      create(:membership, participant: @booth_chair_participant, organization: @org, is_booth_chair: true)
+      @booth_chair_user = create(:user, participant: @booth_chair_participant)
       @booth_chair_user.add_role(:booth_chair)
 
       @scc_participant = create(:participant)
-      create(:membership, :participant => @scc_participant, :organization => @scc)
-      @scc_user = create(:user, :participant => @scc_participant)
+      create(:membership, participant: @scc_participant, organization: @scc)
+      @scc_user = create(:user, participant: @scc_participant)
       @scc_user.add_role(:scc)
 
       @admin_user = create(:user)
@@ -31,23 +33,23 @@ class AbilityTest < ActiveSupport::TestCase
     end
 
     # member tests
-    should "allow a member" do
+    should 'allow a member' do
       ability = Ability.new(@member_user)
 
-      assert ability.cannot?(:manage, CarnegieMellonIDCard), "to not change an id card number"
-      assert ability.cannot?(:manage, CarnegieMellonPerson), "to not change a person"
-      assert ability.cannot?(:manage, Charge), "to not edit a charge"
-      assert ability.cannot?(:manage, ChargeType), "to not edit a charge type"
-      assert ability.cannot?(:manage, Faq), "to not edit an FAQ"
-      assert ability.cannot?(:manage, ShiftParticipant), "to not edit a shift participant"
-      assert ability.cannot?(:manage, Task), "to not edit a task"
-      assert ability.cannot?(:manage, User), "to not edit a user"
+      assert ability.cannot?(:manage, CarnegieMellonIDCard), 'to not change an id card number'
+      assert ability.cannot?(:manage, CarnegieMellonPerson), 'to not change a person'
+      assert ability.cannot?(:manage, Charge), 'to not edit a charge'
+      assert ability.cannot?(:manage, ChargeType), 'to not edit a charge type'
+      assert ability.cannot?(:manage, Faq), 'to not edit an FAQ'
+      assert ability.cannot?(:manage, ShiftParticipant), 'to not edit a shift participant'
+      assert ability.cannot?(:manage, Task), 'to not edit a task'
+      assert ability.cannot?(:manage, User), 'to not edit a user'
 
       assert ability.cannot?(:create, Checkout)
       assert ability.cannot?(:update, Checkout)
       assert ability.cannot?(:destroy, Checkout)
-      assert ability.can?(:read, Checkout.new(:organization => @org))
-      assert ability.cannot?(:read, Checkout.new(:organization => @scc))
+      assert ability.can?(:read, Checkout.new(organization: @org))
+      assert ability.cannot?(:read, Checkout.new(organization: @scc))
 
       assert ability.can?(:read, Membership)
 
@@ -85,8 +87,8 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(:create, Shift)
       assert ability.cannot?(:update, Shift)
       assert ability.cannot?(:destroy, Shift)
-      assert ability.can?(:read, Shift.new(:organization => @org))
-      assert ability.cannot?(:read, Shift.new(:organization => Organization.new))
+      assert ability.can?(:read, Shift.new(organization: @org))
+      assert ability.cannot?(:read, Shift.new(organization: Organization.new))
 
       assert ability.cannot?(:create, ShiftType)
       assert ability.cannot?(:update, ShiftType)
@@ -100,13 +102,13 @@ class AbilityTest < ActiveSupport::TestCase
     end
 
     # booth_chair tests
-    should "allow a booth chair to read most things but not edit anything" do
+    should 'allow a booth chair to read most things but not edit anything' do
       ability = Ability.new(@booth_chair_user)
       assert ability.cannot?(:create, Charge)
       assert ability.cannot?(:update, Charge)
       assert ability.cannot?(:destroy, Charge)
-      assert ability.can?(:read, Charge.new(:organization => @org))
-      assert ability.cannot?(:read, Charge.new(:organization => @scc))
+      assert ability.can?(:read, Charge.new(organization: @org))
+      assert ability.cannot?(:read, Charge.new(organization: @scc))
 
       assert ability.cannot?(:create, ChargeType)
       assert ability.cannot?(:update, ChargeType)
@@ -129,24 +131,24 @@ class AbilityTest < ActiveSupport::TestCase
 
       assert ability.can?(:read_phone_number, Participant)
 
-      assert ability.can?(:update, Membership.new(:organization => @org))
-      assert ability.cannot?(:update, Membership.new(:organization => @scc))
+      assert ability.can?(:update, Membership.new(organization: @org))
+      assert ability.cannot?(:update, Membership.new(organization: @scc))
 
       assert ability.cannot?(:create, Shift)
       assert ability.cannot?(:update, Shift)
       assert ability.cannot?(:destroy, Shift)
-      assert ability.can?(:read, Shift.new())
-      assert ability.cannot?(:read, Shift.new(:shift_type => ShiftType.new(:name => "Coordinator Shift")))
+      assert ability.can?(:read, Shift.new)
+      assert ability.cannot?(:read, Shift.new(shift_type: ShiftType.new(name: 'Coordinator Shift')))
 
       assert ability.cannot?(:create, ShiftParticipant)
       assert ability.cannot?(:update, ShiftParticipant)
       assert ability.cannot?(:destroy, ShiftParticipant)
-      assert ability.can?(:read, ShiftParticipant.new(:shift => Shift.new(:organization => @org)))
-      assert ability.cannot?(:read, ShiftParticipant.new(:shift => Shift.new(:organization => @scc)))
+      assert ability.can?(:read, ShiftParticipant.new(shift: Shift.new(organization: @org)))
+      assert ability.cannot?(:read, ShiftParticipant.new(shift: Shift.new(organization: @scc)))
     end
 
     # scc tests
-    should "allow a scc member to read everything and create and update some things" do
+    should 'allow a scc member to read everything and create and update some things' do
       ability = Ability.new(@scc_user)
       assert ability.can?(:read, CarnegieMellonIDCard)
       assert ability.can?(:read, CarnegieMellonPerson)
@@ -185,7 +187,7 @@ class AbilityTest < ActiveSupport::TestCase
     end
 
     # admin tests
-    should "allow an admin to manage everything" do
+    should 'allow an admin to manage everything' do
       ability = Ability.new(@admin_user)
       assert ability.can?(:manage, :all)
       assert ability.can?(:create, Membership)

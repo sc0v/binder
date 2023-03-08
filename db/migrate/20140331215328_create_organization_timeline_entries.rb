@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateOrganizationTimelineEntries < ActiveRecord::Migration[4.2]
   def change
     create_table :organization_timeline_entries do |t|
@@ -10,6 +12,7 @@ class CreateOrganizationTimelineEntries < ActiveRecord::Migration[4.2]
       t.timestamps
     end
 
-    add_index :organization_timeline_entries, :organization_timeline_entry_type_id, :name => 'index_timeline_entries_on_type'
+    add_index :organization_timeline_entries, :organization_timeline_entry_type_id,
+              name: 'index_timeline_entries_on_type'
   end
 end

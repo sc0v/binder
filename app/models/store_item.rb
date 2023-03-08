@@ -1,12 +1,16 @@
-class StoreItem < ActiveRecord::Base
+# frozen_string_literal: true
+
+class StoreItem < ApplicationRecord
   has_many :store_purchases
-  
+
   scope :active,       -> { where(active: true) }
   scope :inactive,     -> { where(active: false) }
 
   def quantity_available
-    unless self.quantity.nil?
-      self.quantity - (self.store_purchases.where(charge: nil).pluck(:quantity_purchased).inject{|sum,x| sum + x } || 0 )
-    end
+    return if quantity.nil?
+
+    quantity - (store_purchases.where(charge: nil).pluck(:quantity_purchased).inject do |sum, x|
+                  sum + x
+                end || 0)
   end
 end
