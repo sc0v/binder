@@ -46,15 +46,10 @@
       <% end %>
     </dd>
 
-    <% if can?(:read, Role) %>
-      <% unless @participant.user.blank? or @participant.user.roles.blank? %>
-        <dt><strong><%= model_class.human_attribute_name(:user_roles) %>:</strong></dt>
-        <% @participant.user.roles.each do |role| %>
-          <% if can?(:read, role) %>
-            <dd><%= role.name %></dd>
-          <% end %>
-        <% end %>
-      <% end %>
+
+    <dt><strong>Roles:</strong></dt>
+    <% if Current.user.admin? %>
+    <dd><%= Participant.human_attribute_name(:admin) %></dd>
     <% end %>
 
     <% unless @participant.shifts.blank? %>
@@ -111,7 +106,7 @@
               edit_participant_path(@participant), :class => 'btn btn-primary' %>
   <% end %>
 
-    <% if current_user.participant.is_scc? and !@participant.has_signed_waiver? %>
+    <% if Current.user.is_scc? and !@participant.has_signed_waiver? %>
       <%= link_to 'Sign Waiver', new_participant_waiver_path(@participant), :class => 'btn btn-success' %>
     <% end %>
 

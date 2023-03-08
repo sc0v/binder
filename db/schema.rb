@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_06_050333) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_06_080549) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
@@ -190,7 +190,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_06_050333) do
     t.boolean "has_signed_waiver"
     t.string "phone_number"
     t.boolean "has_signed_hardhat_waiver"
-    t.integer "user_id"
     t.string "cached_name"
     t.string "cached_surname"
     t.string "cached_email"
@@ -199,6 +198,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_06_050333) do
     t.datetime "cache_updated", precision: nil
     t.datetime "waiver_start", precision: nil
     t.boolean "active", default: true
+    t.boolean "admin"
+    t.index ["admin"], name: "index_participants_on_admin"
   end
 
   create_table "roles", force: :cascade do |t|
@@ -302,25 +303,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_06_050333) do
     t.boolean "active", default: true
     t.index ["barcode"], name: "index_tools_on_barcode"
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
-  end
-
-  create_table "users", force: :cascade do |t|
-    t.string "email", default: "", null: false
-    t.string "encrypted_password", default: "", null: false
-    t.string "reset_password_token"
-    t.datetime "reset_password_sent_at", precision: nil
-    t.datetime "remember_created_at", precision: nil
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at", precision: nil
-    t.datetime "last_sign_in_at", precision: nil
-    t.string "current_sign_in_ip"
-    t.string "last_sign_in_ip"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.string "name"
-    t.boolean "active", default: true
-    t.index ["email"], name: "index_users_on_email", unique: true
-    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
   create_table "users_roles", id: false, force: :cascade do |t|

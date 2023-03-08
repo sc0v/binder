@@ -1,38 +1,31 @@
+# frozen_string_literal: true
+
 class ShiftsController < ApplicationController
-  load_and_authorize_resource skip_load_resource only: [:create] 
-  before_action :set_shift, only: [:show, :edit, :update, :destroy]
-  
+  load_and_authorize_resource skip_load_resource only: [:create]
+  before_action :set_shift, only: %i[show edit update destroy]
+
   # GET /shifts
   # GET /shifts.json
   # Regular index is watch shifts by default
   def index
-    if (current_user.has_role? :admin)
-      shifts = Shift.all
-    elsif (current_user.participant.is_scc?)
-      shifts = Shift.all
-    else
-      @orgs = current_user.participant.memberships.map {|mem| mem.organization.id}
-      unless @orgs.nil?
-        shifts = Shift.for_organizations(@orgs)
-      end
-    end
+    s = shifts
 
-    if (params[:type].blank?)
-      @title = "Shifts"
-      shifts = shifts
-    elsif (params[:type] == "watch")
-      @title = "Watch Shifts"
-      shifts = shifts.watch_shifts
-    elsif (params[:type] == "security")
-      @title = "Security Shifts"
-      shifts = shifts.sec_shifts
-    elsif (params[:type] == "coordinator")
-      @title = "Coordinator Shifts"
-      shifts = shifts.coord_shifts
-    end
+    @title = case params[:type]
+             when 'watch'
+               s = shifts.watch_shifts
+               'Watch Shifts'
+             when 'security'
+               s = shifts.sec_shifts
+               'Security Shifts'
+             when 'coordinator'
+               s = shifts.coord_shifts
+               'Coordinator Shifts'
+             else
+               'All Shifts'
+             end
 
-    @shifts_upcoming = shifts.where("ends_at > ?", Time.now) #.paginate(:page => params[:upcoming_page]).per_page(15).reorder('starts_at ASC')
-    @shifts_past = shifts.where("ends_at <= ?", Time.now) #.paginate(:page => params[:past_page]).per_page(15).reorder('starts_at DESC')
+    @shifts_upcoming = s.where('ends_at > ?', Time.zone.now)
+    @shifts_past = s.where('ends_at <= ?', Time.zone.now)
   end
 
   # GET /shifts/1
@@ -48,8 +41,7 @@ class ShiftsController < ApplicationController
   end
 
   # GET /shifts/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /shifts
   # POST /shifts.json
@@ -75,12 +67,19 @@ class ShiftsController < ApplicationController
 
   private
 
+  def shifts
+    return Shift.all if Current.user.admin? || Current.user.is_scc?
+
+    @orgs = Current.user.memberships.map { |mem| mem.organization.id }
+    Shift.for_organizations(@orgs)
+  end
+
   def set_shift
     @shift = Shift.find(params[:id])
   end
 
   def shift_params
-    params.require(:shift).permit(:starts_at, :ends_at, :shift_type_id, :organization_id, :required_number_of_participants, :description)
+    params.require(:shift).permit(:starts_at, :ends_at, :shift_type_id, :organization_id,
+                                  :required_number_of_participants, :description)
   end
-  
 end

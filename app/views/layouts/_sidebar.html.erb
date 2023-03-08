@@ -1,4 +1,4 @@
-<% if current_user.participant.is_scc? %>
+<% if Current.user.is_scc? %>
   <%= render 'tool_cart/tool_cart' %>
 
   <% if !@tasks_sidebar.blank? %>
