@@ -1,18 +1,17 @@
+# frozen_string_literal: true
+
 class OrganizationStatusTypesController < ApplicationController
   load_and_authorize_resource
 
   # GET /organization_status_types
   # GET /organization_status_types.json
-  def index
-  end
+  def index; end
 
   # GET /organization_status_types/new
-  def new
-  end
+  def new; end
 
   # GET /organization_status_types/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /organization_status_types
   # POST /organization_status_types.json
@@ -28,14 +27,14 @@ class OrganizationStatusTypesController < ApplicationController
   # PATCH/PUT /organization_status_types/1
   # PATCH/PUT /organization_status_types/1.json
   def update
-    @organization_status_type.update_attributes(organization_status_type_params)
+    @organization_status_type.update(organization_status_type_params)
     redirect_to organization_status_types_path
   end
 
   # DELETE /organization_status_types/1
   # DELETE /organization_status_types/1.json
   def destroy
-    if(@organization_status_type.organization_statuses.count > 0)
+    if @organization_status_type.organization_statuses.count.positive?
       flash[:error] = 'Cannot delete a status type until all organizations of that type are deleted.'
       redirect_to organization_status_types_url
       return
@@ -45,8 +44,9 @@ class OrganizationStatusTypesController < ApplicationController
   end
 
   private
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def organization_status_type_params
-      params.require(:organization_status_type).permit(:name, :display)
-    end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def organization_status_type_params
+    params.require(:organization_status_type).permit(:name, :display)
+  end
 end

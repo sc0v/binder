@@ -1,14 +1,16 @@
+# frozen_string_literal: true
+
 class TasksController < ApplicationController
   load_and_authorize_resource
-  
+
   # GET /tasks
   # GET /tasks.json
   def index
-    if(params[:task_filter].blank?)
+    if params[:task_filter].blank?
       @tasks = Task.all
-    elsif(params[:task_filter] == "completed_tasks")
+    elsif params[:task_filter] == 'completed_tasks'
       @tasks = Task.is_complete
-    elsif(params[:task_filter] == "incomplete_tasks")
+    elsif params[:task_filter] == 'incomplete_tasks'
       @tasks = Task.is_incomplete
     end
   end
@@ -48,7 +50,7 @@ class TasksController < ApplicationController
   # PUT /tasks/1.json
   def update
     @task = Task.find(params[:id])
-    @task.update_attributes(task_params)
+    @task.update(task_params)
     respond_with(@task)
   end
 
@@ -66,4 +68,3 @@ class TasksController < ApplicationController
     params.require(:task).permit(:name, :due_at, :completed_by_id, :is_completed, :description)
   end
 end
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateOrganizationAliases < ActiveRecord::Migration[4.2]
   def change
     create_table :organization_aliases do |t|

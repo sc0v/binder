@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 class CertificationsController < ApplicationController
   load_and_authorize_resource
 
-  before_action :set_participant, only: [:new, :create]
+  before_action :set_participant, only: %i[new create]
   before_action :set_certification, only: [:destroy]
   before_action :check_all_certifications, except: [:destroy]
 
   def new
-    @certification = Certification.new(:participant => @participant)
+    @certification = Certification.new(participant: @participant)
     respond_with @certification
   end
 
@@ -23,6 +25,7 @@ class CertificationsController < ApplicationController
   end
 
   private
+
   def set_participant
     @participant = Participant.find(params[:participant_id])
   end
@@ -32,13 +35,13 @@ class CertificationsController < ApplicationController
   end
 
   def check_all_certifications
-    if @participant.certifications.size == CertificationType.all.size
-      redirect_to (participant_path @participant), :flash => { :error => @participant.name + " has already gotten all certifications." }
-    end
+    return unless @participant.certifications.size == CertificationType.all.size
+
+    redirect_to (participant_path @participant),
+                flash: { error: "#{@participant.name} has already gotten all certifications." }
   end
 
   def certification_params
     params.require(:certification).permit(:participant_id, :certification_type_id)
   end
-
 end

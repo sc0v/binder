@@ -1,14 +1,20 @@
+# frozen_string_literal: true
+
 class OrganizationTimelineEntriesController < ApplicationController
   authorize_resource
-  before_action :set_organization_timeline_entry, only: [:update, :destroy, :end, :show]
+  before_action :set_organization_timeline_entry, only: %i[update destroy end show]
 
   def index
-    @organization = Organization.find(params[:organization_id]) unless params[:organization_id].blank?
+    @organization = Organization.find(params[:organization_id]) if params[:organization_id].present?
     @entries = OrganizationTimelineEntry.downtime
-    @entries = @entries.where({organization: @organization}) unless @organization.blank?
+    @entries = @entries.where({ organization: @organization }) if @organization.present?
   end
 
   def show
+    @organization_timeline_entry = OrganizationTimelineEntry.find(params[:id])
+  end
+
+  def edit
     @organization_timeline_entry = OrganizationTimelineEntry.find(params[:id])
   end
 
@@ -18,10 +24,10 @@ class OrganizationTimelineEntriesController < ApplicationController
     @organization_timeline_entry = OrganizationTimelineEntry.new(organization_timeline_entry_params)
     @organization_timeline_entry.started_at = DateTime.now
     @organization_timeline_entry.entry_type = case params[:commit]
-      when 'Structural' then 'structural'
-      when 'Electrical' then 'electrical'
-      else 'downtime'
-    end
+                                              when 'Structural' then 'structural'
+                                              when 'Electrical' then 'electrical'
+                                              else 'downtime'
+                                              end
 
     authorize! :create, @organization_timeline_entry
 
@@ -30,23 +36,19 @@ class OrganizationTimelineEntriesController < ApplicationController
       return
     end
 
-    if(@organization_timeline_entry.valid?)
+    if @organization_timeline_entry.valid?
       @organization_timeline_entry.save
       respond_with(@organization_timeline_entry, location: params[:url])
     else
-      redirect_to :back, alert:"Missing Organization Name!"
+      redirect_to :back, alert: 'Missing Organization Name!'
     end
   end
 
   # PUT /organizations_timeline_entry/1
   # PUT /organizations_timeline_entry/1.json
   def update
-    @organization_timeline_entry.update_attributes(organization_timeline_entry_params)
+    @organization_timeline_entry.update(organization_timeline_entry_params)
     redirect_to organization_downtime_index_path(@organization_timeline_entry.organization)
-  end
-  
-  def edit
-        @organization_timeline_entry = OrganizationTimelineEntry.find(params[:id])
   end
 
   # PUT /organizations_timeline_entry/1/end
@@ -64,8 +66,8 @@ class OrganizationTimelineEntriesController < ApplicationController
   def destroy
     @organization_timeline_entry = OrganizationTimelineEntry.find(params[:id])
     @organization_timeline_entry.destroy
-    flash[:notice] = "Successfully removed entry from downtime tracker"
-    redirect_to  organization_downtime_index_path(@organization_timeline_entry.organization) 
+    flash[:notice] = 'Successfully removed entry from downtime tracker'
+    redirect_to organization_downtime_index_path(@organization_timeline_entry.organization)
   end
 
   def electrical
@@ -83,6 +85,7 @@ class OrganizationTimelineEntriesController < ApplicationController
   end
 
   def organization_timeline_entry_params
-    params.require(:organization_timeline_entry).permit(:organization_id, :ended_at, :started_at, :organization_timeline_entry_type_id, :description)
+    params.require(:organization_timeline_entry).permit(:organization_id, :ended_at, :started_at,
+                                                        :organization_timeline_entry_type_id, :description)
   end
 end

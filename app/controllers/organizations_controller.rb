@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 class OrganizationsController < ApplicationController
   load_and_authorize_resource
-  
+
   # GET /organizations
   # GET /organizations.json
   def index
-    if (params[:type] == "building")
-      @organizations = @organizations.only_categories(['Fraternity', 'Sorority', 'Independent', 'Blitz', 'Concessions'])
-    end
+    return unless params[:type] == 'building'
+
+    @organizations = @organizations.only_categories(%w[Fraternity Sorority Independent Blitz Concessions])
   end
 
   # GET /organizations/1
@@ -21,12 +23,10 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations/new
   # GET /organizations/new.json
-  def new
-  end
+  def new; end
 
   # GET /organizations/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /organizations
   # POST /organizations.json
@@ -48,7 +48,7 @@ class OrganizationsController < ApplicationController
     @organization.destroy
     respond_with(@organization)
   end
-  
+
   def hardhats
     @hardhats = Tool.checked_out_by_organization(@organization).hardhats
   end
@@ -59,4 +59,3 @@ class OrganizationsController < ApplicationController
     params.require(:organization).permit(:name, :short_name, :organization_category_id)
   end
 end
-

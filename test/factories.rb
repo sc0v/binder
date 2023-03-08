@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 FactoryGirl.define do
   # Tool Barcodes
   sequence :barcode do |n|
@@ -9,12 +11,11 @@ FactoryGirl.define do
     "text#{n}"
   end
 
-
   # charge
   factory :charge do
     amount 100.00
     charged_at Date.today
-    description "Missed 10/2 meeting"
+    description 'Missed 10/2 meeting'
 
     association :charge_type
     association :organization
@@ -28,26 +29,26 @@ FactoryGirl.define do
 
   # checkout
   factory :checkout do
-    checked_out_at Time.now - 1.hour
+    checked_out_at 1.hour.ago
 
     association :tool
     association :organization
   end
 
-  #event 
+  # event
   factory :event do
     association :event_type
   end
 
-  #event_type
+  # event_type
   factory :event_type do
     name { generate(:random_string) }
   end
 
   # faq
   factory :faq do
-    question "MyText"
-    answer "MyText"
+    question 'MyText'
+    answer 'MyText'
   end
 
   # membership
@@ -93,30 +94,30 @@ FactoryGirl.define do
   # organization_timeline_entry
   factory :organization_timeline_entry do
     description { generate(:random_string) }
-    started_at Time.now - 2.hours
+    started_at 2.hours.ago
     entry_type 0
 
     association :organization
   end
 
   # participant
-  factory :participant, :aliases => [:completed_by, :issuing_participant, :receiving_participant] do
+  factory :participant, aliases: %i[completed_by issuing_participant receiving_participant] do
     andrewid { generate(:random_string) }
     waiver_start DateTime.now
   end
 
   # shift
   factory :shift do
-    ends_at Time.now - 2.days
+    ends_at 2.days.ago
     required_number_of_participants 3
-    starts_at Time.now - 3.days
+    starts_at 3.days.ago
 
     association :shift_type
   end
 
   # shift_participant
   factory :shift_participant do
-    clocked_in_at Time.local(2000,1,1,12,3,0)
+    clocked_in_at Time.zone.local(2000, 1, 1, 12, 3, 0)
 
     association :participant
     association :shift
@@ -130,39 +131,36 @@ FactoryGirl.define do
   # task
   factory :task do
     due_at Date.today
-    name "Assign rides"
+    name 'Assign rides'
   end
 
   # tool type
   factory :tool_type do
-    name "Hammer"
+    name 'Hammer'
   end
 
   # tool
   factory :tool do
     barcode { generate(:barcode) }
-    description "HAMMER"
+    description 'HAMMER'
     association :tool_type
   end
 
   # user
   factory :user do
-    name "Default Factory User"
-    email { generate(:random_string) + "@andrew.cmu.edu" }
+    name 'Default Factory User'
+    email { "#{generate(:random_string)}@andrew.cmu.edu" }
 
     association :participant
   end
 
-  #store_purchase
+  # store_purchase
   factory :store_purchase do
-
     association :store_item
   end
 
-  #store_item
+  # store_item
   factory :store_item do
-    name "Hammer"
-
+    name 'Hammer'
   end
-
 end

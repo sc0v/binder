@@ -1,4 +1,5 @@
-# coding: utf-8
+# frozen_string_literal: true
+
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
@@ -6,7 +7,7 @@ set :application, 'binder-app'
 set :repo_url, 'https://github.com/sc0v/binder-app.git'
 
 # Default branch is :master
-set :branch, ENV["branch"] if ENV["branch"]
+set :branch, ENV['branch'] if ENV['branch']
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "/var/www/#{fetch :application}/#{fetch :stage}"
@@ -28,7 +29,7 @@ set :deploy_to, "/var/www/#{fetch :application}/#{fetch :stage}"
 
 # Default value for linked_dirs is []
 # set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
-#set :linked_dirs, fetch(:linked_dirs, []).push('db/seeds/production')
+# set :linked_dirs, fetch(:linked_dirs, []).push('db/seeds/production')
 
 # Default value for default_env is {}
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }
@@ -44,7 +45,6 @@ set :rbenv_ruby, '2.3.0'
 before 'deploy:finished', 'newrelic:notice_deployment'
 
 namespace :deploy do
-
   after :restart, :clear_cache do
     on roles(:web), in: :groups, limit: 3, wait: 10 do
       # Here we can do anything such as:
@@ -53,29 +53,24 @@ namespace :deploy do
       # end
     end
   end
-
 end
-
 
 #
 # Apache Tasks
 #
 namespace :apache do
-
-  desc "Restart Apache"
+  desc 'Restart Apache'
   task :restart do
-    on roles(:app) do |h|
-      sudo :service, :apache2, "restart"
+    on roles(:app) do |_h|
+      sudo :service, :apache2, 'restart'
     end
   end
-
 end
 
 #
 # Database Tasks
 #
 namespace :db do
-
   desc 'Runs rake db:reset'
   task :reset do
     on roles(:db) do
@@ -87,7 +82,7 @@ namespace :db do
     end
   end
   before 'db:reset', 'bundler:install'
-  
+
   desc 'Runs rake db:drop'
   task :drop do
     on roles(:db) do
@@ -99,7 +94,7 @@ namespace :db do
     end
   end
   before 'db:drop', 'bundler:install'
-  
+
   desc 'Runs rake db:seed'
   task :seed do
     on roles(:db) do
@@ -111,7 +106,7 @@ namespace :db do
     end
   end
   before 'db:seed', 'bundler:install'
-  
+
   desc 'Runs rake db:migrate'
   task :migrate do
     on roles(:db) do
@@ -135,7 +130,6 @@ namespace :db do
     end
   end
   before 'db:setup', 'bundler:install'
-
 end
 
 #
@@ -143,15 +137,14 @@ end
 #
 # http://www.webascender.com/Blog/ID/577/Starting-a-Remote-Rails-Console-With-Capistrano
 namespace :rails do
-
-  desc "Remote console"
+  desc 'Remote console'
   task :console do
     on roles(:app) do |h|
       run_interactively "bundle exec rails console #{fetch(:rails_env)}", h.user
     end
   end
 
-  desc "Remote dbconsole"
+  desc 'Remote dbconsole'
   task :dbconsole do
     on roles(:app) do |h|
       run_interactively "bundle exec rails dbconsole #{fetch(:rails_env)}", h.user
@@ -160,7 +153,6 @@ namespace :rails do
 
   def run_interactively(command, user)
     info "Running `#{command}` as #{user}@#{host}"
-    exec %Q(ssh #{user}@#{host} -t "bash --login -c 'cd #{fetch(:deploy_to)}/current && #{command}'")
+    exec %(ssh #{user}@#{host} -t "bash --login -c 'cd #{fetch(:deploy_to)}/current && #{command}'")
   end
-
 end

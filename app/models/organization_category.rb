@@ -1,10 +1,10 @@
-class OrganizationCategory < ActiveRecord::Base
-  validates :name, :presence => true, :uniqueness => true
+# frozen_string_literal: true
 
-  has_many :organizations, :dependent => :destroy
-  
+class OrganizationCategory < ApplicationRecord
+  validates :name, presence: true, uniqueness: true
+
+  has_many :organizations, dependent: :destroy
+
   scope :active,       -> { where(active: true) }
   scope :inactive,     -> { where(active: false) }
-  
 end
-

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ReplaceMembershipWithParticipantAndOrganizationInCheckouts < ActiveRecord::Migration[4.2]
   def change
     add_column :checkouts, :participant_id, :integer

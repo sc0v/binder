@@ -1,5 +1,6 @@
-require 'test_helper'
+# frozen_string_literal: true
 
+require 'test_helper'
 
 class OrganizationTest < ActiveSupport::TestCase
   # Relationships
@@ -19,32 +20,32 @@ class OrganizationTest < ActiveSupport::TestCase
   should validate_presence_of(:name)
   should validate_uniqueness_of(:name)
 
-  context "With a proper context, " do
+  context 'With a proper context, ' do
     setup do
-      @short_org = FactoryGirl.create(:organization, :name => 'short name', :short_name => 'name')
-      @long_org = FactoryGirl.create(:organization, :name => 'long name', :short_name => nil)
+      @short_org = FactoryGirl.create(:organization, name: 'short name', short_name: 'name')
+      @long_org = FactoryGirl.create(:organization, name: 'long name', short_name: nil)
     end
 
     teardown do
     end
 
-    should "show that all factories are properly created" do
+    should 'show that all factories are properly created' do
       assert_equal 2, Organization.all.size
     end
 
     # Scopes
     # only_categories
-    should "show that the only_categories functions correctly" do
+    should 'show that the only_categories functions correctly' do
       short_org_category = @short_org.organization_category.name
       long_org_category = @long_org.organization_category.name
-      assert_equal ['short name'], Organization.only_categories(short_org_category).map {|org| org.name}
-      assert_equal ['long name'], Organization.only_categories(long_org_category).map {|org| org.name}
+      assert_equal ['short name'], Organization.only_categories(short_org_category).map(&:name)
+      assert_equal ['long name'], Organization.only_categories(long_org_category).map(&:name)
     end
 
     # search
-    should "show that the search scope functions correcly" do
-      assert_equal ['long name'], Organization.search('long name').map {|org| org.name }
-      assert_equal ['long name', 'short name'], Organization.search('name').map {|org| org.name}
+    should 'show that the search scope functions correcly' do
+      assert_equal ['long name'], Organization.search('long name').map(&:name)
+      assert_equal ['long name', 'short name'], Organization.search('name').map(&:name)
     end
 
     # ---------------------------- End of scope testing
@@ -58,27 +59,27 @@ class OrganizationTest < ActiveSupport::TestCase
     should 'give back the correct booth chair for this organization' do
       chair_person = FactoryGirl.create(:participant)
       short_chair = FactoryGirl.create(:membership,
-                   is_booth_chair: true,
-                   organization: @short_org,
-                   participant: chair_person)
-      assert_equal [chair_person.andrewid], @short_org.booth_chairs.map { |bc| bc.andrewid }
+                                       is_booth_chair: true,
+                                       organization: @short_org,
+                                       participant: chair_person)
+      assert_equal [chair_person.andrewid], @short_org.booth_chairs.map(&:andrewid)
       assert_equal [], @long_org.booth_chairs
     end
 
     should 'give back the correct hour of current downtime' do
-      t = Time.now
+      t = Time.zone.now
       entry = FactoryGirl.create(:organization_timeline_entry, entry_type: 2,
-      started_at: t - 2.hours, ended_at: t, organization: @short_org)
+                                                               started_at: t - 2.hours, ended_at: t, organization: @short_org)
 
       assert_equal 2.hours, @short_org.downtime
     end
 
     should 'give back the correct hour of remaining downtime' do
-      t = Time.now
+      t = Time.zone.now
       entry = FactoryGirl.create(:organization_timeline_entry, entry_type: 2,
-                                 started_at: t - 3.hours, ended_at: t, organization: @short_org)
+                                                               started_at: t - 3.hours, ended_at: t, organization: @short_org)
 
-      assert_equal 1.hours, @short_org.remaining_downtime
+      assert_equal 1.hour, @short_org.remaining_downtime
     end
 
     # --------------------------- End of Methods testing
@@ -99,9 +100,9 @@ class OrganizationTest < ActiveSupport::TestCase
       person2 = FactoryGirl.create(:participant)
       status_type = FactoryGirl.create(:organization_status_type)
       status1 = FactoryGirl.create(:organization_status, organization: @short_org,
-                                    participant: person1, organization_status_type: status_type)
+                                                         participant: person1, organization_status_type: status_type)
       status2 = FactoryGirl.create(:organization_status, organization: @long_org,
-                                   participant: person2, organization_status_type: status_type)
+                                                         participant: person2, organization_status_type: status_type)
 
       assert_equal 2, OrganizationStatus.all.size
 
@@ -124,7 +125,7 @@ class OrganizationTest < ActiveSupport::TestCase
       type = FactoryGirl.create(:charge_type)
 
       charge1 = FactoryGirl.create(:charge,
-               organization: @short_org, issuing_participant: issuer, charge_type: type)
+                                   organization: @short_org, issuing_participant: issuer, charge_type: type)
       charge2 = FactoryGirl.create(:charge,
                                    organization: @short_org, issuing_participant: issuer,
                                    charge_type: type, is_approved: true)
@@ -141,7 +142,7 @@ class OrganizationTest < ActiveSupport::TestCase
     should 'delete all checkouts once the organization is removed' do
       type = FactoryGirl.create(:tool_type)
       tool = FactoryGirl.create(:tool, tool_type: type)
-      checkout = FactoryGirl.create(:checkout, tool: tool, organization: @short_org)
+      checkout = FactoryGirl.create(:checkout, tool:, organization: @short_org)
       assert_equal 1, Checkout.all.size
       @short_org.destroy
       assert_equal 0, Checkout.all.size

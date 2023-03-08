@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'test_helper'
 
 class OrganizationTimelineEntryTest < ActiveSupport::TestCase
@@ -11,11 +13,11 @@ class OrganizationTimelineEntryTest < ActiveSupport::TestCase
 
   context 'With a proper context, ' do
     setup do
-      time = Time.now
+      time = Time.zone.now
       @finished = FactoryGirl.create(:organization_timeline_entry,
-                                     :started_at => time - 1.hour, :ended_at => time)
+                                     started_at: time - 1.hour, ended_at: time)
       @not_finished = FactoryGirl.create(:organization_timeline_entry,
-                                         :started_at => DateTime.now - 12.hours, :ended_at => nil)
+                                         started_at: DateTime.now - 12.hours, ended_at: nil)
     end
 
     teardown do
@@ -33,7 +35,7 @@ class OrganizationTimelineEntryTest < ActiveSupport::TestCase
 
     should 'show that the duration method works' do
       assert_equal 1.hour, @finished.duration
-      assert_equal 12.hour, (@not_finished.duration / 1.hour).round * 1.hour
+      assert_equal 12.hours, (@not_finished.duration / 1.hour).round * 1.hour
     end
   end
 end

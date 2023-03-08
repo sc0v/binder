@@ -1,11 +1,13 @@
+# frozen_string_literal: true
+
 class ToolsController < ApplicationController
   load_and_authorize_resource
-  
+
   # GET /tools
   # GET /tools.json
   def index
     @tools = Tool
-    unless params[:organization_id].blank?
+    if params[:organization_id].present?
       @organization = Organization.find(params[:organization_id])
       @tools = Tool.checked_out_by_organization(@organization)
     end
@@ -14,7 +16,7 @@ class ToolsController < ApplicationController
     if params[:type_filter].present?
       if params[:type_filter].strip == 'all_tools'
         @tools = @tools.all
-        @title = "Tools (hardhats/radios included)"
+        @title = 'Tools (hardhats/radios included)'
       else
         @tool_type = ToolType.find(params[:type_filter])
         @title = @tool_type.name.pluralize
@@ -23,31 +25,28 @@ class ToolsController < ApplicationController
       end
     else
       @tools = @tools.just_tools
-      @title = "Tools"
+      @title = 'Tools'
     end
 
     # Fitler by inventory status
-    if params[:inventory_filter].present?
-      @tools = @tools.checked_out if params[:inventory_filter].strip == 'checked_out'
-      @tools = @tools.checked_in if params[:inventory_filter].strip == 'checked_in'
-    end
+    return if params[:inventory_filter].blank?
 
-    #@tools = @tools.paginate(:page => params[:page]).per_page(20)
+    @tools = @tools.checked_out if params[:inventory_filter].strip == 'checked_out'
+    @tools = @tools.checked_in if params[:inventory_filter].strip == 'checked_in'
+
+    # @tools = @tools.paginate(:page => params[:page]).per_page(20)
   end
 
   # GET /tools/1
   # GET /tools/1.json
-  def show
-  end
+  def show; end
 
   # GET /tools/new
   # GET /tools/new.json
-  def new
-  end
+  def new; end
 
   # GET /tools/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /tools
   # POST /tools.json
@@ -59,7 +58,7 @@ class ToolsController < ApplicationController
   # PUT /tools/1
   # PUT /tools/1.json
   def update
-    @tool.update_attributes(tool_params)
+    @tool.update(tool_params)
     respond_with(@tool)
   end
 
@@ -76,4 +75,3 @@ class ToolsController < ApplicationController
     params.require(:tool).permit(:name, :description, :barcode, :tool_type_id)
   end
 end
-
