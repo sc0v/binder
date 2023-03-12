@@ -77,7 +77,10 @@ group :development do
   # Speed up commands on slow machines / big apps [https://github.com/rails/spring]
   # gem "spring"
 
-  # Lint and auto-format code
+  # Static Code Analysis (linting & vulnerability detection)
+  gem 'brakeman'
+  gem 'erb_lint', require: false
+  gem 'htmlbeautifier'
   gem 'rubocop-rails'
 end
 

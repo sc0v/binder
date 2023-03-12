@@ -7,7 +7,7 @@ Style/Documentation:
   Enabled: false
 
 Rails/I18nLocaleTexts:
-  Enabled: false
+  Enabled: true
 
 Style/ClassAndModuleChildren:
   Enabled: false
