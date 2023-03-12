@@ -78,9 +78,17 @@ GEM
       gyoku (>= 0.4.0)
       nokogiri
     ast (2.4.2)
+    better_html (2.0.1)
+      actionview (>= 6.0)
+      activesupport (>= 6.0)
+      ast (~> 2.0)
+      erubi (~> 1.4)
+      parser (>= 2.4)
+      smart_properties
     bindex (0.8.1)
     bootsnap (1.16.0)
       msgpack (~> 1.2)
+    brakeman (5.4.1)
     builder (3.2.4)
     cancancan (3.5.0)
     capybara (3.38.0)
@@ -98,6 +106,13 @@ GEM
     debug (1.7.1)
       irb (>= 1.5.0)
       reline (>= 0.3.1)
+    erb_lint (0.3.1)
+      activesupport
+      better_html (>= 2.0.1)
+      parser (>= 2.7.1.4)
+      rainbow
+      rubocop
+      smart_properties
     erubi (1.12.0)
     fast_gettext (2.3.0)
     forwardable (1.3.3)
@@ -114,6 +129,7 @@ GEM
       builder (>= 2.1.2)
       rexml (~> 3.0)
     hashie (5.0.0)
+    htmlbeautifier (1.4.2)
     httpi (3.0.1)
       rack
     i18n (1.12.0)
@@ -247,6 +263,7 @@ GEM
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
     singleton (0.1.1)
+    smart_properties (1.17.0)
     sqlite3 (1.6.1-x86_64-linux)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
@@ -287,9 +304,12 @@ PLATFORMS
 DEPENDENCIES
   activeldap
   bootsnap
+  brakeman
   cancancan
   capybara
   debug
+  erb_lint
+  htmlbeautifier
   importmap-rails
   jbuilder
   net-ldap
