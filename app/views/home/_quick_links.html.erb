@@ -1,20 +1,18 @@
 <div class="page-header">
   <h1>Welcome to Binder!</h1>
 </div>
-
 <div class="col-xs-10 col-sm-6">
-  <% unless Current.user %>
+  <% if Current.user.blank? %>
     <% if Rails.env.staging? or Rails.env.production? then %>
       <p><%= link_to "Login to Begin", main_app.user_omniauth_authorize_path(:shibboleth), :class => "btn btn-success" %></p>
       <br>
-    <% elsif %>
+    <% else %>
       <p>Please login to continue.</p>
     <% end %>
   <% elsif Current.user && Current.user.has_signed_waiver? then%>
     <p><%= link_to "Sign Waiver", new_waiver_path, :class => "btn btn-success" %></p>
     <br>
   <% end %>
-
   <% if can?(:read, Charge) %>
     <p><%= link_to "Charges", charges_path, :class => "btn btn-primary" %></p>
   <% end %>
@@ -27,7 +25,6 @@
   <% if can?(:read, Shift) %>
     <p><%= link_to "Shifts", shifts_path, :class => "btn btn-primary" %></p>
   <% end %>
-
   <% if can?(:read, Task) %>
     <p><%= link_to "Tasks", tasks_path, :class => "btn btn-primary" %></p>
   <% end %>
@@ -37,9 +34,7 @@
   <% if can?(:electrical, OrganizationTimelineEntry) %>
     <p><%= link_to "Electrical Queue", electrical_path, :class => "btn btn-primary" %></p>
   <% end %>
-
   <br>
-
   <% if user_signed_in? then %>
     <%= form_tag(search_path, class: 'form-inline', role: 'search') do %>
       <div class="form-group">
