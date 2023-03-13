@@ -45,7 +45,7 @@ class Participant < ApplicationRecord
 
   def booth_chair_organizations
     memberships.booth_chairs.map(&:organization).select do |org|
-      org.organization_category.is_building
+      org.organization_category.building
     end
   end
 

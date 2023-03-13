@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_06_080549) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
@@ -133,7 +133,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_06_080549) do
     t.string "name"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "is_building"
+    t.boolean "building"
     t.boolean "active", default: true
   end
 

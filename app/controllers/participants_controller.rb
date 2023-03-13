@@ -59,7 +59,7 @@ class ParticipantsController < ApplicationController
     elsif !@participant.has_signed_waiver
       @wristband = 'None - No waiver signature'
     else
-      building_statuses = @memberships.map { |m| m.organization.organization_category.is_building }
+      building_statuses = @memberships.map { |m| m.organization.organization_category.building }
       @wristband = if building_statuses.include?(true)
                      @wristband_colors[:building]
                    else
