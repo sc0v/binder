@@ -68,7 +68,7 @@ class ShiftsController < ApplicationController
   private
 
   def shifts
-    return Shift.all if Current.user.admin? || Current.user.is_scc?
+    return Shift.all if Current.user.admin? || Current.user.scc?
 
     @orgs = Current.user.memberships.map { |mem| mem.organization.id }
     Shift.for_organizations(@orgs)

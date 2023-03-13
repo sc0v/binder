@@ -29,7 +29,7 @@ class OrganizationStatusesController < ApplicationController
   # POST /organizations/1/statuses.json
   def create
     @organization_status = OrganizationStatus.new(create_organization_status_params)
-    @organization_status.participant = current_user.participant
+    @organization_status.participant = Current.user
     @organization_status.save
     respond_with @organization_status, location: -> { @organization_status.organization }
   end
