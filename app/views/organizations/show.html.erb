@@ -13,7 +13,7 @@
       <% end %>
     </p>
   <% end %>
-  <% if can?(:read, OrganizationStatus) and @organization.organization_category.is_building %>
+  <% if can?(:read, OrganizationStatus) and @organization.organization_category.building %>
     <p>
       <strong>Status:</strong>
       <% unless @organization.organization_statuses.displayable.last.blank? or not can?(:read, @organization.organization_statuses.displayable.last) %>
@@ -25,9 +25,9 @@
       <% end %>
     </p>
   <% end %>
-  <% if can?(:edit, OrganizationTimelineEntry) and @organization.organization_category.is_building %>
+  <% if can?(:edit, OrganizationTimelineEntry) and @organization.organization_category.building %>
     <p><Strong>Downtime Remaining: </Strong><%= link_to format_duration(@organization.remaining_downtime), organization_downtime_index_path(@organization) %></p>
-  <% elsif @organization.organization_category.is_building %>
+  <% elsif @organization.organization_category.building %>
     <p><Strong>Downtime Remaining: </Strong><%= format_duration(@organization.remaining_downtime) %></p>
   <% end %>
 </div>
