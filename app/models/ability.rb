@@ -71,7 +71,7 @@ class Ability
       end
     end
 
-    if participant.is_scc?
+    if participant.scc?
       can :read, :all
 
       can %i[create update], Charge

@@ -1,48 +1,46 @@
-<% if current_user.participant.is_scc? %>
-
+<% if Current.user.scc? %>
   <%- model_class = Membership -%>
   <div class="page-header">
     <h1>Add Organizations for <%= @participant.name %></h1>
   </div>
-  
-  <%= simple_form_for @membership, :html => { :class => 'form-horizontal' }, :url => participant_memberships_path(@participant) do |f| %>
-  <%= f.hidden_field :participant_id, :value => @participant.id %>
-         <%# TODO: This is disgusting %>
-         <% if current_user.participant.is_scc? %>
-         <% @categories = OrganizationCategory.all %>
-         <% else %>
-         <% @categories = OrganizationCategory.where("name!= 'SCC' and name!= 'Staff'") %>
-         <% end %>
-          <% @categories.each do |category| %>
-          <h3><%= category.name %></h3>
-          <div class="row">
-          <% category.organizations.each do |organization| %>
-            <div class="col-xs-12 col-sm-6 col-md-4">
-              <label style="display: inline;" onchange="$('#org-panel-<%= organization.id %>').toggleClass('panel-success'); console.log('success');">
-                <div class="panel panel-default <%= 'panel-success' if organization.participants.include?(@participant) %>" id="org-panel-<%= organization.id %>">
-                  <div class="panel-heading">
-                    <% if organization.participants.include?(@participant) %>
-                      <%= check_box_tag 'organization_ids[]', organization.id, true -%>
-                    <% else %>
-                      <%= check_box_tag 'organization_ids[]', organization.id -%>
-                    <% end %>
-                    <span><%= h organization.name -%></span>
-                  </div>
+  <%= simple_form_for @membership, html: { class: 'form-horizontal' }, url: participant_memberships_path(@participant) do |f| %>
+    <%= f.hidden_field :participant_id, value: @participant.id %>
+    <%# TODO: This is disgusting %>
+    <% if Current.user.scc? %>
+      <% @categories = OrganizationCategory.all %>
+    <% else %>
+      <% @categories = OrganizationCategory.where("name!= 'SCC' and name!= 'Staff'") %>
+    <% end %>
+    <% @categories.each do |category| %>
+      <h3><%= category.name %></h3>
+      <div class="row">
+        <% category.organizations.each do |organization| %>
+          <div class="col-xs-12 col-sm-6 col-md-4">
+            <label style="display: inline;" onchange="$('#org-panel-<%= organization.id %>').toggleClass('panel-success'); console.log('success');">
+              <div class="panel panel-default <%= 'panel-success' if organization.participants.include?(@participant) %>" id="org-panel-<%= organization.id %>">
+                <div class="panel-heading">
+                  <% if organization.participants.include?(@participant) %>
+                    <%= check_box_tag 'organization_ids[]', organization.id, true -%>
+                  <% else %>
+                    <%= check_box_tag 'organization_ids[]', organization.id -%>
+                  <% end %>
+                  <span><%= h organization.name -%></span>
                 </div>
-              </label>
-             </div>
-          <% end %>
+              </div>
+            </label>
           </div>
-          <% end %>
+        <% end %>
+      </div>
+    <% end %>
     <% unless @participant.user.blank? || @participant.user.roles.first.blank? %>
       <%= @participant.name %>
       is a
       <%= @participant.user.roles.first.name %>
     <% end %>
     <div class="form-actions">
-      <%= f.button :submit, :class => 'btn-primary' %>
-      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-          @participant, :class => 'btn btn-default' %>
+      <%= f.button :submit, class: 'btn-primary' %>
+      <%= link_to t('.cancel', default: t('helpers.links.cancel')),
+                  @participant, class: 'btn btn-default' %>
     </div>
   <% end %>
 <% else %>

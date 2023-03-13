@@ -4,7 +4,7 @@ class WaiversController < ApplicationController
   before_action :require_authentication
 
   def new
-    @user = if params[:participant_id].nil? || !current_user.participant.is_scc?
+    @user = if params[:participant_id].nil? || !Current.user.scc?
               Current.user
             else
               Participant.find params[:participant_id]
@@ -20,8 +20,8 @@ class WaiversController < ApplicationController
   end
 
   def create
-    @participant = if params[:participant_id].nil? || !current_user.participant.is_scc?
-                     current_user.participant
+    @participant = if params[:participant_id].nil? || !Current.user.scc?
+                     Current.user
                    else
                      Participant.find params[:participant_id]
                    end
