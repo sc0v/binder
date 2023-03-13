@@ -2,7 +2,7 @@
 
 class ParticipantsController < ApplicationController
   load_and_authorize_resource skip_load_resource only: [:create]
-  before_action :set_participant, only: %i[show edit update destroy]
+  # before_action :set_participant, only: %i[show edit update destroy]
   before_action :set_wristband_colors
 
   # GET /participants
@@ -16,6 +16,21 @@ class ParticipantsController < ApplicationController
     end
 
     # @participants = @participants.paginate(:page => params[:page]).per_page(20)
+  end
+
+  def search
+    query = params[:q]
+    return if query.blank?
+
+    # TODO:
+    # @andrew_people = Participant.filter(keyword: query)
+    @andrew_people = []
+
+    respond_to do |format|
+      format.json do
+        render json: @andrew_people.to_json
+      end
+    end
   end
 
   def lookup
@@ -35,6 +50,8 @@ class ParticipantsController < ApplicationController
   # GET /participants/1
   # GET /participants/1.json
   def show
+    @participant = show_participant(params[:id])
+
     @memberships = @participant.memberships.all
 
     if @memberships.empty?
@@ -89,9 +106,32 @@ class ParticipantsController < ApplicationController
 
   private
 
-  def set_participant
-    @participant = Participant.find(params[:id])
+  def show_participant(uid = nil)
+    return Current.user unless Current.user.admin?
+    return Current.user if uid.blank?
+
+    find_or_create_participant(uid)
   end
+
+  def find_or_create_participant(uid)
+    p = Participant.find_or_create_by! andrewid: uid
+    p.update_ldap_attrs
+    p
+  rescue ActiveRecord::RecordInvalid => e
+    # TODO: participants_url/did you mean? results
+    # redirect_to('/',
+    flash['error'] = '<strong>Participant does not exist.</strong> ' \
+                     "#{e.record.errors.full_messages.join(', ')}"
+    redirect_to root_url
+  rescue ActiveRecord::RecordNotUnique
+    # Mitigate the race condition if an unrelated insert happens after this
+    # lookup fails
+    retry
+  end
+
+  # def set_participant
+  #  @participant = Participant.find(params[:id])
+  # end
 
   def participant_create_params
     params.require(:participant).permit(:eppn, :phone_number, :has_signed_waiver, :has_signed_hardhat_waiver)

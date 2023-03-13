@@ -1,12 +1,33 @@
 # frozen_string_literal: true
 
-Rails.application.routes.draw do
+Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
+  # Default route
+  root to: 'welcome#index'
+
   # Session management
   direct :login do
-    'auth/shibboleth'
+    '/auth/shibboleth'
   end
-  get 'auth/:provider/callback', to: 'sessions#create'
-  get 'logout', to: 'sessions#destroy', as: :logout
+  scope module: :sessions do
+    get 'auth/:provider/callback', action: :create
+    get 'logout', as: :logout, action: :destroy
+    post 'impersonate/:participant_id', as: :impersonate, action: :impersonate
+    get 'unimpersonate'
+  end
+
+  # External navigation items
+  direct :spring_carnival do
+    '//www.springcarnival.org'
+  end
+  direct :contact_email do |options|
+    params = options.map { |k, v| "#{k}=#{v}" }.join('&')
+    params.prepend('?') if params.present?
+    "mailto:systems@springcarnival.org#{params}"
+  end
+  direct :gravatar do |email, size = 50|
+    hash = Digest::MD5.hexdigest email
+    "https://www.gravatar.com/avatar/#{hash}?d=mp&s=#{size}"
+  end
 
   resources :event_types
   resources :events do
@@ -20,7 +41,9 @@ Rails.application.routes.draw do
     resources :aliases, controller: :organization_aliases, shallow: true,
                         only: %i[create new destroy index]
     resources :statuses, controller: :organization_statuses, as: :organization_statuses
+
     resources :participants, only: [:index]
+
     resources :shifts, only: [:index]
     resources :tools, only: [:index]
     resources :charges, only: [:index]
@@ -41,12 +64,17 @@ Rails.application.routes.draw do
   end
 
   resources :charge_types
-  resources :participants do
+  resources :participants, except: :new do
+    get 'search', on: :collection
+
     resources :memberships, except: %i[index show]
     resource :waiver, except: %i[edit destroy show update]
     resources :certifications, only: %i[new create destroy]
     post 'lookup', on: :collection
   end
+
+  # Direct link to a participant's own resource
+  get 'profile', to: 'participants#show', as: :profile
 
   get 'waiver' => 'waivers#new'
   resource :waiver, except: %i[edit destroy show update]
@@ -106,8 +134,6 @@ Rails.application.routes.draw do
 
   match 'search' => 'home#search', :as => 'search', via: %i[get post]
   get 'home' => 'home#home', :as => 'home'
-
-  root to: 'home#index'
 
   # Custom one-offs
   get 'hardhats' => 'home#hardhats', :as => 'hardhats'

@@ -1,50 +1,114 @@
-/*
- * This is a manifest file that'll be compiled into application.css, which will include all the files
- * listed below.
- *
- * Any CSS and SCSS file within this directory, lib/assets/stylesheets, vendor/assets/stylesheets,
- * or vendor/assets/stylesheets of plugins, if any, can be referenced here using a relative path.
- *
- * You're free to add application-wide styles to this file and they'll appear at the top of the
- * compiled file, but it's generally better to create a new file per style scope.
- *
- *= require_self
- *= require_tree .
-*/
-
-@import "bootstrap";
-
-body {
-  padding-bottom: 30px;
+#sitename a#sccWordmarkLink {
+    width: 30%;
 }
 
-.alert-inline{
-  margin: 4px;
-  padding: 10px;
+@media only screen and (max-width: 767px) {
+    #sccWordmarkLink{
+        display: none !important;
+    }
 }
 
-.full-width{
-  width: 100%;
+nav#nav form.signIn button {
+    line-height: 1.5em;
 }
 
-.cart-item{
-  padding: 8px 4px 8px 4px;
-  border-top: 1px solid lightgrey;
-  width: 100%;
-  margin: 0;
+nav#nav form.signIn {
+    display: block;
+    padding: .5em 2em;
+    position: relative;
+    text-align: right;
 }
 
-.cart-item div{
-  padding: 0;
+nav#nav .right > a {
+    text-align: right;
 }
 
-.cart-warning{
-  background-color: #fcf3dd;
+nav#nav a.avatar > img {
+    border-radius: 50%;
 }
 
-.cart-button{
-  width: 33%;
-  white-space: normal;
-  height: 55px;
-  border-color: #1d4b97;
+ul#site-search-results {
+    color: #000;
+    height: 100%;
+    margin: 40px 0 0 0;
+    padding: 0 0 0 8px;
+    width: 100%;
+    flex: 0 1 auto;
+    position: absolute;
+    border: 1px solid red;
+    z-index: 999;
+    display: none;
+}
+header ul#site-search-results li:first-child,
+header ul#site-search-results li {				 
+    background-color: #fff;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    margin: 2px;
+    padding: 10px;
+    text-indent: 0;
+    list-style-type: none;
+}
+header ul#site-search-results li:last-child {
+    border: none;
+}
+header ul#site-search-results li a span.uid {
+    font-weight: 500;
+}
+#site-search-results a:hover {
+    color: #900 !important;
+    text-shadow: none;
+}
+
+#site-search-results a {
+    color: #000;
+    text-align: left;
+}
+
+/* Flash message styles */
+div[role="alert"].flash,
+div[role="alert"].flash a {
+    border-color: #333;
+    color: #333 !important;
+}
+div[role="alert"].flash.invert,
+div[role="alert"].flash.invert a {
+    border-color: #fff;
+    color: #fff !important;
+}
+.breadcrumbs + div.content.flash {
+    padding-top: 2em;
+}
+.flash h2 {
+    padding-bottom: 0;
+}
+
+label {
+    display: block;
+}
+input[type="checkbox"] {
+    max-width: 100%;
+}
+input[type="checkbox"]+label {
+    display: inline;
+    margin-left: 0.5em;
+}
+input[type="text"].inline {
+    width: auto;
+}
+select,input[type="text"] {
+    width: 100%;
+}
+select,input[type="text"].inline {
+	width: auto;
+}
+
+button.wide {
+    display: block;
+    padding: 1.5em;
+    width: 100%;
+}
+
+a:active, a:focus, a:focus:hover, button:active, button:focus, button:focus:hover, summary:active, summary:focus, summary:focus:hover {
+    overflow: visible;
 }

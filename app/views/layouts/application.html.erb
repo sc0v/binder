@@ -1,31 +1,61 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title><%= "Dev - " unless Rails.env.production? %><%= content_for?(:title) ? yield(:title) : "SCC Binder" %></title>
-    <meta name="description" content="<%= content_for?(:description) ? yield(:description) : "Boa" %>">
-    <%#= render 'favicon' %>
-    <%= stylesheet_link_tag "application", :media => "all" %>
-    <%= javascript_include_tag "application" %>
+    <title><%= document_title %></title>
     <%= csrf_meta_tags %>
-    <%= yield(:head) %>
-
+    <%= csp_meta_tag %>
+    <%= stylesheet_link_tag 'application', 'data-turbo-track': 'reload' %>
+    <%= javascript_importmap_tags %>
+    <%= favicon_link_tag %>
+    <%= favicon_link_tag 'favicon-152.png', rel: 'apple-touch-icon-precomposed', type: 'image/png' %>
+    <meta content="#9f0000" name="msapplication-TileColor">
+    <meta content="<%= image_url('favicon-144.png').to_s %>" name="msapplication-TileImage">
   </head>
-  <body class="<%= controller_name %> <%= action_name %>" role="document" style>
-    <%= render 'layouts/navigation' %>
-    <div class="container" role="main">
-      <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-9 col-lg-9" id='main-content-div'>
-          <%= render 'layouts/messages' %>
-          <%= yield %>
+  <body class="no-js">
+    <%= render 'layouts/impersonate_message' %>
+    <div id="container">
+      <%= image_tag('cmu-wordmark.png', id: 'wordmarkPrint') %>
+      <header>
+        <div class="roof">
+          <div>
+            <%= link_to('Carnegie Mellon University',
+                        'http://www.cmu.edu/',
+                        { class: 'wordmark' }) %>
+            <a aria-label="Jump to navigation" class="menu-btn" href="#nav"><b>&#8212;</b><b>&#8212;</b><b>&#8212;</b></a>
+            <% if Current.user && Current.user.admin? %>
+              <%= form_tag(search_participants_path, id: 'site-search', method: 'get', class: 'search', data: { controller: 'search' }) do %>
+                <label><span>Search</span>
+                  <%= text_field_tag(:q, '', { placeholder: 'Search', data: { action: 'keyup->search#lookupParticipants', behavior: 'autocomplete', 'search-target': 'q' } }) %>
+                </label>
+                <%= button_tag('Search') %>
+                <ul id="site-search-results">
+                </ul>
+              <% end %>
+            <% end %>
+          </div>
         </div>
-        <div class="col-xs-12 col-md-3 col-lg-3">
-          <% if Current.user.present? %>
-            <br class="hidden-lg">
-            <%= render 'layouts/sidebar' %>
-          <% end %>
+        <div id="sitename">
+          <div>
+            <h1><%= link_to('Spring Carnival Binder', root_url) %></h1>
+            <h2>The Booth &amp; Operations management application</h2>
+          </div>
+          <%= link_to(image_tag('scc-logo.png'), spring_carnival_url, id: 'sccWordmarkLink') %>
         </div>
+      </header>
+      <div id="content">
+        <% unless breadcrumbs.blank? %>
+          <div class="breadcrumbs">
+            <%= breadcrumbs %>
+          </div>
+        <% end %>
+        <% flash.each do |name, message| -%>
+          <div class="content wide flash none <%= flash_css_class(name) %>" role="alert">
+            <%= sanitize message %>
+          </div>
+        <% end %>
+        <%= yield %>
       </div>
+      <%= render partial: 'layouts/footer' %>
     </div>
   </body>
 </html>
