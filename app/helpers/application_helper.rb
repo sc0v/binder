@@ -1,68 +1,67 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  def display_base_errors(resource)
-    return '' if resource.errors.empty? || resource.errors[:base].empty?
-
-    messages = resource.errors[:base].map { |msg| content_tag(:p, msg) }.join
-    html = <<-HTML
-    <div class="alert alert-error alert-block">
-    <button type="button" class="close" data-dismiss="alert">&#215;</button>
-    #{messages}
-    </div>
-    HTML
-    html.html_safe
+  # Document Title
+  #
+  # Construct document title in views dynamically. e.g.:
+  #   update_document_title(add: "Queues")
+  #   update_document_title(add: "Electrical")
+  # will generate:
+  #   Electrical - Queues - Binder - Spring Carnival - Carnegie Mellon University
+  def document_title
+    update_document_title unless content_for? :document_title
+    content_for :document_title
   end
 
-  def time(display_time)
-    return '' if display_time.nil?
+  def update_document_title(add: [], sep: ' - ')
+    document_title = Array(add).join(sep)
+    document_title += sep unless document_title.empty?
 
-    time_zone = ActiveSupport::TimeZone.new('Eastern Time (US & Canada)')
-    display_time.in_time_zone(time_zone).strftime('%I:%M%p')
+    document_title += if content_for? :document_title
+                        content_for :document_title
+                      else
+                        ['Binder',
+                         'Spring Carnival',
+                         'Carnegie Mellon University'].join(sep)
+                      end
+
+    content_for(:document_title, document_title, flush: true)
   end
 
-  def date(display_date)
-    return '' if display_date.nil?
-
-    time_zone = ActiveSupport::TimeZone.new('Eastern Time (US & Canada)')
-    display_date.in_time_zone(time_zone).strftime('%m/%d/%y')
+  # Breadcrumbs
+  #
+  # Construct breadcrumbs in views dynamically. e.g.:
+  #   update_breadcrumbs(add: link_to('Queues', queues_path))
+  #   update_breadcrumbs(add: "Electrical")
+  # will generate:
+  #   Spring Carnival › Binder › Queues › Electrical
+  def breadcrumbs
+    content_for :breadcrumbs
   end
 
-  def date_and_time(display_date_and_time)
-    [date(display_date_and_time), time(display_date_and_time)].compact.join(' ')
-  end
-
-  def format_boolean(bool)
-    bool ? 'Yes' : 'No'
-  end
-
-  def currency(display_currency)
-    number_to_currency(display_currency)
-  end
-
-  def format_duration(time)
-    time = time.to_i
-    if time.negative?
-      neg = '&minus;'.html_safe
-      time *= -1
-    else
-      neg = ''
+  def update_breadcrumbs(add: [], sep: '&nbsp;›&nbsp;')
+    unless content_for? :breadcrumbs
+      content_for :breadcrumbs do
+        sanitize([
+          link_to('Spring Carnival', spring_carnival_url),
+          link_to('Binder', root_url)
+        ].join(sep))
+      end
     end
 
-    hours = time / 3600
-    minutes = (time % 3600) / 60
-    "#{neg}#{'%d' % hours}:#{'%02d' % minutes}"
+    return if add.blank?
+
+    content_for(:breadcrumbs, sanitize(Array(add).join(sep).prepend(sep)))
   end
 
-  def param_equals_i(param, value)
-    return false if params[param].nil?
-
-    params[param].to_i == value
-  end
-
-  def param_equals_s(param, value)
-    return false if params[param].nil?
-
-    params[param].strip == value
+  def flash_css_class(name)
+    "flash-#{name} " + case name
+                       when 'success'
+                         'green invert'
+                       when 'error'
+                         'red invert'
+                       else
+                         'gold'
+                       end
   end
 end
