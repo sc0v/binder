@@ -1,50 +1,78 @@
 # frozen_string_literal: true
 
-namespace :lint do
-  desc 'Check for security vulnerabilities'
-  task brakeman: :environment do
-    system('brakeman -q --no-summary') or
-      raise(StandardError.new, 'brakeman linting failed.')
-  end
+require Rails.root.join('lib/tasks/lint/lint_helper')
 
-  desc 'Lint embedded ruby files'
-  task erblint: :environment do
-    Dir.glob('**/*.erb').each do |f|
-      system("erblint -a #{f}") or
-        raise(StandardError.new, 'erblint linting failed.')
+ALL_LINT_TASKS = %i[lint:rubocop lint:erblint lint:brakeman].freeze
+
+# TODO: Add CSS linter
+desc 'Lint project (run w/ lint:dryrun to disable autocorrection), lint specific files'
+task :lint, [:file] => :environment do |t, args|
+  include LintHelper
+
+  if args.file.present?
+    # TODO: Add dryrun mode for single files
+    abort_with_log(t.name, 'No dryrun option for file.') if dryrun?(t.name)
+    Rake::Task["lint:file:#{args.file}"].invoke
+  else
+    errors = []
+
+    tasks = ALL_LINT_TASKS
+    tasks.map! { |task| "#{task}:dryrun" } if dryrun?(t.name)
+    tasks.each do |task|
+      Rake::Task[task].invoke
+    rescue SystemExit => e
+      errors << e.message
     end
-  end
 
-  desc 'Prettify html'
-  task htmlbeautifier: :environment do
-    Dir.glob('**/*.{html.erb,html}').each do |f|
-      system("htmlbeautifier #{f}") or
-        raise(StandardError.new, 'htmlbeautifier linting failed.')
+    if errors.present?
+      log(t.name, 'Errors from invoked tasks:')
+      errors.each { |e| log t.name, " * #{e}" }
+      abort_with_log(t.name)
     end
-  end
-
-  desc 'Lint ruby files'
-  task rubocop: :environment do
-    system('rubocop -A') or
-      raise(StandardError.new, 'rubocop linting failed.')
   end
 end
 
-desc 'Lint everything'
-task lint: :environment do
-  errors = []
+# Each lint task can be initiated with a dryrun rule
+# e.g. rails lint:rubocop:dryrun
+namespace :lint do |namespace|
+  rule ':dryrun', [:files] do |t, args|
+    include LintHelper
+    task = t.name.delete_suffix(':dryrun') # determine task name
+    dryrun(task) # flag env as dryrun for task
 
-  %i[htmlbeautifier rubocop erblint brakeman].each do |l|
-    Rake::Task["lint:#{l}"].invoke
-  rescue StandardError => e
-    errors << e
+    # Change all lint-namespace prerequisites of the task to be dryruns, too
+    prereqs = Rake::Task[task].prerequisites
+    prefix = "^#{namespace.scope.path}" # i.e. ^lint
+    prereqs.map! { |x| x.match?(prefix) ? "#{x}:dryrun" : x }
+    Rake::Task[task].prerequisites.replace(prereqs)
+
+    # Invoke the task after dryrun configured
+    Rake::Task[task].invoke(args.files)
   end
+end
 
-  if errors.present?
-    puts 'Linting errors:'
-    errors.each { |e| puts " * #{e}" }
-    exit(1)
-  else
-    puts 'No linting errors.'
+# Determine proper linter for single files
+namespace :lint do
+  namespace :file do |namespace|
+    rule '.html' do |t, _args|
+      file = t.name.delete_prefix("#{namespace.scope.path}:")
+      Rake::Task['lint:htmlbeautifier'].invoke(file)
+    end
+
+    rule '.html.erb' do |t, _args|
+      file = t.name.delete_prefix("#{namespace.scope.path}:")
+      Rake::Task['lint:htmlbeautifier'].invoke(file)
+      Rake::Task['lint:erblint'].invoke(file)
+    end
+
+    rule '.rake' do |t, _args|
+      file = t.name.delete_prefix("#{namespace.scope.path}:")
+      Rake::Task['lint:rubocop'].invoke(file)
+    end
+
+    rule '.rb' do |t, _args|
+      file = t.name.delete_prefix("#{namespace.scope.path}:")
+      Rake::Task['lint:rubocop'].invoke(file)
+    end
   end
 end
