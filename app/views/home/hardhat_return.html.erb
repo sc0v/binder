@@ -3,22 +3,19 @@
   <h1>Hardhat Return</h1>
 </div>
 <p>
-<%= form_tag checkin_checkouts_path(:format => :json), :remote => true, :id => "hardhat_return_form", :role => 'form', :class => 'form-horizontal' do %>
-  <div class="form-group">
-    <%= label_tag 'tool_barcode', 'Scan Hardhat:', :class => 'col-xs-4 col-sm-3 control-label' %>
-    <div class="col-xs-5 col-sm-3">
-      <%= text_field_tag 'tool_barcode', nil, :class => 'form-control' %>
+  <%= form_tag checkin_checkouts_path(format: :json), remote: true, id: 'hardhat_return_form', role: 'form', class: 'form-horizontal' do %>
+    <div class="form-group">
+      <%= label_tag 'tool_barcode', 'Scan Hardhat:', class: 'col-xs-4 col-sm-3 control-label' %>
+      <div class="col-xs-5 col-sm-3">
+        <%= text_field_tag 'tool_barcode', nil, class: 'form-control' %>
+      </div>
+      <%= hidden_field_tag 'form', 'hardhats' %>
     </div>
-    <%= hidden_field_tag 'form', 'hardhats' %>
-  </div>
-  <div id="checkout-response">
-  </div>
-<% end %>
+    <div id="checkout-response">
+    </div>
+  <% end %>
 </p>
-  
-<h3>Hardhats Checked In* - <span id="hardhat-count">0</span></br>
-<small>*May be multiple orgs</small></h3>
+<h3>Hardhats Checked In* - <span id="hardhat-count">0</span><br>
+  <small>*May be multiple orgs</small></h3>
 <ul id="hardhat_list">
 </ul>
-	
-

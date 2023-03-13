@@ -11,9 +11,9 @@
       <% entries.each do |entry| %>
         <tr>
           <td><%= link_to entry.organization.short_name, entry.organization %></td>
-          <td><%=h entry.description%></td>
+          <td><%= h entry.description %></td>
           <td><%= time entry.started_at %></td>
-          <td><%= format_duration (Time.now - entry.started_at) %></td>
+          <td><%= format_duration(Time.zone.now - entry.started_at) %></td>
           <td>
             <% if can?(:end, entry) %>
               <%= form_tag end_organization_timeline_entry_path(entry), method: :put do %><%= hidden_field_tag 'url', request.original_fullpath %><%= submit_tag 'Remove', class: 'btn btn-xs btn-danger' %><% end %>
@@ -28,4 +28,3 @@
 <% else %>
   No one in the queue! YAY!
 <% end %>
-

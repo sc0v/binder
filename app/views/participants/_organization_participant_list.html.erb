@@ -6,27 +6,27 @@
       <th><%= model_class.human_attribute_name(:eppn) %></th>
       <th>Waiver Signed</th>
       <% if can?(:read_phone_number, Participant) %>
-      <th><%= model_class.human_attribute_name(:phone_number) %></th>
-      <th></th>
+        <th><%= model_class.human_attribute_name(:phone_number) %></th>
+        <th></th>
       <% end %>
     </tr>
   </thead>
   <tbody>
     <% @participants.each do |participant| %>
-    <% if can?(:read, participant) %>
-    <tr>
-      <td><%= link_to participant.name, participant %></td>
-      <td><%= link_to participant.eppn, participant %></td>
-      <td><%= participant.has_signed_waiver ? "yes" : "no" %></td>
-      <% if can?(:read_phone_number, Participant) %>
-      <td><%= participant.formatted_phone_number unless !can?(:read_phone_number, participant) %></td>
-      <% @membership = participant.memberships.find_by_organization_id(@organization.id) %>
-      <% if can?(:destroy, @membership) %>
-        <td><%= link_to 'Remove', [@organization, @membership],  method: :delete, class: 'btn btn-xs btn-danger' %></td>
+      <% if can?(:read, participant) %>
+        <tr>
+          <td><%= link_to participant.name, participant %></td>
+          <td><%= link_to participant.eppn, participant %></td>
+          <td><%= participant.has_signed_waiver ? 'yes' : 'no' %></td>
+          <% if can?(:read_phone_number, Participant) %>
+            <td><%= participant.formatted_phone_number if can?(:read_phone_number, participant) %></td>
+            <% @membership = participant.memberships.find_by(organization_id: @organization.id) %>
+            <% if can?(:destroy, @membership) %>
+              <td><%= link_to 'Remove', [@organization, @membership], method: :delete, class: 'btn btn-xs btn-danger' %></td>
+            <% end %>
+          <% end %>
+        </tr>
       <% end %>
-      <% end %>
-    </tr>
-    <% end %>
     <% end %>
   </tbody>
 </table>

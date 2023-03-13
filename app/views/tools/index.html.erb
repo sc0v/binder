@@ -1,61 +1,58 @@
 <%- model_class = Tool -%>
 <div class="page-header">
   <h1>
-    <%= link_to @organization.name + "'s", @organization unless @organization.blank? %>
-    <%=h @title || model_class.model_name.human.pluralize %>
+    <%= link_to "#{@organization.name}'s", @organization if @organization.present? %>
+    <%= h @title || model_class.model_name.human.pluralize %>
   </h1>
 </div>
-
 <div>
   <form action='<%= @organization.present? ? organization_tools_path(@organization) : tools_path %>' method='get'>
     <div style='float: left; border: 1px solid #ccc; border-radius: 4px; padding: 6px; margin-right: 8px;'>
-      <span style='font-weight: bold; margin-right: 5px'>Filter by Tool Type</span><br />
+      <span style='font-weight: bold; margin-right: 5px'>Filter by Tool Type</span><br>
       <select name='type_filter' class='form-control' onchange='this.form.submit()'>
-        <option value='' <%= params[:type_filter].present? ? '':'selected' %>>All tools (except hardhats/radios)</option>
-        <option value='all_tools' <%= param_equals_s(:type_filter, 'all_tools') ? 'selected':'' %>>All tools (Include hardhats/radios)</option>
+        <option value='' <%= params[:type_filter].present? ? '' : 'selected' %>>All tools (except hardhats/radios)</option>
+        <option value='all_tools' <%= param_equals_s(:type_filter, 'all_tools') ? 'selected' : '' %>>All tools (Include hardhats/radios)</option>
 
         <% if @organization.present? %>
-          <% Tool.checked_out_by_organization(@organization).map{|t| t.tool_type}.uniq.each do |tool_type| %>
+          <% Tool.checked_out_by_organization(@organization).map(&:tool_type).uniq.each do |tool_type| %>
             <option value='<%= tool_type.id %>' <%= param_equals_i(:type_filter, tool_type.id) ? 'selected' : '' %>><%= tool_type.name %></option>
-          <% end %>
-        <% else %>
-          <% ToolType.all.to_a.each do |tool_type| %>
-            <option value='<%= tool_type.id %>' <%= param_equals_i(:type_filter, tool_type.id) ? 'selected' : '' %>><%= tool_type.name %></option>
+        <% end %>
+      <% else %>
+        <% ToolType.all.to_a.each do |tool_type| %>
+          <option value='<%= tool_type.id %>' <%= param_equals_i(:type_filter, tool_type.id) ? 'selected' : '' %>><%= tool_type.name %></option>
           <% end %>
         <% end %>
       </select>
-      </div>
-
+    </div>
     <% unless @organization.present? %>
       <div style='float: left; border: 1px solid #ccc; border-radius: 4px; padding: 6px; margin-right: 8px;'>
-        <span style='font-weight: bold; margin-right: 5px'>Filter Checked Out Status </span><br />
+        <span style='font-weight: bold; margin-right: 5px'>Filter Checked Out Status </span><br>
         <select name='inventory_filter' class='form-control' onchange='this.form.submit()'>
-          <option value='' <%= params[:inventory_filter].present? ? '':'selected' %>>All</option>
-          <option value='checked_in' <%= (params[:inventory_filter].present? && params[:inventory_filter] == 'checked_in') ? 'selected':'' %>>Checked In Only</option>
-          <option value='checked_out' <%= (params[:inventory_filter].present? && params[:inventory_filter] == 'checked_out') ? 'selected':'' %>>Checked Out Only</option>
+          <option value='' <%= params[:inventory_filter].present? ? '' : 'selected' %>>All</option>
+          <option value='checked_in' <%= params[:inventory_filter].present? && params[:inventory_filter] == 'checked_in' ? 'selected' : '' %>>Checked In Only</option>
+          <option value='checked_out' <%= params[:inventory_filter].present? && params[:inventory_filter] == 'checked_out' ? 'selected' : '' %>>Checked Out Only</option>
         </select>
       </div>
     <% end %>
   </form>
-  <%= link_to "Reset", @organization.present? ? organization_tools_path(@organization) : tools_path, :class => 'btn btn-default' %>
-  <% if can?(:create, Tool) and @organization.blank? %>
-    <%= link_to t('.new', :default => t("helpers.links.new")),
-            new_tool_path,
-            :class => 'btn btn-primary' %>
-  <% end %>
-</div>
-<br />
-<br />
-<% if @tool_type.present? %>
-    <div class="alert alert-info alert-inline">
-      <div class="row">
-        <div class="col-xs-7">
-          All <%= @title %> are checked out!
-        </div>
-        <div class="col-xs-1"></div>
-      </div>
-    </div>
-<% end %>
-<%= render partial: 'tools', locals: {tools: @tools, organization: @organization} %>
-
-<%#= will_paginate @tools, renderer: BootstrapPagination::Rails %>
+            <%= link_to 'Reset', @organization.present? ? organization_tools_path(@organization) : tools_path, class: 'btn btn-default' %>
+            <% if can?(:create, Tool) and @organization.blank? %>
+              <%= link_to t('.new', default: t('helpers.links.new')),
+                          new_tool_path,
+                          class: 'btn btn-primary' %>
+            <% end %>
+          </div>
+          <br>
+          <br>
+          <% if @tool_type.present? %>
+            <div class="alert alert-info alert-inline">
+              <div class="row">
+                <div class="col-xs-7">
+                  All <%= @title %> are checked out!
+                </div>
+                <div class="col-xs-1"></div>
+              </div>
+            </div>
+          <% end %>
+          <%= render partial: 'tools', locals: { tools: @tools, organization: @organization } %>
+          <%#= will_paginate @tools, renderer: BootstrapPagination::Rails %>

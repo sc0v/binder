@@ -4,7 +4,7 @@
       <div class='col-xs-9'>Queues</div>
       <div class='col-xs-3'>
         <a href="#sidebar-queues-widget" onclick='_toggleText(this, "Show", "Hide")'
-           class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
+           class="btn btn-info btn-xs" data-toggle="collapse">Hide</a>
       </div>
     </div>
   </div>
@@ -65,14 +65,14 @@
     <div style="width: 100%; height: 0px; clear: both; border-top: 1px solid #dddddd;"></div>
     <h5><strong>Add to Queue:</strong></h5>
     <%= simple_form_for OrganizationTimelineEntry.new do |f| %>
-      <%= f.input_field :organization_id, :as => :select, :collection => Organization.only_categories(['Fraternity', 'Sorority', 'Independent', 'Blitz', 'Concessions']), :style => "width: 100%" %>
+      <%= f.input_field :organization_id, as: :select, collection: Organization.only_categories(%w[Fraternity Sorority Independent Blitz Concessions]), style: 'width: 100%' %>
       <div style="width: 100%; height: 5px; clear: both;"></div>
-      <%= f.input_field :description, :as => :string, :style => "width: 100%", :placeholder => "Enter reason..." %>
+      <%= f.input_field :description, as: :string, style: 'width: 100%', placeholder: 'Enter reason...' %>
       <%= hidden_field_tag 'url', request.original_fullpath %>
       <div style="width: 100%; height: 10px; clear: both;"></div>
       <div class="btn-group" style="width: 100%;">
-        <%= f.submit 'Structural', :class => "btn btn-primary", :style => "width: 50%;" %>
-        <%= f.submit 'Electrical', :class => "btn btn-primary", :style => "width: 50%;" %>
+        <%= f.submit 'Structural', class: 'btn btn-primary', style: 'width: 50%;' %>
+        <%= f.submit 'Electrical', class: 'btn btn-primary', style: 'width: 50%;' %>
       </div>
     <% end %>
   </div>

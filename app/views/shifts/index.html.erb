@@ -1,29 +1,26 @@
 <%- model_class = Shift -%>
 <div class="page-header">
   <h1>
-    <%= link_to @organization.name + raw("'s"), @organization unless @organization.blank? %>
-    <%=h @title || model_class.model_name.human.pluralize %>
+    <%= link_to @organization.name + raw("'s"), @organization if @organization.present? %>
+    <%= h @title || model_class.model_name.human.pluralize %>
   </h1>
 </div>
-
 <p>
-  <%= link_to raw("All"), shifts_path, :class => 'btn btn-default' unless params[:type].blank? or !@organization.blank? %>
-  <%= link_to raw("Watch"), shifts_path(:type => "watch"), :class => 'btn btn-default' unless params[:type] == "watch" or !@organization.blank? %>
-  <%= link_to raw("Security"), shifts_path(:type => "security"), :class => 'btn btn-default' unless params[:type] == "security" or !@organization.blank? %>
-  <%= link_to raw("Coordinator"), shifts_path(:type => "coordinator"), :class => 'btn btn-default' unless params[:type] == "coordinator" or !@organization.blank? or !can?(:read_coord, Shift) %>
-  <%= link_to "New", new_shift_path, :class => 'btn btn-primary' if can?(:create, Shift) %>
+  <%= link_to raw('All'), shifts_path, class: 'btn btn-default' unless params[:type].blank? || @organization.present? %>
+  <%= link_to raw('Watch'), shifts_path(type: 'watch'), class: 'btn btn-default' unless (params[:type] == 'watch') || @organization.present? %>
+  <%= link_to raw('Security'), shifts_path(type: 'security'), class: 'btn btn-default' unless (params[:type] == 'security') || @organization.present? %>
+  <%= link_to raw('Coordinator'), shifts_path(type: 'coordinator'), class: 'btn btn-default' unless (params[:type] == 'coordinator') || @organization.present? || !can?(:read_coord, Shift) %>
+  <%= link_to 'New', new_shift_path, class: 'btn btn-primary' if can?(:create, Shift) %>
 </p>
-
 <h3>Current and upcoming shifts</h3>
 <% if @shifts_upcoming.any? %>
-  <%= render partial: 'shifts/list', locals: {shifts: @shifts_upcoming, pagination_param: 'upcoming_page'} %>
+  <%= render partial: 'shifts/list', locals: { shifts: @shifts_upcoming, pagination_param: 'upcoming_page' } %>
 <% else %>
   No current or upcoming shifts.
 <% end %>
-
 <h3>Past shifts</h3>
 <% if @shifts_past.any? %>
-  <%= render partial: 'shifts/list', locals: {shifts: @shifts_past, pagination_param: 'past_page'} %>
+  <%= render partial: 'shifts/list', locals: { shifts: @shifts_past, pagination_param: 'past_page' } %>
 <% else %>
   No past shifts.
 <% end %>

@@ -7,10 +7,9 @@
     <%= f.association :organization %>
     <%= f.association :shift_type %>
   </div>
-
   <div class="form-actions">
-    <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                @shift, :class => 'btn btn-default' %>
+    <%= f.button :submit, class: 'btn-primary' %>
+    <%= link_to t('.cancel', default: t('helpers.links.cancel')),
+                @shift, class: 'btn btn-default' %>
   </div>
 <% end %>

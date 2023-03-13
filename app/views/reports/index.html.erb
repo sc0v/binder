@@ -7,7 +7,7 @@
       <div class="panel-heading">
         <h4 class="panel-title">
           <a data-toggle="collapse" data-parent="#accordion" href="#collapse<%= index %>">
-            <%= report[:title]%>
+            <%= report[:title] %>
           </a>
         </h4>
       </div>
@@ -16,9 +16,9 @@
           <p><%= raw(report[:description]) %></p>
           <div class="form-inputs">
             <%= form_tag report[:url], method: :get do |f| %>
-                <%= hidden_field_tag "options[footer]", value: 1 %>
+              <%= hidden_field_tag 'options[footer]', value: 1 %>
               <% report[:params].each do |param| %>
-                <div >
+                <div>
                   <span><strong><%= param[:name].to_s.humanize %>:</strong></span>
                   <% if param[:type] == :text %>
                     <%= text_field_tag "options[#{param[:name]}]" %>
@@ -28,10 +28,11 @@
                     <%= check_box_tag "options[#{param[:name]}]", checked: param[:checked] %>
                   <% end %>
                 </div>
-                <br />
+                <br>
               <% end %>
-              <br /><br />
-              <%= button_tag "Run report!", class: 'btn btn-primary' %>
+              <br>
+              <br>
+              <%= button_tag 'Run report!', class: 'btn btn-primary' %>
             <% end %>
           </div>
         </div>

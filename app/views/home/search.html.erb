@@ -1,24 +1,21 @@
 <h2>Search result for term <em>'<%= @query %>'</em> </h2>
 <p class="supertiny">&nbsp;</p>
 <% result_shown = false %>
-
 <% unless @new_participant.blank? or !can?(:create, Participant) %>
   <% result_shown = true %>
   <p>
     <%= simple_form_for @new_participant do |f| %>
-      <%= f.input :eppn, :input_html => { :value => @new_participant.eppn }, :as => :hidden %>
-      <%= f.submit "Create a new Participant for " + @new_participant.name, :class => 'btn btn-success' %>
+      <%= f.input :eppn, input_html: { value: @new_participant.eppn }, as: :hidden %>
+      <%= f.submit "Create a new Participant for #{@new_participant.name}", class: 'btn btn-success' %>
     <% end %>
   </p>
 <% end %>
-
 <% unless @tools.blank? %>
   <% result_shown = true %>
   <p><em><strong>Tools matching term '<%= @query %>'</strong></em></p>
-    <%= render partial: "tools/tools", locals: {tools: @tools} %>
+  <%= render partial: 'tools/tools', locals: { tools: @tools } %>
   <p class="smtext">&nbsp;</p>
 <% end %>
-
 <% unless @participants.blank? %>
   <% result_shown = true %>
   <p><em><strong>Participants matching term '<%= @query %>'</strong></em></p>
@@ -29,7 +26,6 @@
   </ul>
   <p class="supertiny">&nbsp;</p>
 <% end %>
-
 <% unless @organizations.blank? and @organization_aliases.blank? %>
   <% result_shown = true %>
   <p><em><strong>Organizations matching term '<%= @query %>'</strong></em></p>
@@ -42,7 +38,6 @@
         <% end %>
       </ul>
     <% end %>
-
     <% unless @organization_aliases.blank? %>
       <li><em>Aliases matching term '<%= @query %>'</em></li>
       <ul>
@@ -54,18 +49,17 @@
   </ul>
   <p class="supertiny">&nbsp;</p>
 <% end %>
-
 <% unless @faqs.blank? or !can?(:read, Faq) %>
   <% result_shown = true %>
   <p><em><strong>Frequently Asked Questions matching term '<%= @query %>'</strong></em></p>
   <ul>
     <% for faq in @faqs do %>
-      <li><%= link_to faq.question, faqs_path %><br> <%= "#{faq.answer}" %></li>
+      <li><%= link_to faq.question, faqs_path %><br>
+        <%= faq.answer.to_s %></li>
     <% end %>
   </ul>
   <p class="supertiny">&nbsp;</p>
 <% end %>
-
 <% unless result_shown %>
   <p><em>No results found for '<%= @query %>'</em></p>
 <% end %>

@@ -4,7 +4,7 @@
       <div class='col-xs-9'>Shifts</div>
       <div class='col-xs-3'>
         <a href="#sidebar-shifts-widget" onclick='_toggleText(this, "Show", "Hide")'
-           class="btn btn-info btn-xs"  data-toggle="collapse">Show</a>
+           class="btn btn-info btn-xs" data-toggle="collapse">Show</a>
       </div>
     </div>
   </div>
@@ -17,12 +17,12 @@
       <tbody>
         <% cache ['current_sidebar', @current_shifts_sidebar] do %>
           <% @current_shifts_sidebar.each do |shift| %>
-            <tr class="sidebar-tooltip <%= shift.is_checked_in ? 'success' : 'danger' %>" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %><%=h ' - ' + shift.description + ' (' + shift.required_number_of_participants.to_s + ')'  unless shift.description.blank? %>">
+            <tr class="sidebar-tooltip <%= shift.is_checked_in ? 'success' : 'danger' %>" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %><%= h " - #{shift.description} (#{shift.required_number_of_participants})" if shift.description.present? %>">
               <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                 <% if (shift.shift_type.name == "Coordinator Shift") %>
-                  <%= link_to shift.shift_participants.first.participant.name, shift unless shift.shift_participants.blank? %>
+                  <%= link_to shift.shift_participants.first.participant.name, shift if shift.shift_participants.present? %>
                 <% else %>
-                  <%= link_to shift.organization.short_name, shift unless shift.organization.blank? %>
+                  <%= link_to shift.organization.short_name, shift if shift.organization.present? %>
                   <%= link_to 'No Org Assigned', shift if shift.organization.blank? %>
                 <% end %>
               </td>
@@ -40,13 +40,13 @@
       <tbody>
         <% cache ['upcoming_sidebar', @upcoming_shifts_sidebar] do %>
           <% @upcoming_shifts_sidebar.each do |shift| %>
-            <tr class="sidebar-tooltip <%= shift.is_checked_in ? 'success' : 'warning' %>" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %><%=h ' - ' + shift.description + ' (' + shift.required_number_of_participants.to_s + ')'  unless shift.description.blank? %>">
+            <tr class="sidebar-tooltip <%= shift.is_checked_in ? 'success' : 'warning' %>" id="" data-toggle="tooltip" data-placement="left" title="<%= shift.shift_type.name %><%= h " - #{shift.description} (#{shift.required_number_of_participants})" if shift.description.present? %>">
               <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;">
                 <% if (shift.shift_type.name == "Coordinator Shift") %>
-                  <%= link_to shift.shift_participants.first.participant.name, shift unless shift.shift_participants.blank? %>
+                  <%= link_to shift.shift_participants.first.participant.name, shift if shift.shift_participants.present? %>
                 <% else %>
-                  <%= link_to shift.organization.short_name, shift unless shift.organization.blank? %>
-                 <% end %>
+                  <%= link_to shift.organization.short_name, shift if shift.organization.present? %>
+                <% end %>
               </td>
               <td style="text-align: right;"><%= time shift.starts_at %></td>
             </tr>

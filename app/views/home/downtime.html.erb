@@ -11,10 +11,9 @@
       <th style="text-align: right;">Remaining</th>
     </tr>
   </thead>
-
   <tbody>
     <% @organizations.each do |organization| %>
-      <tr <%= raw("class='danger'") if organization.remaining_downtime < 0 %>>
+      <tr <%= raw("class='danger'") if organization.remaining_downtime.negative? %>>
         <td><%= link_to organization.short_name, organization_downtime_index_path(organization) %></td>
         <td><%= organization.organization_category.name %></td>
         <td style="text-align: right;"><%= format_duration organization.downtime %></td>
@@ -23,4 +22,3 @@
     <% end %>
   </tbody>
 </table>
-

@@ -1,16 +1,14 @@
 <% if can?(:create, OrganizationAlias) %>
-  <%= simple_form_for @organization_alias, :html => { :class => 'form-horizontal' } do |f| %>
+  <%= simple_form_for @organization_alias, html: { class: 'form-horizontal' } do |f| %>
     <h3>Create Alias for <%= @organization_alias.organization.name %></h3>
     <%= f.input :name %>
-    <%= f.association :organization, :as => :hidden, :input_html => { :value => @organization_alias.organization.id } %>
+    <%= f.association :organization, as: :hidden, input_html: { value: @organization_alias.organization.id } %>
     <div class="form-actions">
-      <%= f.button :submit, :class => 'btn-primary' %>
-      <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                @organization_alias.organization, :class => 'btn btn-default' %>
+      <%= f.button :submit, class: 'btn-primary' %>
+      <%= link_to t('.cancel', default: t('helpers.links.cancel')),
+                  @organization_alias.organization, class: 'btn btn-default' %>
     </div>
   <% end %>
-  
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>
-

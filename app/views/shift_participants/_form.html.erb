@@ -1,16 +1,14 @@
 <%= simple_form_for @shift_participant do |f| %>
-  <%= f.input :shift_id, :as => :hidden, :input_html => { :value => params[:shift_id] } %>
+  <%= f.input :shift_id, as: :hidden, input_html: { value: params[:shift_id] } %>
   <%= f.input :participant_id, required: true do %>
     <%= f.input_field :participant_id, as: :hidden, required: true %>
     <%= text_field_tag 'card-number-input', nil, class: 'form-control', required: true %>
     <div id="participant-info"></div>
   <% end %>
-
-  <%= f.input :clock_in_now, :as => :boolean, :input_html => { :checked => "checked" } %>
-
+  <%= f.input :clock_in_now, as: :boolean, input_html: { checked: 'checked' } %>
   <div class="form-actions">
-    <%= f.button :submit, :class => 'btn btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-                @shift_participant.shift, :class => 'btn btn-default' %>
+    <%= f.button :submit, class: 'btn btn-primary' %>
+    <%= link_to t('.cancel', default: t('helpers.links.cancel')),
+                @shift_participant.shift, class: 'btn btn-default' %>
   </div>
 <% end %>

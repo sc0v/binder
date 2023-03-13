@@ -5,7 +5,7 @@
       <% if !organization.organization_category.is_building %>
         &mdash;
       <% elsif can?(:read, organization.organization_statuses.displayable.last) %>
-        <%= link_to organization.organization_statuses.displayable.last.organization_status_type.name, [organization, :organization_statuses] unless organization.organization_statuses.displayable.blank? %>
+        <%= link_to organization.organization_statuses.displayable.last.organization_status_type.name, [organization, :organization_statuses] if organization.organization_statuses.displayable.present? %>
       <% end %>
     </td>
   <% end %>

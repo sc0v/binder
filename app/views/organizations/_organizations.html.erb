@@ -8,11 +8,10 @@
       <th>Category</th>
     </tr>
   </thead>
-
   <tbody>
     <% organizations.each do |organization| %>
       <% cache [can?(:read, OrganizationStatus), organization] do %>
-        <%= render partial: organization, locals: {organization: organization} %>
+        <%= render partial: organization, locals: { organization: } %>
       <% end %>
     <% end %>
   </tbody>

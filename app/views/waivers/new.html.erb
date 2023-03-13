@@ -1,73 +1,57 @@
 <div class="page-header">
-  <h1>Spring Carnival <%= Time.now.year %> Safety Video</h1>
+  <h1>Spring Carnival <%= Time.zone.now.year %> Safety Video</h1>
 </div>
-
 <p>You must watch the video prior to signing the waiver.</p>
-
 <div id="player"></div>
 <div id="waiver" style="display: none;">
-
-<h2><%= Time.now.year %> SPRING CARNIVAL MIDWAY RELEASE OF LIABILITY</h2>
-
-<p>
-I, <strong><%= @user.name %></strong>, want to participate in Carnegie Mellon University (“CMU”) <%= Time.now.year %> Spring Carnival Midway construction
-activities and/or be present on the Midway construction site (collectively, the “Activities.”) I understand
-that the Activities may involve climbing, crawling, physical exertion, the use of and/or proximity to hand
-and power tools and construction materials and equipment.
-</p>
-
-<p>
-I understand that there are risks (including, but not limited to, the risk of injury, disability, death, contracting COVID-19 which is spread by interpersonal contact)
-associated with my participation in the Activities. I voluntarily assume all the risks. In consideration of
-the benefits of participation in the Activities, I hereby, on behalf of myself and those acting on my
-behalf, irrevocably and unconditionally release, waive and promise not to sue CMU from/for any and all
-liabilities, losses, injuries, damages, claims, demands, actions and/or causes of action related to my
-participation in the Activities, including contracting COVID-19, and the securing of, or failure to secure, medical treatment for me.
-</p>
-
-<p>
-The laws of Pennsylvania shall apply to this Release. If any of its provisions are declared illegal,
-unenforceable or ineffective, they shall be deemed severable and all other provisions shall remain valid and binding. I am an adult (18 years of age or older).
-</p>
-
-<%= form_tag( participant_waiver_path(@user) ) do %>
-
-  <div>
-    <%= check_box_tag :agree %>
-    <%= label_tag :agree, "I have read this release and understand it and I voluntarily agree to all its provisions." %>
-  </div>
-
-  <div>
-    <%= check_box_tag :adult %>
-    <%= label_tag :adult, "I am 18 years of age or older." %>
-  </div>
-
-  <div>
-    <h3>Emergency Alert Information</h3>
-    <p>All Spring Carnival participants must provide their mobile phone number, which will be enrolled in the emergency alert system.</p>
+  <h2><%= Time.zone.now.year %> SPRING CARNIVAL MIDWAY RELEASE OF LIABILITY</h2>
+  <p>
+    I, <strong><%= @user.name %></strong>, want to participate in Carnegie Mellon University (“CMU”) <%= Time.zone.now.year %> Spring Carnival Midway construction
+    activities and/or be present on the Midway construction site (collectively, the “Activities.”) I understand
+    that the Activities may involve climbing, crawling, physical exertion, the use of and/or proximity to hand
+    and power tools and construction materials and equipment.
+  </p>
+  <p>
+    I understand that there are risks (including, but not limited to, the risk of injury, disability, death, contracting COVID-19 which is spread by interpersonal contact)
+    associated with my participation in the Activities. I voluntarily assume all the risks. In consideration of
+    the benefits of participation in the Activities, I hereby, on behalf of myself and those acting on my
+    behalf, irrevocably and unconditionally release, waive and promise not to sue CMU from/for any and all
+    liabilities, losses, injuries, damages, claims, demands, actions and/or causes of action related to my
+    participation in the Activities, including contracting COVID-19, and the securing of, or failure to secure, medical treatment for me.
+  </p>
+  <p>
+    The laws of Pennsylvania shall apply to this Release. If any of its provisions are declared illegal,
+    unenforceable or ineffective, they shall be deemed severable and all other provisions shall remain valid and binding. I am an adult (18 years of age or older).
+  </p>
+  <%= form_tag(participant_waiver_path(@user)) do %>
     <div>
-      <%= label_tag :emergency_phone, "Cell Phone:" %>
-      <%= text_field_tag :phone_number %>
+      <%= check_box_tag :agree %>
+      <%= label_tag :agree, 'I have read this release and understand it and I voluntarily agree to all its provisions.' %>
     </div>
-  </div>
-
-  <div style="margin-top: 30px;">
-    <p>By typing your full name below you are digitally signing this document.</p>
-    <%= label_tag :signature, "Required electronic signature:" %>
-    <%= text_field_tag :signature %>
-  </div>
-
-  <div>
-    <%= submit_tag "Submit Waiver", class: "btn btn-primary" %>
-  </div>
-
-<% end %>
-
+    <div>
+      <%= check_box_tag :adult %>
+      <%= label_tag :adult, 'I am 18 years of age or older.' %>
+    </div>
+    <div>
+      <h3>Emergency Alert Information</h3>
+      <p>All Spring Carnival participants must provide their mobile phone number, which will be enrolled in the emergency alert system.</p>
+      <div>
+        <%= label_tag :emergency_phone, 'Cell Phone:' %>
+        <%= text_field_tag :phone_number %>
+      </div>
+    </div>
+    <div style="margin-top: 30px;">
+      <p>By typing your full name below you are digitally signing this document.</p>
+      <%= label_tag :signature, 'Required electronic signature:' %>
+      <%= text_field_tag :signature %>
+    </div>
+    <div>
+      <%= submit_tag 'Submit Waiver', class: 'btn btn-primary' %>
+    </div>
+  <% end %>
 </div>
-
 <script src="https://www.youtube.com/player_api"></script>
 <script>
-
   // create youtube player
   var player;
   function onYouTubePlayerAPIReady() {
@@ -85,7 +69,7 @@ unenforceable or ineffective, they shall be deemed severable and all other provi
 
   // autoplay video if there were no flashed errors
   function onPlayerReady(event) {
-    <%= @should_see_video ? "event.target.playVideo();" : "showWaiver();" %>
+    <%= @should_see_video ? 'event.target.playVideo();' : 'showWaiver();' %>
   }
 
   // when video ends
@@ -97,5 +81,4 @@ unenforceable or ineffective, they shall be deemed severable and all other provi
     $('#player').slideUp();
     $('#waiver').slideDown();
   }
-
 </script>

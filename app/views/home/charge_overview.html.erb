@@ -12,7 +12,6 @@
       <th style="text-align: right;">Total</th>
     </tr>
   </thead>
-
   <tbody>
     <% @organizations.each do |organization| %>
       <tr>
@@ -28,34 +27,32 @@
       <td style="text-align: right;"><%= currency @approved_total %></td>
       <td style="text-align: right;"><%= currency @pending_total %></td>
       <td style="text-align: right;"><%= currency @total %></td>
-  </tbody>
-</table>
-
-</br>
-</br>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th><%= model_class.human_attribute_name(:name) %></th>
-      <th style="text-align: right;">Approved</th>
-      <th style="text-align: right;">Pending</th>
-      <th style="text-align: right;">Total</th>
-    </tr>
-  </thead>
-
-  <tbody>
-    <% @charge_types.each do |type| %>
+    </tbody>
+  </table>
+  <br>
+  <br>
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <td><%= type.name %></td>
-        <td style="text-align: right;"><%= currency type.charges.approved.sum('amount') %></td>
-        <td style="text-align: right;"><%= currency type.charges.pending.sum('amount') %></td>
-        <td style="text-align: right;"><%= currency type.charges.sum('amount') %></td>
+        <th><%= model_class.human_attribute_name(:name) %></th>
+        <th style="text-align: right;">Approved</th>
+        <th style="text-align: right;">Pending</th>
+        <th style="text-align: right;">Total</th>
       </tr>
-    <% end %>
-    <tr>
-      <td><b>Total:</b></td>
-      <td style="text-align: right;"><%= currency @approved_total %></td>
-      <td style="text-align: right;"><%= currency @pending_total %></td>
-      <td style="text-align: right;"><%= currency @total %></td>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @charge_types.each do |type| %>
+        <tr>
+          <td><%= type.name %></td>
+          <td style="text-align: right;"><%= currency type.charges.approved.sum('amount') %></td>
+          <td style="text-align: right;"><%= currency type.charges.pending.sum('amount') %></td>
+          <td style="text-align: right;"><%= currency type.charges.sum('amount') %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td><b>Total:</b></td>
+        <td style="text-align: right;"><%= currency @approved_total %></td>
+        <td style="text-align: right;"><%= currency @pending_total %></td>
+        <td style="text-align: right;"><%= currency @total %></td>
+      </tbody>
+    </table>

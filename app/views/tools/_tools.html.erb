@@ -1,4 +1,4 @@
-<% page ||= "default" %>
+<% page ||= 'default' %>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -6,30 +6,28 @@
       <th>Type</th>
       <th>Description</th>
       <th>Checked Out At</th>
-      <th class="hidden-xs <%= "hidden" if page == "org" %>">Org</th>
-      <th class="visible-lg <%= "visible-sm visible-md" if page == "org" %>">Person</th>
+      <th class="hidden-xs <%= 'hidden' if page == 'org' %>">Org</th>
+      <th class="visible-lg <%= 'visible-sm visible-md' if page == 'org' %>">Person</th>
     </tr>
   </thead>
-
   <tbody>
     <% tools.each do |tool| %>
       <% cache [page, tool] do %>
-        <%= render partial: tool, locals: {tool: tool, page: page} %>
+        <%= render partial: tool, locals: { tool:, page: } %>
       <% end %>
     <% end %>
   </tbody>
 </table>
-
 <% if tools.empty? %>
-    <% if organization.present? %>
-      <div class="alert alert-info">
-          <%= organization.name %> does not have any <%= @title %> checked out at this time. <%= link_to raw("<strong>See all tools</strong>"), organization_tools_path(@organization, type_filter: 'all_tools') %>
-      </div>
-    <% else %>
-      <div class="alert alert-info">
-          There are no <%= param_equals_s(:inventory_filter, 'checked_out') ? raw('<strong>Checked Out</strong>') : '' %>
-        <%= param_equals_s(:inventory_filter, 'checked_in') ? raw('<strong>Checked In</strong>') : '' %>
-       <%= @title %> at this time. <%= link_to raw("<strong>See All #{@title}</strong>"), tools_path(type_filter: params[:type_filter]) %>
-      </div>
-    <% end %>
+  <% if organization.present? %>
+    <div class="alert alert-info">
+      <%= organization.name %> does not have any <%= @title %> checked out at this time. <%= link_to raw('<strong>See all tools</strong>'), organization_tools_path(@organization, type_filter: 'all_tools') %>
+    </div>
+  <% else %>
+    <div class="alert alert-info">
+      There are no <%= param_equals_s(:inventory_filter, 'checked_out') ? raw('<strong>Checked Out</strong>') : '' %>
+      <%= param_equals_s(:inventory_filter, 'checked_in') ? raw('<strong>Checked In</strong>') : '' %>
+      <%= @title %> at this time. <%= link_to raw("<strong>See All #{@title}</strong>"), tools_path(type_filter: params[:type_filter]) %>
+    </div>
+  <% end %>
 <% end %>

@@ -1,36 +1,27 @@
 <%- model_class = StoreItem -%>
 <% if show_cart? %>
-<div class="page-header">
-  <h1>Cart</h1>
-</div>
-
-<%= render partial: 'cart', locals: { items: StorePurchase.items_in_cart } %>
-
-<p class="text-right">
-  <%# if can?(:create, StoreItem) and @organization.blank? %>
-  <% if @organization.blank? %>
-  <%= link_to t('.checkout', :default => t("helpers.links.checkout")),
-  store_cart_review_path,
-  :class => 'btn btn-primary' %>
-  <% end %>
+  <div class="page-header">
+    <h1>Cart</h1>
+  </div>
+  <%= render partial: 'cart', locals: { items: StorePurchase.items_in_cart } %>
+  <p class="text-right">
+    <%# if can?(:create, StoreItem) and @organization.blank? %>
+    <% if @organization.blank? %>
+      <%= link_to t('.checkout', default: t('helpers.links.checkout')),
+                  store_cart_review_path,
+                  class: 'btn btn-primary' %>
+    <% end %>
   </p>
-
 <% end %>
-
-
-
 <div class="page-header">
   <h1>Store</h1>
 </div>
-
 <p>
   <% if can?(:create, StoreItem) and @organization.blank? %>
-  <%= link_to t('.new_item', :default => t("helpers.links.new_item")),
-  new_store_item_path,
-  :class => 'btn btn-primary' %>
+    <%= link_to t('.new_item', default: t('helpers.links.new_item')),
+                new_store_item_path,
+                class: 'btn btn-primary' %>
   <% end %>
 </p>
-
 <%= render partial: 'items', object: @store_items %>
-
 <%#= will_paginate @store_items, renderer: BootstrapPagination::Rails %>

@@ -1,8 +1,7 @@
-<%= simple_form_for [@organization, @membership], :html => { :class => 'form-horizontal' } do |f| %>
+<%= simple_form_for [@organization, @membership], html: { class: 'form-horizontal' } do |f| %>
   <div class="form-inputs">
     <div class="row">
       <div class="col-sm-9">
-
         <div class="form-group">
           <label class="col-sm-3 control-label" for="participant_eppn">AndrewID</label>
           <div class="col-sm-9">
@@ -22,39 +21,38 @@
   </div>
   <div class="form-actions">
     <div class="col-sm-10">
-      <%= f.button :submit, :id => 'membership_submit', :class => 'btn-primary', :disabled => true %>
+      <%= f.button :submit, id: 'membership_submit', class: 'btn-primary', disabled: true %>
     </div>
   </div>
-<% end %> 
-
+<% end %>
 <script>
-$(document).ready(function() {
-  $eppn = $('#participant_eppn');
-  $participantid = $('#membership_participant_id');
-  $participantname = $('#participant_name');
-  $submitbutton = $('#membership_submit');
+  $(document).ready(function() {
+    $eppn = $('#participant_eppn');
+    $participantid = $('#membership_participant_id');
+    $participantname = $('#participant_name');
+    $submitbutton = $('#membership_submit');
 
-  var timeout = null;
-  $eppn.keyup(function() {
-    clearTimeout(timeout);
+    var timeout = null;
+    $eppn.keyup(function() {
+      clearTimeout(timeout);
 
-    timeout = setTimeout(function() {
-      $.ajax({
-        url: "/participants/lookup.json",
-        type: "POST",
-        data: {
-          card_number: $eppn.val()
-        }
-      }).done(function(data) {
-        $participantid.val(data['id']);
-        $participantname.val(data['name']);
-        $submitbutton.prop('disabled', false);
-      }).fail(function(data) {
-        $participantid.val('');
-        $participantname.val('');
-        $submitbutton.prop('disabled', true);
-      });
-    }, 500);
+      timeout = setTimeout(function() {
+        $.ajax({
+          url: "/participants/lookup.json",
+          type: "POST",
+          data: {
+            card_number: $eppn.val()
+          }
+        }).done(function(data) {
+          $participantid.val(data['id']);
+          $participantname.val(data['name']);
+          $submitbutton.prop('disabled', false);
+        }).fail(function(data) {
+          $participantid.val('');
+          $participantname.val('');
+          $submitbutton.prop('disabled', true);
+        });
+      }, 500);
+    });
   });
-});
 </script>

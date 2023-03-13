@@ -1,14 +1,12 @@
-<%= simple_form_for @participant, :html => { :class => 'form-horizontal' } do |f| %>
+<%= simple_form_for @participant, html: { class: 'form-horizontal' } do |f| %>
   <%= f.error_notification %>
   <div class="form-inputs">
-    <%= f.input :eppn, :disabled => true %>
-    <%= f.input :phone_number, :as => :tel %>
+    <%= f.input :eppn, disabled: true %>
+    <%= f.input :phone_number, as: :tel %>
   </div>
-
   <div class="form-actions">
-    <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-              @participant, :class => 'btn btn-default' %>
+    <%= f.button :submit, class: 'btn-primary' %>
+    <%= link_to t('.cancel', default: t('helpers.links.cancel')),
+                @participant, class: 'btn btn-default' %>
   </div>
 <% end %>
-

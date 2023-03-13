@@ -1,12 +1,12 @@
 <div class="panel panel-default">
   <div class="panel-heading">
     <div class='row'>
-    <div class='col-xs-9'>Tasks</div>
-    <div class='col-xs-3'>
-      <a href="#sidebar-tasks-widget" onclick='_toggleText(this, "Show", "Hide")'
-         class="btn btn-info btn-xs"  data-toggle="collapse">Hide</a>
+      <div class='col-xs-9'>Tasks</div>
+      <div class='col-xs-3'>
+        <a href="#sidebar-tasks-widget" onclick='_toggleText(this, "Show", "Hide")'
+         class="btn btn-info btn-xs" data-toggle="collapse">Hide</a>
+      </div>
     </div>
-  </div>
   </div>
   <div id='sidebar-tasks-widget' class="collapse in panel-body">
     <table class="table table-condensed" style="margin-bottom: 0;">
@@ -17,12 +17,12 @@
       </thead>
       <tbody>
         <% @tasks_sidebar.each do |task| %>
-          <tr class="sidebar-tooltip" data-toggle="tooltip" data-placement="left" title="<%=h task.name %>: <%=h task.description %>">
+          <tr class="sidebar-tooltip" data-toggle="tooltip" data-placement="left" title="<%= h task.name %>: <%= h task.description %>">
             <td style="max-width: 103px; white-space: nowrap; text-overflow: ellipsis; overflow: hidden;"><%= link_to task.name, task_path(task) %></td>
-            <td style="text-align: right;"><%= time task.due_at%></td>
+            <td style="text-align: right;"><%= time task.due_at %></td>
             <% if can?(:update, task) %>
-              <td style="text-align: right;"><%= link_to t('.complete', :default => t("helpers.links.complete")),
-                  complete_task_path(task), :method => :post, :class => 'btn btn-xs btn-success' %></td>
+              <td style="text-align: right;"><%= link_to t('.complete', default: t('helpers.links.complete')),
+                                                         complete_task_path(task), method: :post, class: 'btn btn-xs btn-success' %></td>
             <% end %>
           </tr>
         <% end %>

@@ -1,15 +1,15 @@
-<%= simple_form_for @tool, :html => { :class => 'form-horizontal' } do |f| %>
+<%= simple_form_for @tool, html: { class: 'form-horizontal' } do |f| %>
   <div class="form-inputs">
     <div class='container'>
       <div class='row'>
         <div class='col-xs-12 col-sm-6'>
-          <%= f.input :tool_type_id, :as => :select, :collection => ToolType.all,
-                :prompt => 'Select a tool type',
-                :selected => @tool.tool_type.nil? ? '' : @tool.tool_type.id %>
+          <%= f.input :tool_type_id, as: :select, collection: ToolType.all,
+                                     prompt: 'Select a tool type',
+                                     selected: @tool.tool_type.nil? ? '' : @tool.tool_type.id %>
         </div>
         <% if can?(:create, ToolType) %>
           <div>
-            <%= link_to "Or create a new tool type", new_tool_type_path(from_tools: true), class: 'btn btn-primary' %>
+            <%= link_to 'Or create a new tool type', new_tool_type_path(from_tools: true), class: 'btn btn-primary' %>
           </div>
         <% end %>
       </div>
@@ -17,15 +17,13 @@
         <div class='col-xs-12 col-sm-6'><%= f.input :barcode %></div>
       </div>
       <div class='row'>
-        <div class='col-xs-12 col-sm-6'><%= f.input :description, :height => '300px' %></div>
+        <div class='col-xs-12 col-sm-6'><%= f.input :description, height: '300px' %></div>
       </div>
     </div>
   </div>
-
   <div class="form-actions">
-    <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-             @tool, :class => 'btn btn-default' %>
+    <%= f.button :submit, class: 'btn-primary' %>
+    <%= link_to t('.cancel', default: t('helpers.links.cancel')),
+                @tool, class: 'btn btn-default' %>
   </div>
 <% end %>
-

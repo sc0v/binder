@@ -1,13 +1,12 @@
 <%= simple_form_for @organization_status_type, html: { class: 'form-horizontal' } do |f| %>
-  <%= hidden_field(nil, :from_organiation_status, :value => params[:from_organiation_status]) %>
+  <%= hidden_field(nil, :from_organiation_status, value: params[:from_organiation_status]) %>
   <div class="form-inputs">
     <%= f.input :name %>
   </div>
-  <%= f.input :display, :as => :boolean %>
-
+  <%= f.input :display, as: :boolean %>
   <div class="form-actions">
-    <%= f.button :submit, :class => 'btn-primary' %>
-    <%= link_to t('.cancel', :default => t("helpers.links.cancel")),
-              organization_status_types_path, :class => 'btn btn-default' %>
+    <%= f.button :submit, class: 'btn-primary' %>
+    <%= link_to t('.cancel', default: t('helpers.links.cancel')),
+                organization_status_types_path, class: 'btn btn-default' %>
   </div>
 <% end %>
