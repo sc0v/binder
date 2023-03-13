@@ -1,24 +1,19 @@
 <tr>
-  <td><%= cart_item.store_item.name  %></td>
+  <td><%= cart_item.store_item.name %></td>
   <td><%= number_to_currency cart_item.price_at_purchase %></td>
   <td>
     <%# TODO: Inline styles & maybe change to best_in_place %>
-    
-    <%= simple_form_for cart_item, html: { style: "display: inline;" } do |f| %>
-    <%= f.hidden_field :quantity_purchased, value: cart_item.quantity_purchased - 1 %>
-    <%= f.button :submit, '-', :class => 'btn btn-default btn-xs' %>
+    <%= simple_form_for cart_item, html: { style: 'display: inline;' } do |f| %>
+      <%= f.hidden_field :quantity_purchased, value: cart_item.quantity_purchased - 1 %>
+      <%= f.button :submit, '-', class: 'btn btn-default btn-xs' %>
     <% end %>
-
-    
     <%= cart_item.quantity_purchased %>
-
-    <%= simple_form_for cart_item, html: { style: "display: inline;" } do |f| %>
-    <%= f.hidden_field :quantity_purchased, value: cart_item.quantity_purchased + 1 %>
-    <%= f.button :submit, '+', :class => 'btn btn-default btn-xs' %>
+    <%= simple_form_for cart_item, html: { style: 'display: inline;' } do |f| %>
+      <%= f.hidden_field :quantity_purchased, value: cart_item.quantity_purchased + 1 %>
+      <%= f.button :submit, '+', class: 'btn btn-default btn-xs' %>
     <% end %>
-
   </td>
-  <td><%= number_to_currency (cart_item.quantity_purchased * cart_item.price_at_purchase) %></td>
-  <td><%= link_to t('.remove_from_cart', :default => t("helpers.links.remove_from_cart")),
-	        remove_from_cart_store_item_path(cart_item), :class => 'btn btn-danger btn-xs', method: :post  %></td>
+  <td><%= number_to_currency(cart_item.quantity_purchased * cart_item.price_at_purchase) %></td>
+  <td><%= link_to t('.remove_from_cart', default: t('helpers.links.remove_from_cart')),
+                  remove_from_cart_store_item_path(cart_item), class: 'btn btn-danger btn-xs', method: :post %></td>
 </tr>

@@ -1,4 +1,4 @@
-<% page ||= "default" %>
+<% page ||= 'default' %>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -9,10 +9,7 @@
       <th>Actions</th>
     </tr>
   </thead>
-
   <tbody>
-
     <%= render partial: 'store/items/cart_item', collection: items %>
-
   </tbody>
 </table>

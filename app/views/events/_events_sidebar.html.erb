@@ -7,11 +7,11 @@
       </div>
       <div class='col-xs-3'>
         <a href="#sidebar-events-widget" onclick='_toggleText(this, "Show", "Hide")'
-           class="btn btn-info btn-xs"  data-toggle="collapse"><%= @events_sidebar.empty? ? "Show" : "Hide" %></a>
+           class="btn btn-info btn-xs" data-toggle="collapse"><%= @events_sidebar.empty? ? 'Show' : 'Hide' %></a>
       </div>
     </div>
   </div>
-  <div id='sidebar-events-widget' class="collapse <%= "in" if !@events_sidebar.empty? %> panel-body">
+  <div id='sidebar-events-widget' class="collapse <%= 'in' unless @events_sidebar.empty? %> panel-body">
     <table class="table table-condensed" style="margin-bottom: 0;">
       <thead>
         <th>Note</th>
@@ -19,14 +19,14 @@
       </thead>
       <tbody>
         <% @events_sidebar.each do |event| %>
-            <tr>
-              <td><%= link_to event.description.truncate(150), event_path(event) %></td>
-                <td style="text-align: right;">
-                  <%= link_to 'OK', approve_event_path(event), :method => :post, :class => 'btn btn-xs btn-success' %></td>
-              </td>
-            </tr>
-        <% end %>
-      </tbody>
-    </table>
-  </div>
+          <tr>
+            <td><%= link_to event.description.truncate(150), event_path(event) %></td>
+            <td style="text-align: right;">
+              <%= link_to 'OK', approve_event_path(event), method: :post, class: 'btn btn-xs btn-success' %></td>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
 </div>

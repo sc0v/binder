@@ -1,5 +1,4 @@
 <% unless organization_tool_list.empty? %>
-  <%= render partial: 'tools/tools', locals: {tools: organization_tool_list, page: "org"} %>
+  <%= render partial: 'tools/tools', locals: { tools: organization_tool_list, page: 'org' } %>
 <% end %>
-<span>This organization currently has <%= pluralize(Tool.checked_out_by_organization(@organization).just_tools.count, 'tools') %>, <%= pluralize(Tool.checked_out_by_organization(@organization).hardhats.count, 'hardhat') %>, and <%= pluralize(Tool.checked_out_by_organization(@organization).radios.count, 'radio') %> checked out. <%= link_to "View all", organization_tools_path(@organization) %></span>
-
+<span>This organization currently has <%= pluralize(Tool.checked_out_by_organization(@organization).just_tools.count, 'tools') %>, <%= pluralize(Tool.checked_out_by_organization(@organization).hardhats.count, 'hardhat') %>, and <%= pluralize(Tool.checked_out_by_organization(@organization).radios.count, 'radio') %> checked out. <%= link_to 'View all', organization_tools_path(@organization) %></span>

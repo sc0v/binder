@@ -6,35 +6,29 @@
     <li><a href="#tools" data-toggle="tab">Tools</a></li>
     <li><a href="#shifts" data-toggle="tab">Shifts</a></li>
   <% end %>
-
   <% if can?(:read_all_details, @organization) %>
     <li><a href="#charges" data-toggle="tab">Charges</a></li>
   <% end %>
 </ul>
-
 <!-- Details -->
 <div class="tab-content" style="margin-bottom: 20px;">
   <div id="chairs" class="tab-pane active">
-    <%= render :partial => 'participants/organization_booth_chair_list', :object => @booth_chairs %>
+    <%= render partial: 'participants/organization_booth_chair_list', object: @booth_chairs %>
   </div>
   <% if can?(:read_basic_details, @organization) %>
-
     <div id="members" class="tab-pane">
-      <%= render :partial => "participants/organization_participant_list", :object => @participants %>
+      <%= render partial: 'participants/organization_participant_list', object: @participants %>
     </div>
-
     <div id="shifts" class="tab-pane">
-      <%= render :partial => "shifts/organization_shift_list.html.erb", :object => @shifts %>
+      <%= render partial: 'shifts/organization_shift_list.html.erb', object: @shifts %>
     </div>
     <div id="tools" class="tab-pane">
-      <%= render :partial => "tools/organization_tool_list", :object => @tools %>
+      <%= render partial: 'tools/organization_tool_list', object: @tools %>
     </div>
   <% end %>
-
   <% if can?(:read_all_details, @organization) %>
     <div id="charges" class="tab-pane">
-      <%= render :partial => "charges/organization_charge_list", :object => @charges %>
+      <%= render partial: 'charges/organization_charge_list', object: @charges %>
     </div>
   <% end %>
 </div>
-

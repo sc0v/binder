@@ -22,39 +22,38 @@
       </th>
     </tr>
   </thead>
-
   <tbody>
     <% shifts.each do |shift| %>
       <% if can?(:read, shift) %>
         <% if current?(shift) %>
           <tr class="<%= shift.is_checked_in ? 'success' : 'danger' %>">
-        <% else %>
-          <tr>
-        <% end %>
-          <td><%= link_to t('.show', :default => t("helpers.links.show")),
-                        shift_path(shift), :class => 'btn btn-info btn-xs' %></td>
-          <% if params[:type].blank? %>
-            <td><%= shift.shift_type.name %></td>
-          <% end %>
-          <td><%= date_and_time shift.starts_at %></td>
-          <td class="hidden-xs"><%= date_and_time shift.ends_at %></td>
-          <td class="hidden-xs"><%= shift.required_number_of_participants %></td>
-          <td>
-            <% if ( @organization.blank? ) %>
-              <% if ( params[:type] == "coordinator" ) %>
-                <%= link_to shift.shift_participants.first.participant.name, shift.shift_participants.first.participant unless shift.shift_participants.blank? %>
-              <% else %>
-                <%= link_to shift.organization.short_name, shift.organization unless shift.organization.blank? %>
-              <% end %>
-            <% else %>
-              <%= shift.shift_type.name %>
+          <% else %>
+            <tr>
             <% end %>
-          </td>
-        </tr>
+            <td><%= link_to t('.show', default: t('helpers.links.show')),
+                            shift_path(shift), class: 'btn btn-info btn-xs' %></td>
+            <% if params[:type].blank? %>
+              <td><%= shift.shift_type.name %></td>
+            <% end %>
+            <td><%= date_and_time shift.starts_at %></td>
+            <td class="hidden-xs"><%= date_and_time shift.ends_at %></td>
+            <td class="hidden-xs"><%= shift.required_number_of_participants %></td>
+            <td>
+              <% if ( @organization.blank? ) %>
+                <% if ( params[:type] == "coordinator" ) %>
+                  <%= link_to shift.shift_participants.first.participant.name, shift.shift_participants.first.participant if shift.shift_participants.present? %>
+                <% else %>
+                  <%= link_to shift.organization.short_name, shift.organization if shift.organization.present? %>
+                <% end %>
+              <% else %>
+                <%= shift.shift_type.name %>
+              <% end %>
+            </td>
+          </tr>
+        <% end %>
       <% end %>
-    <% end %>
-  </tbody>
-</table>
-<span class="smtext">
-  <%#= will_paginate shifts, param_name: pagination_param, renderer: BootstrapPagination::Rails %>
-</span>
+    </tbody>
+  </table>
+  <span class="smtext">
+    <%#= will_paginate shifts, param_name: pagination_param, renderer: BootstrapPagination::Rails %>
+  </span>

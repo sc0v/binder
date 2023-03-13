@@ -2,7 +2,6 @@
 <div class="page-header">
   <h1 <%= raw('class="text-muted"') unless @charge.is_approved? %>><%= @charge.charge_type.name %></h1>
 </div>
-
 <dl class="dl-horizontal">
   <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
   <dd><%= @charge.description %></dd>
@@ -19,35 +18,31 @@
   <dt><strong><%= model_class.human_attribute_name(:is_approved) %></strong></dt>
   <dd><%= format_boolean @charge.is_approved %></dd>
 </dl>
-  
 <div class="form-actions">
-    <%= link_to t('.back', :default => t("helpers.links.back")),
-              charges_path, :class => 'btn btn-default' %>
-
+  <%= link_to t('.back', default: t('helpers.links.back')),
+              charges_path, class: 'btn btn-default' %>
   <% if can?(:approve, Charge) %>
     <% unless @charge.is_approved? %>
-      <%= form_tag approve_charge_path(@charge), method: :put, style: "display: inline;", role: "form" do -%>
+      <%= form_tag approve_charge_path(@charge), method: :put, style: 'display: inline;', role: 'form' do -%>
         <%= hidden_field_tag 'url', request.original_fullpath %>
-        <%= submit_tag 'Approve', :class => 'btn btn-success', :type => 'submit' %>
+        <%= submit_tag 'Approve', class: 'btn btn-success', type: 'submit' %>
       <% end -%>
     <% else %>
-      <%= form_tag approve_charge_path(@charge), method: :put, style: "display: inline;", role: "form" do -%>
+      <%= form_tag approve_charge_path(@charge), method: :put, style: 'display: inline;', role: 'form' do -%>
         <%= hidden_field_tag 'url', request.original_fullpath %>
-        <%= submit_tag 'Un-Approve', :class => 'btn btn-danger', :type => 'submit' %>
+        <%= submit_tag 'Un-Approve', class: 'btn btn-danger', type: 'submit' %>
       <% end -%>
     <% end %>
   <% end %>
-
   <% if can?(:update, @charge) %>
-    <%= link_to t('.edit', :default => t("helpers.links.edit")),
-            edit_charge_path(@charge), :class => 'btn btn-primary' %>
+    <%= link_to t('.edit', default: t('helpers.links.edit')),
+                edit_charge_path(@charge), class: 'btn btn-primary' %>
   <% end %>
-
   <% if can?(:destroy, @charge) %>
-    <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-            charge_path(@charge),
-            :method => 'delete',
-            :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-            :class => 'btn btn-danger' %>
+    <%= link_to t('.destroy', default: t('helpers.links.destroy')),
+                charge_path(@charge),
+                method: 'delete',
+                data: { confirm: t('.confirm', default: t('helpers.links.confirm', default: 'Are you sure?')) },
+                class: 'btn btn-danger' %>
   <% end %>
 </div>

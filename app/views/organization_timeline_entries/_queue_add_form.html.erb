@@ -1,15 +1,14 @@
 <% if !Current.user.booth_chair_organizations.empty? %>
-  <%= simple_form_for OrganizationTimelineEntry.new, :html => {:class => 'form-inline'} do |f| %>
+  <%= simple_form_for OrganizationTimelineEntry.new, html: { class: 'form-inline' } do |f| %>
     <%= hidden_field_tag 'url', request.original_fullpath %>
     <div class="form-group">
-      <%= f.input_field :organization_id, :as => :select, :collection => Current.user.booth_chair_organizations,
-        :include_blank => false, :class => "form-control" %>
+      <%= f.input_field :organization_id, as: :select, collection: Current.user.booth_chair_organizations,
+                                          include_blank: false, class: 'form-control' %>
     </div>
     <div class="form-group">
-      <%= f.input_field :description, :as => :string, :placeholder => "Reason", :class => "form-control" %>
+      <%= f.input_field :description, as: :string, placeholder: 'Reason', class: 'form-control' %>
     </div>
-    <%= f.button :button, 'Add to Queue', :name => 'commit', :value => queue_type, :type => 'submit',
-                 :class => "form-control btn btn-primary" %>
+    <%= f.button :button, 'Add to Queue', name: 'commit', value: queue_type, type: 'submit',
+                                          class: 'form-control btn btn-primary' %>
   <% end %>
 <% end %>
-

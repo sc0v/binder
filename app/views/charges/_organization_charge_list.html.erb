@@ -4,18 +4,18 @@
     <thead>
       <tr>
         <th></th>
-        <th class="hidden-xs"><%=t model_class.human_attribute_name(:charge_type) %></th>
-        <th><%=t model_class.human_attribute_name(:amount) %></th>
-        <th><%=t model_class.human_attribute_name(:charged_at) %></th>
-        <th class="visible-lg"><%=t model_class.human_attribute_name(:issuing_participant) %></th>
+        <th class="hidden-xs"><%= t model_class.human_attribute_name(:charge_type) %></th>
+        <th><%= t model_class.human_attribute_name(:amount) %></th>
+        <th><%= t model_class.human_attribute_name(:charged_at) %></th>
+        <th class="visible-lg"><%= t model_class.human_attribute_name(:issuing_participant) %></th>
       </tr>
     </thead>
     <tbody>
       <% organization_charge_list.each do |charge| %>
         <% if can?(:read, charge) %>
           <tr>
-            <td><%= link_to t('.show', :default => t("helpers.links.show")),
-                          charge, :class => 'btn btn-info btn-xs' %></td>
+            <td><%= link_to t('.show', default: t('helpers.links.show')),
+                            charge, class: 'btn btn-info btn-xs' %></td>
             <td class="hidden-xs"><%= charge.charge_type.name %></td>
             <td><%= number_to_currency charge.amount %></td>
             <td><%= date_and_time charge.charged_at %></td>
@@ -25,12 +25,10 @@
       <% end %>
     </tbody>
   </table>
-
   <% if (organization_charge_list.length == 10) %>
-    <%= link_to raw("View more…"), organization_charges_path(@organization), :class => 'btn btn-xs' %></h2>
-  <% end %>
+    <%= link_to raw('View more…'), organization_charges_path(@organization), class: 'btn btn-xs' %></h2>
+<% end %>
 <% else %>
-  </br>
+  <br>
   This organization has no charges.
 <% end %>
-

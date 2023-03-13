@@ -2,7 +2,6 @@
 <div class="page-header">
   <h1><%= @tool.name %> <small><%= @tool.barcode %></small></h1>
 </div>
-
 <dl class="dl-horizontal">
   <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
   <dd><%= @tool.description %></dd>
@@ -10,9 +9,9 @@
   <dd><%= format_boolean(@tool.is_checked_out?) %></dd>
   <% if @tool.is_checked_out? %>
     <dt><strong>Checked out by:</strong></dt>
-    <dd><%= link_to @tool.current_organization.name, @tool.current_organization %> <%= link_to('- ' + @tool.current_participant.name, @tool.current_participant) unless @tool.current_participant.nil? %></dd>
-		<dt><strong>Checked out at:</strong></dt>
-		<dd><%= date_and_time @tool.checkouts.current.first.checked_out_at %></dd>
+    <dd><%= link_to @tool.current_organization.name, @tool.current_organization %> <%= link_to("- #{@tool.current_participant.name}", @tool.current_participant) unless @tool.current_participant.nil? %></dd>
+    <dt><strong>Checked out at:</strong></dt>
+    <dd><%= date_and_time @tool.checkouts.current.first.checked_out_at %></dd>
   <% end %>
   <% if !@tool.tool_type.tool_type_certifications.empty? %>
     <dt>Required Certifications:</dt>
@@ -25,30 +24,29 @@
     </dd>
   <% end %>
 </dl>
-
-<%= link_to t('.back', :default => t("helpers.links.back")),
-          tools_path, :class => 'btn btn-default'  %>
+<%= link_to t('.back', default: t('helpers.links.back')),
+            tools_path, class: 'btn btn-default' %>
 <% if(@tool.is_checked_out?) %>
   <% if can?(:update, @tool.checkouts.current.first) %>
-		<%= form_tag(tool_checkout_path(@tool, @tool.checkouts.current.first), :method => :patch, :style => "display: inline;") do -%>
-			<%= hidden_field_tag 'url', tool_path(@tool) %>
-                        <%= submit_tag t('.checkin', :default => t("helpers.links.checkin")), :class => 'btn btn-success' %>
-	  <% end -%>
-	<% end %>
+    <%= form_tag(tool_checkout_path(@tool, @tool.checkouts.current.first), method: :patch, style: 'display: inline;') do -%>
+      <%= hidden_field_tag 'url', tool_path(@tool) %>
+      <%= submit_tag t('.checkin', default: t('helpers.links.checkin')), class: 'btn btn-success' %>
+    <% end -%>
+  <% end %>
 <% else %>
   <% if can?(:create, Checkout) %>
     <%= link_to 'Add to Cart', tool_cart_add_tool_path(barcode: @tool.barcode),
-                method: :post, remote: true, :class => 'btn btn-warning' %>
+                method: :post, remote: true, class: 'btn btn-warning' %>
   <% end %>
 <% end %>
 <% if can?(:update, @tool) %>
-  <%= link_to t('.edit', :default => t("helpers.links.edit")),
-          edit_tool_path(@tool), :class => 'btn btn-primary' %>
+  <%= link_to t('.edit', default: t('helpers.links.edit')),
+              edit_tool_path(@tool), class: 'btn btn-primary' %>
 <% end %>
 <% if can?(:destroy, @tool) %>
-  <%= link_to t('.destroy', :default => t("helpers.links.destroy")),
-          tool_path(@tool),
-          :method => 'delete',
-          :data => { :confirm => t('.confirm', :default => t("helpers.links.confirm", :default => 'Are you sure?')) },
-          :class => 'btn btn-danger' %>
+  <%= link_to t('.destroy', default: t('helpers.links.destroy')),
+              tool_path(@tool),
+              method: 'delete',
+              data: { confirm: t('.confirm', default: t('helpers.links.confirm', default: 'Are you sure?')) },
+              class: 'btn btn-danger' %>
 <% end %>

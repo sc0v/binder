@@ -1,11 +1,9 @@
 <% if can?(:create, @tool) %>
   <%- model_class = Tool -%>
   <div class="page-header">
-    <h1><%=t '.title', :default => [:'helpers.titles.new', 'New %{model}'], :model => model_class.model_name.human %></h1>
+    <h1><%= t '.title', default: [:'helpers.titles.new', 'New %<model>s'], model: model_class.model_name.human %></h1>
   </div>
-
   <%= render 'form' %>
-
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>

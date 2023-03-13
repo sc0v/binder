@@ -1,14 +1,12 @@
 <div class="page-header">
   <h1>Event Log</h1>
 </div>
-
 <% if can?(:create, Event) %>
   <div>
-    <%= link_to 'New Event', new_event_path, :class => 'btn btn-primary'  %>
+    <%= link_to 'New Event', new_event_path, class: 'btn btn-primary' %>
   </div>
   <br>
 <% end %>
-
 <table class="table table-striped">
   <thead>
     <tr>
@@ -19,29 +17,28 @@
       <th>Actions</th>
     </tr>
   </thead>
-  
   <tbody>
     <% @events.each do |event| %>
       <tr <%= raw('class="warning"') unless event.is_done %>>
-        <td><%= link_to 'Show', event, :class => 'btn btn-info btn-xs' %></td>
+        <td><%= link_to 'Show', event, class: 'btn btn-info btn-xs' %></td>
         <td><%= event.event_type.name %></td>
         <td><%= event.description %></td>
         <td class="hidden-xs"><%= date_and_time event.created_at %></td>
         <td>
           <% if can?(:approve, Event) %>
-              <%= form_tag approve_event_path(event), :style => "display: inline", method: :post do %>
-                <% if !event.is_done %>
-                  <%= submit_tag 'OK', :class => 'btn btn-success btn-xs' %>
-                <% else %>
-                  <%= submit_tag 'Un-OK', :class => 'btn btn-warning btn-xs' %>
-                <% end %>
+            <%= form_tag approve_event_path(event), style: 'display: inline', method: :post do %>
+              <% if !event.is_done %>
+                <%= submit_tag 'OK', class: 'btn btn-success btn-xs' %>
+              <% else %>
+                <%= submit_tag 'Un-OK', class: 'btn btn-warning btn-xs' %>
+              <% end %>
             <% end %>
           <% end %>
           <% if can?(:update, Event) %>
-            <%= link_to 'Edit', edit_event_path(event),:class => 'btn btn-primary btn-xs' %>
+            <%= link_to 'Edit', edit_event_path(event), class: 'btn btn-primary btn-xs' %>
           <% end %>
           <% if can?(:destroy, Event) %>
-            <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' },:class => 'btn btn-danger btn-xs' %>
+            <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %>
           <% end %>
         </td>
       </tr>

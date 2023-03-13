@@ -1,4 +1,4 @@
-<% page ||= "default" %>
+<% page ||= 'default' %>
 <table class="table table-striped">
   <thead>
     <tr>
@@ -8,12 +8,11 @@
       <th>Actions</th>
     </tr>
   </thead>
-
   <tbody>
     <%# items.each do |item| %>
-    <%# cache [page, item] do %>
-    <%= render partial: 'item', collection: items %>
-    <%# end %>
-    <%# end %>
-  </tbody>
-</table>
+      <%# cache [page, item] do %>
+        <%= render partial: 'item', collection: items %>
+        <%# end %>
+        <%# end %>
+      </tbody>
+    </table>
