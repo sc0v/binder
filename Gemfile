@@ -81,6 +81,7 @@ group :development do
   gem 'brakeman'
   gem 'erb_lint', require: false
   gem 'htmlbeautifier'
+  gem 'rubocop-capybara'
   gem 'rubocop-rails'
 end
 
