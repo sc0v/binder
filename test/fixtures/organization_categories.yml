@@ -1,0 +1,19 @@
+admin:
+  name: Administration
+  building: false
+
+blitz:
+  name: Blitz
+  building: true
+
+independent:
+  name: Independent
+  building: true
+
+sorority:
+  name: Sorority
+  building: true
+
+fraternity:
+  name: Fraternity
+  building: true

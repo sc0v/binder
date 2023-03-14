@@ -50,8 +50,7 @@ class Participant < ApplicationRecord
   end
 
   def scc?
-    true
-    # organizations.find_by(name: 'Spring Carnival Committee').present?
+    organizations.find_by(name: 'Spring Carnival Committee').present?
   end
 
   attr_accessor :card_number

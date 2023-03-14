@@ -1,3 +1,9 @@
+mock_participant:
+  cached_email: andrewcarnegie0@andrew.cmu.edu
+  cached_name: Andrew Carnegie
+  eppn: andrewcarnegie0@andrew.cmu.edu
+  organizations: scc, aepi
+
 admin_participant:
   cached_email: binder+admin_participant@springcarnival.org
   cached_name: Admin Participant

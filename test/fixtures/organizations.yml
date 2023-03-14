@@ -1,0 +1,14 @@
+scc:
+  name: Spring Carnival Committee
+  short_name: SCC
+  organization_category: admin
+
+dosa:
+  name: Department of Student Affairs
+  short_name: DOSA
+  organization_category: admin
+
+aepi:
+  name: Alpha Epsilon Pi
+  short_name: AEPi
+  organization_category: fraternity
