@@ -6,6 +6,10 @@ blitz:
   name: Blitz
   building: true
 
+doghouse:
+  name: Doghouse
+  building: true
+
 independent:
   name: Independent
   building: true

@@ -129,7 +129,6 @@ GEM
       builder (>= 2.1.2)
       rexml (~> 3.0)
     hashie (5.0.0)
-    htmlbeautifier (1.4.2)
     httpi (3.0.1)
       rack
     i18n (1.12.0)
@@ -170,6 +169,8 @@ GEM
     net-smtp (0.3.3)
       net-protocol
     nio4r (2.5.8)
+    nokogiri (1.14.2-x86_64-darwin)
+      racc (~> 1.4)
     nokogiri (1.14.2-x86_64-linux)
       racc (~> 1.4)
     nori (2.6.0)
@@ -266,6 +267,7 @@ GEM
       websocket (~> 1.0)
     singleton (0.1.1)
     smart_properties (1.17.0)
+    sqlite3 (1.6.1-x86_64-darwin)
     sqlite3 (1.6.1-x86_64-linux)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
@@ -301,6 +303,7 @@ GEM
     zeitwerk (2.6.7)
 
 PLATFORMS
+  x86_64-darwin-22
   x86_64-linux
 
 DEPENDENCIES
@@ -311,7 +314,6 @@ DEPENDENCIES
   capybara
   debug
   erb_lint
-  htmlbeautifier
   importmap-rails
   jbuilder
   net-ldap
