@@ -1,7 +1,12 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag 'countdown', 'data-turbo-track': 'reload' %>
+  <%= javascript_import_module_tag "custom/countdown" %>
+<% end %>
 <div class="content">
   <div>
-  </div>
-  <div class="sidebar">
+    <h1>Carnival opens in:</h1>
+    <div id="countdown"></div>
+  </div><div class="sidebar">
     <div class="red invert">
       <h1>Sign in to Binder</h1>
       <p>You must be logged in to watch the safety video and sign the waiver.</p>
@@ -11,7 +16,8 @@
     </div>
     <div class="left-rule">
       <p>
-        An active @andrew.cmu.edu or @alumni.cmu.edu account is required to sign in to Binder.
+        An active @andrew.cmu.edu or @alumni.cmu.edu account is required to sign
+        in to Binder.
       </p>
     </div>
   </div>
