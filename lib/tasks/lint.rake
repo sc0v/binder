@@ -56,12 +56,12 @@ namespace :lint do
   namespace :file do |namespace|
     rule '.html' do |t, _args|
       file = t.name.delete_prefix("#{namespace.scope.path}:")
-      Rake::Task['lint:htmlbeautifier'].invoke(file)
+      Rake::Task['lint:prettier'].invoke(file)
     end
 
     rule '.html.erb' do |t, _args|
       file = t.name.delete_prefix("#{namespace.scope.path}:")
-      Rake::Task['lint:htmlbeautifier'].invoke(file)
+      Rake::Task['lint:prettier'].invoke(file)
       Rake::Task['lint:erblint'].invoke(file)
     end
 
