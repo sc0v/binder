@@ -15,7 +15,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.boolean "active", default: true
   end
 
   create_table "certifications", force: :cascade do |t|
@@ -23,7 +22,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.integer "certification_type_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "active", default: true
     t.index ["certification_type_id"], name: "index_certifications_on_certification_type_id"
     t.index ["participant_id"], name: "index_certifications_on_participant_id"
   end
@@ -35,7 +33,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.text "description"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "active", default: true
   end
 
   create_table "charges", force: :cascade do |t|
@@ -50,7 +47,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.datetime "charged_at", precision: nil
     t.boolean "is_approved"
     t.integer "creating_participant_id"
-    t.boolean "active", default: true
     t.index ["organization_id"], name: "index_charges_on_organization_id"
   end
 
@@ -62,7 +58,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.datetime "updated_at", precision: nil
     t.integer "participant_id"
     t.integer "organization_id"
-    t.boolean "active", default: true
     t.index ["tool_id"], name: "index_checkouts_on_tool_id"
   end
 
@@ -78,14 +73,12 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.string "queue"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "active", default: true
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
   create_table "event_types", force: :cascade do |t|
     t.boolean "display"
     t.string "name", limit: 255
-    t.boolean "active", default: true
   end
 
   create_table "events", force: :cascade do |t|
@@ -95,7 +88,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.text "description", limit: 65535
     t.datetime "updated_at", precision: nil
     t.integer "participant_id"
-    t.boolean "active", default: true
   end
 
   create_table "faqs", force: :cascade do |t|
@@ -103,7 +95,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.text "answer"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "active", default: true
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -114,7 +105,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.boolean "is_booth_chair"
     t.string "title"
     t.integer "booth_chair_order"
-    t.boolean "active", default: true
     t.index ["organization_id"], name: "index_memberships_on_organization_id"
     t.index ["participant_id"], name: "index_memberships_on_participant_id"
   end
@@ -124,7 +114,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.integer "organization_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "active", default: true
     t.index ["name"], name: "index_organization_aliases_on_name"
     t.index ["organization_id"], name: "index_organization_aliases_on_organization_id"
   end
@@ -134,13 +123,11 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.boolean "building"
-    t.boolean "active", default: true
   end
 
   create_table "organization_status_types", force: :cascade do |t|
     t.string "name"
     t.boolean "display"
-    t.boolean "active", default: true
   end
 
   create_table "organization_statuses", force: :cascade do |t|
@@ -150,7 +137,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.string "description"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "active", default: true
     t.index ["organization_id"], name: "index_organization_statuses_on_organization_id"
   end
 
@@ -162,7 +148,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.integer "entry_type"
-    t.boolean "active", default: true
     t.index ["organization_id"], name: "index_organization_timeline_entries_on_organization_id"
   end
 
@@ -170,7 +155,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.string "name"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "active", default: true
   end
 
   create_table "organizations", force: :cascade do |t|
@@ -179,7 +163,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "short_name"
-    t.boolean "active", default: true
     t.index ["organization_category_id"], name: "index_organizations_on_organization_category_id"
   end
 
@@ -197,20 +180,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.string "cached_student_class"
     t.datetime "cache_updated", precision: nil
     t.datetime "waiver_start", precision: nil
-    t.boolean "active", default: true
     t.boolean "admin"
     t.index ["admin"], name: "index_participants_on_admin"
-  end
-
-  create_table "roles", force: :cascade do |t|
-    t.string "name"
-    t.string "resource_type"
-    t.integer "resource_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.boolean "active", default: true
-    t.index ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id"
-    t.index ["name"], name: "index_roles_on_name"
   end
 
   create_table "shift_participants", force: :cascade do |t|
@@ -219,7 +190,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.datetime "clocked_in_at", precision: nil
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "active", default: true
     t.index ["participant_id"], name: "index_shift_participants_on_participant_id"
     t.index ["shift_id"], name: "index_shift_participants_on_shift_id"
   end
@@ -229,7 +199,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "short_name"
-    t.boolean "active", default: true
   end
 
   create_table "shifts", force: :cascade do |t|
@@ -241,7 +210,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.string "description"
-    t.boolean "active", default: true
     t.index ["organization_id"], name: "index_shifts_on_organization_id"
   end
 
@@ -251,7 +219,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.integer "quantity"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.boolean "active", default: true
   end
 
   create_table "store_purchases", force: :cascade do |t|
@@ -261,7 +228,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.integer "quantity_purchased"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.boolean "active", default: true
     t.index ["charge_id"], name: "index_store_purchases_on_charge_id"
     t.index ["store_item_id"], name: "index_store_purchases_on_store_item_id"
   end
@@ -274,7 +240,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.boolean "is_completed"
-    t.boolean "active", default: true
   end
 
   create_table "tool_type_certifications", force: :cascade do |t|
@@ -282,7 +247,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.integer "certification_type_id"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "active", default: true
     t.index ["certification_type_id"], name: "index_tool_type_certifications_on_certification_type_id"
     t.index ["tool_type_id"], name: "index_tool_type_certifications_on_tool_type_id"
   end
@@ -291,7 +255,6 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.string "name"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "active", default: true
   end
 
   create_table "tools", force: :cascade do |t|
@@ -300,16 +263,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.integer "tool_type_id"
-    t.boolean "active", default: true
     t.index ["barcode"], name: "index_tools_on_barcode"
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
-  end
-
-  create_table "users_roles", id: false, force: :cascade do |t|
-    t.integer "user_id"
-    t.integer "role_id"
-    t.boolean "active", default: true
-    t.index ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id"
   end
 
   add_foreign_key "certifications", "certification_types"

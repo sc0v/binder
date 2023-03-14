@@ -6,7 +6,7 @@ ERBLINT_OPT_AUTOCORRECT = '-a'
 
 namespace :lint do
   desc 'Lint project embedded ruby files, lint specific erb files'
-  task :erblint, [:files] => %i[environment lint:htmlbeautifier] do |t, args|
+  task :erblint, [:files] => %i[environment lint:prettier] do |t, args|
     include LintHelper
     log(t.name)
 

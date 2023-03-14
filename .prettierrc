@@ -1,0 +1,13 @@
+overrides:
+  - files: ".prettierrc"
+    options:
+      parser: "json"
+  - files: "*.html.erb"
+    options:
+      parser: "html"
+
+# CMU Sidebar is whitespace dependent.
+# The sidebar element will not render properly if it has preceding whitespace,
+# like when a formatter puts the opening tag on a new line.
+#   </div><div class="sidebar">
+htmlWhitespaceSensitivity: "strict"
