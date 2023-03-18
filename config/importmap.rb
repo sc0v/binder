@@ -19,4 +19,3 @@ pin 'jquery', preload: true # @3.6.0
 pin 'cmu', preload: true # //www.cmu.edu/common/standard-v6/js/main.6.7.min.js
 
 pin_all_from 'app/javascript/controllers', under: 'controllers'
-pin_all_from 'app/javascript/custom', under: 'custom', preload: true
