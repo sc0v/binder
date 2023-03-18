@@ -1,12 +1,14 @@
-<% content_for :head do %>
-  <%= stylesheet_link_tag 'countdown', 'data-turbo-track': 'reload' %>
-  <%= javascript_import_module_tag "custom/countdown" %>
-<% end %>
+<% content_for :head do %> <%= stylesheet_link_tag 'countdown',
+                                                   'data-turbo-track': 'reload' %> <%#= javascript_import_module_tag
+"custom/countdown" %> <% end %>
+
 <div class="content">
   <div>
-    <h1>Carnival opens in:</h1>
-    <div id="countdown"></div>
-  </div><div class="sidebar">
+    <h1>Midway opens in</h1>
+    <div
+      data-controller="countdown"
+      data-countdown-end-at-value="2023-04-13T00:00:00-04:00">
+    </div> </div><div class="sidebar">
     <div class="red invert">
       <h1>Sign in to Binder</h1>
       <p>You must be logged in to watch the safety video and sign the waiver.</p>
