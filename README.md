@@ -12,12 +12,13 @@ Carnegie Mellon's Spring Carnival Committee hosts two live instances of Binder:
 * **Production** (https://binder.springcarnival.org) - This environment is the production environment used to manage Spring Carnival and contains real data. *Do not deploy changes to this instance without first testing in the staging instance*.
 * **Staging** (https://binder-dev.springcarnival.org) - This environment is identical to the production environment but contains fake data.  This environment is used to test changes in a production-like environment before deploying them to the production instance.
 
-
 ## Setting up a development environment
 
 To work on and contribute to Binder, you will need to run Binder in a local development environment.
-1. [Fork](https://docs.github.com/en/get-started/quickstart/fork-a-repo) the binder repository
-1. Clone your forked repository to your local machine
+
+For [active binder developers](https://github.com/orgs/sc0v/teams/binder-developers) and binder admins:
+1. [Create a new branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-and-deleting-branches-within-your-repository) with a good short name about what you're developing
+1. Clone your branched repository to your local machine 
 1. Have or install [rvm](https://rvm.io/rvm/install)*, sqlite, npm
 1. MacOS/Linux: Change into the binder directory (`cd binder`) and rvm will yip at you to install the version of ruby found in `.ruby-version` and a gemset in `.ruby-gemset`. Read the output.
 1. Windows: You also need the version of ruby from `.ruby-version`
@@ -28,12 +29,12 @@ To work on and contribute to Binder, you will need to run Binder in a local deve
 *rbenv is also fine, but adjust directions accordingly
 
 ## Things you should do regularly
-1. [Sync your fork](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork) with sc0v/binder. A lot.
+1. [Sync your branch](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/keeping-your-pull-request-in-sync-with-the-base-branch). A lot.
 1. Lint your code e.g.: `rails lint:file:app/controllers/tools_controller.rb`
 
 ## Submitting Changes
 
-Make changes to binder by [submitting PRs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request-from-a-fork) reasonably often. The longer you go without doing it, the more difficult it is to incorporate your code back into upstream binder. So if you have created a reasonable nugget, even if it is an intermediate step in a bigger project (e.g.: You made some test fixtures), make a PR. Now folks can see what you're up to, talk to you if there will be a potential upcoming conflict, etc. Don't submit broken code; test it first. Lint your code before submitting a PR.
+Make changes to binder by [submitting PRs](https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/proposing-changes-to-your-work-with-pull-requests/creating-a-pull-request) reasonably often. The longer you go without doing it, the more difficult it is to incorporate your code back into the main branch. So if you have created a reasonable nugget, even if it is an intermediate step in a bigger project (e.g.: You made some test fixtures), make a PR. Now folks can see what you're up to, talk to you if there will be a potential upcoming conflict, etc. Don't submit broken code; test it first. Lint your code before submitting a PR.
 
 ## Deploying Binder (normal humans stop here)
 
