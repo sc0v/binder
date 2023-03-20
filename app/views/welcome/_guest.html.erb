@@ -1,6 +1,5 @@
 <% content_for :head do %>
-  <%= stylesheet_link_tag('countdown',
-                          'data-turbo-track': 'reload') %>
+  <%= stylesheet_link_tag('countdown', 'data-turbo-track': 'reload') %>
 <% end %>
 
 <div class="content">
@@ -9,19 +8,7 @@
     <div
       data-controller="countdown"
       data-countdown-end-at-value="2023-04-13T00:00:00-04:00">
-    </div> </div><div class="sidebar">
-    <div class="red invert">
-      <h1>Sign in to Binder</h1>
-      <p>You must be logged in to watch the safety video and sign the waiver.</p>
-      <p class="aligncenter">
-        <%= button_to('Sign In', login_path, class: 'btn wide') %>
-      </p>
-    </div>
-    <div class="left-rule">
-      <p>
-        An active @andrew.cmu.edu or @alumni.cmu.edu account is required to sign
-        in to Binder.
-      </p>
-    </div>
+    </div></div><div class="sidebar">
+    <%= render 'sessions/sidebar_login' %>
   </div>
 </div>
