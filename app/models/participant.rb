@@ -8,7 +8,7 @@ class Participant < ApplicationRecord
   validates :phone_number, format: { with: /\A\(?\d{3}\)?[-. ]?\d{3}[-.]?\d{4}\Z/,
                                      message: 'should be 10 digits (area code needed) and delimited with dashes only', allow_blank: true }
 
-  has_many :memberships, dependent: :destroy
+  has_many :memberships, -> { includes(organization: :organization_category) }, dependent: :destroy
   has_many :organizations, through: :memberships
   has_many :shift_participants, dependent: :destroy
   has_many :shifts, through: :shift_participants
