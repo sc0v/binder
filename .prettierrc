@@ -4,7 +4,7 @@ overrides:
       parser: "json"
   - files: "*.html.erb"
     options:
-      parser: "html"
+      parser: "erb"
 
 # CMU Sidebar is whitespace dependent.
 # The sidebar element will not render properly if it has preceding whitespace,

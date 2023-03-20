@@ -79,9 +79,12 @@ group :development do
 
   # Static Code Analysis (linting & vulnerability detection)
   gem 'brakeman'
-  gem 'erb_lint', require: false
+  gem 'erb_lint'
+  gem 'prettier_print' # @prettier/plugin-ruby dep
   gem 'rubocop-capybara'
   gem 'rubocop-rails'
+  gem 'syntax_tree' # @prettier/plugin-ruby dep
+  gem 'syntax_tree-rbs' # @prettier/plugin-ruby dep
 end
 
 group :test do

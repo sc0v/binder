@@ -1,0 +1,10 @@
+{
+  "name": "binder",
+  "version": "1.0.0",
+  "description": "Binder development utilities only. Use rails importmap for code dependencies.",
+  "devDependencies": {
+    "@prettier/plugin-ruby": "^1.6.1",
+    "prettier": "^2.2.0",
+    "prettier-plugin-erb": "^0.4.0"
+  }
+}
