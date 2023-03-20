@@ -52,8 +52,13 @@ namespace :lint do |namespace|
 end
 
 # Determine proper linter for single files
-namespace :lint do
-  namespace :file do |namespace|
+namespace :lint do # rubocop:disable Metrics/BlockLength
+  namespace :file do |namespace| # rubocop:disable Metrics/BlockLength
+    rule '.css' do |t, _args|
+      file = t.name.delete_prefix("#{namespace.scope.path}:")
+      Rake::Task['lint:prettier'].invoke(file)
+    end
+
     rule '.html' do |t, _args|
       file = t.name.delete_prefix("#{namespace.scope.path}:")
       Rake::Task['lint:prettier'].invoke(file)
@@ -65,14 +70,26 @@ namespace :lint do
       Rake::Task['lint:erblint'].invoke(file)
     end
 
+    rule '.js' do |t, _args|
+      file = t.name.delete_prefix("#{namespace.scope.path}:")
+      Rake::Task['lint:prettier'].invoke(file)
+    end
+
     rule '.rake' do |t, _args|
       file = t.name.delete_prefix("#{namespace.scope.path}:")
+      Rake::Task['lint:prettier'].invoke(file)
       Rake::Task['lint:rubocop'].invoke(file)
     end
 
     rule '.rb' do |t, _args|
       file = t.name.delete_prefix("#{namespace.scope.path}:")
+      Rake::Task['lint:prettier'].invoke(file)
       Rake::Task['lint:rubocop'].invoke(file)
+    end
+
+    rule '.yml' do |t, _args|
+      file = t.name.delete_prefix("#{namespace.scope.path}:")
+      Rake::Task['lint:prettier'].invoke(file)
     end
   end
 end
