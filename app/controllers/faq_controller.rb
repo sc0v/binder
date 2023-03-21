@@ -1,26 +1,22 @@
 # frozen_string_literal: true
 
 class FAQController < ApplicationController
-  before_action :set_faq, only: %i[edit update destroy]
+  load_and_authorize_resource
 
   def index
     @category_faq =
       FAQ.accessible_by(Current.ability).group_by(&:organization_category)
   end
 
-  def new
-    @faq = FAQ.new
-  end
+  def new; end
 
   # TODO: Inline Edit
   def edit; end
 
   def create
-    faq = FAQ.create(faq_params)
-    if faq.valid?
-      redirect_to faq_index_path, notice: t('.notice', name: faq.question)
+    if @faq.save
+      redirect_to faq_index_path, notice: t('.notice', name: @faq.question)
     else
-      @faq = faq
       flash.now[:alert] = t('.alert')
       render :new, status: :unprocessable_entity
     end
@@ -44,11 +40,7 @@ class FAQController < ApplicationController
     end
   end
 
-  private
-
-  def set_faq
-    @faq = FAQ.find(params[:id])
-  end
+  protected
 
   def faq_params
     params.require(:faq).permit(:question, :answer, :organization_category_id)
