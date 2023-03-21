@@ -17,13 +17,12 @@ module ApplicationHelper
     document_title = Array(add).join(sep)
     document_title += sep unless document_title.empty?
 
-    document_title += if content_for? :document_title
-                        content_for :document_title
-                      else
-                        ['Binder',
-                         'Spring Carnival',
-                         'Carnegie Mellon University'].join(sep)
-                      end
+    document_title +=
+      if content_for? :document_title
+        content_for :document_title
+      else
+        ['Binder', 'Spring Carnival', 'Carnegie Mellon University'].join(sep)
+      end
 
     content_for(:document_title, document_title, flush: true)
   end
@@ -42,10 +41,7 @@ module ApplicationHelper
   def update_breadcrumbs(add: [], sep: '&nbsp;›&nbsp;')
     unless content_for? :breadcrumbs
       content_for :breadcrumbs do
-        sanitize([
-          link_to('Spring Carnival', spring_carnival_url),
-          link_to('Binder', root_url)
-        ].join(sep))
+        default_breadcrumbs(sep)
       end
     end
 
@@ -55,13 +51,25 @@ module ApplicationHelper
   end
 
   def flash_css_class(name)
-    "flash-#{name} " + case name
-                       when 'success'
-                         'green invert'
-                       when 'error'
-                         'red invert'
-                       else
-                         'gold'
-                       end
+    "flash-#{name} " +
+      case name
+      when 'notice'
+        'green invert'
+      when 'alert'
+        'red invert'
+      else
+        'gold'
+      end
+  end
+
+  private
+
+  def default_breadcrumbs(sep)
+    sanitize(
+      [
+        link_to('Spring Carnival', spring_carnival_url),
+        link_to('Binder', root_url)
+      ].join(sep)
+    )
   end
 end
