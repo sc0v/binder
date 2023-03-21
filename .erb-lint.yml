@@ -25,6 +25,9 @@ linters:
     enabled: true
     enforced_style: "-"
   # conflicts with prettier
+  ClosingErbTagIndent:
+    enabled: false
+  # conflicts with prettier
   SelfClosingTag:
     enabled: false
   # conflicts with prettier
