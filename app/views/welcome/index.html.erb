@@ -1,19 +1,9 @@
 <% content_for :nav do %>
-  <li>
-    <%= link_to('Organizations', organizations_path) %>
-  </li>
-  <li>
-    <%= link_to('People', participants_path) %>
-  </li>
-  <li>
-    <%= link_to('Tools', tools_path) %>
-  </li>
-  <li>
-    <%= link_to('Store', store_path) %>
-  </li>
-  <li>
-    <%= link_to('FAQ', faqs_path) %>
-  </li>
+  <li><%= link_to('Organizations', organizations_path) %> </li>
+  <li><%= link_to('People', participants_path) %> </li>
+  <li><%= link_to('Tools', tools_path) %> </li>
+  <li><%= link_to('Store', store_path) %> </li>
+  <li><%= link_to('FAQ', faq_index_path) %> </li>
 <% end %>
 <% if Current.user.blank? %>
   <%= render 'guest' %>

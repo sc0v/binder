@@ -1,9 +1,0 @@
-<% if can?(:create, @faq) %>
-  <%- model_class = Faq -%>
-  <div class="page-header">
-    <h1><%= t '.title', default: [:'helpers.titles.new', 'New %<model>s'], model: model_class.model_name.human.upcase %></h1>
-  </div>
-  <%= render 'form' %>
-<% else %>
-  <h3>Not Authorized!</h3>
-<% end %>

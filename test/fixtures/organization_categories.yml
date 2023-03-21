@@ -1,23 +1,23 @@
 admin:
-  name: Administration
+  name: Spring Carnival Committee & Administrators
   building: false
 
 blitz:
-  name: Blitz
+  name: Blitz Booth Builders
   building: true
 
 doghouse:
-  name: Doghouse
+  name: Doghouse Booth Builders
   building: true
 
 independent:
-  name: Independent
+  name: Independent Booth Builders
   building: true
 
 sorority:
-  name: Sorority
+  name: Sorority Booth Builders
   building: true
 
 fraternity:
-  name: Fraternity
+  name: Fraternity Booth Builders
   building: true
