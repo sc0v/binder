@@ -1,0 +1,56 @@
+1:
+  id: 1
+  question: "What if I don't know how to answer a question?"
+  answer: "Look at the FAQs on binder. Ask someone else in the trailer or contact someone on exec. Don't just make something up."
+  organization_category: admin
+
+2:
+  id: 2
+  question: "What should I bring to my coordinator shift?"
+  answer: "Your blue hard hat and SCC jacket, this will give you the position of authority. If you are acting as an SCC member on midway you must wear your SCC hard hat."
+  organization_category: admin
+
+3:
+  id: 3
+  question: "What is required to be on Midway?"
+  answer: "Hardhat, wristband, closed toed shoes, safety glasses (regular glasses are not enough)."
+  organization_category: admin
+
+4:
+  id: 4
+  question: "What is the first thing I should do as a coordinator?"
+  answer: "Sign in on Binder. Ask the previous coordinator if there is anything you should be aware of. Check to see if there are notes or upcoming tasks on Binder."
+  organization_category: admin
+
+5:
+  id: 5
+  question: "What are the different radio channels?"
+  answer: "Channel 1 is for the watch shifts. Channel 2 is for SCC."
+  organization_category: admin
+
+6:
+  id: 6
+  question: "Golf cart problem?"
+  answer: "Call Meg Richards (meribyte)."
+  organization_category: admin
+
+7:
+  id: 7
+  question: "What do I do if something catches on fire?"
+  answer: "There are fire extinguishers located at every booth. Take one and follow the instructions listed on the can."
+
+8:
+  id: 8
+  question: "What are the hours of booths?"
+  answer: "Thursday: 3PM-10PM, Friday: 11AM-10PM, Saturday: 11AM-10PM"
+
+9:
+  id: 9
+  question: "What are the hours of rides?"
+  answer: "Thursday: 3PM-11PM, Friday: 10AM-11PM, Saturday: 10AM-11PM"
+
+10:
+  id: 10
+  question: "Do we have to bring our own dogs?"
+  answer: "No."
+  organization_category: doghouse

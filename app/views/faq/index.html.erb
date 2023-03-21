@@ -1,0 +1,67 @@
+<% update_document_title(add: 'FAQ') %>
+<% update_breadcrumbs(add: 'FAQ') %>
+<% content_for :nav do %>
+  <li><%= link_to('Organizations', organizations_path) %> </li>
+  <li><%= link_to('People', participants_path) %> </li>
+  <li><%= link_to('Tools', tools_path) %> </li>
+  <li><%= link_to('Store', store_path) %> </li>
+  <li class="active"><%= link_to('FAQ', faq_index_path) %> </li>
+<% end %>
+
+<div class="content">
+  <div>
+    <% @category_faq.each do |c,faq| %>
+      <h1><%= c.blank? ? 'General Questions' : c.name %> </h1>
+      <div>
+        <% faq.each do |f| %>
+          <h2 class="collapsed"><%= f.question %> </h2>
+          <div style="display: none">
+            <%= f.answer %>
+            <% if can?(:update, f) %>
+              <br />
+              <%= link_to t('.edit'), edit_faq_path(f), class: 'cta' %>
+            <% end %>
+            <% if can?(:destroy, f) %>
+              <br />
+              <%=
+                link_to t('.destroy'),
+                        faq_path(f),
+                        data: {
+                          turbo_confirm: t('.confirm'),
+                          turbo_method: :delete,
+                        },
+                        class: 'cta'
+              %>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    <% end %> </div
+  ><div class="sidebar">
+    <% if Current.user.blank? %>
+      <%= render 'sessions/sidebar_login' %>
+    <% end %>
+
+    <% if can?(:create, FAQ) %>
+      <%= link_to t('.new'), new_faq_path, class: 'btn ghost wide' %>
+    <% end %>
+  </div>
+</div>
+
+<%#=
+  link_to t('.destroy', default: t('helpers.links.destroy')),
+  faq_path(faq),
+  method: :delete,
+  data: {
+    confirm:
+      t(
+        '.confirm',
+        default:
+          t(
+            'helpers.links.confirm',
+            default: 'Are you sure?',
+          ),
+      ),
+  },
+  class: 'btn btn-xs btn-danger'
+%>
