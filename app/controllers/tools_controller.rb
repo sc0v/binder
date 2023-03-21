@@ -1,12 +1,9 @@
 # frozen_string_literal: true
 
 class ToolsController < ApplicationController
-  load_and_authorize_resource
 
-  # GET /tools
-  # GET /tools.json
   def index
-    @tools = Tool
+    #@tools = Tool
     if params[:organization_id].present?
       @organization = Organization.find(params[:organization_id])
       @tools = Tool.checked_out_by_organization(@organization)
@@ -15,7 +12,7 @@ class ToolsController < ApplicationController
     # Filter by tools
     if params[:type_filter].present?
       if params[:type_filter].strip == 'all_tools'
-        @tools = @tools.all
+        @tools = Tool.all
         @title = 'Tools (hardhats/radios included)'
       else
         @tool_type = ToolType.find(params[:type_filter])
@@ -24,7 +21,7 @@ class ToolsController < ApplicationController
         @num_available = Tool.by_type(@tool_type).size - Tool.by_type(@tool_type).checked_out.size
       end
     else
-      @tools = @tools.just_tools
+      @tools = Tool.just_tools
       @title = 'Tools'
     end
 
