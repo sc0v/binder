@@ -59,7 +59,7 @@ class ApplicationController < ActionController::Base
     @electrical_queue_sidebar = OrganizationTimelineEntry.electrical.current
     @events_sidebar = Event.displayable
     @downtime_sidebar = OrganizationTimelineEntry.downtime.current
-    session[:tool_cart] ||= []
+    session[:toolcart] ||= []
     @tool_cart = session[:toolcart].map { |b| Tool.find_by(barcode: b) }.reverse
   end
 end
