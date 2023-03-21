@@ -32,6 +32,11 @@
 en:
   welcome:
     html: "<h1>Welcome, %{name}!</h1>"
+  unauthorized:
+    manage:
+      all: "Not authorized to %{action} %{subject}."
+    new:
+      faq: "Not authorized to add %{action} %{subject}."
   faq:
     index:
       new: "Add Question to FAQ"
