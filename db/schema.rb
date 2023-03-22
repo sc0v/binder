@@ -266,6 +266,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_21_043612) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.integer "tool_type_id"
+    t.boolean "active"
     t.index ["barcode"], name: "index_tools_on_barcode"
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
   end
