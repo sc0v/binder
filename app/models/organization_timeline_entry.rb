@@ -14,6 +14,7 @@ class OrganizationTimelineEntry < ApplicationRecord
   scope :current, -> { where(ended_at: nil) }
   scope :active,       -> { where(active: true) }
   scope :inactive,     -> { where(active: false) }
+  scope :today, -> { where("started_at >= ? AND started_at < ?", Date.current, Date.current + 1.day)} 
 
   def duration
     return ended_at.to_i - started_at.to_i if ended_at.present?
