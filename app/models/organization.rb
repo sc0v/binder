@@ -41,7 +41,7 @@ class Organization < ApplicationRecord
 
   def downtime
     elapsed = 0
-    organization_timeline_entries.downtime.each do |timeline_entry|
+    organization_timeline_entries.today.downtime.each do |timeline_entry|
       elapsed += timeline_entry.duration
     end
 
