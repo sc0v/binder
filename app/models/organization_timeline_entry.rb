@@ -37,6 +37,9 @@ class OrganizationTimelineEntry < ApplicationRecord
       if chair.phone_number.length == 10
         send_sms(chair.phone_number, "Downtime for your organization, #{organization.name}, has started.")
       end
+      if chair.email defined?
+        DowntimeMailer.time_left_notice(chair).deliver
+      end
     end
   end
 
