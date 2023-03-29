@@ -2566,7 +2566,7 @@ barcode,tool_type,description
 2796,Battery charger,12V- 20V
 2797,Battery charger,7.2V-18V
 2798,Battery Charger,7.2 - 18V
-2799,Battery charger	7.2V - 18V	No,7.2V - 18V
+2799,Battery charger,7.2V - 18V
 2800,Battery charger,3683
 2801,Battery charger,7.2V - 18V
 2802,Battery charger,7.2V - 18V
@@ -2574,7 +2574,7 @@ barcode,tool_type,description
 2808,Battery charger,7.2V-18V
 2809,Shovel,
 2810,Shovel ,
-2817,Reel tape measurer,300'
+2817,Reel Tape Measurer,300'
 2837,Drill,DeWalt 20V
 2840,Drill Charger,12V/20V
 2842,Drill,
