@@ -41,16 +41,15 @@ class FAQController < ApplicationController
 
   private
 
-  def update_params
-    params.require(:faq).permit(
-      Current.ability.permitted_attributes(:update, @faq)
-    )
-  end
-
   def create_params
     params.require(:faq).permit(
       Current.ability.permitted_attributes(:create, FAQ)
     )
   end
 
+  def update_params
+    params.require(:faq).permit(
+      Current.ability.permitted_attributes(:update, @faq)
+    )
+  end
 end
