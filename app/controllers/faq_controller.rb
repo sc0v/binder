@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 class FAQController < ApplicationController
   load_and_authorize_resource
 
@@ -23,7 +22,7 @@ class FAQController < ApplicationController
   end
 
   def update
-    @faq.update(faq_params)
+    @faq.update(update_params)
     if @faq.valid?
       redirect_to faq_index_path, notice: t('.notice', name: @faq.question)
     else
@@ -42,7 +41,16 @@ class FAQController < ApplicationController
 
   private
 
-  def faq_params
-    params.require(:faq).permit(:question, :answer, :organization_category_id)
+  def update_params
+    params.require(:faq).permit(
+      Current.ability.permitted_attributes(:update, @faq)
+    )
   end
+
+  def create_params
+    params.require(:faq).permit(
+      Current.ability.permitted_attributes(:create, FAQ)
+    )
+  end
+
 end
