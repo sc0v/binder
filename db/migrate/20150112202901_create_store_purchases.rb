@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 class CreateStorePurchases < ActiveRecord::Migration[4.2]
   def change
     create_table :store_purchases do |t|

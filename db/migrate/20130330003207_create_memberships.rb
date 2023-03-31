@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 class CreateMemberships < ActiveRecord::Migration[4.2]
   def change
     create_table :memberships do |t|
