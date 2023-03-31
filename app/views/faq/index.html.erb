@@ -38,12 +38,12 @@
       </div>
     <% end %> </div
   ><div class="sidebar">
-    <% if Current.user.blank? %>
-      <%= render 'sessions/sidebar_login' %>
-    <% end %>
+    <%= render 'layouts/sidebar_defaults' %>
 
     <% if can?(:create, FAQ) %>
-      <%= link_to t('.new'), new_faq_path, class: 'btn ghost wide' %>
+      <div>
+        <%= link_to t('.new'), new_faq_path, class: 'btn ghost wide' %>
+      </div>
     <% end %>
   </div>
 </div>
