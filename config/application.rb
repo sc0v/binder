@@ -19,6 +19,7 @@ module Binder
     # in config/environments, which are processed later.
     #
     config.time_zone = 'Eastern Time (US & Canada)'
+    config.youtube = config_for(:youtube)
     # config.eager_load_paths << Rails.root.join("extras")
   end
 end

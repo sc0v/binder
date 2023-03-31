@@ -1,0 +1,15 @@
+# YouTube Videos
+
+default: &default
+  safety_video:
+    id: SwVxRThYA6g
+    duration: 217
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+production:
+  <<: *default

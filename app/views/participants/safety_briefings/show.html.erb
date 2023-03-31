@@ -1,0 +1,28 @@
+<% update_document_title(add: 'People') %>
+<% update_breadcrumbs(add: link_to('People', participants_path)) %>
+<% update_breadcrumbs(add: link_to(@participant.name, @participant)) %>
+<% update_breadcrumbs(add: 'Safety Briefing') %>
+<% content_for :nav do %>
+  <li><%= link_to('Organizations', organizations_path) %> </li>
+  <li class="active"><%= link_to('People', participants_path) %> </li>
+  <li><%= link_to('Tools', tools_path) %> </li>
+  <li><%= link_to('Store', store_path) %> </li>
+  <li><%= link_to('FAQ', faq_index_path) %> </li>
+<% end %>
+
+<div class="grid wide">
+  <h1><%= Time.zone.now.year %> Spring Carnival Safety Briefing</h1>
+</div>
+<div class="content">
+  <div>
+    <h2><%= page_title(@participant) %></h2>
+    <p>
+      <%= sanitize(page_instructions(@participant, @safety_video_duration)) %>
+    </p>
+    <%= render 'video' %>
+  </div><div class="sidebar">
+    <% if @participant.cannot?(:participate, :carnival) %>
+      <%= render 'form', participant: @participant %>
+    <% end %>
+  </div>
+</div>

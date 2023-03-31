@@ -1,0 +1,27 @@
+<div class="left-rule">
+  <h2>Confirm Your Understanding</h2>
+  <p id="instructions">
+    We will ask you to attest that you watched and understood the safety video
+    after it ends. Please pay attention.
+  </p>
+
+  <div class="green invert hidden" id="attestation">
+    <h1>I have watched the safety video and am ready to review the waiver</h1>
+
+    <h2>
+
+      <%=
+        button_to 'I Agree',
+          participant_safety_briefing_path(participant),
+          class: 'wide ghost',
+          data: {
+            turbo: 'false',
+          },
+          method: :patch,
+          params: {
+            'participant[watched_safety_video]' => true,
+          }
+      %>
+    </h2>
+  </div>
+</div>
