@@ -40,7 +40,7 @@ class FAQController < ApplicationController
     end
   end
 
-  protected
+  private
 
   def faq_params
     params.require(:faq).permit(:question, :answer, :organization_category_id)
