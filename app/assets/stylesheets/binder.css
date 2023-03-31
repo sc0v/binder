@@ -84,22 +84,22 @@ div[role="alert"].flash.invert a {
 }
 
 /* Validation error messages */
-.field_with_errors > label {
-  float: left;
+.field_with_errors {
+  display: inline;
 }
-.field_with_errors > label::after {
+.field_with_errors + div[role="alert"] {
+  display: inline;
+}
+.field_with_errors + div[role="alert"]::before {
   content: "\00a0";
 }
 
 input[type="checkbox"] {
   max-width: 100%;
+  margin-right: 0.5em;
 }
 input[type="checkbox"] + label {
   display: inline;
-  margin-left: 0.5em;
-}
-input[type="text"].inline {
-  width: auto;
 }
 select,
 input[type="text"] {
@@ -109,6 +109,11 @@ input[type="text"] {
 select.inline,
 input[type="text"].inline {
   width: auto;
+}
+input[type="tel"] {
+  display: block;
+  width: 16em;
+  margin-bottom: 2em;
 }
 
 button.wide {

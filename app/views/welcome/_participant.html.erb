@@ -1,7 +1,7 @@
-<div class="grid">
-  <%= t('welcome.html', name: Current.user.name) %>
-</div>
 <div class="content">
-  <div></div>
-  <div class="sidebar"></div>
+  <div>
+    <%= t('welcome.html', name: Current.user.name) %>
+  </div><div class="sidebar">
+    <%= render 'layouts/sidebar_defaults' %>
+  </div>
 </div>

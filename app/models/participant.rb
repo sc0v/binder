@@ -1,14 +1,46 @@
 # frozen_string_literal: true
-
 class Participant < ApplicationRecord
+  # Safety briefing
+  validates :safety_briefing_expected_end_at,
+            presence: true,
+            on: :safety_briefing
+  validates :safety_briefing_expected_end_at,
+            comparison: {
+              less_than: proc { Time.zone.now }
+            },
+            on: :safety_briefing
+  validates :watched_safety_video, acceptance: true, on: :safety_briefing
+
+  # Waiver
+  validates :adult, acceptance: true, on: :waiver_signing
+  validates :name, confirmation: true, on: :waiver_signing
+  validates :name_confirmation, presence: true, on: :waiver_signing
+  validates :signed_waiver, acceptance: true, on: :waiver_signing
+
+  # General Attributes
+  validates :eppn, presence: true, uniqueness: true
+  validates :phone_number,
+            presence: true,
+            # Don't validate phone_number in the :safety_briefing context (no form until waiver)
+            unless: -> { safety_briefing_expected_end_at.present? }
+  validates :phone_number,
+            format: {
+              with: /\A\(?\d{3}\)?[-. ]?\d{3}[-.]?\d{4}\Z/,
+              message:
+                'should be 10 digits (area code needed) and separated by dashes only',
+              allow_blank: true
+            }
   before_save :reformat_phone
 
-  validates :eppn, presence: true, uniqueness: true
-  # validates :has_signed_waiver, :acceptance => {:accept => true}
-  validates :phone_number, format: { with: /\A\(?\d{3}\)?[-. ]?\d{3}[-.]?\d{4}\Z/,
-                                     message: 'should be 10 digits (area code needed) and delimited with dashes only', allow_blank: true }
+  delegate :can?, :cannot?, to: :ability
+  def ability
+    @ability ||= Ability.new(self)
+  end
 
-  has_many :memberships, -> { includes(organization: :organization_category) }, dependent: :destroy
+
+  has_many :memberships,
+           -> { includes(organization: :organization_category) },
+           dependent: :destroy
   has_many :organizations, through: :memberships
   has_many :shift_participants, dependent: :destroy
   has_many :shifts, through: :shift_participants
@@ -20,40 +52,52 @@ class Participant < ApplicationRecord
   has_many :events
 
   default_scope { order('eppn') }
-  scope :search, lambda { |term|
-                   where('lower(eppn) LIKE lower(?) OR lower(cached_name) LIKE lower(?)', "%#{term}%", "%#{term}%")
-                 }
-  scope :scc, -> { joins(:organizations).where(organizations: { name: 'Spring Carnival Committee' }).group(:id) }
-  scope :exec, lambda {
-                 joins(:organizations).where(organizations: { name: 'Spring Carnival Committee' }).joins(:memberships).where(memberships: { is_booth_chair: true }).group(:id)
-               }
-  scope :active,       -> { where(active: true) }
-  scope :inactive,     -> { where(active: false) }
-
-  def start_waiver_timer
-    self.waiver_start = DateTime.now
-    save
-  end
-
-  def is_waiver_cheater?
-    (waiver_start + 3.minutes) > DateTime.now
-  end
+  scope :search,
+        lambda { |term|
+          where(
+            'lower(eppn) LIKE lower(?) OR lower(cached_name) LIKE lower(?)',
+            "%#{term}%",
+            "%#{term}%"
+          )
+        }
+  scope :scc,
+        -> {
+          joins(:organizations).where(
+            organizations: {
+              name: 'Spring Carnival Committee'
+            }
+          ).group(:id)
+        }
+  scope :exec,
+        lambda {
+          joins(:organizations)
+            .where(organizations: { name: 'Spring Carnival Committee' })
+            .joins(:memberships)
+            .where(memberships: { is_booth_chair: true })
+            .group(:id)
+        }
+  scope :active, -> { where(active: true) }
+  scope :inactive, -> { where(active: false) }
 
   def is_booth_chair?
     memberships.booth_chairs.present?
   end
 
   def booth_chair_organizations
-    memberships.booth_chairs.map(&:organization).select do |org|
-      org.organization_category.building
-    end
+    memberships
+      .booth_chairs
+      .map(&:organization)
+      .select { |org| org.organization_category.building }
   end
 
   def scc?
     organizations.find_by(name: 'Spring Carnival Committee').present?
   end
 
-  attr_accessor :card_number
+  attr_accessor :card_number,
+                :adult,
+                :waiver_signature,
+                :safety_briefing_expected_end_at
 
   def name
     cached_name
@@ -84,6 +128,7 @@ class Participant < ApplicationRecord
     Rails.logger.debug auth_info
     return if (eppn = auth_info['uid']).blank?
 
+    #stree-ignore
     find_or_create_by!(eppn:)
   end
 
@@ -94,20 +139,24 @@ class Participant < ApplicationRecord
 
     if person.present?
       person # self.find_by_andrewid(card_number)
-    elsif !lookup_only && CarnegieMellonPerson.find_by(eppn: card_number.downcase).present?
+    elsif !lookup_only &&
+          CarnegieMellonPerson.find_by(eppn: card_number.downcase).present?
       find_or_create_by(eppn: card_number.downcase)
-    # Decimal CSN from MIFARE reader (10 decimal digits)
+      # Decimal CSN from MIFARE reader (10 decimal digits)
     elsif card_number[/\A\d{10}\z/]
       # Must pad to 8 hex digits for the card translation service
-      andrewid = CarnegieMellonIDCard.get_andrewid_by_card_csn(card_number.to_i.to_s(16).rjust(8, '0'))
+      andrewid =
+        CarnegieMellonIDCard.get_andrewid_by_card_csn(
+          card_number.to_i.to_s(16).rjust(8, '0')
+        )
       eppn = "#{andrewid}@andrew.cmu.edu"
-      return find_or_create_by(eppn:) if andrewid.present?
-    # PIK number from magstripe or printed on card (9 decimal digits, allow leading % character and trailing data)
+      return find_or_create_by(eppn:) if andrewid.present? # stree-ignore
+      # PIK number from magstripe or printed on card (9 decimal digits, allow leading % character and trailing data)
     elsif card_number[/^%?\d{9}/]
       andrewid = CarnegieMellonIDCard.get_andrewid_by_card_id(card_number)
       eppn = "#{andrewid}@andrew.cmu.edu"
       return find_or_create_by(eppn:) if andrewid.present?
-    # Hexadecimal CSN from MIFARE reader (8 hex digits)
+      # Hexadecimal CSN from MIFARE reader (8 hex digits)
     elsif card_number[/\A[0-9a-fA-F]{8}\z/]
       andrewid = CarnegieMellonIDCard.get_andrewid_by_card_csn(card_number)
       eppn = "#{andrewid}@andrew.cmu.edu"
@@ -124,7 +173,10 @@ class Participant < ApplicationRecord
   def formatted_phone_number
     return 'N/A' if phone_number.blank?
 
-    ActionController::Base.helpers.number_to_phone(phone_number, area_code: true)
+    ActionController::Base.helpers.number_to_phone(
+      phone_number,
+      area_code: true
+    )
   end
 
   def formatted_name
@@ -178,7 +230,10 @@ class Participant < ApplicationRecord
   end
 
   def update_cache
-    return unless self[:cache_updated].nil? || DateTime.now - 14.days > self[:cache_updated]
+    unless self[:cache_updated].nil? ||
+             DateTime.now - 14.days > self[:cache_updated]
+      return
+    end
 
     ldap_reference ||= CarnegieMellonPerson.find_by(eppn:)
 
@@ -197,7 +252,7 @@ class Participant < ApplicationRecord
     end
 
     self[:cache_updated] = DateTime.now
-    save! unless id.blank? || readonly?
+    save!(validate: false) unless id.blank? || readonly?
   end
 
   def reformat_phone
