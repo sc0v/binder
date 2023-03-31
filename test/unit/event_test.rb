@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 class EventTest < ActiveSupport::TestCase
   # Relationships
   should belong_to(:event_type)

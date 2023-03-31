@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 class CreateOrganizationTimelineEntries < ActiveRecord::Migration[4.2]
   def change
     create_table :organization_timeline_entries do |t|

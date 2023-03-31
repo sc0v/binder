@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # Seeds the database with tools and their tool types.
 # Below, users can define the type of a tool with simple strings and this
 # function will take care of creating the corresponding tool type if it

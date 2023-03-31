@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 class CreateShiftParticipants < ActiveRecord::Migration[4.2]
   def change
     create_table :shift_participants do |t|

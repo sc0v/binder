@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 class CreateDowntimeEntries < ActiveRecord::Migration[4.2]
   def change
     create_table :downtime_entries do |t|

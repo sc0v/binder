@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   # Default route
   root to: "welcome#index"
