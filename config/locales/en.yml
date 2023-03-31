@@ -48,14 +48,14 @@ en:
     edit:
       heading: 'Edit FAQ'
     create:
-      notice: 'FAQ "%{name}" created successfully.'
       alert: 'Could not create FAQ. Please correct the issues below.'
+      notice: 'FAQ "%{name}" created successfully.'
     update:
-      notice: 'FAQ "%{name}" updated successfully.'
       alert: 'Could not update FAQ. Please correct the issues below.'
+      notice: 'FAQ "%{name}" updated successfully.'
     destroy:
-      notice: 'FAQ "%{name}" deleted successfully.'
       alert: 'Problem deleting FAQ "%{name}"'
+      notice: 'FAQ "%{name}" deleted successfully.'
     form:
       cancel: 'Cancel'
   participants:
@@ -68,6 +68,12 @@ en:
       update:
         alert: 'Could not accept waiver. Please correct the issues below.'
         notice: 'Waiver for %{name} submitted.'
+  sessions:
+    create:
+      alert: 'User could not be found. %{message}'
+      help_link: 'Get help'
+    destroy:
+      notice: 'User logged out.'
   welcome:
     html: '<h1>Welcome, %{name}!</h1>'
 
