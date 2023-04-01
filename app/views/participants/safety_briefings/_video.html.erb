@@ -16,9 +16,10 @@
           autoplay: 1,
           controls: <%= can?(:skip_safety_video, @participant) ? 1 : 0 %>,
           disablekb: <%= can?(:skip_safety_video, @participant) ? 0 : 1 %>,
-            modestbranding: 1,
+          modestbranding: 1,
           rel: 0,
           showinfo: 0,
+          cc_load_policy: 1,
         },
         events: {
           onReady: onPlayerReady,
