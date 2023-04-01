@@ -1,6 +1,7 @@
 <div class="content">
   <div>
-  </div>
-  <div class="sidebar">
+    <%= t('welcome.html', name: Current.user.name) %>
+  </div><div class="sidebar">
+    <%= render 'layouts/sidebar_defaults' %>
   </div>
 </div>

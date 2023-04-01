@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 class ChangeOrganizationTimelineEntryTypeToEnum < ActiveRecord::Migration[4.2]
   def change
     remove_column :organization_timeline_entries, :organization_timeline_entry_type_id, :integer

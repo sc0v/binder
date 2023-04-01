@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 class CreateToolTypeCertifications < ActiveRecord::Migration[4.2]
   def change
     create_table :tool_type_certifications do |t|

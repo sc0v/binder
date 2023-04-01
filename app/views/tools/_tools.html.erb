@@ -5,8 +5,9 @@
       <th>Barcode</th>
       <th>Type</th>
       <th>Description</th>
+      <th>Image</th>
       <th>Checked Out At</th>
-      <th class="hidden-xs <%= 'hidden' if page == 'org' %>">Org</th>
+      <th class="hidden-xs <%= 'hidden' if page == 'org' %>">Organization</th>
       <th class="visible-lg <%= 'visible-sm visible-md' if page == 'org' %>">Person</th>
     </tr>
   </thead>
@@ -25,8 +26,8 @@
     </div>
   <% else %>
     <div class="alert alert-info">
-      There are no <%= param_equals_s(:inventory_filter, 'checked_out') ? raw('<strong>Checked Out</strong>') : '' %>
-      <%= param_equals_s(:inventory_filter, 'checked_in') ? raw('<strong>Checked In</strong>') : '' %>
+      There are no <%#= param_equals_s(:inventory_filter, 'checked_out') ? raw('<strong>Checked Out</strong>') : '' %>
+      <%#= param_equals_s(:inventory_filter, 'checked_in') ? raw('<strong>Checked In</strong>') : '' %>
       <%= @title %> at this time. <%= link_to raw("<strong>See All #{@title}</strong>"), tools_path(type_filter: params[:type_filter]) %>
     </div>
   <% end %>

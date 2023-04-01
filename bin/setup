@@ -1,6 +1,5 @@
 #!/usr/bin/env ruby
 # frozen_string_literal: true
-
 require 'fileutils'
 
 # path to your application root.
@@ -26,15 +25,18 @@ FileUtils.chdir APP_ROOT do # rubocop:disable Metrics/BlockLength
           "\n * rbenv: `rbenv install #{f}`")
   end
 
+  # TODO: NPM-agnostic package management
   begin
-    puts "\nChecking for prettier:"
-    system! 'prettier --version'
+    puts "\nChecking for npm:"
+    system! 'npm --version'
   rescue SystemExit
-    abort("\n`prettier` not found in path. Please install prettier:" \
-          "\n * npm: `sudo npm install -g prettier`")
+    abort("\n`npm` not found in path. Please install npm.")
   end
 
-  puts '== Installing dependencies =='
+  puts "\n== Installing npm dependencies =="
+  system! 'npm install'
+
+  puts "\n== Installing gem dependencies =="
   system! 'gem install bundler --conservative'
   system('bundle check') || system!('bundle install')
 
@@ -47,4 +49,6 @@ FileUtils.chdir APP_ROOT do # rubocop:disable Metrics/BlockLength
 
   puts "\n== Restarting application server =="
   system! 'bin/rails restart'
+
+  puts "\n== Setup is complete! =="
 end

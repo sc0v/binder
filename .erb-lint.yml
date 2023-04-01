@@ -21,9 +21,15 @@ linters:
         Enabled: false
       Style/FrozenStringLiteralComment:
         Enabled: false
-  SelfClosingTag:
-    enabled: true
-    enforced_style: 'never'
   RightTrim:
     enabled: true
-    enforced_style: '-'
+    enforced_style: "-"
+  # conflicts with prettier
+  ClosingErbTagIndent:
+    enabled: false
+  # conflicts with prettier
+  SelfClosingTag:
+    enabled: false
+  # conflicts with prettier
+  SpaceInHtmlTag:
+    enabled: false

@@ -1,10 +1,21 @@
 # frozen_string_literal: true
 
-class Faq < ApplicationRecord
-  # attr_accessible :answer, :question
-  scope :search, lambda { |term|
-                   where('lower(question) LIKE lower(?) OR lower(answer) LIKE lower(?)', "%#{term}%", "%#{term}%")
-                 }
-  scope :active,       -> { where(active: true) }
-  scope :inactive,     -> { where(active: false) }
+class FAQ < ApplicationRecord
+  belongs_to :organization_category, optional: true
+
+  validates :answer, presence: true
+  validates :question,
+            presence: true,
+            uniqueness: {
+              scope: :organization_category,
+              case_sensitive: false
+            }
+
+  scope :search,
+        ->(term) {
+          where(
+            'lower(question) LIKE :term OR lower(answer) LIKE :term',
+            { term: "%#{term}%".downcase }
+          )
+        }
 end

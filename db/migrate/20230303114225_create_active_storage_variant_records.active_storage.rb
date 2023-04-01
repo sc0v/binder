@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 # This migration comes from active_storage (originally 20191206030411)
 class CreateActiveStorageVariantRecords < ActiveRecord::Migration[6.0]
   def change

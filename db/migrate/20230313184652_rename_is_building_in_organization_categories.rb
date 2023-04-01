@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 class RenameIsBuildingInOrganizationCategories < ActiveRecord::Migration[7.0]
   def self.up
     rename_column :organization_categories, :is_building, :building

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_25_213404) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
@@ -90,11 +90,13 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.integer "participant_id"
   end
 
-  create_table "faqs", force: :cascade do |t|
+  create_table "faq", force: :cascade do |t|
     t.text "question"
     t.text "answer"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
+    t.integer "organization_category_id"
+    t.index ["organization_category_id"], name: "index_faq_on_organization_category_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -123,6 +125,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.boolean "building"
+    t.index ["name"], name: "index_organization_categories_on_name", unique: true
   end
 
   create_table "organization_status_types", force: :cascade do |t|
@@ -170,17 +173,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.string "eppn"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "has_signed_waiver"
+    t.boolean "signed_waiver"
     t.string "phone_number"
-    t.boolean "has_signed_hardhat_waiver"
     t.string "cached_name"
     t.string "cached_surname"
     t.string "cached_email"
     t.string "cached_department"
     t.string "cached_student_class"
     t.datetime "cache_updated", precision: nil
-    t.datetime "waiver_start", precision: nil
     t.boolean "admin"
+    t.boolean "watched_safety_video"
     t.index ["admin"], name: "index_participants_on_admin"
   end
 
@@ -263,12 +265,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_13_184652) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.integer "tool_type_id"
+    t.boolean "active"
     t.index ["barcode"], name: "index_tools_on_barcode"
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
   end
 
   add_foreign_key "certifications", "certification_types"
   add_foreign_key "certifications", "participants"
+  add_foreign_key "faq", "organization_categories"
   add_foreign_key "store_purchases", "charges"
   add_foreign_key "store_purchases", "store_items"
   add_foreign_key "tool_type_certifications", "certification_types"

@@ -30,10 +30,81 @@
 # available at http://guides.rubyonrails.org/i18n.html.
 
 en:
-  hello: 'Hello world'
+  unauthorized:
+    manage:
+      all: 'Not authorized to %{action} %{subject}.'
+    new:
+      faq: 'Not authorized to add %{action} %{subject}.'
+
+  # Controllers
+  faq:
+    index:
+      new: 'Add Question to FAQ'
+      edit: 'Edit This FAQ'
+      destroy: 'Delete This FAQ'
+      confirm: 'Are you sure?'
+    new:
+      heading: 'Create New FAQ'
+    edit:
+      heading: 'Edit FAQ'
+    create:
+      alert: 'Could not create FAQ. Please correct the issues below.'
+      notice: 'FAQ "%{name}" created successfully.'
+    update:
+      alert: 'Could not update FAQ. Please correct the issues below.'
+      notice: 'FAQ "%{name}" updated successfully.'
+    destroy:
+      alert: 'Problem deleting FAQ "%{name}"'
+      notice: 'FAQ "%{name}" deleted successfully.'
+    form:
+      cancel: 'Cancel'
+  participants:
+    safety_briefings:
+      update:
+        alert: 'Problem: %{errors}'
+    waivers:
+      form:
+        cancel: 'Cancel'
+      update:
+        alert: 'Could not accept waiver. Please correct the issues below.'
+        notice: 'Waiver for %{name} submitted.'
+  sessions:
+    create:
+      alert: 'User could not be found. %{message}'
+      help_link: 'Get help'
+    destroy:
+      notice: 'User logged out.'
+  welcome:
+    html: '<h1>Welcome, %{name}!</h1>'
+
+  # Views: Form helpers
+  helpers:
+    label:
+      faq:
+        question: 'Question text'
+        answer: 'Answer to the question'
+        organization_category: 'Show this question to'
+    submit:
+      create: 'Create New %{model}'
+      update: 'Confirm Changes to %{model}'
+
+  # Models
   activerecord:
     models:
+      faq: 'Question'
     attributes:
+      participant:
+        safety_briefing_expected_end_at: 'Safety briefing completion time'
+    errors:
+      models:
+        participant:
+          attributes:
+            safety_briefing_expected_end_at:
+              less_than: 'too soon. Now watch it again from the beginning.'
+            name_confirmation:
+              confirmation: "doesn't match name above"
+    # OLD
+    attributes_OLD:
       shift:
         required_number_of_participants: '# of People'
         shift_participants: 'Participants'
@@ -50,7 +121,7 @@ en:
       organization_status:
         organization_status_type: 'Type'
         participant: 'Created By'
-  helpers:
+  helpers_OLD:
     actions: 'Actions'
     links:
       add: 'Add'
@@ -69,7 +140,6 @@ en:
       confirm: 'Are you sure?'
       new_item: 'New Store Item'
       new_charge: 'New Charge'
-      new_faq: 'New FAQ'
       new_task: 'New Task'
       new_shift_participant: 'Clock In'
   errors:

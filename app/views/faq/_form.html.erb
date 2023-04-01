@@ -1,0 +1,35 @@
+<%= form_with model: faq do |form| %>
+  <div>
+    <%= form.label :question %>
+    <%= content_tag(:div, faq.errors[:question].join(', '), role: 'alert') %>
+    <%= form.text_field :question %>
+
+    <%= form.label :answer %>
+    <%= content_tag(:div, faq.errors[:answer].join(', '), role: 'alert') %>
+    <%= form.text_field :answer %>
+
+    <%= form.label :organization_category %>
+    <%=
+      content_tag(
+        :div,
+        faq.errors[:organization_category].join(', '),
+        role: 'alert',
+      )
+    %>
+    <%=
+      form.collection_select(
+        :organization_category_id,
+        OrganizationCategory.collection_select,
+        :id,
+        :name,
+        include_blank: 'All Participants',
+      )
+    %>
+    <div aria-live></div>
+  </div>
+  <div>
+    <%# TODO: Turbo %>
+    <%= form.button type: 'submit', class: 'btn', data: { turbo: 'false' } %>
+    <%= link_to t('.cancel'), faq_index_path, class: 'btn ghost' %>
+  </div>
+<% end %>

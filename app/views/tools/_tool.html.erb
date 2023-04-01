@@ -1,8 +1,86 @@
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 999;
+  }
+
+  .popup img {
+    max-height: 90%;
+    max-width: 90%;
+  }
+  .popup .close {
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+  }
+
+  body > *:not(.popup) {
+    z-index: 1;
+  }
+
+  .tool-image {
+  cursor: pointer;
+  }
+</style>
+
 <tr <%= raw 'class="warning"' if tool.is_checked_out? %>>
   <td><%= link_to tool.barcode, tool, class: 'btn btn-info btn-xs' %></td>
   <td><%= tool.name %></td>
   <td><%= tool.description %></td>
+  <td>
+    <%# add the image of the tool in its own column %>
+    <%= image_tag("tool_images/#{tool.name}.png", id: "tool-image-#{tool.name}", class: 'tool-image', data: { tool_name: tool.name, image_url: asset_path("tool_images/#{tool.name}.png") }, size: '70x70') %>
+ </td>
   <td><%= date_and_time(tool.checkouts.current.first.checked_out_at) if tool.is_checked_out? %></td>
   <td class="hidden-xs <%= 'hidden' if page == 'org' %>"><%= link_to tool.checkouts.current.first.organization.short_name, tool.checkouts.current.first.organization if tool.is_checked_out? %></td>
   <td class="visible-lg <%= 'visible-sm visible-md' if page == 'org' %>"><%= link_to tool.checkouts.current.first.participant.name, tool.checkouts.current.first.participant if tool.is_checked_out? && tool.checkouts.current.first.participant.present? %></td>
 </tr>
+
+
+<script>
+  // opens the image in a popup when it's clicked 
+  // closes the image when the "Close Image" button is clicked
+  function openPopup(imageUrl) {
+  if (document.querySelector('.popup')) {
+    // popup is already open, do nothing
+    return;
+  }
+  var popup = document.createElement('div');
+  popup.className = 'popup';
+  var img = document.createElement('img');
+  img.src = imageUrl;
+  popup.appendChild(img);
+  var closeButton = document.createElement('button');
+  closeButton.innerHTML = 'Close Image';
+  closeButton.className = 'popup-close-button';
+  popup.appendChild(closeButton);
+  document.body.appendChild(popup);
+  
+  popup.addEventListener('click', function(event) {
+    if (event.target === popup) {
+      popup.parentNode.removeChild(popup);
+    }
+  });
+  closeButton.addEventListener('click', function() {
+    popup.parentNode.removeChild(popup);
+  });
+  }
+
+  // if an image is called, the openPopup function is called
+  $(function() {
+    $('.tool-image').click(function() {
+      var imageUrl = $(this).data('image-url');
+      openPopup(imageUrl);
+    });
+  });
+
+</script>

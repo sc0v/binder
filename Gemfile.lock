@@ -187,6 +187,7 @@ GEM
     parallel (1.22.1)
     parser (3.2.1.1)
       ast (~> 2.4.1)
+    prettier_print (1.2.1)
     prime (0.1.2)
       forwardable
       singleton
@@ -230,6 +231,7 @@ GEM
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
     rake (13.0.6)
+    rbs (3.0.4)
     regexp_parser (2.7.0)
     reline (0.3.2)
       io-console (~> 0.5)
@@ -277,6 +279,12 @@ GEM
     sqlite3 (1.6.1-x86_64-linux)
     stimulus-rails (1.2.1)
       railties (>= 6.0.0)
+    syntax_tree (6.0.2)
+      prettier_print (>= 1.2.0)
+    syntax_tree-rbs (1.0.0)
+      prettier_print
+      rbs
+      syntax_tree (>= 2.0.1)
     text (1.3.1)
     thor (1.2.1)
     timeout (0.3.2)
@@ -327,6 +335,7 @@ DEPENDENCIES
   omniauth (~> 1.0)
   omniauth-rails_csrf_protection
   omniauth-shibboleth
+  prettier_print
   propshaft
   puma (~> 5.0)
   rails (~> 7.0.4, >= 7.0.4.2)
@@ -337,6 +346,8 @@ DEPENDENCIES
   simple_form
   sqlite3 (~> 1.4)
   stimulus-rails
+  syntax_tree
+  syntax_tree-rbs
   turbo-rails
   tzinfo-data
   web-console

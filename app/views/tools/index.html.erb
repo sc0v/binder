@@ -1,25 +1,31 @@
-<%- model_class = Tool -%>
-<div class="page-header">
-  <h1>
-    <%= link_to "#{@organization.name}'s", @organization if @organization.present? %>
-    <%= h @title || model_class.model_name.human.pluralize %>
-  </h1>
-</div>
+<% update_document_title(add: 'Tools') %>
+<% update_breadcrumbs(add: 'Tools') %>
+<% content_for :nav do %>
+  <li><%= link_to('Organizations', organizations_path) %> </li>
+  <li><%= link_to('People', participants_path) %> </li>
+  <li class="active"><%= link_to('Tools', tools_path) %> </li>
+  <li><%= link_to('Store', store_path) %> </li>
+  <li><%= link_to('FAQ', faq_index_path) %> </li>
+<% end %>
+
+<div class="content">
+  <div>
+
 <div>
   <form action='<%= @organization.present? ? organization_tools_path(@organization) : tools_path %>' method='get'>
     <div style='float: left; border: 1px solid #ccc; border-radius: 4px; padding: 6px; margin-right: 8px;'>
       <span style='font-weight: bold; margin-right: 5px'>Filter by Tool Type</span><br>
       <select name='type_filter' class='form-control' onchange='this.form.submit()'>
         <option value='' <%= params[:type_filter].present? ? '' : 'selected' %>>All tools (except hardhats/radios)</option>
-        <option value='all_tools' <%= param_equals_s(:type_filter, 'all_tools') ? 'selected' : '' %>>All tools (Include hardhats/radios)</option>
+        <option value='all_tools' <%#= param_equals_s(:type_filter, 'all_tools') ? 'selected' : '' %>>All tools (Include hardhats/radios)</option>
 
         <% if @organization.present? %>
           <% Tool.checked_out_by_organization(@organization).map(&:tool_type).uniq.each do |tool_type| %>
-            <option value='<%= tool_type.id %>' <%= param_equals_i(:type_filter, tool_type.id) ? 'selected' : '' %>><%= tool_type.name %></option>
+            <option value='<%= tool_type.id %>' <%#= param_equals_i(:type_filter, tool_type.id) ? 'selected' : '' %>><%= tool_type.name %></option>
         <% end %>
       <% else %>
         <% ToolType.all.to_a.each do |tool_type| %>
-          <option value='<%= tool_type.id %>' <%= param_equals_i(:type_filter, tool_type.id) ? 'selected' : '' %>><%= tool_type.name %></option>
+          <option value='<%= tool_type.id %>' <%#= param_equals_i(:type_filter, tool_type.id) ? 'selected' : '' %>><%= tool_type.name %></option>
           <% end %>
         <% end %>
       </select>
@@ -56,3 +62,15 @@
           <% end %>
           <%= render partial: 'tools', locals: { tools: @tools, organization: @organization } %>
           <%#= will_paginate @tools, renderer: BootstrapPagination::Rails %>
+
+
+
+
+
+   </div
+    ><div class="sidebar">
+    <% if Current.user.blank? %>
+      <%= render 'sessions/sidebar_login' %>
+    <% end %>
+  </div>
+</div>

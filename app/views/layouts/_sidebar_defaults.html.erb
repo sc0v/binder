@@ -1,0 +1,5 @@
+<% if can?(:login, Participant) %>
+  <%= render 'sessions/sidebar_login' %>
+<% elsif Current.user.cannot?(:participate, :carnival) %>
+  <%= render 'participants/waivers/sidebar_waiver' %>
+<% end %>

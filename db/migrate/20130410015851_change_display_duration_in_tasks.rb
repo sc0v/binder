@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 class ChangeDisplayDurationInTasks < ActiveRecord::Migration[4.2]
   def up
     remove_column :tasks, :display_duration

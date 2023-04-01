@@ -1,74 +1,70 @@
-.flip-clock {
+.split-flap {
   text-align: center;
   perspective: 400px;
   margin: 20px auto;
 
   *,
   *:before,
-  *:after { box-sizing: border-box; }
+  *:after {
+    box-sizing: border-box;
+  }
 }
 
-.flip-clock__piece {
+.split-flap > div {
   display: inline-block;
   margin: 0 5px;
 }
 
-.flip-clock__slot {
-  padding-top: 1vw;
+.split-flap__label {
+  margin-top: 1vw;
   font-size: 2vw;
 }
 
-.card {
+.split-flap__card {
   display: block;
-  position: relative;
-  padding-bottom: 0.72em;
   font-size: 4vw;
-  line-height: 0.95;
+  line-height: 1.25;
+  padding-bottom: 0.72em;
+  position: relative;
+}
+@media only screen and (max-width: 767px) {
+  .split-flap__card {
+    font-size: 9vw;
+  }
 }
 
 .card__top,
 .card__bottom,
 .card__back::before,
 .card__back::after {
-  display: block;
-  height: 0.72em;
-  color: #ccc;
+  backface-visiblity: hidden;
   background: #222;
   border-radius: 0.15em 0.15em 0 0;
-  backface-visiblity: hidden;
+  color: #ccc;
+  display: block;
+  height: 0.72em;
+  padding: 0 0.25em;
+  transform: translateZ(0);
   transform-style: preserve-3d;
   width: 1.8em;
-  transform: translateZ(0);
-}
-
-.card__back,
-.card__bottom,
-.card__top {
-  padding: 0 0.25em;
-  padding-left: 0.25em;
-  padding-right: 0.25em;
 }
 
 .card__bottom {
-  color: #FFF;
-  position: absolute;
-  top: 50%;
-  left: 0;
-  border-top: solid 1px #000;
   background: #393939;
   border-radius: 0 0 0.15em 0.15em;
-  pointer-events: none;
+  border-top: solid 1px #000;
+  color: #fff;
+  left: 0;
   overflow: hidden;
+  pointer-events: none;
+  position: absolute;
+  top: 50%;
 }
 
-.card__bottom::after {
-  display: block;
-  margin-top: -0.72em;
-}
-
-.card__back::before,
 .card__bottom::after {
   content: attr(data-value);
+  display: block;
+  margin-top: -0.72em;
 }
 
 .card__back {
@@ -80,13 +76,14 @@
 }
 
 .card__back::before {
+  content: attr(data-value);
   position: relative;
   z-index: -1;
   overflow: hidden;
 }
 
 .flip .card__back::before {
-  animation: flipTop 0.3s cubic-bezier(.37,.01,.94,.35);
+  animation: flipTop 0.3s cubic-bezier(0.37, 0.01, 0.94, 0.35);
   animation-fill-mode: both;
   transform-origin: center bottom;
 }
@@ -94,7 +91,7 @@
 .flip .card__back .card__bottom {
   transform-origin: center top;
   animation-fill-mode: both;
-  animation: flipBottom 0.6s cubic-bezier(.15,.45,.28,1);// 0.3s;
+  animation: flipBottom 0.6s cubic-bezier(0.15, 0.45, 0.28, 1); // 0.3s;
 }
 
 @keyframes flipTop {
@@ -102,7 +99,8 @@
     transform: rotateX(0deg);
     z-index: 2;
   }
-  0%, 99% {
+  0%,
+  99% {
     opacity: 0.99;
   }
   100% {
@@ -112,7 +110,8 @@
 }
 
 @keyframes flipBottom {
-  0%, 50% {
+  0%,
+  50% {
     z-index: -1;
     transform: rotateX(90deg);
     opacity: 0;

@@ -1,0 +1,42 @@
+<% content_for :head do %>
+  <%=
+    javascript_include_tag(
+      'custom/youtube-player-api.js',
+      'data-turbo-track': 'reload',
+    )
+  %>
+
+  <script type="text/javascript">
+    function onYouTubePlayerAPIReady() {
+      player = new YT.Player("safety-video", {
+        height: "390",
+        width: "640",
+        videoId: "<%= @safety_video_id %>",
+        playerVars: {
+          autoplay: 1,
+          controls: <%= can?(:skip_safety_video, @participant) ? 1 : 0 %>,
+          disablekb: <%= can?(:skip_safety_video, @participant) ? 0 : 1 %>,
+            modestbranding: 1,
+          rel: 0,
+          showinfo: 0,
+        },
+        events: {
+          onReady: onPlayerReady,
+          onStateChange: onPlayerStateChange,
+        },
+      });
+    }
+
+    function onPlayerReady(event) {
+      event.target.playVideo();
+    }
+
+    function onPlayerStateChange(event) {
+        if (event.data === YT.PlayerState.ENDED) {
+          document.getElementById('attestation').classList.remove("hidden");
+        }
+    }
+  </script>
+<% end %>
+
+<span id="safety-video"></span>
