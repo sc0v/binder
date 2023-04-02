@@ -1,6 +1,9 @@
 <%- model_class = StoreItem -%>
 <div class="page-header">
   <h1><%= @store_item.name %></h1>
+  <dt>
+    <%= image_tag("store_images/#{@store_item.name}.png", id: "item-image-#{@store_item.name}", class: 'item-image', data: { item_name: @store_item.name, image_url: asset_path("store_images/#{@store_item.name}.png") }, size: '70x70') %>
+  </dt>
   <dt><strong><%= model_class.human_attribute_name(:price) %>:</strong></dt>
   <dd><%= number_to_currency @store_item.price %></dd>
   <dt><strong><%= model_class.human_attribute_name(:quantity) %>:</strong></dt>
