@@ -182,6 +182,7 @@ GEM
       omniauth (>= 1.3.1)
     omniauth-shibboleth (1.3.0)
       omniauth (>= 1.0.0)
+    pagy (6.0.3)
     parallel (1.22.1)
     parser (3.2.1.1)
       ast (~> 2.4.1)
@@ -328,6 +329,7 @@ DEPENDENCIES
   omniauth (~> 1.0)
   omniauth-rails_csrf_protection
   omniauth-shibboleth
+  pagy
   prettier_print
   propshaft
   puma (~> 5.0)
