@@ -1,23 +1,39 @@
 admin:
   name: Spring Carnival Committee & Administrators
+  lookup_key: admin
   building: false
 
 blitz:
   name: Blitz Booth Builders
+  lookup_key: blitz
   building: true
 
 doghouse:
   name: Doghouse Booth Builders
+  lookup_key: doghouse
+  building: true
+
+service-non-building:
+  name: Service Organization (Non-Building)
+  lookup_key: service-non-building
+  building: false
+
+service-building:
+  name: Service Organization (Building)
+  lookup_key: service-building
   building: true
 
 independent:
   name: Independent Booth Builders
+  lookup_key: independent
   building: true
 
 sorority:
   name: Sorority Booth Builders
+  lookup_key: sorority
   building: true
 
 fraternity:
   name: Fraternity Booth Builders
+  lookup_key: fraternity
   building: true
