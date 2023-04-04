@@ -73,10 +73,10 @@ dtd:
   short_name: DTD
   organization_category: fraternity
 
-entranceway:
-  name: Entry Pavilion
-  short_name: Entranceway
-  organization_category: service-building
+nomas:
+  name: National Organization of Minority Architects 
+  short_name: NOMAS
+  organization_category: service-entranceway
 
 fringe:
   name: Fringe

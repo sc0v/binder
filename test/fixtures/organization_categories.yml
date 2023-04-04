@@ -23,6 +23,11 @@ service-building:
   lookup_key: service-building
   building: true
 
+service-entranceway:
+  name: Service Organization (Entranceway)
+  lookup_key: service-entranceway
+  building: true
+
 independent:
   name: Independent Booth Builders
   lookup_key: independent
