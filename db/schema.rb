@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_25_213404) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_02_132213) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
@@ -125,6 +125,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_25_213404) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.boolean "building"
+    t.string "lookup_key"
     t.index ["name"], name: "index_organization_categories_on_name", unique: true
   end
 
