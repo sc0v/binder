@@ -4,11 +4,151 @@ scc:
   organization_category: admin
 
 dosa:
-  name: Department of Student Affairs
+  name: Division of Student Affairs
   short_name: DOSA
   organization_category: admin
+
+ab:
+  name: Activities Board
+  short_name: ab
+  organization_category: service-non-building
+
+achio:
+  name: Alpha Chi Omega
+  short_name: achio
+  organization_category: sorority
 
 aepi:
   name: Alpha Epsilon Pi
   short_name: AEPi
   organization_category: fraternity
+
+aphi:
+  name: Alpha Phi
+  short_name: APhi
+  organization_category: sorority
+
+aphio:
+  name: Alpha Phi Omega
+  short_name: APhiO
+  organization_category: service-building
+
+asce:
+  name: American Society of Civil Engineers
+  short_name: ASCE
+  organization_category: independent
+
+asa:
+  name: Asian Students Association
+  short_name: ASA
+  organization_category: independent
+
+astro:
+  name: Astronomy Club
+  short_name: Astro
+  organization_category: independent
+
+arcc:
+  name: Awareness of Roots in Chinese Culture
+  short_name: ARCC
+  organization_category: independent
+
+csa:
+  name: Chinese Students Association
+  short_name: CSA
+  organization_category: independent
+
+tridelt:
+  name: Delta Delta Delta
+  short_name: TriDelt
+  organization_category: sorority
+
+dg:
+  name: Delta Gamma
+  short_name: DG
+  organization_category: sorority
+
+dtd:
+  name: Delta Tau Delta
+  short_name: DTD
+  organization_category: fraternity
+
+entranceway:
+  name: Entry Pavilion
+  short_name: Entranceway
+  organization_category: service-building
+
+fringe:
+  name: Fringe
+  organization_category: independent
+
+habitat:
+  name: Habitat for Humanity
+  short_name: Habitat
+  organization_category: independent
+
+jsa:
+  name: Japanese Students Association
+  short_name: JSA
+  organization_category: independent
+
+theta:
+  name: Kappa Alpha Theta
+  short_name: Theta
+  organization_category: independent
+
+kkg:
+  name: Kappa Kappa Gamma
+  short_name: KKG
+  organization_category: sorority
+
+kgb:
+  name: KGB
+  organization_category: independent
+
+lgsa:
+  name: Latino Graduate Student Organization
+  short_name: LGSA
+  organization_category: independent
+
+mudge:
+  name: Mudge
+  organization_category: independent
+
+phidelt:
+  name: Phi Delta Theta
+  short_name: PhiDelt
+  organization_category: fraternity
+
+prism:
+  name: PRISM
+  organization_category: independent
+
+scotty_labs:
+  name: Scotty Labs
+  organization_category: independent
+
+sigep:
+  name: Sigma Phi Epsilon
+  short_name: SigEp
+  organization_category: fraternity
+
+ssa:
+  name: Singapore Students Association
+  short_name: SSA
+  organization_category: independent
+
+sase:
+  name: Society of Asian Scientists and Engineers
+  short_name: SASE
+  organization_category: independent
+
+tsa:
+  name: Taiwanese Students Association
+  short_name: TSA
+  organization_category: independent
+
+senate:
+  name: Undergraduate Senate
+  short_name: Senate
+  organization_category: service-non-building
