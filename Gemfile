@@ -58,6 +58,9 @@ gem 'net-ldap'
 # Connect to CMU's card service using SOAP
 gem 'savon'
 
+# Paginatation
+gem 'pagy'
+
 # Replace sprockets as asset pipeline
 gem 'propshaft'
 
