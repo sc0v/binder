@@ -42,6 +42,9 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   # So even though we do not have a show, we want to minimize antipatterns.
   resources :faq, except: [:show]
 
+  # Notes
+  resources :notes
+
   # Participant Safety Briefing
   get 'safety-briefing',
       to: 'participants/safety_briefings#show',

@@ -1,6 +1,11 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag('notes', 'data-turbo-track': 'reload') %>
+<% end %>
+
 <div class="content">
   <div>
     <%= t('welcome.html', name: Current.user.name) %>
+    <%= render 'notes/stickies', notes: @notes %>
   </div><div class="sidebar">
     <%= render 'layouts/sidebar_defaults' %>
   </div>

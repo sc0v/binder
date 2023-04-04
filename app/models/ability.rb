@@ -17,6 +17,12 @@ class Ability
           }
     end
 
+    # Notes
+    if user.present?
+      can :read, Note, participant_id: user.id
+      can :read, Note, organization: { memberships: { participant_id: user.id } }
+    end
+
     # Organizations
     can :read, Organization, %i[name short_name]
     cannot :read, Organization, organization_category: { lookup_key: 'admin' }

@@ -1,0 +1,68 @@
+.notes h2 {
+  font-weight: bold;
+  font-size: 1rem;
+  padding-bottom: 0.5em;
+}
+
+.notes p {
+  font-family: 'Reenie Beanie';
+  font-size: 2rem;
+  line-height: 1em;
+  padding-top: 0;
+}
+
+ul.notes,
+ul.notes li {
+  list-style: none;
+}
+ul.notes {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+ul.notes li a {
+  text-decoration: none;
+  color: #000;
+  background: #ffc;
+  border-bottom: none;
+  --focus-state-text-color: #000;
+  --focus-state-bg-color: #ffc;
+  display: block;
+  height: 10em;
+  width: 10em;
+  padding: 1em;
+  box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
+  transform: rotate(-6deg);
+  transition: transform 0.15s linear;
+}
+ul.notes li a:hover {
+  border-bottom: none;
+}
+
+ul.notes li:nth-child(even) a {
+  transform: rotate(4deg);
+  position: relative;
+  top: 5px;
+}
+ul.notes li:nth-child(3n) a {
+  transform: rotate(-3deg);
+  position: relative;
+  top: -5px;
+}
+ul.notes li:nth-child(5n) a {
+  transform: rotate(5deg);
+  position: relative;
+  top: -10px;
+}
+
+ul.notes li a:hover,
+ul.notes li a:focus {
+  box-shadow: 10px 10px 7px rgba(0, 0, 0, 0.7);
+  transform: scale(1.25);
+  position: relative;
+  z-index: 5;
+}
+
+ul.notes li {
+  margin: 1em;
+}
