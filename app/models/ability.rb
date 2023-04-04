@@ -3,31 +3,6 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    # Session
-    can :login, Participant if user.blank?
-
-    # Participants
-    if user.present?
-      can :skip_safety_video,
-          Participant,
-          id: user.id,
-          watched_safety_video: true
-      can :show, Participant, id: user.id
-      can :update,
-          Participant,
-          %i[adult name_confirmation signed_waiver],
-          id: user.id,
-          signed_waiver: [false, nil],
-          watched_safety_video: true
-      can :update, # must add virtual attrs explicitly
-          Participant,
-          %i[adult name_confirmation] if user.admin?
-      can :update,
-          Participant,
-          %i[phone_number],
-          id: user.id
-    end
-
     # FAQ
     can :read, FAQ, organization_category: nil
     if user.present?
@@ -42,6 +17,37 @@ class Ability
           }
     end
 
+    # Organizations
+    can :read, Organization, %i[name short_name]
+    cannot :read, Organization, organization_category: { lookup_key: 'admin' }
+    if user.present?
+      can :read, Organization, memberships: { participant_id: user.id }
+    end
+
+    # Participants
+    if user.present?
+      can :skip_safety_video,
+          Participant,
+          id: user.id,
+          watched_safety_video: true
+      can :show, Participant, id: user.id
+      can :update,
+          Participant,
+          %i[adult name_confirmation signed_waiver],
+          id: user.id,
+          signed_waiver: [false, nil],
+          watched_safety_video: true
+      if user.admin?
+        can :update, # must add virtual attrs explicitly
+            Participant,
+            %i[adult name_confirmation]
+      end
+      can :update, Participant, %i[phone_number], id: user.id
+    end
+
+    # Session
+    can :login, Participant if user.blank?
+
     # Admin fallback with corrections
     if user.present? && user.admin?
       can :manage, :all
@@ -51,7 +57,6 @@ class Ability
 
     # Admins must sign the waiver, too
     can :participate, :carnival if user.present? && user.signed_waiver?
-
 
     # TODO: Work through abilities
     return
