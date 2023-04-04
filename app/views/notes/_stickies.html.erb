@@ -1,0 +1,15 @@
+<% content_for :head do %>
+  <%= stylesheet_link_tag('notes', 'data-turbo-track': 'reload') %>
+<% end %>
+
+<ul class="notes">
+  <% notes.each do |n| %>
+  <li>
+    <%= link_to 'javascript:void(0)' do %>
+    <%= content_tag :h2, n.title %>
+    <%= content_tag :p, n.value.truncate(50, separator: /\s/) %>
+    <% end %>
+  </li>
+  <% end %>
+</ul>
+<%= link_to 'See all notes', notes_path, class: 'cta' %>

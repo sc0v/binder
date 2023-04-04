@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_02_132213) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_04_173506) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
@@ -109,6 +109,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_02_132213) do
     t.integer "booth_chair_order"
     t.index ["organization_id"], name: "index_memberships_on_organization_id"
     t.index ["participant_id"], name: "index_memberships_on_participant_id"
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.integer "participant_id", null: false
+    t.integer "organization_id"
+    t.boolean "hidden"
+    t.string "title"
+    t.string "value"
+    t.string "color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_notes_on_organization_id"
+    t.index ["participant_id"], name: "index_notes_on_participant_id"
   end
 
   create_table "organization_aliases", force: :cascade do |t|
@@ -274,6 +287,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_02_132213) do
   add_foreign_key "certifications", "certification_types"
   add_foreign_key "certifications", "participants"
   add_foreign_key "faq", "organization_categories"
+  add_foreign_key "notes", "organizations"
+  add_foreign_key "notes", "participants"
   add_foreign_key "store_purchases", "charges"
   add_foreign_key "store_purchases", "store_items"
   add_foreign_key "tool_type_certifications", "certification_types"
