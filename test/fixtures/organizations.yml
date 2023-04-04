@@ -10,12 +10,12 @@ dosa:
 
 ab:
   name: Activities Board
-  short_name: ab
+  short_name: AB
   organization_category: service-non-building
 
 achio:
   name: Alpha Chi Omega
-  short_name: achio
+  short_name: AChiO
   organization_category: sorority
 
 aepi:
