@@ -7,7 +7,7 @@ Rails.application.config.middleware.use OmniAuth::Builder do
              debug: !Rails.env.production?,
              fail_with_empty_uid: true,
              idp_slo_service_url: slo,
-             uid_field: 'eduPersonPrincipalName',
+             uid_field: 'eppn',
              name_field: 'displayName',
              info_fields: {
                email: 'mail'
