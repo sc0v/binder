@@ -1,58 +1,16 @@
-<%- model_class = Organization -%>
-<div class="page-header">
-  <h1><%= @organization.name %> <%= "(#{@organization.short_name}) " if @organization[:short_name].present? %><small><%= @organization.organization_category.name %></small></h1>
-  <% if can?(:read, OrganizationAlias) %>
-    <p>
-      <strong>Alias(es):</strong>
-      <% unless @organization.organization_aliases.blank? %>
-        <%= @organization.organization_aliases.pluck(:name).join(', ') %>
-      <% end %>
-      <% if can?(:create, @organization_alias) %>
-        <%= link_to t('.add', default: t('helpers.links.add')),
-                    new_organization_alias_path(@organization), class: 'btn btn-primary btn-xs' %>
-      <% end %>
-    </p>
-  <% end %>
-  <% if can?(:read, OrganizationStatus) and @organization.organization_category.building %>
-    <p>
-      <strong>Status:</strong>
-      <% unless @organization.organization_statuses.displayable.last.blank? or not can?(:read, @organization.organization_statuses.displayable.last) %>
-        <%= link_to @organization.organization_statuses.displayable.last.organization_status_type.name, organization_organization_statuses_path(@organization) %> on <%= date_and_time @organization.organization_statuses.displayable.last.created_at %>
-      <% end %>
-      <% if can?(:create, OrganizationStatus) %>
-        <%= link_to t('.update', default: t('helpers.links.update')),
-                    [:new, @organization, :organization_status], class: 'btn btn-primary btn-xs' %>
-      <% end %>
-    </p>
-  <% end %>
-  <% if can?(:edit, OrganizationTimelineEntry) and @organization.organization_category.building %>
-    <p><Strong>Downtime Remaining: </Strong><%= link_to format_duration(@organization.remaining_downtime), organization_downtime_index_path(@organization) %></p>
-  <% elsif @organization.organization_category.building %>
-    <p><Strong>Downtime Remaining: </Strong><%= format_duration(@organization.remaining_downtime) %></p>
-  <% end %>
+<% update_document_title(add: 'Organizations') %>
+<% update_breadcrumbs(add: link_to('Organizations', organizations_path)) %>
+<% update_breadcrumbs(add: @organization.name) %>
+<% content_for :nav do %>
+  <li class="active"><%= link_to('Organizations', organizations_path) %> </li>
+  <li><%= link_to('People', participants_path) %> </li>
+  <li><%= link_to('Tools', tools_path) %> </li>
+  <li><%= link_to('Store', store_path) %> </li>
+  <li ><%= link_to('FAQ', faq_index_path) %> </li>
+<% end %>
+<div class="content">
+  <div>
+    <h1><%= @organization.name %></h1>
+  </div><div class="sidebar">
+  </div>
 </div>
-<%= render partial: 'show_org' %>
-<p>
-  <%= link_to t('.back', default: t('helpers.links.back')),
-              organizations_path, class: 'btn btn-default' %>
-  <% if can?(:create, Membership.new(organization: @organization)) %>
-    <%= link_to raw('Add Member'), new_organization_membership_path(@organization), class: 'btn btn-info' %>
-  <% end %>
-  <% if can?(:read_basic_details, @organization) %>
-    <%= link_to raw('Tools'), organization_tools_path(@organization), class: 'btn btn-info' %>
-  <% end %>
-  <% if can?(:read_all_details, @organization) %>
-    <%= link_to raw('Charges'), organization_charges_path(@organization), class: 'btn btn-info' %>
-  <% end %>
-  <% if can?(:update, @organization) %>
-    <%= link_to t('.edit', default: t('helpers.links.edit')),
-                edit_organization_path(@organization), class: 'btn btn-primary' %>
-  <% end %>
-  <% if can?(:destroy, @organization) %>
-    <%= link_to t('.destroy', default: t('helpers.links.destroy')),
-                organization_path(@organization),
-                method: 'delete',
-                data: { confirm: t('.confirm', default: t('helpers.links.confirm', default: 'Are you sure?')) },
-                class: 'btn btn-danger' %>
-  <% end %>
-</p>
