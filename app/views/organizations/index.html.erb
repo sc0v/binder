@@ -8,12 +8,12 @@
   <li ><%= link_to('FAQ', faq_index_path) %> </li>
 <% end %>
 
-
-<div class="content">
-  <p>
-    <%= link_to raw('All'), organizations_path, class: 'btn btn-default' if params[:type].present? %>
-    <%= link_to raw('Building'), organizations_path(type: 'building'), class: 'btn btn-default' unless params[:type] == 'building' %>
-    <%= link_to 'New', new_organization_path, class: 'btn btn-primary' if can?(:create, Organization) %>
-  </p>
-  <%= render partial: 'organizations', locals: { organizations: @organizations } %>
+<div class="content wide">
+  <div>
+    <h1>Participating Organizations</h1>
+    <%= content_tag :div, data:
+          { controller: 'table', config: table_config } do %>
+    Loading...
+    <% end %>
+  </div>
 </div>

@@ -24,10 +24,11 @@ class Ability
     end
 
     # Organizations
-    can :read, Organization, %i[name short_name]
-    cannot :read, Organization, organization_category: { lookup_key: 'admin' }
+    can :read, Organization, %i[id name short_name building? category_name]
     if user.present?
-      can :read, Organization, memberships: { participant_id: user.id }
+      # TODO: request to join
+      # cannot request to join, Organization, organization_category: { lookup_key: 'admin' }
+      can :show, Organization, memberships: { participant_id: user.id }
     end
 
     # Participants

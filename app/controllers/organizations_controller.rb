@@ -1,18 +1,23 @@
 # frozen_string_literal: true
-
 class OrganizationsController < ApplicationController
+  include Pagy::Backend
   load_and_authorize_resource
 
-  # GET /organizations
-  # GET /organizations.json
   def index
-    return unless params[:type] == 'building'
-
-    @organizations = @organizations.only_categories(%w[Fraternity Sorority Independent Blitz Concessions])
+    pagy, organizations =
+      pagy(Organization.accessible_by(Current.ability).ordered_by_name)
+    respond_to do |format|
+      format.html
+      format.json do
+        data =
+          organizations.as_json(
+            methods: %i[building? category_name remaining_downtime link]
+          )
+        render json: { last_page: pagy.pages, data: }
+      end
+    end
   end
 
-  # GET /organizations/1
-  # GET /organizations/1.json
   def show
     @booth_chairs = @organization.booth_chairs
     @tools = Tool.checked_out_by_organization(@organization).just_tools
@@ -56,6 +61,8 @@ class OrganizationsController < ApplicationController
   private
 
   def organization_params
-    params.require(:organization).permit(:name, :short_name, :organization_category_id)
+    params
+      .require(:organization)
+      .permit(:name, :short_name, :organization_category_id)
   end
 end
