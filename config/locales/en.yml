@@ -36,6 +36,10 @@ en:
     new:
       faq: 'Not authorized to add %{action} %{subject}.'
 
+  time:
+    formats:
+      timestamp: '%Y-%m-%d %H:%M (%a)'
+
   # Controllers
   faq:
     index:
