@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 module OrganizationsHelper
-  TABLE_COLUMNS = [
+  ORGANIZATIONS_TABLE_COLUMNS = [
     {
       title: 'Name',
       field: :name,
@@ -53,23 +53,23 @@ module OrganizationsHelper
     { title: 'Downtime', hozAlign: 'left' }
   ].freeze
 
-  def table_config
+  def organizations_table_config
     {
       ajaxURL: organizations_path(format: :json),
-      columns:,
+      columns: load_organizations_columns,
       dataLoader: false,
       height: '90vh',
-      paginationSize: 25,
+      paginationSize: 100,
       placeholder: '<h2>No Organizations Found</h2>',
-      progressiveLoad: 'scroll',
+      progressiveLoad: 'load',
       resizableColumnFit: true
     }.to_json
   end
 
   private
 
-  def columns
+  def load_organizations_columns
     attrs = Current.ability.permitted_attributes(:index, Organization)
-    TABLE_COLUMNS.select { |c| attrs.include? c[:field] }
+    ORGANIZATIONS_TABLE_COLUMNS.select { |c| attrs.include? c[:field] }
   end
 end

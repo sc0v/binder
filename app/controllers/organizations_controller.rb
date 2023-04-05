@@ -11,7 +11,7 @@ class OrganizationsController < ApplicationController
       format.json do
         data =
           organizations.as_json(
-            methods: %i[building? category_name remaining_downtime link]
+            methods: %i[building? category_name link remaining_downtime]
           )
         render json: { last_page: pagy.pages, data: }
       end
