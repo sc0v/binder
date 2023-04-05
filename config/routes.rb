@@ -5,7 +5,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   # Session management
   direct :login do
-    '/auth/shibboleth'
+    '/auth/shibboleth/callback'
   end
   scope module: :sessions do
     get 'auth/:provider/callback', action: :create
