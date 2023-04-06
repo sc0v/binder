@@ -33,14 +33,17 @@
         <% end %>
       </li>
       <%= yield :nav %>
+      <% if Current.user && Current.user.scc? %>
+      <li class="secondary">
+        <%= link_to 'Applets', applets_path %>
+      </li>
+      <% end %>
       <li class="secondary">
         <%= link_to 'Charges', charges_path %>
       </li>
-      <% if Current.user && Current.user.scc? %>
-        <li class="secondary">
-          <%= link_to 'Notes', events_path %>
-        </li>
-      <% end %>
+      <li class="secondary">
+        <%= link_to 'Notes', notes_path %>
+      </li>
       <li class="secondary">
         <%= link_to 'Queues', electrical_path %>
       </li>
