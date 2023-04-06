@@ -4,6 +4,8 @@ class Organization < ApplicationRecord
 
   belongs_to :organization_category
   has_many :memberships, dependent: :destroy
+  belongs_to :tool_waitlist
+  has_many :waitlist_entries
   has_many :organization_aliases, dependent: :destroy
   has_many :organization_statuses, dependent: :destroy
   has_many :organization_timeline_entries, dependent: :destroy
