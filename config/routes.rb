@@ -69,6 +69,8 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     end
   end
 
+  get 'applets', to: 'applets#index', as: :applets
+
   # TODO: Confirm everything below
   resources :event_types
   resources :events do
