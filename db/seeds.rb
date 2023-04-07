@@ -9,13 +9,14 @@
 
 require 'csv'
 
-gdrive_doc = '2022-seeds'
+gdrive_doc = '2023 seeds'
 gdrive_doc += ' - '
 
 puts
 Rails.logger.debug 'Seeding Database...'
 puts
 
+=begin
 Rails.logger.debug '  Organizations'
 
 csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}organizations.csv").read
@@ -31,31 +32,56 @@ csv.each do |row|
   Organization.create(name: row['name'].strip, organization_category:,
                       short_name: row['short_name'])
 end
+=end
 
 Rails.logger.debug '  Participants'
 
 csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}participants.csv").read
 csv = CSV.parse(csv_text, headers: true)
 csv.each do |row|
+  p row['organization']
   organization = Organization.find_by(name: row['organization'].strip)
   unless organization
     Rails.logger.debug { "    Organization (#{row['organization'].strip}) does not exist error" }
     raise
   end
 
-  participant = Participant.find_by(andrewid: row['andrewid'].strip)
+  participant = Participant.find_by(eppn: "#{row['andrewid'].strip}@andrew.cmu.edu")
   unless participant
-    user = User.find_by(email: "#{row['andrewid'].strip}@andrew.cmu.edu")
-    user ||= User.create(email: "#{row['andrewid'].strip}@andrew.cmu.edu")
+    #user = User.find_by(email: "#{row['andrewid'].strip}@andrew.cmu.edu")
+    #user ||= User.create(email: "#{row['andrewid'].strip}@andrew.cmu.edu")
 
-    user.add_role :admin if row['admin'] == 'TRUE'
-    participant = Participant.create(andrewid: row['andrewid'], user:)
+    #user.add_role :admin if row['admin'] == 'TRUE'
+    #participant = Participant.create(andrewid: row['andrewid'], user:)
+    participant = Participant.create(eppn: "#{row['andrewid'].strip}@andrew.cmu.edu")
   end
 
-  Membership.create(organization:, participant:, title: row['title'],
+  Membership.create(organization: Organization.find_by(name:row['organization'].strip), participant:participant, title: row['title'],
                     is_booth_chair: row['booth_chair'] == 'TRUE')
+
+  m = Membership.find_by(participant_id:participant.id)
+  unless m
+     m = Membership.create(organization: Organization.find_by(name:row['organization'].strip), participant:participant, title: row['title'],
+                    is_booth_chair: row['booth_chair'] == 'TRUE')
+  end
+  if row['booth_chair'] == 'TRUE'
+     m.is_booth_chair = true
+     m.save
+  end
+  if m.organization_id == nil
+     Rails.logger.debug {" participant : #{row['andrewid'].strip} , org: #{row['organization'].strip} "}
+     m.organization_id = Organization.find_by(name:row['organization'].strip).id
+     m.save
+  end
 end
 
+exit
+
+
+
+
+
+=begin
 Rails.logger.debug '  Organization Status Types'
 
 csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}organization_status_types.csv").read
@@ -202,5 +228,5 @@ if Rails.env.development?
   participant = Participant.create({ andrewid: participant_andrewid, user: participant_user })
   Membership.create({ organization: dtd_org, participant: })
 end
-
+=end
 puts
