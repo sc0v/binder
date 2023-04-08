@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 class Participant < ApplicationRecord
+  include Rails.application.routes.url_helpers
+
   # Safety briefing
   validates :safety_briefing_expected_end_at,
             presence: true,
@@ -22,7 +24,7 @@ class Participant < ApplicationRecord
   validates :phone_number,
             presence: true,
             # Don't validate phone_number in the :safety_briefing context (no form until waiver)
-            unless: -> { safety_briefing_expected_end_at.present? }
+            unless: -> { id.blank? || safety_briefing_expected_end_at.present? }
   validates :phone_number,
             format: {
               with: /\A\(?\d{3}\)?[-. ]?\d{3}[-.]?\d{4}\Z/,
@@ -36,30 +38,60 @@ class Participant < ApplicationRecord
   def ability
     @ability ||= Ability.new(self)
   end
-
+  scope :ordered_by_name, -> { order(eppn: :asc) }
 
   has_many :memberships,
            -> { includes(organization: :organization_category) },
            dependent: :destroy
   has_many :organizations, through: :memberships
+  has_many :organization_categories, through: :organizations
+  has_many :certifications, dependent: :destroy
+  has_many :certification_types, through: :certifications
+
   has_many :shift_participants, dependent: :destroy
   has_many :shifts, through: :shift_participants
-  has_many :certs, through: :certifications, source: :participant
   has_many :checkouts, dependent: :destroy
   has_many :tools, through: :checkouts
-  has_many :certifications, dependent: :destroy
+
   has_many :organization_statuses, dependent: :destroy
   has_many :events
 
-  default_scope { order('eppn') }
-  scope :search,
-        lambda { |term|
-          where(
-            'lower(eppn) LIKE lower(?) OR lower(cached_name) LIKE lower(?)',
-            "%#{term}%",
-            "%#{term}%"
-          )
-        }
+  def link
+    participant_path(self)
+  end
+
+  #scope :search,
+  #      lambda { |term|
+  #        where(
+  #          'lower(eppn) LIKE lower(?) OR lower(cached_name) LIKE lower(?)',
+  #          "%#{term}%",
+  #          "%#{term}%"
+  #        )
+  #      }
+
+  def self.find_by(*args)
+    #puts args
+    #if args.first.keys.include?(:search)
+    #  find_by_search(args)
+    #elsif args.first.keys.include?(:card)
+    #  find_by_card(*args)
+    #else
+      super(*args)
+    #end
+  end
+
+  def self.find_by_search(search)
+    @participant = Participant.find_by(eppn: search.to_s) ||
+                   Participant.find_by(eppn: "#{search}@andrew.cmu.edu")# ||
+                   #Participant.find_by(card: search.to_s)
+  end
+
+  def self.find_or_create_by_search(search)
+    @participant = Participant.find_by_search(search.to_s)
+    # TODO: creation
+    @participant
+  end
+
   scope :scc,
         -> {
           joins(:organizations).where(
@@ -98,7 +130,6 @@ class Participant < ApplicationRecord
                 :adult,
                 :waiver_signature,
                 :safety_briefing_expected_end_at
-
   def name
     cached_name
   end
@@ -128,7 +159,6 @@ class Participant < ApplicationRecord
     Rails.logger.debug auth_info
     return if (eppn = auth_info['uid']).blank?
 
-    #stree-ignore
     find_or_create_by!(eppn:)
   end
 
@@ -146,22 +176,23 @@ class Participant < ApplicationRecord
     elsif card_number[/\A\d{10}\z/]
       # Must pad to 8 hex digits for the card translation service
       andrewid =
-        CarnegieMellonIDCard.get_andrewid_by_card_csn(
+        CarnegieMellonIdCard.get_andrewid_by_card_csn(
           card_number.to_i.to_s(16).rjust(8, '0')
         )
       eppn = "#{andrewid}@andrew.cmu.edu"
       return find_or_create_by(eppn:) if andrewid.present? # stree-ignore
       # PIK number from magstripe or printed on card (9 decimal digits, allow leading % character and trailing data)
     elsif card_number[/^%?\d{9}/]
-      andrewid = CarnegieMellonIDCard.get_andrewid_by_card_id(card_number)
+      andrewid = CarnegieMellonIdCard.get_andrewid_by_card_id(card_number)
       eppn = "#{andrewid}@andrew.cmu.edu"
       return find_or_create_by(eppn:) if andrewid.present?
       # Hexadecimal CSN from MIFARE reader (8 hex digits)
     elsif card_number[/\A[0-9a-fA-F]{8}\z/]
-      andrewid = CarnegieMellonIDCard.get_andrewid_by_card_csn(card_number)
+      andrewid = CarnegieMellonIdCard.get_andrewid_by_card_csn(card_number)
       eppn = "#{andrewid}@andrew.cmu.edu"
       return find_or_create_by(eppn:) if andrewid.present?
     end
+  rescue
   end
 
   def self.search_ldap(uid = '')
@@ -183,14 +214,35 @@ class Participant < ApplicationRecord
     "#{name} (#{eppn})"
   end
 
+  def wristbands
+    return unless signed_waiver?
+    return if organization_categories.blank?
+    if organization_categories.pluck(:building).include? true
+      return [:green] if certification_types.pluck(:name).include? 'Scissor Lift'
+      [:red]
+    else
+      return [:green, :blue] if certification_types.pluck(:name).include? 'Scissor Lift'
+      [:blue]
+    end
+  end
+
+  def hardhat_color
+    return unless signed_waiver?
+    return if organization_categories.blank?
+    return if organization_categories.pluck(:lookup_key).uniq == ['doghouse']
+    return :blue if scc?
+    return :red if is_booth_chair?
+    :white
+  end
+
   private
 
   def self.get_andrewid_by_card_id(card_number)
-    CarnegieMellonIDCard.search(card_number)
+    CarnegieMellonIdCard.search(card_number)
   end
 
   def self.get_andrewid_by_card_csn(card_number)
-    CarnegieMellonIDCard.search_card_id(card_number)
+    CarnegieMellonIdCard.search_card_id(card_number)
   end
 
   def cached_name
@@ -231,7 +283,7 @@ class Participant < ApplicationRecord
 
   def update_cache
     unless self[:cache_updated].nil? ||
-             DateTime.now - 14.days > self[:cache_updated]
+           DateTime.now - 14.days > self[:cache_updated]
       return
     end
 

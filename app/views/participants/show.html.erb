@@ -1,111 +1,82 @@
-<% if can?(:read, @participant) %>
-  <%- model_class = Participant -%>
-  <div class="page-header">
-    <h1><%= @participant.name %> <small><%= @participant.eppn %></small></h1>
+<% update_document_title(add: 'People') %>
+<% update_breadcrumbs(add: link_to('People', participants_path)) %>
+<% update_breadcrumbs(add: @participant.name) %>
+<% content_for :nav do %>
+  <li><%= link_to('Organizations', organizations_path) %> </li>
+  <li class="active"><%= link_to('People', participants_path) %> </li>
+  <li><%= link_to('Tools', tools_path) %> </li>
+  <li><%= link_to('Store', store_path) %> </li>
+  <li><%= link_to('FAQ', faq_index_path) %> </li>
+<% end %>
+
+<div class="content">
+  <div>
+    <h1><%= @participant.name %></h1>
+
+    <h2>Directory Information</h2>
+    <p>
+      <strong>EPPN:</strong> <%= @participant.eppn %><br />
+      <strong>Phone:</strong> <%= @participant.formatted_phone_number %><br /> 
+      <strong>Department:</strong> <%= @participant.department %><br />
+      <strong>Student Class:</strong> <%= @participant.student_class %>
+    </p>
+
+    <h2>Memberships</h2>
+    <% if @participant.memberships.blank? %>
+    None yet.
+    <% else %>
+    <ul class="list-unstyled">
+      <% @participant.memberships.each do |membership| %>
+      <li>
+        <%= link_to membership.organization.name, membership.organization %>
+      </li>
+      <% end %>
+    </ul>
+    <% end %>
+
+    <h2>Certifications</h2>
+    <% if @participant.certifications.blank? %>
+    <p>None yet.</p>
+    <% else %>
+    <ul class="list-unstyled">
+      <% @participant.certifications.each do |cert| %>
+      <li>
+        <%= cert.certification_type.name %>
+      </li>
+      <% end %>
+    </ul>
+    <% end %>
+    
+    <h2>Tools</h2>
+    <% if @participant.checkouts.current.blank? %>
+    <p>No tools checked out.</p>
+    <% else %>
+    <ul class="list-unstyled">
+      <% @participant.checkouts.current.each do |checkout| %>
+      <li><%= link_to checkout.tool.formatted_name, checkout.tool %> - <%= date_and_time checkout.checked_out_at %> for <%= link_to checkout.organization.short_name, checkout.organization %></li>
+      <% end %>
+    </ul>
+    <% end %>
+</div><div class="sidebar">
+  <%= render 'layouts/sidebar_defaults' %>
+
+  <% if @participant.signed_waiver? %>
+  <p class="invert green" style="padding: 1em;">
+   HAS SIGNED WAIVER
+  </p>
+    <div>
+      <h2>Wristbands</h2>
+    Put the following <%= "wristband".pluralize(@participant.wristbands) %> on their wrist. <strong>Don't just give it to them!</strong>
+      <% if @participant.wristbands.include? :red %>
+        <p class="invert red" style="padding: 1em;">Red (Member of at least one organization that will be building)</p>
+      <% end %>
+      <% if @participant.wristbands.include? :blue %>
+        <p class="invert blue" style="padding: 1em;">Blue (Member of no organizations that will be building)</p>
+      <% end %>
+      <% if @participant.wristbands.include? :green %>
+        <p class="invert green" style="padding: 1em;">Green (Scissor Lift Certified)</p>
+      <% end %>
+      <% end %>
+    </div>
   </div>
-  <dl class="dl-horizontal">
-    <dt><strong>Wristband:</strong></dt>
-    <dd><%= @wristband %></dd>
-    <dt><strong><%= model_class.human_attribute_name(:has_signed_waiver) %>:</strong></dt>
-    <dd><%= @participant.has_signed_waiver ? 'Yes' : 'No' %></dd>
-    <% if can?(:read_phone_number, @participant) %>
-      <dt><strong><%= model_class.human_attribute_name(:phone_number) %>:</strong></dt>
-      <dd><%= @participant.formatted_phone_number %>
-      <% end %>
-      <dt><strong><%= model_class.human_attribute_name(:department) %>:</strong></dt>
-      <dd><%= @participant.department %></dd>
-      <dt><strong><%= model_class.human_attribute_name(:student_class) %>:</strong></dt>
-      <dd><%= @participant.student_class %></dd>
-      <dt><strong>Organizations:</strong></dt>
-      <dd>
-        <% unless @memberships.blank? %>
-          <ul class="list-unstyled">
-            <% @memberships.each do |membership| %>
-              <li>
-                <%= link_to membership.organization_name_formatted, membership.organization %>
-                <% if can?(:edit, membership) %>
-                  <%= link_to 'Edit',
-                              edit_participant_membership_path(@participant, membership),
-                              class: 'btn btn-primary btn-xs' %>
-                <% end %>
-                <% if can?(:destrory, membership) %>
-                  <%= link_to 'Remove',
-                              participant_membership_path(@participant, membership),
-                              method: :delete,
-                              class: 'btn btn-danger btn-xs' %>
-                <% end %>
-              </li>
-            <% end %>
-            <%# if can?(:create, membership) %>
-            <li><%#= link_to "Add",
-                  new_participant_membership_path(@participant),
-                  :class => 'btn btn-primary btn-xs' %></li>
-            <%# end %>
-          </ul>
-        <% end %>
-      </dd>
-      <dt><strong>Roles:</strong></dt>
-      <% if Current.user.admin? %>
-        <dd><%= Participant.human_attribute_name(:admin) %></dd>
-      <% end %>
-      <% unless @participant.shifts.blank? %>
-        <dt>Shifts:</dt>
-        <dd>
-          <ul class="list-unstyled">
-            <% @participant.shifts.each do |shift| %>
-              <li><%= link_to shift.shift_type.name, shift %> - <%= date_and_time shift.starts_at %></li>
-            <% end %>
-          </ul>
-        </dd>
-      <% end %>
-      <dt>Certifications:</dt>
-      <dd>
-        <ul class="list-unstyled">
-          <% @participant.certifications.each do |cert| %>
-            <li>
-              <%= cert.certification_type.name %>
-              <% if can?(:destroy, Certification) %>
-                <%= link_to 'Delete',
-                            participant_certification_path(@participant, cert),
-                            method: :delete,
-                            class: 'btn btn-danger btn-xs' %>
-              <% end %>
-            </li>
-          <% end %>
-          <% if can?(:create, Certification) && @participant.certifications.size < CertificationType.all.size %>
-            <li><%= link_to 'Add',
-                            new_participant_certification_path(@participant),
-                            class: 'btn btn-primary btn-xs' %></li>
-          <% end %>
-        </ul>
-      </dd>
-      <% unless @participant.checkouts.current.blank? %>
-        <dt>Tools:</dt>
-        <dd>
-          <ul class="list-unstyled">
-            <% @participant.checkouts.current.each do |checkout| %>
-              <li><%= link_to checkout.tool.formatted_name, checkout.tool %> - <%= date_and_time checkout.checked_out_at %> for <%= link_to checkout.organization.short_name, checkout.organization %></li>
-            <% end %>
-          </ul>
-        </dd>
-      <% end %>
-    </dl>
-    <%= link_to t('.back', default: t('helpers.links.back')),
-                participants_path, class: 'btn btn-default' %>
-    <% if can?(:update, @participant) %>
-      <%= link_to t('.edit', default: t('helpers.links.edit')),
-                  edit_participant_path(@participant), class: 'btn btn-primary' %>
-    <% end %>
-    <% if Current.user.scc? and !@participant.has_signed_waiver? %>
-      <%= link_to 'Sign Waiver', new_participant_waiver_path(@participant), class: 'btn btn-success' %>
-    <% end %>
-    <% if can?(:destroy, @participant) %>
-      <%= link_to t('.destroy', default: t('helpers.links.destroy')),
-                  participant_path(@participant),
-                  method: 'delete',
-                  data: { confirm: t('.confirm', default: t('helpers.links.confirm', default: 'Are you sure?')) },
-                  class: 'btn btn-danger' %>
-    <% end %>
-  <% else %>
-    <h3>Not Authorized!</h3>
-  <% end %>
+</div>

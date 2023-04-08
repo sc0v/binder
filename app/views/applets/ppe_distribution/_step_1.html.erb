@@ -1,0 +1,16 @@
+<h1>Step 1: Human Being Verification</h1>
+<%= form_tag ppe_distribution_path, method: 'get' do %>
+    <%= hidden_field_tag(:step, '1') %>
+<ol>
+  <li>Ask them to get out their CMU ID card</li>
+  <li>
+    <%= label_tag(:participant_search, 'Click on the search box below') %>
+    <%= text_field_tag(:participant_search, nil, autocomplete: :off) %>
+  </li>
+  <li>Ask them to swipe or tap their ID on the reader</li>
+  <li>
+    If it's not working, collect their ID and type it in the search box above.
+    Press enter on the keyboard
+  </li>
+<ol>
+<% end %>

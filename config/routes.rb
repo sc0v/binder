@@ -70,6 +70,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
 
   get 'applets', to: 'applets#index', as: :applets
+  get 'ppe-distribution', to: 'applets/ppe_distribution#index'
 
   # TODO: Confirm everything below
   resources :event_types

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class CarnegieMellonIDCard
+class CarnegieMellonIdCard
   def self.initialize; end
 
   def self.get_andrewid_by_card_id(full_card_id)

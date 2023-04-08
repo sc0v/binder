@@ -14,4 +14,6 @@
 ActiveSupport::Inflector.inflections(:en) do |inflect|
   inflect.acronym 'FAQ'
   inflect.uncountable 'FAQ'
+
+  inflect.acronym 'PPE'
 end
