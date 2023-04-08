@@ -38,7 +38,7 @@ class OrganizationTimelineEntriesController < ApplicationController
 
     if @organization_timeline_entry.valid?
       @organization_timeline_entry.save
-      respond_with(@organization_timeline_entry, location: params[:url])
+      redirect_to params[:url], notice: 'Added to Queue!'
     else
       redirect_to :back, alert: 'Missing Organization Name!'
     end
@@ -58,7 +58,7 @@ class OrganizationTimelineEntriesController < ApplicationController
 
     @organization_timeline_entry.ended_at = DateTime.now
     @organization_timeline_entry.save
-    respond_with(@organization_timeline_entry, location: params[:url])
+    redirect_to params[:url], notice: 'Added to Queue!'
   end
 
   # DELETE /organizations_timeline_entry/1

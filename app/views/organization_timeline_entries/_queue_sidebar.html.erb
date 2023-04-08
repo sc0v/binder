@@ -1,79 +1,64 @@
-<div class="panel panel-default">
-  <div class="panel-heading">
-    <div class='row'>
-      <div class='col-xs-9'>Queues</div>
-      <div class='col-xs-3'>
-        <a href="#sidebar-queues-widget" onclick='_toggleText(this, "Show", "Hide")'
-           class="btn btn-info btn-xs" data-toggle="collapse">Hide</a>
-      </div>
-    </div>
-  </div>
-  <div id='sidebar-queues-widget' class="collapse in panel-body">
-    <% if !@structural_queue_sidebar.blank? %>
-      <table class="table table-condensed" style="margin-bottom: 5px;">
-        <thead>
-          <th style="text-align: center;"><%= link_to 'Structural', structural_path %></th>
-          <th style="text-align: left;">Reason</th>
-          <th></th>
-        </thead>
-        <tbody>
-          <% @structural_queue_sidebar.each do |entry| %>
-            <tr class="sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="Entered at <%= date_and_time entry.started_at %>">
-              <td style="text-align: center;">
-                <%= link_to entry.organization.short_name, entry.organization %>
-              </td>
-              <td style="text-align: left;"><%= entry.description %></td>
-              <td style="text-align: right;">
-                <%= form_tag end_organization_timeline_entry_path(entry), method: :put do %>
-                  <%= hidden_field_tag 'url', request.original_fullpath %>
-                  <%= submit_tag 'Done', class: 'btn btn-xs btn-danger' %>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+<% if !@structural_queue_sidebar.blank? %>
+<table>
+  <thead>
+    <th><%= link_to 'Structural', structural_path %></th>
+    <th>Reason</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <% @structural_queue_sidebar.each do |entry| %>
+    <tr class="sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="Entered at <%= date_and_time entry.started_at %>">
+      <td>
+        <%= link_to entry.organization.short_name, entry.organization %>
+      </td>
+      <td><%= entry.description %></td>
+      <td>
+        <%= form_tag end_organization_timeline_entry_path(entry), method: :put do %>
+        <%= hidden_field_tag 'url', request.original_fullpath %>
+        <%= submit_tag 'Done' %>
+        <% end %>
+      </td>
+    </tr>
     <% end %>
-    <% if !@electrical_queue_sidebar.blank? %>
-      <table class="table table-condensed">
-        <thead>
-          <th style="text-align: center;"><%= link_to 'Electrical', electrical_path %></th>
-          <th style="text-align: left;">Reason</th>
-          <th></th>
-        </thead>
-        <tbody>
-          <% @electrical_queue_sidebar.each do |entry| %>
-            <tr class="sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="Entered at <%= date_and_time entry.started_at %>">
-              <td style="text-align: center;">
-                <%= link_to entry.organization.short_name, entry.organization %>
-              </td>
-              <td style="text-align: left;"><%= entry.description %></td>
-              <td style="text-align: right;">
-                <%= form_tag end_organization_timeline_entry_path(entry), method: :put do %>
-                  <%= hidden_field_tag 'url', request.original_fullpath %>
-                  <%= submit_tag 'Done', class: 'btn btn-xs btn-danger' %>
-                <% end %>
-              </td>
-            </tr>
-          <% end %>
-        </tbody>
-      </table>
+  </tbody>
+</table>
+<% end %>
+
+<% if !@electrical_queue_sidebar.blank? %>
+<table>
+  <thead>
+    <th><%= link_to 'Electrical', electrical_path %></th>
+    <th>Reason</th>
+    <th></th>
+  </thead>
+  <tbody>
+    <% @electrical_queue_sidebar.each do |entry| %>
+    <tr class="sidebar-tooltip" id="" data-toggle="tooltip" data-placement="left" title="Entered at <%= date_and_time entry.started_at %>">
+      <td>
+        <%= link_to entry.organization.short_name, entry.organization %>
+      </td>
+      <td><%= entry.description %></td>
+      <td>
+        <%= form_tag end_organization_timeline_entry_path(entry), method: :put do %>
+        <%= hidden_field_tag 'url', request.original_fullpath %>
+        <%= submit_tag 'Done', class: 'btn btn-xs btn-danger' %>
+        <% end %>
+      </td>
+    </tr>
     <% end %>
-    <% if @structural_queue_sidebar.blank? and @electrical_queue_sidebar.blank? %>
-      <p style="text-align: center;">No one in the queues!</p>
-    <% end %>
-    <div style="width: 100%; height: 0px; clear: both; border-top: 1px solid #dddddd;"></div>
-    <h5><strong>Add to Queue:</strong></h5>
-    <%= simple_form_for OrganizationTimelineEntry.new do |f| %>
-      <%= f.input_field :organization_id, as: :select, collection: Organization.only_categories(%w[Fraternity Sorority Independent Blitz Concessions]), style: 'width: 100%' %>
-      <div style="width: 100%; height: 5px; clear: both;"></div>
-      <%= f.input_field :description, as: :string, style: 'width: 100%', placeholder: 'Enter reason...' %>
-      <%= hidden_field_tag 'url', request.original_fullpath %>
-      <div style="width: 100%; height: 10px; clear: both;"></div>
-      <div class="btn-group" style="width: 100%;">
-        <%= f.submit 'Structural', class: 'btn btn-primary', style: 'width: 50%;' %>
-        <%= f.submit 'Electrical', class: 'btn btn-primary', style: 'width: 50%;' %>
-      </div>
-    <% end %>
-  </div>
-</div>
+  </tbody>
+</table>
+<% end %>
+
+<% if @structural_queue_sidebar.blank? and @electrical_queue_sidebar.blank? %>
+<p style="text-align: center;">No one in the queues!</p>
+<% end %>
+
+<h1>Add to Queue</h1>
+<%= form_with model: OrganizationTimelineEntry.new do |f| %>
+<%= f.collection_select :organization_id, Organization.all.ordered_by_name, :id, :name %>
+<%= f.text_field :description, placeholder: 'Enter reason...' %>
+<%= hidden_field_tag 'url', request.original_fullpath %>
+<%= f.submit 'Structural', class: 'btn wide' %>
+<%= f.submit 'Electrical', class: 'btn wide ghost' %>
+<% end %>
