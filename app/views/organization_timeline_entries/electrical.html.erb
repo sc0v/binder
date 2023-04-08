@@ -1,5 +1,20 @@
-<div class="page-header">
-  <h1>Electrical Queue</h1>
-  <%= render partial: 'queue_add_form', locals: { queue_type: 'Electrical' } %>
+<% update_document_title(add: 'Queues') %>
+<% update_document_title(add: 'Electrical') %>
+<% update_breadcrumbs(add: link_to('Queues', electrical_path)) %>
+<% update_breadcrumbs(add: 'Electrical') %>
+<% content_for :nav do %>
+  <li><%= link_to('Organizations', organizations_path) %> </li>
+  <li><%= link_to('People', participants_path) %> </li>
+  <li><%= link_to('Tools', tools_path) %> </li>
+  <li><%= link_to('Store', store_path) %> </li>
+  <li ><%= link_to('FAQ', faq_index_path) %> </li>
+<% end %>
+
+<div class="content">
+  <div>
+    <h1>Electrical Queue</h1>
+    <%= render partial: 'organization_timeline_entries', locals: { entries: @organization_timeline_entries } %>
+  </div><div class="sidebar">
+    <%= render partial: 'queue_sidebar' %>
+  </div>
 </div>
-<%= render partial: 'organization_timeline_entries', locals: { entries: @organization_timeline_entries } %>

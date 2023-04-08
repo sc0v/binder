@@ -12,7 +12,7 @@
         <tr>
           <td><%= link_to entry.organization.short_name, entry.organization %></td>
           <td><%= h entry.description %></td>
-          <td><%= time entry.started_at %></td>
+          <td><%= entry.started_at %></td>
           <td><%= format_duration(Time.zone.now - entry.started_at) %></td>
           <td>
             <% if can?(:end, entry) %>
