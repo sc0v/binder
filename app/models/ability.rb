@@ -49,11 +49,25 @@ class Ability
             Participant,
             %i[adult name_confirmation]
       end
+      if user.scc?
+        can :read,
+            Participant
+        can :read,
+            Participant,
+            %i[name is_booth_chair? signed_waiver?]
+      end
       can :update, Participant, %i[phone_number], id: user.id
     end
 
     # Session
     can :login, Participant if user.blank?
+
+    # Tools
+    if user.scc?
+      can :read,
+          Tool,
+          %i[name link is_checked_out? current_organization current_participant]
+    end
 
     # Admin fallback with corrections
     if user.present? && user.admin?

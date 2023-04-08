@@ -1,41 +1,19 @@
-<% if can?(:read, Participant) %>
-  <%- model_class = Participant -%>
-  <div class="page-header">
-    <h1>
-      <% if @organization.blank? %>
-        <%= t '.title', default: model_class.model_name.human.pluralize %>
-      <% else %>
-        <%= link_to "#{@organization.name}'s", @organization %> Members
-      <% end %>
-    </h1>
-  </div>
-  <table class="table table-striped">
-    <thead>
-      <tr>
-        <th>Name</th>
-        <th><%= model_class.human_attribute_name(:eppn) %></th>
-        <th>Waiver Signed</th>
-        <% if can?(:read_phone_number, Participant) %>
-          <th><%= model_class.human_attribute_name(:phone_number) %></th>
-        <% end %>
-      </tr>
-    </thead>
-    <tbody>
-      <% @participants.each do |participant| %>
-        <% if can?(:read, participant) %>
-          <tr>
-            <td><%= link_to participant.name, participant %></td>
-            <td><%= link_to participant.eppn, participant %></td>
-            <td><%= participant.has_signed_waiver ? 'yes' : 'no' %></td>
-            <% if can?(:read_phone_number, Participant) %>
-              <td><%= participant.formatted_phone_number if can?(:read_phone_number, participant) %></td>
-            <% end %>
-          </tr>
-        <% end %>
-      <% end %>
-    </tbody>
-  </table>
-  <%#= will_paginate @participants, renderer: BootstrapPagination::Rails %>
-<% else %>
-  <h3>Not Authorized!</h3>
+<% update_document_title(add: 'Participants') %>
+<% update_breadcrumbs(add: 'Participants') %>
+<% content_for :nav do %>
+  <li><%= link_to('Organizations', organizations_path) %> </li>
+  <li class="active"><%= link_to('People', participants_path) %> </li>
+  <li><%= link_to('Tools', tools_path) %> </li>
+  <li><%= link_to('Store', store_path) %> </li>
+  <li ><%= link_to('FAQ', faq_index_path) %> </li>
 <% end %>
+
+<div class="content wide">
+  <div>
+    <h1>Event Participants</h1>
+    <%= content_tag :div, data:
+        { controller: 'table', config: participants_table_config } do %>
+    Loading...
+    <% end %>
+  </div>
+</div>
