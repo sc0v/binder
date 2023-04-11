@@ -1,0 +1,9 @@
+<%= @response %>
+<script>
+	const qString = window.location.search;
+	console.log(qString);
+	const urlParam = new URLSearchParams(qString);
+	const card = urlParam.get('card');
+       console.log(card);
+       console.log("done.");
+</script>
