@@ -13,8 +13,8 @@ class Shift < ApplicationRecord
   belongs_to :organization
   belongs_to :shift_type
 
-  has_many :participants, through: :shift_participants
   has_many :shift_participants, dependent: :destroy
+  has_many :participants, through: :shift_participants
 
   default_scope { order('starts_at asc') }
   scope :current, -> { where('starts_at < ? and ends_at > ?', Time.zone.now, Time.zone.now) }
@@ -53,6 +53,7 @@ class Shift < ApplicationRecord
 
   def is_checked_in
     participants.size == required_number_of_participants
+    puts "size: #{participants.size}, required: #{required_number_of_participants}"
   end
 
   def self.for_organizations(organizations)
