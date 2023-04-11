@@ -6,6 +6,7 @@ USER_UNSUBSCRIBED_FROM_TWILIO_ERROR_CODE = 21_610
 
 module Messenger
   def send_sms(number, content)
+=begin
     sid = ENV.fetch('TWILIO_ACCT_SID', nil)
     auth = ENV.fetch('TWILIO_AUTH', nil)
 
@@ -29,6 +30,7 @@ module Messenger
         Rails.logger.debug e.message
       end
     end
+=end
   end
 
   def send_groupme(bot_id, text)

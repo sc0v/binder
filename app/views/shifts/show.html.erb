@@ -1,3 +1,4 @@
+<div class="content">
 <% if can?(:read, @shift) %>
   <%- model_class = Shift -%>
   <div class="page-header">
@@ -24,12 +25,9 @@
               (Clocked in at: <%= date_and_time(shift_participant.clocked_in_at) %>) -
             <% else %>
               (Not clocked in) -
-              <%= link_to 'Clock in',
-                          shift_participant_path(@shift, shift_participant),
-                          method: :put,
-                          class: 'btn btn-primary btn-xs' %>
+              <%= button_to 'Clock in', shift_participant_path(@shift, shift_participant), method: :put, class:'btn btn-danger btn-xs'%>
             <% end %>
-            <%= link_to 'Delete',
+            <%= button_to 'Delete',
                         shift_participant_path(@shift, shift_participant),
                         method: :delete,
                         data: { confirm: t('.confirm', default: t('helpers.links.confirm', default: 'Are you sure?')) },
@@ -67,3 +65,4 @@
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>
+</div>
