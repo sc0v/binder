@@ -186,6 +186,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       :as => 'structural'
   get 'electrical' => 'organization_timeline_entries#electrical',
       :as => 'electrical'
+  get 'tappything' => 'tappything#lookup'
 
   resources :users
 end
