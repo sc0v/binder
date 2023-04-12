@@ -1,3 +1,4 @@
+<div class="content">
 <% if can?(:create, @shift_participant) %>
   <%- model_class = ShiftParticipant -%>
   <div class="page-header">
@@ -7,3 +8,4 @@
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>
+</div>
