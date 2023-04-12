@@ -1,13 +1,19 @@
-<%= simple_form_for @shift_participant do |f| %>
-  <%= f.input :shift_id, as: :hidden, input_html: { value: params[:shift_id] } %>
-  <%= f.input :participant_id, required: true do %>
-    <%= f.input_field :participant_id, as: :hidden, required: true %>
-    <%= text_field_tag 'card-number-input', nil, class: 'form-control', required: true %>
-    <div id="participant-info"></div>
-  <% end %>
-  <%= f.input :clock_in_now, as: :boolean, input_html: { checked: 'checked' } %>
+<%= form_with model: @shift_participant do |f| %>
+	<%= f.label :query, "Shift ID:" %>
+	<%= f.text_field :shift_id, as: :hidden, input_html: { value: params[:shift_id] } %>
+	<%= f.label :query, " Participant:" %>
+
+	<% if @organization %>
+	    <%= f.collection_select :participant_id, @organization.participants, :id, :name,  required: true %>
+	<% else %>
+	    <%= f.collection_select :participant_id, Participant.all, :id, :name,  required: true %>
+	<% end %>
+
+	<%= f.radio_button :clock_in_now, "Clock In Now" %>
+	<%= f.label :query, "Clock In Now" %>
   <div class="form-actions">
-    <%= f.button :submit, class: 'btn btn-primary' %>
+	  <%= f.submit "Submit", class: 'btn btn-primary', data: {turbo: 'false'} %>
+    <%# link_to t('.submit', defult: t('helpers.links.submit')), @shift_participant.shift, class: 'btn btn-default' %>
     <%= link_to t('.cancel', default: t('helpers.links.cancel')),
                 @shift_participant.shift, class: 'btn btn-default' %>
   </div>
