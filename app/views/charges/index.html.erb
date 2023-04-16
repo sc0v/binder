@@ -1,4 +1,5 @@
 <%- model_class = Charge -%>
+<div class="content">
 <div class="page-header">
   <h1>
     <%= link_to @organization.name.possessive, @organization if @organization.present? %>
@@ -23,7 +24,7 @@
       <th><%= model_class.human_attribute_name(:charge_type) %></th>
       <th><%= model_class.human_attribute_name(:amount) %></th>
       <th><%= 'Org' if @organization.blank? %></th>
-      <th class="hidden-xs"><%= model_class.human_attribute_name(:charged_at) %></th>
+      <th class="hidden-xs"><%= model_class.human_attribute_name(:description) %></th>
       <% if can?(:approve, Charge) %>
         <th class="hidden-xs">Approve</th>
       <% end %>
@@ -37,7 +38,7 @@
           <td><%= charge.charge_type.name %></td>
           <td><%= number_to_currency charge.amount %></td>
           <td><%= link_to charge.organization.short_name, organization_charges_path(charge.organization) if @organization.blank? %></td>
-          <td class="hidden-xs"><%= date_and_time(charge.charged_at) %></td>
+          <td class="hidden-xs"><%= charge.description %></td>
           <% if can?(:approve, Charge) %>
             <td class="hidden-xs">
               <% unless charge.is_approved? %>
@@ -58,4 +59,5 @@
     <% end %>
   </tbody>
 </table>
+</div>
 <%#= will_paginate @charges, renderer: BootstrapPagination::Rails %>
