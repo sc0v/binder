@@ -1,31 +1,48 @@
+<div class="content">
+<h1>New Charge </h1>	
+<p>	
 When adding a charge, please ensure that you add a detailed description. This allows us to defend the charge if and when an org protests it. Information to include would be things like who, what, where, when, and why. If Dan wants to add a charge to Delt for blowing their breaker for the second time, the coordinator on duty should add a charge to Delta Tau Delta for a blown breaker for $25 with the description "Delt plugged in too many space heaters Wednesday night because they got cold, even though they were warned against this." by Dan Miele to James Orr (swipe booth chair's ID). <br>
 <br>
-<%= simple_form_for @charge, html: { class: 'form-horizontal' } do |f| %>
+</p>
+<%= form_with model: @charge, html: { class: 'form-horizontal' } do |f| %>
   <div class="form-inputs">
-    <%= f.association :organization %>
-    <div class="row">
-      <div class="col-md-8" style="padding-left:112px;">
-        <%= f.association :charge_type, input_html: { onchange: raw("$.getJSON('/charge_types/'+this.value,function(response){$('#charge_amount').val(response)});") } %>
-      </div>
-      <div class="col-md-4" style="padding-left:76px;">
-        <% if can?(:create, ChargeType) %>
+  <%= f.label "Organization" %>	  
+  <%= f.collection_select( :organization_id, Organization.all, :id, :name) %>
+  <% org = params[:organization_id] %>
+  <div class="row" style="display:flex;">
+      <div class="col-md-4">
+	 <%= f.label "Charge Type" %>     
+	 <%= f.collection_select :charge_type_id, ChargeType.all, :id, :name, input_html: { onchange: raw("$.getJSON('/charge_types/'+this.value,function(response){$('#charge_amount').val(response)});") } %>
+      
+      <div class="col-md-4" style="padding-bottom:2rem;">
+	  <% if can?(:create, ChargeType) %>
           <%= link_to 'Or create a new charge type', new_charge_type_path(from_charge: true), class: 'btn btn-primary' %>
         <% end %>
       </div>
+      </div>
     </div>
-    <%= f.input :amount do %>
+    <%= f.label "Amount" %>
+    <%= f.text_field :amount do %>
       <div class="input-group">
         <%= content_tag :span, '$', class: 'input-group-addon' %>
         <%= f.input_field :amount, as: :string, value: number_to_currency(f.object.amount, unit: '', delimiter: '') %>
       </div>
     <% end %>
-    <%= f.input :description, as: :text, textarea: '{ font-size:16px; }' %>
-    <%= f.association :issuing_participant, collection: Participant.scc %>
-    <%= f.input :receiving_participant do %>
-      <%= f.input_field :receiving_participant_id, as: :hidden %>
-      <%= text_field_tag 'card-number-input', nil, value: @current_receiving_participant, placeholder: 'Tap card or enter andrewid...', class: 'form-control' %>
-      <div id="participant-info"></div>
+    <%= f.label "Description" %> 
+    <%= f.text_field :description, as: :text, textarea: '{ font-size:16px; }' %>
+    <%= f.label "Issuer" %>
+    <%= f.collection_select :issuing_participant_id, Participant.scc, :id, :name %>
+    <%= f.label "Charge Receiver" %>
+    <% if params[:organization_id] %>
+        <%= f.collection_select :participant_id, Organization.find_by(id:org).participants, :id, :name,  required: true %>
+    <% else %>
+        <%= f.collection_select :participant_id, Participant.all, :id, :name,  required: true %>
     <% end %>
+    <%# f.text_field :receiving_participant do %>
+      <%# f.input_field :receiving_participant_id, as: :hidden %>
+      <%# text_field_tag 'card-number-input', nil, value: @current_receiving_participant, placeholder: 'Tap card or enter andrewid...', class: 'form-control' %>
+      <div id="participant-info"></div>
+    <%# end %>
   </div>
   <div class="form-actions">
     <%= f.button :submit, class: 'btn-primary' %>
@@ -33,3 +50,4 @@ When adding a charge, please ensure that you add a detailed description. This al
                 @charge, class: 'btn btn-default' %>
   </div>
 <% end %>
+</div>
