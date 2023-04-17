@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_05_141011) do
+ActiveRecord::Schema[7.0].define(version: 2023_04_13_054117) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
@@ -111,6 +111,19 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_05_141011) do
     t.index ["participant_id"], name: "index_memberships_on_participant_id"
   end
 
+  create_table "notes", force: :cascade do |t|
+    t.integer "participant_id", null: false
+    t.integer "organization_id"
+    t.boolean "hidden"
+    t.string "title"
+    t.string "value"
+    t.string "color"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_notes_on_organization_id"
+    t.index ["participant_id"], name: "index_notes_on_participant_id"
+  end
+
   create_table "organization_aliases", force: :cascade do |t|
     t.string "name"
     t.integer "organization_id"
@@ -125,6 +138,7 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_05_141011) do
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.boolean "building"
+    t.string "lookup_key"
     t.index ["name"], name: "index_organization_categories_on_name", unique: true
   end
 
@@ -173,17 +187,16 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_05_141011) do
     t.string "eppn"
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
-    t.boolean "has_signed_waiver"
+    t.boolean "signed_waiver"
     t.string "phone_number"
-    t.boolean "has_signed_hardhat_waiver"
     t.string "cached_name"
     t.string "cached_surname"
     t.string "cached_email"
     t.string "cached_department"
     t.string "cached_student_class"
     t.datetime "cache_updated", precision: nil
-    t.datetime "waiver_start", precision: nil
     t.boolean "admin"
+    t.boolean "watched_safety_video"
     t.index ["admin"], name: "index_participants_on_admin"
   end
 
@@ -260,17 +273,30 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_05_141011) do
     t.datetime "updated_at", precision: nil
   end
 
+  create_table "tool_waitlist_entries", force: :cascade do |t|
+    t.integer "organization_id", null: false
+    t.integer "participant_id", null: false
+    t.integer "tool_waitlist_id", null: false
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.string "note"
+    t.integer "status", default: 1
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_tool_waitlist_entries_on_organization_id"
+    t.index ["participant_id"], name: "index_tool_waitlist_entries_on_participant_id"
+    t.index ["tool_waitlist_id"], name: "index_tool_waitlist_entries_on_tool_waitlist_id"
+  end
+
   create_table "tool_waitlists", force: :cascade do |t|
-    t.integer "tool_type_id"
+    t.integer "tool_type_id", null: false
     t.integer "participant_id"
     t.integer "organization_id"
     t.string "note"
-    t.boolean "active", default: true
     t.datetime "created_at", precision: nil
     t.datetime "updated_at", precision: nil
     t.datetime "start_at"
     t.datetime "end_at"
-    t.index ["tool_type_id"], name: "index_tool_waitlists_on_tool_type_id"
   end
 
   create_table "tools", force: :cascade do |t|
@@ -284,31 +310,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_05_141011) do
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
   end
 
-  create_table "waitlist_entries", force: :cascade do |t|
-    t.integer "organization_id", null: false
-    t.integer "participant_id", null: false
-    t.integer "tool_type_id", null: false
-    t.integer "tool_waitlist_id", null: false
-    t.integer "status", default: 1
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["organization_id"], name: "index_waitlist_entries_on_organization_id"
-    t.index ["participant_id"], name: "index_waitlist_entries_on_participant_id"
-    t.index ["tool_type_id"], name: "index_waitlist_entries_on_tool_type_id"
-    t.index ["tool_waitlist_id"], name: "index_waitlist_entries_on_tool_waitlist_id"
-  end
-
   add_foreign_key "certifications", "certification_types"
   add_foreign_key "certifications", "participants"
   add_foreign_key "faq", "organization_categories"
+  add_foreign_key "notes", "organizations"
+  add_foreign_key "notes", "participants"
   add_foreign_key "store_purchases", "charges"
   add_foreign_key "store_purchases", "store_items"
   add_foreign_key "tool_type_certifications", "certification_types"
   add_foreign_key "tool_type_certifications", "tool_types"
+  add_foreign_key "tool_waitlist_entries", "organizations"
+  add_foreign_key "tool_waitlist_entries", "participants"
+  add_foreign_key "tool_waitlist_entries", "tool_waitlists"
+  add_foreign_key "tool_waitlists", "tool_types"
   add_foreign_key "tools", "tool_types"
-  add_foreign_key "waitlist_entries", "organizations"
-  add_foreign_key "waitlist_entries", "participants"
-  add_foreign_key "waitlist_entries", "tool_types"
-  add_foreign_key "waitlist_entries", "tool_waitlists"
 end
-

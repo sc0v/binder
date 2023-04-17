@@ -138,6 +138,12 @@ FactoryGirl.define do
     name 'Hammer'
   end
 
+  # tool waitlist
+  # factory :tool_waitlist do
+  #   start_at DateTime.current
+  #   end_at DateTime.current + 3.hours
+  # end
+
   # tool
   factory :tool do
     barcode { generate(:barcode) }

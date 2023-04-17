@@ -1,37 +1,19 @@
-class ToolType < ApplicationRecord
-    before_save :validate_tool_request
-
-    has_many :organizations
-    has_many :participants, through: :organizations
-    has_many :waitlist_entries
-
-    scope :pending, -> { where(‘end_at = ?’, nil)}
-    scope :completed, -> { where(‘end_at != ?’, nil)}
-    scope :for_organization, -> (organization) {where('organization_id = ?', organization_id)}
-    scope :for_tool_type, -> (tool_type) {where('tool_type_id = ?', tool_type_id)}
-    scope :tool_type_for_org, -> (organization, tool_type) {where('organization_id = ? AND tool_type_id = ?', organization_id, tool_type_id)}
-
-    private
-
-    # def validate_tool_request
-    #     t = ToolType.find(self.tools.size)
-    #     @requests = ToolWaitlist.tool_type_for_org(self.organization_id, self.tool_type_id)
-    #     unless quota_not_reached?(@requests)
-    #         errors.add(:tool_waitlist, “cannot request multiple of the same tool”)
-    #     end
-    # end
-    
-    # def quota_not_reached?(@requests)
-    #     return @requests.pending.count < 2
-    # end    
-
-    # def check_if_off_waitlist
-    #     if self.end_at.nil?
-    #         return false
-    #     else
-    #         return true
-    #     end
-    # end 
+class ToolWaitlist < ApplicationRecord
+    has_many :tool_waitlist_entries
+    belongs_to :tool_type
+ 
+    # testing in Rails Console
+    #  sl = ToolType.find_by(name:"Scissor Lift")
+    #  scc = Organization.find_by(short_name:"SCC")
+    #  aepi = Organization.find_by(short_name:"AEPi")
+    #  p = Participant.first
+    #  start_time_ex = DateTime.new(2012, 8, 29, 22, 35, 0)
+    #  end_time_ex = DateTime.new(2012, 8, 29, 23, 35, 0)
+    #  sl_wl=ToolWaitlist.create(tool_type_id:sl.id)
+    #  ToolWaitlistEntry.create(organization_id:scc.id, participant_id:p.id, tool_waitlist_id: sl_wl.id, start_at: start_time_ex, note:"first try of waitlist functionality")
+    #  ToolWaitlistEntry.create(organization_id:aepi.id, participant_id:p.id, tool_waitlist_id: sl_wl.id, start_at: start_time_ex, note:"first try of waitlist functionality")
+    #  ToolWaitlistEntry.create(organization_id:scc.id, participant_id:p.id, tool_waitlist_id: sl_wl.id, start_at: start_time_ex, end_at: end_time_ex, status:2)
+    #  ToolWaitlistEntry.all.map{|x| x.destroy}
     
 
 end

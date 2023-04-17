@@ -2,7 +2,7 @@
 class CreateToolWaitlists < ActiveRecord::Migration[4.2]
   def change
     create_table :tool_waitlists do |t|
-      t.references :tool_type, index: true
+      t.references :tool_type, null: false, foreign_key: true
       t.datetime :wait_start_time
       t.references :participant
       t.references :organization

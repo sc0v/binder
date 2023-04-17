@@ -1,6 +1,6 @@
 require "test_helper"
 
-class WaitlistEntryTest < ActiveSupport::TestCase
+class ToolWaitlistEntryTest < ActiveSupport::TestCase
   # test "the truth" do
   #   assert true
   # end
