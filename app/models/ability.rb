@@ -63,11 +63,11 @@ class Ability
     can :login, Participant if user.blank?
 
     # Tools
-    if user.scc?
+    #if user.scc?
       can :read,
           Tool,
           %i[name link is_checked_out? current_organization current_participant]
-    end
+    #end
 
     # Admin fallback with corrections
     if user.present? && user.admin?

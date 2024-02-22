@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  title: MyString
+  requirements: MyText
+  step: 1
+  completed: false
+  organization_build_status: one
+
+two:
+  title: MyString
+  requirements: MyText
+  step: 1
+  completed: false
+  organization_build_status: two

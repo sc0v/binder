@@ -11,6 +11,40 @@
 <div class="content">
   <div>
     <h1><%= @organization.name %></h1>
+    <% if @structural %>
+      <h2>Structural Progress</h2>
+        <%= link_to("Structural Progress", organization_organization_build_status_path(@organization, @structural)) %>
+    <% end %>
+    <% if @electrical %>
+      <h2>Electrical Progress</h2>
+        <%= link_to("Electrical Progress", organization_organization_build_status_path(@organization, @electrical)) %>
+    <% end %>
   </div><div class="sidebar">
-  </div>
+    <h2>Total Fines: $<%= @total_fines %></h2>
+    <% if @tools_checked_out.length() == 0 %>
+      <h2>No Tools Checked Out!</h2>
+    <% else %>
+      <h2 style="padding-bottom: 0px">Tools Checked Out:</h2>
+      <ul>
+        <% @tools_checked_out.each do |tool| %>
+          <li>
+            <%= link_to(member.name, "/tools/#{tool.id}") %>
+          </li>
+        <% end %>
+      </ul>
+    <% end %>
+    <% if @members.length() == 0 %>
+      <h2>No Members!</h2>
+    <% else %>
+      <h2 style="padding-bottom: 0px">Builders:</h2>
+      <ul>
+        <% @members.each do |member| %>
+          <li>
+            <%= link_to(member.name, "/participants/#{member.id}") %> <!-- There's probably a better way to do this, ask Meg (participant_path(@participant) ?)-->
+          </li>
+        <% end %>
+    <% end %>
+  </ul>
+    
+    </div>
 </div>
