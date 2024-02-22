@@ -38,6 +38,19 @@ class OrganizationsController < ApplicationController
         end
       end
 
+    # Get Structural Build Status
+    @structural = @organization.organization_build_statuses.find_by(status_type: :structural)
+    @electrical = @organization.organization_build_statuses.find_by(status_type: :electrical)
+
+    # Get Total Fines for Organization
+    @total_fines = 0
+    @organization.charges.each do |charge|
+      @total_fines += charge.amount
+    end
+    # Get Tools Checked Out by Organization
+    @tools_checked_out = Tool.checked_out_by_organization(@organization)
+    # Get Members of Organization
+    @members = @organization.participants
   end
 
   # GET /organizations/new

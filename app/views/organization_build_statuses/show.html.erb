@@ -1,0 +1,54 @@
+<% update_document_title(add: 'Organizations') %>
+<% update_breadcrumbs(add: link_to('Organizations', organizations_path)) %>
+<% update_breadcrumbs(add: link_to(@organization.name, organization_path(@organization))) %>
+<% update_breadcrumbs(add: "Structural Progress") %>
+<% content_for :nav do %>
+  <li class="active"><%= link_to('Organizations', organizations_path) %> </li>
+  <li><%= link_to('People', participants_path) %> </li>
+  <li><%= link_to('Tools', tools_path) %> </li>
+  <li><%= link_to('Store', store_path) %> </li>
+  <li ><%= link_to('FAQ', faq_index_path) %> </li>
+<% end %>
+<div class="content">
+  <div>
+    <h1><%=@status_name%> Progress</h1>
+    <!--See Tasks (right now a table, maybe change?)-->
+    <table>
+      <thead>
+        <tr> 
+          <th>Task</th>
+          <th>Requirements</th>
+          <th>Completed</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @build_steps.each do |step| %>
+          <tr>
+            <th><%= step.title %></th>
+            <th><%= step.requirements %></th>
+            <th><%= step.completed %></th>
+            <th><%= link_to "Destroy", [@organization, @organization_build_status, step], data: {
+              turbo_method: :delete,
+              turbo_confirm: "Are you sure?"
+            } %></th>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+
+    <!-- Form to Add Steps (Only see if an SCC member) --> 
+    <% if Current.user.scc? %>
+    <h1>Add <%=@status_name%> Step</h1>
+    <%= form_with model: [@organization, @organization_build_status, OrganizationBuildStep.new] do |f| %>
+      <%= f.text_field :title, placeholder: 'Enter Title...' %>
+      <%= f.text_area :requirements, placeholder: 'Enter Requirements...' %>
+      <%= hidden_field_tag 'url', request.original_fullpath %>
+      <%= f.submit 'Create Build Step', class: 'btn wide' %>
+    <% end %>
+    <% end %>
+  </div><div class="sidebar">
+    <%= render 'organization_timeline_entries/queue_sidebar' %>
+  </div>
+</div>
+

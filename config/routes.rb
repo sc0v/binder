@@ -86,6 +86,9 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     resources :statuses,
               controller: :organization_statuses,
               as: :organization_statuses
+    resources :organization_build_statuses do
+      resources :organization_build_steps
+    end
 
     resources :participants, only: [:index]
 

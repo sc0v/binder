@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_04_173506) do
+ActiveRecord::Schema[7.0].define(version: 2024_02_09_173331) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
@@ -131,6 +131,25 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_173506) do
     t.datetime "updated_at", precision: nil
     t.index ["name"], name: "index_organization_aliases_on_name"
     t.index ["organization_id"], name: "index_organization_aliases_on_organization_id"
+  end
+
+  create_table "organization_build_statuses", force: :cascade do |t|
+    t.integer "organization_id", null: false
+    t.string "status_type"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_organization_build_statuses_on_organization_id"
+  end
+
+  create_table "organization_build_steps", force: :cascade do |t|
+    t.string "title"
+    t.text "requirements"
+    t.integer "step"
+    t.boolean "completed"
+    t.integer "organization_build_status_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_build_status_id"], name: "index_organization_build_steps_on_organization_build_status_id"
   end
 
   create_table "organization_categories", force: :cascade do |t|
@@ -289,6 +308,8 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_04_173506) do
   add_foreign_key "faq", "organization_categories"
   add_foreign_key "notes", "organizations"
   add_foreign_key "notes", "participants"
+  add_foreign_key "organization_build_statuses", "organizations"
+  add_foreign_key "organization_build_steps", "organization_build_statuses"
   add_foreign_key "store_purchases", "charges"
   add_foreign_key "store_purchases", "store_items"
   add_foreign_key "tool_type_certifications", "certification_types"
