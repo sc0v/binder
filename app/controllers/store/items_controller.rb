@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class Store::ItemsController < ApplicationController
-  load_and_authorize_resource :store_item
+  # load_and_authorize_resource :store_item # (TODO: Don't commit it like this (uncomment it out))
 
   def index
     @store_items = StoreItem.order(:name) # .paginate(:page => params[:page]).per_page(20)

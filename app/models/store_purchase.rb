@@ -2,7 +2,7 @@
 
 class StorePurchase < ApplicationRecord
   # relationships
-  belongs_to :charge
+  belongs_to :charge, optional: true
   belongs_to :store_item
   has_one :organization, through: :charge
 
