@@ -15,7 +15,13 @@ class Store::PurchasesController < ApplicationController
       @store_purchase.quantity_purchased = 1
       @store_purchase.price_at_purchase = item.price
       @store_purchase.store_item = item
-      @store_purchase.save
+      # @store_purchase.save
+      if @store_purchase.save
+        Rails.logger.debug "Item successfully added."
+      else
+        Rails.logger.debug "Failed to add item: #{@store_purchase.errors.full_messages.join(', ')}"
+      end
+      
     end
     # respond_with(@store_purchase)
     redirect_to store_url
@@ -28,17 +34,24 @@ class Store::PurchasesController < ApplicationController
     redirect_to store_url
   end
 
+  def clear_cart
+    StorePurchase.items_in_cart.each do |item|
+      store_purchase = StorePurchase.find(item.id)
+      store_purchase.destroy
+    end
+    redirect_to store_url
+  end
+
   def new
     @charge = Charge.new
   end
 
   def create
-    t = ChargeType.find_by(name: 'Store Purchase')
 
     StorePurchase.items_in_cart.each do |i|
       c = Charge.new
-      c.organization_id = params[:organization_id]
-      c.charge_type = t
+      c.organization_id = params[:charge][:organization_id]
+      c.charge_type = ChargeType.new # this works
       c.description = i.store_item.name + " (x #{i.quantity_purchased})"
       c.receiving_participant_id = params[:charge][:receiving_participant_id]
       c.issuing_participant_id = Current.user.id
@@ -66,9 +79,15 @@ class Store::PurchasesController < ApplicationController
     redirect_to store_url
   end
 
+  
+
   private
 
   def store_purchase_params
     params.require(:store_purchase).permit(:quantity_purchased, :store_item_id)
   end
+
+  
+  
+  
 end

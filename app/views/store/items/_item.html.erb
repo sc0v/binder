@@ -39,12 +39,13 @@
     <%= image_tag("store_images/#{item.name}.png", id: "item-image-#{item.name}", class: 'item-image', data: { item_name: item.name, image_url: asset_path("store_images/#{item.name}.png") }, size: '70x70') %>
   </td>
   <td><%= number_to_currency item.price %></td>
-  <td><%= item.quantity_available %></td>
   <td>
-    <% if can?(:create, Charge) %>
-      <%= link_to t('.add_to_cart', default: t('helpers.links.add_to_cart')),
-                  add_to_cart_store_item_path(item), class: 'btn btn-primary btn-xs', method: :post %>
-    <% end %>
+    <%# if can?(:create, Charge) %>
+      <%= button_to t('.add_to_cart', default: t('helpers.links.add_to_cart')),
+      add_to_cart_store_item_path(item),
+      class: 'btn btn-primary btn-xs',
+      method: :post %>
+    <%# end %>
   </td>
 </tr>
 

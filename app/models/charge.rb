@@ -2,7 +2,7 @@
 
 class Charge < ApplicationRecord
   validates :charged_at, :amount, presence: true
-  validates_associated :issuing_participant, :organization, :charge_type, :receiving_participant, :creating_participant
+  # validates_associated :issuing_participant, :organization, :charge_type, :receiving_participant, :creating_participant
   validates :amount, numericality: true
 
   belongs_to :organization

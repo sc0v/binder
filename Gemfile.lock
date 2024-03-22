@@ -268,6 +268,9 @@ GEM
       rexml (~> 3.2, >= 3.2.5)
       rubyzip (>= 1.2.2, < 3.0)
       websocket (~> 1.0)
+    simple_form (5.3.0)
+      actionpack (>= 5.2)
+      activemodel (>= 5.2)
     singleton (0.1.1)
     smart_properties (1.17.0)
     sqlite3 (1.6.1-x86_64-darwin)
@@ -312,6 +315,7 @@ GEM
     zeitwerk (2.6.7)
 
 PLATFORMS
+  x86_64-darwin-21
   x86_64-darwin-22
   x86_64-linux
 
@@ -338,6 +342,7 @@ DEPENDENCIES
   rubocop-rails
   savon
   selenium-webdriver
+  simple_form
   sqlite3 (~> 1.4)
   stimulus-rails
   syntax_tree
