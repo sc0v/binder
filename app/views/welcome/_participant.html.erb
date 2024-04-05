@@ -1,7 +1,10 @@
+
 <div class="content">
   <div>
     <%= t('welcome.html', name: Current.user.name) %>
+    <%= render 'participants/participant_details' %>
+ </div>
   </div><div class="sidebar">
-    <%= render 'layouts/sidebar_defaults' %>
+  <%= render 'layouts/sidebar_defaults' %>
+
   </div>
-</div>

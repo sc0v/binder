@@ -1,0 +1,46 @@
+
+  <div>
+    <h2>Directory Information</h2>
+    <p>
+      <strong>EPPN:</strong> <%= Current.user.eppn %><br />
+      <strong>Phone:</strong> <%= Current.user.formatted_phone_number %><br /> 
+      <strong>Department:</strong> <%= Current.user.department %><br />
+      <strong>Student Class:</strong> <%= Current.user.student_class %>
+    </p>
+
+    <h2>Memberships</h2>
+    <% if Current.user.memberships.blank? %>
+    None yet.
+    <% else %>
+    <ul class="list-unstyled">
+      <% Current.user.memberships.each do |membership| %>
+      <li>
+        <%= link_to membership.organization.name, membership.organization %>
+      </li>
+      <% end %>
+    </ul>
+    <% end %>
+
+    <h2>Certifications</h2>
+    <% if Current.user.certifications.blank? %>
+    <p>None yet.</p>
+    <% else %>
+    <ul class="list-unstyled">
+      <% Current.user.certifications.each do |cert| %>
+      <li>
+        <%= cert.certification_type.name %>
+      </li>
+      <% end %>
+    </ul>
+    <% end %>
+    
+    <h2>Tools</h2>
+    <% if Current.user.checkouts.current.blank? %>
+    <p>No tools checked out.</p>
+    <% else %>
+    <ul class="list-unstyled">
+      <% Current.user.checkouts.current.each do |checkout| %>
+      <li><%= link_to checkout.tool.formatted_name, checkout.tool %> - <%= date_and_time checkout.checked_out_at %> for <%= link_to checkout.organization.short_name, checkout.organization %></li>
+      <% end %>
+    </ul>
+    <% end %>
