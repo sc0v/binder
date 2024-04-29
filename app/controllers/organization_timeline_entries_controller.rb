@@ -32,7 +32,8 @@ class OrganizationTimelineEntriesController < ApplicationController
     authorize! :create, @organization_timeline_entry
 
     if @organization_timeline_entry.already_in_queue?
-      redirect_to :back, alert: "You're already on the queue!"
+      # Used to say :back instead of params[:url] but removed as of rails 4 i believe -joe
+      redirect_to params[:url], alert: "You're already on the queue!"
       return
     end
 

@@ -17,7 +17,7 @@ class ToolsController < ApplicationController
       else
         @tool_type = ToolType.find(params[:type_filter])
         @title = @tool_type.name.pluralize
-        @tools = @tools.by_type(@tool_type)
+        @tools = Tool.by_type(@tool_type)
         @num_available = Tool.by_type(@tool_type).size - Tool.by_type(@tool_type).checked_out.size
       end
     else

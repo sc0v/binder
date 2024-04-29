@@ -80,8 +80,6 @@ class Ability
     can :participate, :carnival if user.present? && user.signed_waiver?
 
     # TODO: Work through abilities
-    return
-
     return if user.blank?
 
     cannot :manage, :all
@@ -123,6 +121,12 @@ class Ability
     can :read, StoreItem
 
     can %i[read structural electrical], OrganizationTimelineEntry
+    can %i[read, create], OrganizationTimelineEntry do |o|
+      o.organization.participants.include?(user)
+    end
+
+    can :read, OrganizationBuildStatus
+    can :read, OrganizationBuildStep
 
     if user.is_booth_chair?
       can :read, [ChargeType, Checkout, Shift]
@@ -171,6 +175,8 @@ class Ability
       can %i[create update], OrganizationStatusType
       can %i[create edit update end structural electrical downtime],
           OrganizationTimelineEntry
+      can %i[edit update], OrganizationBuildStatus
+      can %i[create edit update destroy], OrganizationBuildStep
       can %i[create update read_phone_number], Participant
       can :read_coord, Shift
       can :create, ShiftParticipant
@@ -180,6 +186,7 @@ class Ability
       can %i[create update], ToolType
       can %i[create destroy], Certification
     end
+
 
     return unless user.admin?
 
