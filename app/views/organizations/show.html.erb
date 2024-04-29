@@ -28,7 +28,7 @@
       <ul>
         <% @tools_checked_out.each do |tool| %>
           <li>
-            <%= link_to(member.name, "/tools/#{tool.id}") %>
+            <%= link_to(tool.name, "/tools/#{tool.id}") %>
           </li>
         <% end %>
       </ul>
@@ -43,6 +43,7 @@
             <%= link_to(member.name, "/participants/#{member.id}") %> <!-- There's probably a better way to do this, ask Meg (participant_path(@participant) ?)-->
           </li>
         <% end %>
+      </ul>
     <% end %>
   </ul>
     
