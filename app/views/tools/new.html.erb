@@ -1,9 +1,18 @@
-<% if can?(:create, @tool) %>
-  <%- model_class = Tool -%>
-  <div class="page-header">
-    <h1><%= t '.title', default: [:'helpers.titles.new', 'New %<model>s'], model: model_class.model_name.human %></h1>
+<% update_document_title(add: 'Tools') %>
+<% update_document_title(add: 'New') %>
+<% update_breadcrumbs(add: link_to('Tools',tools_path)) %>
+<% update_breadcrumbs(add: 'New') %>
+<% nav(active: 'new_tool') %>
+<div class="content">
+  <div>
+    <h1>New Tool</h1>
+    <%= form_with model: Tool.new do |f| %>
+    <%= f.label :tool_type_id, 'Tool Type' %> <%= f.collection_select(:tool_type_id, ToolType.all, :id, :name) %>
+    <%= f.label :description, 'Description' %> <%= f.text_field :description, placeholder: 'Optional' %>
+    <%= f.label :barcode, 'Barcode' %>
+    <%= f.text_field :barcode %>
+    <%= submit_tag "Create Tool" %>
+    <% end %>
   </div>
-  <%= render 'form' %>
-<% else %>
-  <h3>Not Authorized!</h3>
-<% end %>
+</div>
+    

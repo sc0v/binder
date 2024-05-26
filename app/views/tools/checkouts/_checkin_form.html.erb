@@ -1,0 +1,5 @@
+<h3>What is being returned?</h3>
+<%= form_tag checkin_tools_path do %>
+  <%= label_tag(:barcode, 'Scan Tool Barcode/Type Tool Barcode [Enter]') %>
+  <%= text_field_tag(:barcode, nil, autocomplete: :off) %>
+<% end %>

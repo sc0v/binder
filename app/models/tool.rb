@@ -1,6 +1,6 @@
 # frozen_string_literal: true
-
 class Tool < ApplicationRecord
+  include Rails.application.routes.url_helpers
   has_many :checkouts, dependent: :destroy
   has_many :participants, through: :checkouts
   has_many :organizations, through: :checkouts
@@ -26,7 +26,7 @@ class Tool < ApplicationRecord
                      }
   scope :active,       -> { where(active: true) }
   scope :inactive,     -> { where(active: false) }
-
+  scope :ordered_by_name, -> { order(name: :asc) }
   def current_organization
     checkouts.current.take.organization if checkouts.current.present?
   end
@@ -47,11 +47,19 @@ class Tool < ApplicationRecord
     joins(:checkouts).where(checkouts: { organization_id: organization, checked_in_at: nil })
   end
 
-  delegate :name, to: :tool_type
+  delegate :name, to: :tool_type, allow_nil: true
 
   def formatted_name
     return "#{barcode}: #{name} - #{description}" if description.present?
 
     "#{barcode}: " + name
   end
+
+  def link
+    tool_path(self)
+  end
+
+  #def self.find_or_create_by_search(search)
+  #  t = Tool.find_by(barcode: search)
+  #end
 end

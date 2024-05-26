@@ -1,0 +1,5 @@
+<turbo-frame id="<%= dom_id note %>">
+  Note
+
+  <%= link_to "Edit", edit_note_path(note) %>
+</turbo-frame>

@@ -32,27 +32,7 @@
           <%= button_to 'Sign in', login_path, form_class: 'signIn' %>
         <% end %>
       </li>
-      <%= yield :nav %>
-      <% if Current.user && Current.user.scc? %>
-      <li class="secondary">
-        <%= link_to 'Applets', applets_path %>
-      </li>
-      <% end %>
-      <li class="secondary">
-        <%= link_to 'Charges', charges_path %>
-      </li>
-      <li class="secondary">
-        <%= link_to 'Notes', notes_path %>
-      </li>
-      <li class="secondary">
-        <%= link_to 'Queues', electrical_path %>
-      </li>
-      <li class="secondary">
-        <%= link_to 'Shifts', shifts_path %>
-      </li>
-      <li class="secondary">
-        <%= link_to 'Tasks', tasks_path %>
-      </li>
+      <%= yield :navigation %>
     </ul>
   </nav>
 </footer>

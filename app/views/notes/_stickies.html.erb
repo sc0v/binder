@@ -3,13 +3,27 @@
 <% end %>
 
 <ul class="notes">
+  
   <% notes.each do |n| %>
   <li>
     <%= link_to 'javascript:void(0)' do %>
     <%= content_tag :h2, n.title %>
-    <%= content_tag :p, n.value.truncate(50, separator: /\s/) %>
+    <%= content_tag :p, n.value.truncate(85, separator: /\s/) %>
     <% end %>
   </li>
   <% end %>
+  
+  <li>
+    <%= link_to 'javascript:void(0)' do %>
+    <%= form_with(model: @note) do |form| %>
+    <%= form.text_field :title, placeholder: "Title" %>
+    <%= form.text_field :value, placeholder: "Note" %>
+    <%= form.submit "Save" %>
+    <% end %>
+    <% end %>
+  </li>
 </ul>
-<%= link_to 'See all notes', notes_path, class: 'cta' %>
+<p class="alignright">
+  <%= link_to 'See all notes', notes_path, class: 'cta' %><br/>
+  <%= link_to 'Add note', new_note_path, class: 'cta' %>
+</p>

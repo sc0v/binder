@@ -36,7 +36,11 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     "https://www.gravatar.com/avatar/#{hash}?d=mp&s=#{size}"
   end
 
-  # FAQ
+  # Applets/Workflows
+  get 'applets', to: 'applets#index', as: :applets
+  get 'ppe-distribution', to: 'applets/ppe_distribution#index'
+
+# FAQ
   # n.b.: FAQ is uncountable (like sheep). The Rails convention is to have:
   #   faq_path -> show & faq_index_path -> index
   # So even though we do not have a show, we want to minimize antipatterns.
@@ -69,8 +73,24 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     end
   end
 
-  get 'applets', to: 'applets#index', as: :applets
-  get 'ppe-distribution', to: 'applets/ppe_distribution#index'
+  # SCC Help Queues
+  resources :queues
+
+  # Tools
+  resources :tools do
+    member do
+      get :remove, to: 'tools/checkouts#remove'
+    end
+    collection do
+      post :add, to: 'tools/checkouts#add'
+      post :checkout_participant, to: 'tools/checkouts#participant'
+      get :checkout, to: 'tools/checkouts#new'
+      post :checkout, to: 'tools/checkouts#create'
+      post :checkin, to: 'tools/checkouts#update'
+      get :reset, to: 'tools/checkouts#reset'
+    end
+    resources :checkouts, controller: 'tools/checkouts'
+  end
 
   # TODO: Confirm everything below
   resources :event_types
@@ -87,7 +107,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
               controller: :organization_statuses,
               as: :organization_statuses
     resources :organization_build_statuses do
-      resources :organization_build_steps
+	resources :organization_build_steps
     end
 
     resources :participants, only: [:index]
@@ -139,11 +159,11 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   resources :tasks do
     member { post 'complete' }
   end
-  resources :tools do
-    resources :checkouts, only: %i[new create update index] do
-      post 'choose_organization', on: :collection
-    end
-  end
+  #resources :tools do
+  #  resources :checkouts, only: %i[new create update index] do
+  #    post 'choose_organization', on: :collection
+  #  end
+  #end
 
   resources :tool_types, except: [:show]
 
@@ -163,6 +183,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       get 'review', action: 'new'
       post 'checkout', action: 'create'
       post 'choose_organization'
+      delete 'clear_cart', action: 'clear_cart', as: 'clear_cart'
     end
   end
 

@@ -5,15 +5,10 @@
       <th>Name</th>
       <th>Image</th>
       <th>Price</th>
-      <th>Quantity Available</th>
       <th>Actions</th>
     </tr>
   </thead>
   <tbody>
-    <%# items.each do |item| %>
-      <%# cache [page, item] do %>
-        <%= render partial: 'item', collection: items %>
-        <%# end %>
-        <%# end %>
+      <%= render partial: 'item', collection: items %>
       </tbody>
     </table>

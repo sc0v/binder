@@ -61,6 +61,9 @@ gem 'savon'
 # Paginatation
 gem 'pagy'
 
+# Font Awesome
+gem 'font-awesome-sass'
+
 # Replace sprockets as asset pipeline
 gem 'propshaft'
 
@@ -68,6 +71,9 @@ group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem 'debug', platforms: %i[mri mingw x64_mingw]
 end
+
+# Simple Form for store (TODO: Get rid of in store)
+gem 'simple_form'
 
 group :development do
   # Use console on exceptions pages [https://github.com/rails/web-console]
@@ -87,6 +93,7 @@ group :development do
   gem 'rubocop-rails'
   gem 'syntax_tree' # @prettier/plugin-ruby dep
   gem 'syntax_tree-rbs' # @prettier/plugin-ruby dep
+  gem 'syntax_tree-haml' # @prettier/plugin-ruby dep
 end
 
 group :test do
@@ -94,4 +101,8 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'webdrivers'
+end
+
+group :production do
+  gem 'mysql2'
 end

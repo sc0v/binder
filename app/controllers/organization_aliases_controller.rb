@@ -2,7 +2,7 @@
 
 class OrganizationAliasesController < ApplicationController
   # permissions error - when enabled, this tries to find a OrganizationAlias with the current related model id on creation
-  responders :flash, :http_cache
+  #responders :flash, :http_cache
 
   def index
     return redirect_to root_url, alert: 'Not Authorized to see Aliases' unless can? :read, OrganizationAlias

@@ -1,0 +1,8 @@
+<li>
+  <turbo-frame id="<%= dom_id note %>">
+    <%= link_to edit_note_path(note) do %>
+      <%= content_tag :h2, note.title %>
+      <%= content_tag :p, note.value.truncate(85, separator: /\s/) %>
+    <% end %>
+  </turbo-frame>
+</li>

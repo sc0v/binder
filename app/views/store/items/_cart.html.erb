@@ -11,5 +11,21 @@
   </thead>
   <tbody>
     <%= render partial: 'store/items/cart_item', collection: items %>
+
+    <%# Separator row %>
+    <tr>
+      <td colspan="5" style="height: 20px;"></td> <%# Adjust the height as needed for desired separation %>
+    </tr>
+
+    <%# Summary row %>
+    <tr>
+      <td><strong>Total</strong></td>
+      <td></td> <%# Blank cell for Price column %>
+      <td><%= items.sum(&:quantity_purchased) %></td>
+      <td><%= number_to_currency(items.sum { |item| item.quantity_purchased * item.price_at_purchase }) %></td>
+      <td>
+        <%= button_to 'Clear Cart', store_cart_clear_cart_path, method: :delete, class: 'btn btn-danger btn-xs' %>
+      </td>
+    </tr>
   </tbody>
 </table>

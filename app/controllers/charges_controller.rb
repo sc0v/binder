@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-
 class ChargesController < ApplicationController
   load_and_authorize_resource
+  
   before_action :set_charge, only: %i[show edit update destroy approve]
 
   # GET /charges
@@ -43,7 +43,7 @@ class ChargesController < ApplicationController
     @charge.charged_at = DateTime.now
     @charge.creating_participant = Current.user
     @charge.is_approved = false
-    @charge.save
+    @charge.save!
     respond_with @charge
   end
 

@@ -7,7 +7,7 @@ class OrganizationBuildStepsController < ApplicationController
         step: 0,
         completed: false)
 
-      if @organization_build_status.save!
+      if @organization_build_status.save()
         redirect_to params[:url], notice: 'Added Build Task!'
       else
         redirect_to params[:url], alert: ('Failed to Add Build Task! (' + @organization_build_step.errors.full_messages.join(",") + ")")
@@ -39,7 +39,7 @@ class OrganizationBuildStepsController < ApplicationController
     if params[:update_type] == "approved"
       @organization_build_step.completed = !@organization_build_step.completed
       
-      if @organization_build_step.save()
+      if @organization_build_step.save!
         if @organization_build_step.completed
           notice = "Approved Checkoff!"
         else
@@ -51,3 +51,4 @@ class OrganizationBuildStepsController < ApplicationController
     redirect_to params[:url], alert: 'Update Failed!'
   end
 end
+

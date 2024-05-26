@@ -2,10 +2,6 @@
   <div class="panel-heading">
     <div class='row'>
       <div class='col-xs-9'>Tool Cart <span id='tc_title_count'><%= "(#{@tool_cart.size})" unless @tool_cart.empty? %></span></div>
-      <div class='col-xs-3'>
-        <a href="#tc_actions" onclick='_toggleText(this, "Show", "Hide")'
-           class="btn btn-info btn-xs" data-toggle="collapse">Hide</a>
-      </div>
     </div>
   </div>
   <div id='tc_alert' class='panel-body' style='display: none'>

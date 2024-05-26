@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Membership < ApplicationRecord
-  validates_associated :participant, :organization
+  validates :participant, presence: true
+  validates :organization, presence: true
   validates :participant_id, uniqueness: { scope: :organization_id }
 
   belongs_to :organization

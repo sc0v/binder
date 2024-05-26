@@ -8,13 +8,13 @@
   </li>
   <li>
     Put the following <%= "wristband".pluralize(@participant.wristbands) %> on their wrist. <strong>Don't just give it to them!</strong>
-      <% if @participant.wristbands.include? :red %>
+      <% if @participant.wristbands.present? && @participant.wristbands.include?(:red) %>
         <p class="invert red" style="padding: 1em;">Red (Member of at least one organization that will be building)</p>
       <% end %>
-      <% if @participant.wristbands.include? :blue %>
+      <% if @participant.wristbands.present? && @participant.wristbands.include?(:blue)%>
         <p class="invert blue" style="padding: 1em;">Blue (Member of no organizations that will be building)</p>
       <% end %>
-      <% if @participant.wristbands.include? :green %>
+      <% if @participant.wristbands.present? && @participant.wristbands.include?(:green) %>
         <p class="invert green" style="padding: 1em;">Green (Scissor Lift Certified)</p>
       <% end %>
       <ul>

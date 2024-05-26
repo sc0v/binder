@@ -1,0 +1,30 @@
+<h3>The Stuff</h3>
+  <ul>
+    <% session[:tools] = [] unless session[:tools].present? %>
+    <% session[:tools].each do |tool_id| %>
+    <% t = Tool.find(tool_id) %>
+      <li><strong><%= t.name %></strong> #<%= t.barcode %>&nbsp;&nbsp;
+	<%= link_to 'Remove', remove_tool_path(t), class: 'cta' %></li>
+    <% end %>
+  </ul>
+  <%= form_tag add_tools_path do %>
+    <%= hidden_field_tag :url, params[:url] %>
+    <%= label_tag(:barcode, 'Scan Tool Barcode — or — Type Tool Barcode [Enter]') %>
+    <%= text_field_tag(:barcode, nil, autocomplete: :off, autofocus: :true) %>
+  <% end %>
+
+  <h3>The Borrower</h3>
+  <% if session[:borrower_id].present? %>
+    <%= form_tag checkout_tools_path do %>
+      <% borrower = Participant.find(session[:borrower_id]) %>
+      <h3><%= borrower.name %> (<%= borrower.eppn %>)</h3>
+      <%= collection_select(:checkout, :organization_id, borrower.organizations, :id, :name) %>
+      <%= submit_tag "Complete Checkout", class: 'wide' %>
+      <% end %>
+    <% else %>
+    <%= form_tag checkout_participant_tools_path do %>
+      <%= label_tag(:participant_search, 'Tap/Swipe/Type Andrew ID [Enter]') %>
+      <%= text_field_tag(:participant_search, nil, autocomplete: :off, autofocus: :true) %>
+    <% end %>
+  <% end %>
+  <p class="alignright"><%= link_to 'Reset', reset_tools_path, class: 'cta' %></p>

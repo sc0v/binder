@@ -6,7 +6,7 @@
   <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
   <dd><%= @tool.description %></dd>
   <dt><strong><%= model_class.human_attribute_name(:is_checked_out) %>:</strong></dt>
-  <dd><%= format_boolean(@tool.is_checked_out?) %></dd>
+  <dd><%= @tool.is_checked_out? %></dd>
   <% if @tool.is_checked_out? %>
     <dt><strong>Checked out by:</strong></dt>
     <dd><%= link_to @tool.current_organization.name, @tool.current_organization %> <%= link_to("- #{@tool.current_participant.name}", @tool.current_participant) unless @tool.current_participant.nil? %></dd>

@@ -4,7 +4,7 @@ export default class extends Controller {
     static targets = [ "q" ];
 
     lookupParticipants(event) {
-	
+
 	let url = '../participants/search.json?q=' + this.qTarget.value;
 	let participants = fetch(url)
 	    .then(response => response.json())

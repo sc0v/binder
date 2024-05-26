@@ -5,9 +5,9 @@ class Organization < ApplicationRecord
   belongs_to :organization_category
   has_many :memberships, dependent: :destroy
   has_many :organization_aliases, dependent: :destroy
+  has_many :organization_build_statuses, dependent: :destroy
   has_many :organization_statuses, dependent: :destroy
   has_many :organization_timeline_entries, dependent: :destroy
-  has_many :organization_build_statuses, dependent: :destroy
   has_many :participants, through: :memberships
   has_many :charges, dependent: :destroy
   has_many :tools, through: :checkouts
@@ -44,11 +44,15 @@ class Organization < ApplicationRecord
   end
 
   def remaining_downtime
-    4.hours - downtime
+    (4.hours - downtime).in_hours
   end
 
   def link
     organization_path(self)
+  end
+
+  def downtime_link
+    organization_downtime_index_path(self)
   end
 
   def short_name

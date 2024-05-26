@@ -1,0 +1,24 @@
+<% update_document_title(add: 'Checkout') %>
+<% update_breadcrumbs(add: link_to('Tools',tools_path), ) %>
+<% update_breadcrumbs(add: 'Checkout') %>
+<%= nav(active: 'tools') %>
+<% content_for :head do %>
+<script>
+  
+</script>
+<% end %>
+
+
+<div class="content wide">
+  <h1>Tool Checkout/in</h1>
+</div>
+<div class="grid column2 teal boxes js-list">
+  <div>
+    <h2>Checkout</h2>
+    <%= render partial: 'checkout_form' %>
+  </div>    
+  <div>
+    <h2>Checkin</h2>
+    <%= render partial: 'checkin_form' %>
+  </div>    
+</div>
