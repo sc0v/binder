@@ -1,0 +1,12 @@
+<strong>Developer Participant Picker</strong>
+<ul>
+  <% Participant.all.each do |p| %>
+    <li>
+      <% if Current.user == p %>
+        <strong><%= p.name %></strong>
+      <% else %>
+        <%= link_to "#{p.name}", , method: "impersonate" %>
+      <% end %>
+    </li>
+  <% end %>
+</ul>

@@ -9,8 +9,7 @@
 <% end %>
 
 <div class="content">
-  <%- model_class = StoreItem -%>
-  <% if show_cart? %>
+	<%- model_class = StoreItem -%>
     <div class="page-header">
       <h1>Cart</h1>
     </div>
@@ -23,13 +22,12 @@
                     class: 'btn btn-primary' %>
       <% end %>
     </p>
-  <% end %>
   <div class="page-header">
     <h1>Store</h1>
   </div>
   <p>
     <% if can?(:create, StoreItem) and @organization.blank? %>
-      <%= link_to t('.new_item', default: t('helpers.links.new_item')),
+      <%= link_to t('.new_item', default: t('helpers.lsinks.new_item')),
                   new_store_item_path,
                   class: 'btn btn-primary' %>
     <% end %>

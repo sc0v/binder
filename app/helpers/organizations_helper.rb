@@ -48,6 +48,20 @@ module OrganizationsHelper
       headerFilter: 'input',
       headerFilterPlaceholder: 'Search'
     },
+    {
+      title: 'Downtime Remaining',
+      field: :remaining_downtime,
+      formatter: 'link',
+      formatterParams: {
+        urlField: :downtime_link
+      },
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search',
+      sorter: 'time',
+      sorterParams: {
+        format: 'HH:mm:ss'
+      }
+    },
     { title: 'Structural Queue', hozAlign: 'left' },
     { title: 'Electrical Queue', hozAlign: 'left' },
     { title: 'Downtime', hozAlign: 'left' }

@@ -1,0 +1,12 @@
+<% update_breadcrumbs(add: 'Notes') %>
+<% nav(active: 'notes') %>
+
+<div class="content wide">
+  <div>
+    <h1>Notes</h1>
+    <%= content_tag :div, data:
+      { controller: 'table', config: notes_table_config } do %>
+      Loading...
+    <% end %>
+  </div>
+</div>

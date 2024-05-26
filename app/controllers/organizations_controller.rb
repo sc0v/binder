@@ -11,9 +11,9 @@ class OrganizationsController < ApplicationController
       format.json do
         data =
           organizations.as_json(
-            methods: %i[building? category_name link remaining_downtime]
+            methods: %i[building? category_name link remaining_downtime downtime_link]
           )
-        render json: { last_page: pagy.pages, data: }
+        render json: { last_page: pagy.pages, data: data }
       end
     end
   end
@@ -34,7 +34,7 @@ class OrganizationsController < ApplicationController
             participants.as_json(
               methods: %i[link name signed_waiver? is_booth_chair?]
              )
-          render json: { last_page: pagy.pages, data: }
+          render json: { last_page: pagy.pages, data: data }
         end
       end
 

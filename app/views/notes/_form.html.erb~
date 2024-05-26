@@ -1,0 +1,4 @@
+<%= form_with(model: note) do |form| %>
+<%= form.text_field :title, placeholder: "Title" %>
+<%= form.text_field :value, placeholder: "Note" %>
+<%= form.submit "Save" %>

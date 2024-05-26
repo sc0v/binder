@@ -1,15 +1,19 @@
 <% update_document_title(add: 'Tools') %>
 <% update_breadcrumbs(add: 'Tools') %>
-<% content_for :nav do %>
-  <li><%= link_to('Organizations', organizations_path) %> </li>
-  <li><%= link_to('People', participants_path) %> </li>
-  <li class="active"><%= link_to('Tools', tools_path) %> </li>
-  <li><%= link_to('Store', store_path) %> </li>
-  <li><%= link_to('FAQ', faq_index_path) %> </li>
+<%= nav(active: 'tools') %>
+<% content_for :head do %>
+<script>
+  
+</script>
 <% end %>
 
 <div class="content">
   <div>
+    <h1>Tools</h1>
+    <%= content_tag :div, data:
+        { controller: 'table', config: tools_table_config } do %>
+    Loading...
+    <% end %>
 
 <div>
   <form action='<%= @organization.present? ? organization_tools_path(@organization) : tools_path %>' method='get'>
@@ -60,7 +64,7 @@
               </div>
             </div>
           <% end %>
-          <%= render partial: 'tools', locals: { tools: @tools, organization: @organization } %>
+          <%#= render partial: 'tools', locals: { tools: @tools, organization: @organization } %>
           <%#= will_paginate @tools, renderer: BootstrapPagination::Rails %>
 
 
@@ -69,8 +73,7 @@
 
    </div
     ><div class="sidebar">
-    <% if Current.user.blank? %>
-      <%= render 'sessions/sidebar_login' %>
-    <% end %>
+    <%= render 'tools/checkouts/sidebar' %>
+    <%= render 'layouts/sidebar_defaults' %>
   </div>
 </div>

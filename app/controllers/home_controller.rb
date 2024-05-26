@@ -59,7 +59,7 @@ class HomeController < ApplicationController
   end
 
   def downtime
-    @organizations = Organization.only_categories(%w[Fraternity Sorority Independent Blitz Concessions])
+    @organizations = Organization.all
     authorize! :read, @organizations
   end
 

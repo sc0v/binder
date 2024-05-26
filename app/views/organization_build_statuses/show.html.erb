@@ -13,6 +13,7 @@
   <div>
     <h1><%=@status_name%> Progress</h1>
     <!--See Tasks (right now a table, maybe change?)-->
+    <% if @build_steps.length() > 0 %>
     <table>
       <thead>
         <tr> 
@@ -27,9 +28,13 @@
       <tbody>
         <% @build_steps.each do |step| %>
           <tr>
-            <th><%= link_to(step.title, [@organization, @organization_build_status, step]) %></th>
+	  <th><%= link_to(step.title, [@organization, @organization_build_status, step]) %></th>
+	    <% if step.requirements.length() > 20 %>
+            <th><%= step.requirements[0..20] %>...</th>
+            <% else %>
             <th><%= step.requirements %></th>
-            <% if step.completed %>
+            <% end %>
+	    <% if step.completed %>
             <th>Yes!</th>
             <% else %>
             <th>No</th>
@@ -44,6 +49,9 @@
         <% end %>
       </tbody>
     </table>
+    <% else %>
+    No Requirements Listed!
+    <% end %>
 
     <!-- Form to Add Steps (Only see if an SCC member) --> 
     <% if can?(:create, OrganizationBuildStep) %>
@@ -59,4 +67,5 @@
     <%= render 'organization_timeline_entries/queue_sidebar' %>
   </div>
 </div>
+
 
