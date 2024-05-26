@@ -5,7 +5,9 @@
       <% if Current.user == p %>
         <strong><%= p.name %></strong>
       <% else %>
-        <%= link_to "#{p.name}", , method: "impersonate" %>
+        <%= form_with url: impersonate_path(participant_id: p.id), method: :post do |form| %>
+          <%= submit_tag "Impersonate #{p.name}" %>
+        <% end %>
       <% end %>
     </li>
   <% end %>
