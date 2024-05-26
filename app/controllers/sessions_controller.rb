@@ -3,10 +3,11 @@ class SessionsController < ApplicationController
   before_action :setup_mock_auth, if: -> { Rails.env.development? && params[:participant_key] }
 
   def create
-    if Rails.env.development?
+    unless Rails.env.production?
       auth_hash = OmniAuth.config.mock_auth[:shibboleth]
       participant = Participant.from_omniauth(auth_hash)
-      session[:user_id] = participant.id
+      #session[:user_id] = participant.id (???)
+      cookies.encrypted[:user_id] = load_user(request.env['omniauth.auth'])
       flash[:notice] = "Logged in as #{participant.name}"
       redirect_to root_url
     else

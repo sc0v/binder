@@ -50,4 +50,5 @@ unless Rails.env.production?
       }
     )
   end
+  set_mock_auth("mock_participant")
 end
