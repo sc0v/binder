@@ -13,6 +13,7 @@ scc_participant:
   cached_email: binder+scc_participant@springcarnival.org
   cached_name: SCC Committee
   eppn: jmmclaug@andrew.cmu.edu
+  organizations: scc
 
 booth_chair_participant:
   cached_email: binder+booth_chair_participant@springcarnival.org

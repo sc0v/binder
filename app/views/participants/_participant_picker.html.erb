@@ -5,9 +5,7 @@
       <% if Current.user == p %>
         <strong><%= p.name %></strong>
       <% else %>
-        <%= form_with url: impersonate_path(participant_id: p.id), method: :post do |form| %>
-          <%= submit_tag "Impersonate #{p.name}" %>
-        <% end %>
+        <%= link_to "#{p.name}", impersonate_path(participant_id: p.id), data: {turbo_method: :post} %>
       <% end %>
     </li>
   <% end %>
