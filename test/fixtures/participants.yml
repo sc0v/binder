@@ -1,23 +1,22 @@
-mock_participant:
+admin_participant:
   cached_email: andrewcarnegie0@andrew.cmu.edu
   cached_name: Andrew Carnegie
   eppn: andrewcarnegie0@andrew.cmu.edu
-  organizations: scc, aepi
-
-admin_participant:
-  cached_email: binder+admin_participant@springcarnival.org
-  cached_name: Admin Participant
-  eppn: ayk2@andrew.cmu.edu
+  admin: true
 
 scc_participant:
   cached_email: binder+scc_participant@springcarnival.org
   cached_name: SCC Committee
-  eppn: jmmclaug@andrew.cmu.edu
-  organizations: scc
+  eppn: katelynz@andrew.cmu.edu
 
 booth_chair_participant:
   cached_email: binder+booth_chair_participant@springcarnival.org
-  cached_name: Booth Chair
+  cached_name: SigNu Booth Chair
+  eppn: jmmclaug@andrew.cmu.edu
+
+builder_participant:
+  cached_email: binder+booth_builder_participant@springcarnival.org
+  cached_name: AEPi Builder
   eppn: cmwu2@andrew.cmu.edu
 
 rando_participant:

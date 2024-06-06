@@ -1,12 +1,12 @@
-<strong>Developer Participant Picker</strong>
-<ul>
+<div class="red invert">
+  <h2>Developer Participant Picker</h2>
   <% Participant.all.each do |p| %>
-    <li>
+    <p class="aligncenter">
       <% if Current.user == p %>
-        <strong><%= p.name %></strong>
+          <%= link_to "#{p.name}", impersonate_path(participant_id: p.id), data: {turbo_method: :post}, class: "btn wide" %>
       <% else %>
-        <%= link_to "#{p.name}", impersonate_path(participant_id: p.id), data: {turbo_method: :post} %>
+          <%= link_to "#{p.name}", impersonate_path(participant_id: p.id), data: {turbo_method: :post}, class: "btn ghost wide" %>
       <% end %>
-    </li>
+    </p>
   <% end %>
-</ul>
+</div>
