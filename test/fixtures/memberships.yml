@@ -1,0 +1,15 @@
+admin_participant_scc:
+  organization: scc
+  participant: admin_participant
+
+scc_participant_scc:
+  organization: scc
+  participant: scc_participant
+
+booth_chair_participant_signu:
+  organization: signu
+  participant: booth_chair_participant
+
+builder_participant_aepi:
+  organization: aepi
+  participant: builder_participant

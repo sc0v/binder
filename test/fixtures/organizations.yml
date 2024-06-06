@@ -152,3 +152,8 @@ senate:
   name: Undergraduate Senate
   short_name: Senate
   organization_category: service-non-building
+
+signu:
+  name: Sigma Nu
+  short_name: SigNu
+  organization_category: Fraternity

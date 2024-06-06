@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
     unless Rails.env.production?
       auth_hash = OmniAuth.config.mock_auth[:shibboleth]
       participant = Participant.from_omniauth(auth_hash)
-      #session[:user_id] = participant.id (???)
+      #session[:user_id] = participant.id (not necessary???)
       cookies.encrypted[:user_id] = load_user(request.env['omniauth.auth'])
       flash[:notice] = "Logged in as #{participant.name}"
       redirect_to root_url
@@ -25,8 +25,7 @@ class SessionsController < ApplicationController
     participant = Participant.find_by(id: params[:participant_id])
     if participant
       cookies.encrypted[:user_id] = participant.id
-      flash[:notice] = "Now impersonating #{participant.name}"
-      redirect_to root_path
+      redirect_to root_path, notice: "Now impersonating #{participant.name}"
     else
       redirect_to root_path, alert: "Participant not found."
     end

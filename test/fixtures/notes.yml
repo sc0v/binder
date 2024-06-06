@@ -1,39 +1,39 @@
 one:
-  participant: mock_participant
+  participant: admin_participant
   organization: scc
   hidden: false
   title: Party Parrot
   value: In the notes
 
 two:
-  participant: mock_participant
+  participant: admin_participant
   organization: scc
   hidden: false
   title: Dumpsters
   value: Extra coming @3am
 
 three:
-  participant: mock_participant
+  participant: admin_participant
   organization: scc
   hidden: false
   title: Food Coming
   value: Nugs power hour arriving at 8pm
 
 four:
-  participant: mock_participant
+  participant: admin_participant
   organization: scc
   hidden: false
   value: Help I'm Trapped
 
 five:
-  participant: scc_participant
+  participant: admin_participant
   organization: scc
   hidden: false
   title: Shenanigans
   value: Asad unfortunately did not get stuck on the Ferris Wheel
 
 six:
-  participant: mock_participant
+  participant: admin_participant
   organization: scc
   hidden: true
   value: Help I've been hidden
