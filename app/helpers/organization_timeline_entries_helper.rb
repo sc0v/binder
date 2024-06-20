@@ -13,7 +13,6 @@ module OrganizationTimelineEntriesHelper
     end
 
     def date_and_time(display_date_and_time)
-        #[date(display_date_and_time), time(display_date_and_time)].compact.join(' ')
-        display_date_and_time
+        [display_date_and_time.to_date.strftime('%m/%d/%Y'), display_date_and_time.strftime("%H:%M %p")].compact.join(' ')
     end
 end 
