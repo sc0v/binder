@@ -1,9 +1,30 @@
-<% if can?(:create, @participant) %>
-  <%- model_class = Participant -%>
-  <div class="page-header">
-    <h1><%= t '.title', default: [:'helpers.titles.new', 'New %<model>s'], model: model_class.model_name.human %></h1>
-  </div>
-  <%= render 'form' %>
+<!-- Breadcrumb and Nav Depend on Route (from organization vs. from participant) -->
+<% if @organization %>
+  <% update_document_title(add: 'Organizations') %>
+  <% update_breadcrumbs(add: link_to('Organizations', organizations_path)) %>
+  <% update_breadcrumbs(add: link_to(@organization.name, organization_path(@organization))) %>
+  <% update_breadcrumbs(add: 'New Members') %>
+  <% nav(active: 'participants') %>
 <% else %>
-  <h3>Not Authorized!</h3>
+  <% update_document_title(add: 'Participants') %>
+  <% update_breadcrumbs(add: link_to('Participants', participants_path)) %>
+  <% update_breadcrumbs(add: 'New Participant') %>
+  <% nav(active: 'participants') %>
 <% end %>
+
+<div class="content">
+  <div>
+    <% if can?(:create, @participant) %>
+      <%- model_class = Participant -%>
+      <div class="page-header">
+        <h1><%= t '.title', default: [:'helpers.titles.new', 'New %<model>s'], model: model_class.model_name.human %></h1>
+      </div>
+      <%= render 'new_participant_form' %>
+    <% else %>
+      <h3>Not Authorized! (replace me with actual link back in controller!)</h3>
+    <% end %>
+  </div><div class="sidebar">
+    Add CSV stuff here...
+  </div>
+</div>
+

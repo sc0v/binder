@@ -12,15 +12,17 @@
 </ul>
 <!-- Details -->
 <div class="tab-content" style="margin-bottom: 20px;">
+  <% if false %>
   <div id="chairs" class="tab-pane active">
     <%= render partial: 'participants/organization_booth_chair_list', object: @booth_chairs %>
   </div>
+  <% end %>
   <% if can?(:read_basic_details, @organization) %>
     <div id="members" class="tab-pane">
       <%= render partial: 'participants/organization_participant_list', object: @participants %>
     </div>
     <div id="shifts" class="tab-pane">
-      <%= render partial: 'shifts/organization_shift_list.html.erb', object: @shifts %>
+      <%= render partial: 'shifts/organization_shift_list', object: @shifts %>
     </div>
     <div id="tools" class="tab-pane">
       <%= render partial: 'tools/organization_tool_list', object: @tools %>

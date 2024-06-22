@@ -17,7 +17,7 @@
         <tr>
           <td><%= link_to participant.name, participant %></td>
           <td><%= link_to participant.eppn, participant %></td>
-          <td><%= participant.has_signed_waiver ? 'yes' : 'no' %></td>
+          <td><%= participant.signed_waiver ? 'yes' : 'no' %></td>
           <% if can?(:read_phone_number, Participant) %>
             <td><%= participant.formatted_phone_number if can?(:read_phone_number, participant) %></td>
             <% @membership = participant.memberships.find_by(organization_id: @organization.id) %>
