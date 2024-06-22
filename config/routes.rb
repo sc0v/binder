@@ -107,10 +107,12 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
               controller: :organization_statuses,
               as: :organization_statuses
     resources :organization_build_statuses do
-	resources :organization_build_steps
+	    resources :organization_build_steps
     end
 
-    resources :participants, only: [:index]
+    resources :participants, only: %i[new create index], 
+      controller: "organization_members"
+    patch 'remove_staged', to: 'organization_members#remove_staged'
 
     resources :shifts, only: [:index]
     resources :tools, only: [:index]
@@ -141,7 +143,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   # Direct link to a participant's own resource
   get 'profile', to: 'participants#show', as: :profile
 
-  resources :participants, except: :new do
+  resources :participants do
     get 'search', on: :collection
 
     resources :memberships, except: %i[index show]

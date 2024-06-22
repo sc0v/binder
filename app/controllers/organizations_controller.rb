@@ -19,11 +19,11 @@ class OrganizationsController < ApplicationController
   end
 
   def show
-    # @booth_chairs = @organization.booth_chairs
-    # @tools = Tool.checked_out_by_organization(@organization).just_tools
-    # @shifts = @organization.shifts
-    # @participants = @organization.participants
-    # @charges = @organization.charges
+    @booth_chairs = @organization.booth_chairs
+    @tools = Tool.checked_out_by_organization(@organization).just_tools
+    @shifts = @organization.shifts
+    @participants = @organization.participants
+    @charges = @organization.charges
 
       pagy, participants =
         pagy(@organization.participants.accessible_by(Current.ability).ordered_by_name)
