@@ -1,4 +1,6 @@
 class OrganizationMembersController < ApplicationController
+  include Pagy::Backend
+
   def new
     @organization = Organization.find(params[:organization_id])
     staged = @organization.memberships.where(is_staged: true)
@@ -36,6 +38,24 @@ class OrganizationMembersController < ApplicationController
       end
     else
       redirect_to back, alert:  "Failed to add member #{params[:participant][:andrewid]}!"
+    end
+  end
+
+  def index
+    @organization = Organization.find(params[:organization_id])
+    @organization_participants = Participant.in_organization(@organization)
+                                  .ordered_by_name
+    pagy, @members =
+      pagy(@organization_participants)
+    respond_to do |format|
+      format.html
+      format.json do
+        data =
+          @members.as_json(
+            methods: %i[link name signed_waiver? is_booth_chair?]
+            )
+        render json: { last_page: pagy.pages, data: }
+      end
     end
   end
 

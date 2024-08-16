@@ -1,9 +1,0 @@
-<% if can?(:create, @organization_status) %>
-  <%- model_class = OrganizationStatus -%>
-  <div class="page-header">
-    <h1>Add Status Entry for <%= @organization.name %></h1>
-  </div>
-  <%= render 'form' %>
-<% else %>
-  <h3>Not Authorized!</h3>
-<% end %>

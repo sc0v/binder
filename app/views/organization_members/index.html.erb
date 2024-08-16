@@ -1,0 +1,15 @@
+<% update_document_title(add: 'Organizations') %>
+<% update_breadcrumbs(add: link_to('Organizations', organizations_path)) %>
+<% update_breadcrumbs(add: link_to(@organization.name, organization_path(@organization))) %>
+<% update_breadcrumbs(add: 'Members') %>
+<% nav(active: 'organizations') %>
+
+<div class="content wide">
+  <div>
+    <h1><%= @organization.name %> Members</h1>
+    <%= content_tag :div, data:
+        { controller: 'table', config: organization_members_table_config } do %>
+    Loading...
+    <% end %>
+  </div>
+</div>
