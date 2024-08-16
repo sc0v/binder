@@ -40,7 +40,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   get 'applets', to: 'applets#index', as: :applets
   get 'ppe-distribution', to: 'applets/ppe_distribution#index'
 
-# FAQ
+  # FAQ
   # n.b.: FAQ is uncountable (like sheep). The Rails convention is to have:
   #   faq_path -> show & faq_index_path -> index
   # So even though we do not have a show, we want to minimize antipatterns.
@@ -93,21 +93,13 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
 
   # TODO: Confirm everything below
-  resources :event_types
-  resources :events do
-    member { post 'approve' }
-  end
-
   resources :organizations do
     resources :aliases,
               controller: :organization_aliases,
               shallow: true,
               only: %i[create new destroy index]
-    resources :statuses,
-              controller: :organization_statuses,
-              as: :organization_statuses
-    resources :organization_build_statuses do
-	    resources :organization_build_steps
+    resources :organization_build_statuses, only: [:show] do
+	    resources :organization_build_steps, only: %i[show create update destroy]
     end
 
     resources :participants, only: %i[new create index], 
@@ -123,16 +115,17 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
               only: [:index]
     resources :memberships, only: %i[new create destroy]
   end
+
   resources :organization_timeline_entries,
-            controller: :organization_timeline_entries,
             only: %i[show edit create update destroy] do
     put 'end', on: :member
   end
-  resources :organization_timeline_entries,
-            path: :downtime,
-            as: :downtime,
-            only: %i[edit create update destroy]
   get 'downtime', to: 'home#downtime'
+
+  resources :event_types
+  resources :events do
+    member { post 'approve' }
+  end
 
   resources :charges do
     put 'approve', on: :member
@@ -161,11 +154,6 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   resources :tasks do
     member { post 'complete' }
   end
-  #resources :tools do
-  #  resources :checkouts, only: %i[new create update index] do
-  #    post 'choose_organization', on: :collection
-  #  end
-  #end
 
   resources :tool_types, except: [:show]
 
@@ -212,7 +200,6 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       :as => 'structural'
   get 'electrical' => 'organization_timeline_entries#electrical',
       :as => 'electrical'
-  get 'tappything' => 'tappything#lookup'
 
   resources :users
 end
