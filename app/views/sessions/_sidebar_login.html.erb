@@ -1,3 +1,4 @@
+<% if Rails.env.production? %>
 <div class="red invert">
   <h1>Sign in to Binder</h1>
   <p> You must be logged in to watch the safety video and sign the waiver. </p>
@@ -11,3 +12,4 @@
     to Binder.
   </p>
 </div>
+<% end %>

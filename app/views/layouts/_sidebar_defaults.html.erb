@@ -1,3 +1,7 @@
+<!-- Developer Participant Dropdown -->
+<% unless Rails.env.production? %>
+  <%= render 'participants/participant_picker' %>
+<% end %>
 <% if can?(:login, Participant) %>
   <%= render 'sessions/sidebar_login' %>
 <% elsif Current.user.cannot?(:participate, :carnival) %>

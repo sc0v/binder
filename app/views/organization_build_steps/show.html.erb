@@ -1,0 +1,46 @@
+<% update_document_title(add: 'Organizations') %>
+<% update_breadcrumbs(add: link_to('Organizations', organizations_path)) %>
+<% update_breadcrumbs(add: link_to(@organization.name, organization_path(@organization))) %>
+<% update_breadcrumbs(add: link_to(@status_name + " Progress", [@organization, @organization_build_status])) %>
+<% update_breadcrumbs(add: @organization_build_step.title) %>
+<% content_for :nav do %>
+  <li class="active"><%= link_to('Organizations', organizations_path) %> </li>
+  <li><%= link_to('People', participants_path) %> </li>
+  <li><%= link_to('Tools', tools_path) %> </li>
+  <li><%= link_to('Store', store_path) %> </li>
+  <li ><%= link_to('FAQ', faq_index_path) %> </li>
+<% end %>
+<div class="content">
+  <div>
+    <h1><%=@organization_build_step.title%></h1>
+    <%if @requirements != nil && @requirements.length > 0 %>
+      <p><%=@organization_build_step.requirements%></p>
+    <%else%>
+      <p>No Requirements Listed</p>
+    <%end%>
+  </div><div class="sidebar">
+    <%if @completed %>
+      <p class="invert green" style="padding: 1em;">
+      COMPLETED!
+      </p>
+    <%else%>
+      <p class="invert red" style="padding: 1em;">
+      NOT COMPLETED!
+      </p>
+    <%end%>
+    <% if can?(:update, OrganizationBuildStep) %>
+      </br>
+      <%= form_with model: [@organization, @organization_build_status, @organization_build_step] do |f| %>
+        <%= hidden_field_tag 'update_type', :approved %>
+        <%= hidden_field_tag 'url', request.original_fullpath %>
+        <% if @organization_build_step.completed %>
+          <%= f.submit 'Unapprove', class: 'btn wide' %>
+        <% else %>
+          <%= f.submit 'Approve', class: 'btn wide' %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>
+
+

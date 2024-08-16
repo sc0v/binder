@@ -18,7 +18,10 @@ class ToolCartController < ApplicationController
     end
 
     session[:tool_cart].append(@tool.barcode)
-    render action: 'add_tool', locals: { count: session[:tool_cart].size }
+    respond_to do |format|
+      format.js { render file: 'tools_cart/add_tool' }
+    end
+    #render action: 'add_tool', locals: { count: session[:tool_cart].size }
   end
 
   def remove_tool

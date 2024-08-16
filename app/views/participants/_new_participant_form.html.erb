@@ -1,0 +1,8 @@
+<%= form_with model: [@organization, Participant.new] do |form| %>
+  <%= form.label :andrewid, "AndrewID"%>
+  <%= form.text_field :andrewid %>
+  <%= form.check_box :booth_chair %>
+  <%= form.label :booth_chair, "Booth Chair" %>
+  <br></br>
+  <%= form.submit "Add Participant" %>
+<% end %>

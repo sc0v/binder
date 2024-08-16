@@ -3,7 +3,7 @@
 class MembershipsController < ApplicationController
   load_and_authorize_resource
   skip_load_resource only: %i[new create update]
-  responders :flash, :http_cache
+  #responders :flash, :http_cache
 
   # GET /memberships
   # GET /memberships.json

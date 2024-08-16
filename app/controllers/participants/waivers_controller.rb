@@ -14,7 +14,8 @@ class Participants::WaiversController < ApplicationController
   def update
     @participant.assign_attributes(participant_params)
     if @participant.save(context: :waiver_signing)
-      redirect_to @participant, notice: t('.notice', name: @participant.name)
+      #redirect_to @participant, notice: t('.notice', name: @participant.name)
+      redirect_to profile_path, notice: t('.notice', name: @participant.name)
     else
       # TODO: Don't leak participant_id in uri on personal paths
       @participant.restore_attributes

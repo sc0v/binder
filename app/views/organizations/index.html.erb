@@ -1,12 +1,6 @@
 <% update_document_title(add: 'Organizations') %>
 <% update_breadcrumbs(add: 'Organizations') %>
-<% content_for :nav do %>
-  <li class="active"><%= link_to('Organizations', organizations_path) %> </li>
-  <li><%= link_to('People', participants_path) %> </li>
-  <li><%= link_to('Tools', tools_path) %> </li>
-  <li><%= link_to('Store', store_path) %> </li>
-  <li ><%= link_to('FAQ', faq_index_path) %> </li>
-<% end %>
+<% nav(active: 'organizations') %>
 
 <div class="content wide">
   <div>

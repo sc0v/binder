@@ -19,12 +19,17 @@ class Ability
 
     # Notes
     if user.present?
-      can :read, Note, participant_id: user.id
+      can :read, Note, %i[hidden? organization_name organization_link participant_name participant_link], participant_id: user.id
       can :read, Note, organization: { memberships: { participant_id: user.id } }
+      
+      
+      if user.scc?
+        #can
+      end
     end
 
     # Organizations
-    can :read, Organization, %i[id name short_name building? category_name]
+    can :read, Organization, %i[id name short_name building? category_name downtime_link remaining_downtime]
     if user.present?
       # TODO: request to join
       # cannot request to join, Organization, organization_category: { lookup_key: 'admin' }
@@ -59,16 +64,30 @@ class Ability
       can :update, Participant, %i[phone_number], id: user.id
     end
 
+    # Organization Timeline Entries (Electrical Queue, Structural Queue, Downtime)
+    # TODO: Restrict downtime
+    if user.present?
+      can :manage, OrganizationTimelineEntry,
+        organization: { memberships: { participant: user } }
+    end
+    
     # Session
     can :login, Participant if user.blank?
 
     # Tools
-    #if user.scc?
+    if user.present? && user.scc?
       can :read,
           Tool,
           %i[name link is_checked_out? current_organization current_participant]
-    #end
+    end
 
+    # SCC fallback with corrections
+    if user.present? && user.scc?
+      can :manage, :all
+      cannot :participate, :carnival # show waiver prompts
+      cannot :login, Participant # hide login prompts
+    end
+    
     # Admin fallback with corrections
     if user.present? && user.admin?
       can :manage, :all
@@ -80,6 +99,7 @@ class Ability
     can :participate, :carnival if user.present? && user.signed_waiver?
 
     # TODO: Work through abilities
+    # TODO: I thought we had to remove this "return" but it was in live binder...
     return
 
     return if user.blank?
@@ -122,8 +142,6 @@ class Ability
 
     can :read, StoreItem
 
-    can %i[read structural electrical], OrganizationTimelineEntry
-
     if user.is_booth_chair?
       can :read, [ChargeType, Checkout, Shift]
       can :read_basic_details, Organization
@@ -148,16 +166,35 @@ class Ability
         s.shift.organization.booth_chairs.include?(user)
       end
 
-      can %i[create end], OrganizationTimelineEntry do |e|
-        %w[structural electrical].include?(e.entry_type) &&
-          e.organization.booth_chairs.include?(user)
-      end
-
       can :read, OrganizationStatus do |s|
         s.organization.booth_chairs.include?(user)
       end
     end
 
+#          can :read,
+#          FAQ,
+#          organization_category: {
+#            organizations: {
+#              memberships: {
+#                participant_id: user.id
+#              }
+#            }
+#          }
+
+
+ #   can %i[create edit update structural electrical], OrganizationTimelineEntry #,
+
+    
+# do |e|
+#      e.organization&.participants&.include?(user)
+#    end
+
+#      %w[structural electrical].include?(e.entry_type) &&
+#      e.organization.participants.include?(user)
+#    end
+
+
+    
     if user.scc?
       can :read, :all
 

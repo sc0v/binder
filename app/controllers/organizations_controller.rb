@@ -11,19 +11,19 @@ class OrganizationsController < ApplicationController
       format.json do
         data =
           organizations.as_json(
-            methods: %i[building? category_name link remaining_downtime]
+            methods: %i[building? category_name link remaining_downtime downtime_link]
           )
-        render json: { last_page: pagy.pages, data: }
+        render json: { last_page: pagy.pages, data: data }
       end
     end
   end
 
   def show
-    # @booth_chairs = @organization.booth_chairs
-    # @tools = Tool.checked_out_by_organization(@organization).just_tools
-    # @shifts = @organization.shifts
-    # @participants = @organization.participants
-    # @charges = @organization.charges
+    @booth_chairs = @organization.booth_chairs
+    @tools = Tool.checked_out_by_organization(@organization).just_tools
+    @shifts = @organization.shifts
+    @participants = @organization.participants
+    @charges = @organization.charges
 
       pagy, participants =
         pagy(@organization.participants.accessible_by(Current.ability).ordered_by_name)
@@ -34,7 +34,7 @@ class OrganizationsController < ApplicationController
             participants.as_json(
               methods: %i[link name signed_waiver? is_booth_chair?]
              )
-          render json: { last_page: pagy.pages, data: }
+          render json: { last_page: pagy.pages, data: data }
         end
       end
 

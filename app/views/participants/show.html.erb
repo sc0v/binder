@@ -1,19 +1,29 @@
 <% update_document_title(add: 'People') %>
-<% update_breadcrumbs(add: link_to('People', participants_path)) %>
+<% update_breadcrumbs(add: link_to('Participants', participants_path)) %>
 <% update_breadcrumbs(add: @participant.name) %>
-<% content_for :nav do %>
-  <li><%= link_to('Organizations', organizations_path) %> </li>
-  <li class="active"><%= link_to('People', participants_path) %> </li>
-  <li><%= link_to('Tools', tools_path) %> </li>
-  <li><%= link_to('Store', store_path) %> </li>
-  <li><%= link_to('FAQ', faq_index_path) %> </li>
-<% end %>
+<% nav(active: 'participants') %>
 
 <div class="content">
   <div>
     <h1><%= @participant.name %></h1>
+  </div>
+</div>
 
-    <h2>Directory Information</h2>
+<% unless @participant.signed_waiver? %>
+<div class="content wide red invert none">
+  <div>
+    <h2>Has not signed waiver!</h2><strong> No wristbands. No rentals. No PPE.</strong>
+  </div>
+</div>
+<% end %>
+
+<div class="content">
+  <div>
+    <% if @participant.signed_waiver? %>
+  <p class="invert green" style="padding: 1em;">
+   HAS SIGNED WAIVER <i class="fa fa-camera-retro fa-lg"></i> fa-lg
+  </p>
+  <% end %>
     <p>
       <strong>EPPN:</strong> <%= @participant.eppn %><br />
       <strong>Phone:</strong> <%= @participant.formatted_phone_number %><br /> 
@@ -57,8 +67,6 @@
       <% end %>
     </ul>
     <% end %>
-</div><div class="sidebar">
-  <%= render 'layouts/sidebar_defaults' %>
 
   <% if @participant.signed_waiver? %>
   <p class="invert green" style="padding: 1em;">
@@ -67,13 +75,13 @@
     <div>
       <h2>Wristbands</h2>
     Put the following <%= "wristband".pluralize(@participant.wristbands) %> on their wrist. <strong>Don't just give it to them!</strong>
-      <% if @participant.wristbands.include? :red %>
+      <% if @participant.wristbands.present? && @participant.wristbands.include?(:red) %>
         <p class="invert red" style="padding: 1em;">Red (Member of at least one organization that will be building)</p>
       <% end %>
-      <% if @participant.wristbands.include? :blue %>
+      <% if @participant.wristbands.present? && @participant.wristbands.include?(:blue) %>
         <p class="invert blue" style="padding: 1em;">Blue (Member of no organizations that will be building)</p>
       <% end %>
-      <% if @participant.wristbands.include? :green %>
+      <% if @participant.wristbands.present? && @participant.wristbands.include?(:green) %>
         <p class="invert green" style="padding: 1em;">Green (Scissor Lift Certified)</p>
       <% end %>
       <% end %>

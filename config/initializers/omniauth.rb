@@ -17,17 +17,38 @@ end
 
 OmniAuth.config.logger = Rails.logger
 
+# unless Rails.env.production?
+#   OmniAuth.config.test_mode = true
+
+#   OmniAuth.config.mock_auth[:shibboleth] = OmniAuth::AuthHash.new(
+#     {
+#       provider: 'shibboleth',
+#       uid: 'andrewcarnegie0@andrew.cmu.edu',
+#       name: 'Andrew Carnegie',
+#       info: {
+#         email: 'andrewcarnegie0@andrew.cmu.edu'
+#       }
+#     }
+#   )
+# end
+
 unless Rails.env.production?
   OmniAuth.config.test_mode = true
+  participants_path = Rails.root.join('test', 'fixtures', 'participants.yml')
+  PARTICIPANTS = YAML.load_file(participants_path)
 
-  OmniAuth.config.mock_auth[:shibboleth] = OmniAuth::AuthHash.new(
-    {
+  def set_mock_auth(participant_key)
+    participant = PARTICIPANTS[participant_key]
+    raise "No participant found for key: #{participant_key}" unless participant
+
+    OmniAuth.config.mock_auth[:shibboleth] = OmniAuth::AuthHash.new(
       provider: 'shibboleth',
-      uid: 'andrewcarnegie0@andrew.cmu.edu',
-      name: 'Andrew Carnegie',
+      uid: participant['eppn'],
       info: {
-        email: 'andrewcarnegie0@andrew.cmu.edu'
+        name: participant['cached_name'],
+        email: participant['cached_email']
       }
-    }
-  )
+    )
+  end
+  set_mock_auth("admin_participant")
 end

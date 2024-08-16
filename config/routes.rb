@@ -36,6 +36,10 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     "https://www.gravatar.com/avatar/#{hash}?d=mp&s=#{size}"
   end
 
+  # Applets/Workflows
+  get 'applets', to: 'applets#index', as: :applets
+  get 'ppe-distribution', to: 'applets/ppe_distribution#index'
+
   # FAQ
   # n.b.: FAQ is uncountable (like sheep). The Rails convention is to have:
   #   faq_path -> show & faq_index_path -> index
@@ -69,28 +73,38 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     end
   end
 
-  get 'applets', to: 'applets#index', as: :applets
-  get 'ppe-distribution', to: 'applets/ppe_distribution#index'
+  # SCC Help Queues
+  resources :queues
 
-  # TODO: Confirm everything below
-  resources :event_types
-  resources :events do
-    member { post 'approve' }
+  # Tools
+  resources :tools do
+    member do
+      get :remove, to: 'tools/checkouts#remove'
+    end
+    collection do
+      post :add, to: 'tools/checkouts#add'
+      post :checkout_participant, to: 'tools/checkouts#participant'
+      get :checkout, to: 'tools/checkouts#new'
+      post :checkout, to: 'tools/checkouts#create'
+      post :checkin, to: 'tools/checkouts#update'
+      get :reset, to: 'tools/checkouts#reset'
+    end
+    resources :checkouts, controller: 'tools/checkouts'
   end
 
+  # TODO: Confirm everything below
   resources :organizations do
     resources :aliases,
               controller: :organization_aliases,
               shallow: true,
               only: %i[create new destroy index]
-    resources :statuses,
-              controller: :organization_statuses,
-              as: :organization_statuses
-    resources :organization_build_statuses do
-      resources :organization_build_steps
+    resources :organization_build_statuses, only: [:show] do
+	    resources :organization_build_steps, only: %i[show create update destroy]
     end
 
-    resources :participants, only: [:index]
+    resources :participants, only: %i[new create index], 
+      controller: "organization_members"
+    patch 'remove_staged', to: 'organization_members#remove_staged'
 
     resources :shifts, only: [:index]
     resources :tools, only: [:index]
@@ -101,16 +115,17 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
               only: [:index]
     resources :memberships, only: %i[new create destroy]
   end
+
   resources :organization_timeline_entries,
-            controller: :organization_timeline_entries,
             only: %i[show edit create update destroy] do
     put 'end', on: :member
   end
-  resources :organization_timeline_entries,
-            path: :downtime,
-            as: :downtime,
-            only: %i[edit create update destroy]
   get 'downtime', to: 'home#downtime'
+
+  resources :event_types
+  resources :events do
+    member { post 'approve' }
+  end
 
   resources :charges do
     put 'approve', on: :member
@@ -121,7 +136,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   # Direct link to a participant's own resource
   get 'profile', to: 'participants#show', as: :profile
 
-  resources :participants, except: :new do
+  resources :participants do
     get 'search', on: :collection
 
     resources :memberships, except: %i[index show]
@@ -138,11 +153,6 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
   resources :tasks do
     member { post 'complete' }
-  end
-  resources :tools do
-    resources :checkouts, only: %i[new create update index] do
-      post 'choose_organization', on: :collection
-    end
   end
 
   resources :tool_types, except: [:show]
@@ -163,6 +173,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       get 'review', action: 'new'
       post 'checkout', action: 'create'
       post 'choose_organization'
+      delete 'clear_cart', action: 'clear_cart', as: 'clear_cart'
     end
   end
 
@@ -189,7 +200,6 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       :as => 'structural'
   get 'electrical' => 'organization_timeline_entries#electrical',
       :as => 'electrical'
-  get 'tappything' => 'tappything#lookup'
 
   resources :users
 end

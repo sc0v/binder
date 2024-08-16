@@ -1,13 +1,14 @@
 .notes h2 {
-  font-weight: bold;
   font-size: 1rem;
-  padding-bottom: 0.5em;
+  padding-bottom: 0.25em;
 }
 
 .notes p {
-  font-family: 'Reenie Beanie';
-  font-size: 2rem;
-  line-height: 1em;
+  font-family: "Patrick Hand", cursive;
+  font-size: 1.25rem;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 1.2em;
   padding-top: 0;
 }
 

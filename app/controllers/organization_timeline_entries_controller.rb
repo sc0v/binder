@@ -1,7 +1,7 @@
 # frozen_string_literal: true
-
 class OrganizationTimelineEntriesController < ApplicationController
-  authorize_resource
+  load_and_authorize_resource
+  #authorize_resource
   before_action :set_organization_timeline_entry, only: %i[update destroy end show]
 
   def index
@@ -22,25 +22,20 @@ class OrganizationTimelineEntriesController < ApplicationController
   # POST /organizations_timeline_entries.json
   def create
     @organization_timeline_entry = OrganizationTimelineEntry.new(organization_timeline_entry_params)
-    @organization_timeline_entry.started_at = DateTime.now
+    @organization_timeline_entry.started_at = Time.now
     @organization_timeline_entry.entry_type = case params[:commit]
                                               when 'Structural' then 'structural'
                                               when 'Electrical' then 'electrical'
                                               else 'downtime'
                                               end
 
-    authorize! :create, @organization_timeline_entry
-
     if @organization_timeline_entry.already_in_queue?
-      redirect_to :back, alert: "You're already on the queue!"
-      return
-    end
-
-    if @organization_timeline_entry.valid?
-      @organization_timeline_entry.save
-      redirect_to params[:url], notice: 'Added to Queue!'
+      redirect_to params[:url], alert: "You're already on the queue!"
+    elsif @organization_timeline_entry.save
+      redirect_to params[:url], notice: t('.notice', name: @organization_timeline_entry.entry_type)
     else
-      redirect_to :back, alert: 'Missing Organization Name!'
+      flash.now[:alert] = t('.alert')
+      render :new, status: :unprocessable_entity
     end
   end
 
@@ -58,7 +53,7 @@ class OrganizationTimelineEntriesController < ApplicationController
 
     @organization_timeline_entry.ended_at = DateTime.now
     @organization_timeline_entry.save
-    redirect_to params[:url], notice: 'Added to Queue!'
+    redirect_to params[:url], notice: 'Removed from Queue!'
   end
 
   # DELETE /organizations_timeline_entry/1

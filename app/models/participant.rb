@@ -82,14 +82,13 @@ class Participant < ApplicationRecord
 
   def self.find_by_search(search)
     @participant = Participant.find_by(eppn: search.to_s) ||
-                   Participant.find_by(eppn: "#{search}@andrew.cmu.edu")# ||
-                   #Participant.find_by(card: search.to_s)
+                   Participant.find_by(eppn: "#{search}@andrew.cmu.edu") ||
+                   Participant.find_by_card(search.to_s)
   end
 
   def self.find_or_create_by_search(search)
     @participant = Participant.find_by_search(search.to_s)
     # TODO: creation
-    @participant
   end
 
   scope :scc,
@@ -108,6 +107,13 @@ class Participant < ApplicationRecord
             .where(memberships: { is_booth_chair: true })
             .group(:id)
         }
+  
+  scope :in_organization, ->(organization_id) {
+    joins(:organizations)
+      .where(organizations: { id: organization_id})
+      .group(:id)
+  }
+  
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
 

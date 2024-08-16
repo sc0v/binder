@@ -1,0 +1,8 @@
+<div>
+  <h1>Editing Note</h1>
+
+  <turbo-frame id="<%= dom_id @note %>">
+    <%= render "form", note: @note %>
+    <%= link_to "Never Mind", notes_path %>
+  </turbo-frame>
+</div>

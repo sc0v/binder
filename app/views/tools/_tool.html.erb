@@ -1,4 +1,3 @@
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <style>
   .popup {
     position: fixed;
@@ -38,7 +37,12 @@
   <td><%= tool.description %></td>
   <td>
     <%# add the image of the tool in its own column %>
-    <%= image_tag("tool_images/#{tool.name}.png", id: "tool-image-#{tool.name}", class: 'tool-image', data: { tool_name: tool.name, image_url: asset_path("tool_images/#{tool.name}.png") }, size: '70x70') %>
+    <% begin %>
+    <%#= image_tag("tool_images/#{tool.name}.png", id: "tool-image-#{tool.name}", class: 'tool-image', data: { tool_name: tool.name, image_url: asset_path("tool_images/#{tool.name}.png") }, size: '70x70') %>
+    <% rescue Propshaft::MissingAssetError %>
+    <% end %>
+    
+  end
  </td>
   <td><%= date_and_time(tool.checkouts.current.first.checked_out_at) if tool.is_checked_out? %></td>
   <td class="hidden-xs <%= 'hidden' if page == 'org' %>"><%= link_to tool.checkouts.current.first.organization.short_name, tool.checkouts.current.first.organization if tool.is_checked_out? %></td>

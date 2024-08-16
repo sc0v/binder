@@ -1,11 +1,36 @@
 # frozen_string_literal: true
 class SessionsController < ApplicationController
+  before_action :setup_mock_auth, if: -> { Rails.env.development? && params[:participant_key] }
+
   def create
-    redirect_url = login_redirect_path(request.env['omniauth.origin'])
-    cookies.encrypted[:user_id] = load_user(request.env['omniauth.auth'])
-    redirect_to redirect_url
-  rescue StandardError
-    redirect_to redirect_url, alert: t('.alert', message: help_message)
+    unless Rails.env.production?
+      auth_hash = OmniAuth.config.mock_auth[:shibboleth]
+      participant = Participant.from_omniauth(auth_hash)
+      #session[:user_id] = participant.id (not necessary???)
+      cookies.encrypted[:user_id] = load_user(request.env['omniauth.auth'])
+      flash[:notice] = "Logged in as #{participant.name}"
+      redirect_to root_url
+    else
+      redirect_url = login_redirect_path(request.env['omniauth.origin'])
+      begin
+        cookies.encrypted[:user_id] = load_user(request.env['omniauth.auth'])
+        redirect_to redirect_url
+      rescue StandardError
+        redirect_to redirect_url, alert: t('.alert', message: help_message)
+      end
+    end
+  end
+
+  def impersonate
+    participant = Participant.find_by(id: params[:participant_id])
+    if participant
+      cookies.encrypted[:user_id] = participant.id
+      redirect_to root_path, notice: "Now impersonating #{participant.name}"
+    else
+      redirect_to root_path, alert: "Participant not found."
+    end
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_path, alert: "Participant not found."
   end
 
   def destroy

@@ -1,7 +1,7 @@
 <% update_document_title(add: 'Organizations') %>
 <% update_breadcrumbs(add: link_to('Organizations', organizations_path)) %>
 <% update_breadcrumbs(add: link_to(@organization.name, organization_path(@organization))) %>
-<% update_breadcrumbs(add: "Structural Progress") %>
+<% update_breadcrumbs(add: @status_name + " Progress") %>
 <% content_for :nav do %>
   <li class="active"><%= link_to('Organizations', organizations_path) %> </li>
   <li><%= link_to('People', participants_path) %> </li>
@@ -13,42 +13,59 @@
   <div>
     <h1><%=@status_name%> Progress</h1>
     <!--See Tasks (right now a table, maybe change?)-->
+    <% if @build_steps.length() > 0 %>
     <table>
       <thead>
         <tr> 
           <th>Task</th>
           <th>Requirements</th>
           <th>Completed</th>
-          <th></th>
+          <% if can?(:destroy, OrganizationBuildStep) %>
+            <th></th>
+          <% end %>
         </tr>
       </thead>
       <tbody>
         <% @build_steps.each do |step| %>
           <tr>
-            <th><%= step.title %></th>
+	  <th><%= link_to(step.title, [@organization, @organization_build_status, step]) %></th>
+	    <% if step.requirements.length() > 20 %>
+            <th><%= step.requirements[0..20] %>...</th>
+            <% else %>
             <th><%= step.requirements %></th>
-            <th><%= step.completed %></th>
-            <th><%= link_to "Destroy", [@organization, @organization_build_status, step], data: {
-              turbo_method: :delete,
-              turbo_confirm: "Are you sure?"
-            } %></th>
+            <% end %>
+	    <% if step.completed %>
+            <th>Yes!</th>
+            <% else %>
+            <th>No</th>
+            <% end %>
+            <% if can?(:destroy, OrganizationBuildStep) %>
+              <th><%= link_to "Destroy", [@organization, @organization_build_status, step], data: {
+                turbo_method: :delete,
+                turbo_confirm: "Are you sure?"
+              } %></th>
+            <% end %>
           </tr>
         <% end %>
       </tbody>
     </table>
+    <% else %>
+    No Requirements Listed!
+    <% end %>
 
     <!-- Form to Add Steps (Only see if an SCC member) --> 
-    <% if Current.user.scc? %>
-    <h1>Add <%=@status_name%> Step</h1>
-    <%= form_with model: [@organization, @organization_build_status, OrganizationBuildStep.new] do |f| %>
-      <%= f.text_field :title, placeholder: 'Enter Title...' %>
-      <%= f.text_area :requirements, placeholder: 'Enter Requirements...' %>
-      <%= hidden_field_tag 'url', request.original_fullpath %>
-      <%= f.submit 'Create Build Step', class: 'btn wide' %>
-    <% end %>
+    <% if can?(:create, OrganizationBuildStep) %>
+      <h1>Add <%=@status_name%> Step</h1>
+      <%= form_with model: [@organization, @organization_build_status, OrganizationBuildStep.new] do |f| %>
+        <%= f.text_field :title, placeholder: 'Enter Title...' %>
+        <%= f.text_area :requirements, placeholder: 'Enter Requirements...' %>
+        <%= hidden_field_tag 'url', request.original_fullpath %>
+        <%= f.submit 'Create Build Step', class: 'btn wide' %>
+      <% end %>
     <% end %>
   </div><div class="sidebar">
     <%= render 'organization_timeline_entries/queue_sidebar' %>
   </div>
 </div>
+
 
