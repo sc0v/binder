@@ -32,6 +32,6 @@ RUN 'bin/setup'
 EXPOSE 3000
 
 # The command to run the app
-CMD ["rails", "server", "-b", "0.0.0.0"]
+CMD ["bash", "-c", "rm -f tmp/pids/server.pid && bundle exec rails server -b 0.0.0.0"]
 
 # To build this image, run `docker-compose build` in the terminal
