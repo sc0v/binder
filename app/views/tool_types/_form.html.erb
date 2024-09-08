@@ -1,11 +1,6 @@
-<%= simple_form_for @tool_type, html: { class: 'form-horizontal' } do |f| %>
+<%= form_with model: ToolType.new do |f| %>
   <%= hidden_field(nil, :from_tools, value: params[:from_tools]) %>
-  <div class="form-inputs">
-    <%= f.input :name %>
-  </div>
-  <div class="form-actions">
+    <%= f.label :name, 'Tool Type Name' %> 
+    <%= f.text_field :name %>
     <%= f.button :submit, class: 'btn-primary' %>
-    <%= link_to t('.cancel', default: t('helpers.links.cancel')),
-                tool_types_path, class: 'btn btn-default' %>
-  </div>
 <% end %>

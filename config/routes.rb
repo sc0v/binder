@@ -92,6 +92,13 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     resources :checkouts, controller: 'tools/checkouts'
   end
 
+  # Tool Inventory
+  resources :tool_inventory, path: 'inventory', only: [:show] do
+    resources :tool_inventory_tools, only: %i[new create index destroy]
+    post :complete, to: 'tool_inventory#complete'
+  end
+  get 'inventory', to: 'tool_inventory#show', as: :inventory
+
   # TODO: Confirm everything below
   resources :organizations do
     resources :aliases,

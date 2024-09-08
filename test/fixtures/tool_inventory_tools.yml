@@ -1,0 +1,15 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  barcode: 12857
+  description: SCC Killed the Radio Star
+  active: false
+  tool_inventory_id: 1
+  tool_type_id: 1
+
+two:
+  barcode: 20271
+  description: I'm a drill battery yay
+  active: false
+  tool_inventory_id: 1
+  tool_type_id: 15
