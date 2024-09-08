@@ -2,9 +2,10 @@
 <% update_document_title(add: 'New') %>
 <% update_breadcrumbs(add: link_to('Tools',tools_path)) %>
 <% update_breadcrumbs(add: 'New') %>
-<% nav(active: 'new_tool') %>
+<% nav(active: 'tools') %>
 <div class="content">
   <div>
+  <div class="page-header>
     <h1>New Tool</h1>
     <%= form_with model: Tool.new do |f| %>
     <%= f.label :tool_type_id, 'Tool Type' %> <%= f.collection_select(:tool_type_id, ToolType.all, :id, :name) %>
@@ -13,6 +14,7 @@
     <%= f.text_field :barcode %>
     <%= submit_tag "Create Tool" %>
     <% end %>
+  </div>
   </div>
 </div>
     

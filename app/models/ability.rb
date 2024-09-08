@@ -99,8 +99,6 @@ class Ability
     can :participate, :carnival if user.present? && user.signed_waiver?
 
     # TODO: Work through abilities
-    # TODO: I thought we had to remove this "return" but it was in live binder...
-    return
 
     return if user.blank?
 
@@ -166,7 +164,7 @@ class Ability
         s.shift.organization.booth_chairs.include?(user)
       end
 
-      can :read, OrganizationStatus do |s|
+      can :read, OrganizationBuildStatus do |s|
         s.organization.booth_chairs.include?(user)
       end
     end
@@ -204,8 +202,7 @@ class Ability
       can %i[create update], EventType
       can %i[create update destroy], Membership
       can %i[hardhats read_basic_details read_all_details], Organization
-      can %i[create update destroy], OrganizationStatus
-      can %i[create update], OrganizationStatusType
+      can %i[create update destroy], OrganizationBuildStatus
       can %i[create edit update end structural electrical downtime],
           OrganizationTimelineEntry
       can %i[create update read_phone_number], Participant
@@ -213,7 +210,7 @@ class Ability
       can :create, ShiftParticipant
       can %i[create update], StoreItem
       can %i[create complete update], Task
-      can %i[create update], Tool
+      can %i[create update destroy], Tool
       can %i[create update], ToolType
       can %i[create destroy], Certification
     end
@@ -221,6 +218,6 @@ class Ability
     return unless user.admin?
 
     can :manage, :all
-    can :skip_video, WaiversController
+    # can :skip_video, WaiversController
   end
 end

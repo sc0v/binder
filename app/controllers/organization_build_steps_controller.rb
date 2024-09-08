@@ -18,7 +18,6 @@ class OrganizationBuildStepsController < ApplicationController
     @organization_build_step = OrganizationBuildStep.find(params[:id])
     @organization_build_status = @organization_build_step.organization_build_status
     @organization_build_step.destroy
-    #this doesn't seem like it should work, yet it does...
     redirect_to organizations_path(@organization_build_status), notice: 'Destroyed Build Task!'
   end
 

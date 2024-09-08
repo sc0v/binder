@@ -1,0 +1,29 @@
+<table class="table table-striped">
+  <!--<%= content_tag :div, data:
+        { controller: 'table', config: tool_inventory_table_config } do %>
+    Loading...
+  <% end %>-->
+  <thead>
+    <tr>
+      <th>Barcode</th>
+      <th>Type</th>
+      <th>Description</th>
+      <th>Remove</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% tools.each do |tool| %>
+      <tr>
+        <th><%= tool.barcode %></th>
+        <th><%= tool.name %></th>
+        <th><%= tool.description %></th>
+        <th>        
+          <%= link_to "Remove", [@inventory, tool], class: 'btn wide', data: {
+            turbo_method: :delete,
+            turbo_confirm: "Are you sure?"
+          } %>
+        </th>      
+      </tr>
+    <% end %>
+  </tbody>
+</table>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_06_15_172617) do
+ActiveRecord::Schema[7.0].define(version: 2024_08_16_205839) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
@@ -167,16 +167,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_15_172617) do
     t.boolean "display"
   end
 
-  create_table "organization_statuses", force: :cascade do |t|
-    t.integer "organization_status_type_id"
-    t.integer "organization_id"
-    t.integer "participant_id"
-    t.string "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["organization_id"], name: "index_organization_statuses_on_organization_id"
-  end
-
   create_table "organization_timeline_entries", force: :cascade do |t|
     t.datetime "started_at", precision: nil
     t.datetime "ended_at", precision: nil
@@ -278,6 +268,24 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_15_172617) do
     t.boolean "is_completed"
   end
 
+  create_table "tool_inventories", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "tool_inventory_tools", force: :cascade do |t|
+    t.integer "barcode"
+    t.string "description"
+    t.boolean "active"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "tool_type_id", null: false
+    t.integer "tool_inventory_id", null: false
+    t.index ["barcode"], name: "index_tool_inventory_tools_on_barcode", unique: true
+    t.index ["tool_inventory_id"], name: "index_tool_inventory_tools_on_tool_inventory_id"
+    t.index ["tool_type_id"], name: "index_tool_inventory_tools_on_tool_type_id"
+  end
+
   create_table "tool_type_certifications", force: :cascade do |t|
     t.integer "tool_type_id"
     t.integer "certification_type_id"
@@ -313,6 +321,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_15_172617) do
   add_foreign_key "organization_build_steps", "organization_build_statuses"
   add_foreign_key "store_purchases", "charges"
   add_foreign_key "store_purchases", "store_items"
+  add_foreign_key "tool_inventory_tools", "tool_inventories"
+  add_foreign_key "tool_inventory_tools", "tool_types"
   add_foreign_key "tool_type_certifications", "certification_types"
   add_foreign_key "tool_type_certifications", "tool_types"
   add_foreign_key "tools", "tool_types"

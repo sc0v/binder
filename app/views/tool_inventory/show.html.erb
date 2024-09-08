@@ -1,0 +1,45 @@
+<% update_document_title(add: 'Tool Inventory') %>
+<% update_breadcrumbs(add: link_to('Tools',tools_path)) %>
+<% update_breadcrumbs(add: 'Tool Inventory') %>
+<% nav(active: 'tools') %>
+<div class="content">
+  <% if can?(:create, Tool) && can?(:update, Tool) && can?(:destroy, Tool) %>
+    <div>
+      <div class="page-header">
+        <h1>Tool Inventory</h1>
+      </div>
+      <%= render partial: 'inventory', locals: { tools: @inventory_tools } %>
+    </div><div class="sidebar">
+      <div class='teal invert'>
+        <h1>Add a Tool</h1>
+        <%= form_with model: [@inventory, ToolInventoryTool.new] do |form| %>
+          <%= form.label :barcode, 'Tool Barcode' %>
+          <%= form.text_field :barcode, autofocus: :true, value: params[:default_barcode] %>
+          <%= form.label :tool_type_id, 'Tool Type' %> 
+          <%= form.collection_select :tool_type_id, ToolType.all, :id, :name, selected: @default_tool_type %>
+          <%= form.label :description, 'Description' %>
+          <br><%= form.text_area :description, value: params[:default_description] %><br>
+          <%= hidden_field_tag 'override', params[:default_barcode] %>
+          <%= form.submit 'Add Tool', class: 'btn wide' %>
+        <% end %>
+      </div>
+      <div class='gold invert'>
+        <h1>Add a Tool Type</h1>
+        <%= render partial: 'tool_types/form' %>
+      </div>
+      <div class="red invert">
+        <h2>
+          <%= link_to 'Complete Inventory', tool_inventory_complete_path(@inventory), 
+              data: {
+                turbo_method: :post, 
+                turbo_confirm: 'Are you sure you are ready to submit your tool inventory? This cannot be undone (not even by the UI/UX subcommittee!)' 
+              }, class: 'cta' %>
+        </h2>
+      </div>
+    </div>
+  <% else %>
+    <h3>Not Authorized!</h3>
+  <% end%>
+</div>
+
+
