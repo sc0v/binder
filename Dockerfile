@@ -13,13 +13,12 @@ RUN /bin/bash -l -c "rvm install $RUBY_VERSION && rvm --default use 3.2.1"
 # install nodejs
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash && apt-get install -y --no-install-recommends nodejs
 
-# install rails
-ENV RAILS_VERSION=7.0.8
-RUN /bin/bash -l -c 'gem install rails -v=$RAILS_VERSION'
-
 # Install bundler
 ENV BUNDLER_VERSION=2.4.6
-RUN /bin/bash -l -c 'gem install bundler -v=$BUNDLER_VERSION'
+
+# Cleans bundler cache & Gemfile locks
+ENV BUNDLE_SPECIFIC_PLATFORM=true
+RUN rm -rf /usr/local/bundle/cache
 
 # Create working directory
 WORKDIR /build
@@ -27,6 +26,9 @@ WORKDIR /build
 COPY . /build/
 
 RUN 'bin/setup'
+
+# Trying to resolve deadlock and permission issues
+RUN chmod -R 777 /build
 
 # Expose port 3000 to the outside world
 EXPOSE 3000
