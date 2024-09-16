@@ -7,7 +7,7 @@ services:
     develop:
       watch:
         - action: sync
-          path: .
-          target: .
+          path: ./app
+          target: ./build/app
     ports:
       - "3000:3000"
