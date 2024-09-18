@@ -167,16 +167,6 @@ ActiveRecord::Schema[7.0].define(version: 2024_06_15_172617) do
     t.boolean "display"
   end
 
-  create_table "organization_statuses", force: :cascade do |t|
-    t.integer "organization_status_type_id"
-    t.integer "organization_id"
-    t.integer "participant_id"
-    t.string "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
-    t.index ["organization_id"], name: "index_organization_statuses_on_organization_id"
-  end
-
   create_table "organization_timeline_entries", force: :cascade do |t|
     t.datetime "started_at", precision: nil
     t.datetime "ended_at", precision: nil
