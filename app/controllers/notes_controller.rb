@@ -17,9 +17,9 @@ class NotesController < ApplicationController
   def create
     @note = Note.new(note_params)
     if @note.save
-      redirect_to notes_path, notice: t('.notice', name: @note.title)
+      redirect_to root_path, notice: "Created the note!"
     else
-      render :new, status: :unprocessable_entity
+      redirect_to root_path, notice: "Could not save the note!"
     end
   end
 
@@ -39,7 +39,11 @@ class NotesController < ApplicationController
   end
 
   def destroy
-    redirect_to notes_path
+    if @note.destroy
+      redirect_to root_path, notice: "Destroyed the note!"
+    else
+      redirect_to root_path, alert: "Could not destroy the note"
+    end
   end
 
   def hide
@@ -65,6 +69,6 @@ class NotesController < ApplicationController
   end
 
   def note_params
-    params.require(:note).permit(:title, :value)
+    params.require(:note).permit(:title, :value, :participant_id, :hidden, :color)
   end
 end
