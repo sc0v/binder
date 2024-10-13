@@ -1,6 +1,11 @@
 .notes h2 {
   font-size: 1rem;
   padding-bottom: 0.25em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+          line-clamp: 1;
+  overflow: hidden;
 }
 
 .notes p {
@@ -10,18 +15,24 @@
   font-weight: 400;
   line-height: 1.2em;
   padding-top: 0;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 4;
+          line-clamp: 4;
+  overflow: hidden;
 }
 
 ul.notes,
 ul.notes li {
   list-style: none;
+  padding-bottom: 0;
 }
 ul.notes {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
 }
-ul.notes li a {
+ul.notes li a:not(.cta) {
   text-decoration: none;
   color: #000;
   background: #ffc;
@@ -33,37 +44,42 @@ ul.notes li a {
   width: 10em;
   padding: 1em;
   box-shadow: 5px 5px 7px rgba(33, 33, 33, 0.7);
-  transform: rotate(-6deg);
-  transition: transform 0.15s linear;
 }
-ul.notes li a:hover {
+ul.notes li a.cta {
+  position: absolute;
+  top: 11em;
+  left: 1em;
+  z-index: 10;
+}
+
+ul.notes li a:hover:not(.cta) {
   border-bottom: none;
 }
 
-ul.notes li:nth-child(even) a {
+ul.notes li:nth-child(1) a.cta {
+  top: 10.5em;
+}
+ul.notes li:nth-child(even) {
   transform: rotate(4deg);
-  position: relative;
   top: 5px;
 }
-ul.notes li:nth-child(3n) a {
+ul.notes li:nth-child(3n) {
   transform: rotate(-3deg);
-  position: relative;
   top: -5px;
 }
-ul.notes li:nth-child(5n) a {
+ul.notes li:nth-child(5n) {
   transform: rotate(5deg);
-  position: relative;
   top: -10px;
 }
 
-ul.notes li a:hover,
-ul.notes li a:focus {
-  box-shadow: 10px 10px 7px rgba(0, 0, 0, 0.7);
+ul.notes li:hover {
   transform: scale(1.25);
-  position: relative;
   z-index: 5;
 }
 
 ul.notes li {
+  position: relative;
+  transform: rotate(-6deg);
   margin: 1em;
+  transition: transform 0.15s linear;
 }
