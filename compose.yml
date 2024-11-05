@@ -9,5 +9,7 @@ services:
         - action: sync
           path: ./app
           target: ./build/app
+    volumes:
+      - .:/build:rw
     ports:
       - "3000:3000"
