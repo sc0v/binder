@@ -133,3 +133,26 @@ summary:focus,
 summary:focus:hover {
   overflow: visible;
 }
+
+/* Tabs */
+ul.tabs {
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  overflow: hidden;
+}
+
+li.tab {
+  float: left;
+}
+
+/* Override CMU default transitions on tables*/
+.tabulator,
+.tabulator-col,
+.tabulator-cell,
+.tabulator-selectable, 
+.tabulator a {
+  transition: none!important;
+  transition-delay: none!important;
+}
+
