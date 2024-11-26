@@ -128,7 +128,7 @@ class CheckoutsController < ApplicationController
     checkout.checked_in_at = nil
     respond_to do |format|
       if checkout.save
-        format.html { redirect_to tool_path(checkout.tool), notice: 'Checkout was successfully undone' }
+        format.html { redirect_to tool_path(checkout.tool), notice: 'Checkin was successfully undone' }
       else
         format.html { redirect_to tool_path(checkout.tool), notice: 'Error' }
       end
