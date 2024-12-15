@@ -1,0 +1,17 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  scissor_lift: one
+  participant: scc_participant
+  organization: scc
+  checked_out_at: 2024-11-19 21:55:01
+  checked_in_at: 2024-11-19 21:57:01
+  due_at: 2024-11-19 23:57:01
+
+two:
+  scissor_lift: two
+  participant: scc_participant
+  organization: scc
+  checked_out_at: 2024-11-19 21:55:01
+  checked_in_at: nil
+  due_at: 2024-11-19 23:57:01

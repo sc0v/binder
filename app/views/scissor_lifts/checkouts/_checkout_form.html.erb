@@ -1,0 +1,34 @@
+<h3>Checkout</h3>
+  <ul>
+    <% session[:scissor_lifts] = [] unless session[:scissor_lifts].present? %>
+    <% if !session[:scissor_lifts].empty? %>
+      <% session[:scissor_lifts].each do |scissor_lift| %>
+        <% s = ScissorLift.find(scissor_lift) %>
+          <li><strong><%= s.name %></strong>&nbsp;&nbsp;
+       <%= link_to 'Remove', remove_scissor_lift_path(s), class: 'cta' %></li>
+      <% end %>
+    <% else %>
+      <strong>No Scissor Lifts Selected</strong>
+    <% end %>
+  </ul>
+  <%= form_with url: add_scissor_lifts_path do |f| %>
+    <%= hidden_field_tag 'url', request.original_fullpath %>
+    <%= f.collection_select(:name, ScissorLift.all.ordered_by_name, :name, :name, {prompt: 'Add Scissor Lift...'}, onchange: 'this.form.submit()') %>
+  <% end %>
+
+  <h3>The Borrower</h3>
+  <% if session[:borrower_id].present? %>
+    <%= form_tag checkout_scissor_lifts_path do %>
+      <% borrower = Participant.find(session[:borrower_id]) %>
+      <strong><%= borrower.name %> (<%= borrower.eppn %>)</strong>
+      <%= collection_select(:checkout, :organization_id, borrower.organizations, :id, :name) %>
+      <%= submit_tag "Complete Checkout", class: 'wide' %>
+      <% end %>
+    <% else %>
+    <%= form_tag checkout_participant_tools_path do %>
+      <%= hidden_field_tag 'url', request.original_fullpath %>
+      <%= label_tag(:participant_search, 'Tap/Swipe/Type Andrew ID [Enter]') %>
+      <%= text_field_tag(:participant_search, nil, autocomplete: :off, autofocus: :true) %>
+    <% end %>
+  <% end %>
+  <p class="alignright"><%= link_to 'Reset', reset_scissor_lifts_path, class: 'cta' %></p>

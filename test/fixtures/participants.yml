@@ -2,6 +2,7 @@ admin_participant:
   cached_email: andrewcarnegie0@andrew.cmu.edu
   cached_name: Andrew Carnegie
   eppn: andrewcarnegie0@andrew.cmu.edu
+  signed_waiver: true
   admin: true
   phone_number: '555-555-5555'
 
@@ -10,12 +11,14 @@ scc_participant:
   cached_name: SCC Committee
   eppn: katelynz@andrew.cmu.edu
   phone_number: '555-555-5555'
+  signed_waiver: true
 
 booth_chair_participant:
   cached_email: binder+booth_chair_participant@springcarnival.org
   cached_name: SigNu Booth Chair
   eppn: jmmclaug@andrew.cmu.edu
   phone_number: '555-555-5555'
+  signed_waiver: true
 
 builder_participant:
   cached_email: binder+booth_builder_participant@springcarnival.org
