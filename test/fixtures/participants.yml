@@ -3,23 +3,28 @@ admin_participant:
   cached_name: Andrew Carnegie
   eppn: andrewcarnegie0@andrew.cmu.edu
   admin: true
+  phone_number: '555-555-5555'
 
 scc_participant:
   cached_email: binder+scc_participant@springcarnival.org
   cached_name: SCC Committee
   eppn: katelynz@andrew.cmu.edu
+  phone_number: '555-555-5555'
 
 booth_chair_participant:
   cached_email: binder+booth_chair_participant@springcarnival.org
   cached_name: SigNu Booth Chair
   eppn: jmmclaug@andrew.cmu.edu
+  phone_number: '555-555-5555'
 
 builder_participant:
   cached_email: binder+booth_builder_participant@springcarnival.org
   cached_name: AEPi Builder
   eppn: cmwu2@andrew.cmu.edu
+  phone_number: '555-555-5555'
 
 rando_participant:
   cached_email: binder+rando_participant@springcarnival.org
   cached_name: Unaffiliated Rando
   eppn: jiatong4@andrew.cmu.edu
+  phone_number: '555-555-5555'

@@ -5,56 +5,23 @@ class ToolsController < ApplicationController
   load_and_authorize_resource
 
   def index
-    if params[:tool_type].present?
-      case params[:tool_type]
-      when 'radio'
-        pagy, tools =
-          pagy(Tool.just_tools.accessible_by(Current.ability).ordered_by_name)
-      end
-    else 
-      pagy, tools =
-        pagy(Tool.just_tools.accessible_by(Current.ability).ordered_by_name)
-    end
+    # if params[:organization_id].present?
+    #   @organization = Organization.find(params[:organization_id])
+    #   @tools = Tool.just_tools.checked_out_by_organization(@organization)
+    # else
+    #   @tools = Tool.just_tools.accessible_by(Current.ability).ordered_by_name
+    # end
 
-    @tools = Tool.all
-    if params[:organization_id].present?
-      @organization = Organization.find(params[:organization_id])
-      @tools = Tool.checked_out_by_organization(@organization)
-    end
-
-    # Filter by tools
-    if params[:type_filter].present?
-      if params[:type_filter].strip == 'all_tools'
-        @tools = Tool.all
-        @title = 'Tools (hardhats/radios included)'
-      else
-        @tool_type = ToolType.find(params[:type_filter])
-        @title = @tool_type.name.pluralize
-        @tools = @tools.by_type(@tool_type)
-        @num_available =
-          Tool.by_type(@tool_type).size -
-            Tool.by_type(@tool_type).checked_out.size
-      end
-    else
-      #@tools = Tool.just_tools
-      @title = 'Tools'
-    end
-
-    #return if params[:inventory_filter].blank?
-
-    #@tools = @tools.checked_out if params[:inventory_filter].strip ==
-    #  'checked_out'
-    #@tools = @tools.checked_in if params[:inventory_filter].strip ==
-    #  'checked_in'
+    # Paginate a lot of records at a time since something seems to be reloaded
+    # each round of pagination so wanted to minimize the number of rounds
+    pagy, @tools = pagy(Tool.just_tools.accessible_by(Current.ability).ordered_by_name, limit: 500)
 
     respond_to do |format|
       format.html
       format.json do
         data =
-          tools.as_json(
-            methods: %i[name link current_organization is_checked_out? current_participant]
-          )
-        render json: { last_page: pagy.pages, data: }
+          @tools.table_attrs.as_json(methods: %i[link])
+        render json: {last_page: pagy.pages, data: }
       end
     end
   end
