@@ -54,11 +54,12 @@ class Tools::CheckoutsController < ApplicationController
       bad_barcodes = []
       p = Participant.find(session[:borrower_id])
       session[:tools].each do |tool_id|
-        begin
+        # begin
           t = Tool.find(tool_id)
           Rails.logger.info("TEST")
+          Rails.logger.info(@organization.name)
           Rails.logger.info(p.id)
-          if Checkout.create(organization: @organization,
+          if Checkout.create!(organization: @organization,
                              participant: p,
                              tool: t,
                              checked_out_at: Time.zone.now)
@@ -66,9 +67,9 @@ class Tools::CheckoutsController < ApplicationController
           else
             bad_barcodes.append(t.barcode)
           end
-        rescue
-          flash.alert = "Error checking out tool #{t.barcode}"
-        end
+        # rescue
+        #   flash.alert = "Error checking out tool #{t.barcode}"
+        # end
       end
       
       if session[:tools].empty?

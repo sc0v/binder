@@ -1,23 +1,9 @@
 # frozen_string_literal: true
 module ToolsHelper
-  TOOLS_FUNCTION_COLUMNS = [
-    {
-      formatter: 'cart_icon',
-      resizableColumnFit: false,
-      width:40,
-      hozAlign:"center",
-      cellClick:
-        'function(e, cell){
-                      alert("Printing row data for: " + cell.getRow().getData().name)
-       }'
-     }, 
-
-  ]
-  
   TOOLS_TABLE_COLUMNS = [
      {
       title: 'Name',
-      field: :name,
+      field: :t_name,
       formatter: 'link',
       formatterParams: {
         urlField: :link
@@ -43,7 +29,7 @@ module ToolsHelper
     },
     {
       title: 'Checked Out',
-      field: :is_checked_out?,
+      field: :t_is_checked_out,
       hozAlign: 'center',
       formatter: 'tickCross',
       headerFilter: 'tickCross',
@@ -52,14 +38,14 @@ module ToolsHelper
       }},
     {
       title: 'Current Organization',
-      field: :current_organization,
+      field: :t_organization_name,
       sorter: 'string',
       headerFilter: 'input',
       headerFilterPlaceholder: 'Search'
     },
     {
       title: 'Current Participant',
-      field: :current_participant,
+      field: :t_participant_name,
       sorter: 'string',
       headerFilter: 'input',
       headerFilterPlaceholder: 'Search'
@@ -83,10 +69,6 @@ module ToolsHelper
 
   def load_tools_columns
     attrs = Current.ability.permitted_attributes(:index, Tool)
-    TOOLS_FUNCTION_COLUMNS + TOOLS_TABLE_COLUMNS.select { |c| attrs.include? c[:field] }
-  end
-
-  def cart_icon
-    "<i class='fa fa-print'></i>"
+    TOOLS_TABLE_COLUMNS.select { |c| attrs.include? c[:field] }
   end
 end

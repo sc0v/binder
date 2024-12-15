@@ -59,6 +59,18 @@ class Tool < ApplicationRecord
     tool_path(self)
   end
 
+  def self.table_attrs
+    joins(:tool_type)
+    .left_outer_joins(:checkouts).where(checkouts: { checked_in_at: nil })
+    .joins("LEFT OUTER JOIN (SELECT id, name AS org_name from organizations) AS o ON o.id = checkouts.organization_id")
+    .joins("LEFT OUTER JOIN participants AS p ON p.id = checkouts.participant_id")
+    .select('tools.*, 
+            tool_types.name AS t_name,
+            o.org_name AS t_organization_name,
+            checkouts.checked_out_at IS NOT NULL AS t_is_checked_out,
+            p.cached_name AS t_participant_name')
+  end
+
   #def self.find_or_create_by_search(search)
   #  t = Tool.find_by(barcode: search)
   #end

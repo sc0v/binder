@@ -78,7 +78,7 @@ class Ability
     if user.present? && user.scc?
       can :read,
           Tool,
-          %i[name link is_checked_out? current_organization current_participant]
+          %i[name t_name link is_checked_out? t_is_checked_out current_organization t_organization_name current_participant t_participant_name]
     end
 
     # SCC fallback with corrections
