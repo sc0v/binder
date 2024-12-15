@@ -30,7 +30,7 @@ class Tools::CheckoutsController < ApplicationController
     else
       flash.alert = "Andrew ID \"#{params[:participant_search]}\" not found."
     end
-    #redirect_to tools_path
+    (redirect_to params[:url] and return) unless !params[:url].present?
     redirect_to checkout_tools_path
   end
 
@@ -56,13 +56,10 @@ class Tools::CheckoutsController < ApplicationController
       session[:tools].each do |tool_id|
         # begin
           t = Tool.find(tool_id)
-          Rails.logger.info("TEST")
-          Rails.logger.info(@organization.name)
-          Rails.logger.info(p.id)
-          if Checkout.create!(organization: @organization,
+          if Checkout.create(organization: @organization,
                              participant: p,
                              tool: t,
-                             checked_out_at: Time.zone.now)
+                             checked_out_at: Time.zone.now).persists?
             session[:tools] -= [tool_id]
           else
             bad_barcodes.append(t.barcode)

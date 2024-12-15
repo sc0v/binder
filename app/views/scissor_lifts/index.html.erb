@@ -1,0 +1,25 @@
+<% update_document_title(add: 'Scissor Lifts') %>
+<% update_breadcrumbs(add: link_to('Tools', tools_path)) %>
+<% update_breadcrumbs(add: 'Scissor Lifts') %>
+<%= nav(active: 'tools') %>
+
+<div class="content wide">
+  <h1>Scissor Lifts</h1>
+</div>
+<div class="grid column3 teal boxes js-list">
+  <div>
+    <%= render partial: 'scissor_lifts/checkouts/checkout_form' %>
+  </div>
+  <div>
+    <%= render partial: 'scissor_lifts/checkouts/renew_form' %>
+  </div>
+  <div>
+    <%= render partial: 'scissor_lifts/checkouts/checkin_form' %>
+  </div>
+</div>
+<div class="content wide">
+  <%= content_tag :div, data:
+        { controller: 'table', config: scissor_lifts_table_config } do %>
+    Loading...
+  <% end %>
+</div>

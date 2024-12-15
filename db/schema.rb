@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_08_16_205839) do
+ActiveRecord::Schema[7.0].define(version: 2024_12_01_212429) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
@@ -210,6 +210,26 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_16_205839) do
     t.index ["admin"], name: "index_participants_on_admin"
   end
 
+  create_table "scissor_lift_checkouts", force: :cascade do |t|
+    t.integer "scissor_lift_id", null: false
+    t.integer "participant_id", null: false
+    t.integer "organization_id", null: false
+    t.datetime "checked_out_at"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.datetime "checked_in_at"
+    t.datetime "due_at"
+    t.index ["organization_id"], name: "index_scissor_lift_checkouts_on_organization_id"
+    t.index ["participant_id"], name: "index_scissor_lift_checkouts_on_participant_id"
+    t.index ["scissor_lift_id"], name: "index_scissor_lift_checkouts_on_scissor_lift_id"
+  end
+
+  create_table "scissor_lifts", force: :cascade do |t|
+    t.string "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "shift_participants", force: :cascade do |t|
     t.integer "shift_id"
     t.integer "participant_id"
@@ -319,6 +339,9 @@ ActiveRecord::Schema[7.0].define(version: 2024_08_16_205839) do
   add_foreign_key "notes", "participants"
   add_foreign_key "organization_build_statuses", "organizations"
   add_foreign_key "organization_build_steps", "organization_build_statuses"
+  add_foreign_key "scissor_lift_checkouts", "organizations"
+  add_foreign_key "scissor_lift_checkouts", "participants"
+  add_foreign_key "scissor_lift_checkouts", "scissor_lifts"
   add_foreign_key "store_purchases", "charges"
   add_foreign_key "store_purchases", "store_items"
   add_foreign_key "tool_inventory_tools", "tool_inventories"

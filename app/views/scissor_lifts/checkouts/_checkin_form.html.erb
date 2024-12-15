@@ -1,0 +1,7 @@
+<h3>Checkin</h3>
+<%= form_with url: checkin_scissor_lifts_path do |f| %>
+  <%= hidden_field_tag 'url', request.original_fullpath %>
+  <%= f.label "Scissor Lift" %>
+  <%= f.collection_select(:name, ScissorLift.all.ordered_by_name, :name, :name, {prompt: 'Select Scissor Lift...'}) %>
+  <%= f.submit 'Checkin', class: 'btn btn-wide'%>
+<% end %>

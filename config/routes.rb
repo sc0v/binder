@@ -99,6 +99,20 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
   get 'inventory', to: 'tool_inventory#show', as: :inventory
 
+  # Scissor Lifts
+  resources :scissor_lifts, only: %i[index show] do
+    member do
+      get :remove, to: 'scissor_lift_checkouts#remove'
+    end
+    collection do
+      post :add, to: 'scissor_lift_checkouts#add'
+      get :reset, to: 'scissor_lift_checkouts#reset'
+      post :checkout, to: 'scissor_lift_checkouts#checkout'
+      post :checkin, to: 'scissor_lift_checkouts#checkin'
+      post :renew, to: 'scissor_lift_checkouts#renew'
+    end
+  end
+  
   # TODO: Confirm everything below
   resources :organizations do
     resources :aliases,

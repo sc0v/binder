@@ -1,0 +1,31 @@
+<% update_document_title(add: @scissor_lift.name) %>
+<% update_breadcrumbs(add: link_to('Tools', tools_path)) %>
+<% update_breadcrumbs(add: link_to('Scissor Lifts', scissor_lifts_path)) %>
+<% update_breadcrumbs(add: @scissor_lift.name) %>
+<%= nav(active: 'tools') %>
+
+<div class="content wide">
+  <h1><%= @scissor_lift.name %></h1>
+
+  <% if @scissor_lift.is_checked_out? %>
+    Checked out to <strong><%= @scissor_lift.current_participant %></strong> (<%= @scissor_lift.current_organization %>) 
+    <br/><br/>
+
+    <% if @scissor_lift.checked_out_at.present? %>
+      Checked out on <strong><%= @scissor_lift.checked_out_at.strftime('%b %e at %l:%M %p') %></strong>
+    <% else %>
+      No checkout time
+    <% end %>
+    <br/>
+    <% if @scissor_lift.due_at.present? %>
+      Due on <strong><%= @scissor_lift.due_at.strftime('%b %e at %l:%M %p') %></strong>
+    <% else %>
+      No due date
+    <% end %>
+  <% else %>
+    Checked in <strong></strong>
+  <% end %>
+  <br/>
+
+  <h2><%= link_to 'See all checkouts', scissor_lifts_path, class: 'cta' %></h2>
+</div>
