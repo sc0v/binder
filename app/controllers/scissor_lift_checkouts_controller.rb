@@ -27,7 +27,18 @@ class ScissorLiftCheckoutsController < ApplicationController
     return unless params[:checkout].present? && params[:checkout][:organization_id].present?
 
     @organization = Organization.find(params[:checkout][:organization_id])
-    return if @organization.blank?
+    if @organization.blank?
+      flash.alert = "Select a valid organization."
+      redirect_to scissor_lifts_path
+      return
+    else
+      timeout_end = ScissorLiftCheckout.timeout_end(@organization)
+      if timeout_end.present?
+        flash.alert = "#{@organization.name} is on timeout for using a scissor lift without a green wristband until #{timeout_end.strftime('%l:%M %p')}!"
+        redirect_to scissor_lifts_path
+        return
+      end
+    end
 
     if session[:scissor_lifts].empty?
       flash.alert = "Add at least one scissor lift to checkout."
@@ -125,8 +136,26 @@ class ScissorLiftCheckoutsController < ApplicationController
       end
       @checkout.checked_in_at = Time.zone.now
       @checkout.due_at = nil
+      @checkout.is_forfeit = :checkin_type == "0"
       @checkout.save!
-      redirect_to scissor_lifts_path, notice: "#{params[:name]} successfully checked in."
+      if @checkout.is_forfeit
+        redirect_to scissor_lifts_path, notice: "#{params[:name]} successfully forfeited."
+      else
+        redirect_to scissor_lifts_path, notice: "#{params[:name]} successfully checked in."
+      end
+    end
+  end
+
+  def index
+    checkouts = ScissorLiftCheckout.all
+
+    respond_to do |format|
+      format.html
+      format.json do
+        data = 
+          checkouts.as_json(methods: %i[scissor_lift_name scissor_lift_link participant_name participant_link organization_name is_forfeit])
+        render json: {data: }
+      end
     end
   end
 end

@@ -1,0 +1,13 @@
+<% update_document_title(add: 'Scissor Lift Checkouts') %>
+<% update_breadcrumbs(add: link_to('Tools', tools_path)) %>
+<% update_breadcrumbs(add: link_to('Scissor Lifts', scissor_lifts_path)) %>
+<% update_breadcrumbs(add: 'Checkouts') %>
+<%= nav(active: 'tools') %>
+
+<div class="content wide">
+  <h1>Scissor Lift Checkout Log</h1>
+  <%= content_tag :div, data:
+        { controller: 'table', config: scissor_lift_checkouts_table_config } do %>
+    Loading...
+  <% end %>
+</div>

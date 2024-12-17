@@ -56,10 +56,10 @@ class Tools::CheckoutsController < ApplicationController
       session[:tools].each do |tool_id|
         # begin
           t = Tool.find(tool_id)
-          if Checkout.create(organization: @organization,
+          if Checkout.create!(organization: @organization,
                              participant: p,
                              tool: t,
-                             checked_out_at: Time.zone.now).persists?
+                             checked_out_at: Time.zone.now)
             session[:tools] -= [tool_id]
           else
             bad_barcodes.append(t.barcode)

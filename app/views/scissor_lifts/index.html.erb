@@ -17,6 +17,11 @@
     <%= render partial: 'scissor_lifts/checkouts/checkin_form' %>
   </div>
 </div>
+<div class="teal invert">
+  <div class="content wide" style="padding-top: 0">
+    <h3 class="alignright"><%= link_to 'See Checkout Log', scissor_lift_checkouts_path, class: 'cta' %></h3>
+  </div>
+</div>
 <div class="content wide">
   <%= content_tag :div, data:
         { controller: 'table', config: scissor_lifts_table_config } do %>
