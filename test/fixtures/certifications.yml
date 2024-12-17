@@ -1,3 +1,7 @@
 one:
   participant: scc_participant
   certification_type: scissor_lift
+
+two:
+  participant: booth_chair_participant
+  certification_type: scissor_lift

@@ -112,6 +112,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       post :renew, to: 'scissor_lift_checkouts#renew'
     end
   end
+  resources :scissor_lift_checkouts, only: [:index]
   
   # TODO: Confirm everything below
   resources :organizations do
