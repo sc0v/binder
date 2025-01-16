@@ -2,6 +2,8 @@
 
 class StoreItem < ApplicationRecord
   has_many :store_purchases
+  validates :name, presence: true, uniqueness: true
+  validates :price, presence: true, numericality: true
 
   scope :active,       -> { where(active: true) }
   scope :inactive,     -> { where(active: false) }

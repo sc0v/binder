@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class StorePurchase < ApplicationRecord
+  include Rails.application.routes.url_helpers
   # relationships
   belongs_to :charge, optional: true
   belongs_to :store_item
@@ -9,6 +10,8 @@ class StorePurchase < ApplicationRecord
   # scopes
   scope :active,       -> { where(active: true) }
   scope :inactive,     -> { where(active: false) }
+
+  delegate :name, to: :store_item, allow_nil: true 
 
   # methods
   def self.items_in_cart

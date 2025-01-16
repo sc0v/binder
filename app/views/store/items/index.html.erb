@@ -1,37 +1,26 @@
 <% update_document_title(add: 'Store') %>
 <% update_breadcrumbs(add: 'Store') %>
-<% content_for :nav do %>
-  <li><%= link_to('Organizations', organizations_path) %> </li>
-  <li><%= link_to('People', participants_path) %> </li>
-  <li><%= link_to('Tools', tools_path) %> </li>
-  <li class="active"><%= link_to('Store', store_path) %> </li>
-  <li><%= link_to('FAQ', faq_index_path) %> </li>
-<% end %>
+<% nav(active: 'store') %>
 
 <div class="content">
+  <div>
 	<%- model_class = StoreItem -%>
-    <div class="page-header">
-      <h1>Cart</h1>
-    </div>
+  <h1>Cart</h1>
     <%= render partial: 'cart', locals: { items: StorePurchase.items_in_cart } %>
-    <p class="text-right">
-      <%# if can?(:create, StoreItem) and @organization.blank? %>
-      <% if @organization.blank? %>
-        <%= link_to t('.checkout', default: t('helpers.links.checkout')),
-                    store_cart_review_path,
-                    class: 'btn btn-primary' %>
-      <% end %>
-    </p>
   <div class="page-header">
     <h1>Store</h1>
   </div>
+  <%= render partial: 'items', object: @store_items %>
   <p>
     <% if can?(:create, StoreItem) and @organization.blank? %>
-      <%= link_to t('.new_item', default: t('helpers.lsinks.new_item')),
+      <%= link_to "New Store Item",
                   new_store_item_path,
                   class: 'btn btn-primary' %>
     <% end %>
   </p>
-  <%= render partial: 'items', object: @store_items %>
-  <%#= will_paginate @store_items, renderer: BootstrapPagination::Rails %>
+  </div><div class="sidebar">
+    <div class="gold">
+      <%= render 'store/purchases/form' %>
+    </div>
+  </div>
 </div>

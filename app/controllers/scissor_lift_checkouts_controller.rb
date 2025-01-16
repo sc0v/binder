@@ -136,7 +136,7 @@ class ScissorLiftCheckoutsController < ApplicationController
       end
       @checkout.checked_in_at = Time.zone.now
       @checkout.due_at = nil
-      @checkout.is_forfeit = :checkin_type == "0"
+      @checkout.is_forfeit = params[:checkin_type] == "1"
       @checkout.save!
       if @checkout.is_forfeit
         redirect_to scissor_lifts_path, notice: "#{params[:name]} successfully forfeited."

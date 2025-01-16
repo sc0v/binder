@@ -196,6 +196,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       post 'checkout', action: 'create'
       post 'choose_organization'
       delete 'clear_cart', action: 'clear_cart', as: 'clear_cart'
+      get 'reset_participant', action: 'reset_participant'
     end
   end
 
