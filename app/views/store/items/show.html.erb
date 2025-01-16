@@ -1,24 +1,94 @@
-<%- model_class = StoreItem -%>
-<div class="page-header">
+<% update_document_title(add: "#{@store_item.name}") %>
+<% update_breadcrumbs(add: link_to('Store', store_path)) %>
+<% update_breadcrumbs(add: "#{@store_item.name}") %>
+<% nav(active: 'store') %>
+
+<div class="content">
   <h1><%= @store_item.name %></h1>
-  <dt>
-    <%= image_tag("store_images/#{@store_item.name}.png", id: "item-image-#{@store_item.name}", class: 'item-image', data: { item_name: @store_item.name, image_url: asset_path("store_images/#{@store_item.name}.png") }, size: '70x70') %>
-  </dt>
-  <dt><strong><%= model_class.human_attribute_name(:price) %>:</strong></dt>
+  <% begin %>
+    <dt>
+      <%= image_tag("store_images/#{@store_item.name}.png", id: "item-image-#{@store_item.name}", class: 'item-image', data: { item_name: @store_item.name, image_url: asset_path("store_images/#{@store_item.name}.png") }, size: '70x70') %>
+    </dt>
+  <% rescue %>
+  <% end %>
+  <br/>
+  <dt><strong>Price:</strong></dt>
   <dd><%= number_to_currency @store_item.price %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:quantity) %>:</strong></dt>
-  <dd><%= @store_item.quantity %></dd>
+  <% if can?(:update, @store_item) %>
+    <%= link_to t('.edit', default: t('helpers.links.edit')),
+                edit_store_item_path(@store_item), class: 'btn btn-primary' %>
+  <% end %>
+  <% if can?(:destroy, @store_item) %>
+    <%= link_to t('.destroy', default: t('helpers.links.destroy')),
+                store_item_path(@store_item),
+                data: {
+                  turbo_confirm: 'Are you sure?',
+                  turbo_method: 'delete',
+                },
+                class: 'btn btn-danger' %>
+  <% end %>
+  <br/>
 </div>
-<%= link_to t('.back', default: t('helpers.links.back')),
-            store_items_path, class: 'btn btn-default' %>
-<% if can?(:update, @store_item) %>
-  <%= link_to t('.edit', default: t('helpers.links.edit')),
-              edit_store_item_path(@store_item), class: 'btn btn-primary' %>
-<% end %>
-<% if can?(:destroy, @store_item) %>
-  <%= link_to t('.destroy', default: t('helpers.links.destroy')),
-              store_item_path(@store_item),
-              method: 'delete',
-              data: { confirm: t('.confirm', default: t('helpers.links.confirm', default: 'Are you sure?')) },
-              class: 'btn btn-danger' %>
-<% end %>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 999;
+  }
+
+  .popup img {
+    max-height: 90%;
+    max-width: 90%;
+  }
+
+  .item-image {
+  cursor: pointer;
+  }
+</style>
+<script>
+  // opens the image in a popup when it's clicked 
+  // closes the image when the "Close Image" button is clicked
+  function openPopup(imageUrl) {
+  if (document.querySelector('.popup')) {
+    // popup is already open, do nothing
+    return;
+  }
+  var popup = document.createElement('div');
+  popup.className = 'popup';
+  var img = document.createElement('img');
+  img.src = imageUrl;
+  popup.appendChild(img);
+  var closeButton = document.createElement('button');
+  closeButton.innerHTML = 'Close Image';
+  popup.appendChild(closeButton);
+  document.body.appendChild(popup);
+  
+  popup.addEventListener('click', function(event) {
+    if (event.target === popup) {
+      popup.parentNode.removeChild(popup);
+    }
+  });
+  closeButton.addEventListener('click', function() {
+    popup.parentNode.removeChild(popup);
+  });
+  }
+
+  // if an image is called, the openPopup function is called
+  $(function() {
+    $('.item-image').click(function() {
+      var imageUrl = $(this).data('image-url');
+      openPopup(imageUrl);
+    });
+  });
+
+</script>

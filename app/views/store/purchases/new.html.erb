@@ -1,3 +1,8 @@
+<% update_document_title(add: 'Checkout') %>
+<% update_breadcrumbs(add: link_to('Store', store_path)) %>
+<% update_breadcrumbs(add: 'Checkout') %>
+<% nav(active: 'store') %>
+
 <div class="content">
 <%- model_class = StorePurchase -%>
 <div class="page-header">

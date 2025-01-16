@@ -38,18 +38,26 @@ class Store::PurchasesController < ApplicationController
     redirect_to store_url
   end
 
+  def reset_participant
+    session[:borrower_id] = nil
+    redirect_to store_path
+  end
+
   def new
     @charge = Charge.new
   end
 
   def create
+    if session.nil? || !session[:borrower_id].present?
+      redirect_to store_path, alert: "Must specify who is checking out." and return
+    end
 
     StorePurchase.items_in_cart.each do |i|
       c = Charge.new
-      c.organization_id = params[:charge][:organization_id]
+      c.organization_id = params[:checkout][:organization_id]
       c.charge_type = ChargeType.find_by(name: "Store Purchase") # THIS works
       c.description = i.store_item.name + " (x #{i.quantity_purchased})"
-      c.receiving_participant = Participant.find_by("eppn": "#{params[:charge][:receiving_participant_id]}@andrew.cmu.edu")
+      c.receiving_participant = Participant.find(session[:borrower_id])
       c.issuing_participant_id = Current.user.id
       c.creating_participant_id = Current.user.id
       c.charged_at = Time.zone.now
@@ -59,12 +67,18 @@ class Store::PurchasesController < ApplicationController
 
       i.store_item.quantity = i.store_item.quantity - i.quantity_purchased if i.store_item.quantity
 
-      c.save!
-      i.save!
-      i.store_item.save!
+     # begin
+        c.save!
+        i.save!
+        i.store_item.save!  
+     # rescue 
+     #   redirect_to store_url, alert: "Not all items could be checked out." and return
+     # end
     end
 
-    redirect_to store_url
+    session[:borrower_id] = nil
+
+    redirect_to store_url, notice: "Checkout completed!"
   end
 
   def update
@@ -82,8 +96,4 @@ class Store::PurchasesController < ApplicationController
   def store_purchase_params
     params.require(:store_purchase).permit(:quantity_purchased, :store_item_id)
   end
-
-  
-  
-  
 end

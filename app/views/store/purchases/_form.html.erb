@@ -1,21 +1,16 @@
-<%= simple_form_for @charge, html: { class: 'form-horizontal' }, url: store_cart_checkout_path, method: :post do |f| %>
-  <%#= f.input :participant_id, required: true do %>
-    <%#= f.input :receiving_participant_id, as: :hidden, required: true %>
-    <%#= text_field_tag 'user-card-number-input', nil, class: 'form-control', required: true %>
-    <div id="user-participant-info" style="text-align: left"></div>
-  <%# end %>
-  <%= f.label :receiving_participant_id, "Andrew ID" %>
-  <%= f.text_field :receiving_participant_id, required: true %>
-  <%= f.collection_select :organization_id, Organization.all.ordered_by_name, :id, :name %>
-  <div class="form-actions">
-    <%= f.button :submit, 'Checkout', class: 'btn-primary', id: 'checkout_submit_button' %>
-    <%= link_to t('.cancel', default: t('helpers.links.cancel')), store_path, class: 'btn' %>
-  </div>
+<h2>Checkout</h2>
+<% if session[:borrower_id].present? %>
+  <%= form_tag store_cart_checkout_path do %>
+    <% borrower = Participant.find(session[:borrower_id]) %>
+    <h3><%= borrower.name %> (<%= borrower.eppn %>)</h3>
+    <%= collection_select(:checkout, :organization_id, borrower.organizations, :id, :name) %>
+    <%= submit_tag "Complete Checkout", class: 'wide' %>
+    <% end %>
+<% else %>
+  <%= form_tag checkout_participant_tools_path do %>
+    <%= label_tag(:participant_search, 'Tap/Swipe/Type Andrew ID [Enter]') %>
+    <%= hidden_field_tag(:url, request.path) %>
+    <%= text_field_tag(:participant_search, nil, autocomplete: :off, autofocus: :true) %>
+  <% end %>
 <% end %>
-<script>
-  //<![CDATA[
-
-    Checkout.init();
-
-  //]]>
-</script>
+<p class="alignright"><%= link_to 'Reset', store_cart_reset_participant_path, class: 'cta' %></p>

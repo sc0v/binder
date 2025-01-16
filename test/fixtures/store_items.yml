@@ -1,24 +1,24 @@
-1:
+one:
    name: 9 Volt Battery
    price: 1.0
    quantity: 0
 
-2:
+two:
    name: AAA Battery
    price: 1.0
    quantity: 0
 
-3:
+three:
    name: Amp Switch
    price: 10.00
    quantity: 0
 
-4:
+four:
    name: Belt Sander Belt
    price: 5.0
    quantity: 0
 
-5:
+five:
    name: Bracket
    price: 1.0
    quantity: 0

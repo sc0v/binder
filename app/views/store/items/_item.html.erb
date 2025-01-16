@@ -1,88 +1,14 @@
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<style>
-  .popup {
-    position: fixed;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 999;
-  }
-
-  .popup img {
-    max-height: 90%;
-    max-width: 90%;
-  }
-  .popup .close {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
-  }
-
-  body > *:not(.popup) {
-    z-index: 1;
-  }
-
-  .item-image {
-  cursor: pointer;
-  }
-</style>
-
 <tr>
-  <td><%= link_to item.name, item, class: 'btn btn-info btn-xs' %></td>
-  <td>
-    <%# add image of store item in its own column %>
-  </td>
+  <td><%= link_to item.name, item %></td>
   <td><%= number_to_currency item.price %></td>
   <td>
     <%# if can?(:create, Charge) %>
-      <%= button_to t('.add_to_cart', default: t('helpers.links.add_to_cart')),
+      <%= link_to t('.add_to_cart', default: t('helpers.links.add_to_cart')),
       add_to_cart_store_item_path(item),
       class: 'btn btn-primary btn-xs',
-      method: :post %>
+      data: {
+        turbo_method: :post,
+      } %>
     <%# end %>
   </td>
 </tr>
-
-<script>
-  // opens the image in a popup when it's clicked 
-  // closes the image when the "Close Image" button is clicked
-  function openPopup(imageUrl) {
-  if (document.querySelector('.popup')) {
-    // popup is already open, do nothing
-    return;
-  }
-  var popup = document.createElement('div');
-  popup.className = 'popup';
-  var img = document.createElement('img');
-  img.src = imageUrl;
-  popup.appendChild(img);
-  var closeButton = document.createElement('button');
-  closeButton.innerHTML = 'Close Image';
-  closeButton.className = 'popup-close-button';
-  popup.appendChild(closeButton);
-  document.body.appendChild(popup);
-  
-  popup.addEventListener('click', function(event) {
-    if (event.target === popup) {
-      popup.parentNode.removeChild(popup);
-    }
-  });
-  closeButton.addEventListener('click', function() {
-    popup.parentNode.removeChild(popup);
-  });
-  }
-
-  // if an image is called, the openPopup function is called
-  $(function() {
-    $('.item-image').click(function() {
-      var imageUrl = $(this).data('image-url');
-      openPopup(imageUrl);
-    });
-  });
-
-</script>

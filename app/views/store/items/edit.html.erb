@@ -1,5 +1,12 @@
-<%- model_class = StoreItem -%>
-<div class="page-header">
-  <h1><%= t '.title', default: [:'helpers.titles.edit', 'Edit %<model>s'], model: model_class.model_name.human %></h1>
+<% update_document_title(add: 'Store') %>
+<% update_breadcrumbs(add: link_to('Store', store_path)) %>
+<% update_breadcrumbs(add: "#{@store_item.name}") %>
+<% nav(active: 'store') %>
+
+<div class='content'>
+  <%- model_class = StoreItem -%>
+  <div class="page-header">
+    <h1><%= t '.title', default: [:'helpers.titles.edit', 'Edit %<model>s'], model: model_class.model_name.human %></h1>
+  </div>
+  <%= render 'form' %>
 </div>
-<%= render 'form' %>

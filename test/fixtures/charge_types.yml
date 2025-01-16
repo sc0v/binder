@@ -1,0 +1,5 @@
+one:
+  name: "Store Purchase"
+  requires_booth_chair_approval: false
+  default_amount: 1.0
+  description: "Store Purchase"
