@@ -1,48 +1,44 @@
+<% update_document_title(add: 'Charges') %>
+<% update_breadcrumbs(add: link_to('Charges', charges_path)) %>
+<% update_breadcrumbs(add: "#{@charge.charge_type.name} (#{@charge.organization.name})") %>
+<%= nav() %>
+
 <%- model_class = Charge -%>
-<div class="page-header">
-  <h1 <%= raw('class="text-muted"') unless @charge.is_approved? %>><%= @charge.charge_type.name %></h1>
-</div>
-<dl class="dl-horizontal">
-  <dt><strong><%= model_class.human_attribute_name(:description) %>:</strong></dt>
-  <dd><%= @charge.description %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:amount) %>:</strong></dt>
-  <dd><%= number_to_currency @charge.amount %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:organization) %>:</strong></dt>
-  <dd><%= link_to @charge.organization.name, @charge.organization %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:issuing_participant) %>:</strong></dt>
-  <dd><%= link_to @charge.issuing_participant.formatted_name, @charge.issuing_participant %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:receiving_participant) %>:</strong></dt>
-  <dd><%= link_to @charge.receiving_participant.formatted_name, @charge.receiving_participant unless @charge.receiving_participant.nil? %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:charged_at) %>:</strong></dt>
-  <dd><%= date_and_time @charge.charged_at %></dd>
-  <dt><strong><%= model_class.human_attribute_name(:is_approved) %></strong></dt>
-  <dd><%= format_boolean @charge.is_approved %></dd>
-</dl>
-<div class="form-actions">
-  <%= link_to t('.back', default: t('helpers.links.back')),
-              charges_path, class: 'btn btn-default' %>
-  <% if can?(:approve, Charge) %>
-    <% unless @charge.is_approved? %>
-      <%= form_tag approve_charge_path(@charge), method: :put, style: 'display: inline;', role: 'form' do -%>
-        <%= hidden_field_tag 'url', request.original_fullpath %>
-        <%= submit_tag 'Approve', class: 'btn btn-success', type: 'submit' %>
-      <% end -%>
-    <% else %>
-      <%= form_tag approve_charge_path(@charge), method: :put, style: 'display: inline;', role: 'form' do -%>
-        <%= hidden_field_tag 'url', request.original_fullpath %>
-        <%= submit_tag 'Un-Approve', class: 'btn btn-danger', type: 'submit' %>
-      <% end -%>
-    <% end %>
-  <% end %>
-  <% if can?(:update, @charge) %>
-    <%= link_to t('.edit', default: t('helpers.links.edit')),
-                edit_charge_path(@charge), class: 'btn btn-primary' %>
-  <% end %>
-  <% if can?(:destroy, @charge) %>
-    <%= link_to t('.destroy', default: t('helpers.links.destroy')),
-                charge_path(@charge),
-                method: 'delete',
-                data: { confirm: t('.confirm', default: t('helpers.links.confirm', default: 'Are you sure?')) },
-                class: 'btn btn-danger' %>
-  <% end %>
+<div class="content">
+  <div>
+    <div class="page-header">
+      <h1 style="padding-bottom: 0.25em"><%= @charge.charge_type.name %></h1> 
+      <h2>(<%= link_to @charge.organization.name, @charge.organization %>)</h2>
+    </div>
+    <p>
+      <strong>Description:</strong> <%= @charge.description %>
+    </p>
+    <p>
+      <strong>Charge Amount:</strong> <%= number_to_currency @charge.amount %> <br />
+      <strong>Charged On:</strong> <%= @charge.charged_at.strftime('%b %e at %l:%M %p') %> <br />
+      <strong>Issued By:</strong> <%= link_to @charge.issuing_participant.formatted_name, @charge.issuing_participant %> <br />
+      <% if @charge.receiving_participant.present? %>
+        <strong>Issued To:</strong> <%= link_to @charge.receiving_participant.formatted_name, @charge.receiving_participant %> <br />
+      <% end %>
+    </p>
+    <br />
+    
+    <div class="form-actions">
+      <%= link_to t('.back', default: t('helpers.links.back')),
+                  charges_path, class: 'btn btn-default' %>
+      <% if can?(:update, @charge) %>
+        <%= link_to t('.edit', default: t('helpers.links.edit')),
+                    edit_charge_path(@charge), class: 'btn btn-primary' %>
+      <% end %>
+      <% if can?(:destroy, @charge) %>
+        <%= link_to t('.destroy', default: t('helpers.links.destroy')),
+                    charge_path(@charge),
+                    data: { 
+                      turbo_method: 'delete',
+                      turbo_confirm: 'Are you sure?',
+                    },
+                    class: 'btn' %>
+      <% end %>
+    </div>
+  </div>
 </div>

@@ -1,5 +1,12 @@
+<% update_document_title(add: 'Edit Charge Type') %>
+<% update_breadcrumbs(add: link_to('Charges', charges_path)) %>
+<% update_breadcrumbs(add: 'Edit Charge Type') %>
+<%= nav() %>
+
 <%- model_class = ChargeType -%>
-<div class="page-header">
-  <h1><%= t '.title', default: [:'helpers.titles.edit', 'Edit %<model>s'], model: model_class.model_name.human %></h1>
+<div class="content">
+  <div class="page-header">
+    <h1><%= t '.title', default: [:'helpers.titles.edit', 'Edit %<model>s'], model: model_class.model_name.human %></h1>
+  </div>
+  <%= render 'form' %>
 </div>
-<%= render 'form' %>

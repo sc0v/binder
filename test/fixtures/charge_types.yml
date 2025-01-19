@@ -3,3 +3,21 @@ one:
   requires_booth_chair_approval: false
   default_amount: 1.0
   description: "Store Purchase"
+
+two:
+  name: "Paint Spill Minor"
+  requires_booth_chair_approval: false
+  default_amount: 25.0
+  description: "Minor paint spill"
+
+three:
+  name: "Paint Spill Medium"
+  requires_booth_chair_approval: false
+  default_amount: 50.0
+  description: "Medium paint spill"
+
+four:
+  name: "Paint Spill Severe"
+  requires_booth_chair_approval: false
+  default_amount: 100.0
+  description: "Sever paint spill"

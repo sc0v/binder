@@ -1,5 +1,5 @@
 <%- model_class = Charge -%>
-<div class="page-header">
+<div class="content">
   <h1><%= t '.title', default: [:'helpers.titles.edit', 'Edit %<model>s'], model: model_class.model_name.human %></h1>
+  <%= render 'form' %>
 </div>
-<%= render 'form' %>
