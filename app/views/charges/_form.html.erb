@@ -1,48 +1,34 @@
-<div class="content">
-<h1>New Charge </h1>	
 <p>	
-When adding a charge, please ensure that you add a detailed description. This allows us to defend the charge if and when an org protests it. Information to include would be things like who, what, where, when, and why. If Dan wants to add a charge to Delt for blowing their breaker for the second time, the coordinator on duty should add a charge to Delta Tau Delta for a blown breaker for $25 with the description "Delt plugged in too many space heaters Wednesday night because they got cold, even though they were warned against this." by Dan Miele to James Orr (swipe booth chair's ID). <br>
+When adding a charge, please ensure that you add a detailed description. This allows us to defend the charge if and when an org protests it. Information to include would be things like who, what, where, when, and why. If Dan wants to add a charge to TriDelt for blowing their breaker for the second time, the coordinator on duty should add a charge to Delta Delta Delta for a blown breaker for $25 with the description "TriDelt plugged in too many space heaters Wednesday night because they got cold, even though they were warned against this." by Dan Miele to TriDelt's booth chair. <br>
 <br>
 </p>
 <%= form_with model: @charge, html: { class: 'form-horizontal' } do |f| %>
+  <% default_org = @charge.organization.present? ? @charge.organization : Organization.ordered_by_name.first %>
   <div class="form-inputs">
-  <%= f.label "Organization" %>	  
-  <%= f.collection_select( :organization_id, Organization.all, :id, :name) %>
-  <% org = params[:organization_id] %>
-  <div class="row" style="display:flex;">
-      <div class="col-md-4">
-	 <%= f.label "Charge Type" %>     
-	 <%= f.collection_select :charge_type_id, ChargeType.all, :id, :name, input_html: { onchange: raw("$.getJSON('/charge_types/'+this.value,function(response){$('#charge_amount').val(response)});") } %>
-      
-      <div class="col-md-4" style="padding-bottom:2rem;">
-	  <% if can?(:create, ChargeType) %>
-          <%= link_to 'Or create a new charge type', new_charge_type_path(from_charge: true), class: 'btn btn-primary' %>
-        <% end %>
-      </div>
+    <%= f.label "Organization" %>	  
+    <%= f.collection_select( :organization_id, Organization.ordered_by_name, :id, :name, {}, id: 'organization-select') %>
+    <div class="row" style="display:flex;">
+      <div>
+        <%= f.label "Charge Type" %>     
+        <%= f.collection_select :charge_type_id, ChargeType.ordered_by_name, :id, :name, {}, id: 'charge-type-select' %>
+        <div style="padding-bottom:2rem;">
+          <% if can?(:create, ChargeType) %>
+            <%= link_to 'Or create a new charge type', new_charge_type_path(from_charge: true), class: 'btn btn-primary' %>
+          <% end %>
+        </div>
       </div>
     </div>
     <%= f.label "Amount" %>
-    <%= f.text_field :amount do %>
-      <div class="input-group">
-        <%= content_tag :span, '$', class: 'input-group-addon' %>
-        <%= f.input_field :amount, as: :string, value: number_to_currency(f.object.amount, unit: '', delimiter: '') %>
-      </div>
-    <% end %>
+    <div class="input-group" style="display: flex">
+      <%= content_tag :span, '$', class: 'input-group-addon' %>
+      <%= f.text_field :amount, as: :string, value: number_to_currency(f.object.amount, unit: '', delimiter: '', html: {id: 'amount'}) %>
+    </div>
     <%= f.label "Description" %> 
-    <%= f.text_field :description, as: :text, textarea: '{ font-size:16px; }' %>
+    <%= f.text_field :description, as: :text, textarea: '{ font-size:16px; }', html: {id: 'description'} %>
     <%= f.label "Issuer" %>
     <%= f.collection_select :issuing_participant_id, Participant.scc, :id, :name %>
     <%= f.label "Charge Receiver" %>
-    <% if params[:organization_id] %>
-        <%= f.collection_select :participant_id, Organization.find_by(id:org).participants, :id, :name,  required: true %>
-    <% else %>
-        <%= f.collection_select :participant_id, Participant.all, :id, :name,  required: true %>
-    <% end %>
-    <%# f.text_field :receiving_participant do %>
-      <%# f.input_field :receiving_participant_id, as: :hidden %>
-      <%# text_field_tag 'card-number-input', nil, value: @current_receiving_participant, placeholder: 'Tap card or enter andrewid...', class: 'form-control' %>
-      <div id="participant-info"></div>
-    <%# end %>
+    <%= f.collection_select(:receiving_participant_id, Participant.in_organization(default_org).ordered_by_name, :id, :name, {}, id: 'receiving-participant-select') %>
   </div>
   <div class="form-actions">
     <%= f.button :submit, class: 'btn-primary' %>
@@ -50,4 +36,45 @@ When adding a charge, please ensure that you add a detailed description. This al
                 @charge, class: 'btn btn-default' %>
   </div>
 <% end %>
-</div>
+
+<!-- Autofill receiving participant collection based on selected organization -->
+<!-- and amount and description based on selected charge type -->
+<script>
+  document.getElementById('organization-select').addEventListener('change', function() {
+    $organizationSelect = $('#organization-select');
+    $receivingSelect = $('#receiving-participant-select');
+
+    const organization = $organizationSelect.val();
+    $.ajax({
+      url: `/organizations/${organization}/participants.json`,
+      type: 'GET',
+    }).done(function(data) {
+      $receivingSelect.empty();
+      
+      data.data.forEach(participant => {
+        $receivingSelect.append(
+          $('<option>', {
+            text : participant['cached_name'], 
+            val : participant['id'],
+          })
+        )
+      });
+    });
+  });
+
+  document.getElementById('charge-type-select').addEventListener('change', function() {
+    $chargeTypeSelect = $('#charge-type-select');
+    $amount = $('#charge_amount');
+    console.log($amount.val());
+    $description = $('#charge_description');
+
+    const chargeType = $chargeTypeSelect.val();
+    $.ajax({
+      url: `/charge_types/${chargeType}.json`,
+      type: 'GET',
+    }).done(function(json) {
+      $amount.attr("value", json['amount'].replaceAll('"', ''));
+      $description.attr("value", json['description']);
+    });
+  });
+</script>

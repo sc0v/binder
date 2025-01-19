@@ -9,10 +9,11 @@ class ChargeTypesController < ApplicationController
 
   # GET /charge_types/1
   def show
+    amount = ActiveSupport::NumberHelper.number_to_currency(@charge_type.default_amount, unit: '', delimiter: '').to_json
     respond_to do |format|
       format.html # new.html.erb
       format.json do
-        render json: ActiveSupport::NumberHelper.number_to_currency(@charge_type.default_amount, unit: '', delimiter: '').to_json,
+        render json: {amount: amount, description: @charge_type.description},
                status: :ok
       end
     end
@@ -46,12 +47,12 @@ class ChargeTypesController < ApplicationController
   # DELETE /charge_types/1.json
   def destroy
     if @charge_type.charges.count.positive?
-      flash[:error] = 'Cannot delete a charge type until all charges of that type are deleted.'
+      flash[:warn] = 'Cannot delete a charge type until all charges of that type are deleted.'
       redirect_to charge_types_url
       return
     end
     @charge_type.destroy
-    respond_with(@charge_type)
+    redirect_to charge_types_path, notice: "Charge type deleted!"
   end
 
   private

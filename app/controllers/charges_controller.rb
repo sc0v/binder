@@ -14,7 +14,20 @@ class ChargesController < ApplicationController
       @charges = @organization.charges
     end
 
-    # @charges = @charges.paginate(:page => params[:page]).per_page(20)
+    respond_to do |format|
+      format.html
+      format.json do
+        data = Charge.all.as_json(methods: %i[charge_type_name organization_name organization_link])
+        data.each do |d|
+          charge = Charge.find(d['id'])
+          d['show_link'] = helpers.link_to 'show', charge, class: 'btn'
+          d['description_truncated'] = d['description'].truncate(85, separator: /\s/)
+          #d['approve_link'] = link_to 'show', charge, class: 'btn'
+        end
+        puts data.first['show_link']
+        render json: {data: }
+      end
+    end
   end
 
   def export
@@ -43,8 +56,13 @@ class ChargesController < ApplicationController
     @charge.charged_at = DateTime.now
     @charge.creating_participant = Current.user
     @charge.is_approved = false
-    @charge.save!
-    respond_with @charge
+    begin
+      @charge.save!
+    rescue
+      flash.alert = "Could not create the charge: #{@charge.errors.full_messages}"
+      redirect_to new_charge_path and return
+    end
+    redirect_to charge_path(@charge), notice: "Charge created!"
   end
 
   # PUT /charges/1
@@ -52,20 +70,22 @@ class ChargesController < ApplicationController
   def update
     @charge.is_approved = false
     @charge.update(charge_params)
-    respond_with(@charge)
+    redirect_to charge_path(@charge)
   end
 
   # DELETE /charges/1
   # DELETE /charges/1.json
   def destroy
-    return redirect_to :back if @charge.blank?
+    return redirect_to charges_path if @charge.blank?
 
     if @charge.charge_type == ChargeType.find_by(name: 'Store Purchase')
       charge_store_purchase = StorePurchase.find_by(charge_id: @charge.id)
-      charge_store_purchase.destroy
+      if charge_store_purchase.present?
+        charge_store_purchase.destroy
+      end
     end
     @charge.destroy
-    respond_with(@charge)
+    redirect_to charges_path
   end
 
   # PUT
@@ -73,7 +93,10 @@ class ChargesController < ApplicationController
     @charge.is_approved = !@charge.is_approved
     @charge.save
 
-    respond_with(@charge, location: @charge.organization)
+    if params[:url].present?
+      redirect_to params[:url] and return
+    end
+    redirect_to charge_path(@charge) 
   end
 
   private

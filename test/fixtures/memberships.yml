@@ -9,6 +9,7 @@ scc_participant_scc:
 booth_chair_participant_signu:
   organization: signu
   participant: booth_chair_participant
+  is_booth_chair: true
 
 builder_participant_aepi:
   organization: aepi

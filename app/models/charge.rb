@@ -16,4 +16,7 @@ class Charge < ApplicationRecord
   scope :pending, -> { where(is_approved: false) }
   scope :active,       -> { where(active: true) }
   scope :inactive,     -> { where(active: false) }
+
+  delegate :name, to: :charge_type, prefix: :charge_type, allow_nil: true
+  delegate :name, :link, to: :organization, prefix: :organization, allow_nil: true
 end
