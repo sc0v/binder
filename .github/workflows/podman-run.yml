@@ -16,8 +16,9 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
-        port: ${{ secrets.PORT }}
         script: |
-          whoami
-          ls -al
+          podman stop binder
+          podman rm binder
+          podman run --name binder -dt -p 3000:3000/tcp ghcr.io/sc0v/binder:master
+          sudo service apache2 reload
   
