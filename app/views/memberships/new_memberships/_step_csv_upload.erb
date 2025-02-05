@@ -1,0 +1,56 @@
+<!-- Step 1: CSV Upload -->
+<div class="content wide">
+  <h1>Add Members</h1>
+  Organizations are required to register their own members with Spring Carnival's
+  management application "Binder" so builders can check out tools and scissor lifts, and 
+  buy from our store themselves. Please fill out the spreadsheet template SCC
+  sent out and submit it here as a CSV file.
+  <br/><br/>
+  <b>Only enter builders that are part of your organization!</b> We reserve the 
+  right to remove builders who shouldn't be registered with your organization!
+  <br/><br/>
+  <div style="display: flex; justify-content: center">
+    <%= form_with url: organization_upload_membership_csv_path(@organization) do |f| %>
+      <%= f.hidden_field :step, value: 'csv_upload' %>
+      <%= f.hidden_field :organization, value: @organization.id %>
+      <div class='light grey file-upload'>
+        <p>Choose a CSV or drag it here.</p>
+        <%= f.file_field :csv_file, accept: 'text/csv', onchange: "this.form.submit()" %>
+      </div>
+    <% end %>
+  </div>
+  <br/>
+  <div style="display: flex; justify-content: right">
+    <%= link_to "...or add participants manually", new_organization_membership_path(@organization, step: 'repair'), class: 'cta'%>
+  </div>
+</div>
+<style>
+  .file-upload {
+    position: relative;
+    width: 50vw;
+    height: 30vh;
+    border-width: 0.25em;
+    border-style: dashed;
+  }
+
+  .file-upload:hover {
+    background-color: #aaaaaa;
+  }
+
+  .file-upload input {
+    position: absolute;
+    top: -0.25em;
+    width: calc(100% - 1em);
+    height: calc(100% - 0.75em);
+    opacity: 0%;
+  }
+
+  .file-upload p {
+    position: absolute;
+    top: 50%;
+    font-size: 2em;
+    color: dark grey;
+    width: 100%;
+    text-align: center;
+  }
+</style>
