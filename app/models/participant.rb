@@ -53,7 +53,6 @@ class Participant < ApplicationRecord
   has_many :checkouts, dependent: :destroy
   has_many :tools, through: :checkouts
 
-  has_many :organization_statuses, dependent: :destroy
   has_many :events
 
   def link
