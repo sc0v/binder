@@ -8,6 +8,8 @@ class Membership < ApplicationRecord
   belongs_to :organization
   belongs_to :participant
 
+  delegate :name, :eppn, to: :participant, prefix: true
+
   scope :booth_chairs, -> { where(is_booth_chair: true).order('booth_chair_order ASC') }
   scope :active,       -> { where(active: true) }
   scope :inactive,     -> { where(active: false) }

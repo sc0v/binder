@@ -1,0 +1,71 @@
+<div class="content">
+  <div>
+    <h1>Edit and Review</h1>
+
+    Here are the new participants we extracted from your CSV. 
+    Do these look correct? Any entries that seem incorrect are highlighted in red, but make sure to check everything!
+    <table>
+      <tr>
+        <th>Name</th>
+        <th>Andrew Email</th>
+        <th>Actions</th>
+      </tr>
+      <% @members.each do |m| %>
+      <% if m.participant.name == "N/A" %>
+      <tr class="red invert">
+        <td><b><%= m.participant.name %></b></td>
+        <td><b><%= m.participant.eppn %><b></td>
+      <% else %>
+      <tr>
+        <td><%= m.participant.name %></td>
+        <td><%= m.participant.eppn %></td>
+      <% end %>
+        <!-- Actions should appear whether or not name is N/A -->
+        <td>
+          <div class="red invert">
+            <%= button_to "Remove", 
+                  organization_remove_membership_path(@organization),
+                  params: { organization: @organization.id, old_membership: m.id },
+                  style: "margin-bottom: 0", class: "btn ghost" %>
+          </div>
+        </td>
+      </tr>
+      <% end %>
+    </table>
+    <div style="display: flex">
+      <%= form_with url: organization_commit_membership_csv_path(@organization) do |f| %>
+        <%= f.hidden_field :organization, value: @organization.id %>
+        <!-- Setting padding-right to 2.35em (1 greater than default) to make button text look centered -->
+        <%= f.submit "Submit Changes", data: { turbo_confirm: "Are you sure you want to add these builders to #{@organization.name}?" }, style: "padding-right: 2.35em" %>
+      <% end %>
+      <%= form_with url: organization_cancel_membership_csv_path(@organization) do |f| %>
+        <%= f.hidden_field :organization, value: @organization.id %>
+        <!-- Setting padding-right to 2.35em (1 greater than default) to make button text look centered -->
+        <%= f.submit "Cancel", data: { turbo_confirm: "Are you sure you want to cancel?" }, style: "padding-right: 2.35em" %>
+      <% end %>
+    </div>
+  </div><div class="sidebar">
+    <% if @members.count > 0 %>
+    <div class="gold">
+      <h3>Fix Member</h3>
+      <%= form_with url: organization_replace_membership_path(@organization) do |f| %>
+        <%= f.hidden_field :organization, value: @organization.id %>
+        Incorrect Member
+        <%= f.collection_select(:old_membership, @members, :id, :participant_eppn)%>
+        New Andrew ID
+        <%= f.text_field :new_participant %>
+        <%= f.submit "Update Member"%>
+      <% end %>
+    </div>
+    <% end %>
+    <div class="teal invert">
+      <h3>Add Member</h3>
+      <%= form_with url: organization_insert_membership_path(@organization) do |f| %>
+        <%= f.hidden_field :organization, value: @organization.id %>
+        New Andrew ID
+        <%= f.text_field :new_participant %>
+        <%= f.submit "Add Member"%>
+      <% end %>
+    </div>
+  </div>
+</div>
