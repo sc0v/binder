@@ -16,8 +16,13 @@ jobs:
         host: ${{ secrets.HOST }}
         username: ${{ secrets.USERNAME }}
         password: ${{ secrets.PASSWORD }}
+        # Simply getting the master tagged package seems to always pick an older version,
+        # So query the github api for all versions and find the SHA-256 of the second 
+        # most recent (GitHub seems to make multiple packages with each docker-publish run,
+        # and this seems to be the correct one to take)
         script: |
           podman stop binder
           podman rm binder
-          podman run --name binder -dt -p 3000:3000/tcp ghcr.io/sc0v/binder:master
+          package_sha=`gh api orgs/sc0v/packages/container/binder/versions | jq -r '.[1].name'`
+          podman run --name binder -dt -p 3000:3000/tcp ghcr.io/sc0v/binder@"$package_sha"
   
