@@ -28,8 +28,11 @@ class Applets::PPEDistributionController < ApplicationController
     elsif @participant.organizations.blank?
       flash.now[:alert] = "#{@participant.name} has no organization memberships."
       return false
-    elsif Tool.hardhats.joins(:checkouts).where(checkouts: {participant_id: @participant.id, checked_in_at: nil}).exists?
-      flash.now[:alert] = "#{@participant.name} already has tools checked out."
+    elsif Tool.hardhats
+      .joins(:checkouts)
+      .where(checkouts: {participant_id: @participant.id, checked_in_at: nil})
+      .exists?
+      flash.now[:alert] = "#{@participant.name} already has a hardhat checked out."
       return false
     end
     true
