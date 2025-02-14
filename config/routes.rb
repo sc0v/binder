@@ -39,6 +39,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   # Applets/Workflows
   get 'applets', to: 'applets#index', as: :applets
   get 'ppe-distribution', to: 'applets/ppe_distribution#index'
+  get 'ppe-collection', to: 'applets/ppe_collection#index'
 
   # FAQ
   # n.b.: FAQ is uncountable (like sheep). The Rails convention is to have:
@@ -113,7 +114,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     end
   end
   resources :scissor_lift_checkouts, only: [:index]
-  
+
   # TODO: Confirm everything below
   resources :organizations do
     resources :aliases,
@@ -124,7 +125,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 	    resources :organization_build_steps, only: %i[show create update destroy]
     end
 
-    resources :participants, only: %i[new create index], 
+    resources :participants, only: %i[new create index],
       controller: "organization_members"
     patch 'remove_staged', to: 'organization_members#remove_staged'
 

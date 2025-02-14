@@ -1,0 +1,19 @@
+<% update_document_title(add: 'PPE Distribution') %>
+<% update_breadcrumbs(add: link_to('Applets', applets_path)) %>
+<% update_breadcrumbs(add: 'PPE Distribution') %>
+<% nav(active: 'ppe_distribution') %>
+
+<div class="content">
+  <div>
+      <h1>Returns</h1>
+      <%= form_tag ppe_collection_path, method: 'get' do %>
+      <ol>
+        <li>Use the barcode scannner to read the Hardhat</li>
+        <li>
+          <%= label_tag(:hardhat_barcode, 'Barcode') %>
+          <%= text_field_tag(:hardhat_barcode, nil, autocomplete: :off) %>
+        </li>
+      <ol>
+      <% end %>
+  </div>
+</div>
