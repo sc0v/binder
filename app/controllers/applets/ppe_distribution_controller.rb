@@ -28,6 +28,12 @@ class Applets::PPEDistributionController < ApplicationController
     elsif @participant.organizations.blank?
       flash.now[:alert] = "#{@participant.name} has no organization memberships."
       return false
+    elsif Tool.hardhats
+      .joins(:checkouts)
+      .where(checkouts: {participant_id: @participant.id, checked_in_at: nil})
+      .exists?
+      flash.now[:alert] = "#{@participant.name} already has a hardhat checked out."
+      return false
     end
     true
   end
@@ -59,13 +65,32 @@ class Applets::PPEDistributionController < ApplicationController
                when :white
                  ToolType.find_by(name: 'Org Hardhat')
                end
-    @hardhat = Tool.create_with(tool_type: hh_type).find_or_create_by(barcode: params[:hardhat_search])
+    # Check if a hardhat exists with the given barcode
+    @hardhat = Tool.find_by(barcode: params[:hardhat_search])
+
+    # If it exists, check if it's the correct type
+    if @hardhat.present?
+      if @hardhat.tool_type != hh_type
+        flash.now[:alert] = 'Hardhat is not the correct type.'
+        return false
+      end
+    end
+
+    #  If hardhat doesn't exist create one
+    if @hardhat.blank?
+      @hardhat = Tool.create!(tool_type: hh_type, barcode: params[:hardhat_search])
+    end
+
     return false if @hardhat.blank?
     true
   end
 
   def step_three
-    @checkout = Checkout.create!(tool: @hardhat, participant: @participant, organization: @organization, checked_out_at: Time.now)
+    @checkout = Checkout.create(tool: @hardhat, participant: @participant, organization: @organization, checked_out_at: Time.now)
+    if !@checkout.save
+      flash.now[:alert] = "Checkout failed (#{@checkout.errors.full_messages.join(', ')})"
+      return false
+    end
     flash.now[:notice] = "Hardhat #{@hardhat.barcode} checked out to #{@participant.name} of #{@organization.name}. Review below or start over."
   end
 end
