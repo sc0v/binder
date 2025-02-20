@@ -124,6 +124,15 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
               action: :create,
               subject: Applets::PPEDistributionController
             }
+          },
+          {
+            label: 'PPE Collection',
+            url: ppe_collection_path,
+            key: 'ppe_collection',
+            can: {
+              action: :create,
+              subject: Applets::PPECollectionController
+            }
           }
         ]
       },
