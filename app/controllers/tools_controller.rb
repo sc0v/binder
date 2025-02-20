@@ -4,27 +4,38 @@ class ToolsController < ApplicationController
   include Pagy::Backend
   load_and_authorize_resource
 
-  def index
-    # if params[:organization_id].present?
-    #   @organization = Organization.find(params[:organization_id])
-    #   @tools = Tool.just_tools.checked_out_by_organization(@organization)
-    # else
-    #   @tools = Tool.just_tools.accessible_by(Current.ability).ordered_by_name
-    # end
+  def index()
+    type = params[:type] || 'tool'
 
-    # Paginate a lot of records at a time since something seems to be reloaded
-    # each round of pagination so wanted to minimize the number of rounds
-    pagy, @tools = pagy(Tool.just_tools.accessible_by(Current.ability).ordered_by_name, limit: 500)
+    tools = Tool.just_tools
+
+    case type
+      when 'hardhat'
+        tools = Tool.hardhats
+      when 'radio'
+        tools = Tool.radios
+    end
+
+    @pagy, @tools = pagy(tools
+      .accessible_by(Current.ability)
+      .ordered_by_name, limit: 500, params: ->(params) {
+        params.merge(type: type) })
+
+    params.permit!()
+    @json_url = url_for(params.merge( format: :json))
 
     respond_to do |format|
-      format.html
+      format.html do
+        render :index
+      end
       format.json do
         data =
           @tools.table_attrs.as_json(methods: %i[link])
-        render json: {last_page: pagy.pages, data: }
+        render json: {last_page: @pagy.pages, data: data}
       end
     end
   end
+
 
   def show
   end
