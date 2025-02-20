@@ -159,6 +159,16 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
         ]
       },
       {
+        label: 'Scissor Lifts',
+        url: scissor_lifts_path,
+        key: 'scissor_lifts',
+        class: ['secondary'],
+        can: {
+          action: :index,
+          subject: ScissorLift
+        }
+      },
+      {
         label: 'Shifts',
         url: shifts_path,
         key: 'shifts',

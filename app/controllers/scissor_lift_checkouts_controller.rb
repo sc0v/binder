@@ -26,6 +26,12 @@ class ScissorLiftCheckoutsController < ApplicationController
   def checkout
     return unless params[:checkout].present? && params[:checkout][:organization_id].present?
 
+    unless can? :create, ScissorLiftCheckout
+      flash.alert = "Not authorized to checkout a Scissorlift."
+      redirect_to scissor_lifts_path
+      return
+    end
+
     @organization = Organization.find(params[:checkout][:organization_id])
     if @organization.blank?
       flash.alert = "Select a valid organization."
@@ -99,6 +105,12 @@ class ScissorLiftCheckoutsController < ApplicationController
   end
 
   def renew
+    unless can? :update, ScissorLiftCheckout
+      flash.alert = "Not authorized to renew a Scissorlift."
+      redirect_to scissor_lifts_path
+      return
+    end
+
     if params[:name].blank?
       redirect_to scissor_lifts_path, alert: "No Scissor Lift selected."
       return
@@ -122,6 +134,12 @@ class ScissorLiftCheckoutsController < ApplicationController
   end
 
   def checkin
+    unless can? :update, ScissorLiftCheckout
+      flash.alert = "Not authorized to checkin a Scissorlift."
+      redirect_to scissor_lifts_path
+      return
+    end
+
     if params[:name].blank?
       redirect_to scissor_lifts_path, alert: "No Scissor Lift selected."
       return
