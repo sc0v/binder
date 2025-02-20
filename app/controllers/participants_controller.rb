@@ -3,9 +3,6 @@ class ParticipantsController < ApplicationController
   include Pagy::Backend
   include PersonalPathable
   before_action :require_authentication
-  before_action -> { fix_personal_path(participants_path, params[:id].to_i) },
-                :load_participant,
-                only: :show
   load_and_authorize_resource
 
   def index
@@ -15,8 +12,8 @@ class ParticipantsController < ApplicationController
       format.html
       format.json do
         data =
-          participants.as_json(
-            methods: %i[link name signed_waiver? is_booth_chair?]
+          participants.table_attrs.as_json(
+            methods: %i[link name signed_waiver? is_booth_chair]
            )
         render json: { last_page: pagy.pages, data: }
       end
@@ -54,9 +51,6 @@ class ParticipantsController < ApplicationController
   end
 
   def show
-    unless @participant.signed_waiver?
-      flash.now[:alert] = "#{@participant.name} has not signed the waiver."
-    end
    # @memberships = @participant.memberships.all
 
       #elsif !@participant.has_signed_waiver

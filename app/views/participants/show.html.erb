@@ -21,7 +21,7 @@
   <div>
     <% if @participant.signed_waiver? %>
   <p class="invert green" style="padding: 1em;">
-   HAS SIGNED WAIVER <i class="fa fa-camera-retro fa-lg"></i> fa-lg
+   HAS SIGNED WAIVER <i class="fa fa-camera-retro fa-lg"></i>
   </p>
   <% end %>
     <p>
@@ -31,7 +31,7 @@
       <strong>Student Class:</strong> <%= @participant.student_class %>
     </p>
 
-    <h2>Memberships</h2>
+    <h2 style="padding: 0">Memberships</h2>
     <% if @participant.memberships.blank? %>
     None yet.
     <% else %>
@@ -44,7 +44,7 @@
     </ul>
     <% end %>
 
-    <h2>Certifications</h2>
+    <h2 style="padding: 0">Certifications</h2>
     <% if @participant.certifications.blank? %>
     <p>None yet.</p>
     <% else %>
@@ -57,23 +57,20 @@
     </ul>
     <% end %>
     
-    <h2>Tools</h2>
+    <h2 style="padding: 0">Tools</h2>
     <% if @participant.checkouts.current.blank? %>
     <p>No tools checked out.</p>
     <% else %>
     <ul class="list-unstyled">
       <% @participant.checkouts.current.each do |checkout| %>
-      <li><%= link_to checkout.tool.formatted_name, checkout.tool %> - <%= date_and_time checkout.checked_out_at %> for <%= link_to checkout.organization.short_name, checkout.organization %></li>
+      <li><%= link_to checkout.tool.formatted_name, checkout.tool %> - <%= checkout.checked_out_at.strftime('%b %e at %l:%M %p') %> for <%= link_to checkout.organization.short_name, checkout.organization %></li>
       <% end %>
     </ul>
     <% end %>
 
   <% if @participant.signed_waiver? %>
-  <p class="invert green" style="padding: 1em;">
-   HAS SIGNED WAIVER
-  </p>
     <div>
-      <h2>Wristbands</h2>
+      <h2 style="padding: 0">Wristbands</h2>
     Put the following <%= "wristband".pluralize(@participant.wristbands) %> on their wrist. <strong>Don't just give it to them!</strong>
       <% if @participant.wristbands.present? && @participant.wristbands.include?(:red) %>
         <p class="invert red" style="padding: 1em;">Red (Member of at least one organization that will be building)</p>
