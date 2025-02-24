@@ -23,8 +23,44 @@
   </div>
 </div>
 <div class="content wide">
+  <div style="display: flex">
   <%= content_tag :div, data:
         { controller: 'table', config: scissor_lifts_table_config } do %>
     Loading...
   <% end %>
+  <hr>
+    <div style="width: 100%; justify-content: center; padding: 0 2em">
+      <div style="border: 2px solid; padding: 1em">
+        <h1>Add to Scissor Lift Queue</h1>
+        <%= form_with model: OrganizationTimelineEntry.new do |f| %>
+        <%= f.collection_select :organization_id, Organization.all.ordered_by_name, :id, :name %>
+        <%= hidden_field_tag 'url', request.original_fullpath %>
+        <%= f.submit 'Scissor Lift', class: 'btn wide' %>
+        <% end %>
+      </div>
+
+      <% if @queue.length > 0 %>
+      <table>
+        <thead>
+          <th>Organization</th>
+          <th>Wait Time</th>
+          <th>Remove</th>
+        </thead>
+        <tbody>
+          <% @queue.each do |entry| %>
+            <tr>
+              <td><%= link_to entry.organization.name, entry.organization %></td>
+              <td><%= format_duration(Time.zone.now - entry.started_at) %></td>
+              <td>
+                <% if can?(:end, entry) %>
+                  <%= form_tag end_organization_timeline_entry_path(entry), method: :put do %><%= hidden_field_tag 'url', request.original_fullpath %><%= submit_tag 'Remove', class: 'btn' %><% end %>
+                <% end %>
+              </td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+      <% end %>
+    </div>
+  </div>
 </div>
