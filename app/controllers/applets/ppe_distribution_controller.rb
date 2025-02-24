@@ -41,6 +41,7 @@ class Applets::PPEDistributionController < ApplicationController
   def load_step_two
     @participant = Participant.find(params[:participant_id])
     return false if @participant.blank?
+    session[:retry_hardhat] = nil
     true
   end
 
@@ -71,10 +72,19 @@ class Applets::PPEDistributionController < ApplicationController
     # If it exists, check if it's the correct type
     if @hardhat.present?
       if @hardhat.tool_type != hh_type
-        flash.now[:alert] = 'Hardhat is not the correct type.'
-        return false
+        if session[:retry_hardhat] == params[:hardhat_search]
+          # Update hardhat type
+          @hardhat.tool_type = hh_type
+          @hardhat.save!
+        else
+          flash.now[:warning] = "Hardhat #{@hardhat.barcode} is not the correct type in the database. If you are sure scan again to update the type."
+          session[:retry_hardhat] = params[:hardhat_search]
+          return false
+        end
       end
     end
+
+    session[:retry_hardhat] = nil
 
     #  If hardhat doesn't exist create one
     if @hardhat.blank?
