@@ -3,7 +3,7 @@
 <%= nav(active: 'tools') %>
 <% content_for :head do %>
 <script>
-  
+
 </script>
 <% end %>
 
@@ -23,5 +23,11 @@
     </div>
    </div><div class="sidebar">
     <%= render 'tools/checkouts/sidebar' %>
+    <div class="">
+        <h3>Tool type</h3>
+        <%= form_tag(tools_url, method: 'get') do %>
+            <%= select_tag 'type', options_for_select([["Tool", "tool"], ["Hardhat", "hardhat"], ["Radio", "radio"]], params[:type]), :onchange => "this.form.submit()" %>
+        <% end %>
+    </div>
   </div>
 </div>
