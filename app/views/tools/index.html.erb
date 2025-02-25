@@ -25,17 +25,9 @@
     <%= render 'tools/checkouts/sidebar' %>
     <div class="">
         <h3>Tool type</h3>
-        <ul>
-            <li>
-                <%= link_to 'Tool', tools_path(type: 'tool') %>
-            </li>
-            <li>
-                <%= link_to 'Hardhat', tools_path(type: 'hardhat') %>
-            </li>
-            <li>
-                <%= link_to 'Radio', tools_path(type: 'radio') %>
-            </li>
-        </ul>
+        <%= form_tag(tools_url, method: 'get') do %>
+            <%= select_tag 'type', options_for_select([["Tool", "tool"], ["Hardhat", "hardhat"], ["Radio", "radio"]], params[:type]), :onchange => "this.form.submit()" %>
+        <% end %>
     </div>
   </div>
 </div>
