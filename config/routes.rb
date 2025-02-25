@@ -137,6 +137,13 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
               controller: :organization_timeline_entries,
               only: [:index]
     resources :memberships, only: %i[new create destroy]
+    # Membership bulk add operations
+    post 'upload_membership_csv', to: 'memberships#upload_csv'
+    post 'replace_membership', to: 'memberships#replace'
+    post 'insert_membership', to: 'memberships#insert'
+    post 'remove_membership', to: 'memberships#remove'
+    post 'cancel_membership_csv', to: 'memberships#cancel'
+    post 'commit_membership_csv', to: 'memberships#commit'
   end
 
   resources :organization_timeline_entries,

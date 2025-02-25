@@ -1,11 +1,22 @@
 <div class="red invert">
   <h2>Developer Participant Picker</h2>
   <% Participant.all.each do |p| %>
+    <% if p.admin? %>
+      <% role = 'Admin' %>
+    <% elsif p.scc? %>
+      <% role = 'SCC Member' %>
+    <% elsif p.is_booth_chair?%>
+      <% role = 'Booth Chair' %>
+    <% elsif Membership.where(participant: p).present?%>
+      <% role = 'Participant' %>
+    <% else %>
+      <% role = 'Non-Participant' %>
+    <% end %>
     <p class="aligncenter">
       <% if Current.user == p %>
-          <%= link_to "#{p.name}", impersonate_path(participant_id: p.id), data: {turbo_method: :post}, class: "btn wide" %>
+          <%= link_to "(#{role}) #{p.name}", impersonate_path(participant_id: p.id), data: {turbo_method: :post}, class: "btn wide" %>
       <% else %>
-          <%= link_to "#{p.name}", impersonate_path(participant_id: p.id), data: {turbo_method: :post}, class: "btn ghost wide" %>
+          <%= link_to "(#{role}) #{p.name}", impersonate_path(participant_id: p.id), data: {turbo_method: :post}, class: "btn ghost wide" %>
       <% end %>
     </p>
   <% end %>

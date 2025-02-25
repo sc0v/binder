@@ -4,7 +4,7 @@
     <%= f.input :name %>
   </div>
   <%= f.input :default_amount do %>
-    <div class="input-group">
+    <div class="input-group" style="display: flex">
       <%= content_tag :span, '$', class: 'input-group-addon' %>
       <%= f.input_field :default_amount, as: :string, value: number_to_currency(f.object.default_amount, unit: '', delimiter: '') %>
     </div>

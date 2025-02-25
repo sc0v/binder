@@ -1,0 +1,31 @@
+name: Podman Run
+
+on: 
+  workflow_run:
+    workflows:
+      - Docker
+    types:
+      - completed
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: ssh and podman run
+      uses: appleboy/ssh-action@v1.2.0
+      with:
+        host: ${{ secrets.HOST }}
+        username: ${{ secrets.USERNAME }}
+        password: ${{ secrets.PASSWORD }}
+        # First we stop and remove the binder container and image, then pull the new package.
+        # Simply getting the master tagged package seems to always pick an older version,
+        # So query the github api for all versions and find the SHA-256 of the second 
+        # most recent (GitHub seems to make multiple packages with each docker-publish run,
+        # and this seems to be the correct one to take)
+        script: |
+          podman stop binder
+          podman rm binder
+          image_id=`podman images --format "table {{.Repository}} {{.ID}}" | grep "ghcr.io/sc0v/binder" | grep -oE '[^ ]+$'`
+          podman rmi "$image_id"
+          package_sha=`gh api orgs/sc0v/packages/container/binder/versions | jq -r '.[1].name'`
+          podman run --name binder -dt -p 3000:3000/tcp ghcr.io/sc0v/binder@"$package_sha"
+  
