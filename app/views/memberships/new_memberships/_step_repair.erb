@@ -3,7 +3,7 @@
     <h1>Edit and Review</h1>
 
     Here are the new participants we extracted from your CSV. 
-    Do these look correct? Any entries that seem incorrect are highlighted in red, but make sure to check everything!
+    Do these look correct? Any entries highlighted in red mean the Andrew ID is probably wrong, but make sure to check everything!
     <table>
       <tr>
         <th>Name</th>
@@ -22,11 +22,18 @@
       <% end %>
         <!-- Actions should appear whether or not name is N/A -->
         <td>
-          <div class="red invert">
-            <%= button_to "Remove", 
-                  organization_remove_membership_path(@organization),
-                  params: { organization: @organization.id, old_membership: m.id },
-                  style: "margin-bottom: 0", class: "btn ghost" %>
+          <div style="display: flex">
+            <div class="gold invert">
+              <%= button_tag "Edit", 
+                    style: "margin-bottom: 0", class: "btn ghost", 
+                    onclick: "$('#old_membership').val(#{m.id}); $('#new_participant').focus();" %>
+            </div>
+            <div class="red invert">
+              <%= button_to "Remove", 
+                    organization_remove_membership_path(@organization),
+                    params: { organization: @organization.id, old_membership: m.id },
+                    style: "margin-bottom: 0", class: "btn ghost" %>
+            </div>
           </div>
         </td>
       </tr>

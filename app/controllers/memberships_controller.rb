@@ -35,6 +35,9 @@ class MembershipsController < ApplicationController
     
     if params[:step] == 'repair'
       @members = Membership.where(organization: @organization, is_in_csv: true)
+                  .sort { |a, b| if a.participant_name == "N/A" then -1 
+                            elsif b.participant_name == "N/A" then 1 
+                            else a.participant_eppn.downcase <=> b.participant_eppn.downcase end }
     end
   end
 
