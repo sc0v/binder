@@ -9,7 +9,15 @@
 
 <div class="content">
   <div>
+    <div class="tool-title">
     <h1>Tools</h1>
+    <div>
+        <%= label_tag 'type', 'Equipment Type' %>
+        <%= form_tag(tools_url, method: 'get') do %>
+            <%= select_tag 'type', options_for_select([["Tool", "tool"], ["Hardhat", "hardhat"], ["Radio", "radio"]], params[:type]), :onchange => "this.form.submit()" %>
+        <% end %>
+    </div>
+    </div>
     <%= content_tag :div, data:
         { controller: 'table', config: tools_table_config } do %>
     Loading...
@@ -23,11 +31,5 @@
     </div>
    </div><div class="sidebar">
     <%= render 'tools/checkouts/sidebar' %>
-    <div class="">
-        <h3>Tool type</h3>
-        <%= form_tag(tools_url, method: 'get') do %>
-            <%= select_tag 'type', options_for_select([["Tool", "tool"], ["Hardhat", "hardhat"], ["Radio", "radio"]], params[:type]), :onchange => "this.form.submit()" %>
-        <% end %>
-    </div>
   </div>
 </div>
