@@ -22,7 +22,7 @@ class OrganizationsController < ApplicationController
     @booth_chairs = @organization.booth_chairs
     @tools = Tool.checked_out_by_organization(@organization).just_tools
     @shifts = @organization.shifts
-    @participants = @organization.participants
+    @participants = @organization.validated_participants
     @charges = @organization.charges
 
       pagy, participants =
@@ -49,8 +49,6 @@ class OrganizationsController < ApplicationController
     end
     # Get Tools Checked Out by Organization
     @tools_checked_out = Tool.checked_out_by_organization(@organization)
-    # Get Members of Organization
-    @members = @organization.participants
   end
 
   # GET /organizations/new

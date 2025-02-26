@@ -33,6 +33,10 @@ class Organization < ApplicationRecord
     memberships.booth_chairs.map(&:participant)
   end
 
+  def validated_participants
+    memberships.validated.map(&:participant)
+  end
+
   def downtime
     elapsed = 0
     organization_timeline_entries
