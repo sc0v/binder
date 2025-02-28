@@ -11,8 +11,7 @@ class Membership < ApplicationRecord
   delegate :name, :eppn, to: :participant, prefix: true
 
   scope :booth_chairs, -> { where(is_booth_chair: true).order('booth_chair_order ASC') }
-  scope :active,       -> { where(active: true) }
-  scope :inactive,     -> { where(active: false) }
+  scope :validated,       -> { where(is_added_by_csv: [false, nil]) }
 
   def organization_name_formatted
     if is_booth_chair?

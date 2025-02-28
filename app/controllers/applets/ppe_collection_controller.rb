@@ -12,7 +12,7 @@ class Applets::PPECollectionController < ApplicationController
     else
       @checkout = @hardhat.checkouts.current.first unless @hardhat.checkouts.blank? || @hardhat.checkouts.current.blank?
       if @hardhat.checkouts.blank? || @hardhat.checkouts.current.blank?
-        return redirect_to ppe_collection_path, alert: "Hardhat not checked out"
+        return redirect_to ppe_collection_path, alert: "Hardhat already checked in"
       end
       @checkout.checked_in_at = Time.zone.now
       @checkout.save!

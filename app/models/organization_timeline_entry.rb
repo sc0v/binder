@@ -6,7 +6,7 @@ class OrganizationTimelineEntry < ApplicationRecord
   validates :started_at, :entry_type, presence: true
   validates_associated :organization
 
-  enum entry_type: { structural: 0, electrical: 1, downtime: 2 }
+  enum entry_type: { structural: 0, electrical: 1, downtime: 2, scissor_lift: 3 }
 
   belongs_to :organization, touch: true
 

@@ -26,13 +26,14 @@ class OrganizationTimelineEntriesController < ApplicationController
     @organization_timeline_entry.entry_type = case params[:commit]
                                               when 'Structural' then 'structural'
                                               when 'Electrical' then 'electrical'
+                                              when 'Scissor Lift' then 'scissor_lift'
                                               else 'downtime'
                                               end
 
     if @organization_timeline_entry.already_in_queue?
       redirect_to params[:url], alert: "You're already on the queue!"
     elsif @organization_timeline_entry.save
-      redirect_to params[:url], notice: t('.notice', name: @organization_timeline_entry.entry_type)
+      redirect_to params[:url], notice: "Added to queue!"
     else
       flash.now[:alert] = t('.alert')
       render :new, status: :unprocessable_entity
