@@ -51,10 +51,10 @@ module ToolsHelper
       headerFilterPlaceholder: 'Search'
     },
   ]
-  
+
   def tools_table_config
     {
-      ajaxURL: tools_path(format: :json),
+      ajaxURL: @json_url,
       columns: load_tools_columns,
       dataLoader: false,
       height: '90vh',
@@ -64,7 +64,7 @@ module ToolsHelper
       resizableColumnFit: true
     }.to_json
   end
-  
+
   private
 
   def load_tools_columns

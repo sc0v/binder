@@ -1,125 +1,125 @@
 #sitename a#sccWordmarkLink {
-  width: 30%;
+    width: 30%;
 }
 
 @media only screen and (max-width: 767px) {
-  #sccWordmarkLink {
-    display: none !important;
-  }
+    #sccWordmarkLink {
+        display: none !important;
+    }
 }
 
 nav#nav form.signIn button {
-  line-height: 1.5em;
+    line-height: 1.5em;
 }
 
 nav#nav form.signIn {
-  display: block;
-  padding: 0.5em 2em;
-  position: relative;
-  text-align: right;
+    display: block;
+    padding: 0.5em 2em;
+    position: relative;
+    text-align: right;
 }
 
 nav#nav .right > a {
-  text-align: right;
+    text-align: right;
 }
 
 nav#nav a.avatar > img {
-  border-radius: 50%;
+    border-radius: 50%;
 }
 
 ul#site-search-results {
-  color: #000;
-  height: 100%;
-  margin: 40px 0 0 0;
-  padding: 0 0 0 8px;
-  width: 100%;
-  flex: 0 1 auto;
-  position: absolute;
-  border: 1px solid red;
-  z-index: 999;
-  display: none;
+    color: #000;
+    height: 100%;
+    margin: 40px 0 0 0;
+    padding: 0 0 0 8px;
+    width: 100%;
+    flex: 0 1 auto;
+    position: absolute;
+    border: 1px solid red;
+    z-index: 999;
+    display: none;
 }
 header ul#site-search-results li:first-child,
 header ul#site-search-results li {
-  background-color: #fff;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  margin: 2px;
-  padding: 10px;
-  text-indent: 0;
-  list-style-type: none;
+    background-color: #fff;
+    border: none;
+    border-bottom: 1px solid #ccc;
+    margin: 2px;
+    padding: 10px;
+    text-indent: 0;
+    list-style-type: none;
 }
 header ul#site-search-results li:last-child {
-  border: none;
+    border: none;
 }
 header ul#site-search-results li a span.uid {
-  font-weight: 500;
+    font-weight: 500;
 }
 #site-search-results a:hover {
-  color: #900 !important;
-  text-shadow: none;
+    color: #900 !important;
+    text-shadow: none;
 }
 
 #site-search-results a {
-  color: #000;
-  text-align: left;
+    color: #000;
+    text-align: left;
 }
 
 /* Flash messages */
 div[role="alert"].flash,
 div[role="alert"].flash a {
-  border-color: #333;
-  color: #333 !important;
+    border-color: #333;
+    color: #333 !important;
 }
 div[role="alert"].flash.invert,
 div[role="alert"].flash.invert a {
-  border-color: #fff;
-  color: #fff !important;
+    border-color: #fff;
+    color: #fff !important;
 }
 .breadcrumbs + div.content.flash {
-  padding-top: 2em;
+    padding-top: 2em;
 }
 .flash h2 {
-  padding-bottom: 0;
+    padding-bottom: 0;
 }
 
 /* Validation error messages */
 .field_with_errors {
-  display: inline;
+    display: inline;
 }
 .field_with_errors + div[role="alert"] {
-  display: inline;
+    display: inline;
 }
 .field_with_errors + div[role="alert"]::before {
-  content: "\00a0";
+    content: "\00a0";
 }
 
 input[type="checkbox"] {
-  max-width: 100%;
-  margin-right: 0.5em;
+    max-width: 100%;
+    margin-right: 0.5em;
 }
 input[type="checkbox"] + label {
-  display: inline;
+    display: inline;
 }
 select,
 input[type="text"] {
-  width: 100%;
-  margin-bottom: 2em;
+    width: 100%;
+    margin-bottom: 2em;
 }
 select.inline,
 input[type="text"].inline {
-  width: auto;
+    width: auto;
 }
 input[type="tel"] {
-  display: block;
-  width: 16em;
-  margin-bottom: 2em;
+    display: block;
+    width: 16em;
+    margin-bottom: 2em;
 }
 
 button.wide {
-  display: block;
-  padding: 1.5em;
-  width: 100%;
+    display: block;
+    padding: 1.5em;
+    width: 100%;
 }
 
 a:active,
@@ -131,28 +131,39 @@ button:focus:hover,
 summary:active,
 summary:focus,
 summary:focus:hover {
-  overflow: visible;
+    overflow: visible;
 }
 
 /* Tabs */
 ul.tabs {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
 }
 
 li.tab {
-  float: left;
+    float: left;
 }
 
 /* Override CMU default transitions on tables*/
 .tabulator,
 .tabulator-col,
 .tabulator-cell,
-.tabulator-selectable, 
+.tabulator-selectable,
 .tabulator a {
-  transition: none!important;
-  transition-delay: none!important;
+    transition: none !important;
+    transition-delay: none !important;
 }
 
+.tool-title {
+    display: flex;
+    align-items: center;
+    width: full;
+    justify-content: space-between;
+}
+
+.tool-title div {
+    min-width: 30%;
+    padding: 0.5rem;
+}
