@@ -1,4 +1,4 @@
-for file in $(ls ./fixtures); do
+for file in $(ls ./factories); do
     name=$(cut -d "." -f 1 <<< $file)
     module_name=""
     num_words=$(tr -dc '_' <<< $name | wc -c)
@@ -18,5 +18,5 @@ for file in $(ls ./fixtures); do
             end
         end
     " >> ./sets/${name}.rb
-    echo "require \"test/sets/${name}\"" >> ./contexts.rb
+    echo "destroy_${name}" >> ./contexts.rb
 done
