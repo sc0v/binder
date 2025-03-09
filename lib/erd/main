@@ -1,0 +1,73 @@
+#!/bin/bash
+# This script scans the db/schema file and updates all factories with default values whenever the schema.rb file changes
+# Find schema file and factories
+SCHEMA_FILE="db/schema.rb"
+FACTORY_DIR="test/factories"
+
+# Use awk to extract full table definitions
+awk '/create_table/,/end/' "$SCHEMA_FILE" | awk '{print} /end/ {print "---"}' > temp_blocks.txt
+
+while IFS= read -r block; do
+    # Skip separators
+    [[ "$block" == "---" ]] && continue
+
+    echo "$block"
+
+    # Extract table name
+    table_name=$(echo "$block" | grep -oP 'create_table\s+"\K[^"]+')
+
+    # Skip if table name is empty
+    if [[ -z "$table_name" ]]; then
+        continue
+    fi
+
+    # Define the factory file path
+    FILE_PATH="$FACTORY_DIR/${table_name}.rb"
+
+    # Start building the factory definition
+    factory_content="FactoryBot.define do
+    factory :${table_name} do"
+
+    # Extract column definitions directly without using a temp file
+    field_definitions=""
+
+    while IFS= read -r column; do
+        # Ensure the column is valid (contains "t." and a column name in quotes)
+        echo "The column being scanned is ${column}"
+        if [[ "$column" =~ t\.[a-z]+\s+\"[^\"]+\" ]]; then
+            # Extract column type and name
+            column_type=$(echo "$column" | awk '{print $1}' | cut -d'.' -f2)
+            column_name=$(echo "$column" | awk -F'"' '{print $2}')
+
+            # Skip timestamps
+            if [[ "$column_name" == "created_at" || "$column_name" == "updated_at" ]]; then
+                continue
+            fi
+
+            # Assign factory defaults based on type
+            case "$column_type" in
+                string|text) field_definitions+="\n        ${column_name} { \"MyString\" }" ;;
+                integer|bigint|float|decimal) field_definitions+="\n        ${column_name} { 1 }" ;;
+                boolean) field_definitions+="\n        ${column_name} { false }" ;;
+                datetime|timestamp) field_definitions+="\n        ${column_name} { Time.now }" ;;
+                date) field_definitions+="\n        ${column_name} { Date.today }" ;;
+                *) field_definitions+="\n        # ${column_name} { \"TODO: Define a value\" }" ;;
+            esac
+        fi
+    done < <(echo -e "$block")
+
+    # Append fields and close the factory definition
+    factory_content+="$field_definitions
+    end
+end"
+
+    # Write to the file
+    echo -e "$factory_content" > "$FILE_PATH"
+
+    echo "Factory file created: $FILE_PATH"
+done < temp_blocks.txt
+
+# Clean up temporary file
+rm temp_blocks.txt
+
+echo "FactoryBot setup complete."
