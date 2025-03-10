@@ -1,4 +1,6 @@
 FactoryBot.define do
-    factory :event_types do
-    end
+	factory :event_types do
+		display { true }
+		name { 'MyString' }
+	end
 end

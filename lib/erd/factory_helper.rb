@@ -1,36 +1,18 @@
+require 'open3'
+
 class FactoryHelper
-    # { referencing => referenced }
-    attr_accessor :associations
     # [str]
     attr_accessor :schema_content
 
     # corresponding initial values (checked & grouped by regex) in factory file, using lambda to take in 
     # column name and returns the string with the right type of initial value
     DEFAULT_VALUES = {
-        /string|text/ => lambda { |n| "#{n} { \"MyString\" }" },
-        /integer|bigint|float|decimal/ => lambda { |n| "#{n} { 1 }" },
-        /boolean/ => lambda { |n| "#{n} { true }" },
-        /datetime|timestamp/ => lambda { |n| "#{n} { Time.now }" },
-        /date/ => lambda { |n| "#{n} { Date.today }" }
+        /string|text/ => lambda { |n| "#{n} \{ \'MyString\' \}" },
+        /integer|bigint|float|decimal/ => lambda { |n| "#{n} \{ 1 \}" },
+        /boolean/ => lambda { |n| "#{n} \{ true \}" },
+        /datetime|timestamp/ => lambda { |n| "#{n} \{ Time.now \}" },
+        /date/ => lambda { |n| "#{n} \{ Date.today \}" }
     }
-
-    # Adapter Pattern
-    # Formats input string from schema.rb specifying foreign keys into a hash table for parsing indexes
-    def format_associations(str)
-        # input line format: /^add_foreign_key "<referencing_table_name>", "<referenced_table_name>"$/
-        assocs = {}
-        str.split("\n", -1).each { |ac|
-            # prunes "add_foreign_key" word 
-            line = ac.scan(/\".*\"/).first
-            # Sanity check to deal with trailing chars
-            if !line.nil?
-                referencing = line.split(", ").first
-                referenced = line.split(", ").last
-                assocs[referencing] = referenced
-            end
-        }
-        assocs
-    end
 
     # Adapter Pattern
     # Formats column contents from schema into array
@@ -53,7 +35,7 @@ class FactoryHelper
         file_content = ""
         # Parses the table name of the first column
         factory_name = parse_table_name(cols[0]).strip
-        file_content += "FactoryBot.define do\n\tfactory :#{factory_name} do\n\t\t"
+        file_content += "FactoryBot.define do\n\tfactory \:#{factory_name} do\n\t\t"
         
         # Parses all lines matching the template of schema columns, excluding trailing (end)
         cols = cols.filter!{ |col| col.match?(/^\s*t\./) }
@@ -63,9 +45,12 @@ class FactoryHelper
         end
 
         file_content += "\n\tend\nend"
-        puts file_content
-        puts "----------"
+
         # Writes to the corresponding factory file
+        Open3.popen2e("echo \"#{file_content}\" > test/factories/#{factory_name}.rb") {|i, oe, t|
+            puts oe.read()
+            puts "test/factories/#{factory_name}.rb created!"
+        }
     end
 
     def parse_table_name(create_table_line)
@@ -74,10 +59,10 @@ class FactoryHelper
     end
 
     def parse_line(column_line)
-        column_type = column_line.scan(/\..*\s/).first
-        return parse_references(column_line) if column_type == "index"
-
         # Column name enclosed around the quotation marks
+        column_type = column_line.scan(/\..*\s/).first
+        # Ignore indexes that are not used on the application level
+        return "" if column_type.match?(/index/)
         column_name = column_line.scan(/\".*\"/).first
         parse_column(column_name, column_type)
     end
@@ -85,18 +70,20 @@ class FactoryHelper
     def parse_column(column_name, type)
         # Ignores "created_at" and "updated_at"
         return "" if column_name.match?(/^\"(created_at|updated_at)\"$/)
-        # Ignores FK fields that ends with "_id"
-        return "" if column_name.match?(/_id\"$/)
+        # Processes FK fields that ends with "_id", there should be another way to handle FK columns with aliases
+        return parse_references(column_name.gsub(/([\"\[\]]|_id\"$)/, "")) if column_name.match?(/_id\"$/)
+
 
         # value_type is of type [string -> string]
         value_type = DEFAULT_VALUES.find { |pattern, _| type.match?(pattern) }
         if !value_type.nil?
+            # Calls the lambda that is mapped to by the corresponding pattern
             return DEFAULT_VALUES[value_type.first].call(column_name.gsub(/\"/, ""))
         end
         ""
     end
 
-    def parse_references(reference_line)
-        # Find foreign key in add_references
+    def parse_references(referenced_table_name)
+        "association :#{referenced_table_name.strip}" 
     end
 end

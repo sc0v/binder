@@ -1,4 +1,5 @@
 FactoryBot.define do
-    factory :tool_inventories do
-    end
+	factory :tool_inventories do
+		
+	end
 end
