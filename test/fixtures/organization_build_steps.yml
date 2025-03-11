@@ -4,12 +4,13 @@ one:
   title: MyString
   requirements: MyText
   step: 1
-  completed: false
   organization_build_status: one
 
 two:
   title: MyString
   requirements: MyText
   step: 1
-  completed: false
+  approver: admin_participant
+  approved_at: Wed, 26 Feb 2025 12:03:59.294734000 EST -05:00
+  is_enabled: true
   organization_build_status: two
