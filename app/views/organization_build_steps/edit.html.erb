@@ -1,0 +1,30 @@
+<!-- Turbo frames for the build steps show page -->
+<!-- Users should not be linked to this page directly! -->
+<% if can?(:update, @build_step) %>
+<turbo-frame id="requirements_frame">
+  <div style="display: flex; align-items: center">
+    <h2 style="padding-bottom: 0px">Requirements</h2>
+    <%= link_to "Cancel", 
+          [@organization, @build_status, @build_step],
+          class: "btn", style: "margin-left: 1em; padding: 0.5em 1.35em"%>
+  </div>
+  <%= form_with model: [@organization, @build_status, @build_step] do |f| %>
+    <%= f.text_area :requirements %>
+    <%= hidden_field_tag :url, organization_organization_build_status_organization_build_step_path(@build_step) %>
+    <%= f.submit "Update Requirements" %>
+  <% end %>
+</turbo-frame>
+<turbo-frame id="internal_notes_frame">
+  <div style="display: flex; align-items: center">
+    <h2 style="padding-bottom: 0px">Internal Notes</h2>
+    <%= link_to "Cancel", 
+          [@organization, @build_status, @build_step],
+          class: "btn", style: "margin-left: 1em; padding: 0.5em 1.35em"%>
+  </div>
+  <%= form_with model: [@organization, @build_status, @build_step] do |f| %>
+    <%= f.text_area :internal_notes %>
+    <%= hidden_field_tag :url, organization_organization_build_status_organization_build_step_path(@build_step) %>
+    <%= f.submit "Update Internal Notes" %>
+  <% end %>
+</turbo-frame>
+<% end %>
