@@ -1,14 +1,34 @@
 class OrganizationBuildStatusesController < ApplicationController
   def show
-    # is this necessary?
-    @organization_build_status = OrganizationBuildStatus.find(params[:id])
+    @build_status = OrganizationBuildStatus.find(params[:id])
 
-    @organization = @organization_build_status.organization
-    @status_type = @organization_build_status.status_type
+    @organization = @build_status.organization
+    @status_type = @build_status.status_type
     @status_name = @status_type.capitalize
 
-    # @organization_build_status.create_steps(booth_type: :two_story)
-    @build_steps = @organization_build_status.organization_build_steps
+    @build_steps = @build_status.organization_build_steps
+    @show_disabled_steps = params[:show_disabled_steps].present?
+
+    @notes = OrganizationBuildStep.format_note(@build_status.notes)
+  end
+
+  def edit
+    @build_status = OrganizationBuildStatus.find(params[:id])
+    @organization = @build_status.organization
+
+    @notes = OrganizationBuildStep.format_note(@build_status.notes)
+  end
+
+  def update
+    @build_status = OrganizationBuildStatus.find(params[:id])
+    @build_status.update(update_params)
+    redirect_to params[:url] and return
+  end
+
+  private
+
+  def update_params
+    params.require(:organization_build_status).permit(:notes)
   end
 end
 

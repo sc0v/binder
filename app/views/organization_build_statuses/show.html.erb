@@ -2,61 +2,55 @@
 <% update_breadcrumbs(add: link_to('Organizations', organizations_path)) %>
 <% update_breadcrumbs(add: link_to(@organization.name, organization_path(@organization))) %>
 <% update_breadcrumbs(add: @status_name + " Progress") %>
-<% content_for :nav do %>
-  <li class="active"><%= link_to('Organizations', organizations_path) %> </li>
-  <li><%= link_to('People', participants_path) %> </li>
-  <li><%= link_to('Tools', tools_path) %> </li>
-  <li><%= link_to('Store', store_path) %> </li>
-  <li ><%= link_to('FAQ', faq_index_path) %> </li>
-<% end %>
+<% nav(active: 'organizations') %>
+
 <div class="content">
   <div>
-    <h1><%=@status_name%> Progress</h1>
-    <!--See Tasks (right now a table, maybe change?)-->
-    <% if @build_steps.length() > 0 %>
-    <table>
-      <thead>
-        <tr> 
-          <th>Task</th>
-          <th>Requirements</th>
-          <th>Completed</th>
-          <% if can?(:destroy, OrganizationBuildStep) %>
-            <th></th>
-          <% end %>
-        </tr>
-      </thead>
-      <tbody>
-        <% @build_steps.each do |step| %>
-          <tr>
-	  <th><%= link_to(step.title, [@organization, @organization_build_status, step]) %></th>
-	    <% if step.requirements.length() > 20 %>
-            <th><%= step.requirements[0..20] %>...</th>
-            <% else %>
-            <th><%= step.requirements %></th>
-            <% end %>
-	    <% if step.completed %>
-            <th>Yes!</th>
-            <% else %>
-            <th>No</th>
-            <% end %>
-            <% if can?(:destroy, OrganizationBuildStep) %>
-              <th><%= link_to "Destroy", [@organization, @organization_build_status, step], data: {
-                turbo_method: :delete,
-                turbo_confirm: "Are you sure?"
-              } %></th>
-            <% end %>
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+    <h1><%=@organization.name%> <%=@status_name%> Progress</h1>
+    <!-- List of Tasks -->
+    <% if @build_steps.enabled.length > 0 %>
+      <% @build_steps.enabled.each do |step| %>
+        <%= render partial: 'step_preview', locals: { step: step }%>
+      <% end %>
     <% else %>
-    No Requirements Listed!
+      <h2>No Enabled Steps</h2>
     <% end %>
+    <% if can?(:update, OrganizationBuildStep) %>
+      <% if @show_disabled_steps %>
+        <%= link_to "Hide Disabled Steps", organization_organization_build_status_path(@build_status), class: 'btn' %>
+        <% if @build_steps.disabled.length > 0 %>
+          <h2>Disabled Steps:</h2>
+          <% @build_steps.disabled.each do |step| %>
+            <%= render partial: 'step_preview', locals: { step: step }%>
+          <% end %>
+        <% else %>
+          <h2>No Disabled Steps.</h2>
+        <% end %>
+      <% else %>
+        <%= link_to "Show Disabled Steps", organization_organization_build_status_path(@build_status, show_disabled_steps: true), class: 'btn' %>
+        <br/><br/>
+      <% end %>
+    <% end %>
+    
+    <!-- Build Status Notes -->
+    <turbo-frame id="notes_frame">
+      <div style="display: flex; align-items: center">
+        <h2 style="padding-bottom: 0px">Notes</h2>
+        <% if can?(:update, @build_status) %>
+        <%= link_to "Edit", 
+              [:edit, @organization, @build_status],
+              class: "btn", style: "margin-left: 1em; padding: 0.5em 1.35em"%>
+        <% end %>
+      </div>
+      <div style="border: 1px solid; padding: 0.5em; margin-top: 0.5em; min-height: 5em">
+        <%= @notes %>
+      </div>
+    </turbo-frame>
 
-    <!-- Form to Add Steps (Only see if an SCC member) --> 
+    <!-- Form to Add Steps --> 
     <% if can?(:create, OrganizationBuildStep) %>
       <h1>Add <%=@status_name%> Step</h1>
-      <%= form_with model: [@organization, @organization_build_status, OrganizationBuildStep.new] do |f| %>
+      <%= form_with model: [@organization, @build_status, OrganizationBuildStep.new] do |f| %>
         <%= f.text_field :title, placeholder: 'Enter Title...' %>
         <%= f.text_area :requirements, placeholder: 'Enter Requirements...' %>
         <%= hidden_field_tag 'url', request.original_fullpath %>

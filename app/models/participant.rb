@@ -45,6 +45,7 @@ class Participant < ApplicationRecord
            dependent: :destroy
   has_many :organizations, through: :memberships
   has_many :organization_categories, through: :organizations
+  has_many :organization_build_steps
   has_many :certifications, dependent: :destroy
   has_many :certification_types, through: :certifications
 

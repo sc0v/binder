@@ -2,8 +2,8 @@
 
 one:
   status_type: structural
-  organization: scc
+  organization: phidelt
 
 two:
   status_type: electrical
-  organization: scc
+  organization: phidelt

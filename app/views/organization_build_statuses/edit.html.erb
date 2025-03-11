@@ -1,0 +1,17 @@
+<!-- Turbo frames for the build status show page -->
+<!-- Users should not be linked to this page directly! -->
+<% if can?(:update, @build_status) %>
+<turbo-frame id="notes_frame">
+  <div style="display: flex; align-items: center">
+    <h2 style="padding-bottom: 0px">Notes</h2>
+    <%= link_to "Cancel", 
+          [@organization, @build_status],
+          class: "btn", style: "margin-left: 1em; padding: 0.5em 1.35em"%>
+  </div>
+  <%= form_with model: [@organization, @build_status] do |f| %>
+    <%= f.text_area :notes %>
+    <%= hidden_field_tag :url, organization_organization_build_status_path(@build_status) %>
+    <%= f.submit "Update Notes" %>
+  <% end %>
+</turbo-frame>
+<% end %>
