@@ -1,8 +1,8 @@
 #!/bin/bash
 
-if [[ $1 == rails && $2 == s ]]; then
-  docker compose up
-  docker compose down
+if [[ ( $1 == rails ) && ( $2 == s || $2 == server ) ]]; then
+  docker compose -f docker/development/compose.yml up
+  docker compose -f docker/development/compose.yml down
 else
-  docker compose exec web $@
+  docker compose -f docker/development/compose.yml exec web $@
 fi

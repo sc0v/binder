@@ -1,8 +1,8 @@
 services:
   web:
     build:
-      context: .
-      dockerfile: Dockerfile
+      context: ../..
+      dockerfile: docker/development/Dockerfile
     command: bash -c "rm -f tmp/pids/server.pid && rails server -b 0.0.0.0"
     develop:
       watch:
@@ -10,6 +10,6 @@ services:
           path: ./app
           target: ./build/app
     volumes:
-      - .:/build:rw
+      - ../..:/build:rw
     ports:
       - "3000:3000"
