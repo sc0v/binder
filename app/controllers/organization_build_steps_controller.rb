@@ -5,6 +5,7 @@ class OrganizationBuildStepsController < ApplicationController
         title: params[:organization_build_step][:title],
         requirements: params[:organization_build_step][:requirements],
         step: 0,
+        is_enabled: true,
         approver: nil)
 
       if @organization_build_status.save()
