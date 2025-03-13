@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
+=======
+ActiveRecord::Schema[7.0].define(version: 2025_02_13_201427) do
+>>>>>>> bef7b25 (improve note features)
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
@@ -338,6 +342,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
     t.index ["barcode"], name: "index_tools_on_barcode"
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
   end
+  
 
   add_foreign_key "certifications", "certification_types"
   add_foreign_key "certifications", "participants"
@@ -357,4 +362,5 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
   add_foreign_key "tool_type_certifications", "certification_types"
   add_foreign_key "tool_type_certifications", "tool_types"
   add_foreign_key "tools", "tool_types"
+  add_foreign_key "visitor_counts", "organizations"
 end

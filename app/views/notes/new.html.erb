@@ -1,0 +1,44 @@
+<%= content_for :head do %>
+  <%= stylesheet_link_tag 'notes', 'data-turbo-track': 'reload' %>
+<% end %>
+
+<div class="full-screen-note">
+  <h1>Create New Note</h1>
+
+  <%= form_with(model: @note, url: notes_path) do |form| %>
+    <div class="form-group">
+      <%= form.text_field :title, placeholder: "Title", class: "form-input" %>
+    </div>
+
+    <div class="form-group">
+      <%= form.text_area :value, placeholder: "Write your note here...", class: "form-input" %>
+    </div>
+    
+    <div class="form-group color-selection">
+      <label>Choose note color:</label>
+      <div class="color-options">
+        <%= form.radio_button :color, "#ffc", checked: true, id: "color-yellow" %>
+        <label for="color-yellow" class="color-option" style="background-color: #ffc;">Yellow</label>
+        
+        <%= form.radio_button :color, "#cfc", id: "color-green" %>
+        <label for="color-green" class="color-option" style="background-color: #cfc;">Green</label>
+        
+        <%= form.radio_button :color, "#ccf", id: "color-blue" %>
+        <label for="color-blue" class="color-option" style="background-color: #ccf;">Blue</label>
+        
+        <%= form.radio_button :color, "#fcc", id: "color-pink" %>
+        <label for="color-pink" class="color-option" style="background-color: #fcc;">Pink</label>
+        
+        <%= form.radio_button :color, "#ddd", id: "color-gray" %>
+        <label for="color-gray" class="color-option" style="background-color: #ddd;">Gray</label>
+      </div>
+    </div>
+
+    <%= form.hidden_field :participant_id, value: Current.user.id %>
+    <%= form.hidden_field :hidden, value: false %>
+
+    <%= form.submit "Save", class: "cta-button" %>
+  <% end %>
+
+  <%= link_to "Cancel", root_path, class: "cta" %>
+</div>

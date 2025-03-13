@@ -4,29 +4,24 @@
 
 <ul class="notes">
   <% notes.each do |n| %>
-  <li>
-    <%= link_to 'javascript:void(0)' do %>
-    <%= content_tag :h2, n.title %>
-    <%= content_tag :p, n.value %>
-    <%= link_to t('.destroy'), note_path(n), data: {
-      turbo_confirm: 'Are you sure?',
-      turbo_method: :delete,
-    }, class: 'cta' %>
-    <% end %>
-  </li>
+    <li>
+      <%= link_to note_path(n), style: "background-color: #{n.color || '#ffc'};" do %>
+        <h2><%= n.title %></h2>
+        <p><%= truncate(n.value, length: 85) %></p>
+        <div class="note-info-icon">
+          <i class="fas fa-info-circle"></i>
+          <div class="note-info-tooltip">
+            <p>Created by: <%= n.participant_name %></p>
+            <p>Created at: <%= n.created_at.strftime("%b %d at %I:%M %p") %></p>
+          </div>
+        </div>
+      <% end %>
+      <%= link_to "DESTROY ▸", note_path(n), data: { turbo_confirm: "Are you sure?", turbo_method: :delete}, class: "cta" %>
+    </li>
   <% end %>
 
-  <li>
-    <%= link_to 'javascript:void(0)' do %>
-    <%= form_with(model: @note) do |form| %>
-    <%= form.text_field :title, placeholder: "Title" %>
-    <%= form.text_field :value, placeholder: "Note" %>
-    <%= form.hidden_field :participant_id, value: Current.user.id%>
-    <%= form.hidden_field :hidden, value: false %>
-  <br>
-    <%= form.submit "Save" %>
-    <% end %>
-    <% end %>
+  <li class="create-notes">
+    <%= link_to "Create New Note", new_note_path, class: "cta-button create-fullscreen" %>
   </li>
 </ul>
 <p class="alignright">

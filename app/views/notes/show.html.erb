@@ -1,0 +1,15 @@
+<%= content_for :head do %>
+  <%= stylesheet_link_tag 'notes', 'data-turbo-track': 'reload' %>
+<% end %>
+
+<div class="full-screen-note" style="background-color: <%= @note.color || '#ffc' %>;">
+  <h1><%= @note.title %></h1>
+  <p><%= @note.value %></p>
+  
+  <div class="rakkan">
+    <div>—— <%= @note.participant_name %></div>
+    <div><%= @note.created_at.strftime("%Y.%m.%d") %></div>
+  </div>
+  
+  <%= link_to "Back to Notes", root_path, class: "cta" %>
+</div>
