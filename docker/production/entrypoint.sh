@@ -6,9 +6,11 @@ set -e
 rm -f ./tmp/pids/server.pid
 
 # Make sure db is ready to go
-# Adding '2>/dev/null' sends output to nowhere in the case of an error and the
-# error code also triggers the bash OR to run db:setup
-bundle exec rails db:migrate
+# TODO: uncomment once we migrate development DB to MySQL
+# This line fails because of differences between SQLite (where migrations were created)
+# and production MySQL 
+# bundle exec rails db:migrate
 
 # Then exec the container's main process (CMD in the Dockerfile).
-exec "$@"
+# TODO: Uncomment once we migrate development DB to MySQL
+# exec "$@"
