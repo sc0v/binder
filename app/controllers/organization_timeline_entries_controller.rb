@@ -31,8 +31,15 @@ class OrganizationTimelineEntriesController < ApplicationController
 
     if @organization_timeline_entry.already_in_queue?
       redirect_to params[:url], alert: "You're already on the queue!"
+
     elsif @organization_timeline_entry.save
-      redirect_to params[:url], notice: t('.notice', name: @organization_timeline_entry.entry_type)
+      if @organization_timeline_entry.entry_type == 'structural'
+        redirect_to params[:url], notice: "Added to structural queue!"
+      elsif @organization_timeline_entry.entry_type == 'electrical'
+        redirect_to params[:url], notice: "Added to electrical queue!"
+      else 
+        redirect_to params[:url], notice: "Started downtime!"
+      end
     else
       flash.now[:alert] = t('.alert')
       render :new, status: :unprocessable_entity
@@ -71,6 +78,11 @@ class OrganizationTimelineEntriesController < ApplicationController
 
   def structural
     @organization_timeline_entries = OrganizationTimelineEntry.structural.current
+  end
+
+  def queues
+    @electrical = OrganizationTimelineEntry.electrical.current
+    @structural = OrganizationTimelineEntry.structural.current
   end
 
   private

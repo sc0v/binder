@@ -74,7 +74,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
 
   # SCC Help Queues
-  resources :queues
+  # resources :queues
 
   # Tools
   resources :tools do
@@ -223,6 +223,8 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       :as => 'structural'
   get 'electrical' => 'organization_timeline_entries#electrical',
       :as => 'electrical'
+  get 'queues' => 'organization_timeline_entries#queues',
+      :as => 'queues'
 
   resources :users
 end
