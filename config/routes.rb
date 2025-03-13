@@ -39,6 +39,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   # Applets/Workflows
   get 'applets', to: 'applets#index', as: :applets
   get 'ppe-distribution', to: 'applets/ppe_distribution#index'
+  get 'ppe-collection', to: 'applets/ppe_collection#index'
 
   # FAQ
   # n.b.: FAQ is uncountable (like sheep). The Rails convention is to have:
@@ -113,18 +114,18 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     end
   end
   resources :scissor_lift_checkouts, only: [:index]
-  
+
   # TODO: Confirm everything below
   resources :organizations do
     resources :aliases,
               controller: :organization_aliases,
               shallow: true,
               only: %i[create new destroy index]
-    resources :organization_build_statuses, only: [:show] do
-	    resources :organization_build_steps, only: %i[show create update destroy]
+    resources :organization_build_statuses, only: [:show, :edit, :update] do
+	    resources :organization_build_steps, only: %i[show create edit update destroy]
     end
 
-    resources :participants, only: %i[new create index], 
+    resources :participants, only: %i[new create index],
       controller: "organization_members"
     patch 'remove_staged', to: 'organization_members#remove_staged'
 
@@ -136,6 +137,13 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
               controller: :organization_timeline_entries,
               only: [:index]
     resources :memberships, only: %i[new create destroy]
+    # Membership bulk add operations
+    post 'upload_membership_csv', to: 'memberships#upload_csv'
+    post 'replace_membership', to: 'memberships#replace'
+    post 'insert_membership', to: 'memberships#insert'
+    post 'remove_membership', to: 'memberships#remove'
+    post 'cancel_membership_csv', to: 'memberships#cancel'
+    post 'commit_membership_csv', to: 'memberships#commit'
   end
 
   resources :organization_timeline_entries,

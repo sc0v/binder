@@ -45,6 +45,7 @@ class Participant < ApplicationRecord
            dependent: :destroy
   has_many :organizations, through: :memberships
   has_many :organization_categories, through: :organizations
+  has_many :organization_build_steps
   has_many :certifications, dependent: :destroy
   has_many :certification_types, through: :certifications
 
@@ -53,7 +54,6 @@ class Participant < ApplicationRecord
   has_many :checkouts, dependent: :destroy
   has_many :tools, through: :checkouts
 
-  has_many :organization_statuses, dependent: :destroy
   has_many :events
 
   def link
@@ -241,6 +241,13 @@ class Participant < ApplicationRecord
     :white
   end
 
+  def self.table_attrs
+    joins("LEFT OUTER JOIN memberships AS m ON m.participant_id = participants.id AND m.is_booth_chair = TRUE")
+    .select(
+      'participants.*,
+      m.is_booth_chair AS is_booth_chair'
+    )
+  end
   private
 
   def self.get_andrewid_by_card_id(card_number)

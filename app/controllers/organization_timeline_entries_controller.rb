@@ -26,6 +26,7 @@ class OrganizationTimelineEntriesController < ApplicationController
     @organization_timeline_entry.entry_type = case params[:commit]
                                               when 'Structural' then 'structural'
                                               when 'Electrical' then 'electrical'
+                                              when 'Scissor Lift' then 'scissor_lift'
                                               else 'downtime'
                                               end
 

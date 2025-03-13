@@ -15,7 +15,7 @@
     <% end %>
     <%= render partial: "show_org"%> 
   </div><div class="sidebar">
-    <%= link_to "Add Members", new_organization_participant_path(@organization), class: "btn wide" %>
+    <%= link_to "Add Members", new_organization_membership_path(@organization), class: "btn wide" %>
     <h2>Total Fines: $<%= @total_fines %></h2>
     <% if @tools_checked_out.length() == 0 %>
       <h2>No Tools Checked Out!</h2>
@@ -29,14 +29,14 @@
         <% end %>
       </ul>
     <% end %>
-    <% if @members.length() == 0 %>
+    <% if @participants.length() == 0 %>
       <h2>No Members!</h2>
     <% else %>
       <h2 style="padding-bottom: 0px">Builders:</h2>
       <ul>
-        <% @members.each do |member| %>
+        <% @participants.each do |participant| %>
           <li>
-            <%= link_to(member.name, "/participants/#{member.id}") %> <!-- There's probably a better way to do this, ask Meg (participant_path(@participant) ?)-->
+            <%= link_to(participant.name, participant_path(participant)) %>
           </li>
         <% end %>
       </ul>

@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2024_12_30_190053) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: nil, null: false
@@ -107,7 +107,8 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_30_190053) do
     t.boolean "is_booth_chair"
     t.string "title"
     t.integer "booth_chair_order"
-    t.boolean "is_staged"
+    t.boolean "is_in_csv"
+    t.boolean "is_added_by_csv"
     t.index ["organization_id"], name: "index_memberships_on_organization_id"
     t.index ["participant_id"], name: "index_memberships_on_participant_id"
   end
@@ -139,6 +140,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_30_190053) do
     t.string "status_type"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "notes"
     t.index ["organization_id"], name: "index_organization_build_statuses_on_organization_id"
   end
 
@@ -146,10 +148,14 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_30_190053) do
     t.string "title"
     t.text "requirements"
     t.integer "step"
-    t.boolean "completed"
     t.integer "organization_build_status_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "internal_notes"
+    t.integer "approver_id"
+    t.datetime "approved_at"
+    t.boolean "is_enabled"
+    t.index ["approver_id"], name: "index_organization_build_steps_on_approver_id"
     t.index ["organization_build_status_id"], name: "index_organization_build_steps_on_organization_build_status_id"
   end
 
@@ -340,6 +346,7 @@ ActiveRecord::Schema[7.0].define(version: 2024_12_30_190053) do
   add_foreign_key "notes", "participants"
   add_foreign_key "organization_build_statuses", "organizations"
   add_foreign_key "organization_build_steps", "organization_build_statuses"
+  add_foreign_key "organization_build_steps", "participants", column: "approver_id"
   add_foreign_key "scissor_lift_checkouts", "organizations"
   add_foreign_key "scissor_lift_checkouts", "participants"
   add_foreign_key "scissor_lift_checkouts", "scissor_lifts"
