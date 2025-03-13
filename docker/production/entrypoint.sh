@@ -12,5 +12,4 @@ rm -f ./tmp/pids/server.pid
 # bundle exec rails db:migrate
 
 # Then exec the container's main process (CMD in the Dockerfile).
-# TODO: Uncomment once we migrate development DB to MySQL
-# exec "$@"
+exec "$@"
