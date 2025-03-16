@@ -1,0 +1,32 @@
+<%  @downtime_sidebar = OrganizationTimelineEntry.downtime.current %>
+<div class="teal invert">
+  <h2>Start/Stop Downtime:</h2>
+  <%= form_with url: toggle_downtime_path do |f| %>
+    <%= f.label "Organization" %>
+    <%= f.collection_select :organization_id, Organization.ordered_by_name, :id, :name %>
+    <%= hidden_field_tag 'url', request.original_fullpath %>
+    <%= f.submit 'Start/Stop Downtime', class: 'btn', style: 'width: 100%' %>
+  <% end %> 
+</div>
+<div> 
+  <h1>Ongoing Downtime</h1>
+  <% if !@downtime_sidebar.blank? %>
+    <table class="table">
+      <thead>
+        <th style="text-align: center;">Organization</th>
+        <th style="text-align: center;">Downtime Remaining</th>
+      </thead>
+      <tbody>
+        <% @downtime_sidebar.each do |entry| %>
+          <tr <%= raw('class="danger"') if entry.organization.remaining_downtime.negative? %>>
+            <td style="text-align: center;"><%= link_to entry.organization.name, organization_downtime_index_path(entry.organization) %></td>
+            <td style="text-align: center;"><span id="countdown"><%= format_duration entry.organization.remaining_downtime %></span></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  <% else %>
+    <p style="text-align: center;">No one is taking downtime!</p>
+  <% end %>
+</div>
+

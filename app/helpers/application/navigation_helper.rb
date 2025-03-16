@@ -147,6 +147,16 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
         }
       },
       {
+        label: 'Downtime',
+        url: downtime_path,
+        key: 'downtime',
+        class: ['secondary'],
+        can: {
+          action: :index,
+          subject: OrganizationTimelineEntry
+        }
+      },
+      {
         label: 'Notes',
         url: notes_path,
         key: 'notes',

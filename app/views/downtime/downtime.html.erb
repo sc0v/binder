@@ -1,0 +1,31 @@
+<% update_document_title(add: 'Downtime') %>
+<% update_breadcrumbs(add: 'Downtime') %>
+<% nav() %>
+
+<div class="content">
+  <div>
+  <h1>Downtime</h1>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th><%= "Organization" %></th>
+        <th><%= "Organization Category" %></th>
+        <th style="text-align: right;">Taken</th>
+        <th style="text-align: right;">Remaining</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% Organization.ordered_by_name.each do |organization| %>
+        <tr <%= raw("class='danger'") if organization.remaining_downtime.negative? %>>
+          <td><%= link_to organization.name, organization_downtime_index_path(organization) %></td>
+          <td><%= organization.organization_category.name %></td>
+          <td style="text-align: right;"><%= format_duration(organization.downtime) %></td>
+          <td style="text-align: right;"><%= format_duration(organization.remaining_downtime) %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+  </div><div class="sidebar">
+    <%= render partial: "downtime_sidebar" %>
+  </div>
+</div>

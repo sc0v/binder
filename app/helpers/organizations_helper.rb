@@ -59,7 +59,7 @@ module OrganizationsHelper
       headerFilterPlaceholder: 'Search',
       sorter: 'time',
       sorterParams: {
-        format: 'HH:mm:ss'
+        format: 'H:mm'
       }
     },
     { title: 'Structural Queue', hozAlign: 'left' },
