@@ -4,12 +4,6 @@ class OrganizationTimelineEntriesController < ApplicationController
   #authorize_resource
   before_action :set_organization_timeline_entry, only: %i[update destroy end show]
 
-  def index
-    @organization = Organization.find(params[:organization_id]) if params[:organization_id].present?
-    @entries = OrganizationTimelineEntry.downtime
-    @entries = @entries.where({ organization: @organization }) if @organization.present?
-  end
-
   def show
     @organization_timeline_entry = OrganizationTimelineEntry.find(params[:id])
   end
