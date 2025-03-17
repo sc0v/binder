@@ -16,7 +16,6 @@
     <%= render partial: "show_org"%> 
   </div><div class="sidebar">
     <%= link_to "Add Members", new_organization_membership_path(@organization), class: "btn wide" %>
-    <h2>Total Fines: $<%= @total_fines %></h2>
     <% if @tools_checked_out.length() == 0 %>
       <h2>No Tools Checked Out!</h2>
     <% else %>
