@@ -32,8 +32,9 @@
     <!-- render partial: "show_org" -->
 
   </div><div class="sidebar">
-    <%= link_to "Add Members", new_organization_membership_path(@organization), class: "btn wide" %>
-    
+    <% if can?([:create, :update], Membership) %>
+      <%= link_to "Add Members", new_organization_membership_path(@organization), class: "btn wide" %>
+    <% end %>
     <h2 class="collapsed" style="margin-bottom: 0px">Booth Chairs (<%= @booth_chairs.length() %>)</h2>
     <div style="display: none; padding-top: 0px">
       <% if @booth_chairs.length() == 0 %>
