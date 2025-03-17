@@ -13,21 +13,28 @@
       <h2>Electrical Progress</h2>
         <%= link_to("Electrical Progress", organization_organization_build_status_path(@organization, @electrical)) %>
     <% end %>
-    <%= render partial: "show_org"%> 
+
+    <hr>
+
+    <h2 class="collapsed">Tools (<%= @tools_checked_out.length() %>)</h2>
+    <div style="display: none">
+      <% if @tools_checked_out.length() == 0 %>
+        <p>No Tools Checked Out!</p>
+      <% else %>
+        <ul>
+          <% @tools_checked_out.each do |tool| %>
+            <li>
+              <%= link_to("#{tool.name} (#{tool.id})", "/tools/#{tool.id}") %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+
+    <!-- render partial: "show_org" -->
+
   </div><div class="sidebar">
     <%= link_to "Add Members", new_organization_membership_path(@organization), class: "btn wide" %>
-    <% if @tools_checked_out.length() == 0 %>
-      <h2>No Tools Checked Out!</h2>
-    <% else %>
-      <h2 style="padding-bottom: 0px">Tools Checked Out:</h2>
-      <ul>
-        <% @tools_checked_out.each do |tool| %>
-          <li>
-            <%= link_to(tool.name, "/tools/#{tool.id}") %>
-          </li>
-        <% end %>
-      </ul>
-    <% end %>
     <% if @participants.length() == 0 %>
       <h2>No Members!</h2>
     <% else %>
