@@ -36,7 +36,7 @@
 
   </div><div class="sidebar">
     <!-- Only show Add Members button if user has permission to update Memberships for their org -->
-    <% if can?([:create, :update], Membership) %>
+    <% if can?(:create, Membership) %>
       <%= link_to "Add Members", new_organization_membership_path(@organization), class: "btn wide" %>
     <% end %>
 
