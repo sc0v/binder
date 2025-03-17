@@ -6,12 +6,10 @@
   <div>
     <h1><%= @organization.name %></h1>
     <% if @structural %>
-      <h2>Structural Progress</h2>
-        <%= link_to("Structural Progress", organization_organization_build_status_path(@organization, @structural)) %>
+      <%= link_to "Structural Progress", organization_organization_build_status_path(@organization, @structural), class: "btn wide" %>
     <% end %>
     <% if @electrical %>
-      <h2>Electrical Progress</h2>
-        <%= link_to("Electrical Progress", organization_organization_build_status_path(@organization, @electrical)) %>
+      <%= link_to "Electrical Progress", organization_organization_build_status_path(@organization, @electrical), class: "btn wide" %>
     <% end %>
 
     <hr>
