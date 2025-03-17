@@ -30,6 +30,8 @@
       <% end %>
     </div>
    </div><div class="sidebar">
-    <%= render 'tools/checkouts/sidebar' %>
+    <% if can?(:create, Checkout) %>
+      <%= render 'tools/checkouts/sidebar' %>
+    <% end %>
   </div>
 </div>
