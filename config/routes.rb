@@ -75,7 +75,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
 
   # SCC Help Queues
-  resources :queues
+  # resources :queues
 
   # Tools
   resources :tools do
@@ -115,6 +115,10 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
   resources :scissor_lift_checkouts, only: [:index]
 
+  # Downtime Index (other methods are organizations/downtime)
+  get 'downtime', to: 'downtime#downtime'
+  post 'toggle_downtime', to: 'downtime#toggle'
+
   # TODO: Confirm everything below
   resources :organizations do
     resources :aliases,
@@ -134,7 +138,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     resources :charges, only: [:index]
     get 'hardhats', on: :member
     resources :downtime,
-              controller: :organization_timeline_entries,
+              controller: :downtime,
               only: [:index]
     resources :memberships, only: %i[new create destroy]
     # Membership bulk add operations
@@ -150,7 +154,6 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
             only: %i[show edit create update destroy] do
     put 'end', on: :member
   end
-  get 'downtime', to: 'home#downtime'
 
   resources :event_types
   resources :events do
@@ -231,6 +234,8 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       :as => 'structural'
   get 'electrical' => 'organization_timeline_entries#electrical',
       :as => 'electrical'
+  get 'queues' => 'organization_timeline_entries#queues',
+      :as => 'queues'
 
   resources :users
 end

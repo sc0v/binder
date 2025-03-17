@@ -13,6 +13,9 @@ class OrganizationsController < ApplicationController
           organizations.as_json(
             methods: %i[building? category_name link remaining_downtime downtime_link]
           )
+        data.each do |d|
+          d["remaining_downtime"] = helpers.format_duration d["remaining_downtime"]
+        end
         render json: { last_page: pagy.pages, data: data }
       end
     end

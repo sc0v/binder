@@ -52,7 +52,7 @@ class Organization < ApplicationRecord
   end
 
   def remaining_downtime
-    (4.hours - downtime).in_hours
+    4.hours - downtime
   end
 
   def link
