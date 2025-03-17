@@ -35,17 +35,36 @@
 
   </div><div class="sidebar">
     <%= link_to "Add Members", new_organization_membership_path(@organization), class: "btn wide" %>
-    <% if @participants.length() == 0 %>
-      <h2>No Members!</h2>
-    <% else %>
-      <h2 style="padding-bottom: 0px">Builders:</h2>
+    
+    <h2 class="collapsed" style="margin-bottom: 0px">Booth Chairs (<%= @booth_chairs.length() %>)</h2>
+    <div style="display: none; padding-top: 0px">
+      <% if @booth_chairs.length() == 0 %>
+        <p>No Booth Chairs!</p>
+      <% else %>
+        <ul>
+          <% @booth_chairs.each do |booth_chair| %>
+            <li>
+              <%= link_to(booth_chair.name, participant_path(booth_chair)) %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+
+    <h2 class="collapsed" style="padding-top: 0px">Builders (<%= @non_booth_chairs.length() %>)</h2>
+    <div style="display: none; padding-top: 0px">
+      <% if @non_booth_chairs.length() == 0 %>
+      <p>No Builders!</p>
+      <% else %>
       <ul>
-        <% @participants.each do |participant| %>
+        <% @non_booth_chairs.each do |builder| %>
           <li>
-            <%= link_to(participant.name, participant_path(participant)) %>
+            <%= link_to(builder.name, participant_path(builder)) %>
           </li>
         <% end %>
       </ul>
     <% end %>
+    </div>
+
     </div>
 </div>

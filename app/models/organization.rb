@@ -37,6 +37,10 @@ class Organization < ApplicationRecord
     memberships.validated.map(&:participant)
   end
 
+  def validated_non_booth_chairs
+    validated_participants.reject { |participant| booth_chairs.include?(participant) }
+  end  
+
   def downtime
     elapsed = 0
     organization_timeline_entries
