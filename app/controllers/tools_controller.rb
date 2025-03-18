@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class ToolsController < ApplicationController
-  include Pagy::Backend
   load_and_authorize_resource
 
+  # Index method with manual pagination using page and size parameters
+  # The tools table gets data from here through AJAX, so we keep
+  # compute last_page to tell table how many batches it needs
   def index()
     type = params[:type] || 'tool'
 
@@ -16,11 +18,6 @@ class ToolsController < ApplicationController
         tools = Tool.radios
     end
 
-    @pagy, @tools = pagy(tools
-      .accessible_by(Current.ability)
-      .ordered_by_name, limit: 500, params: ->(params) {
-        params.merge(type: type) })
-
     params.permit!()
     @json_url = url_for(params.merge( format: :json))
 
@@ -29,9 +26,20 @@ class ToolsController < ApplicationController
         render :index
       end
       format.json do
+        page = params[:page].present? ? params[:page].to_i : 1
+        size = params[:size].present? ? params[:size].to_i : 1
+
+        offset = (page-1)*size
+        # Compute last_page as ceil(tool.count / size)
+        last_page = tools.count / size + (tools.count % size == 0 ? 0 : 1)
+        # Only return the participants in this page
+        tools = tools
+          .accessible_by(Current.ability)
+          .ordered_by_name
+          .offset(offset).limit(size)
         data =
-          @tools.table_attrs.as_json(methods: %i[link])
-        render json: {last_page: @pagy.pages, data: data}
+          tools.table_attrs.as_json(methods: %i[link])
+        render json: {last_page: , data: }
       end
     end
   end

@@ -46,7 +46,7 @@ module ParticipantsHelper
       columns: PARTICIPANTS_TABLE_COLUMNS,
       dataLoader: false,
       height: '90vh',
-      paginationSize: 100,
+      paginationSize: 200,
       placeholder: '<h2>No Participants Found</h2>',
       progressiveLoad: 'load',
       resizableColumnFit: true
