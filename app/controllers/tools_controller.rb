@@ -57,10 +57,9 @@ class ToolsController < ApplicationController
   def update
     @tool.update(tool_params)
     if @tool.valid?
-      redirect_to tools_path
+      redirect_to tool_path(@tool), notice: "Updated Tool!"
     else
-      flash.now[:alert] = t('.alert')
-      render :edit, status: :unprocessable_entity
+      redirect_to tool_path(@tool), alert: "Could not update tool."
     end
   end
 
