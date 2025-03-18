@@ -1,9 +1,19 @@
-<% if can?(:update, @tool) %>
-  <%- model_class = Tool -%>
-  <div class="page-header">
-    <h1><%= t '.title', default: [:'helpers.titles.edit', 'Edit %<model>s'], model: model_class.model_name.human %></h1>
-  </div>
-  <%= render 'form' %>
-<% else %>
-  <h3>Not Authorized!</h3>
-<% end %>
+<% update_document_title(add: 'Tools') %>
+<% update_breadcrumbs(add: link_to('Tools',tools_path)) %>
+<% update_breadcrumbs(add: "#{@tool.name} #{@tool.barcode}") %>
+<% nav(active: 'tools') %>
+<div class="content">
+  <% if can?(:update, @tool) %>
+    <div class="page-header">
+      <h1>Edit Tool</h1>
+      <%= form_with model: @tool do |f| %>
+      <%= f.label :tool_type_id, 'Tool Type' %> <%= f.collection_select(:tool_type_id, ToolType.all, :id, :name) %>
+      <%= f.label :description, 'Description' %> <%= f.text_area :description, placeholder: 'Optional' %>
+      <%= f.label :barcode, 'Barcode' %> <%= f.text_field :barcode %>
+      <%= submit_tag "Edit Tool" %>
+      <% end %>
+    </div>
+  <% else %>
+    <h3>Not Authorized!</h3>
+  <% end %>
+</div>
