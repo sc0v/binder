@@ -74,6 +74,7 @@ class Ability
     # OrganizationTimelineEntryType    -- Not currently used: Enum in OrgTimelineEntry
     can :read, Organization
     can :read, Participant
+    cannot :login, Participant
     can :skip_safety_video, Participant, id: user.id, watched_safety_video: true
     can :update, Participant, %i[signed_waiver], id: user.id, signed_waiver: [false, nil], watched_safety_video: true
     can :read, ScissorLiftCheckout, organization: { memberships: { paricipant_id: user.id } }
