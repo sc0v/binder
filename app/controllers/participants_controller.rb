@@ -1,21 +1,30 @@
 # frozen_string_literal: true
 class ParticipantsController < ApplicationController
-  include Pagy::Backend
   include PersonalPathable
   before_action :require_authentication
   load_and_authorize_resource
 
+  # Index method with manual pagination using page and size parameters
+  # The participants table gets data from here through AJAX, so we keep
+  # compute last_page to tell table how many batches it needs
   def index
-    pagy, participants =
-      pagy(Participant.accessible_by(Current.ability).ordered_by_name)
     respond_to do |format|
       format.html
       format.json do
+        page = params[:page].present? ? params[:page].to_i : 1
+        size = params[:size].present? ? params[:size].to_i : 1
+
+        offset = (page-1)*size
+        # Compute last_page as ceil(Participant.count / size)
+        last_page = Participant.count / size + (Participant.count % size == 0 ? 0 : 1)
+        # Only return the participants in this page
+        participants = Participant.accessible_by(Current.ability)
+                        .ordered_by_name.offset(offset).limit(size)
         data =
           participants.table_attrs.as_json(
-            methods: %i[link name signed_waiver? is_booth_chair]
+            methods: %i[link name signed_waiver?]
            )
-        render json: { last_page: pagy.pages, data: }
+        render json: { last_page: , data: }
       end
     end
   end
