@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class AddInfoToParticiapants < ActiveRecord::Migration[4.2]
+class AddInfoToParticiapants < ActiveRecord::Migration[6.0]
   def change
     add_column :participants, :cached_name, :string
     add_column :participants, :cached_surname, :string
