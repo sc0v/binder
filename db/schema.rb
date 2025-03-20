@@ -10,11 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-<<<<<<< HEAD
 ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
-=======
-ActiveRecord::Schema[7.0].define(version: 2025_02_13_201427) do
->>>>>>> bef7b25 (improve note features)
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: nil, null: false

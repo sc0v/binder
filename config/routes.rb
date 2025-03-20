@@ -234,5 +234,4 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       :as => 'electrical'
 
   resources :users
-  resources :visitor_counts, only: [:show, :index, :update]
 end

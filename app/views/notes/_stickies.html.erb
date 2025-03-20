@@ -16,7 +16,7 @@
           </div>
         </div>
       <% end %>
-      <%= link_to "DESTROY ▸", note_path(n), data: { turbo_confirm: "Are you sure?", turbo_method: :delete}, class: "cta" %>
+      <%= link_to "DESTROY", note_path(n), data: { turbo_confirm: "Are you sure?", turbo_method: :delete}, class: "cta" %>
     </li>
   <% end %>
 
