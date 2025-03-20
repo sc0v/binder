@@ -1,5 +1,25 @@
+<% update_document_title(add: 'Create new tool type') %>
+<% update_breadcrumbs(add: link_to('Tool types',tool_types_path), ) %>
+<% update_breadcrumbs(add: 'Create new tool type') %>
+<%= nav(active: 'tool types') %>
+<% content_for :head do %>
+<script>
+  
+</script>
+<% end %>
+
 <%- model_class = ToolType -%>
-<div class="page-header">
+
+
+<div class="content">
+  <div>
+  <div class="page-header>
+    <div class="page-header">
   <h1><%= t '.title', default: [:'helpers.titles.new', 'New %<model>s'], model: model_class.model_name.human %></h1>
+  </div>
+  <%= render 'form' %>
+  </div>
+  </div>
 </div>
-<%= render 'form' %>
+    
+

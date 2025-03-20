@@ -9,17 +9,22 @@ class ToolTypesController < ApplicationController
     # @tool_types = @tool_types.paginate(:page => params[:page]).per_page(20)
   end
 
+  def show
+    @tool_type = ToolType.find(params[:id])
+  end
   # GET /tool_types/new
   def new; end
 
   # GET /tool_types/1/edit
-  def edit; end
+  def edit
+    
+    end
 
   # POST /tool_types
   # POST /tool_types.json
   def create
     unless @tool_type.save
-      respond_with(@tool_type)
+      respond_to(@tool_type)
       return
     end
 
@@ -34,19 +39,20 @@ class ToolTypesController < ApplicationController
   # PATCH/PUT /tool_types/1.json
   def update
     @tool_type.update(tool_type_params)
-    redirect_to tool_types_url
+    redirect_to tool_types_path
   end
 
   # DELETE /tool_types/1
   # DELETE /tool_types/1.json
   def destroy
+    puts @tool_type.id
     if @tool_type.tools.count.positive?
       flash[:error] = 'Cannot delete a tool type until all tools of that type are deleted.'
-      redirect_to tool_types_url
+      redirect_to tool_types_path
       return
     end
     @tool_type.destroy
-    respond_with(@tool_type)
+    redirect_to tool_types_path
   end
 
   private

@@ -1,5 +1,32 @@
+<% update_document_title(add: 'Edit tool type') %>
+<% update_breadcrumbs(add: link_to('Tool types',tool_types_path), ) %>
+<% update_breadcrumbs(add: 'Edit tool type') %>
+<%= nav(active: 'tool types') %>
+<% content_for :head do %>
+<script>
+  
+</script>
+<% end %>
+
 <%- model_class = ToolType -%>
-<div class="page-header">
-  <h1><%= t '.title', default: [:'helpers.titles.edit', 'Edit %<model>s'], model: model_class.model_name.human %></h1>
+
+<div class="content">
+<% if can?(:update, @tool_type) %>
+  <%- model_class = Tool -%>
+  <div class="page-header">
+    <h1><%= t '.title', default: [:'helpers.titles.edit', 'Edit %<model>s'], model: model_class.model_name.human %></h1>
+  </div>
+  <%= form_with model: @tool_type do |f| %>
+    <%= hidden_field(nil, :from_tools, value: params[:from_tools]) %>
+      <%= f.label :name, 'Tool Type Name' %> 
+      <%= f.text_field :name %>
+      <%= f.button :submit, class: 'btn-primary' %>
+  <% end %>
+  
+<% else %>
+  <h3>Not Authorized!</h3>
+<% end %>
 </div>
-<%= render 'form' %>
+
+
+
