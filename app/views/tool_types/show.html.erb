@@ -1,0 +1,91 @@
+<% update_document_title(add: "#{@tool_type.name}") %>
+<% update_breadcrumbs(add: link_to('Tool types', tool_types_path)) %>
+<% update_breadcrumbs(add: "#{@tool_type.name}") %>
+<% nav(active: 'tool_types') %>
+
+<div class="content">
+  <h1><%= @tool_type.name %></h1>
+  <% begin %>
+    <dt>
+      <%= image_tag("tool_images/#{@tool_type.name}.png", id: "item-image-#{@tool_type.name}", class: 'item-image', data: { item_name: @tool_type.name, image_url: asset_path("tool_images/#{@tool_type.name}.png") }, size: '70x70') %>
+    </dt>
+  <% rescue %>
+  <% end %>
+  <br/>
+  <% if can?(:update, @tool_type) %>
+    <%= link_to t('.edit', default: t('helpers.links.edit')),
+                edit_tool_type_path(@tool_type), class: 'btn btn-primary' %>
+  <% end %>
+  <% if can?(:destroy, @tool_type) %>
+    <%= link_to t('.destroy', default: t('helpers.links.destroy')),
+                tool_type_path(@tool_type),
+                data: {
+                  turbo_confirm: 'Are you sure?',
+                  turbo_method: 'delete',
+                },
+                class: 'btn btn-danger' %>
+  <% end %>
+  <br/>
+</div>
+
+<style>
+  .popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    z-index: 999;
+  }
+
+  .popup img {
+    max-height: 90%;
+    max-width: 90%;
+  }
+
+  .item-image {
+  cursor: pointer;
+  }
+</style>
+<script>
+  // opens the image in a popup when it's clicked 
+  // closes the image when the "Close Image" button is clicked
+  function openPopup(imageUrl) {
+  if (document.querySelector('.popup')) {
+    // popup is already open, do nothing
+    return;
+  }
+  var popup = document.createElement('div');
+  popup.className = 'popup';
+  var img = document.createElement('img');
+  img.src = imageUrl;
+  popup.appendChild(img);
+  var closeButton = document.createElement('button');
+  closeButton.innerHTML = 'Close Image';
+  popup.appendChild(closeButton);
+  document.body.appendChild(popup);
+  
+  popup.addEventListener('click', function(event) {
+    if (event.target === popup) {
+      popup.parentNode.removeChild(popup);
+    }
+  });
+  closeButton.addEventListener('click', function() {
+    popup.parentNode.removeChild(popup);
+  });
+  }
+
+  // if an image is called, the openPopup function is called
+  $(function() {
+    $('.item-image').click(function() {
+      var imageUrl = $(this).data('image-url');
+      openPopup(imageUrl);
+    });
+  });
+
+</script>
