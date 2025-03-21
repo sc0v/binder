@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 class SessionsController < ApplicationController
+  skip_before_action :verify_authenticity_token, only: :create
   before_action :setup_mock_auth, if: -> { Rails.env.development? && params[:participant_key] }
 
   def create

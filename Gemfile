@@ -44,9 +44,9 @@ gem 'bootsnap', require: false
 gem 'cancancan'
 
 # Authenticate users with CMU Shibboleth
-gem 'omniauth', '~> 1.0'
+gem 'omniauth'
 gem 'omniauth-rails_csrf_protection'
-gem 'omniauth-shibboleth'
+gem 'omniauth-saml'
 
 # Lookup CMU users in LDAP
 gem 'activeldap', require: 'active_ldap/railtie'
