@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class CreateJudgementCategories < ActiveRecord::Migration[4.2]
+class CreateJudgementCategories < ActiveRecord::Migration[6.0]
   def change
     create_table :judgement_categories do |t|
       t.integer :grouping

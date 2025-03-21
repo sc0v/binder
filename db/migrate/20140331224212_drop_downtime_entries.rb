@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class DropDowntimeEntries < ActiveRecord::Migration[4.2]
+class DropDowntimeEntries < ActiveRecord::Migration[6.0]
   def up
     drop_table :downtime_entries
   end

@@ -13,15 +13,15 @@
 ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "certifications", force: :cascade do |t|
     t.integer "participant_id"
     t.integer "certification_type_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["certification_type_id"], name: "index_certifications_on_certification_type_id"
     t.index ["participant_id"], name: "index_certifications_on_participant_id"
   end
@@ -31,8 +31,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
     t.boolean "requires_booth_chair_approval"
     t.decimal "default_amount", precision: 8, scale: 2
     t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "charges", force: :cascade do |t|
@@ -42,11 +42,12 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
     t.text "description"
     t.integer "issuing_participant_id"
     t.integer "receiving_participant_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.datetime "charged_at", precision: nil
     t.boolean "is_approved"
     t.integer "creating_participant_id"
+    t.index ["charge_type_id"], name: "index_charges_on_charge_type_id"
     t.index ["organization_id"], name: "index_charges_on_organization_id"
   end
 
@@ -54,8 +55,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
     t.integer "tool_id"
     t.datetime "checked_out_at", precision: nil
     t.datetime "checked_in_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "participant_id"
     t.integer "organization_id"
     t.index ["tool_id"], name: "index_checkouts_on_tool_id"
@@ -71,8 +72,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
     t.datetime "failed_at", precision: nil
     t.string "locked_by"
     t.string "queue"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.index ["priority", "run_at"], name: "delayed_jobs_priority"
   end
 
@@ -93,8 +94,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
   create_table "faq", force: :cascade do |t|
     t.text "question"
     t.text "answer"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "organization_category_id"
     t.index ["organization_category_id"], name: "index_faq_on_organization_category_id"
   end
@@ -102,8 +103,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
   create_table "memberships", force: :cascade do |t|
     t.integer "organization_id"
     t.integer "participant_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "is_booth_chair"
     t.string "title"
     t.integer "booth_chair_order"
@@ -129,8 +130,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
   create_table "organization_aliases", force: :cascade do |t|
     t.string "name"
     t.integer "organization_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["name"], name: "index_organization_aliases_on_name"
     t.index ["organization_id"], name: "index_organization_aliases_on_organization_id"
   end
@@ -161,8 +162,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
 
   create_table "organization_categories", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "building"
     t.string "lookup_key"
     t.index ["name"], name: "index_organization_categories_on_name", unique: true
@@ -178,31 +179,31 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
     t.datetime "ended_at", precision: nil
     t.integer "organization_id"
     t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "entry_type"
     t.index ["organization_id"], name: "index_organization_timeline_entries_on_organization_id"
   end
 
   create_table "organization_timeline_entry_types", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "organizations", force: :cascade do |t|
     t.string "name"
     t.integer "organization_category_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "short_name"
     t.index ["organization_category_id"], name: "index_organizations_on_organization_category_id"
   end
 
   create_table "participants", force: :cascade do |t|
     t.string "eppn"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "signed_waiver"
     t.string "phone_number"
     t.string "cached_name"
@@ -241,16 +242,16 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
     t.integer "shift_id"
     t.integer "participant_id"
     t.datetime "clocked_in_at", precision: nil
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["participant_id"], name: "index_shift_participants_on_participant_id"
     t.index ["shift_id"], name: "index_shift_participants_on_shift_id"
   end
 
   create_table "shift_types", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "short_name"
   end
 
@@ -260,18 +261,19 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
     t.integer "required_number_of_participants"
     t.integer "organization_id"
     t.integer "shift_type_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.string "description"
     t.index ["organization_id"], name: "index_shifts_on_organization_id"
+    t.index ["shift_type_id"], name: "index_shifts_on_shift_type_id"
   end
 
   create_table "store_items", force: :cascade do |t|
     t.string "name"
     t.decimal "price", precision: 8, scale: 2
     t.integer "quantity"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "store_purchases", force: :cascade do |t|
@@ -279,8 +281,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
     t.integer "store_item_id"
     t.decimal "price_at_purchase", precision: 8, scale: 2
     t.integer "quantity_purchased"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["charge_id"], name: "index_store_purchases_on_charge_id"
     t.index ["store_item_id"], name: "index_store_purchases_on_store_item_id"
   end
@@ -290,8 +292,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
     t.integer "completed_by_id"
     t.string "name"
     t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.boolean "is_completed"
   end
 
@@ -316,23 +318,23 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
   create_table "tool_type_certifications", force: :cascade do |t|
     t.integer "tool_type_id"
     t.integer "certification_type_id"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.index ["certification_type_id"], name: "index_tool_type_certifications_on_certification_type_id"
     t.index ["tool_type_id"], name: "index_tool_type_certifications_on_tool_type_id"
   end
 
   create_table "tool_types", force: :cascade do |t|
     t.string "name"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "tools", force: :cascade do |t|
     t.integer "barcode"
     t.text "description"
-    t.datetime "created_at", precision: nil
-    t.datetime "updated_at", precision: nil
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
     t.integer "tool_type_id"
     t.boolean "active"
     t.index ["barcode"], name: "index_tools_on_barcode"

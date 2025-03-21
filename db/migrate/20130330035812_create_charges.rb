@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class CreateCharges < ActiveRecord::Migration[4.2]
+class CreateCharges < ActiveRecord::Migration[6.0]
   def change
     create_table :charges do |t|
       t.references :organization
@@ -12,6 +12,5 @@ class CreateCharges < ActiveRecord::Migration[4.2]
 
       t.timestamps
     end
-    add_index :charges, :organization_id
   end
 end
