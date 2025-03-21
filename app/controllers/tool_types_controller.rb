@@ -45,7 +45,6 @@ class ToolTypesController < ApplicationController
   # DELETE /tool_types/1
   # DELETE /tool_types/1.json
   def destroy
-    puts @tool_type.id
     if @tool_type.tools.count.positive?
       flash[:error] = 'Cannot delete a tool type until all tools of that type are deleted.'
       redirect_to tool_types_path
