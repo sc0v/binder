@@ -6,3 +6,13 @@
     <% end %>
   </turbo-frame>
 </li>
+
+<%= content_for :head do %>
+  <%= stylesheet_link_tag 'notes', 'data-turbo-track': 'reload' %>
+<% end %>
+
+# <div class="full-screen-note">
+#   <h1><%= @note.title %></h1>
+#   <p><%= @note.value %></p>
+#   <%= link_to "Back to Notes", notes_path, class: "cta" %>
+# </div>

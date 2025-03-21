@@ -155,7 +155,7 @@ class Ability
     # Event                            -- Not currently used: Feature No Longer Used
     # FAQ: Same as Builder
     can :manage, Membership
-    can %i[create destroy], Note, organization: { memberships: { participant_id: user.id } }
+    can %i[create destroy], Note
     # OrganizationAlias                -- Not currently used: Org Shortname
     can :manage, OrganizationBuildStatus
     can :manage, OrganizationBuildStep
