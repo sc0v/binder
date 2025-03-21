@@ -1,30 +1,49 @@
 # frozen_string_literal: true
 
 class ToolsController < ApplicationController
-  include Pagy::Backend
   load_and_authorize_resource
 
-  def index
-    # if params[:organization_id].present?
-    #   @organization = Organization.find(params[:organization_id])
-    #   @tools = Tool.just_tools.checked_out_by_organization(@organization)
-    # else
-    #   @tools = Tool.just_tools.accessible_by(Current.ability).ordered_by_name
-    # end
+  # Index method with manual pagination using page and size parameters
+  # The tools table gets data from here through AJAX, so we keep
+  # compute last_page to tell table how many batches it needs
+  def index()
+    type = params[:type] || 'tool'
 
-    # Paginate a lot of records at a time since something seems to be reloaded
-    # each round of pagination so wanted to minimize the number of rounds
-    pagy, @tools = pagy(Tool.just_tools.accessible_by(Current.ability).ordered_by_name, limit: 500)
+    tools = Tool.just_tools
+
+    case type
+      when 'hardhat'
+        tools = Tool.hardhats
+      when 'radio'
+        tools = Tool.radios
+    end
+
+    params.permit!()
+    @json_url = url_for(params.merge( format: :json))
 
     respond_to do |format|
-      format.html
+      format.html do
+        render :index
+      end
       format.json do
+        page = params[:page].present? ? params[:page].to_i : 1
+        size = params[:size].present? ? params[:size].to_i : 1
+
+        offset = (page-1)*size
+        # Compute last_page as ceil(tool.count / size)
+        last_page = tools.count / size + (tools.count % size == 0 ? 0 : 1)
+        # Only return the participants in this page
+        tools = tools
+          .accessible_by(Current.ability)
+          .ordered_by_name
+          .offset(offset).limit(size)
         data =
-          @tools.table_attrs.as_json(methods: %i[link])
-        render json: {last_page: pagy.pages, data: }
+          tools.table_attrs.as_json(methods: %i[link])
+        render json: {last_page: , data: }
       end
     end
   end
+
 
   def show
   end
@@ -46,10 +65,9 @@ class ToolsController < ApplicationController
   def update
     @tool.update(tool_params)
     if @tool.valid?
-      redirect_to tools_path
+      redirect_to tool_path(@tool), notice: "Updated Tool!"
     else
-      flash.now[:alert] = t('.alert')
-      render :edit, status: :unprocessable_entity
+      redirect_to tool_path(@tool), alert: "Could not update tool."
     end
   end
 

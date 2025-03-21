@@ -1,0 +1,41 @@
+<% update_document_title(add: 'Downtime') %>
+<% update_breadcrumbs(add: link_to('Downtime', downtime_path)) %>
+<% update_breadcrumbs(add: "#{@organization.name}") %>
+<% nav() %>
+
+<div class="content wide">
+  <div>
+  <h1>
+    <%= link_to @organization.name + raw("'s"), @organization if @organization.present? %>
+    Downtime
+  </h1>
+  <% if @is_on_downtime %>
+    <h3><%= @organization.name %> is on downtime!</h3>
+  <% else %>
+    <h3><%= @organization.name %> is NOT on downtime!</h3>
+  <% end %>
+  Downtime Remaining: <%= format_duration @organization.remaining_downtime %>
+
+  <h2 style="margin-top: 2em; padding: 0">All Downtime Breaks</h2>
+  <table>
+    <thead>
+      <tr>
+        <th><%= "Started At" %></th>
+        <th class="hidden-xs"><%= "Ended At" %></th>
+        <th>Duration</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @entries.each do |entry| %>
+        <% if can?(:read, entry) %>
+          <tr>
+            <td><%= entry.started_at.strftime('%b %e at %l:%M %p') %></td>
+            <td><%= entry.ended_at.strftime('%b %e at %l:%M %p') if entry.ended_at.present? %></td>
+            <td><%= format_duration entry.duration %></td>
+          </tr>
+        <% end %>
+      <% end %>
+    </tbody>
+  </table>
+  </div>
+</div>

@@ -5,10 +5,10 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   # Session management
   direct :login do
-    '/auth/shibboleth/callback'
+    '/auth/saml'
   end
   scope module: :sessions do
-    get 'auth/:provider/callback', action: :create
+    post 'auth/:provider/callback', action: :create
     get 'logout', as: :logout, action: :destroy
     post 'impersonate/:participant_id', as: :impersonate, action: :impersonate
     get 'unimpersonate'
@@ -39,6 +39,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   # Applets/Workflows
   get 'applets', to: 'applets#index', as: :applets
   get 'ppe-distribution', to: 'applets/ppe_distribution#index'
+  get 'ppe-collection', to: 'applets/ppe_collection#index'
 
   # FAQ
   # n.b.: FAQ is uncountable (like sheep). The Rails convention is to have:
@@ -47,7 +48,8 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   resources :faq, except: [:show]
 
   # Notes
-  resources :notes
+  # resources :notes
+  resources :notes, only: %i[index show create new edit update destroy]
 
   # Participant Safety Briefing
   get 'safety-briefing',
@@ -74,7 +76,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
 
   # SCC Help Queues
-  resources :queues
+  # resources :queues
 
   # Tools
   resources :tools do
@@ -116,18 +118,22 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     end
   end
   resources :scissor_lift_checkouts, only: [:index]
-  
+
+  # Downtime Index (other methods are organizations/downtime)
+  get 'downtime', to: 'downtime#downtime'
+  post 'toggle_downtime', to: 'downtime#toggle'
+
   # TODO: Confirm everything below
   resources :organizations do
     resources :aliases,
               controller: :organization_aliases,
               shallow: true,
               only: %i[create new destroy index]
-    resources :organization_build_statuses, only: [:show] do
-	    resources :organization_build_steps, only: %i[show create update destroy]
+    resources :organization_build_statuses, only: [:show, :edit, :update] do
+	    resources :organization_build_steps, only: %i[show create edit update destroy]
     end
 
-    resources :participants, only: %i[new create index], 
+    resources :participants, only: %i[new create index],
       controller: "organization_members"
     patch 'remove_staged', to: 'organization_members#remove_staged'
 
@@ -136,7 +142,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
     resources :charges, only: [:index]
     get 'hardhats', on: :member
     resources :downtime,
-              controller: :organization_timeline_entries,
+              controller: :downtime,
               only: [:index]
     resources :memberships, only: %i[new create destroy]
     # Membership bulk add operations
@@ -152,7 +158,6 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
             only: %i[show edit create update destroy] do
     put 'end', on: :member
   end
-  get 'downtime', to: 'home#downtime'
 
   resources :event_types
   resources :events do
@@ -233,6 +238,8 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       :as => 'structural'
   get 'electrical' => 'organization_timeline_entries#electrical',
       :as => 'electrical'
+  get 'queues' => 'organization_timeline_entries#queues',
+      :as => 'queues'
 
   resources :users
 end

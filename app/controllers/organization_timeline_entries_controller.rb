@@ -4,12 +4,6 @@ class OrganizationTimelineEntriesController < ApplicationController
   #authorize_resource
   before_action :set_organization_timeline_entry, only: %i[update destroy end show]
 
-  def index
-    @organization = Organization.find(params[:organization_id]) if params[:organization_id].present?
-    @entries = OrganizationTimelineEntry.downtime
-    @entries = @entries.where({ organization: @organization }) if @organization.present?
-  end
-
   def show
     @organization_timeline_entry = OrganizationTimelineEntry.find(params[:id])
   end
@@ -26,13 +20,21 @@ class OrganizationTimelineEntriesController < ApplicationController
     @organization_timeline_entry.entry_type = case params[:commit]
                                               when 'Structural' then 'structural'
                                               when 'Electrical' then 'electrical'
+                                              when 'Scissor Lift' then 'scissor_lift'
                                               else 'downtime'
                                               end
 
     if @organization_timeline_entry.already_in_queue?
       redirect_to params[:url], alert: "You're already on the queue!"
+
     elsif @organization_timeline_entry.save
-      redirect_to params[:url], notice: t('.notice', name: @organization_timeline_entry.entry_type)
+      if @organization_timeline_entry.entry_type == 'structural'
+        redirect_to params[:url], notice: "Added to structural queue!"
+      elsif @organization_timeline_entry.entry_type == 'electrical'
+        redirect_to params[:url], notice: "Added to electrical queue!"
+      else 
+        redirect_to params[:url], notice: "Started downtime!"
+      end
     else
       flash.now[:alert] = t('.alert')
       render :new, status: :unprocessable_entity
@@ -71,6 +73,11 @@ class OrganizationTimelineEntriesController < ApplicationController
 
   def structural
     @organization_timeline_entries = OrganizationTimelineEntry.structural.current
+  end
+
+  def queues
+    @electrical = OrganizationTimelineEntry.electrical.current
+    @structural = OrganizationTimelineEntry.structural.current
   end
 
   private

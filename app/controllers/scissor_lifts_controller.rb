@@ -1,6 +1,10 @@
 class ScissorLiftsController < ApplicationController
+  load_and_authorize_resource
+  
   def index
     @scissor_lifts = ScissorLift.all.ordered_by_name
+
+    @queue = OrganizationTimelineEntry.scissor_lift.current
 
     respond_to do |format|
       format.html

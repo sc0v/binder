@@ -13,6 +13,9 @@ class OrganizationsController < ApplicationController
           organizations.as_json(
             methods: %i[building? category_name link remaining_downtime downtime_link]
           )
+        data.each do |d|
+          d["remaining_downtime"] = helpers.format_duration d["remaining_downtime"]
+        end
         render json: { last_page: pagy.pages, data: data }
       end
     end
@@ -20,10 +23,10 @@ class OrganizationsController < ApplicationController
 
   def show
     @booth_chairs = @organization.booth_chairs
+    @non_booth_chairs = @organization.validated_non_booth_chairs
     @tools = Tool.checked_out_by_organization(@organization).just_tools
     @shifts = @organization.shifts
-    @participants = @organization.participants
-    @charges = @organization.charges
+    @participants = @organization.validated_participants
 
       pagy, participants =
         pagy(@organization.participants.accessible_by(Current.ability).ordered_by_name)
@@ -42,15 +45,8 @@ class OrganizationsController < ApplicationController
     @structural = @organization.organization_build_statuses.find_by(status_type: :structural)
     @electrical = @organization.organization_build_statuses.find_by(status_type: :electrical)
 
-    # Get Total Fines for Organization
-    @total_fines = 0
-    @organization.charges.each do |charge|
-      @total_fines += charge.amount
-    end
     # Get Tools Checked Out by Organization
     @tools_checked_out = Tool.checked_out_by_organization(@organization)
-    # Get Members of Organization
-    @members = @organization.participants
   end
 
   # GET /organizations/new

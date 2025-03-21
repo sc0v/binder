@@ -31,28 +31,17 @@
   </dl>
   <%= link_to t('.back', default: t('helpers.links.back')),
               tools_path, class: 'btn btn-default' %>
-  <% if(@tool.is_checked_out?) %>
-    <% if can?(:update, @tool.checkouts.current.first) %>
-      <%= form_tag(tool_checkout_path(@tool, @tool.checkouts.current.first), method: :patch, style: 'display: inline;') do -%>
-        <%= hidden_field_tag 'url', tool_path(@tool) %>
-        <%= submit_tag t('.checkin', default: t('helpers.links.checkin')), class: 'btn btn-success' %>
-      <% end -%>
-    <% end %>
-  <% else %>
-    <% if can?(:create, Checkout) %>
-      <%= link_to 'Add to Cart', tool_cart_add_tool_path(barcode: @tool.barcode),
-                  method: :post, remote: true, class: 'btn btn-warning' %>
-    <% end %>
-  <% end %>
   <% if can?(:update, @tool) %>
     <%= link_to t('.edit', default: t('helpers.links.edit')),
-                edit_tool_path(@tool), class: 'btn btn-primary' %>
+                edit_tool_path(@tool), class: 'btn' %>
   <% end %>
   <% if can?(:destroy, @tool) %>
-    <%= link_to t('.destroy', default: t('helpers.links.destroy')),
+    <%= link_to t('.destroy', default: "Remove Tool"),
                 tool_path(@tool),
-                method: 'delete',
-                data: { confirm: t('.confirm', default: t('helpers.links.confirm', default: 'Are you sure?')) },
-                class: 'btn btn-danger' %>
+                data: { 
+                  turbo_method: :delete,
+                  turbo_confirm: t('.confirm', default: t('helpers.links.confirm', default: 'Are you sure?')) 
+                },
+                class: 'btn' %>
   <% end %>
 </div>

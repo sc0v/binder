@@ -1,0 +1,25 @@
+<div style="margin-bottom: 2em">
+  <div style="display: flex; align-items: center">
+    <h2 style="padding-bottom: 0px"><%= link_to(step.title, [@organization, @build_status, step]) %>:</h2>
+    <% if step.approver.present? %>
+      <div class="invert green" style="padding: 0.25em; margin-left: 0.25em">
+        <h2>Approved</h2>
+      </div>
+    <% else %>
+      <div class="invert red" style="padding: 0.25em; margin-left: 0.25em">
+        <h2>Not Approved</h2>
+      </div>
+    <% end %>
+    <% if can?(:update, step) %>
+      <%= form_with model: [@organization, @build_status, step] do |f| %>
+        <%= hidden_field_tag 'update_type', :enabled %>
+        <%= hidden_field_tag 'url', request.original_fullpath %>
+        <% if step.is_enabled %>
+          <%= f.submit 'Disable', style: "padding: 0.5em; padding-right: 1em; margin-left: 0.25em" %>
+        <% else %>
+          <%= f.submit 'Enable', style: "padding: 0.5em; padding-right: 1em; margin-left: 0.25em" %>
+        <% end %>
+      <% end %>
+    <% end %>
+  </div>
+</div>

@@ -3,6 +3,191 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
+
+    # CertificationType
+    # Certification
+    # ChargeType
+    # Charge
+    # Checkout
+    # EventType                        -- Not currently used: Feature No Longer Used
+    # Event                            -- Not currently used: Feature No Longer Used
+    can :read, FAQ, organization_category: nil
+    # Membership
+    # Note
+    # OrganizationAlias                -- Not currently used: Org Shortname
+    # OrganizationBuildStatus
+    # OrganizationBuildStep
+    # OrganizationCategory
+    # OrganizationStatusType           -- Not currently used: BuildStatus
+    # OrganizationTimelineEntry
+    # OrganizationTimelineEntryType    -- Not currently used: Enum in OrgTimelineEntry
+    can :read, Organization, %i[id name short_name building? category_name downtime_link remaining_downtime]
+    can :login, Participant
+    # ScissorLiftCheckout
+    # ScissorLift  
+    # ShiftParticipant                 -- Not currently used: Feature No Longer Used
+    # ShiftType                        -- Not currently used: Feature No Longer Used
+    # Shift                            -- Not currently used: Feature No Longer Used
+    # StoreItem
+    # StorePurchase
+    # Task                             -- Not currently used: Feature No Longer Used
+    # ToolInventory
+    # ToolInventoryTool
+    # ToolTypeCertification            -- Not currently used: ScissorLift is now a separate model
+    # ToolType
+    # Tool 
+
+    return unless user.present?
+
+    can :participate, :carnival if user.signed_waiver?
+
+    can :read, CertificationType
+    can :read, Certification, participant_id: user.id
+    can :read, ChargeType
+    # Charge: No Access
+    can :read, Checkout, organization: { memberships: { paricipant_id: user.id } }
+    # EventType                        -- Not currently used: Feature No Longer Used
+    # Event                            -- Not currently used: Feature No Longer Used
+    can :read, FAQ, 
+      organization_category: {
+        organizations: {
+          memberships: {
+            participant_id: user.id
+          }
+        }
+      }
+    can :read, Membership, organization: { memberships: { participant_id: user.id } }
+    can :read, Note, organization: { memberships: { participant_id: user.id } }
+    # OrganizationAlias                -- Not currently used: Org Shortname
+    can :read, OrganizationBuildStatus, organization: { memberships: { participant_id: user.id } }
+    can :read, OrganizationBuildStep, 
+      organization_build_status: {
+        organization: {
+          memberships: {
+            participant_id: user.id
+          }
+        }
+      }
+    can :read, OrganizationCategory
+    # OrganizationStatusType           -- Not currently used: BuildStatus
+    can :manage, OrganizationTimelineEntry, organization: { memberships: { participant: user } }
+    # OrganizationTimelineEntryType    -- Not currently used: Enum in OrgTimelineEntry
+    can :read, Organization
+    can :read, Participant
+    cannot :login, Participant
+    can :skip_safety_video, Participant, id: user.id, watched_safety_video: true
+    can :update, Participant, %i[signed_waiver], id: user.id, signed_waiver: [false, nil], watched_safety_video: true
+    can :read, ScissorLiftCheckout, organization: { memberships: { paricipant_id: user.id } }
+    can :read, ScissorLift
+    # ShiftParticipant                 -- Not currently used: Feature No Longer Used
+    # ShiftType                        -- Not currently used: Feature No Longer Used
+    # Shift                            -- Not currently used: Feature No Longer Used
+    can :read, StoreItem
+    # StorePurchase: No Access
+    # Task                             -- Not currently used: Feature No Longer Used
+    # ToolInventory: No Access
+    # ToolInventoryTool: No Access
+    # ToolTypeCertification            -- Not currently used: ScissorLift is now a separate model
+    can :read, ToolType
+    can :read, Tool, %i[name t_name link is_checked_out? t_is_checked_out current_organization t_organization_name current_participant t_participant_name]
+
+    if user.is_booth_chair? 
+      # CertificationType: Same as Builder
+      can :read, Certification,
+        participant: {
+          memberships: {
+            organization: {
+              memberships: {
+                participant_id: user.id
+              }
+            }
+          }
+        }
+      # ChargeType: Same as Builder
+      can :read, Charge, organization: { memberships: { participant_id: user.id } }
+      # Checkout: Same as Builder
+      # EventType                        -- Not currently used: Feature No Longer Used
+      # Event                            -- Not currently used: Feature No Longer Used
+      # FAQ: Same as Builder
+      # Membership: Same as Builder
+      # Note: Same as Builder
+      # OrganizationAlias                -- Not currently used: Org Shortname
+      # OrganizationBuildStatus: Same as Builder
+      # OrganizationBuildStep: Same as Builder
+      # OrganizationCategory: Same as Builder
+      # OrganizationStatusType           -- Not currently used: BuildStatus
+      # OrganizationTimelineEntry: Same as Builder
+      # OrganizationTimelineEntryType    -- Not currently used: Enum in OrgTimelineEntry
+      # Organization: Same as Builder
+      can :read, Participant, 
+        memberships: {
+          organization: {
+            memberships: {
+              participant_id: user.id
+            }
+          }
+        }
+      # ScissorLiftCheckout: Same as Builder
+      # ScissorLift: Same as Builder
+      # ShiftParticipant                 -- Not currently used: Feature No Longer Used
+      # ShiftType                        -- Not currently used: Feature No Longer Used
+      # Shift                            -- Not currently used: Feature No Longer Used
+      # StoreItem: Same as Builder
+      can :read, StorePurchase, charge: { organization: { memberships: { participant_id: user.id } } }
+      # Task                             -- Not currently used: Feature No Longer Used
+      # ToolInventory: No Access
+      # ToolInventoryTool: No Access
+      # ToolTypeCertification            -- Not currently used: ScissorLift is now a separate model
+      # ToolType: Same as Builder
+      # Tool: Same as Builder
+    end
+
+    return unless user.scc?
+
+    can :read, :all
+
+    # CertificationType: Same as Builder
+    can %i[create update destroy], Certification
+    can %i[create update destroy], ChargeType
+    can %i[create update], Charge
+    can %i[create update], Checkout
+    # EventType                        -- Not currently used: Feature No Longer Used
+    # Event                            -- Not currently used: Feature No Longer Used
+    # FAQ: Same as Builder
+    can :manage, Membership
+    can %i[create destroy], Note
+    # OrganizationAlias                -- Not currently used: Org Shortname
+    can :manage, OrganizationBuildStatus
+    can :manage, OrganizationBuildStep
+    # OrganizationCategory: Same as Builder
+    # OrganizationStatusType           -- Not currently used: BuildStatus
+    can %i[create edit update end structural electrical downtime], OrganizationTimelineEntry
+    # OrganizationTimelineEntryType    -- Not currently used: Enum in OrgTimelineEntry
+    can %i[hardhats read_basic_details read_all_details], Organization
+    # Participant: Same as Builder
+    can %i[create update], ScissorLiftCheckout
+    can :manage, ScissorLift
+    # ShiftParticipant                 -- Not currently used: Feature No Longer Used
+    # ShiftType                        -- Not currently used: Feature No Longer Used
+    # Shift                            -- Not currently used: Feature No Longer Used
+    can :manage, StoreItem
+    can %i[create update], StorePurchase
+    # Task                             -- Not currently used: Feature No Longer Used
+    # ToolInventory: Same as Builder
+    can :manage, ToolInventoryTool
+    # ToolTypeCertification            -- Not currently used: ScissorLift is now a separate model
+    can :manage, ToolType
+    can :manage, Tool
+    
+    return unless user.admin?
+
+    can :manage, :all
+    cannot :participate, :carnival unless user.signed_waiver? # show waiver prompts
+    cannot :login, Participant # hide login prompts
+
+    return # TODO: Make sure new abilities above match with old abilities below
+           # Because of this return, abilities below have no effect!
+    
     # FAQ
     can :read, FAQ, organization_category: nil
     if user.present?

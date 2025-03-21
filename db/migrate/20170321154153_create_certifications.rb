@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class CreateCertifications < ActiveRecord::Migration[4.2]
+class CreateCertifications < ActiveRecord::Migration[6.0]
   def change
     create_table :certifications do |t|
       t.belongs_to :participant, index: true, foreign_key: true

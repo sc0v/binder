@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class CreateTools < ActiveRecord::Migration[4.2]
+class CreateTools < ActiveRecord::Migration[6.0]
   def change
     create_table :tools do |t|
       t.string :name, null: false

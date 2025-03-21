@@ -124,6 +124,15 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
               action: :create,
               subject: Applets::PPEDistributionController
             }
+          },
+          {
+            label: 'PPE Collection',
+            url: ppe_collection_path,
+            key: 'ppe_collection',
+            can: {
+              action: :create,
+              subject: Applets::PPECollectionController
+            }
           }
         ]
       },
@@ -135,6 +144,16 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
         can: {
           action: :index,
           subject: Charge
+        }
+      },
+      {
+        label: 'Downtime',
+        url: downtime_path,
+        key: 'downtime',
+        class: ['secondary'],
+        can: {
+          action: :index,
+          subject: OrganizationTimelineEntry
         }
       },
       {
@@ -157,6 +176,16 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
             }
           }
         ]
+      },
+      {
+        label: 'Scissor Lifts',
+        url: scissor_lifts_path,
+        key: 'scissor_lifts',
+        class: ['secondary'],
+        can: {
+          action: :index,
+          subject: ScissorLift
+        }
       },
       {
         label: 'Shifts',

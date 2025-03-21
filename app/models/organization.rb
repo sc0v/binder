@@ -33,6 +33,14 @@ class Organization < ApplicationRecord
     memberships.booth_chairs.map(&:participant)
   end
 
+  def validated_participants
+    memberships.validated.map(&:participant)
+  end
+
+  def validated_non_booth_chairs
+    validated_participants.reject { |participant| booth_chairs.include?(participant) }
+  end  
+
   def downtime
     elapsed = 0
     organization_timeline_entries
@@ -44,7 +52,7 @@ class Organization < ApplicationRecord
   end
 
   def remaining_downtime
-    (4.hours - downtime).in_hours
+    4.hours - downtime
   end
 
   def link
