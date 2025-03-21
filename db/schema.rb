@@ -340,6 +340,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
     t.index ["barcode"], name: "index_tools_on_barcode"
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
   end
+  
 
   add_foreign_key "certifications", "certification_types"
   add_foreign_key "certifications", "participants"

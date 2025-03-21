@@ -48,7 +48,8 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   resources :faq, except: [:show]
 
   # Notes
-  resources :notes
+  # resources :notes
+  resources :notes, only: %i[index show create new edit update destroy]
 
   # Participant Safety Briefing
   get 'safety-briefing',
