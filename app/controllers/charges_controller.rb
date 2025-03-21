@@ -24,7 +24,6 @@ class ChargesController < ApplicationController
           d['description_truncated'] = d['description'].truncate(85, separator: /\s/)
           #d['approve_link'] = link_to 'show', charge, class: 'btn'
         end
-        puts data.first['show_link']
         render json: {data: }
       end
     end
