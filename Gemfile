@@ -45,7 +45,7 @@ gem 'cancancan'
 
 # Authenticate users with CMU Shibboleth
 gem 'omniauth'
-gem 'omniauth-rails_csrf_protection'
+gem 'omniauth-rails_csrf_protection', '~> 1.0'
 gem 'omniauth-saml'
 
 # Lookup CMU users in LDAP
