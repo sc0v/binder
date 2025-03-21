@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class CreateEventLog < ActiveRecord::Migration[4.2]
+class CreateEventLog < ActiveRecord::Migration[6.0]
   def change
     create_table :events, force: :cascade do |t|
       t.boolean  :is_done

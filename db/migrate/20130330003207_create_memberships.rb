@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class CreateMemberships < ActiveRecord::Migration[4.2]
+class CreateMemberships < ActiveRecord::Migration[6.0]
   def change
     create_table :memberships do |t|
       t.references :organization
@@ -8,7 +8,5 @@ class CreateMemberships < ActiveRecord::Migration[4.2]
 
       t.timestamps
     end
-    add_index :memberships, :organization_id
-    add_index :memberships, :participant_id
   end
 end

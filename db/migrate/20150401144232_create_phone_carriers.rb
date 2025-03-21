@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class CreatePhoneCarriers < ActiveRecord::Migration[4.2]
+class CreatePhoneCarriers < ActiveRecord::Migration[6.0]
   def change
     create_table :phone_carriers do |t|
       t.string :name

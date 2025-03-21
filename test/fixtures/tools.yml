@@ -250,7 +250,7 @@
    id: 32
    barcode: 2716
    description: HDX
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:56
    tool_type_id: WTF
    active: 6
@@ -266,47 +266,37 @@
    id: 34
    barcode: 2594
    description: Irwin
-   created_at: Large
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-04-02 06:11:47
 35:
    id: 35
    barcode: 1639
    description: Irwin
-   created_at: Large
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-04-13 21:49:43
 36:
    id: 36
    barcode: 2081
    description: Irwin
-   created_at: Large
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-04-07 15:30:19
 37:
    id: 37
    barcode: 2591
    description: Irwin
-   created_at: Large
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2019-04-11 15:29:30
 38:
    id: 38
    barcode: 2593
    description: Irwin
-   created_at: Large
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-04-07 15:43:54
 39:
    id: 39
    barcode: 2391
    description: Swanson
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:56
    tool_type_id: WTF
    active: 7
@@ -330,7 +320,7 @@
    id: 42
    barcode: 2603
    description: HDX
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:56
    tool_type_id: WTF
    active: 6
@@ -354,9 +344,7 @@
    id: 45
    barcode: 1625
    description: Irwin
-   created_at: Small
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-04-07 15:20:10
 46:
    id: 46
@@ -378,7 +366,7 @@
    id: 48
    barcode: 2033
    description: Clip on
-   created_at: Metal shade
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:56
    tool_type_id: WTF
    active: 6
@@ -394,7 +382,7 @@
    id: 50
    barcode: 2601
    description: Bayco
-   created_at: Yellow
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:56
    tool_type_id: WTF
    active: 6
@@ -418,7 +406,7 @@
    id: 53
    barcode: 2604
    description: HDX
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:56
    tool_type_id: WTF
    active: 6
@@ -426,7 +414,7 @@
    id: 54
    barcode: 3381
    description: Clip on
-   created_at: Metal shade
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:56
    tool_type_id: WTF
    active: 6
@@ -434,7 +422,7 @@
    id: 55
    barcode: 2103
    description: Clip on
-   created_at: Metal shade
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:56
    tool_type_id: WTF
    active: 6
@@ -522,7 +510,7 @@
    id: 66
    barcode: 2155
    description: 2' Empire
-   created_at: Yellow
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:56
    tool_type_id: WTF
    active: 10
@@ -538,7 +526,7 @@
    id: 68
    barcode: 3338
    description: HDX
-   created_at: Light
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:56
    tool_type_id: WTF
    active: 6
@@ -1002,7 +990,7 @@
    id: 126
    barcode: 3347
    description: Dewalt 18v - Bad battery
-   created_at: will be destroyed
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:56
    tool_type_id: WTF
    active: 15
@@ -1018,47 +1006,37 @@
    id: 128
    barcode: 2088
    description: Irwin
-   created_at: Small
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2019-04-23 16:59:26
 129:
    id: 129
    barcode: 2084
    description: Irwin
-   created_at: Small
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-04-07 14:18:57
 130:
    id: 130
    barcode: 2085
    description: Irwin
-   created_at: Small
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-04-07 17:58:33
 131:
    id: 131
    barcode: 3350
    description: Irwin
-   created_at: Small
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-04-05 05:16:57
 132:
    id: 132
    barcode: 2080
    description: Irwin
-   created_at: Large
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-04-07 15:19:01
 133:
    id: 133
    barcode: 2351
    description: Kobalt
-   created_at: Blue
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 16
@@ -1122,7 +1100,7 @@
    id: 141
    barcode: 1944
    description: Task Force
-   created_at: Red & Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 21
@@ -1138,7 +1116,7 @@
    id: 143
    barcode: 2363
    description: Stanely TR-45
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 22
@@ -1322,7 +1300,7 @@
    id: 166
    barcode: 1651
    description: Arrow T-50
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 22
@@ -1330,7 +1308,7 @@
    id: 167
    barcode: 2622
    description: Arrow T-50
-   created_at: Silver — BROKEN
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 22
@@ -1346,7 +1324,7 @@
    id: 169
    barcode: 3365
    description: Arrow T-50
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 22
@@ -1354,7 +1332,7 @@
    id: 170
    barcode: 2565
    description: Klein
-   created_at: Yellow
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 27
@@ -1386,7 +1364,7 @@
    id: 174
    barcode: 2626
    description: 25' Stanely
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 17
@@ -1450,7 +1428,7 @@
    id: 182
    barcode: 2179
    description: SkyMate
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 28
@@ -1490,7 +1468,7 @@
    id: 187
    barcode: 2384
    description: Black & Decker
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 10
@@ -1498,7 +1476,7 @@
    id: 188
    barcode: 2392
    description: Swanson
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 7
@@ -1506,7 +1484,7 @@
    id: 189
    barcode: 2092
    description: Swanson
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 7
@@ -1514,7 +1492,7 @@
    id: 190
    barcode: 2091
    description: Swanson
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 7
@@ -1538,7 +1516,7 @@
    id: 193
    barcode: 1616
    description: Porter-Cable
-   created_at: Gray
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 32
@@ -1554,7 +1532,7 @@
    id: 195
    barcode: 2002
    description: Swanson
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 7
@@ -1562,7 +1540,7 @@
    id: 196
    barcode: 2003
    description: Swanson
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 7
@@ -1626,17 +1604,13 @@
    id: 204
    barcode: 2609
    description: Irwin
-   created_at: Large
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-04-07 15:49:11
 205:
    id: 205
    barcode: 2610
    description: Irwin
-   created_at: Large
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-04-07 15:20:53
 206:
    id: 206
@@ -1674,7 +1648,7 @@
    id: 210
    barcode: 1964
    description: Kobalt
-   created_at: Red
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 35
@@ -1690,7 +1664,7 @@
    id: 212
    barcode: 2146
    description: Defiant
-   created_at: Red Headlamp
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 6
@@ -1698,7 +1672,7 @@
    id: 213
    barcode: 1963
    description: Kobalt
-   created_at: Red
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 35
@@ -1722,15 +1696,13 @@
    id: 216
    barcode: 1996
    description: Kobalt
-   created_at: Mini
-   updated_at: Red & Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2019-04-14 20:17:21
 217:
    id: 217
    barcode: 1970
    description: Kobalt
-   created_at: Red
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 35
@@ -1770,7 +1742,7 @@
    id: 222
    barcode: 1965
    description: Kobalt
-   created_at: Red
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 35
@@ -2066,7 +2038,7 @@
    id: 259
    barcode: 3394
    description: Gorilla Ladder
-   created_at: extends to 18 feet
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 34
@@ -2074,7 +2046,7 @@
    id: 260
    barcode: 3395
    description: 10’ orange
-   created_at: warner
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 34
@@ -2130,7 +2102,7 @@
    id: 267
    barcode: 2385
    description: 200' Lufkin
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 17
@@ -2218,7 +2190,7 @@
    id: 278
    barcode: 1652
    description: Arrow T-50
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 22
@@ -2234,7 +2206,7 @@
    id: 280
    barcode: 2630
    description: HDX
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 48
@@ -2242,7 +2214,7 @@
    id: 281
    barcode: 1947
    description: Task Force
-   created_at: Red & Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-03 15:19:57
    tool_type_id: WTF
    active: 26
@@ -15826,9 +15798,7 @@
    id: 2671
    barcode: 3570
    description: Irwin
-   created_at: Small
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-04-08 04:36:13
 2672:
    id: 2672
@@ -15874,7 +15844,7 @@
    id: 2677
    barcode: 6001
    description: January
-   created_at: NULL
+   created_at: 2016-06-09 04:20:15
    updated_at: 2023-03-14 22:22:17
    tool_type_id: 55
    active: 1
@@ -15882,7 +15852,7 @@
    id: 2678
    barcode: 6002
    description: February
-   created_at: NULL
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-04-28 23:48:10
    tool_type_id: 55
    active: 1
@@ -15890,7 +15860,7 @@
    id: 2679
    barcode: 6003
    description: March (wire issue)
-   created_at: NULL
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-04-07 18:31:49
    tool_type_id: 55
    active: 1
@@ -15898,7 +15868,7 @@
    id: 2680
    barcode: 6005
    description: May
-   created_at: NULL
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-04-10 19:53:40
    tool_type_id: 55
    active: 1
@@ -15906,7 +15876,7 @@
    id: 2681
    barcode: 6006
    description: June
-   created_at: NULL
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-04-28 23:48:27
    tool_type_id: 55
    active: 1
@@ -15914,7 +15884,7 @@
    id: 2682
    barcode: 6007
    description: July
-   created_at: NULL
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-04-28 23:48:35
    tool_type_id: 55
    active: 1
@@ -15922,7 +15892,7 @@
    id: 2683
    barcode: 6008
    description: August
-   created_at: NULL
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-04-28 23:48:42
    tool_type_id: 55
    active: 1
@@ -15930,7 +15900,7 @@
    id: 2684
    barcode: 6009
    description: September
-   created_at: NULL
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-04-11 15:17:36
    tool_type_id: 55
    active: 1
@@ -15938,7 +15908,7 @@
    id: 2685
    barcode: 6010
    description: October
-   created_at: NULL
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-04-28 23:48:50
    tool_type_id: 55
    active: 1
@@ -15946,7 +15916,7 @@
    id: 2686
    barcode: 6011
    description: November
-   created_at: NULL
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-04-11 18:32:57
    tool_type_id: 55
    active: 1
@@ -15954,7 +15924,7 @@
    id: 2687
    barcode: 6012
    description: December (Broken)
-   created_at: NULL
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-04-07 18:32:10
    tool_type_id: 55
    active: 1
@@ -15962,7 +15932,7 @@
    id: 2688
    barcode: 6015
    description: Quintillis
-   created_at: NULL
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-17 16:21:52
    tool_type_id: 55
    active: 1
@@ -15970,7 +15940,7 @@
    id: 2689
    barcode: 6016
    description: Sextillis
-   created_at: NULL
+   created_at: 2016-06-09 04:20:15
    updated_at: 2019-04-17 16:21:44
    tool_type_id: 55
    active: 1
@@ -17394,7 +17364,7 @@
    id: 2868
    barcode: 1607
    description: Clip on
-   created_at: Metal shade
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:37
    tool_type_id: WTF
    active: 6
@@ -17402,7 +17372,7 @@
    id: 2869
    barcode: 1608
    description: Clip on
-   created_at: Metal shade
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:37
    tool_type_id: WTF
    active: 6
@@ -17410,7 +17380,7 @@
    id: 2870
    barcode: 1609
    description: Clip on
-   created_at: Metal shade
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:37
    tool_type_id: WTF
    active: 6
@@ -17434,7 +17404,7 @@
    id: 2873
    barcode: 1612
    description: 3-Outlet
-   created_at: Orange & Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:37
    tool_type_id: WTF
    active: 24
@@ -17442,7 +17412,7 @@
    id: 2874
    barcode: 1613
    description: 6-Outlet
-   created_at: Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:37
    tool_type_id: WTF
    active: 24
@@ -17450,7 +17420,7 @@
    id: 2875
    barcode: 1615
    description: Porter-Cable
-   created_at: Gray
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:37
    tool_type_id: WTF
    active: 32
@@ -17594,9 +17564,7 @@
    id: 2893
    barcode: 1640
    description: Irwin
-   created_at: Large
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-03-30 20:46:37
 2894:
    id: 2894
@@ -17778,7 +17746,7 @@
    id: 2916
    barcode: 1896
    description: Klein
-   created_at: Yellow
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 27
@@ -17994,7 +17962,7 @@
    id: 2943
    barcode: 1951
    description: Task Force
-   created_at: Red & Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 26
@@ -18010,7 +17978,7 @@
    id: 2945
    barcode: 1953
    description: Task Force
-   created_at: Red & Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 26
@@ -18042,15 +18010,13 @@
    id: 2949
    barcode: 1957
    description: Kobalt
-   created_at: Long
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-03-30 20:46:38
 2950:
    id: 2950
    barcode: 1958
    description: Long
-   created_at: Red & Blue
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 26
@@ -18058,7 +18024,7 @@
    id: 2951
    barcode: 1959
    description: Mini
-   created_at: Red & Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 26
@@ -18066,7 +18032,7 @@
    id: 2952
    barcode: 1960
    description: Kobalt
-   created_at: Red & Blue
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 26
@@ -18090,7 +18056,7 @@
    id: 2955
    barcode: 1966
    description: Mini
-   created_at: Red & Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 26
@@ -18098,7 +18064,7 @@
    id: 2956
    barcode: 1967
    description: Mini
-   created_at: Red & Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 21
@@ -18114,23 +18080,19 @@
    id: 2958
    barcode: 1969
    description: Kobalt
-   created_at: Mini
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-03-30 20:46:38
 2959:
    id: 2959
    barcode: 1971
    description: Kobalt
-   created_at: Mini
-   updated_at: Red
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-03-30 20:46:38
 2960:
    id: 2960
    barcode: 1972
    description: Mini
-   created_at: Blue
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 21
@@ -18138,9 +18100,7 @@
    id: 2961
    barcode: 1973
    description: Kobalt
-   created_at: Mini
-   updated_at: Red & Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-03-30 20:46:38
 2962:
    id: 2962
@@ -18250,7 +18210,7 @@
    id: 2975
    barcode: 1995
    description: Mini
-   created_at: Red & Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 21
@@ -18258,7 +18218,7 @@
    id: 2976
    barcode: 1997
    description: Mini
-   created_at: Blue
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 21
@@ -18266,9 +18226,7 @@
    id: 2977
    barcode: 1999
    description: 2' Alvin
-   created_at: Silver
-   updated_at: Bendy
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-04-04 18:10:16
 2978:
    id: 2978
@@ -18282,7 +18240,7 @@
    id: 2979
    barcode: 2004
    description: Swanson
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 7
@@ -18290,7 +18248,7 @@
    id: 2980
    barcode: 2005
    description: Swanson
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 7
@@ -18298,7 +18256,7 @@
    id: 2981
    barcode: 2006
    description: Swanson
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 7
@@ -18306,7 +18264,7 @@
    id: 2982
    barcode: 2007
    description: Arrow T-50
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 22
@@ -18426,7 +18384,7 @@
    id: 2997
    barcode: 2029
    description: 8' Werner A-Frame
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 34
@@ -18434,7 +18392,7 @@
    id: 2998
    barcode: 2030
    description: 10' Werner A-Frame
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 34
@@ -18450,7 +18408,7 @@
    id: 3000
    barcode: 2045
    description: 8' Werner A-Frame
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:38
    tool_type_id: WTF
    active: 34
@@ -18482,31 +18440,25 @@
    id: 3004
    barcode: 2083
    description: Irwin
-   created_at: Large
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-03-30 20:46:38
 3005:
    id: 3005
    barcode: 2087
    description: Irwin
-   created_at: Small
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-03-30 20:46:38
 3006:
    id: 3006
    barcode: 2089
    description: Irwin
-   created_at: Small
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-03-30 20:46:39
 3007:
    id: 3007
    barcode: 2090
    description: Swanson
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 7
@@ -18522,7 +18474,7 @@
    id: 3009
    barcode: 2099
    description: Project Source
-   created_at: 1' Red
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 10
@@ -18530,7 +18482,7 @@
    id: 3010
    barcode: 2100
    description: Project Source
-   created_at: 1' Red
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 10
@@ -18538,7 +18490,7 @@
    id: 3011
    barcode: 2101
    description: Clip on
-   created_at: Metal shade
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 6
@@ -18554,7 +18506,7 @@
    id: 3013
    barcode: 2104
    description: 24' Task Force
-   created_at: Red
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 10
@@ -18570,7 +18522,7 @@
    id: 3015
    barcode: 2129
    description: Clip on
-   created_at: Metal shade
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 6
@@ -18706,7 +18658,7 @@
    id: 3032
    barcode: 2191
    description: HDX
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 6
@@ -18722,7 +18674,7 @@
    id: 3034
    barcode: 2197
    description: 25' Stanely
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 17
@@ -18730,7 +18682,7 @@
    id: 3035
    barcode: 2198
    description: 25' Stanely
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 17
@@ -18738,7 +18690,7 @@
    id: 3036
    barcode: 2199
    description: 35' Stanely
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 17
@@ -18746,23 +18698,19 @@
    id: 3037
    barcode: 2200
    description: Defiant
-   created_at: Small
-   updated_at: Black
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-03-30 20:46:39
 3038:
    id: 3038
    barcode: 2201
    description: Defiant
-   created_at: Small
-   updated_at: Gray
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-03-30 20:46:39
 3039:
    id: 3039
    barcode: 2202
    description: Defiant
-   created_at: Small Red
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 6
@@ -18786,7 +18734,7 @@
    id: 3042
    barcode: 2342
    description: Defiant
-   created_at: Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 6
@@ -18794,7 +18742,7 @@
    id: 3043
    barcode: 2343
    description: Defiant
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 6
@@ -18802,7 +18750,7 @@
    id: 3044
    barcode: 2345
    description: Defiant
-   created_at: Red
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 6
@@ -18826,7 +18774,7 @@
    id: 3047
    barcode: 2356
    description: Stanely
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 48
@@ -18834,7 +18782,7 @@
    id: 3048
    barcode: 2357
    description: Stanely
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 48
@@ -18842,7 +18790,7 @@
    id: 3049
    barcode: 2358
    description: Olympia
-   created_at: Red
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 48
@@ -18850,7 +18798,7 @@
    id: 3050
    barcode: 2359
    description: Olympia
-   created_at: Red
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 48
@@ -18858,7 +18806,7 @@
    id: 3051
    barcode: 2360
    description: Stanely
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 48
@@ -18866,7 +18814,7 @@
    id: 3052
    barcode: 2361
    description: Stanely TR-45
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 22
@@ -18874,7 +18822,7 @@
    id: 3053
    barcode: 2364
    description: Stanely TR-45
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 22
@@ -18882,7 +18830,7 @@
    id: 3054
    barcode: 2365
    description: Stanely TR-45
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 22
@@ -18890,7 +18838,7 @@
    id: 3055
    barcode: 2379
    description: 10' Black & Decker
-   created_at: Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 17
@@ -18970,7 +18918,7 @@
    id: 3065
    barcode: 2425
    description: 3' Little Giant
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 34
@@ -18978,7 +18926,7 @@
    id: 3066
    barcode: 2426
    description: 6' Werner A-Frame
-   created_at: Green
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 34
@@ -19034,7 +18982,7 @@
    id: 3073
    barcode: 2524
    description: 8' Werner A-Frame
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:39
    tool_type_id: WTF
    active: 34
@@ -19082,7 +19030,7 @@
    id: 3079
    barcode: 2570
    description: Arrow T-50
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 22
@@ -19090,7 +19038,7 @@
    id: 3080
    barcode: 2577
    description: Klein
-   created_at: Yellow
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 27
@@ -19098,7 +19046,7 @@
    id: 3081
    barcode: 2579
    description: Task Force
-   created_at: Red & Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 26
@@ -19106,7 +19054,7 @@
    id: 3082
    barcode: 2582
    description: 6' Werner A-Frame
-   created_at: Yellow
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 34
@@ -19114,7 +19062,7 @@
    id: 3083
    barcode: 2583
    description: 6' Werner A-Frame
-   created_at: Green
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 34
@@ -19122,7 +19070,7 @@
    id: 3084
    barcode: 2584
    description: 6' Little Giant
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 34
@@ -19130,7 +19078,7 @@
    id: 3085
    barcode: 2585
    description: 6' Little Giant
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 34
@@ -19138,7 +19086,7 @@
    id: 3086
    barcode: 2586
    description: 6' A-Frame
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 34
@@ -19146,7 +19094,7 @@
    id: 3087
    barcode: 2588
    description: 16' Extendable
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 34
@@ -19170,15 +19118,13 @@
    id: 3090
    barcode: 2592
    description: Irwin
-   created_at: Large
-   updated_at: Blue
-   tool_type_id: WTF
+   created_at: 2016-06-09 04:20:15
    active: 2022-03-30 20:46:40
 3091:
    id: 3091
    barcode: 2599
    description: Bayco
-   created_at: Yellow
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 6
@@ -19186,7 +19132,7 @@
    id: 3092
    barcode: 2602
    description: Bayco
-   created_at: Yellow
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 6
@@ -19218,7 +19164,7 @@
    id: 3096
    barcode: 2613
    description: Dewalt
-   created_at: Yellow
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 32
@@ -19226,7 +19172,7 @@
    id: 3097
    barcode: 2614
    description: Dewalt
-   created_at: Yellow
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 32
@@ -19250,7 +19196,7 @@
    id: 3100
    barcode: 2623
    description: Stanely TR-45
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 22
@@ -19258,7 +19204,7 @@
    id: 3101
    barcode: 2624
    description: Stanely TR-45
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 22
@@ -19266,7 +19212,7 @@
    id: 3102
    barcode: 2625
    description: 25' Stanely
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 17
@@ -19274,7 +19220,7 @@
    id: 3103
    barcode: 2627
    description: 25' Stanely
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 17
@@ -19282,7 +19228,7 @@
    id: 3104
    barcode: 2628
    description: 25' Stanely
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 17
@@ -19290,7 +19236,7 @@
    id: 3105
    barcode: 2629
    description: 25' Stanely
-   created_at: Silver
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 17
@@ -19338,7 +19284,7 @@
    id: 3111
    barcode: 2642
    description: Milwaulkee
-   created_at: Red
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 31
@@ -19362,7 +19308,7 @@
    id: 3114
    barcode: 2708
    description: 3 Prong
-   created_at: Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 45
@@ -19370,7 +19316,7 @@
    id: 3115
    barcode: 2709
    description: 2 Prong
-   created_at: Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 45
@@ -19386,7 +19332,7 @@
    id: 3117
    barcode: 2713
    description: Stanley
-   created_at: Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 12
@@ -19394,7 +19340,7 @@
    id: 3118
    barcode: 2714
    description: Stanley
-   created_at: Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 12
@@ -19402,7 +19348,7 @@
    id: 3119
    barcode: 2715
    description: HDX
-   created_at: Orange
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 6
@@ -19410,7 +19356,7 @@
    id: 3120
    barcode: 2717
    description: Stanley
-   created_at: Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 12
@@ -19418,7 +19364,7 @@
    id: 3121
    barcode: 2718
    description: Stanley
-   created_at: Black
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:40
    tool_type_id: WTF
    active: 12
@@ -20114,7 +20060,7 @@
    id: 3208
    barcode: 3602
    description: 1/4" Hex
-   created_at: 12V
+   created_at: 2022-03-30 20:46:41
    updated_at: 2022-03-30 20:46:41
    tool_type_id: WTF
    active: 43
@@ -20314,7 +20260,7 @@
    id: 3236
    barcode: 3630
    description: Red
-   created_at: Smooth Face
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:41
    tool_type_id: WTF
    active: 16
@@ -20322,7 +20268,7 @@
    id: 3237
    barcode: 3631
    description: Red
-   created_at: Smooth Face
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:41
    tool_type_id: WTF
    active: 16
@@ -20330,7 +20276,7 @@
    id: 3238
    barcode: 3632
    description: Red
-   created_at: Smooth Face
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:41
    tool_type_id: WTF
    active: 16
@@ -20338,7 +20284,7 @@
    id: 3239
    barcode: 3633
    description: Red
-   created_at: Smooth Face
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:41
    tool_type_id: WTF
    active: 16
@@ -20346,7 +20292,7 @@
    id: 3240
    barcode: 3634
    description: Red
-   created_at: Smooth Face
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-03-30 20:46:41
    tool_type_id: WTF
    active: 16
@@ -20994,7 +20940,7 @@
    id: 3321
    barcode: 3541
    description: Black/Red
-   created_at: small
+   created_at: 2016-06-09 04:20:15
    updated_at: 2022-04-03 17:55:22
    tool_type_id: WTF
    active: 21

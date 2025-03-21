@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class CreateJudgements < ActiveRecord::Migration[4.2]
+class CreateJudgements < ActiveRecord::Migration[6.0]
   def change
     create_table :judgements do |t|
       t.references :judgement_category, index: true

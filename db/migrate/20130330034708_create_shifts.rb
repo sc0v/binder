@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class CreateShifts < ActiveRecord::Migration[4.2]
+class CreateShifts < ActiveRecord::Migration[6.0]
   def change
     create_table :shifts do |t|
       t.datetime :starts_at
@@ -10,6 +10,5 @@ class CreateShifts < ActiveRecord::Migration[4.2]
 
       t.timestamps
     end
-    add_index :shifts, :organization_id
   end
 end

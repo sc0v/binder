@@ -1,5 +1,5 @@
 # frozen_string_literal: true
-class CreateToolTypeCertifications < ActiveRecord::Migration[4.2]
+class CreateToolTypeCertifications < ActiveRecord::Migration[6.0]
   def change
     create_table :tool_type_certifications do |t|
       t.belongs_to :tool_type, index: true, foreign_key: true
