@@ -33,5 +33,8 @@
     <% if can?(:create, Checkout) %>
       <%= render 'tools/checkouts/sidebar' %>
     <% end %>
+    <% if can?(:create, ToolType) %>
+      <%= render 'tools/toToolTypes/sidebar' %>
+    <% end %>
   </div>
 </div>

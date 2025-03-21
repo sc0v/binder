@@ -1,50 +1,66 @@
+<% update_document_title(add: 'Tool Types') %>
+<% update_breadcrumbs(add: 'Tool Types') %>
+<%= nav(active: 'tools') %>
+<% content_for :head do %>
+<script>
+  
+</script>
+<% end %>
+
 <%- model_class = ToolType -%>
 <div class="page-header">
-  <h1>
-    <%= h @title || model_class.model_name.human.pluralize %>
-  </h1>
-  <%= link_to 'Create a new tool type', new_tool_type_path, class: 'btn btn-primary' %>
 </div>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <% if can?(:update, ToolType) %>
-        <th>Name</th>
-      <% else %>
-        <th>Name</th>
-      <% end %>
-      <th>Number of tools with this type</th>
-      <% if can?(:update, ToolType) %>
-        <th>Edit</th>
-      <% end %>
-      <% if can?(:destroy, ToolType) %>
-        <th>Delete</th>
-      <% end %>
-    </tr>
-  </thead>
-  <tbody>
-    <% @tool_types.each do |tool_type| %>
+
+<div class="content">
+  <div>
+    <h1>Tool Types</h1>
+
+  <table class="table table-striped">
+    <thead>
       <tr>
-        <% if can?(:update, tool_type) %>
-          <td><%= link_to tool_type.name, tools_path(type_filter: tool_type.id) %></td>
-        <% else %>
-          <td><%= tool_type.name %></td>
-        <% end %>
-        <td><%= tool_type.tools.count %></td>
         <% if can?(:update, ToolType) %>
-          <td><%= link_to 'Edit', edit_tool_type_path(tool_type), class: 'btn btn-primary btn-xs' %></td>
+          <th>Name</th>
+        <% else %>
+          <th>Name</th>
         <% end %>
-        <% if can?(:destroy, tool_type) %>
-          <td>
-            <%= link_to t('.destroy', default: t('helpers.links.destroy')),
-                        tool_type_path(tool_type),
-                        class: 'btn btn-danger btn-xs',
-                        method: 'delete',
-                        data: { confirm: t('.confirm', default: t('helpers.links.confirm', default: 'Are you sure?')) } %>
-          </td>
+        <th>Number of tools with this type</th>
+        <% if can?(:update, ToolType) %>
+          <th>Edit</th>
+        <% end %>
+        <% if can?(:destroy, ToolType) %>
+          <th>Delete</th>
         <% end %>
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% @tool_types.each do |tool_type| %>
+        <tr>
+          <% if can?(:update, tool_type) %>
+            <td><%= link_to tool_type.name, tool_type_path(tool_type) %></td>
+          <% else %>
+            <td><%= tool_type.name %></td>
+          <% end %>
+          <td><%= tool_type.tools.count %></td>
+          <% if can?(:update, ToolType) %>
+            <td><%= link_to 'Edit', edit_tool_type_path(tool_type), class: 'btn btn-primary btn-xs' %></td>
+          <% end %>
+          <% if can?(:destroy, tool_type) %>
+            <td>
+              <%= link_to t('.destroy', default: t('helpers.links.destroy')),
+                          tool_type_path(tool_type),
+                          class: 'btn btn-danger btn-xs',
+                          method: 'delete',
+                          data: {turbo_method: 'delete',  turbo_confirm: t('.confirm', default: t('helpers.links.confirm', default: 'Are you sure?')) } %>
+            </td>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+
+  </div><div class="sidebar">
+  <%= render 'tool_types/sidebar' %>
+  </div>
+  
+
 <%#= will_paginate @tools, renderer: BootstrapPagination::Rails %>
