@@ -60,25 +60,9 @@ class ParticipantsController < ApplicationController
   end
 
   def show
-   # @memberships = @participant.memberships.all
-
-      #elsif !@participant.has_signed_waiver
-      #  @wristband = 'None - No waiver signature'
-      #else
-      #building_statuses = @memberships.map { |m| m.organization.organization_category.building }
-      #building_statuses = []
-      #@wristband =
-      #  if building_statuses.include?(true)
-      #    @wristband_colors[:building]
-      #  else
-      #    @wristband_colors[:nonbuilding]
-      #  end
-
-      #certs = @participant.certifications.map(&:certification_type)
-      #if certs.include?(CertificationType.find_by(name: 'Scissor Lift'))
-      #  @wristband += " and #{@wristband_colors[:scissor_lift]}"
-      #end
-    #end
+    # load_resource doesn't work for the /profile URL that the waiver redirects
+    # to, so fallback @participant to the current user in that case
+    @participant ||= Current.user
   end
 
   def new

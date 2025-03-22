@@ -73,10 +73,12 @@ class Ability
     can :manage, OrganizationTimelineEntry, organization: { memberships: { participant: user } }
     # OrganizationTimelineEntryType    -- Not currently used: Enum in OrgTimelineEntry
     can :read, Organization
-    can :read, Participant
+    can %i[:read read_phone_number], Participant
     cannot :login, Participant
     can :skip_safety_video, Participant, id: user.id, watched_safety_video: true
-    can :update, Participant, %i[signed_waiver], id: user.id, signed_waiver: [false, nil], watched_safety_video: true
+    can :show, Participant, id: user.id
+    can :update, Participant, id: user.id
+    can :update, Participant, %i[adult name_confirmation signed_waiver], id: user.id, signed_waiver: [false, nil], watched_safety_video: true
     can :read, ScissorLiftCheckout, organization: { memberships: { paricipant_id: user.id } }
     can :read, ScissorLift
     # ShiftParticipant                 -- Not currently used: Feature No Longer Used
@@ -93,7 +95,7 @@ class Ability
 
     if user.is_booth_chair? 
       # CertificationType: Same as Builder
-      can :read, Certification,
+      can %i[:read read_phone_number], Certification,
         participant: {
           memberships: {
             organization: {
@@ -164,7 +166,7 @@ class Ability
     can %i[create edit update end structural electrical downtime], OrganizationTimelineEntry
     # OrganizationTimelineEntryType    -- Not currently used: Enum in OrgTimelineEntry
     can %i[hardhats read_basic_details read_all_details], Organization
-    # Participant: Same as Builder
+    can %i[read_phone_number update create], Participant
     can %i[create update], ScissorLiftCheckout
     can :manage, ScissorLift
     # ShiftParticipant                 -- Not currently used: Feature No Longer Used
