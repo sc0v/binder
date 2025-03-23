@@ -51,7 +51,7 @@ module ChargesHelper
      dataLoader: false,
      height: '90vh',
      paginationSize: 200,
-     placeholder: '<h2>No Tools Found</h2>',
+     placeholder: '<h2>No Charges Found</h2>',
      progressiveLoad: 'load',
      resizableColumnFit: true
    }.to_json
