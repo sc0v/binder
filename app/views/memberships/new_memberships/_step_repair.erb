@@ -4,41 +4,7 @@
 
     Here are the new participants we extracted from your CSV. 
     Do these look correct? Any entries highlighted in red mean the Andrew ID is probably wrong, but make sure to check everything!
-    <table>
-      <tr>
-        <th>Name</th>
-        <th>Andrew Email</th>
-        <th>Actions</th>
-      </tr>
-      <% @members.each do |m| %>
-      <% if m.participant.name == "N/A" %>
-      <tr class="red invert">
-        <td><b><%= m.participant.name %></b></td>
-        <td><b><%= m.participant.eppn %><b></td>
-      <% else %>
-      <tr>
-        <td><%= m.participant.name %></td>
-        <td><%= m.participant.eppn %></td>
-      <% end %>
-        <!-- Actions should appear whether or not name is N/A -->
-        <td>
-          <div style="display: flex">
-            <div class="gold invert">
-              <%= button_tag "Edit", 
-                    style: "margin-bottom: 0", class: "btn ghost", 
-                    onclick: "$('#old_membership').val(#{m.id}); $('#new_participant').focus();" %>
-            </div>
-            <div class="red invert">
-              <%= button_to "Remove", 
-                    organization_remove_membership_path(@organization),
-                    params: { organization: @organization.id, old_membership: m.id },
-                    style: "margin-bottom: 0", class: "btn ghost" %>
-            </div>
-          </div>
-        </td>
-      </tr>
-      <% end %>
-    </table>
+    <%= render partial: "memberships/new_memberships/repair_table"%>
     <div style="display: flex">
       <%= form_with url: organization_commit_membership_csv_path(@organization) do |f| %>
         <%= f.hidden_field :organization, value: @organization.id %>
@@ -57,10 +23,20 @@
       <h3>Fix Member</h3>
       <%= form_with url: organization_replace_membership_path(@organization) do |f| %>
         <%= f.hidden_field :organization, value: @organization.id %>
-        Incorrect Member
+        Member
         <%= f.collection_select(:old_membership, @members, :id, :participant_eppn)%>
         New Andrew ID
         <%= f.text_field :new_participant %>
+        Standing<br/>
+        <%= f.radio_button :fix_standing, "booth_chair_white_hardhat" %>
+        <%= f.label :fix_standing_booth_chair_white_hardhat, "Booth Chair (White Hardhat)" %><br/>
+        <%= f.radio_button :fix_standing, "booth_chair_red_hardhat" %>
+        <%= f.label :fix_standing_booth_chair_red_hardhat, "Booth Chair (Red Hardhat)" %><br/>
+        <%= f.radio_button :fix_standing, "booth_builder" %>
+        <%= f.label :fix_standing_booth_builder, "Booth Builder" %><br/>
+        <%= f.radio_button :fix_standing, "alumni" %>
+        <%= f.label :fix_standing_alumni, "Alumni" %><br/>
+        <br/>
         <%= f.submit "Update Member"%>
       <% end %>
     </div>
@@ -71,8 +47,45 @@
         <%= f.hidden_field :organization, value: @organization.id %>
         New Andrew ID
         <%= f.text_field :new_participant %>
+        Standing<br/>
+        <%= f.radio_button :standing, "booth_chair_white_hardhat" %>
+        <%= f.label :standing_booth_chair_white_hardhat, "Booth Chair (White Hardhat)" %><br/>
+        <%= f.radio_button :standing, "booth_chair_red_hardhat" %>
+        <%= f.label :standing_booth_chair_red_hardhat, "Booth Chair (Red Hardhat)" %><br/>
+        <%= f.radio_button :standing, "booth_builder" %>
+        <%= f.label :standing_booth_builder, "Booth Builder" %><br/>
+        <%= f.radio_button :standing, "alumni" %>
+        <%= f.label :standing_alumni, "Alumni" %><br/>
+        <br/>
         <%= f.submit "Add Member"%>
       <% end %>
     </div>
   </div>
 </div>
+<!-- Script to automatically fill "New Andrew ID" field -->
+<script>
+  var membershipSelect = document.getElementById("old_membership");
+  var newParticipantInput = document.getElementById("new_participant");
+
+  // When select changed, should populate newParticipant with correct andrew id
+  function updateNewParticipantInput(select) {
+    selectText = select.options[select.selectedIndex].innerHTML;
+    andrewId = selectText.substring(0, selectText.lastIndexOf("@"));
+    newParticipantInput.value = andrewId;
+  }
+
+  // Call updateNewParticipantInput when "Fix Participant" dropdown is changed manually
+  membershipSelect.addEventListener("change", (e) => {
+    updateNewParticipantInput(e.target);
+  });
+
+  // Call updateNewParticipantInput when an "Edit" button is clicked
+  function onEditClick(membership_id) {
+    membershipSelect.value = membership_id;
+    membershipSelect.dispatchEvent(new Event("change", { bubbles: true }));
+    newParticipantInput.focus();
+  }
+
+  // Call updateNewParticipantInput on page load
+  updateNewParticipantInput(membershipSelect);
+</script>

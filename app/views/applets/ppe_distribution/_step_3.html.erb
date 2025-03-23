@@ -14,7 +14,14 @@
   <% if hh.blank? %>
     <li>Participant does not get a hardhat</li>
   <% else %>
-    <li>Participant should get a <strong><%= hh.to_s.titleize %></strong> hardhat.</li>
+    <li>Give the participant the following hardhat.</li>
+    <% if hh == :blue %>
+      <p class="invert blue" style="padding: 1em;"><strong>Blue</strong> (Spring Carnival Committee Member)</p>
+    <% elsif hh == :red %>
+      <p class="invert red" style="padding: 1em;"><strong>Red</strong> (Red Hardhat-Designated Booth Chair)</p>
+    <% else %>
+      <p style="padding: 1em; border: 1px solid"><strong>White</strong> (Booth Builder or White Hardhat-Designated Booth Chair)</p>
+    <% end %>
   <% end %>
 
   <% if hh %>

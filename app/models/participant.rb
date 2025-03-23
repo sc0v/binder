@@ -121,6 +121,10 @@ class Participant < ApplicationRecord
     memberships.booth_chairs.present?
   end
 
+  def is_red_hardhat?
+    memberships.where(is_red_hardhat: true).present?
+  end
+
   def booth_chair_organizations
     memberships
       .booth_chairs
@@ -223,6 +227,7 @@ class Participant < ApplicationRecord
   def wristbands
     return unless signed_waiver?
     return if organization_categories.blank?
+    return [:yellow] if alumni
     if organization_categories.pluck(:building).include? true
       return [:green] if certification_types.pluck(:name).include? 'Scissor Lift'
       [:red]
@@ -237,7 +242,7 @@ class Participant < ApplicationRecord
     return if organization_categories.blank?
     return if organization_categories.pluck(:lookup_key).uniq == ['doghouse']
     return :blue if scc?
-    return :red if is_booth_chair?
+    return :red if is_booth_chair? && is_red_hardhat?
     :white
   end
 

@@ -10,6 +10,7 @@ booth_chair_participant_signu:
   organization: signu
   participant: booth_chair_participant
   is_booth_chair: true
+  is_red_hardhat: false
 
 builder_participant_aepi:
   organization: aepi
