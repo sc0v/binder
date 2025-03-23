@@ -1,0 +1,22 @@
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Andrew Email</th>
+    <th>Actions</th>
+  </tr>
+  <!-- Show members by category (alumni, red hardhat chair, white hardhat chair, builder) -->
+  <% @members.select{ |m| m.participant.alumni }.each do |m| %>
+    <%= render partial: "memberships/new_memberships/repair_row", locals: {tag: "Alumni", m: m}%>
+  <% end %>
+  <% @members.select{ |m| m.is_red_hardhat }.each do |m| %>
+    <%= render partial: "memberships/new_memberships/repair_row", locals: {tag: "Red Hardhat Booth Chair", m: m}%>
+  <% end %>
+  <% @members.select{ |m| m.is_booth_chair && !m.is_red_hardhat }.each do |m| %>
+    <%= render partial: "memberships/new_memberships/repair_row", locals: {tag: "Booth Chair", m: m}%>
+  <% end %>
+  <% @members.filter{ |m| !m.participant.alumni && !m.is_booth_chair }.each do |m| %>
+    <%= render partial: "memberships/new_memberships/repair_row", locals: {tag: "", m: m}%>
+  <% end %>
+  <% @members.each do |m| %>
+  <% end %>
+</table>

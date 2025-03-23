@@ -55,7 +55,9 @@ class MembershipsController < ApplicationController
     redirect_to new_organization_membership_path(@organization, step: 'repair')
   end
 
-  # Insert a participant to the current membership CSV
+  # Insert a participant to the current membership CSV. This should create a new
+  # participant and membership to the organization if either doesn't exist, and
+  # if params[:standing] exists set them accordingly
   def insert
     @organization = Organization.find(params[:organization])
 
@@ -65,17 +67,36 @@ class MembershipsController < ApplicationController
     if new_participant.nil?
       new_participant = Participant.create!(eppn: new_eppn)
     end
-    # Create new Membership, or just set is_in_csv if it already exists
+    # Set participant as an alumni / regular student if a standing was selected
+    if params[:standing].present?
+      new_participant.update_attribute(:alumni, params[:standing] == "alumni")
+    end
+    # Create new Membership, or set is_in_csv if it already exists
     m = Membership.find_by(participant: new_participant, organization: @organization)
+    # Extract standing information from params
+    booth_chair = m.nil? ? false : m.is_booth_chair
+    red_hardhat = m.nil? ? false : m.is_red_hardhat
+    if params[:standing] == "booth_chair_red_hardhat"
+      booth_chair = true
+      red_hardhat = true
+    elsif params[:standing] == "booth_chair_white_hardhat"
+      booth_chair = true
+    end
     if m.nil?
       m = Membership.create!({
         participant: new_participant,
         organization: @organization,
         is_in_csv: true,
         is_added_by_csv: true,
+        is_booth_chair: booth_chair,
+        is_red_hardhat: red_hardhat,
       })
     else
-      m.update!({is_in_csv: true})
+      m.update!({
+        is_in_csv: true,
+        is_booth_chair: booth_chair,
+        is_red_hardhat: red_hardhat,
+      })
     end
   
     if !params[:ignore_redirect]
@@ -112,6 +133,7 @@ class MembershipsController < ApplicationController
     remove()
     # Find or create new membership
     params[:ignore_redirect] = false
+    params[:standing] = params[:fix_standing]
     insert()
   end
 

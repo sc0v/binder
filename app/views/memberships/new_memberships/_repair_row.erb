@@ -1,0 +1,25 @@
+  <!-- Invalid Participant Highlight -->
+  <% if m.participant.name == "N/A" %>
+  <tr class="red invert">
+  <% else %>
+  <tr>
+  <% end %>
+    <td><%= m.participant.name %><br/><strong><%= tag %></strong></td>
+    <td><%= m.participant.eppn %></td>
+    <!-- Action Buttons -->
+    <td>
+      <div style="display: flex">
+        <div class="gold invert">
+          <%= button_tag "Edit", 
+                style: "margin-bottom: 0", class: "btn ghost", 
+                onclick: "onEditClick(#{m.id})" %>
+        </div>
+        <div class="red invert">
+          <%= button_to "Remove", 
+                organization_remove_membership_path(@organization),
+                params: { organization: @organization.id, old_membership: m.id },
+                style: "margin-bottom: 0", class: "btn ghost" %>
+        </div>
+      </div>
+    </td>
+  </tr>

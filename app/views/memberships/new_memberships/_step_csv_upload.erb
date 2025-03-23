@@ -15,7 +15,7 @@
       <%= f.hidden_field :organization, value: @organization.id %>
       <div class='light grey file-upload'>
         <p>Choose a CSV or drag it here.</p>
-        <%= f.file_field :csv_file, accept: 'text/csv', onchange: "this.form.submit()" %>
+        <%= f.file_field :csv_file, accept: 'text/plain,txt/csv', onchange: "this.form.submit()" %>
       </div>
     <% end %>
   </div>

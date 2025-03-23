@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
+ActiveRecord::Schema[7.0].define(version: 2025_03_21_180533) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -110,6 +110,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
     t.integer "booth_chair_order"
     t.boolean "is_in_csv"
     t.boolean "is_added_by_csv"
+    t.boolean "is_red_hardhat"
     t.index ["organization_id"], name: "index_memberships_on_organization_id"
     t.index ["participant_id"], name: "index_memberships_on_participant_id"
   end
@@ -214,6 +215,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_11_170820) do
     t.datetime "cache_updated", precision: nil
     t.boolean "admin"
     t.boolean "watched_safety_video"
+    t.boolean "alumni"
     t.index ["admin"], name: "index_participants_on_admin"
   end
 
