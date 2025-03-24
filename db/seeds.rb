@@ -9,31 +9,38 @@
 
 require 'csv'
 
-gdrive_doc = '2023 seeds'
-gdrive_doc += ' - '
+seeds_folder = '2025 seeds'
+
+# Read the "models" environment variable
+models_to_seed = []
+if ENV['models'].present?
+  models_to_seed = ENV['models'].downcase.split(",")
+end
 
 puts
 Rails.logger.debug 'Seeding Database...'
 puts
 
-=begin
+if models_to_seed.length == 0 || models_to_seed.include?('organization')
 Rails.logger.debug '  Organizations'
 
-csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}organizations.csv").read
+csv_text = Rails.root.join('lib', 'seeds', seeds_folder, "organizations.csv").read
 csv = CSV.parse(csv_text, headers: true)
 csv.each do |row|
   organization_category ||= OrganizationCategory.find_by(name: row['organization_category'].strip)
   organization_category ||= OrganizationCategory.create(name: row['organization_category'].strip,
-                                                        is_building: row['is_building'] == 'TRUE')
-  if organization_category.is_building != (row['is_building'] == 'TRUE')
+                                                        building: row['is_building'] == 'TRUE')
+  if organization_category.building != (row['is_building'] == 'TRUE')
     Rails.logger.debug 'OrganizationCategory is_building inconsistent'
     raise
   end
   Organization.create(name: row['name'].strip, organization_category:,
                       short_name: row['short_name'])
 end
-=end
+end
 
+=begin
+if models_to_seed.length == 0 || models_to_seed.include?('participant')
 Rails.logger.debug '  Participants'
 
 csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}participants.csv").read
@@ -74,47 +81,72 @@ csv.each do |row|
      m.save
   end
 end
+end
+=end
 
-exit
+if models_to_seed.length == 0 || models_to_seed.include?('organizationbuildstatus')
+Rails.logger.debug '  Organization Build Status'
 
-
-
-
-
-=begin
-Rails.logger.debug '  Organization Status Types'
-
-csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}organization_status_types.csv").read
-csv = CSV.parse(csv_text, headers: true)
-csv.each do |row|
-  OrganizationStatusType.create(name: row['name'].strip, display: row['display'] == 'TRUE')
+Organization.all.each do |o|
+  if o.building?
+    OrganizationBuildStatus.create(status_type: 'structural', organization: o)
+    OrganizationBuildStatus.create(status_type: 'electrical', organization: o)
+  end
+end
 end
 
+if models_to_seed.length == 0 || models_to_seed.include?('organizationbuildstep')
+Rails.logger.debug '  Organization Build Steps'
+two_story_csv_text = Rails.root.join('lib', 'seeds', seeds_folder, "two_story_organization_build_steps.csv").read
+two_story_csv = CSV.parse(two_story_csv_text, headers: true)
+
+one_story_csv_text = Rails.root.join('lib', 'seeds', seeds_folder, "one_story_organization_build_steps.csv").read
+one_story_csv = CSV.parse(one_story_csv_text, headers: true)
+
+Organization.all.each do |o|
+  if o.building?
+    # TODO: Manually change which orgs are 2-story since that's not defined in Binder
+    if o.name.in?(["Kappa Alpha Theta","Alpha Epsilon Pi","Phi Delta Theta","Sigma Phi Epsilon","Kappa Kappa Gamma","Asian Student Association"])
+      csv = two_story_csv
+    else
+      csv = one_story_csv
+    end
+    csv.each do |row|
+      status = OrganizationBuildStatus.all.where(organization: o, status_type: row['status_type']).first
+      if status.nil?
+        OrganizationBuildStatus.create(status_type: row['status_type'], organization: o)
+      end
+      OrganizationBuildStep.create(title: row['title'], requirements: row['requirements'],
+                                   organization_build_status: status, is_enabled: true)
+    end
+  end
+end
+end
+
+if models_to_seed.length == 0 || models_to_seed.include?('chargetype')
 Rails.logger.debug '  Charge Types'
 
-csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}charge_types.csv").read
+csv_text = Rails.root.join('lib', 'seeds', seeds_folder, "charge_types.csv").read
 csv = CSV.parse(csv_text, headers: true)
 csv.each do |row|
   ChargeType.create(name: row['name'].strip, description: row['description'] || '',
                     default_amount: Integer(row['default_amount'] || '0'))
 end
-
-Rails.logger.debug '  Event Types'
-
-csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}event_types.csv").read
-csv = CSV.parse(csv_text, headers: true)
-csv.each do |row|
-  EventType.create(name: row['name'].strip, display: row['display'] == 'TRUE')
 end
 
+if models_to_seed.length == 0 || models_to_seed.include?('faq')
 Rails.logger.debug '  FAQs'
 
-csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}faqs.csv").read
+csv_text = Rails.root.join('lib', 'seeds', seeds_folder, "faqs.csv").read
 csv = CSV.parse(csv_text, headers: true)
 csv.each do |row|
-  Faq.create(question: row['question'].strip, answer: row['answer'].strip)
+  organization_category = OrganizationCategory.find_by(name: row['organization_category'])
+  FAQ.create(question: row['question'].strip, answer: row['answer'].strip,
+             organization_category: )
+end
 end
 
+=begin
 Rails.logger.debug '  Tasks'
 
 csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}tasks.csv").read
@@ -151,28 +183,44 @@ csv.each do |row|
 
   ShiftParticipant.create(shift:, participant:)
 end
+=end
 
+if models_to_seed.length == 0 || models_to_seed.include?('storeitem')
 Rails.logger.debug '  Store'
 
-csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}store.csv").read
+csv_text = Rails.root.join('lib', 'seeds', seeds_folder, "store.csv").read
 csv = CSV.parse(csv_text, headers: true)
 csv.each do |row|
-  StoreItem.create(name: row['name'].strip, price: Integer(row['price'] || '0'),
+  StoreItem.create(name: row['name'].strip, price: Float(row['price'] || '0'),
                    quantity: Integer(row['quantity'] || '0'))
 end
+end
 
+if models_to_seed.length == 0 || models_to_seed.include?('tool')
 Rails.logger.debug '  Tools'
 
-csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}tools.csv").read
+csv_text = Rails.root.join('lib', 'seeds', seeds_folder, "tools.csv").read
 csv = CSV.parse(csv_text, headers: true)
 csv.each do |row|
-  tool_type ||= ToolType.find_by(name: row['tool_type'].strip)
-  tool_type ||= ToolType.create(name: row['tool_type'].strip)
+  tool_type ||= ToolType.find_by(name: row['name'].strip)
+  tool_type ||= ToolType.create(name: row['name'].strip)
   Tool.create(barcode: Integer(row['barcode']), tool_type:, description: row['description'])
 rescue StandardError
   Rails.logger.debug row['barcode']
 end
+end
 
+if models_to_seed.length == 0 || models_to_seed.include?('scissorlift')
+Rails.logger.debug '  Scissor Lifts'
+
+csv_text = Rails.root.join('lib', 'seeds', seeds_folder, "scissor_lifts.csv").read
+csv = CSV.parse(csv_text, headers: true)
+csv.each do |row|
+  ScissorLift.create(name: row['name'])
+end
+end
+
+if models_to_seed.length == 0 || models_to_seed.include?('certification')
 Rails.logger.debug '  Certifications'
 
 csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}certifications.csv").read
@@ -197,6 +245,7 @@ csv.each do |row|
   end
 
   Certification.create(participant:, certification_type:)
+end
 end
 
 if Rails.env.development?
@@ -228,5 +277,4 @@ if Rails.env.development?
   participant = Participant.create({ andrewid: participant_andrewid, user: participant_user })
   Membership.create({ organization: dtd_org, participant: })
 end
-=end
 puts
