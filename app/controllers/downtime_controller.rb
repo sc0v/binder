@@ -1,6 +1,19 @@
 class DowntimeController < ApplicationController
   # Controller for all downtime information for all organizations
   def downtime
+    @organizations = Organization.all
+    # authorize! :read, @organizations
+    respond_to do |format|
+      format.html
+      format.json do
+        on_downtime_map = Hash.new
+        Organization.all.each do |organization|
+          on_downtime = OrganizationTimelineEntry.downtime.where(organization: organization).current.present?
+          on_downtime_map[organization.name] = on_downtime
+        end
+        render json: on_downtime_map.as_json
+      end
+    end
   end
 
   # Controller for downtime information for a single organization
