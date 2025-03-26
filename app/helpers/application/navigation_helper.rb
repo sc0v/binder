@@ -83,7 +83,7 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
         key: 'queues',
         can: {
           action: :index,
-          subject: QueuesController
+          subject: OrganizationTimelineEntry
         }
       },
       {
