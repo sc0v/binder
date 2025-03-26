@@ -70,10 +70,10 @@ class Ability
       }
     can :read, OrganizationCategory
     # OrganizationStatusType           -- Not currently used: BuildStatus
-    can :manage, OrganizationTimelineEntry, organization: { memberships: { participant: user } }
+    # OrganizationTimelineEntry: No Access
     # OrganizationTimelineEntryType    -- Not currently used: Enum in OrgTimelineEntry
     can :read, Organization
-    can %i[:read read_phone_number], Participant
+    can %i[read read_phone_number], Participant
     cannot :login, Participant
     can :skip_safety_video, Participant, id: user.id, watched_safety_video: true
     can :show, Participant, id: user.id
@@ -106,7 +106,7 @@ class Ability
           }
         }
       # ChargeType: Same as Builder
-      can :read, Charge, organization: { memberships: { participant_id: user.id } }
+      # Charge: Same as Builder
       # Checkout: Same as Builder
       # EventType                        -- Not currently used: Feature No Longer Used
       # Event                            -- Not currently used: Feature No Longer Used
@@ -118,7 +118,7 @@ class Ability
       # OrganizationBuildStep: Same as Builder
       # OrganizationCategory: Same as Builder
       # OrganizationStatusType           -- Not currently used: BuildStatus
-      # OrganizationTimelineEntry: Same as Builder
+      can :manage, OrganizationTimelineEntry, organization: { memberships: { participant: user } }, entry_type: [:structural, :electrical]
       # OrganizationTimelineEntryType    -- Not currently used: Enum in OrgTimelineEntry
       # Organization: Same as Builder
       can :read, Participant, 
