@@ -12,7 +12,10 @@ class Participants::WaiversController < ApplicationController
   end
 
   def update
-    @participant.assign_attributes(participant_params)
+    # Make sure leading or trailing whitespace doesn't cause name confirmation to fail
+    p_params = participant_params
+    p_params[:name_confirmation] = p_params[:name_confirmation].strip
+    @participant.assign_attributes(p_params)
     if @participant.save(context: :waiver_signing)
       #redirect_to @participant, notice: t('.notice', name: @participant.name)
       redirect_to profile_path, notice: t('.notice', name: @participant.name)
