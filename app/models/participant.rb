@@ -234,13 +234,17 @@ class Participant < ApplicationRecord
     return unless signed_waiver?
     return if organization_categories.blank?
     return [:yellow] if alumni
-    if organization_categories.pluck(:building).include? true
-      return [:green] if certification_types.pluck(:name).include? 'Scissor Lift'
-      [:red]
-    else
-      return [:green, :blue] if certification_types.pluck(:name).include? 'Scissor Lift'
-      [:blue]
+    wristbands = []
+    if organization_categories.pluck(:building).include? false
+      wristbands += [:blue]
     end
+    if organization_categories.pluck(:building).include? true
+      wristbands += [:red]
+    end
+    if certification_types.pluck(:name).include? 'Scissor Lift'
+      wristbands += [:green]
+    end
+    return wristbands
   end
 
   def hardhat_color
