@@ -15,9 +15,15 @@ class Participant < ApplicationRecord
 
   # Waiver
   validates :adult, acceptance: true, on: :waiver_signing
-  validates :name, confirmation: true, on: :waiver_signing
+  validates :name, confirmation: {case_sensitive: false}, on: :waiver_signing
   validates :name_confirmation, presence: true, on: :waiver_signing
   validates :signed_waiver, acceptance: true, on: :waiver_signing
+
+  before_validation :trim_name_confirmation
+
+  def trim_name_confirmation
+    self.name_confirmation = name_confirmation.strip if name_confirmation
+  end
 
   # General Attributes
   validates :eppn, presence: true, uniqueness: true
@@ -107,13 +113,13 @@ class Participant < ApplicationRecord
             .where(memberships: { is_booth_chair: true })
             .group(:id)
         }
-  
+
   scope :in_organization, ->(organization_id) {
     joins(:organizations)
       .where(organizations: { id: organization_id})
       .group(:id)
   }
-  
+
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
 
