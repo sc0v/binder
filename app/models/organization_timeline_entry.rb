@@ -35,7 +35,7 @@ class OrganizationTimelineEntry < ApplicationRecord
     return unless entry_type == 'downtime'
 
     organization.booth_chairs.each do |chair|
-      if chair.phone_number.length == 10
+      if chair.phone_number.present? && chair.phone_number.length == 10
         send_sms(chair.phone_number, "Downtime for your organization, #{organization.name}, has started.")
       end
     end
@@ -45,7 +45,7 @@ class OrganizationTimelineEntry < ApplicationRecord
     return unless entry_type == 'downtime'
 
     organization.booth_chairs.each do |chair|
-      if chair.phone_number.length == 10
+      if chair.phone_number.present? && chair.phone_number.length == 10
         send_sms(chair.phone_number,
                  "Downtime for your organization, #{organization.name}, has ended. You have #{Time.at(organization.remaining_downtime).utc.strftime('%H hours %M minutes')} left.")
       end
