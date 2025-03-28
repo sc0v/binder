@@ -163,7 +163,7 @@ class Ability
     can :manage, OrganizationBuildStep
     # OrganizationCategory: Same as Builder
     # OrganizationStatusType           -- Not currently used: BuildStatus
-    can %i[create edit update end structural electrical downtime], OrganizationTimelineEntry
+    can :manage, OrganizationTimelineEntry
     # OrganizationTimelineEntryType    -- Not currently used: Enum in OrgTimelineEntry
     can %i[hardhats read_basic_details read_all_details], Organization
     can %i[read_phone_number update create], Participant
