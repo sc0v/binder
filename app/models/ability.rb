@@ -169,7 +169,7 @@ class Ability
     can %i[read_phone_number update create], Participant
     can %i[create update], ScissorLiftCheckout
     can :manage, ScissorLift
-    # ShiftParticipant                 -- Not currently used: Feature No Longer Used
+    can :manage, ShiftParticipant
     # ShiftType                        -- Not currently used: Feature No Longer Used
     # Shift                            -- Not currently used: Feature No Longer Used
     can :manage, StoreItem
