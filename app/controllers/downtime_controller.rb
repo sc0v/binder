@@ -4,10 +4,18 @@ class DowntimeController < ApplicationController
     @organizations = Organization.all
     # authorize! :read, @organizations
     respond_to do |format|
-      format.html
+      format.html do
+        # TODO: This should be done using CanCanCan, but this is difficult because
+        # booth chairs can manage queues but not downtime (which are both done
+        # with the OrganizationTimelineEntry model) 
+        unless Current.user.scc? 
+          redirect_to root_path, alert: "Cannot Access Downtime!"
+        end
+      end
       format.json do
         on_downtime_map = Hash.new
-        Organization.all.each do |organization|
+        @building_orgs = Organization.select { |o| o.organization_category.building }
+        @building_orgs.each do |organization|
           on_downtime = OrganizationTimelineEntry.downtime.where(organization: organization).current.present?
           on_downtime_map[organization.name] = on_downtime
         end
