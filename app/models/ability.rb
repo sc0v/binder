@@ -118,7 +118,7 @@ class Ability
       # OrganizationBuildStep: Same as Builder
       # OrganizationCategory: Same as Builder
       # OrganizationStatusType           -- Not currently used: BuildStatus
-      can :manage, OrganizationTimelineEntry, organization: { memberships: { participant: user } }, entry_type: [:structural, :electrical]
+      can :manage, OrganizationTimelineEntry, organization: { memberships: { participant: user } }
       # OrganizationTimelineEntryType    -- Not currently used: Enum in OrgTimelineEntry
       # Organization: Same as Builder
       can :read, Participant, 
