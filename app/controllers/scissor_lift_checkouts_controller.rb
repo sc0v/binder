@@ -125,7 +125,7 @@ class ScissorLiftCheckoutsController < ApplicationController
       redirect_to scissor_lifts_path, alert: "#{params[:name]} is not checked out." 
       return
     end
-    @checkout.due_at += params[:duration].to_i.hours
+    @checkout.due_at = Time.zone.now + params[:duration].to_i.hours
     if @checkout.save
       redirect_to scissor_lifts_path, notice: "#{params[:name]} successfully renewed for #{params[:duration]} hours."
     else
