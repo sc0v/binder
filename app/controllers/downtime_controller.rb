@@ -17,7 +17,7 @@ class DowntimeController < ApplicationController
         @building_orgs = Organization.select { |o| o.organization_category.building }
         @building_orgs.each do |organization|
           on_downtime = OrganizationTimelineEntry.downtime.where(organization: organization).current.present?
-          on_downtime_map[organization.name] = on_downtime
+          on_downtime_map[organization.name] = !on_downtime
         end
         render json: on_downtime_map.as_json
       end
