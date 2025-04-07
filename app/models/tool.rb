@@ -61,13 +61,13 @@ class Tool < ApplicationRecord
 
   def self.table_attrs
     joins(:tool_type)
-    .left_outer_joins(:checkouts).where(checkouts: { checked_in_at: nil })
-    .joins("LEFT OUTER JOIN (SELECT id, name AS org_name from organizations) AS o ON o.id = checkouts.organization_id")
-    .joins("LEFT OUTER JOIN participants AS p ON p.id = checkouts.participant_id")
+    .joins("LEFT OUTER JOIN checkouts AS c ON (c.tool_id = tools.id AND c.checked_in_at IS NULL)")
+    .joins("LEFT OUTER JOIN (SELECT id, name AS org_name from organizations) AS o ON o.id = c.organization_id")
+    .joins("LEFT OUTER JOIN participants AS p ON p.id = c.participant_id")
     .select('tools.*, 
             tool_types.name AS t_name,
             o.org_name AS t_organization_name,
-            checkouts.checked_out_at IS NOT NULL AS t_is_checked_out,
+            c.checked_out_at IS NOT NULL AS t_is_checked_out,
             p.cached_name AS t_participant_name')
   end
 
