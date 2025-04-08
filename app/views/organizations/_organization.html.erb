@@ -1,13 +1,5 @@
 <tr>
   <td><%= link_to organization.name, organization_path(organization) %></td>
-  <% if can?(:read, OrganizationStatus) %>
-    <td>
-      <% if !organization.organization_category.building %>
-        &mdash;
-      <% elsif can?(:read, organization.organization_statuses.displayable.last) %>
-        <%= link_to organization.organization_statuses.displayable.last.organization_status_type.name, [organization, :organization_statuses] if organization.organization_statuses.displayable.present? %>
-      <% end %>
-    </td>
   <% end %>
   <td><%= organization.organization_category.name %></td>
 </tr>

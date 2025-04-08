@@ -17,7 +17,6 @@ class Ability
     # OrganizationBuildStatus
     # OrganizationBuildStep
     # OrganizationCategory
-    # OrganizationStatusType           -- Not currently used: BuildStatus
     # OrganizationTimelineEntry
     can :read, Organization, %i[id name short_name building? category_name downtime_link remaining_downtime]
     can :login, Participant
@@ -66,7 +65,6 @@ class Ability
         }
       }
     can :read, OrganizationCategory
-    # OrganizationStatusType           -- Not currently used: BuildStatus
     # OrganizationTimelineEntry: No Access
     can :read, Organization
     can %i[read read_phone_number], Participant
@@ -112,7 +110,6 @@ class Ability
       # OrganizationBuildStatus: Same as Builder
       # OrganizationBuildStep: Same as Builder
       # OrganizationCategory: Same as Builder
-      # OrganizationStatusType           -- Not currently used: BuildStatus
       can :manage, OrganizationTimelineEntry, organization: { memberships: { participant: user } }
       # Organization: Same as Builder
       can :read, Participant, 
@@ -155,7 +152,6 @@ class Ability
     can :manage, OrganizationBuildStatus
     can :manage, OrganizationBuildStep
     # OrganizationCategory: Same as Builder
-    # OrganizationStatusType           -- Not currently used: BuildStatus
     can :manage, OrganizationTimelineEntry
     can %i[hardhats read_basic_details read_all_details], Organization
     can %i[read_phone_number update create], Participant

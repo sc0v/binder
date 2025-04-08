@@ -2,17 +2,11 @@
   <thead>
     <tr>
       <th>Name</th>
-      <% if can?(:read, OrganizationStatus) %>
-        <th>Status</th>
-      <% end %>
       <th>Category</th>
     </tr>
   </thead>
   <tbody>
     <% organizations.each do |organization| %>
-      <% cache [can?(:read, OrganizationStatus), organization] do %>
-        <%= render partial: organization, locals: { organization: } %>
-      <% end %>
     <% end %>
   </tbody>
 </table>
