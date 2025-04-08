@@ -19,7 +19,6 @@ class Ability
     # OrganizationCategory
     # OrganizationStatusType           -- Not currently used: BuildStatus
     # OrganizationTimelineEntry
-    # OrganizationTimelineEntryType    -- Not currently used: Enum in OrgTimelineEntry
     can :read, Organization, %i[id name short_name building? category_name downtime_link remaining_downtime]
     can :login, Participant
     # ScissorLiftCheckout
@@ -69,7 +68,6 @@ class Ability
     can :read, OrganizationCategory
     # OrganizationStatusType           -- Not currently used: BuildStatus
     # OrganizationTimelineEntry: No Access
-    # OrganizationTimelineEntryType    -- Not currently used: Enum in OrgTimelineEntry
     can :read, Organization
     can %i[read read_phone_number], Participant
     cannot :login, Participant
@@ -116,7 +114,6 @@ class Ability
       # OrganizationCategory: Same as Builder
       # OrganizationStatusType           -- Not currently used: BuildStatus
       can :manage, OrganizationTimelineEntry, organization: { memberships: { participant: user } }
-      # OrganizationTimelineEntryType    -- Not currently used: Enum in OrgTimelineEntry
       # Organization: Same as Builder
       can :read, Participant, 
         memberships: {
@@ -160,7 +157,6 @@ class Ability
     # OrganizationCategory: Same as Builder
     # OrganizationStatusType           -- Not currently used: BuildStatus
     can :manage, OrganizationTimelineEntry
-    # OrganizationTimelineEntryType    -- Not currently used: Enum in OrgTimelineEntry
     can %i[hardhats read_basic_details read_all_details], Organization
     can %i[read_phone_number update create], Participant
     can %i[create update], ScissorLiftCheckout

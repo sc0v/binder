@@ -88,6 +88,6 @@ class OrganizationTimelineEntriesController < ApplicationController
 
   def organization_timeline_entry_params
     params.require(:organization_timeline_entry).permit(:organization_id, :ended_at, :started_at,
-                                                        :organization_timeline_entry_type_id, :description)
+                                                        :description)
   end
 end
