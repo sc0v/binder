@@ -26,7 +26,7 @@
   </ul>
   <p class="supertiny">&nbsp;</p>
 <% end %>
-<% unless @organizations.blank? and @organization_aliases.blank? %>
+<% unless @organizations.blank? %>
   <% result_shown = true %>
   <p><em><strong>Organizations matching term '<%= @query %>'</strong></em></p>
   <ul>
@@ -35,14 +35,6 @@
       <ul>
         <% for organization in @organizations do %>
           <li><%= link_to organization.name, organization_path(organization) %></li>
-        <% end %>
-      </ul>
-    <% end %>
-    <% unless @organization_aliases.blank? %>
-      <li><em>Aliases matching term '<%= @query %>'</em></li>
-      <ul>
-        <% for organization_alias in @organization_aliases do %>
-          <li><%= link_to organization_alias.formatted_name, organization_alias.organization %></li>
         <% end %>
       </ul>
     <% end %>
