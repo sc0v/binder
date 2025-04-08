@@ -26,7 +26,6 @@ class ParticipantTest < ActiveSupport::TestCase
                                                     organization: @organization)
       @checkout = FactoryGirl.create(:checkout, participant: @participant)
       @shift_participant = FactoryGirl.create(:shift_participant, participant: @participant)
-      @organization_status = FactoryGirl.create(:organization_status, participant: @participant)
       @user = FactoryGirl.create(:user, participant: @participant)
     end
 
@@ -54,12 +53,6 @@ class ParticipantTest < ActiveSupport::TestCase
         assert_equal 1, ShiftParticipant.all.size
         @participant.destroy
         assert_equal 0, ShiftParticipant.all.size
-      end
-
-      should 'show that dependency on organization_status works' do
-        assert_equal 1, OrganizationStatus.all.size
-        @participant.destroy
-        assert_equal 0, OrganizationStatus.all.size
       end
 
       should 'show that dependency on user works' do

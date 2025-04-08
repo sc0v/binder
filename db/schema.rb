@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_08_184048) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_08_185252) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -159,11 +159,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_08_184048) do
     t.boolean "building"
     t.string "lookup_key"
     t.index ["name"], name: "index_organization_categories_on_name", unique: true
-  end
-
-  create_table "organization_status_types", force: :cascade do |t|
-    t.string "name"
-    t.boolean "display"
   end
 
   create_table "organization_timeline_entries", force: :cascade do |t|

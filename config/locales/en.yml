@@ -120,11 +120,7 @@ en:
         charged_at: 'Time'
         is_approved: 'Approved?'
       organization:
-        organization_status: 'Status'
         organization_category: 'Division'
-      organization_status:
-        organization_status_type: 'Type'
-        participant: 'Created By'
   helpers_OLD:
     actions: 'Actions'
     links:

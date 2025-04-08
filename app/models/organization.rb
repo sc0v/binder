@@ -5,7 +5,6 @@ class Organization < ApplicationRecord
   belongs_to :organization_category
   has_many :memberships, dependent: :destroy
   has_many :organization_build_statuses, dependent: :destroy
-  has_many :organization_statuses, dependent: :destroy
   has_many :organization_timeline_entries, dependent: :destroy
   has_many :participants, through: :memberships
   has_many :charges, dependent: :destroy
