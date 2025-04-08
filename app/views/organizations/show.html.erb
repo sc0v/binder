@@ -25,7 +25,7 @@
         <ul>
           <% @tools_checked_out.each do |tool| %>
             <li>
-              <%= link_to("#{tool.name} (#{tool.id})", "/tools/#{tool.id}") %>
+              <%= link_to("#{tool.name} (#{tool.barcode})", "/tools/#{tool.id}") %>
             </li>
           <% end %>
         </ul>
