@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_08_182643) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_08_184048) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -175,12 +175,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_08_182643) do
     t.datetime "updated_at", null: false
     t.integer "entry_type"
     t.index ["organization_id"], name: "index_organization_timeline_entries_on_organization_id"
-  end
-
-  create_table "organization_timeline_entry_types", force: :cascade do |t|
-    t.string "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "organizations", force: :cascade do |t|
