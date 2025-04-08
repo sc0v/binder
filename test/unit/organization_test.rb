@@ -5,7 +5,6 @@ class OrganizationTest < ActiveSupport::TestCase
   # Relationships
   should belong_to(:organization_category)
   should have_many(:memberships)
-  should have_many(:organization_aliases)
   should have_many(:participants).through(:memberships)
   should have_many(:charges)
   should have_many(:tools).through(:checkouts)
@@ -84,15 +83,6 @@ class OrganizationTest < ActiveSupport::TestCase
     # --------------------------- End of Methods testing
 
     # Dependencies
-    should 'delete all associated organization_aliases once the organization is removed' do
-      alias1 = FactoryGirl.create(:organization_alias, organization: @short_org)
-      alias2 = FactoryGirl.create(:organization_alias, organization: @short_org)
-      alias3 = FactoryGirl.create(:organization_alias, organization: @long_org)
-      assert_equal 3, OrganizationAlias.all.size
-
-      @short_org.destroy
-      assert_equal 1, OrganizationAlias.all.size
-    end
 
     should 'delete all associated organization_statuses once the organization is removed' do
       person1 = FactoryGirl.create(:participant)

@@ -26,8 +26,6 @@ class HomeController < ApplicationController
     end
 
     @org = Organization.where('lower(name) = lower(?) OR lower(short_name) = lower(?)', @query, @query).first
-    org_alias = OrganizationAlias.where('lower(name) = lower(?)', @query).first if @org.blank?
-    @org = org_alias.organization if org_alias.present?
 
     if @org.present?
       redirect_to @org
@@ -38,7 +36,6 @@ class HomeController < ApplicationController
     @participants = Participant.search(@query)
     @tools = Tool.search(@query)
     @organizations = Organization.search(@query)
-    @organization_aliases = OrganizationAlias.search(@query)
 
     @new_participant = Participant.search_ldap(@query)
   end

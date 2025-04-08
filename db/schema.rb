@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_03_21_180533) do
+ActiveRecord::Schema[7.0].define(version: 2025_04_08_182643) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -126,15 +126,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_21_180533) do
     t.datetime "updated_at", null: false
     t.index ["organization_id"], name: "index_notes_on_organization_id"
     t.index ["participant_id"], name: "index_notes_on_participant_id"
-  end
-
-  create_table "organization_aliases", force: :cascade do |t|
-    t.string "name"
-    t.integer "organization_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["name"], name: "index_organization_aliases_on_name"
-    t.index ["organization_id"], name: "index_organization_aliases_on_organization_id"
   end
 
   create_table "organization_build_statuses", force: :cascade do |t|
@@ -342,7 +333,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_03_21_180533) do
     t.index ["barcode"], name: "index_tools_on_barcode"
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
   end
-  
 
   add_foreign_key "certifications", "certification_types"
   add_foreign_key "certifications", "participants"

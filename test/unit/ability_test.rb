@@ -62,11 +62,6 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.can?(:read_basic_details, @org)
       assert ability.cannot?(:read_basic_details, @scc)
 
-      assert ability.cannot?(:create, OrganizationAlias)
-      assert ability.cannot?(:update, OrganizationAlias)
-      assert ability.cannot?(:destroy, OrganizationAlias)
-      assert ability.can?(:read, OrganizationAlias)
-
       assert ability.cannot?(:create, OrganizationCategory)
       assert ability.cannot?(:update, OrganizationCategory)
       assert ability.cannot?(:destroy, OrganizationCategory)

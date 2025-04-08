@@ -14,7 +14,6 @@ class Ability
     can :read, FAQ, organization_category: nil
     # Membership
     # Note
-    # OrganizationAlias                -- Not currently used: Org Shortname
     # OrganizationBuildStatus
     # OrganizationBuildStep
     # OrganizationCategory
@@ -58,7 +57,6 @@ class Ability
       }
     can :read, Membership, organization: { memberships: { participant_id: user.id } }
     can :read, Note, organization: { memberships: { participant_id: user.id } }
-    # OrganizationAlias                -- Not currently used: Org Shortname
     can :read, OrganizationBuildStatus, organization: { memberships: { participant_id: user.id } }
     can :read, OrganizationBuildStep, 
       organization_build_status: {
@@ -113,7 +111,6 @@ class Ability
       # FAQ: Same as Builder
       # Membership: Same as Builder
       # Note: Same as Builder
-      # OrganizationAlias                -- Not currently used: Org Shortname
       # OrganizationBuildStatus: Same as Builder
       # OrganizationBuildStep: Same as Builder
       # OrganizationCategory: Same as Builder
@@ -158,7 +155,6 @@ class Ability
     # FAQ: Same as Builder
     can :manage, Membership
     can %i[create destroy], Note
-    # OrganizationAlias                -- Not currently used: Org Shortname
     can :manage, OrganizationBuildStatus
     can :manage, OrganizationBuildStep
     # OrganizationCategory: Same as Builder
@@ -295,7 +291,6 @@ class Ability
 
     can :read,
         [
-          OrganizationAlias,
           OrganizationCategory,
           Organization,
           Participant,

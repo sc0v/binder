@@ -125,10 +125,6 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   # TODO: Confirm everything below
   resources :organizations do
-    resources :aliases,
-              controller: :organization_aliases,
-              shallow: true,
-              only: %i[create new destroy index]
     resources :organization_build_statuses, only: [:show, :edit, :update] do
 	    resources :organization_build_steps, only: %i[show create edit update destroy]
     end

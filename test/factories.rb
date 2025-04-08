@@ -65,13 +65,6 @@ FactoryGirl.define do
     association :organization_category
   end
 
-  # organization_alias
-  factory :organization_alias do
-    name { generate(:random_string) }
-
-    association :organization
-  end
-
   # organization_category
   factory :organization_category do
     name { generate(:random_string) }
