@@ -46,7 +46,7 @@ class OrganizationsController < ApplicationController
     @electrical = @organization.organization_build_statuses.find_by(status_type: :electrical)
 
     # Get Tools Checked Out by Organization
-    @tools_checked_out = Tool.checked_out_by_organization(@organization)
+    @tools_checked_out = Tool.just_tools.checked_out_by_organization(@organization)
   end
 
   # GET /organizations/new
