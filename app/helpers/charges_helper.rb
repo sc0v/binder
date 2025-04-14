@@ -21,7 +21,12 @@ module ChargesHelper
      formatterParams: {
       symbol: '$'
      },
-     sorter: 'numeric'
+     sorter: 'numeric',
+     bottomCalc: 'sum',
+     bottomCalcFormatter: 'money',
+     bottomCalcFormatterParams: {
+      symbol: '$'
+     }
    },
    {
      title: 'Organization',
@@ -49,7 +54,7 @@ module ChargesHelper
      ajaxURL: charges_path(format: :json),
      columns: CHARGES_TABLE_COLUMNS,
      dataLoader: false,
-     height: '90vh',
+     maxHeight: '90vh',
      paginationSize: 200,
      placeholder: '<h2>No Charges Found</h2>',
      progressiveLoad: 'load',
