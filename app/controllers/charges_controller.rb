@@ -42,7 +42,8 @@ class ChargesController < ApplicationController
         collection = Charge.where(organization: organization)
         footers = [nil, "Total", view_context.number_to_currency(org_charges.sum(:amount))]
         csv = Exporter.generate_csv(collection, headers, generate_row, footers)
-        csv_files["#{organization.name} Invoice.csv"] = csv
+        csv_filename = ActiveStorage::Filename.new("#{organization.name} Invoice.csv").sanitized
+        csv_files[csv_filename] = csv
       end
     end
 
