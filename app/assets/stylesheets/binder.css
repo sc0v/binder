@@ -156,14 +156,14 @@ li.tab {
     transition-delay: none !important;
 }
 
-.tool-title {
+.title-row {
     display: flex;
     align-items: center;
     width: full;
     justify-content: space-between;
 }
 
-.tool-title div {
+.title-row div {
     min-width: 30%;
     padding: 0.5rem;
 }

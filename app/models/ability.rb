@@ -142,7 +142,7 @@ class Ability
     # CertificationType: Same as Builder
     can %i[create update destroy], Certification
     can %i[create update destroy], ChargeType
-    can %i[create update destroy], Charge
+    can :manage, Charge
     can %i[create update], Checkout
     # EventType                        -- Not currently used: Feature No Longer Used
     # Event                            -- Not currently used: Feature No Longer Used

@@ -135,7 +135,6 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
     resources :shifts, only: [:index]
     resources :tools, only: [:index]
-    resources :charges, only: [:index]
     get 'hardhats', on: :member
     resources :downtime,
               controller: :downtime,
@@ -162,6 +161,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   resources :charges do
     put 'approve', on: :member
+    get 'export', on: :collection
   end
 
   resources :charge_types

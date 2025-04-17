@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 class ChargesController < ApplicationController
+  include Exporter
+  
   load_and_authorize_resource
   
   before_action :set_charge, only: %i[show edit update destroy approve]
@@ -30,7 +32,26 @@ class ChargesController < ApplicationController
   end
 
   def export
-    @charges = Charge.all
+    headers = ['Charge Type', 'Description', 'Amount']
+    generate_row = lambda { |charge| [charge.charge_type_name, charge.description, view_context.number_to_currency(charge.amount)] }
+    csv_files = Hash.new
+
+    Organization.all.each do |organization|
+      org_charges = Charge.where(organization: organization)
+      if org_charges.count > 0
+        collection = Charge.where(organization: organization)
+        footers = [nil, "Total", view_context.number_to_currency(org_charges.sum(:amount))]
+        csv = Exporter.generate_csv(collection, headers, generate_row, footers)
+        csv_files["#{organization.name} Invoice.csv"] = csv
+      end
+    end
+
+    zip = Exporter.generate_zip(csv_files)
+    respond_to do |format|
+      format.zip do
+          send_data zip, filename: "invoices.zip", type: 'application/zip'
+      end
+    end
   end
 
   # GET /charges/1

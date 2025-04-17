@@ -5,10 +5,15 @@
 <%- model_class = Charge -%>
 <div class="content">
   <div>
+    <div class="title-row">
     <h1>
       <%= link_to "#{@organization.name}'s", @organization if @organization.present? %>
       <%= t '.title', default: model_class.model_name.human.pluralize %>
     </h1>
+    <div>
+      <%= link_to "Export Charges", export_charges_path(format: :zip), class: 'cta'%>
+    </div>
+    </div>
     <%= content_tag :div, data:
           { controller: 'table', config: charges_table_config } do %>
       Loading...

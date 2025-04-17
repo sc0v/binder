@@ -17,16 +17,16 @@
       <tr>
         <td><%= link_to organization.short_name, organization_path(organization) %></td>
         <td><%= organization.organization_category.name %></td>
-        <td style="text-align: right;"><%= currency organization.charges.approved.sum('amount') %></td>
-        <td style="text-align: right;"><%= currency organization.charges.pending.sum('amount') %></td>
-        <td style="text-align: right;"><%= currency organization.charges.sum('amount') %></td>
+        <td style="text-align: right;"><%=  organization.charges.approved.sum('amount') %></td>
+        <td style="text-align: right;"><%=  organization.charges.pending.sum('amount') %></td>
+        <td style="text-align: right;"><%=  organization.charges.sum('amount') %></td>
       </tr>
     <% end %>
     <tr>
       <td colspan="2"><b>Total:</b></td>
-      <td style="text-align: right;"><%= currency @approved_total %></td>
-      <td style="text-align: right;"><%= currency @pending_total %></td>
-      <td style="text-align: right;"><%= currency @total %></td>
+      <td style="text-align: right;"><%=  @approved_total %></td>
+      <td style="text-align: right;"><%=  @pending_total %></td>
+      <td style="text-align: right;"><%=  @total %></td>
     </tbody>
   </table>
   <br>
@@ -44,15 +44,15 @@
       <% @charge_types.each do |type| %>
         <tr>
           <td><%= type.name %></td>
-          <td style="text-align: right;"><%= currency type.charges.approved.sum('amount') %></td>
-          <td style="text-align: right;"><%= currency type.charges.pending.sum('amount') %></td>
-          <td style="text-align: right;"><%= currency type.charges.sum('amount') %></td>
+          <td style="text-align: right;"><%=  type.charges.approved.sum('amount') %></td>
+          <td style="text-align: right;"><%=  type.charges.pending.sum('amount') %></td>
+          <td style="text-align: right;"><%=  type.charges.sum('amount') %></td>
         </tr>
       <% end %>
       <tr>
         <td><b>Total:</b></td>
-        <td style="text-align: right;"><%= currency @approved_total %></td>
-        <td style="text-align: right;"><%= currency @pending_total %></td>
-        <td style="text-align: right;"><%= currency @total %></td>
+        <td style="text-align: right;"><%=  @approved_total %></td>
+        <td style="text-align: right;"><%=  @pending_total %></td>
+        <td style="text-align: right;"><%=  @total %></td>
       </tbody>
     </table>
