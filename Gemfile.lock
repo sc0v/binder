@@ -405,6 +405,7 @@ DEPENDENCIES
   rails (~> 7.0.4, >= 7.0.4.2)
   rubocop-capybara
   rubocop-rails
+  rubyzip
   savon
   selenium-webdriver
   simple_form

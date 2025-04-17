@@ -58,6 +58,9 @@ gem 'savon'
 # Paginatation
 gem 'pagy'
 
+# Export zip file for charges
+gem 'rubyzip'
+
 # Font Awesome
 gem 'font-awesome-sass'
 
