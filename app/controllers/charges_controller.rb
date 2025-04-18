@@ -31,17 +31,44 @@ class ChargesController < ApplicationController
     end
   end
 
+  # For each organization, generate a CSV including all charges and checked out
+  # tools (since apparently that should be included in the invoice)
   def export
-    headers = ['Charge Type', 'Description', 'Amount']
-    generate_row = lambda { |charge| [charge.charge_type_name, charge.description, view_context.number_to_currency(charge.amount)] }
     csv_files = Hash.new
 
     Organization.all.each do |organization|
+      charge_csv = nil
+      tool_csv = nil
+
       org_charges = Charge.where(organization: organization)
       if org_charges.count > 0
-        collection = Charge.where(organization: organization)
+        headers = ['Charge Type', 'Description', 'Amount']
+        generate_row = lambda { |charge| [charge.charge_type_name, charge.description, view_context.number_to_currency(charge.amount)] }    
         footers = [nil, "Total", view_context.number_to_currency(org_charges.sum(:amount))]
-        csv = Exporter.generate_csv(collection, headers, generate_row, footers)
+        charge_csv = Exporter.generate_csv(org_charges, headers, generate_row, footers)
+      end
+    
+      org_tools = Tool.checked_out_by_organization(organization)
+      if org_tools.count > 0
+        headers = ["Tool", "Barcode"]
+        generate_row = lambda { |tool| [tool.name, tool.barcode] }
+        tool_csv = Exporter.generate_csv(org_tools, headers, generate_row, [])
+      end
+
+      csv = CSV.generate do |csv|
+        unless charge_csv == nil
+          CSV.parse(charge_csv).each do |row|
+            csv << row
+          end  
+          csv << []
+        end
+        unless tool_csv == nil
+          CSV.parse(tool_csv).each do |row|
+            csv << row
+          end  
+        end
+      end
+      if csv.length > 0
         csv_filename = ActiveStorage::Filename.new("#{organization.name} Invoice.csv").sanitized
         csv_files[csv_filename] = csv
       end
