@@ -1,0 +1,20 @@
+name: Production - Export Container
+
+on: 
+  workflow_run:
+    workflows:
+      - "Production - Build Container"
+    types:
+      - completed
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+    - name: ssh and podman run
+      uses: appleboy/ssh-action@v1.2.0
+      with:
+        host: ${{ secrets.PRODUCTION_HOST }}
+        username: ${{ secrets.PRODUCTION_USERNAME }}
+        password: ${{ secrets.PRODUCTION_PASSWORD }}
+        script: |
+          ./binderbounce.sh  
