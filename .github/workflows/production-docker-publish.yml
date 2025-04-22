@@ -6,7 +6,8 @@ name: Production - Build Container
 # documentation.
 
 on:
-  # TODO: Tagged releases should trigger workflow
+  release:
+    types: [published]
   workflow_dispatch: 
 
 env:
