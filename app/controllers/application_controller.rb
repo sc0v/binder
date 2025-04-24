@@ -52,6 +52,7 @@ class ApplicationController < ActionController::Base
   before_action :sidebar
 
   def sidebar
+    puts "Running Uneccessary Sidebar Code"
     @current_shifts_sidebar = Shift.current
     @upcoming_shifts_sidebar = Shift.upcoming
     @tasks_sidebar = Task.upcoming.is_incomplete
@@ -59,7 +60,5 @@ class ApplicationController < ActionController::Base
     @electrical_queue_sidebar = OrganizationTimelineEntry.electrical.current
     @events_sidebar = Event.displayable
     @downtime_sidebar = OrganizationTimelineEntry.downtime.current
-    session[:toolcart] ||= []
-    @tool_cart = session[:toolcart].map { |b| Tool.find_by(barcode: b) }.reverse
   end
 end
