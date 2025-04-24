@@ -1,9 +1,0 @@
-language: ruby
-rvm:
-  - 2.3.0
-bundler_args: --without development staging production
-sudo: false
-before_script:
-  - bundle exec rake test:prepare
-  - bundle exec rake db:migrate
-  - export TZ='America/New_York'
