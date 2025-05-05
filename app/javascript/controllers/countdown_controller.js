@@ -4,9 +4,18 @@
 
 import { Controller } from "@hotwired/stimulus";
 
+const Unit = Object.freeze({
+  DAY: "Days",
+  HOUR: "Hours",
+  MINUTE: "Minutes",
+  SECOND: "Seconds",
+  MILLISECOND: "Milliseconds",
+});
+
 class ClockModule {
   element;
   format;
+  label;
   currentValue = "";
 
   constructor(
@@ -22,10 +31,11 @@ class ClockModule {
       '<b class="card__back"><b class="card__bottom"></b></b>' +
       `</b><div class="split-flap__label">${label}</div>`;
     this.format = format;
+    this.label = label;
   }
 
   update(value) {
-    value = ("0" + this.format(value)).slice(-2);
+    value = this.format(value).toString().padStart(2, "0");
 
     const e = this.element;
     const top = e.querySelector(".card__top"),
@@ -35,8 +45,12 @@ class ClockModule {
 
     if (value !== this.currentValue) {
       if (this.currentValue !== "") {
-        back.setAttribute("data-value", this.currentValue);
-        bottom.setAttribute("data-value", this.currentValue);
+        // The width of each part of the clock is dependent on its data-value,
+        // so if we're switching from 100 -> 99 set the back to 00 so it has the
+        // same "size" as 99.
+        const oldValue = this.currentValue === "100" ? "00" : this.currentValue;
+        back.setAttribute("data-value", oldValue);
+        bottom.setAttribute("data-value", oldValue);
       }
       this.currentValue = value;
       top.innerText = value;
@@ -59,18 +73,21 @@ class Clock {
     this.element.className = "split-flap";
 
     this.modules = [
-      new ClockModule("Days", (t) => {
+      new ClockModule(Unit.DAY, (t) => {
         return Math.floor(t / (1000 * 60 * 60 * 24));
       }),
-      new ClockModule("Hours", function (t) {
+      new ClockModule(Unit.HOUR, function (t) {
         return Math.floor((t / (1000 * 60 * 60)) % 24);
       }),
-      new ClockModule("Minutes", function (t) {
+      new ClockModule(Unit.MINUTE, function (t) {
         return Math.floor((t / 1000 / 60) % 60);
       }),
-      new ClockModule("Seconds", function (t) {
+      new ClockModule(Unit.SECOND, function (t) {
         return Math.floor((t / 1000) % 60);
       }),
+      // new ClockModule(Unit.MILLISECOND, function (t) {
+      //   return Math.floor(t % 1000);
+      // }),
     ];
     for (const m of this.modules) this.element.appendChild(m.element);
 
