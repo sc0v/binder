@@ -123,6 +123,14 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   get 'downtime', to: 'downtime#downtime'
   post 'toggle_downtime', to: 'downtime#toggle'
 
+  get 'coordinator_dashboard', to: 'coordinator_dashboard#index'
+  post 'coordinator_dashboard', to: 'coordinator_dashboard#search'
+  post 'coordinator_dashboard/add_to_cart', to: 'coordinator_dashboard#add_to_cart'
+  post 'coordinator_dashboard/remove_tool', to: 'coordinator_dashboard#remove_tool'
+  post 'coordinator_dashboard/clear_cart', to: 'coordinator_dashboard#clear_cart'
+  get 'coordinator_dashboard/confirm/:type', to: 'coordinator_dashboard#confirm', as: :coordinator_dashboard_confirm
+  post 'coordinator_dashboard/confirm/:type', to: 'coordinator_dashboard#confirm_post'
+
   # TODO: Confirm everything below
   resources :organizations do
     resources :organization_build_statuses, only: [:show, :edit, :update] do

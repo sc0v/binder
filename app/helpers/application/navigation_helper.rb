@@ -42,6 +42,15 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
   def nav_items # rubocop:disable Metrics/MethodLength
     [
       {
+        label: 'Dashboard',
+        url: coordinator_dashboard_path,
+        key: 'dashboard',
+        can: {
+          action: :create,
+          subject: Checkout
+        }
+      },
+      {
         label: 'Organizations',
         url: organizations_path,
         key: 'organizations',
