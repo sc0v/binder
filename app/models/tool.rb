@@ -35,6 +35,10 @@ class Tool < ApplicationRecord
     checkouts.current.take.participant if checkouts.current.present?
   end
 
+  def checked_out_at
+    checkouts.current.take.checked_out_at if checkouts.current.present?
+  end
+
   def is_checked_out?
     !checkouts.current.empty?
   end

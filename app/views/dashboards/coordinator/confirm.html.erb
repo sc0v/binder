@@ -1,0 +1,56 @@
+<% update_document_title(add: 'Cart Confirmation') %>
+<% update_breadcrumbs(add: link_to('Coordinator Dashboard', dashboards_coordinator_path)) %>
+<% update_breadcrumbs(add: 'Cart Confirmation') %>
+<%= nav() %>
+<% content_for :head do %>
+<script>
+
+</script>
+<% end %>
+
+<div class="content wide">
+  <h1>Confirm Cart</h1>
+  <% if @receipt_text.present? %>
+    <p class="receipt"><%= @receipt_text %></p>
+  <% end %>
+  <% if @step == 1 %>
+  <p>
+    <strong><%= @selected_user.name %></strong>
+  </p>
+  <%= form_tag(dashboards_coordinator_confirm_path, method: 'post', class: "") do %>
+    <button type="submit" class="btn btn-primary" autofocus>Confirm</button>
+    <%= link_to 'Cancel', dashboards_coordinator_path, class: 'btn btn-secondary' %>
+  <% end %>
+  <% end %>
+  <% if @step == 2 %>
+    <%= form_tag(dashboards_coordinator_confirm_path, method: 'post', class: "") do %>
+    <% if @selected_user.organizations.length == 1 %>
+      <p><strong>Organization: </strong><%= @selected_user.organizations[0].name %></p>
+      <input type="hidden" name="checkout[organization_id]" value="<%= @selected_user.organizations[0].id %>" />
+    <% else %>
+      <p><strong>Organization: </strong></p>
+      <%= collection_select(:checkout, :organization_id, @selected_user.organizations, :id, :name) %>
+    <% end %>
+    <%= button_tag "Confirm", type: "submit", class: "btn btn-primary", autofocus: (@selected_user.organizations.length == 1) %>
+
+    <%= link_to 'Cancel', dashboards_coordinator_path, class: 'btn btn-secondary' %>
+    <% end %>
+  <% end %>
+  <% if @step == 3 %>
+    <p><strong>Cart</strong><br/>
+      <% @cart.each do |t| %>
+        <br /> <%= t.formatted_name %>
+      <% end %>
+    </p>
+    <%= form_tag(dashboards_coordinator_confirm_path, method: 'post', class: "") do %>
+      <button type="submit" class="btn btn-primary" autofocus>Confirm</button>
+      <%= link_to 'Cancel', dashboards_coordinator_path, class: 'btn btn-secondary' %>
+    <% end %>
+  <% end %>
+  <% if @step == 4 %>
+    <%= form_tag(dashboards_coordinator_confirm_path, method: 'post', class: "") do %>
+      <button type="submit" class="btn btn-primary" autofocus>Confirm</button>
+      <%= link_to 'Cancel', dashboards_coordinator_path, class: 'btn btn-secondary' %>
+    <% end %>
+  <% end %>
+</div>
