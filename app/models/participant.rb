@@ -97,6 +97,10 @@ class Participant < ApplicationRecord
     # TODO: creation
   end
 
+  def self.find_by_andrewid(andrewid)
+    Participant.find_by(eppn: "#{andrewid}@andrew.cmu.edu")
+  end
+
   scope :scc,
         -> {
           joins(:organizations).where(

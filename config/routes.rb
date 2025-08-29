@@ -95,7 +95,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
 
   # Tool types
-  resources :tool_types 
+  resources :tool_types
 
   # Tool Inventory
   resources :tool_inventory, path: 'inventory', only: [:show] do
@@ -122,6 +122,14 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   # Downtime Index (other methods are organizations/downtime)
   get 'downtime', to: 'downtime#downtime'
   post 'toggle_downtime', to: 'downtime#toggle'
+
+  get 'dashboards/coordinator', to: 'dashboards/coordinator#index'
+  post 'dashboards/coordinator', to: 'dashboards/coordinator#search'
+  post 'dashboards/coordinator/add_to_cart', to: 'dashboards/coordinator#add_to_cart'
+  post 'dashboards/coordinator/remove_tool', to: 'dashboards/coordinator#remove_tool'
+  post 'dashboards/coordinator/clear_cart', to: 'dashboards/coordinator#clear_cart'
+  get 'dashboards/coordinator/confirm/:type', to: 'dashboards/coordinator#confirm', as: :dashboards_coordinator_confirm
+  post 'dashboards/coordinator/confirm/:type', to: 'dashboards/coordinator#confirm_post'
 
   # TODO: Confirm everything below
   resources :organizations do

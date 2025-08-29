@@ -1,0 +1,138 @@
+<% update_document_title(add: 'Coordinator Dashboard') %>
+<% update_breadcrumbs(add: 'Coordinator Dashboard') %>
+<%= nav() %>
+<% content_for :head do %>
+<script>
+
+</script>
+<% end %>
+
+<div class="content wide">
+  <h1>Coordinator Dashboard</h1>
+  <!-- Action bar form -->
+  <%= form_tag(dashboards_coordinator_path, method: 'post', class: "") do %>
+      <%= text_field_tag :q, nil, autocomplete: :off, class: "form-control search-input", id:"search-input", placeholder: "Search...", autofocus: true %>
+  <% end %>
+  <div class="dashboard-vertical-split">
+      <div>
+        <div class="current-user dashboard-box">
+        <% if @selected_user %>
+          <p><strong>Selected User</strong><br />
+            <strong>Name:</strong><%= @selected_user.name %><br/><br/>
+          <% if @selected_user.wristbands %>
+            <strong>Wristbands</strong><br/>
+            <% if @selected_user.wristbands.present? && @selected_user.wristbands.include?(:red) %>
+              <span class="invert red span-background">Red (Building Organization)</span>
+            <% end %>
+            <% if @selected_user.wristbands.present? && @selected_user.wristbands.include?(:blue) %>
+              <span class="invert blue span-background">Blue (Non-Building Organization)</span>
+            <% end %>
+            <% if @selected_user.wristbands.present? && @selected_user.wristbands.include?(:green) %>
+              <span class="invert green span-background">Green (Scissor Lift)</span>
+            <% end %>
+            <% if @selected_user.wristbands.present? && @selected_user.wristbands.include?(:yellow) %>
+              <span class="gold invert span-background">Alumni</span>
+            <% end %>
+          <% else %>
+            <span class="invert red span-background">Has not signed waiver. No wristbands</span>
+          <% end %>
+          <br/><br/>
+          <% if @selected_user.organizations.any? %>
+            <strong>Organizations</strong><br/>
+            <% @selected_user.organizations.each do |organization| %>
+              <%= link_to organization.name, organization_path(organization) %><br/>
+            <% end %>
+          <% end %>
+        </p>
+        <% else %>
+          <p><strong>Selected User</strong><br/>No User Selected</p>
+        <% end %>
+        </div>
+        <div class="history dashboard-box">
+          <%= form_tag(dashboards_coordinator_path, method: 'post', class: "") do %>
+
+          <p style="padding:0;">
+          <strong>History</strong><br/>
+          <% if @history.empty? %>
+            No History
+          <% else %>
+            <% @history.each do |entry| %>
+              <button type="submit" name="q" value="<%= entry[0] %>" class="dashboard-link-button">
+                <%= entry[0] %>
+              </button> - <%= entry[1] %><br />
+            <% end %>
+          <% end %>
+          </p>
+      <% end %>
+        </div>
+      </div>
+      <div>
+        <div class="selected-tool dashboard-box">
+
+          <% if @selected_tool %>
+            <p>
+              <strong>Selected Tool</strong><br />
+              <strong>Name:</strong> <%= @selected_tool.name %><br/>
+              <% if @selected_tool.description %>
+              <strong>Description:</strong> <%= @selected_tool.description %><br/>
+              <% end %>
+              <strong>Barcode:</strong> <%= @selected_tool.barcode %><br/>
+            </p>
+              <% if @selected_tool.is_checked_out? %>
+                  <div class="red invert" style="padding: .3em;">
+                    <strong>Checked Out</strong><br/>
+                    <strong>To:</strong> <%= @selected_tool.current_organization.name %><br/>
+                    <strong>By:</strong> <%= @selected_tool.current_participant.name %><br/>
+                    <strong>At:</strong> <%= @selected_tool.checked_out_at.strftime('%m/%d/%Y %I:%M %p') %>
+                  </div>
+              <% else %>
+                <p class="green invert" style="padding: .2em;">Not Checked Out</p>
+              <% end %>
+              <%= form_tag(dashboards_coordinator_path, method: 'post', class: "") do %>
+                  <%= hidden_field_tag :q, '+' %>
+                  <button type="submit" class="dashboard-plus-button">+</button>
+              <% end %>
+          <% else %>
+            <p>
+              <strong>Selected Tool</strong><br/>
+              No Tool Selected
+            </p>
+          <% end %>
+        </div>
+        <div class="cart dashboard-box">
+          <%= form_tag(dashboards_coordinator_clear_cart_path, method: 'post', class: "") do %>
+          <p style="padding:0;"><strong>Cart</strong>
+          <% if @cart.empty? %>
+          <br/>Cart is empty<br/>
+          <% else %>
+            <button type="submit" style="float: right; padding: .4em;">Clear Cart</button>
+          <% end %>
+          </p>
+          <% end %>
+          <% unless @cart.empty? %>
+            <%= form_tag(dashboards_coordinator_remove_tool_path, method: 'post', class: "") do %>
+            <ul>
+            <% @cart.each do |t| %>
+              <li class="<%= t.is_checked_out? ? "text-red" : "text-green" %>"><%= t.formatted_name %>&nbsp;&nbsp;
+              <button type="submit" name="tool_id" value="<%= t.id %>" class="dashboard-link-button">Remove</button></li>
+            <% end %>
+          </ul>
+          <% end %>
+          <% end %>
+          <% unless @cart.empty? %>
+          <div class="cart_buttons">
+            <%= form_tag(dashboards_coordinator_path, method: 'post', class: "") do %>
+                <% if @cart_fully_checked_in %>
+                <%= hidden_field_tag :q, 'out' %>
+                <%= submit_tag "Check-out", class: "red invert" %>
+                <% else %>
+                <%= hidden_field_tag :q, 'in' %>
+                <%= submit_tag "Check-in", class: "green invert" %>
+                <% end %>
+            <% end %>
+          <div>
+          <% end %>
+        </div>
+      </div>
+  </div>
+</div>
