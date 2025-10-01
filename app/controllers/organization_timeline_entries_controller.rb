@@ -15,12 +15,6 @@ class OrganizationTimelineEntriesController < ApplicationController
   # POST /organizations_timeline_entries
   # POST /organizations_timeline_entries.json
   def create
-    # Check if organization_id is present
-    if !params[:organization_id].present?
-      redirect_to params[:url], alert: "Please select an organization!"
-      return
-    end
-
     @organization_timeline_entry = OrganizationTimelineEntry.new(organization_timeline_entry_params)
     @organization_timeline_entry.started_at = Time.now
     @organization_timeline_entry.entry_type = case params[:commit]
@@ -38,12 +32,11 @@ class OrganizationTimelineEntriesController < ApplicationController
         redirect_to params[:url], notice: "Added to structural queue!"
       elsif @organization_timeline_entry.entry_type == 'electrical'
         redirect_to params[:url], notice: "Added to electrical queue!"
-      else 
+      else
         redirect_to params[:url], notice: "Started downtime!"
       end
     else
-      flash.now[:alert] = t('.alert')
-      render :new, status: :unprocessable_entity
+      redirect_to params[:url], alert: t(".alert")
     end
   end
 
