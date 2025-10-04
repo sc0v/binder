@@ -32,137 +32,140 @@
 en:
   unauthorized:
     manage:
-      all: 'Not authorized to %{action} %{subject}.'
+      all: Not authorized to %{action} %{subject}.
     new:
-      faq: 'Not authorized to add %{action} %{subject}.'
+      faq: Not authorized to add %{action} %{subject}.
 
   time:
     formats:
-      timestamp: '%Y-%m-%d %H:%M (%a)'
+      timestamp: %Y-%m-%d %H:%M (%a)
 
   # Controllers
   faq:
     index:
-      new: 'Add Question to FAQ'
-      edit: 'Edit This FAQ'
-      destroy: 'Delete This FAQ'
-      confirm: 'Are you sure?'
+      new: Add Question to FAQ
+      edit: Edit This FAQ
+      destroy: Delete This FAQ
+      confirm: Are you sure?
     new:
-      heading: 'Create New FAQ'
+      heading: Create New FAQ
     edit:
-      heading: 'Edit FAQ'
+      heading: Edit FAQ
     create:
-      alert: 'Could not create FAQ. Please correct the issues below.'
-      notice: 'FAQ "%{name}" created successfully.'
+      alert: Could not create FAQ. Please correct the issues below.
+      notice: FAQ %{name} created successfully.
     update:
-      alert: 'Could not update FAQ. Please correct the issues below.'
-      notice: 'FAQ "%{name}" updated successfully.'
+      alert: Could not update FAQ. Please correct the issues below.
+      notice: FAQ %{name} updated successfully.
     destroy:
-      alert: 'Problem deleting FAQ "%{name}"'
-      notice: 'FAQ "%{name}" deleted successfully.'
+      alert: Problem deleting FAQ %{name}
+      notice: FAQ %{name} deleted successfully.
     form:
-      cancel: 'Cancel'
+      cancel: Cancel
   participants:
     safety_briefings:
       update:
-        alert: 'Problem: %{errors}'
+        alert: Problem: %{errors}
     waivers:
       form:
-        cancel: 'Cancel'
+        cancel: Cancel
       update:
-        alert: 'Could not accept waiver. Please correct the issues below.'
-        notice: 'Waiver for %{name} submitted.'
+        alert: Could not accept waiver. Please correct the issues below.
+        notice: Waiver for %{name} submitted.
   sessions:
     create:
-      alert: 'User could not be found. %{message}'
-      help_link: 'Get help'
+      alert: User could not be found. %{message}
+      help_link: Get help
     destroy:
-      notice: 'User logged out.'
+      notice: User logged out.
   welcome:
-    html: '<h1>Welcome, %{name}!</h1>'
+    html: <h1>Welcome, %{name}!</h1>
+  organization_timeline_entries:
+    create:
+      alert: Failed to save organization timeline entry
 
   # Views: Form helpers
   helpers:
     label:
       faq:
-        question: 'Question text'
-        answer: 'Answer to the question'
-        organization_category: 'Show this question to'
+        question: Question text
+        answer: Answer to the question
+        organization_category: Show this question to
     submit:
-      create: 'Create New %{model}'
-      update: 'Confirm Changes to %{model}'
+      create: Create New %{model}
+      update: Confirm Changes to %{model}
 
   # Models
   activerecord:
     models:
-      faq: 'Question'
+      faq: Question
     attributes:
       participant:
-        safety_briefing_expected_end_at: 'Safety briefing completion time'
+        safety_briefing_expected_end_at: Safety briefing completion time
     errors:
       models:
         participant:
           attributes:
             safety_briefing_expected_end_at:
-              less_than: 'too soon. Now watch it again from the beginning.'
+              less_than: too soon. Now watch it again from the beginning.
             name_confirmation:
-              confirmation: "doesn't match name above"
+              confirmation: doesn't match name above
     # OLD
     attributes_OLD:
       shift:
-        required_number_of_participants: '# of People'
-        shift_participants: 'Participants'
-        shift_type: 'Type'
+        required_number_of_participants: # of People
+        shift_participants: Participants
+        shift_type: Type
       charge:
-        charge_type: 'Type'
-        issuing_participant: 'Issued By'
-        receiving_participant: 'Issued To'
-        charged_at: 'Time'
-        is_approved: 'Approved?'
+        charge_type: Type
+        issuing_participant: Issued By
+        receiving_participant: Issued To
+        charged_at: Time
+        is_approved: Approved?
       organization:
-        organization_category: 'Division'
+        organization_category: Division
   helpers_OLD:
-    actions: 'Actions'
+    actions: Actions
     links:
-      add: 'Add'
-      edit: 'Edit'
-      new: 'New'
-      update: 'Update'
-      show: 'Show'
-      destroy: 'Delete'
-      back: 'Back'
-      cancel: 'Cancel'
-      checkout: 'Check-Out'
-      checkin: 'Check-In'
-      add_to_cart: 'Add to Cart'
-      remove_from_cart: 'Remove from Cart'
-      complete: 'Complete'
-      confirm: 'Are you sure?'
-      new_item: 'New Store Item'
-      new_charge: 'New Charge'
-      new_task: 'New Task'
-      new_shift_participant: 'Clock In'
+      add: Add
+      edit: Edit
+      new: New
+      update: Update
+      show: Show
+      destroy: Delete
+      back: Back
+      cancel: Cancel
+      checkout: Check-Out
+      checkin: Check-In
+      add_to_cart: Add to Cart
+      remove_from_cart: Remove from Cart
+      complete: Complete
+      confirm: Are you sure?
+      new_item: New Store Item
+      new_charge: New Charge
+      new_task: New Task
+      new_shift_participant: Clock In
   errors:
     messages:
-      tool_already_checked_out: 'The Tool you selected is already checked out. Please return it before continuing.'
-      tool_already_checked_in: 'The Tool you selected is already checked in.'
-      tool_does_not_exist: 'The Tool barcode you entered is not registered with the system. Please register it if desired.'
-      tool_is_not_hardhat: 'This page can only be used to checkout/checkin hardhats.'
-      participant_does_not_exist: 'The Participant or ID card you selected is invalid. Please try again or contact an admin if you think this message is in error'
-      organization_does_not_exist: 'The Organization you selected does not exist.'
+      tool_already_checked_out: The Tool you selected is already checked out. Please return it before continuing.
+      tool_already_checked_in: The Tool you selected is already checked in.
+      tool_does_not_exist: The Tool barcode you entered is not registered with the system. Please register it if desired.
+      tool_is_not_hardhat: This page can only be used to checkout/checkin hardhats.
+      participant_does_not_exist: The Participant or ID card you selected is invalid. Please try again or contact an admin if you think this message is in error
+      organization_does_not_exist: The Organization you selected does not exist.
   will_paginate:
-    previous_label: '«'
-    next_label: '»'
+    previous_label: «
+    next_label: »
   flash:
     actions:
       create:
-        notice: '{resource_name} was successfully created'
+        notice: {resource_name} was successfully created
       update:
-        notice: '{resource_name} was successfully updated'
+        notice: {resource_name} was successfully updated
       destroy:
-        notice: '{resource_name} was successfully deleted'
-        alert: '{resource_name} could not be deleted'
+        notice: {resource_name} was successfully deleted
+        alert: {resource_name} could not be deleted
     charges:
       approve:
-        notice: 'Charge was successfully approved/un-approved'
-        alert: 'Charge could not be approved/un-approved'
+        notice: Charge was successfully approved/un-approved
+        alert: Charge could not be approved/un-approved
