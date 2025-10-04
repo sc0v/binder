@@ -23,8 +23,8 @@ class OrganizationTimelineEntry < ApplicationRecord
   end
 
   def already_in_queue?
-    %w[structural electrical].include?(entry_type) && organization &&
-      !organization.organization_timeline_entries.current.send(entry_type).empty?
+    %w[structural electrical].include?(entry_type) &&
+      organization&.organization_timeline_entries&.current&.send(entry_type)&.present?
   end
 
   # notifcations
