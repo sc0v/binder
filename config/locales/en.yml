@@ -38,7 +38,7 @@ en:
 
   time:
     formats:
-      timestamp: %Y-%m-%d %H:%M (%a)
+      timestamp: '%Y-%m-%d %H:%M (%a)'
 
   # Controllers
   faq:
