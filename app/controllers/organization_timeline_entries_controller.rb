@@ -32,12 +32,11 @@ class OrganizationTimelineEntriesController < ApplicationController
         redirect_to params[:url], notice: "Added to structural queue!"
       elsif @organization_timeline_entry.entry_type == 'electrical'
         redirect_to params[:url], notice: "Added to electrical queue!"
-      else 
+      else
         redirect_to params[:url], notice: "Started downtime!"
       end
     else
-      flash.now[:alert] = t('.alert')
-      render :new, status: :unprocessable_entity
+      redirect_to params[:url], alert: t(".alert")
     end
   end
 

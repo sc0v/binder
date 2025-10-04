@@ -1,7 +1,7 @@
 <h1>Add to Queue</h1>
 <%= form_with model: OrganizationTimelineEntry.new do |f| %>
 <% if can?(:create, OrganizationTimelineEntry.new) %>
-  <%= f.collection_select :organization_id, Organization.all.ordered_by_name, :id, :name %>
+  <%= f.collection_select :organization_id, Organization.all.ordered_by_name, :id, :name, prompt: true %>
 <% else %>
   <%= f.collection_select :organization_id, Current.user.organizations, :id, :name %>
 <% end %>

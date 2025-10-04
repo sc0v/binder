@@ -14,7 +14,7 @@ class OrganizationTimelineEntry < ApplicationRecord
   scope :current, -> { where(ended_at: nil) }
   scope :active,       -> { where(active: true) }
   scope :inactive,     -> { where(active: false) }
-  scope :today, -> { where("started_at >= ? AND started_at <= ?", Time.zone.now.beginning_of_day, Time.zone.now.end_of_day)} 
+  scope :today, -> { where("started_at >= ? AND started_at <= ?", Time.zone.now.beginning_of_day, Time.zone.now.end_of_day)}
 
   def duration
     return ended_at.to_i - started_at.to_i if ended_at.present?
@@ -24,7 +24,7 @@ class OrganizationTimelineEntry < ApplicationRecord
 
   def already_in_queue?
     %w[structural electrical].include?(entry_type) &&
-      !organization.organization_timeline_entries.current.send(entry_type).empty?
+      organization&.organization_timeline_entries&.current&.send(entry_type)&.present?
   end
 
   # notifcations
