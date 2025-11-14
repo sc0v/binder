@@ -129,8 +129,10 @@ Rails.logger.debug '  Charge Types'
 csv_text = Rails.root.join('lib', 'seeds', seeds_folder, "charge_types.csv").read
 csv = CSV.parse(csv_text, headers: true)
 csv.each do |row|
-  ChargeType.create(name: row['name'].strip, description: row['description'] || '',
+  if row['name'].present?
+    ChargeType.create(name: row['name'].strip, description: row['description'] || '',
                     default_amount: Integer(row['default_amount'] || '0'))
+end
 end
 end
 
@@ -220,33 +222,33 @@ csv.each do |row|
 end
 end
 
-if models_to_seed.length == 0 || models_to_seed.include?('certification')
-Rails.logger.debug '  Certifications'
+# if models_to_seed.length == 0 || models_to_seed.include?('certification')
+# Rails.logger.debug '  Certifications'
 
-csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}certifications.csv").read
-csv = CSV.parse(csv_text, headers: true)
-csv.each do |row|
-  certification_type = CertificationType.find_by(name: row['certification'].strip)
-  unless certification_type
-    tool_type = ToolType.find_by(name: row['certification'].strip)
-    unless tool_type
-      tool_type = ToolType.create(name: row['certification'].strip)
-      Rails.logger.debug { "    ToolType (#{row['certification'].strip}) did not exist, created it" }
-    end
+# csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}certifications.csv").read
+# csv = CSV.parse(csv_text, headers: true)
+# csv.each do |row|
+#   certification_type = CertificationType.find_by(name: row['certification'].strip)
+#   unless certification_type
+#     tool_type = ToolType.find_by(name: row['certification'].strip)
+#     unless tool_type
+#       tool_type = ToolType.create(name: row['certification'].strip)
+#       Rails.logger.debug { "    ToolType (#{row['certification'].strip}) did not exist, created it" }
+#     end
 
-    certification_type = CertificationType.create(name: row['certification'].strip)
-    ToolTypeCertification.create(tool_type:, certification_type:)
-  end
+#     certification_type = CertificationType.create(name: row['certification'].strip)
+#     ToolTypeCertification.create(tool_type:, certification_type:)
+#   end
 
-  participant = Participant.find_by(andrewid: row['andrewid'].strip)
-  unless participant
-    user = User.create(email: "#{row['andrewid'].strip}@andrew.cmu.edu")
-    participant = Participant.create(andrewid: row['andrewid'], user:)
-  end
+#   participant = Participant.find_by(andrewid: row['andrewid'].strip)
+#   unless participant
+#     user = User.create(email: "#{row['andrewid'].strip}@andrew.cmu.edu")
+#     participant = Participant.create(andrewid: row['andrewid'], user:)
+#   end
 
-  Certification.create(participant:, certification_type:)
-end
-end
+#   Certification.create(participant:, certification_type:)
+# end
+# end
 
 if Rails.env.development?
 
@@ -260,21 +262,18 @@ if Rails.env.development?
   scc_org = Organization.find_by(name: 'Spring Carnival Committee')
   dtd_org = Organization.find_by(name: 'Delta Tau Delta')
 
-  admin_user = User.create({ email: "#{admin_andrewid}@andrew.cmu.edu" })
-  admin_user.add_role :admin
-  admin = Participant.create({ andrewid: admin_andrewid, user: admin_user })
+
+  admin = Participant.create({ eppn: "#{admin_andrewid}@andrew.cmu.edu", admin: true })
   Membership.create({ organization: scc_org, participant: admin, title: 'Admin', is_booth_chair: true })
 
-  scc_user = User.create({ email: "#{scc_andrewid}@andrew.cmu.edu" })
-  scc = Participant.create({ andrewid: scc_andrewid, user: scc_user })
+  scc = Participant.create({ eppn: "#{scc_andrewid}@andrew.cmu.edu" })
+
   Membership.create({ organization: scc_org, participant: scc })
 
-  booth_chair_user = User.create({ email: "#{booth_chair_andrewid}@andrew.cmu.edu" })
-  booth_chair = Participant.create({ andrewid: booth_chair_andrewid, user: booth_chair_user })
+  booth_chair = Participant.create({ eppn: "#{booth_chair_andrewid}@andrew.cmu.edu" })
   Membership.create({ organization: dtd_org, participant: booth_chair, is_booth_chair: true })
 
-  participant_user = User.create({ email: "#{participant_andrewid}@andrew.cmu.edu" })
-  participant = Participant.create({ andrewid: participant_andrewid, user: participant_user })
-  Membership.create({ organization: dtd_org, participant: })
+  participant = Participant.create({ eppn: "#{participant_andrewid}@andrew.cmu.edu" })
+  Membership.create({ organization: dtd_org, participant: participant })
 end
 puts
