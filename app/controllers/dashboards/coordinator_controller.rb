@@ -24,7 +24,7 @@ class Dashboards::CoordinatorController < ApplicationController
     @selected_tool = Tool.find_by(id: @current_dashboard_session["selected_tool_id"])
     # Match order of @current_dashboard_session["cart"]
     items = Tool.find(@current_dashboard_session["cart"] || [])
-    @cart = @current_dashboard_session["cart"].map { |id| items.find { |tool| tool.id == id } }.compact
+    @cart = (@current_dashboard_session["cart"] || []).map { |id| items.find { |tool| tool.id == id } }.compact
     @cart_fully_checked_in = @cart.all? { |tool| !tool.is_checked_out? }
     @history = @current_dashboard_session["history"] || []
 
