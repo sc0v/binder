@@ -33,72 +33,28 @@ class ScissorLiftCheckoutsController < ApplicationController
     end
 
     @organization = Organization.find(params[:checkout][:organization_id])
-    if @organization.blank?
-      flash.alert = "Select a valid organization."
-      redirect_to scissor_lifts_path
-      return
-    else
-      timeout_end = ScissorLiftCheckout.timeout_end(@organization)
-      if timeout_end.present?
-        flash.alert = "#{@organization.name} is on timeout for using a scissor lift without a green wristband until #{timeout_end.strftime('%l:%M %p')}!"
-        redirect_to scissor_lifts_path
-        return
-      end
-    end
+    participant = Participant.find_by(id: session[:borrower_id])
+    scissor_lift_ids = session[:scissor_lifts] || []
 
-    if session[:scissor_lifts].empty?
-      flash.alert = "Add at least one scissor lift to checkout."
+    result = ScissorLiftCheckout.checkout_batch(
+      organization: @organization,
+      participant: participant,
+      scissor_lift_ids: scissor_lift_ids
+    )
+
+    if result[:status] == :error
+      flash.alert = result[:message]
       redirect_to scissor_lifts_path
       return
     end
 
-    p = Participant.find_by(id: session[:borrower_id])
-    if p.blank?
-      flash.alert = "Select a valid participant to checkout."
-      redirect_to scissor_lifts_path
-      return
-    elsif !p.wristbands.present? || !p.wristbands.include?(:green)
-      flash.alert = "#{p.name} is not scissor lift certified."
-      redirect_to scissor_lifts_path
-      return
-    end
+    session[:scissor_lifts] = result[:remaining_ids]
 
-    bad_lifts = []
-    good_lifts = []
-    lift_errors = []
-    session[:scissor_lifts].each do |scissor_lift_id|
-      begin
-        s = ScissorLift.find(scissor_lift_id)
-        if s.is_checked_out?
-          bad_lifts.append(s.name)
-          lift_errors.append('Scissor lift is already checked out')
-          next
-        end
-        checkout = ScissorLiftCheckout.new(organization: @organization,
-                            participant: p,
-                            scissor_lift: s,
-                            checked_out_at: Time.zone.now,
-                            due_at: Time.zone.now + 2.hours)
-        if checkout.save
-          good_lifts.append(s.name)
-          session[:scissor_lifts] -= [scissor_lift_id]
-        else
-          bad_lifts.append(s.name)
-          lift_errors.append(checkout.errors.full_messages.join(", "))
-        end
-      rescue
-        flash.alert = "Error checking out '#{s.name}'"
-        redirect_to scissor_lifts_path and return
-      end
-    end
-    
     if session[:scissor_lifts].empty?
       session[:borrower_id] = nil
-      flash.notice = "#{good_lifts.join(", ")} checked out to #{p.name}"
+      flash.notice = "#{result[:checked_out].join(", ")} checked out to #{participant.name}"
     else
-      lifts_errors = bad_lifts.zip(lift_errors).map do |e|
-        "#{e[0]} (#{e[1]})"
-      end
+      lifts_errors = result[:errors].map { |e| "#{e[:name]} (#{e[:error]})" }
       flash.alert = "Problem checking out #{lifts_errors.join(", ")}"
     end
     redirect_to scissor_lifts_path
@@ -120,13 +76,16 @@ class ScissorLiftCheckoutsController < ApplicationController
       redirect_to scissor_lifts_path, alert: "Scissor Lift #{params[:name]} does not exist."
       return
     end
-    @checkout = @scissor_lift.scissor_lift_checkouts.current.first unless @scissor_lift.scissor_lift_checkouts.blank? || @scissor_lift.scissor_lift_checkouts.current.blank?
-    if @checkout.blank?
+    result = ScissorLiftCheckout.renew_for(
+      scissor_lift: @scissor_lift,
+      duration_hours: params[:duration]
+    )
+
+    if result[:status] == :not_checked_out
       redirect_to scissor_lifts_path, alert: "#{params[:name]} is not checked out." 
       return
     end
-    @checkout.due_at = Time.zone.now + params[:duration].to_i.hours
-    if @checkout.save
+    if result[:status] == :ok
       redirect_to scissor_lifts_path, notice: "#{params[:name]} successfully renewed for #{params[:duration]} hours."
     else
       redirect_to scissor_lifts_path, alert: "Problem renewing #{params[:name]}."
@@ -148,15 +107,15 @@ class ScissorLiftCheckoutsController < ApplicationController
     if @scissor_lift.blank?
       redirect_to scissor_lifts_path, alert: "Scissor Lift #{params[:name]} does not exist."
     else
-      @checkout = @scissor_lift.scissor_lift_checkouts.current.first unless @scissor_lift.scissor_lift_checkouts.blank? || @scissor_lift.scissor_lift_checkouts.current.blank?
-      if @checkout.blank?
+      result = ScissorLiftCheckout.checkin_for(
+        scissor_lift: @scissor_lift,
+        forfeit: params[:checkin_type] == "1"
+      )
+
+      if result[:status] == :already_checked_in
         redirect_to scissor_lifts_path, alert: "#{params[:name]} is already checked in." and return
       end
-      @checkout.checked_in_at = Time.zone.now
-      @checkout.due_at = nil
-      @checkout.is_forfeit = params[:checkin_type] == "1"
-      @checkout.save!
-      if @checkout.is_forfeit
+      if result[:forfeit]
         redirect_to scissor_lifts_path, notice: "#{params[:name]} successfully forfeited."
       else
         redirect_to scissor_lifts_path, notice: "#{params[:name]} successfully checked in."
