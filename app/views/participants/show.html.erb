@@ -39,6 +39,9 @@
       <% @participant.memberships.each do |membership| %>
       <li>
         <%= link_to membership.organization.name, membership.organization %>
+        <% if @participant.primary_organization_id == membership.organization_id %>
+          (primary)
+        <% end %>
       </li>
       <% end %>
     </ul>

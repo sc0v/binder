@@ -101,6 +101,7 @@ class Applets::PPEDistributionController < ApplicationController
       flash.now[:alert] = "Checkout failed (#{@checkout.errors.full_messages.join(', ')})"
       return false
     end
+    @participant.update_column(:primary_organization_id, @organization.id)
     flash.now[:notice] = "Hardhat #{@hardhat.barcode} checked out to #{@participant.name} of #{@organization.name}. Review below or start over."
   end
 end
