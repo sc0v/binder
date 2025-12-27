@@ -1,6 +1,11 @@
 class ScissorLiftCheckout < ApplicationRecord
   validates_associated :scissor_lift
+  validates :organization, :participant, :scissor_lift, presence: true
   validate :checkout_info
+  validate :participant_scissor_lift_certified, on: :create
+  validate :scissor_lift_available, on: :create
+  validate :organization_not_on_timeout, on: :create
+  validate :not_already_checked_in, on: :update
 
   def checkout_info
     if checked_in_at.nil? && due_at.nil?
@@ -8,6 +13,33 @@ class ScissorLiftCheckout < ApplicationRecord
     elsif !checked_in_at.nil? && !due_at.nil?
       errors.add(:checked_in_at, 'should be nil when due_at is not nil')
     end
+  end
+
+  def participant_scissor_lift_certified
+    return if participant.blank? || participant.scissor_lift_certified?
+
+    errors.add(:participant, 'is not scissor lift certified')
+  end
+
+  def scissor_lift_available
+    return if scissor_lift.blank? || !scissor_lift.is_checked_out?
+
+    errors.add(:scissor_lift, 'is already checked out')
+  end
+
+  def organization_not_on_timeout
+    return if organization.blank?
+
+    timeout_until = self.class.timeout_end(organization)
+    return if timeout_until.blank?
+
+    errors.add(:organization, "is on timeout for using a scissor lift without a green wristband until #{timeout_until.strftime('%l:%M %p')}")
+  end
+
+  def not_already_checked_in
+    return if checked_in_at_was.blank?
+
+    errors.add(:base, 'Checkout is already checked in')
   end
 
   belongs_to :scissor_lift
@@ -21,38 +53,13 @@ class ScissorLiftCheckout < ApplicationRecord
   scope :current, -> { where(checked_in_at: nil) }
 
   def self.checkout_batch(organization:, participant:, scissor_lift_ids:)
-    return { status: :error, message: "Select a valid organization." } if organization.blank?
-
-    timeout_end = timeout_end(organization)
-    if timeout_end.present?
-      return {
-        status: :error,
-        message: "#{organization.name} is on timeout for using a scissor lift without a green wristband until #{timeout_end.strftime('%l:%M %p')}!"
-      }
-    end
-
-    if scissor_lift_ids.blank? || scissor_lift_ids.empty?
-      return { status: :error, message: "Add at least one scissor lift to checkout." }
-    end
-
-    return { status: :error, message: "Select a valid participant to checkout." } if participant.blank?
-
-    unless participant.scissor_lift_certified?
-      return { status: :error, message: "#{participant.name} is not scissor lift certified." }
-    end
-
     checked_out = []
-    errors = []
+    failed = []
     remaining_ids = scissor_lift_ids.dup
 
     scissor_lift_ids.each do |scissor_lift_id|
+      lift = ScissorLift.find_by(id: scissor_lift_id)
       begin
-        lift = ScissorLift.find(scissor_lift_id)
-        if lift.is_checked_out?
-          errors << { name: lift.name, error: 'Scissor lift is already checked out' }
-          next
-        end
-
         checkout = new(
           organization: organization,
           participant: participant,
@@ -62,44 +69,39 @@ class ScissorLiftCheckout < ApplicationRecord
         )
 
         if checkout.save
-          checked_out << lift.name
+          checked_out << checkout
           remaining_ids -= [scissor_lift_id]
         else
-          errors << { name: lift.name, error: checkout.errors.full_messages.join(", ") }
+          failed << checkout
         end
       rescue StandardError
-        return {
-          status: :error,
-          message: "Error checking out '#{lift&.name || scissor_lift_id}'"
-        }
+        checkout ||= new(
+          organization: organization,
+          participant: participant,
+          scissor_lift: lift,
+          checked_out_at: Time.zone.now,
+          due_at: Time.zone.now + 2.hours
+        )
+        checkout.errors.add(:base, "Error checking out '#{lift&.name || scissor_lift_id}'")
+        failed << checkout
       end
     end
 
-    { status: :ok, checked_out: checked_out, errors: errors, remaining_ids: remaining_ids }
+    { checked_out: checked_out, failed: failed, remaining_ids: remaining_ids }
   end
 
-  def self.renew_for(scissor_lift:, duration_hours:)
-    checkout = scissor_lift.current_checkout
-    return { status: :not_checked_out } if checkout.blank?
-
-    checkout.due_at = Time.zone.now + duration_hours.to_i.hours
-    if checkout.save
-      { status: :ok }
-    else
-      { status: :error }
-    end
+  def renew_for(duration_hours:)
+    self.due_at = Time.zone.now + duration_hours.to_i.hours
+    save
+    self
   end
 
-  def self.checkin_for(scissor_lift:, forfeit:)
-    checkout = scissor_lift.current_checkout
-    return { status: :already_checked_in } if checkout.blank?
-
-    checkout.checked_in_at = Time.zone.now
-    checkout.due_at = nil
-    checkout.is_forfeit = forfeit
-    checkout.save!
-
-    { status: :ok, forfeit: checkout.is_forfeit }
+  def checkin(forfeit:)
+    self.checked_in_at = Time.zone.now
+    self.due_at = nil
+    self.is_forfeit = forfeit
+    save
+    self
   end
 
   def self.timeout_end(organization)
