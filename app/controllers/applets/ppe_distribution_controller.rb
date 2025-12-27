@@ -96,8 +96,13 @@ class Applets::PPEDistributionController < ApplicationController
   end
 
   def step_three
-    @checkout = Checkout.create(tool: @hardhat, participant: @participant, organization: @organization, checked_out_at: Time.now)
-    if !@checkout.save
+    @checkout = Checkout.new(
+      tool: @hardhat,
+      participant: @participant,
+      organization: @organization,
+      checked_out_at: Time.zone.now
+    )
+    unless @checkout.save
       flash.now[:alert] = "Checkout failed (#{@checkout.errors.full_messages.join(', ')})"
       return false
     end
