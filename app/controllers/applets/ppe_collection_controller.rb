@@ -10,12 +10,15 @@ class Applets::PPECollectionController < ApplicationController
     if @hardhat.nil?
       redirect_to ppe_collection_path, alert: "Hardhat not found"
     else
-      @checkout = @hardhat.checkouts.current.first unless @hardhat.checkouts.blank? || @hardhat.checkouts.current.blank?
-      if @hardhat.checkouts.blank? || @hardhat.checkouts.current.blank?
+      @checkout = @hardhat.checkouts.current.first
+      if @checkout.blank?
         return redirect_to ppe_collection_path, alert: "Hardhat already checked in"
       end
-      @checkout.checked_in_at = Time.zone.now
-      @checkout.save!
+
+      @checkout.checkin
+      if @checkout.errors.any?
+        return redirect_to ppe_collection_path, alert: @checkout.errors.full_messages.join(', ')
+      end
 
       redirect_to ppe_collection_path, notice: "Hardhat #{params[:barcode]} successfully checked in."
     end

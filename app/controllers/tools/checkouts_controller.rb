@@ -1,9 +1,9 @@
 class Tools::CheckoutsController < ApplicationController
 
   def new
-    
+
   end
-  
+
   def add
     session[:tools]||=[]
     tool = Tool.find_by(barcode: params[:barcode])
@@ -40,57 +40,51 @@ class Tools::CheckoutsController < ApplicationController
     #redirect_to tools_path
     redirect_to checkout_tools_path
   end
-  
-  def create
-    return unless params[:checkout].present? && params[:checkout][:organization_id].present?
-    #returnif params[:checkout][:organization_id].present?
-      @organization = Organization.find(params[:checkout][:organization_id])
-      return if @organization.blank?
 
-      if session[:tools].empty?
-        flash.alert = "Add at least one tool to checkout."
-        return
-      end
-      bad_barcodes = []
-      p = Participant.find(session[:borrower_id])
-      session[:tools].each do |tool_id|
-        # begin
-          t = Tool.find(tool_id)
-          if Checkout.create!(organization: @organization,
-                             participant: p,
-                             tool: t,
-                             checked_out_at: Time.zone.now)
-            session[:tools] -= [tool_id]
-          else
-            bad_barcodes.append(t.barcode)
-          end
-        # rescue
-        #   flash.alert = "Error checking out tool #{t.barcode}"
-        # end
-      end
-      
-      if session[:tools].empty?
-        session[:borrower_id] = nil
-        flash.notice = "Tools checked out to #{p.name}"
-      else
-        flash.alert = "Problem checking out tools #{bad_barcodes.join(', ')}"
-        #redirect_to tools_path
-      end
-      redirect_to checkout_tools_path
-    #end
+  def create
+    @organization = Organization.find_by(id: params.dig(:checkout, :organization_id))
+    tool_ids = Array(session[:tools])
+    participant = Participant.find_by(id: session[:borrower_id])
+    batch_result = Checkout.checkout_batch(
+      organization: @organization,
+      participant: participant,
+      tool_ids: tool_ids
+    )
+
+    session[:tools] = batch_result[:remaining_ids]
+    bad_barcodes = batch_result[:failed].map { |checkout| checkout.tool&.barcode }.compact
+
+    if batch_result[:failed].empty? && session[:tools].empty?
+      session[:borrower_id] = nil
+      flash.notice = "Tools checked out to #{participant&.name}"
+    else
+      failed_messages = batch_result[:failed].flat_map { |checkout| checkout.errors.full_messages }
+      message = failed_messages.presence || ["Problem checking out tools #{bad_barcodes.join(', ')}"]
+      flash.alert = message.join(', ')
+      #redirect_to tools_path
+    end
+    redirect_to checkout_tools_path
   end
-  def update
+
+  def checkin
     @tool = Tool.find_by(barcode: params[:barcode])
     if @tool.blank?
       redirect_to checkout_tools_path, alert: "Tool #{params[:barcode]} does not exist."
-    else
-      @checkout = @tool.checkouts.current.first unless @tool.checkouts.blank? || @tool.checkouts.current.blank?
-      raise CheckoutError, I18n.t('errors.messages.tool_already_checked_in') if @checkout.blank?
-      @checkout.checked_in_at = Time.zone.now
-      @checkout.save!
-      redirect_to checkout_tools_path, notice: "Tool #{params[:barcode]} successfully checked in."
+      return
     end
-  rescue
-    redirect_to checkout_tools_path, alert: "Tool #{params[:barcode]} was never checked out."
+
+    @checkout = @tool.checkouts.current.first unless @tool.checkouts.blank? || @tool.checkouts.current.blank?
+    if @checkout.blank?
+      redirect_to checkout_tools_path, alert: "Tool #{params[:barcode]} was never checked out."
+      return
+    end
+
+    @checkout.checkin
+    if @checkout.errors.any?
+      redirect_to checkout_tools_path, alert: @checkout.errors.full_messages.join(', ')
+      return
+    end
+
+    redirect_to checkout_tools_path, notice: "Tool #{params[:barcode]} successfully checked in."
   end
 end
