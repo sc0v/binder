@@ -1,0 +1,26 @@
+<div>
+  <strong>Scissor lifts:</strong>
+  <% lifts = overview.lifts %>
+  <% if lifts.present? %>
+    <ul>
+      <% lifts.each do |lift| %>
+        <% checkout = lift.current_checkout %>
+        <% status, status_class = lift_overview_status(lift) %>
+        <% org_label = lift_overview_org_label(checkout) %>
+        <% due_label = lift_overview_due_label(checkout) %>
+        <li>
+          <strong><%= lift.name %></strong>
+          <span class="<%= status_class %>"><%= status %></span>
+          <% if org_label.present? %>
+            — <%= org_label %>
+          <% end %>
+          <% if due_label.present? %>
+            (<%= due_label %>)
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    None
+  <% end %>
+</div>

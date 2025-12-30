@@ -1,0 +1,22 @@
+<div data-controller="power-dashboard-autocomplete"
+     data-power-dashboard-autocomplete-url-value="<%= power_dashboard_autocomplete_path %>"
+     data-power-dashboard-autocomplete-examples-value="<%= PowerDashboard::ActionRegistry
+       .suggestions
+       .select do |suggestion|
+         ['add', 'checkin cart', 'checkout', 'renew ', 'electrical add', 'structural add'].include?(suggestion[:value])
+       end
+       .to_json %>">
+  <%= form_with url: power_dashboard_submit_path, method: :post do %>
+    <fieldset>
+      <%= text_field_tag :power_input, nil,
+                         id: 'power_input',
+                         autofocus: true,
+                         autocomplete: 'off',
+                         data: {
+                           action: 'input->power-dashboard-autocomplete#queue keydown->power-dashboard-autocomplete#navigate click->power-dashboard-autocomplete#showExamples blur->power-dashboard-autocomplete#scheduleHide',
+                           'power-dashboard-autocomplete-target': 'input'
+                         } %>
+      <div class="power-autocomplete" data-power-dashboard-autocomplete-target="menu"></div>
+    </fieldset>
+  <% end %>
+</div>

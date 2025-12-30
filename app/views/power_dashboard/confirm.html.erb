@@ -1,0 +1,35 @@
+<% nav %>
+<div class="content power-dashboard-content">
+  <div class="power-dashboard" data-controller="power-dashboard-focus">
+    <h1>Confirm Action</h1>
+
+    <div class="power-section">
+      <% receipt = @pending_receipt %>
+      <div class="power-receipt">
+        <h2><%= receipt[:title] %></h2>
+        <% receipt[:lines].each do |line| %>
+          <%= receipt_line_html(line) %>
+        <% end %>
+      </div>
+
+      <div class="power-confirm-actions">
+        <%= form_with url: power_dashboard_execute_path, method: :post, html: { id: 'power-confirm-form' } do %>
+          <%= submit_tag 'Confirm', class: 'btn btn-primary' %>
+        <% end %>
+        <%= form_with url: power_dashboard_cancel_path, method: :post do %>
+          <%= submit_tag 'Cancel', class: 'btn' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.addEventListener('keydown', (event) => {
+    if (!(event.ctrlKey && event.key === 'Enter')) return;
+    const form = document.getElementById('power-confirm-form');
+    if (!form) return;
+    event.preventDefault();
+    form.requestSubmit();
+  });
+</script>

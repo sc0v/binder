@@ -82,6 +82,38 @@ class Checkout < ApplicationRecord
     { checked_out: checked_out, failed: failed, remaining_ids: remaining_ids }
   end
 
+  def self.checkin_batch(tool_ids:)
+    checked_in = 0
+    errors = []
+    remaining_ids = []
+
+    tool_ids.map(&:to_i).each do |tool_id|
+      tool = Tool.find_by(id: tool_id)
+      if tool.blank?
+        errors << { type: :missing_tool, id: tool_id }
+        remaining_ids << tool_id
+        next
+      end
+
+      checkout = tool.checkouts.current.first
+      if checkout.blank?
+        checked_in += 1
+        next
+      end
+
+      checkout.checkin
+      if checkout.errors.any?
+        errors << { type: :checkin_error, message: checkout.errors.full_messages.join(', ') }
+        remaining_ids << tool_id
+        next
+      end
+
+      checked_in += 1
+    end
+
+    { checked_in: checked_in, errors: errors, remaining_ids: remaining_ids }
+  end
+
   def checkin
     self.checked_in_at = Time.zone.now
     save

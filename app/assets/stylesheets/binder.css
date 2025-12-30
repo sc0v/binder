@@ -167,3 +167,202 @@ li.tab {
     min-width: 30%;
     padding: 0.5rem;
 }
+
+/* Power dashboard */
+.power-badges {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.power-badge {
+    background: #f6f6f6;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    padding: 0.2rem 0.5rem;
+}
+
+.power-badge--alert {
+    background: #fdd;
+    border-color: #c00;
+}
+
+.power-receipt {
+    border: 1px dashed #ccc;
+    padding: 1rem;
+    margin-bottom: 1rem;
+}
+
+.power-dashboard h1,
+.power-dashboard h2 {
+    padding: 0.4em 0 0.2em;
+}
+
+.power-dashboard p,
+.power-dashboard li {
+    margin: 0;
+    padding: 0.2em 0;
+    line-height: 1.4em;
+}
+
+.power-dashboard ul {
+    padding: 0.25em 0 0.25em 1.1em;
+    list-style-position: outside;
+}
+
+.power-dashboard .btn.ghost {
+    padding: 0.15em 0.45em;
+}
+
+.power-input--submitting {
+    opacity: 0.6;
+    background: #eee;
+}
+
+#power_input {
+    scroll-margin-top: 16px;
+    margin-bottom: 0;
+}
+
+.power-autocomplete {
+    position: relative;
+}
+
+.power-autocomplete:not(.is-open) {
+    display: none;
+}
+
+.power-autocomplete__list {
+    position: absolute;
+    z-index: 10;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0.35rem 0;
+    list-style: none;
+    border: 1px solid #ccc;
+    background: #fff;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.power-autocomplete__item {
+    margin: 0;
+    padding: 0;
+}
+
+.power-autocomplete__button {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: left;
+    padding: 0.35rem 0.75rem;
+    font: inherit;
+    cursor: pointer;
+}
+
+.power-autocomplete__button:hover,
+.power-autocomplete__button.is-active {
+    background: #f3f3f3;
+}
+
+.power-autocomplete__label {
+    color: #111;
+}
+
+.power-autocomplete__meta {
+    color: #666;
+    font-size: 0.85em;
+    text-transform: capitalize;
+}
+
+.power-ppe-list {
+    list-style: none;
+    margin: 0.3em 0 0 0;
+    padding: 0;
+}
+
+.power-ppe-list li {
+    margin: 0.2em 0;
+    padding: 0.35em 0.6em;
+}
+
+.power-ppe-white {
+    border: 1px solid #333;
+    background: #fff;
+}
+
+.power-item-available {
+    color: #0a6b2f;
+}
+
+.power-item-unavailable {
+    color: #a00000;
+}
+
+.power-item-overdue {
+    color: #fff;
+    background: #a00000;
+    padding: 0.1em 0.4em;
+    border-radius: 0.2em;
+}
+
+.power-tool-remove-form {
+    display: inline;
+}
+
+.power-confirm-actions {
+    display: flex;
+    gap: 0.75rem;
+    align-items: center;
+}
+
+.power-confirm-actions form {
+    margin: 0;
+}
+
+.power-confirm-actions .btn {
+    float: none;
+    display: inline-block;
+    width: auto;
+    max-width: none;
+    text-align: center;
+}
+
+.content.power-dashboard-content > div:first-child {
+    width: 100%;
+}
+
+.power-layout {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.power-column {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.power-column--left {
+    background: #f5f4f0;
+    padding: 1rem;
+}
+
+.power-column--right {
+    background: #f0f6fb;
+    padding: 1rem;
+}
+
+.power-text-alert {
+    color: #c00;
+}
+
+@media only screen and (max-width: 767px) {
+    .power-layout {
+        flex-direction: column;
+    }
+}

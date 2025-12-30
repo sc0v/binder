@@ -1,0 +1,16 @@
+<p><strong>Short name:</strong> <%= organization.short_name %></p>
+<p><strong>Category:</strong> <%= organization.category_name %></p>
+<p><strong>Tools:</strong> <%= Checkout.current.where(organization: organization).count %></p>
+<div>
+  <strong>Booth chairs:</strong>
+  <% booth_chairs = organization.booth_chairs %>
+  <% if booth_chairs.present? %>
+    <ul>
+      <% booth_chairs.each do |chair| %>
+        <li><%= chair.name %> (<%= chair.formatted_phone_number %>)</li>
+      <% end %>
+    </ul>
+  <% else %>
+    None
+  <% end %>
+</div>

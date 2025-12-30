@@ -1,0 +1,17 @@
+<div class="power-section">
+  <% config = current_resource_config(resource) %>
+
+  <h2>
+    <% if config[:link].present? %>
+      <%= link_to config[:title], config[:link] %>
+    <% else %>
+      <%= config[:title] %>
+    <% end %>
+  </h2>
+
+  <% if config[:partial].present? %>
+    <%= render config[:partial], config[:locals] %>
+  <% else %>
+    <p>No resource selected.</p>
+  <% end %>
+</div>

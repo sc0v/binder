@@ -38,7 +38,7 @@ en:
 
   time:
     formats:
-      timestamp: '%Y-%m-%d %H:%M (%a)'
+      timestamp: "%Y-%m-%d %H:%M (%a)"
 
   # Controllers
   faq:
@@ -65,7 +65,7 @@ en:
   participants:
     safety_briefings:
       update:
-        alert: 'Problem: %{errors}'
+        alert: "Problem: %{errors}"
     waivers:
       form:
         cancel: Cancel
@@ -83,6 +83,110 @@ en:
   organization_timeline_entries:
     create:
       alert: Failed to save organization timeline entry
+
+  power_dashboard:
+    actions:
+      confirmation_required: Action requires confirmation.
+      unknown: Unknown action.
+    selection:
+      no_match: "No match found for \"%{input}\"."
+      unknown: Unknown selection.
+      tool_selected: Tool selected.
+      tool_added_to_cart: "%{name} added to tools cart."
+      tool_removed_from_cart: "%{name} removed from tools cart."
+      participant_selected: Participant selected.
+      organization_selected: Organization selected.
+      scissor_lift_selected: Scissor lift selected.
+    cancel:
+      notice: Action canceled.
+    confirm:
+      missing_action: No action to confirm.
+    organization:
+      selected: "%{name} selected."
+    select_organization:
+      invalid_organization: Select a valid organization.
+    submit:
+      blank_input: Enter a resource or an action.
+
+  resources:
+    checkin:
+      missing_resource: Select a tool or scissor lift first.
+      not_authorized: Not authorized to checkin.
+    labels:
+      borrower: Borrower
+      cart_contents: Cart contents
+      duration: Duration
+      organization: Organization
+      scissor_lift: Scissor lift
+      tool: Tool
+      tools_in_cart: Tools in cart
+    organization:
+      missing: Missing organization.
+      not_found: Organization not found.
+      select_first: Select an organization first.
+    participant:
+      missing: Missing participant.
+      select_first: Select a participant first.
+    queue:
+      add_not_authorized: Not authorized to update queues.
+      add_problem: Problem adding to queue.
+      add_success: Added to %{queue_type} queue.
+      already_in_queue: You're already on the queue!
+      not_in_queue: Organization is not in the queue.
+      remove_not_authorized: Not authorized to update queues.
+      remove_success: "%{name} removed from %{queue_type} queue."
+      select_success: "%{queue_type} queue selected."
+      unknown: Unknown queue.
+      view_not_authorized: Not authorized to view queues.
+    receipts:
+      add_queue_title: Add to %{queue_type} queue
+      checkin_scissor_lift_forfeit_title: Check in scissor lift (forfeit)
+      checkin_scissor_lift_title: Check in scissor lift
+      checkin_tool_title: Check in tool
+      checkin_tools_cart_title: Check in tools cart
+      checkout_scissor_lift_title: Checkout scissor lift
+      checkout_tools_cart_title: Checkout tools cart
+      renew_scissor_lift_title: Renew scissor lift
+    scissor_lift:
+      checkin_not_authorized: Not authorized to checkin a Scissorlift.
+      checked_in: "%{lift} successfully checked in."
+      checkout_failed: Problem checking out scissor lift.
+      checkout_not_authorized: Not authorized to checkout a Scissorlift.
+      checkout_success: "%{lift} checked out to %{name}."
+      duration_hours: "%{hours} hours"
+      forfeited: "%{lift} successfully forfeited."
+      missing: Missing scissor lift.
+      not_available: No available scissor lift found.
+      not_checked_out: Scissor lift is not checked out.
+      not_found: Scissor lift not found.
+      overview_not_authorized: Not authorized to view scissor lifts.
+      overview_selected: Scissor lifts overview selected.
+      renew_not_authorized: Not authorized to renew a Scissorlift.
+      renew_requires_hours: Provide hours to renew, e.g. "renew 2".
+      renew_success: "%{lift} renewed for %{hours} hours."
+      select_first: Select a scissor lift first.
+    session:
+      auto_add_status: Auto add tools %{status}.
+      cleared: Session cleared.
+      update_not_authorized: Not authorized to update session.
+    tool:
+      added_to_cart: "%{name} added to tools cart."
+      cart_checked_in: "Checked in %{count} tool(s)."
+      cart_checked_in_with_errors: "Checked in %{count} tool(s). Problems: %{errors}"
+      cart_empty: Tools cart is empty.
+      cart_tool_missing: "Tool %{id} not found."
+      cart_tool_not_checked_out: "Tool %{barcode} is not checked out."
+      checkin_not_authorized: Not authorized to checkin tools.
+      checked_in: "Tool %{barcode} checked in."
+      checkout_failed: Problem checking out tools.
+      checkout_not_authorized: Not authorized to checkout tools.
+      checkout_success: "Tools checked out to %{name}."
+      missing: Missing tool.
+      not_checked_out: Tool is not currently checked out.
+      not_found: Tool not found.
+      not_in_cart: Tool is not in the cart.
+      removed_from_cart: "%{name} removed from tools cart."
+      select_first: Select a tool first.
 
   # Views: Form helpers
   helpers:
@@ -159,12 +263,12 @@ en:
   flash:
     actions:
       create:
-        notice: '%{resource_name} was successfully created'
+        notice: "%{resource_name} was successfully created"
       update:
-        notice: '%{resource_name} was successfully updated'
+        notice: "%{resource_name} was successfully updated"
       destroy:
-        notice: '%{resource_name} was successfully deleted'
-        alert: '%{resource_name} could not be deleted'
+        notice: "%{resource_name} was successfully deleted"
+        alert: "%{resource_name} could not be deleted"
     charges:
       approve:
         notice: Charge was successfully approved/un-approved

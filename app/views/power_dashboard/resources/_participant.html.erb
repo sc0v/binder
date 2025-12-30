@@ -1,0 +1,60 @@
+<p><strong>Name:</strong> <%= participant.name %></p>
+<p><strong>Phone:</strong> <%= participant.formatted_phone_number %></p>
+<p><strong>Email:</strong> <%= participant.email %></p>
+<div>
+  <strong>Organizations:</strong>
+  <% organizations = participant.organizations.order(:name) %>
+  <% if organizations.present? %>
+    <ul>
+      <% organizations.each do |organization| %>
+        <li><%= organization.name %> (<%= organization.short_name %>)</li>
+      <% end %>
+    </ul>
+  <% else %>
+    None
+  <% end %>
+</div>
+<div>
+  <strong>Wristbands:</strong>
+  <% wristbands = Array(participant.wristbands) %>
+  <% if wristbands.present? %>
+    <ul class="power-ppe-list">
+      <% if wristbands.include?(:red) %>
+        <li class="invert red">Red (Member of at least one organization that will be building)</li>
+      <% end %>
+      <% if wristbands.include?(:blue) %>
+        <li class="invert blue">Blue (Member of a non-building organization)</li>
+      <% end %>
+      <% if wristbands.include?(:green) %>
+        <li class="invert green">Green (Scissor Lift Certified)</li>
+      <% end %>
+      <% if wristbands.include?(:yellow) %>
+        <li class="gold">Yellow (Alumni)</li>
+      <% end %>
+    </ul>
+  <% else %>
+    None
+  <% end %>
+</div>
+<div>
+  <strong>Hardhat:</strong>
+  <% hardhat = participant.hardhat_color %>
+  <% if hardhat.blank? %>
+    None
+  <% elsif hardhat == :blue %>
+    <ul class="power-ppe-list">
+      <li class="invert blue"><strong>Blue</strong> (Spring Carnival Committee Member)</li>
+    </ul>
+  <% elsif hardhat == :red %>
+    <ul class="power-ppe-list">
+      <li class="invert red"><strong>Red</strong> (Red Hardhat-Designated Booth Chair)</li>
+    </ul>
+  <% else %>
+    <ul class="power-ppe-list">
+      <li class="power-ppe-white"><strong>White</strong> (Booth Builder or White Hardhat-Designated Booth Chair)</li>
+    </ul>
+  <% end %>
+</div>
+<% unless participant.signed_waiver? %>
+  <p class="invert red" style="padding: 0.6em 0.8em;"><strong>Waiver not signed.</strong> No wristbands. No rentals. No PPE.</p>
+<% end %>

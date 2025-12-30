@@ -1,0 +1,15 @@
+<p><strong>Barcode:</strong> <%= tool.barcode %></p>
+<p><strong>Type:</strong> <%= tool.name %></p>
+<p><strong>Status:</strong> <%= tool.is_checked_out? ? 'Checked out' : 'Available' %></p>
+<p><strong>Current participant:</strong> <%= tool.current_participant&.name || '—' %></p>
+<p><strong>Current organization:</strong> <%= tool.current_organization&.name || '—' %></p>
+<% checkout = tool.checkouts.current.first %>
+<p>
+  <strong>Checked out at:</strong>
+  <% if checkout.present? %>
+    <%= l(checkout.checked_out_at, format: :short) %>
+    (<%= time_ago_in_words(checkout.checked_out_at) %> ago)
+  <% else %>
+    —
+  <% end %>
+</p>

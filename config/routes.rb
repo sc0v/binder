@@ -3,6 +3,16 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   # Default route
   root to: 'welcome#index'
 
+  # Power dashboard
+  get 'power-dashboard', to: 'power_dashboard#show', as: :power_dashboard
+  get 'power-dashboard/autocomplete', to: 'power_dashboard#autocomplete', as: :power_dashboard_autocomplete
+  post 'power-dashboard/submit', to: 'power_dashboard#submit', as: :power_dashboard_submit
+  get 'power-dashboard/confirm', to: 'power_dashboard#confirm', as: :power_dashboard_confirm
+  post 'power-dashboard/confirm', to: 'power_dashboard#execute', as: :power_dashboard_execute
+  post 'power-dashboard/cancel', to: 'power_dashboard#cancel', as: :power_dashboard_cancel
+  get 'power-dashboard/select-organization', to: 'power_dashboard#select_organization', as: :power_dashboard_select_organization
+  post 'power-dashboard/select-organization', to: 'power_dashboard#apply_organization', as: :power_dashboard_apply_organization
+
   # Session management
   direct :login do
     '/auth/saml'

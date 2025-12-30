@@ -1,0 +1,28 @@
+<div class="power-section">
+  <h2>Session</h2>
+  <div>
+    <strong>Borrower:</strong>
+    <% if borrower.present? %>
+      <%= borrower.formatted_name %>
+    <% else %>
+      None
+    <% end %>
+  </div>
+  <div class="<%= organization.present? ? '' : 'power-text-alert' %>">
+    <strong>Organization:</strong>
+    <% if organization.present? %>
+      <%= organization.name %>
+    <% else %>
+      None
+    <% end %>
+  </div>
+  <div>
+    <%= form_with url: power_dashboard_path, method: :get, local: true, data: { controller: 'auto-submit' } do %>
+      <%= hidden_field_tag :auto_add_tools, '0' %>
+      <label>
+        <%= check_box_tag :auto_add_tools, '1', auto_add_tools, data: { action: 'change->auto-submit#submit' } %>
+        Auto-add tools to cart
+      </label>
+    <% end %>
+  </div>
+</div>

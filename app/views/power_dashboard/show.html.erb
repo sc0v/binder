@@ -1,0 +1,20 @@
+<% nav %>
+<div class="content power-dashboard-content">
+  <div class="power-dashboard" data-controller="power-dashboard-focus">
+    <h1>Power Dashboard</h1>
+
+    <%= render 'power_dashboard/input_form' %>
+    <p>Tip: click on the input to see command suggestions.</p>
+
+    <div class="power-layout">
+      <div class="power-column power-column--left">
+        <%= render 'power_dashboard/session', borrower: @borrower, organization: @organization, auto_add_tools: @auto_add_tools %>
+        <%= render 'power_dashboard/tools_cart', tools: @tools %>
+      </div>
+
+      <div class="power-column power-column--right">
+        <%= render 'power_dashboard/current_resource', resource: @current_resource %>
+      </div>
+    </div>
+  </div>
+</div>
