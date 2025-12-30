@@ -3,6 +3,7 @@ class ScissorLiftCheckout < ApplicationRecord
   validates :organization, :participant, :scissor_lift, presence: true
   validate :checkout_info
   validate :participant_scissor_lift_certified, on: :create
+  validate :participant_signed_waiver, on: :create
   validate :scissor_lift_available, on: :create
   validate :organization_not_on_timeout, on: :create
   validate :not_already_checked_in, on: :update
@@ -19,6 +20,12 @@ class ScissorLiftCheckout < ApplicationRecord
     return if participant.blank? || participant.scissor_lift_certified?
 
     errors.add(:participant, 'is not scissor lift certified')
+  end
+
+  def participant_signed_waiver
+    return if participant.blank? || participant.signed_waiver?
+
+    errors.add(:participant, 'has not signed the waiver')
   end
 
   def scissor_lift_available
