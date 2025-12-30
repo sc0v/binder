@@ -10,6 +10,7 @@ class Checkout < ApplicationRecord
   validates :checked_out_at, presence: true
   validates :tool, :organization, :participant, presence: true
   validates_associated :tool, :organization, :participant
+  validate :participant_signed_waiver, on: :create
   validate :only_one_active_checkout_per_tool
   validate :not_already_checked_in, on: :update
 
@@ -27,6 +28,12 @@ class Checkout < ApplicationRecord
     if Checkout.where(tool_id: tool_id, checked_in_at: nil).where.not(id: id).exists?
       errors.add(:tool_id, "already has an active checkout")
     end
+  end
+
+  def participant_signed_waiver
+    return if participant.blank? || participant.signed_waiver?
+
+    errors.add(:participant, 'has not signed the waiver')
   end
 
   def not_already_checked_in
