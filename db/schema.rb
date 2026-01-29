@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_08_185252) do
+ActiveRecord::Schema[7.0].define(version: 2025_12_27_064338) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -196,7 +196,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_08_185252) do
     t.boolean "admin"
     t.boolean "watched_safety_video"
     t.boolean "alumni"
+    t.integer "primary_organization_id"
     t.index ["admin"], name: "index_participants_on_admin"
+    t.index ["primary_organization_id"], name: "index_participants_on_primary_organization_id"
   end
 
   create_table "scissor_lift_checkouts", force: :cascade do |t|
@@ -331,6 +333,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_08_185252) do
   add_foreign_key "organization_build_statuses", "organizations"
   add_foreign_key "organization_build_steps", "organization_build_statuses"
   add_foreign_key "organization_build_steps", "participants", column: "approver_id"
+  add_foreign_key "participants", "organizations", column: "primary_organization_id"
   add_foreign_key "scissor_lift_checkouts", "organizations"
   add_foreign_key "scissor_lift_checkouts", "participants"
   add_foreign_key "scissor_lift_checkouts", "scissor_lifts"

@@ -21,7 +21,7 @@
     <%= form_tag checkout_scissor_lifts_path do %>
       <% borrower = Participant.find(session[:borrower_id]) %>
       <strong><%= borrower.name %> (<%= borrower.eppn %>)</strong>
-      <%= collection_select(:checkout, :organization_id, borrower.organizations, :id, :name) %>
+      <%= collection_select(:checkout, :organization_id, borrower.organizations, :id, :name, checkout_organization_select_options(borrower)) %>
       <%= submit_tag "Complete Checkout", class: 'wide' %>
       <% end %>
     <% else %>

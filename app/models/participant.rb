@@ -54,6 +54,9 @@ class Participant < ApplicationRecord
   has_many :organization_build_steps
   has_many :certifications, dependent: :destroy
   has_many :certification_types, through: :certifications
+  belongs_to :primary_organization,
+             class_name: 'Organization',
+             optional: true
 
   has_many :shift_participants, dependent: :destroy
   has_many :shifts, through: :shift_participants
