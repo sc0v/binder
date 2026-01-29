@@ -88,7 +88,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       post :checkout_participant, to: 'tools/checkouts#participant'
       get :checkout, to: 'tools/checkouts#new'
       post :checkout, to: 'tools/checkouts#create'
-      post :checkin, to: 'tools/checkouts#update'
+      post :checkin, to: 'tools/checkouts#checkin'
       get :reset, to: 'tools/checkouts#reset'
     end
     resources :checkouts, controller: 'tools/checkouts'
