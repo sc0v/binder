@@ -13,7 +13,7 @@
   </ul>
   <%= form_with url: add_scissor_lifts_path do |f| %>
     <%= hidden_field_tag 'url', request.original_fullpath %>
-    <%= f.collection_select(:name, ScissorLift.all.ordered_by_name, :name, :name, {prompt: 'Add Scissor Lift...'}, onchange: 'this.form.submit()') %>
+    <%= f.collection_select(:name, ScissorLift.checked_in.ordered_by_name, :name, :name, {prompt: 'Add Scissor Lift...'}, onchange: 'this.form.submit()') %>
   <% end %>
 
   <h3>The Borrower</h3>

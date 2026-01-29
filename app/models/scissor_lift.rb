@@ -8,6 +8,8 @@ class ScissorLift < ApplicationRecord
   has_one :organization, through: :scissor_lift_checkouts
 
   scope :ordered_by_name, -> { order(name: :asc) }
+  scope :checked_out, -> { joins(:scissor_lift_checkouts).merge(ScissorLiftCheckout.current).distinct }
+  scope :checked_in, -> { where.not(id: checked_out.select(:id)) }
 
   def link
     scissor_lift_path(self)
