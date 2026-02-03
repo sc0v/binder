@@ -1,0 +1,14 @@
+services:
+  rails:
+    build:
+      context: ..
+      dockerfile: .devcontainer/Dockerfile
+    volumes:
+      - ..:/workspace:cached
+      - bundle-cache:/usr/local/bundle
+    command: sleep infinity
+    environment:
+      RAILS_ENV: development
+
+volumes:
+  bundle-cache:
