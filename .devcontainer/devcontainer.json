@@ -1,0 +1,43 @@
+{
+  "name": "Spring Carnival Binder",
+  "dockerComposeFile": "docker-compose.yml",
+  "service": "rails",
+  "workspaceFolder": "/workspace",
+
+  "features": {
+    "ghcr.io/devcontainers/features/git:1": {},
+    "ghcr.io/devcontainers/features/github-cli:1": {}
+  },
+
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "rebornix.Ruby",
+        //"castwide.solargraph",
+        "kaiwood.endwise",
+        "misogi.ruby-rubocop",
+        "aki77.rails-db-schema",
+        "hridoy.rails-snippets"
+      ],
+      "settings": {
+        "[ruby]": {
+          "editor.defaultFormatter": "misogi.ruby-rubocop",
+          "editor.formatOnSave": true
+        }
+      }
+    }
+  },
+
+  "forwardPorts": [3000],
+
+  "portsAttributes": {
+    "3000": {
+      "label": "Rails Server",
+      "onAutoForward": "notify"
+    }
+  },
+
+  "postCreateCommand": "bundle install && bin/rails db:prepare",
+
+  "remoteUser": "vscode"
+}
