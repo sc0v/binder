@@ -38,3 +38,7 @@
 /.rbenv-gemsets
 
 .DS_Store
+
+# Generate fresh credentials for each developer in devcontainer setup
+/config/master.key
+/config/credentials.yml.enc
