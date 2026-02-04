@@ -13,7 +13,6 @@
     "vscode": {
       "extensions": [
         "rebornix.Ruby",
-        //"castwide.solargraph",
         "kaiwood.endwise",
         "misogi.ruby-rubocop",
         "aki77.rails-db-schema",
@@ -23,7 +22,12 @@
         "[ruby]": {
           "editor.defaultFormatter": "misogi.ruby-rubocop",
           "editor.formatOnSave": true
-        }
+        },
+        "ruby.useBundler": true,
+        "ruby.lint": {
+          "rubocop": false
+        },
+        "ruby.format": "rubocop"
       }
     }
   },
@@ -37,7 +41,7 @@
     }
   },
 
-  "postCreateCommand": "bundle install && bin/rails db:prepare",
+  "postCreateCommand": "bash .devcontainer/setup.sh",
 
   "remoteUser": "vscode"
 }
