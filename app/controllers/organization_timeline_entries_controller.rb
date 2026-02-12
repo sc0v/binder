@@ -15,14 +15,20 @@ class OrganizationTimelineEntriesController < ApplicationController
   # POST /organizations_timeline_entries
   # POST /organizations_timeline_entries.json
   def create
+    commit_entry_types = {
+      'Structural' => 'structural',
+      'Electrical' => 'electrical',
+      'Scissor Lift' => 'scissor_lift',
+    }.freeze
+
+    unless commit_entry_types.key?(params[:commit])
+      redirect_to params[:url], alert: 'Select a queue type to continue.'
+      return
+    end
+
     @organization_timeline_entry = OrganizationTimelineEntry.new(organization_timeline_entry_params)
     @organization_timeline_entry.started_at = Time.now
-    @organization_timeline_entry.entry_type = case params[:commit]
-                                              when 'Structural' then 'structural'
-                                              when 'Electrical' then 'electrical'
-                                              when 'Scissor Lift' then 'scissor_lift'
-                                              else 'downtime'
-                                              end
+    @organization_timeline_entry.entry_type = commit_entry_types.fetch(params[:commit])
 
     if @organization_timeline_entry.already_in_queue?
       redirect_to params[:url], alert: "You're already on the queue!"

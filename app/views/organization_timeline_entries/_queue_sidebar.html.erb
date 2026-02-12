@@ -7,6 +7,7 @@
 <% end %>
 <%= f.text_field :description, placeholder: 'Enter reason...' %>
 <%= hidden_field_tag 'url', request.original_fullpath %>
+<%= f.submit '', class: 'hidden' %>
 <%= f.submit 'Structural', class: 'btn wide' %>
-<%= f.submit 'Electrical', class: 'btn wide ghost' %>
+<%= f.submit 'Electrical', class: 'btn wide' %>
 <% end %>
