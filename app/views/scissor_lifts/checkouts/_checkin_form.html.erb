@@ -2,7 +2,7 @@
 <%= form_with url: checkin_scissor_lifts_path do |f| %>
   <%= hidden_field_tag 'url', request.original_fullpath %>
   <%= f.label "Scissor Lift" %>
-  <%= f.collection_select(:name, ScissorLift.all.ordered_by_name, :name, :name, {prompt: 'Select Scissor Lift...'}) %>
+  <%= f.collection_select(:name, ScissorLift.checked_out.ordered_by_name, :name, :name, {prompt: 'Select Scissor Lift...'}) %>
   <%= f.check_box :checkin_type, {style: 'margin-bottom: 2em'} %>
   <%= f.label :checkin_type, "Used the scissor lift without a green wristband?" %>
   <%= f.submit 'Checkin', class: 'btn btn-wide'%>
