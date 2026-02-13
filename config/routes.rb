@@ -229,4 +229,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       :as => 'queues'
 
   resources :users
+
+  resources :visitor_counts, only: [:show, :update, :index]
+
 end
