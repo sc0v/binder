@@ -1,5 +1,4 @@
 class ToolInventoryToolsController < ApplicationController
-  include Pagy::Backend
   load_and_authorize_resource
 
   def create
@@ -36,13 +35,13 @@ class ToolInventoryToolsController < ApplicationController
         redirect_to inventory_path(**pathParams), alert: "A tool with barcode '#{barcode.to_s}' "\
                                          "#{helpers.link_to('already exists', tool_path(@existing_tool))}. "\
                                          "Press 'Add Tool' again to confirm you want to replace the existing tool."
-        return  
+        return
       end
     end
 
     @tool = @inventory.tool_inventory_tools.new(
-      barcode: barcode, 
-      tool_type_id: tool_type_id, 
+      barcode: barcode,
+      tool_type_id: tool_type_id,
       description: description,
       active: true)
     if @tool.save
@@ -59,10 +58,16 @@ class ToolInventoryToolsController < ApplicationController
     respond_to do |format|
       format.html
       format.json do
-        data = @inventory_tools.as_json(
+        page = params[:page].present? ? params[:page].to_i : 1
+        size = params[:size].present? ? params[:size].to_i : 1
+
+        offset = (page - 1) * size
+        last_page = @inventory_tools.count / size + (@inventory_tools.count % size == 0 ? 0 : 1)
+        tools = @inventory_tools.offset(offset).limit(size)
+        data = tools.as_json(
           methods: %i[name description barcode]
         )
-        render json: { last_page: pagy.pages, data: data}
+        render json: { last_page:, data: }
       end
     end
   end
@@ -74,7 +79,7 @@ class ToolInventoryToolsController < ApplicationController
     redirect_to inventory_path(), notice: 'Removed Tool!'
   end
 
-  def create_params 
+  def create_params
     params.require(:tool_inventory_tool).permit(
       :tool_type_id,
       :description
