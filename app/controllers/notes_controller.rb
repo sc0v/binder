@@ -1,15 +1,19 @@
 # frozen_string_literal: true
 class NotesController < ApplicationController
-  include Pagy::Backend
   load_and_authorize_resource except: :index
 
   def index
-    pagy, notes =
-      pagy(Note.accessible_by(Current.ability).ordered_by_created_at)
+    notes = Note.accessible_by(Current.ability).ordered_by_created_at
     respond_to do |format|
       format.html
       format.json do
-        render json: { last_page: pagy.pages, data: load_json(notes) }
+        page = params[:page].present? ? params[:page].to_i : 1
+        size = params[:size].present? ? params[:size].to_i : 1
+
+        offset = (page - 1) * size
+        last_page = notes.count / size + (notes.count % size == 0 ? 0 : 1)
+        notes = notes.offset(offset).limit(size)
+        render json: { last_page:, data: load_json(notes) }
       end
     end
   end
@@ -53,7 +57,7 @@ class NotesController < ApplicationController
   def hide
     @note = Note.find(params[:id])
     @note.update(hidden: params[:hidden])
-    
+
     render json: { message: "Success" }
   end
 
