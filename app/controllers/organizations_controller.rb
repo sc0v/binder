@@ -1,14 +1,18 @@
 # frozen_string_literal: true
 class OrganizationsController < ApplicationController
-  include Pagy::Backend
   load_and_authorize_resource
 
   def index
-    pagy, organizations =
-      pagy(Organization.accessible_by(Current.ability).ordered_by_name)
+    organizations = Organization.accessible_by(Current.ability).ordered_by_name
     respond_to do |format|
       format.html
       format.json do
+        page = params[:page].present? ? params[:page].to_i : 1
+        size = params[:size].present? ? params[:size].to_i : 1
+
+        offset = (page - 1) * size
+        last_page = organizations.count / size + (organizations.count % size == 0 ? 0 : 1)
+        organizations = organizations.offset(offset).limit(size)
         data =
           organizations.as_json(
             methods: %i[building? category_name link remaining_downtime downtime_link]
@@ -16,7 +20,7 @@ class OrganizationsController < ApplicationController
         data.each do |d|
           d["remaining_downtime"] = helpers.format_duration d["remaining_downtime"]
         end
-        render json: { last_page: pagy.pages, data: data }
+        render json: { last_page:, data: }
       end
     end
   end
@@ -28,18 +32,23 @@ class OrganizationsController < ApplicationController
     @shifts = @organization.shifts
     @participants = @organization.validated_participants
 
-      pagy, participants =
-        pagy(@organization.participants.accessible_by(Current.ability).ordered_by_name)
-      respond_to do |format|
-        format.html
-        format.json do
-          data =
-            participants.as_json(
-              methods: %i[link name signed_waiver? is_booth_chair?]
-             )
-          render json: { last_page: pagy.pages, data: data }
-        end
+    respond_to do |format|
+      format.html
+      format.json do
+        page = params[:page].present? ? params[:page].to_i : 1
+        size = params[:size].present? ? params[:size].to_i : 1
+
+        participants = @organization.participants.accessible_by(Current.ability).ordered_by_name
+        offset = (page - 1) * size
+        last_page = participants.count / size + (participants.count % size == 0 ? 0 : 1)
+        participants = participants.offset(offset).limit(size)
+        data =
+          participants.as_json(
+            methods: %i[link name signed_waiver? is_booth_chair?]
+          )
+        render json: { last_page:, data: }
       end
+    end
 
     # Get Structural Build Status
     @structural = @organization.organization_build_statuses.find_by(status_type: :structural)
