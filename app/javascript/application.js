@@ -13,3 +13,5 @@ import 'jquery';
 // `.ready(` => `.on('turbo:load',`
 import 'custom/cmu';
 import 'controllers';
+
+import "pwa";
