@@ -126,6 +126,7 @@ GEM
     fast_gettext (3.1.0)
       prime
     ffi (1.17.0-aarch64-linux-gnu)
+    ffi (1.17.0-arm64-darwin)
     ffi (1.17.0-x86_64-darwin)
     ffi (1.17.0-x86_64-linux-gnu)
     font-awesome-sass (6.5.2)
@@ -202,6 +203,8 @@ GEM
     nio4r (2.7.3)
     nkf (0.2.0)
     nokogiri (1.16.7-aarch64-linux)
+      racc (~> 1.4)
+    nokogiri (1.16.7-arm64-darwin)
       racc (~> 1.4)
     nokogiri (1.16.7-x86_64-darwin)
       racc (~> 1.4)
@@ -328,6 +331,7 @@ GEM
     singleton (0.2.0)
     smart_properties (1.17.0)
     sqlite3 (1.7.3-aarch64-linux)
+    sqlite3 (1.7.3-arm64-darwin)
     sqlite3 (1.7.3-x86_64-darwin)
     sqlite3 (1.7.3-x86_64-linux)
     stimulus-rails (1.3.4)
@@ -379,6 +383,7 @@ GEM
 
 PLATFORMS
   aarch64-linux
+  arm64-darwin-24
   x86_64-darwin-22
   x86_64-linux
 

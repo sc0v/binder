@@ -13,6 +13,19 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   get 'power-dashboard/select-organization', to: 'power_dashboard#select_organization', as: :power_dashboard_select_organization
   post 'power-dashboard/select-organization', to: 'power_dashboard#apply_organization', as: :power_dashboard_apply_organization
 
+  # Dashboard (mobile-first, flow-based)
+  get 'dashboard', to: 'dashboard#show', as: :dashboard
+  post 'dashboard/start', to: 'dashboard#start', as: :dashboard_start
+  post 'dashboard/scan', to: 'dashboard#scan', as: :dashboard_scan
+  post 'dashboard/update', to: 'dashboard#update', as: :dashboard_update
+  post 'dashboard/undo', to: 'dashboard#undo', as: :dashboard_undo
+  post 'dashboard/complete', to: 'dashboard#complete', as: :dashboard_complete
+  get 'dashboard/confirm', to: 'dashboard#confirm', as: :dashboard_confirm
+  post 'dashboard/confirm', to: 'dashboard#execute', as: :dashboard_execute
+  post 'dashboard/cancel', to: 'dashboard#cancel', as: :dashboard_cancel
+  get 'dashboard/result', to: 'dashboard#result', as: :dashboard_result
+  post 'dashboard/reset', to: 'dashboard#reset', as: :dashboard_reset
+
   # Session management
   direct :login do
     '/auth/saml'

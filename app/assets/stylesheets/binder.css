@@ -361,8 +361,83 @@ li.tab {
     color: #c00;
 }
 
+.dashboard-flow .dashboard-actions {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.5rem;
+    margin: 0.5rem 0 1rem;
+}
+
+.dashboard-flow .dashboard-action-form,
+.dashboard-flow .dashboard-action-form .btn {
+    margin: 0;
+    width: 100%;
+}
+
+.dashboard-flow .dashboard-action-form--double {
+    grid-column: 1 / -1;
+}
+
+.dashboard-flow .dashboard-btn-blue {
+    background: #1f6fb2 !important;
+    border-color: #175485 !important;
+    color: #fff !important;
+}
+
+.dashboard-flow .dashboard-btn-blue:hover,
+.dashboard-flow .dashboard-btn-blue:focus {
+    background: #175485 !important;
+    border-color: #123f64 !important;
+    color: #fff !important;
+}
+
+.dashboard-flow .dashboard-block {
+    border: 1px solid #ddd;
+    background: #fff;
+    padding: 0.75rem;
+    margin-bottom: 0.75rem;
+}
+
+.dashboard-flow .dashboard-block h3 {
+    margin: 0 0 0.4rem;
+    font-size: 1.05rem;
+}
+
+.dashboard-flow label {
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.dashboard-flow input[type='text'],
+.dashboard-flow input[type='number'],
+.dashboard-flow select {
+    width: 100%;
+    max-width: none;
+    margin-bottom: 0.4rem;
+}
+
+.dashboard-flow .dashboard-complete-row .btn {
+    width: 100%;
+}
+
+.global-home-button {
+    position: fixed;
+    right: 1rem;
+    bottom: 1rem;
+    z-index: 1000;
+}
+
+.global-home-button .btn {
+    min-width: 96px;
+    text-align: center;
+}
+
 @media only screen and (max-width: 767px) {
     .power-layout {
         flex-direction: column;
+    }
+
+    .dashboard-flow .dashboard-actions {
+        grid-template-columns: 1fr;
     }
 }

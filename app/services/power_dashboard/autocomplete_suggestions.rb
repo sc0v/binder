@@ -2,16 +2,17 @@
 
 module PowerDashboard
   class AutocompleteSuggestions
-    def initialize(query:)
+    def initialize(query:, include_actions: true)
       @query = query.to_s.strip
       @normalized = @query.downcase
+      @include_actions = include_actions
     end
 
     def call
       return [] if @normalized.length < 2
 
       suggestions = []
-      suggestions.concat(action_suggestions)
+      suggestions.concat(action_suggestions) if @include_actions
       suggestions.concat(organization_suggestions)
       suggestions.concat(participant_suggestions)
       suggestions.concat(tool_suggestions)
@@ -21,8 +22,12 @@ module PowerDashboard
 
     private
 
+    def self.cached_action_suggestions
+      @cached_action_suggestions ||= ActionRegistry.suggestions.freeze
+    end
+
     def action_suggestions
-      ActionRegistry.suggestions.filter do |suggestion|
+      self.class.cached_action_suggestions.filter do |suggestion|
         label = suggestion[:label].downcase
         value = suggestion[:value].downcase
         label.start_with?(@normalized) ||

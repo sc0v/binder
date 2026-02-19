@@ -3,6 +3,7 @@
 module PowerDashboard
   class ActionRegistry
     COMMAND_ORDER = %w[
+      queue q
       add remove clear rem a r
       checkin checkout renew forfeit in out ren
       electrical structural e s

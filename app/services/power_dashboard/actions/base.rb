@@ -89,6 +89,16 @@ module PowerDashboard
         end
       end
 
+      def checked_out_to_label(checkout)
+        return '—' if checkout.blank?
+
+        borrower = checkout.participant&.formatted_name || checkout.participant&.name
+        organization = checkout.organization&.name
+        return borrower if organization.blank?
+
+        "#{borrower} (#{organization})"
+      end
+
       def targets_tools_cart?(rest)
         rest.to_s.strip.match?(/\A(tools?|cart|c)\b/i)
       end

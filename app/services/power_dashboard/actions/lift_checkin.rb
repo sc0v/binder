@@ -11,6 +11,10 @@ module PowerDashboard
         %w[checkin in]
       end
 
+      def suggestions
+        [{ label: 'checkin lift', value: 'checkin lift', type: 'action' }]
+      end
+
       def priority
         10
       end
@@ -18,16 +22,19 @@ module PowerDashboard
       def match?(rest, session_state:)
         return false if targets_tools_cart?(rest)
 
-        session_state.current_scissor_lift.present?
+        lift_match?(rest) || session_state.current_scissor_lift.present?
       end
 
       def confirmation_required?
         true
       end
 
-      def parse(_rest, session_state:, command:)
+      def parse(rest, session_state:, command:)
         lift = session_state.current_scissor_lift
-        return error(t('resources.checkin.missing_resource')) if lift.blank?
+        if lift.blank?
+          return error(t('resources.scissor_lift.select_first')) if lift_match?(rest)
+          return error(t('resources.checkin.missing_resource'))
+        end
 
         pending(scissor_lift_id: lift.id)
       end
@@ -52,8 +59,10 @@ module PowerDashboard
 
       def receipt(pending, resources:, session:)
         lift = resources[:scissor_lift]
+        checkout = lift&.current_checkout
         receipt_payload(t('resources.receipts.checkin_scissor_lift_title'), [
-          receipt_line(t('resources.labels.scissor_lift'), lift&.name)
+          receipt_line(t('resources.labels.scissor_lift'), lift&.name),
+          receipt_line(t('resources.labels.checked_out_to'), checked_out_to_label(checkout))
         ])
       end
     end

@@ -3,6 +3,10 @@
 module PowerDashboard
   module Actions
     class QueueSelect < QueueBase
+      def command_words
+        %w[electrical structural e s]
+      end
+
       def name
         'select_queue'
       end

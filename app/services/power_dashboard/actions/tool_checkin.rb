@@ -55,8 +55,10 @@ module PowerDashboard
 
       def receipt(_pending, resources:, session:)
         tool = resources[:tool]
+        checkout = tool&.checkouts&.current&.first
         receipt_payload(t('resources.receipts.checkin_tool_title'), [
-          receipt_line(t('resources.labels.tool'), tool&.formatted_name)
+          receipt_line(t('resources.labels.tool'), tool&.formatted_name),
+          receipt_line(t('resources.labels.checked_out_to'), checked_out_to_label(checkout))
         ])
       end
     end

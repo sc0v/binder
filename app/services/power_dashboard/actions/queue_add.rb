@@ -9,10 +9,11 @@ module PowerDashboard
 
       def suggestions
         [
-          { label: 'electrical add', value: 'electrical add', type: 'action' },
-          { label: 'e add', value: 'e add', type: 'action' },
-          { label: 'structural add', value: 'structural add', type: 'action' },
-          { label: 's add', value: 's add', type: 'action' }
+          { label: 'queue add <message>', value: 'queue add ', type: 'action' },
+          { label: 'electrical add <message>', value: 'electrical add ', type: 'action' },
+          { label: 'e add <message>', value: 'e add ', type: 'action' },
+          { label: 'structural add <message>', value: 'structural add ', type: 'action' },
+          { label: 's add <message>', value: 's add ', type: 'action' }
         ]
       end
 
@@ -28,13 +29,18 @@ module PowerDashboard
         true
       end
 
-      def parse(_rest, session_state:, command:)
-        queue_type = normalize_queue_type(command)
+      def parse(rest, session_state:, command:)
+        queue_type = queue_type_for(session_state:, command:)
+        return error(t('resources.queue.select_queue_first')) if queue_type.blank?
+
+        queue_message = extract_queue_message(rest)
+        return error(t('resources.queue.message_required')) if queue_message.blank?
+
         organization = session_state.organization_for_queue
         if organization.blank?
-          return pending(queue_type: queue_type, needs_org_selection: true)
+          return pending(queue_type: queue_type, queue_message: queue_message, needs_org_selection: true)
         end
-        pending(queue_type: queue_type, organization_id: organization.id)
+        pending(queue_type: queue_type, queue_message: queue_message, organization_id: organization.id)
       end
 
       def required_resources(_pending)
@@ -48,7 +54,8 @@ module PowerDashboard
         entry = OrganizationTimelineEntry.new(
           organization: organization,
           started_at: Time.zone.now,
-          entry_type: pending['queue_type']
+          entry_type: pending['queue_type'],
+          description: pending['queue_message']
         )
         return error(t('resources.queue.already_in_queue')) if entry.already_in_queue?
         return error(entry.errors.full_messages.join(', ').presence || t('resources.queue.add_problem')) unless entry.save
@@ -58,8 +65,18 @@ module PowerDashboard
       def receipt(pending, resources:, session:)
         organization = resources[:organization]
         receipt_payload(t('resources.receipts.add_queue_title', queue_type: pending['queue_type']), [
-          receipt_line(t('resources.labels.organization'), organization&.name)
+          receipt_line(t('resources.labels.organization'), organization&.name),
+          receipt_line(t('resources.labels.message'), pending['queue_message'])
         ])
+      end
+
+      private
+
+      def extract_queue_message(rest)
+        text = rest.to_s.strip
+        return if text.blank?
+
+        text.sub(/\A(add|a)\b/i, '').strip.presence
       end
     end
   end

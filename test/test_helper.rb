@@ -1,9 +1,17 @@
 # frozen_string_literal: true
-require 'coveralls'
-Coveralls.wear!('rails')
+begin
+  require 'coveralls'
+  Coveralls.wear!('rails')
+rescue LoadError
+  # Coveralls is optional in local/dev containers.
+end
 
-require 'webmock/minitest'
-include WebMock::API
+begin
+  require 'webmock/minitest'
+  include WebMock::API
+rescue LoadError
+  # WebMock is optional in local/dev containers.
+end
 
 ENV['RAILS_ENV'] = 'test'
 require File.expand_path('../config/environment', __dir__)
@@ -19,4 +27,15 @@ class ActiveSupport::TestCase
   def create_context; end
 
   def remove_context; end
+end
+
+class ActionDispatch::IntegrationTest
+  private
+
+  # Signs in by hitting the impersonate endpoint, which sets the real encrypted
+  # session cookie via ActionDispatch (same code path as SAML login).
+  # CSRF protection is disabled in the test environment via allow_forgery_protection = false.
+  def sign_in_as(participant)
+    post "/impersonate/#{participant.id}"
+  end
 end

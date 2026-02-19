@@ -45,8 +45,10 @@ module PowerDashboard
 
       def receipt(_pending, resources:, session:)
         lift = resources[:scissor_lift]
+        checkout = lift&.current_checkout
         receipt_payload(t('resources.receipts.checkin_scissor_lift_forfeit_title'), [
-          receipt_line(t('resources.labels.scissor_lift'), lift&.name)
+          receipt_line(t('resources.labels.scissor_lift'), lift&.name),
+          receipt_line(t('resources.labels.checked_out_to'), checked_out_to_label(checkout))
         ])
       end
     end

@@ -115,7 +115,9 @@ en:
     labels:
       borrower: Borrower
       cart_contents: Cart contents
+      checked_out_to: Checked out to
       duration: Duration
+      message: Message
       organization: Organization
       scissor_lift: Scissor lift
       tool: Tool
@@ -132,9 +134,11 @@ en:
       add_problem: Problem adding to queue.
       add_success: Added to %{queue_type} queue.
       already_in_queue: You're already on the queue!
+      message_required: Enter a queue message.
       not_in_queue: Organization is not in the queue.
       remove_not_authorized: Not authorized to update queues.
       remove_success: "%{name} removed from %{queue_type} queue."
+      select_queue_first: Select a queue first.
       select_success: "%{queue_type} queue selected."
       unknown: Unknown queue.
       view_not_authorized: Not authorized to view queues.

@@ -9,6 +9,7 @@ module PowerDashboard
 
       def suggestions
         [
+          { label: 'queue remove', value: 'queue remove', type: 'action' },
           { label: 'electrical remove', value: 'electrical remove', type: 'action' },
           { label: 'e rem', value: 'e rem', type: 'action' },
           { label: 'structural remove', value: 'structural remove', type: 'action' },
@@ -25,7 +26,9 @@ module PowerDashboard
       end
 
       def parse(_rest, session_state:, command:)
-        queue_type = normalize_queue_type(command)
+        queue_type = queue_type_for(session_state:, command:)
+        return error(t('resources.queue.select_queue_first')) if queue_type.blank?
+
         organization = session_state.organization_for_queue
         return error(t('resources.organization.select_first')) if organization.blank?
         pending(queue_type: queue_type, organization_id: organization.id)

@@ -63,9 +63,21 @@ module PowerDashboard
       end
 
       def receipt(_pending, resources:, session:)
+        tool_ids = Array(session[:tools]).map(&:to_i)
+        tools_by_id = Tool.includes(checkouts: %i[participant organization]).where(id: tool_ids).index_by(&:id)
+        cart_items = tool_ids.filter_map do |tool_id|
+          tool = tools_by_id[tool_id]
+          next if tool.blank?
+
+          checkout = tool.checkouts.find { |item| item.checked_in_at.nil? }
+          holder = checked_out_to_label(checkout)
+          status_class = checkout.present? ? 'power-item-unavailable' : 'power-item-available'
+          { label: "#{tool.formatted_name} -> #{holder}", status_class: status_class }
+        end
+
         receipt_payload(t('resources.receipts.checkin_tools_cart_title'), [
           receipt_line(t('resources.labels.tools_in_cart'), Array(session[:tools]).size.to_s),
-          receipt_list(t('resources.labels.cart_contents'), cart_tool_names(session))
+          receipt_list(t('resources.labels.cart_contents'), cart_items)
         ])
       end
     end
