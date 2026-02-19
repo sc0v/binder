@@ -13,3 +13,8 @@ production:
   port: 636
   method: ssl
   base: dc=andrew,dc=cmu,dc=edu
+
+test:
+  host: ldap.cmu.edu
+  port: 389
+  base: ou=andrewperson,dc=andrew,dc=cmu,dc=edu
