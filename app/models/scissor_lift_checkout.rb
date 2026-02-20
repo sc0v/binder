@@ -59,47 +59,9 @@ class ScissorLiftCheckout < ApplicationRecord
 
   scope :current, -> { where(checked_in_at: nil) }
 
-  def self.checkout_batch(organization:, participant:, scissor_lift_ids:)
-    checked_out = []
-    failed = []
-    remaining_ids = scissor_lift_ids.dup
-
-    scissor_lift_ids.each do |scissor_lift_id|
-      lift = ScissorLift.find_by(id: scissor_lift_id)
-      begin
-        checkout = new(
-          organization: organization,
-          participant: participant,
-          scissor_lift: lift,
-          checked_out_at: Time.zone.now,
-          due_at: Time.zone.now + 2.hours
-        )
-
-        if checkout.save
-          checked_out << checkout
-          remaining_ids -= [scissor_lift_id]
-        else
-          failed << checkout
-        end
-      rescue StandardError
-        checkout ||= new(
-          organization: organization,
-          participant: participant,
-          scissor_lift: lift,
-          checked_out_at: Time.zone.now,
-          due_at: Time.zone.now + 2.hours
-        )
-        checkout.errors.add(:base, "Error checking out '#{lift&.name || scissor_lift_id}'")
-        failed << checkout
-      end
-    end
-
-    { checked_out: checked_out, failed: failed, remaining_ids: remaining_ids }
-  end
-
   def renew_for(duration_hours:)
     self.due_at = Time.zone.now + duration_hours.to_i.hours
-    save
+    save!
     self
   end
 
@@ -107,7 +69,7 @@ class ScissorLiftCheckout < ApplicationRecord
     self.checked_in_at = Time.zone.now
     self.due_at = nil
     self.is_forfeit = forfeit
-    save
+    save!
     self
   end
 
