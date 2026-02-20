@@ -2,7 +2,7 @@
 <%= form_with url: renew_scissor_lifts_path do |f| %>
   <%= hidden_field_tag 'url', request.original_fullpath %>
   <%= f.label "Scissor Lift" %>
-  <%= f.collection_select(:name, ScissorLift.all.ordered_by_name, :name, :name, {prompt: 'Select Scissor Lift...'}) %>
+  <%= f.collection_select(:name, ScissorLift.checked_out.ordered_by_name, :name, :name, {prompt: 'Select Scissor Lift...'}) %>
   <%= f.label "How many hours?" %>
   <%= f.number_field(:duration, value: '2', min: 0, style: 'margin-bottom: 2em') %>
   <%= f.submit 'Renew', class: 'btn btn-wide'%>
