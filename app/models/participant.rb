@@ -247,6 +247,10 @@ class Participant < ApplicationRecord
     return wristbands
   end
 
+  def scissor_lift_certified?
+    wristbands.present? && wristbands.include?(:green)
+  end
+
   def hardhat_color
     return unless signed_waiver?
     return if organization_categories.blank?

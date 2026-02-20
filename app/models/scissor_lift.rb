@@ -14,22 +14,26 @@ class ScissorLift < ApplicationRecord
   end
 
   def is_checked_out?
-    scissor_lift_checkouts.current.present?
+    current_checkout.present?
   end
 
   def current_organization
-    scissor_lift_checkouts.current.take.organization.name if scissor_lift_checkouts.current.present?
+    current_checkout.organization.name if current_checkout.present?
   end
 
   def current_participant
-    scissor_lift_checkouts.current.take.participant.name if scissor_lift_checkouts.current.present?
+    current_checkout.participant.name if current_checkout.present?
   end
 
   def checked_out_at
-    scissor_lift_checkouts.current.take.checked_out_at if scissor_lift_checkouts.current.present?
+    current_checkout.checked_out_at if current_checkout.present?
   end
 
   def due_at
-    scissor_lift_checkouts.current.take.due_at if scissor_lift_checkouts.current.present?
+    current_checkout.due_at if current_checkout.present?
+  end
+
+  def current_checkout
+    scissor_lift_checkouts.current.first
   end
 end
