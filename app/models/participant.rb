@@ -254,7 +254,7 @@ class Participant < ApplicationRecord
     return if organization_categories.blank?
     return if organization_categories.pluck(:lookup_key).uniq == ['doghouse']
     return :blue if scc?
-    return :red if booth_chair? && red_hardhat?
+    return :red if is_booth_chair? && red_hardhat?
 
     :white
   end
