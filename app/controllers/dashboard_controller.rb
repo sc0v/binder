@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class DashboardController < ApplicationController
+  before_action :require_authentication
   # Flow state is carried in params, not session, so leaving/reloading resets wizard state.
 
   def show
