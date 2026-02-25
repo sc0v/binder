@@ -1,0 +1,31 @@
+<% nav %>
+<div class="content power-dashboard-content">
+  <div class="power-dashboard dashboard-flow">
+    <h1>Confirm Action</h1>
+
+    <div class="power-section">
+      <% receipt = @pending_receipt %>
+      <div class="power-receipt">
+        <h2><%= receipt[:title] %></h2>
+        <% receipt[:lines].each do |line| %>
+          <%= receipt_line_html(line) %>
+        <% end %>
+      </div>
+
+      <div class="power-confirm-actions">
+        <%= form_with url: dashboard_execute_path, method: :post, html: { id: 'dashboard-confirm-form' } do %>
+          <% @pending_action.each do |key, value| %>
+            <%= hidden_field_tag key, value %>
+          <% end %>
+          <%= submit_tag 'Confirm', class: 'btn btn-primary' %>
+        <% end %>
+        <%= form_with url: dashboard_cancel_path, method: :post do %>
+          <% @flow_params_for_confirm.to_h.each do |key, value| %>
+            <%= hidden_field_tag key, value %>
+          <% end %>
+          <%= submit_tag 'Cancel', class: 'btn' %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>
