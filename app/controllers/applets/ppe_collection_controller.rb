@@ -5,9 +5,16 @@ class Applets::PPECollectionController < ApplicationController
     end
   end
 
+  private
+
   def return_hardhat
+    unless can? :update, Checkout
+      redirect_to ppe_collection_path, alert: "Not authorized to check in a hardhat."
+      return
+    end
+
     @hardhat = Tool.hardhats.find_by(barcode: params[:hardhat_barcode])
-    if @hardhat.nil?
+    if @hardhat.blank?
       redirect_to ppe_collection_path, alert: "Hardhat not found"
     else
       @checkout = @hardhat.checkouts.current.first

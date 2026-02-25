@@ -42,6 +42,12 @@ class Tools::CheckoutsController < ApplicationController
   end
 
   def create
+    unless can? :create, Checkout
+      flash.alert = "Not authorized to check out tools."
+      redirect_to checkout_tools_path
+      return
+    end
+
     @organization = Organization.find_by(id: params.dig(:checkout, :organization_id))
     tool_ids = Array(session[:tools])
     participant = Participant.find_by(id: session[:borrower_id])
@@ -67,13 +73,18 @@ class Tools::CheckoutsController < ApplicationController
   end
 
   def checkin
+    unless can? :update, Checkout
+      redirect_to checkout_tools_path, alert: "Not authorized to check in tools."
+      return
+    end
+
     @tool = Tool.find_by(barcode: params[:barcode])
     if @tool.blank?
       redirect_to checkout_tools_path, alert: "Tool #{params[:barcode]} does not exist."
       return
     end
 
-    @checkout = @tool.checkouts.current.first unless @tool.checkouts.blank? || @tool.checkouts.current.blank?
+    @checkout = @tool.checkouts.current.first
     if @checkout.blank?
       redirect_to checkout_tools_path, alert: "Tool #{params[:barcode]} was never checked out."
       return

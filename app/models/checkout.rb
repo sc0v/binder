@@ -44,9 +44,6 @@ class Checkout < ApplicationRecord
   end
 
   def participant_belongs_to_org
-    Rails.logger.debug(organization_id)
-    Rails.logger.debug(participant_id)
-
     return if organization_id.blank? || participant_id.blank?
 
     return if Membership.exists?(organization_id: organization_id, participant_id: participant_id)
