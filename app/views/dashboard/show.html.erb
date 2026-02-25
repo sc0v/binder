@@ -63,7 +63,6 @@
       <% end %>
 
       <% if @flow_kind == 'checkout' && @step == 'organization' %>
-        <p>Select organization.</p>
         <% if @flow_participant.blank? %>
           <div class="dashboard-block">
             <p>Select a borrower first.</p>
@@ -89,7 +88,6 @@
       <% end %>
 
       <% if @flow_kind == 'queue' && @step == 'queue_type' %>
-        <p>Select queue type.</p>
         <div class="dashboard-actions">
           <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
             <%= dashboard_flow_hidden_fields(@flow_params, except: [:organization_id]) %>
@@ -107,7 +105,6 @@
       <% end %>
 
       <% if @flow_kind == 'queue' && @step == 'queue_action' %>
-        <p>Select queue action.</p>
         <div class="dashboard-actions">
           <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
             <%= dashboard_flow_hidden_fields(@flow_params) %>
@@ -144,7 +141,6 @@
       <% end %>
 
       <% if @flow_kind == 'queue' && @step == 'queue_source' && @flow['queue_action'] == 'add' %>
-        <p>Select source.</p>
         <div class="dashboard-actions">
           <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
             <%= dashboard_flow_hidden_fields(@flow_params, except: [:queue_source, :participant_id, :organization_id]) %>
@@ -186,7 +182,6 @@
               <p>No organizations are currently in this queue.</p>
             </div>
           <% else %>
-            <p>Select organization from queue.</p>
             <div class="dashboard-actions">
               <% queued_orgs.each do |organization| %>
                 <%= form_with url: dashboard_complete_path, method: :post, class: 'dashboard-action-form' do %>
@@ -249,7 +244,6 @@
       <% end %>
 
       <% if @flow_kind == 'lift' && @step == 'lift_action' %>
-        <p>Select lift action.</p>
         <div class="dashboard-actions">
               <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
                 <%= dashboard_flow_hidden_fields(@flow_params) %>
@@ -295,7 +289,6 @@
 
       <% if @flow_kind == 'lift' && @step == 'scissor_lift' %>
         <% if @flow['lift_action'] == 'checkout' %>
-          <p>Select an available scissor lift.</p>
           <% if @available_lifts.empty? %>
             <div class="dashboard-block">
               <p>No available scissor lifts.</p>
@@ -322,7 +315,6 @@
             </div>
           <% end %>
         <% elsif %w[renew checkin].include?(@flow['lift_action']) %>
-          <p>Select a checked out scissor lift.</p>
           <% if @checked_out_lifts.empty? %>
             <div class="dashboard-block">
               <p>No checked out scissor lifts.</p>
@@ -357,7 +349,6 @@
       <% end %>
 
       <% if @flow_kind == 'lift' && @step == 'renew_hours' %>
-        <p>Select renew hours.</p>
         <div class="dashboard-actions">
           <% [1, 2, 4, 8].each do |hours| %>
             <%= form_with url: dashboard_complete_path, method: :post, class: 'dashboard-action-form' do %>
@@ -398,7 +389,6 @@
       <% end %>
 
       <% if @flow_kind == 'lift' && @step == 'organization' %>
-        <p>Select organization.</p>
         <% if @flow_participant.blank? %>
           <div class="dashboard-block">
             <p>Select a borrower first.</p>
