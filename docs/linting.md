@@ -4,7 +4,7 @@ Binder uses four linters, all orchestrated through Rake:
 
 | Linter | Covers | Config |
 |--------|--------|--------|
-| [Prettier](https://prettier.io) | JS, CSS, YAML, Ruby, ERB | `.prettierrc.yml`, `.prettierignore` |
+| [Prettier](https://prettier.io) | JS, CSS, YAML, Ruby, ERB | `.prettierrc`, `.prettierignore` |
 | [RuboCop](https://rubocop.org) | Ruby | `.rubocop.yml` |
 | [ERBLint](https://github.com/Shopify/erb-lint) | ERB templates | `.erb-lint.yml` |
 | [Brakeman](https://brakemanscanner.org) | Security (Ruby/Rails) | none |
@@ -52,7 +52,7 @@ Prettier formats JS, CSS, YAML, Ruby (via `@prettier/plugin-ruby`), and ERB
 
 ### htmlWhitespaceSensitivity
 
-`.prettierrc.yml` sets `htmlWhitespaceSensitivity: "strict"`. This is required
+`.prettierrc` sets `htmlWhitespaceSensitivity: "strict"`. This is required
 because the CMU sidebar element is whitespace-sensitive. Prettier's default
 behavior inserts a newline before block-level opening tags, which breaks the
 sidebar layout.
