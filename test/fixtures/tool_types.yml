@@ -64,11 +64,6 @@ WTF:
   name: Saw Horse
   created_at: 2019-04-03 15:19:56
   updated_at: 2019-04-03 15:19:56
-13:
-  id: 13
-  name: Saw Horse
-  created_at: 2019-04-03 15:19:56
-  updated_at: 2019-04-03 15:19:56
 14:
   id: 14
   name: Shop Vac
@@ -442,11 +437,6 @@ WTF:
 88:
   id: 88
   name: Shovel
-  created_at: 2022-03-30 20:46:40
-  updated_at: 2022-03-30 20:46:40
-89:
-  id: 89
-  name: Reel Tape Measure
   created_at: 2022-03-30 20:46:40
   updated_at: 2022-03-30 20:46:40
 90:
