@@ -327,7 +327,7 @@ class Participant < ApplicationRecord
       self[:cached_department] = 'N/A'
       self[:cached_student_class] = 'N/A'
     else
-      self[:cached_name] = [](ldap_reference['cn']).flatten.last
+      self[:cached_name] = Array(ldap_reference['cn']).flatten.last
       self[:cached_surname] = ldap_reference['sn']
       self[:cached_email] = ldap_reference['mail']
       self[:cached_department] = ldap_reference['cmuDepartment']
