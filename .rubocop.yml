@@ -7,6 +7,7 @@ plugins:
 AllCops:
   NewCops: enable
   Exclude:
+    - "bin/**/*"
     - "config/initializers/new_framework_defaults_7_0.rb"
     - "db/schema.rb"
     - "shift_picker.rb"
