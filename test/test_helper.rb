@@ -17,7 +17,9 @@ class ActiveSupport::TestCase
     assert_not condition
   end
 
-  def create_context; end
+  def create_context
+  end
 
-  def remove_context; end
+  def remove_context
+  end
 end
