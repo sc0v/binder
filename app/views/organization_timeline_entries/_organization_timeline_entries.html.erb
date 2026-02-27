@@ -10,7 +10,9 @@
     <tbody>
       <% entries.each do |entry| %>
         <tr>
-          <td><%= link_to entry.organization.short_name, entry.organization %></td>
+          <% build_status = entry.organization.organization_build_statuses.find_by(status_type: entry.entry_type) %>
+          <% org_link = build_status ? organization_organization_build_status_path(entry.organization, build_status) : entry.organization %>
+          <td><%= link_to entry.organization.short_name, org_link %></td>
           <td><%= h entry.description %></td>
           <td><%= entry.started_at %></td>
           <td><%= format_duration(Time.zone.now - entry.started_at) %></td>
