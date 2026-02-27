@@ -27,6 +27,10 @@ class Tool < ApplicationRecord
   scope :active,       -> { where(active: true) }
   scope :inactive,     -> { where(active: false) }
   scope :ordered_by_name, -> { order(name: :asc) }
+
+  def self.find_by_query(input)
+    find_by(barcode: input)
+  end
   def current_organization
     checkouts.current.take.organization if checkouts.current.present?
   end
