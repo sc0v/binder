@@ -6,6 +6,6 @@ class ReplaceMembershipWithParticipantAndOrganizationInCheckouts < ActiveRecord:
   def change
     add_column :checkouts, :participant_id, :integer
     add_column :checkouts, :organization_id, :integer
-    remove_column :checkouts, :membership_id
+    remove_column :checkouts, :membership_id, :integer
   end
 end
