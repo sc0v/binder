@@ -5,7 +5,7 @@ class CreateMemberships < ActiveRecord::Migration[6.0]
     create_table :memberships do |t|
       t.references :organization
       t.references :participant
-      t.boolean :is_chair
+      t.boolean :is_chair, null: false, default: false
 
       t.timestamps
     end
