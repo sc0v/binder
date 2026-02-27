@@ -1,5 +1,6 @@
-require:
+plugins:
   - rubocop-capybara
+  - rubocop-minitest
   - rubocop-rails
 
 inherit_from:

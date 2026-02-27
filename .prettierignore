@@ -1,0 +1,12 @@
+node_modules/
+vendor/
+public/assets/
+public/packs/
+log/
+tmp/
+db/schema.rb
+Gemfile.lock
+package-lock.json
+
+# Upstream minified files
+app/assets/stylesheets/cmu.css

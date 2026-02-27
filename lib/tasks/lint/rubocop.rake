@@ -15,7 +15,6 @@ namespace 'lint' do
     bin = bin.join(' ')
 
     log(t.name, " * executing: #{bin}")
-    system(bin) or
-      abort_with_log(t.name)
+    system(bin) or abort_with_log(t.name)
   end
 end

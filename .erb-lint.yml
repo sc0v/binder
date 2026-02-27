@@ -21,6 +21,8 @@ linters:
         Enabled: false
       Style/FrozenStringLiteralComment:
         Enabled: false
+  FinalNewline:
+    enabled: true
   RightTrim:
     enabled: true
     enforced_style: "-"

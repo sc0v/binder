@@ -93,10 +93,11 @@ group :development do
   gem 'erb_lint'
   gem 'prettier_print' # @prettier/plugin-ruby dep
   gem 'rubocop-capybara'
+  gem 'rubocop-minitest'
   gem 'rubocop-rails'
   gem 'syntax_tree' # @prettier/plugin-ruby dep
-  gem 'syntax_tree-rbs' # @prettier/plugin-ruby dep
   gem 'syntax_tree-haml' # @prettier/plugin-ruby dep
+  gem 'syntax_tree-rbs' # @prettier/plugin-ruby dep
 end
 
 group :test do
