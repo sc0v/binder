@@ -1,15 +1,15 @@
 # frozen_string_literal: true
 
-require Rails.root.join('lib/tasks/lint/lint_helper')
+require_relative 'lint/lint_helper'
 
 ALL_LINT_TASKS = %i[lint:rubocop lint:erblint lint:brakeman].freeze
 
 # TODO: Add CSS linter
 desc 'Lint project (run w/ lint:dryrun to disable autocorrection), lint specific files'
-task :lint, [:file] => :environment do |t, args|
+task :lint, [:file] do |t, args|
   include LintHelper
 
-  if args.file.present?
+  if args.file
     # TODO: Add dryrun mode for single files
     abort_with_log(t.name, 'No dryrun option for file.') if dryrun?(t.name)
     Rake::Task["lint:file:#{args.file}"].invoke
@@ -24,7 +24,7 @@ task :lint, [:file] => :environment do |t, args|
       errors << e.message
     end
 
-    if errors.present?
+    if errors.any?
       log(t.name, 'Errors from invoked tasks:')
       errors.each { |e| log t.name, " * #{e}" }
       abort_with_log(t.name)
@@ -36,7 +36,7 @@ end
 # e.g. rake lint:rubocop:dryrun
 namespace :lint do |namespace|
   desc 'Lint project without autocorrection (check only)'
-  task dryrun: :environment do
+  task :dryrun do
     include LintHelper
     dryrun('lint')
     Rake::Task['lint'].invoke

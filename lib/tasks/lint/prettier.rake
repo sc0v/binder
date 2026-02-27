@@ -6,7 +6,7 @@ PRETTIER_OPT_AUTOCORRECT = '--write'
 
 namespace :lint do
   desc 'Prettify project files, prettify specific files'
-  task :prettier, [:files] => :environment do |t, args|
+  task :prettier, [:files] do |t, args|
     include LintHelper
     log(t.name)
     bin = [PRETTIER_BIN]
@@ -14,7 +14,7 @@ namespace :lint do
 
     # Pass explicit file if given; otherwise use '.' so prettier discovers files
     # itself and respects .prettierignore
-    bin << (args.files.presence || '.')
+    bin << (args.files || '.')
     bin = bin.join(' ')
 
     log(t.name, " * executing: #{bin}")
