@@ -32,9 +32,16 @@ task :lint, [:file] => :environment do |t, args|
   end
 end
 
-# Each lint task can be initiated with a dryrun rule
-# e.g. rails lint:rubocop:dryrun
+# Each lint task can be initiated with a dryrun rule via rake (pattern rules)
+# e.g. rake lint:rubocop:dryrun
 namespace :lint do |namespace|
+  desc 'Lint project without autocorrection (check only)'
+  task dryrun: :environment do
+    include LintHelper
+    dryrun('lint')
+    Rake::Task['lint'].invoke
+  end
+
   rule ':dryrun', [:files] do |t, args|
     include LintHelper
     task = t.name.delete_suffix(':dryrun') # determine task name
