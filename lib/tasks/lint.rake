@@ -16,7 +16,7 @@ task :lint, [:file] => :environment do |t, args|
   else
     errors = []
 
-    tasks = ALL_LINT_TASKS
+    tasks = ALL_LINT_TASKS.dup
     tasks.map! { |task| "#{task}:dryrun" } if dryrun?(t.name)
     tasks.each do |task|
       Rake::Task[task].invoke
