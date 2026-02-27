@@ -1,10 +1,10 @@
+plugins:
+  - "@prettier/plugin-ruby"
+  - "@4az/prettier-plugin-html-erb"
 overrides:
-  - files: ".prettierrc"
-    options:
-      parser: "json"
   - files: "*.html.erb"
     options:
-      parser: "erb"
+      parser: "erb-template"
 
 # CMU Sidebar is whitespace dependent.
 # The sidebar element will not render properly if it has preceding whitespace,
