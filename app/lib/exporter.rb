@@ -1,5 +1,7 @@
-require 'csv'
-require 'zip'
+# frozen_string_literal: true
+
+require "csv"
+require "zip"
 
 module Exporter
   # Generate a CSV based on some collection, with one row for each record
@@ -12,26 +14,21 @@ module Exporter
   #               the row should have
   def self.generate_csv(collection, headers, generate_row, footers)
     CSV.generate do |csv|
-      if headers != []
-        csv << headers
-      end
-      collection.each do |record|
-        csv << generate_row.call(record)
-      end
-      if footers != []
-        csv << footers
-      end
+      csv << headers if headers != []
+      collection.each { |record| csv << generate_row.call(record) }
+      csv << footers if footers != []
     end
   end
 
   # Generate a zip with some number of files
   def self.generate_zip(files)
-    zip_stream = Zip::OutputStream.write_buffer do |zip|
-      files.each do |filename, file|
-        zip.put_next_entry(filename)
-        zip.write file  
+    zip_stream =
+      Zip::OutputStream.write_buffer do |zip|
+        files.each do |filename, file|
+          zip.put_next_entry(filename)
+          zip.write file
+        end
       end
-    end
 
     zip_stream.rewind
     zip_stream.read

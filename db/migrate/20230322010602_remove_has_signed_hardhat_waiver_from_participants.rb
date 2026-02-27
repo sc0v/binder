@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RemoveHasSignedHardhatWaiverFromParticipants < ActiveRecord::Migration[
   7.0
 ]

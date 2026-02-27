@@ -3,7 +3,6 @@ plugins:
   - rubocop-minitest
   - rubocop-rails
 
-
 AllCops:
   NewCops: enable
 

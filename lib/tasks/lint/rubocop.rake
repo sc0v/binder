@@ -1,18 +1,19 @@
 # frozen_string_literal: true
 
-RUBOCOP_BIN = 'rubocop'
-RUBOCOP_OPT_AUTOCORRECT = '-A'
+RUBOCOP_BIN = "rubocop"
+RUBOCOP_OPT_AUTOCORRECT = "-A"
 
-namespace 'lint' do
-  desc 'Lint project ruby files, lint specific ruby files'
+namespace "lint" do
+  desc "Lint project ruby files, lint specific ruby files"
   task :rubocop, [:files] do |t, args|
     include LintHelper
+
     log(t.name)
 
     bin = [RUBOCOP_BIN]
     bin << RUBOCOP_OPT_AUTOCORRECT unless dryrun?(t.name)
     bin << args.files if args.files
-    bin = bin.join(' ')
+    bin = bin.join(" ")
 
     log(t.name, " * executing: #{bin}")
     system(bin) or abort_with_log(t.name)

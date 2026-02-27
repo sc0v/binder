@@ -1,6 +1,8 @@
 # frozen_string_literal: true
+
 class ParticipantsController < ApplicationController
   include PersonalPathable
+
   before_action :require_authentication
   load_and_authorize_resource
 
@@ -14,17 +16,23 @@ class ParticipantsController < ApplicationController
         page = params[:page].present? ? params[:page].to_i : 1
         size = params[:size].present? ? params[:size].to_i : 1
 
-        offset = (page-1)*size
+        offset = (page - 1) * size
         # Compute last_page as ceil(Participant.count / size)
-        last_page = Participant.count / size + (Participant.count % size == 0 ? 0 : 1)
+        last_page =
+          (Participant.count / size) +
+            ((Participant.count % size).zero? ? 0 : 1)
         # Only return the participants in this page
-        participants = Participant.accessible_by(Current.ability)
-                        .ordered_by_name.offset(offset).limit(size)
+        participants =
+          Participant
+            .accessible_by(Current.ability)
+            .ordered_by_name
+            .offset(offset)
+            .limit(size)
         data =
           participants.table_attrs.as_json(
             methods: %i[link name signed_waiver?]
-           )
-        render json: { last_page: , data: }
+          )
+        render json: { last_page:, data: }
       end
     end
   end
@@ -62,7 +70,7 @@ class ParticipantsController < ApplicationController
   def show
     # load_resource doesn't work for the /profile URL that the waiver redirects
     # to, so fallback @participant to the current user in that case
-    @participant ||= Current.user
+    @show ||= Current.user
   end
 
   def new
@@ -85,30 +93,31 @@ class ParticipantsController < ApplicationController
 
   def show_participant(uid = nil)
     return Current.user unless Current.user.admin?
-    return Current.user if uid.blank?
 
-    #find_or_create_participant(uid)
+    Current.user if uid.blank?
+
+    # find_or_create_participant(uid)
   end
 
   def find_or_create_participant(_uid)
     Participant.find_or_create_by! eppn: p.update_ldap_attrs
-
   rescue ActiveRecord::RecordInvalid => e
     # TODO: participants_url/did you mean? results
     # redirect_to('/',
-    flash['error'] = '<strong>Participant does not exist.</strong> ' \
-      "#{e.record.errors.full_messages.join(', ')}"
+    flash["error"] = "<strong>Participant does not exist.</strong> " \
+      "#{e.record.errors.full_messages.join(", ")}"
     redirect_to root_url
   rescue ActiveRecord::RecordNotUnique
     # Mitigate the race condition if an unrelated insert happens after this
     # lookup fails
     retry
   end
+
   def set_wristband_colors
     @wristband_colors = {
-      building: 'Red',
-      nonbuilding: 'Blue',
-      scissor_lift: 'Green'
+      building: "Red",
+      nonbuilding: "Blue",
+      scissor_lift: "Green"
     }
   end
   # def set_participant
@@ -116,14 +125,12 @@ class ParticipantsController < ApplicationController
   # end
 
   def create_params
-    params.require(:participant).permit(
-      :eppn
-    )
+    params.expect(participant: [:eppn])
   end
 
   def update_params
-    params.require(:participant).permit(
-      Current.ability.permitted_attributes(:update, @participant)
+    params.expect(
+      participant: [Current.ability.permitted_attributes(:update, @participant)]
     )
   end
 

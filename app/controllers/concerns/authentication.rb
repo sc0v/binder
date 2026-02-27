@@ -1,10 +1,9 @@
 # frozen_string_literal: true
+
 module Authentication
   extend ActiveSupport::Concern
 
-  included do
-    before_action :set_current_user
-  end
+  included { before_action :set_current_user }
 
   private
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CreateJudgements < ActiveRecord::Migration[6.0]
   def change
     create_table :judgements do |t|

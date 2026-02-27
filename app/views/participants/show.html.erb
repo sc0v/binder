@@ -26,7 +26,7 @@
   <% end %>
     <p>
       <strong>EPPN:</strong> <%= @participant.eppn %><br />
-      <strong>Phone:</strong> <%= @participant.formatted_phone_number %><br /> 
+      <strong>Phone:</strong> <%= @participant.formatted_phone_number %><br />
       <strong>Department:</strong> <%= @participant.department %><br />
       <strong>Student Class:</strong> <%= @participant.student_class %>
     </p>
@@ -56,7 +56,7 @@
       <% end %>
     </ul>
     <% end %>
-    
+
     <h2 style="padding: 0">Tools</h2>
     <% if @participant.checkouts.current.blank? %>
     <p>No tools checked out.</p>
@@ -71,7 +71,7 @@
   <% if @participant.signed_waiver? %>
     <div>
       <h2 style="padding: 0">Wristbands</h2>
-    Put the following <%= "wristband".pluralize(@participant.wristbands) %> on their wrist. <strong>Don't just give it to them!</strong>
+    Put the following <%= 'wristband'.pluralize(@participant.wristbands) %> on their wrist. <strong>Don't just give it to them!</strong>
       <% if @participant.wristbands.present? && @participant.wristbands.include?(:red) %>
         <p class="invert red" style="padding: 1em;">Red (Member of at least one organization that will be building)</p>
       <% end %>

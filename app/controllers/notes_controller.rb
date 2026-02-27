@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class NotesController < ApplicationController
   load_and_authorize_resource except: :index
 
@@ -11,7 +12,7 @@ class NotesController < ApplicationController
         size = params[:size].present? ? params[:size].to_i : 1
 
         offset = (page - 1) * size
-        last_page = notes.count / size + (notes.count % size == 0 ? 0 : 1)
+        last_page = (notes.count / size) + ((notes.count % size).zero? ? 0 : 1)
         notes = notes.offset(offset).limit(size)
         render json: { last_page:, data: load_json(notes) }
       end
@@ -19,7 +20,11 @@ class NotesController < ApplicationController
   end
 
   def show
-  @note = Note.find(params[:id])
+    @note = Note.find(params[:id])
+  end
+
+  def edit
+    @note = Note.find(params[:id])
   end
 
   def create
@@ -31,17 +36,13 @@ class NotesController < ApplicationController
     end
   end
 
-  def edit
-    @note = Note.find(params[:id])
-  end
-
   def update
     @note = Note.find(params[:id])
     @note.update(note_params)
     if @note.valid?
       redirect_to notes_path
     else
-      flash.now[:alert] = t('.alert')
+      flash.now[:alert] = t(".alert")
       render :edit, status: :unprocessable_entity
     end
   end
@@ -77,6 +78,6 @@ class NotesController < ApplicationController
   end
 
   def note_params
-    params.require(:note).permit(:title, :value, :participant_id, :hidden, :color)
+    params.expect(note: %i[title value participant_id hidden color])
   end
 end

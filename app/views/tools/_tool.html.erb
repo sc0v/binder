@@ -41,7 +41,7 @@
     <%#= image_tag("tool_images/#{tool.name}.png", id: "tool-image-#{tool.name}", class: 'tool-image', data: { tool_name: tool.name, image_url: asset_path("tool_images/#{tool.name}.png") }, size: '70x70') %>
     <% rescue Propshaft::MissingAssetError %>
     <% end %>
-    
+
   end
  </td>
   <td><%= date_and_time(tool.checkouts.current.first.checked_out_at) if tool.is_checked_out? %></td>
@@ -49,9 +49,8 @@
   <td class="visible-lg <%= 'visible-sm visible-md' if page == 'org' %>"><%= link_to tool.checkouts.current.first.participant.name, tool.checkouts.current.first.participant if tool.is_checked_out? && tool.checkouts.current.first.participant.present? %></td>
 </tr>
 
-
 <script>
-  // opens the image in a popup when it's clicked 
+  // opens the image in a popup when it's clicked
   // closes the image when the "Close Image" button is clicked
   function openPopup(imageUrl) {
   if (document.querySelector('.popup')) {
@@ -68,7 +67,7 @@
   closeButton.className = 'popup-close-button';
   popup.appendChild(closeButton);
   document.body.appendChild(popup);
-  
+
   popup.addEventListener('click', function(event) {
     if (event.target === popup) {
       popup.parentNode.removeChild(popup);

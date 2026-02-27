@@ -2,20 +2,25 @@
 <%= form_tag ppe_distribution_path, method: 'get' do %>
   <%= hidden_field_tag(:step, '2') %>
   <%= hidden_field_tag(:participant_id, @participant.id) %>
-<ol>
-  <li>
-    Say hello to <strong><%= @participant.name %>!</strong>.
-  </li>
-  <li>
-    Put the following <%= "wristband".pluralize(@participant.wristbands) %> on their wrist. <strong>Don't just give it to them!</strong>
+  <ol>
+    <li> Say hello to <strong><%= @participant.name %>!</strong>. </li>
+    <li>
+      Put the following <%= 'wristband'.pluralize(@participant.wristbands) %> on
+      their wrist. <strong>Don't just give it to them!</strong>
       <% if @participant.wristbands.present? && @participant.wristbands.include?(:red) %>
-        <p class="invert red" style="padding: 1em;">Red (Member of at least one organization that will be building)</p>
+        <p class="invert red" style="padding: 1em;"
+          >Red (Member of at least one organization that will be building)</p
+        >
       <% end %>
-      <% if @participant.wristbands.present? && @participant.wristbands.include?(:blue)%>
-        <p class="invert blue" style="padding: 1em;">Blue (Member of a non-building organization)</p>
+      <% if @participant.wristbands.present? && @participant.wristbands.include?(:blue) %>
+        <p class="invert blue" style="padding: 1em;"
+          >Blue (Member of a non-building organization)</p
+        >
       <% end %>
       <% if @participant.wristbands.present? && @participant.wristbands.include?(:green) %>
-        <p class="invert green" style="padding: 1em;">Green (Scissor Lift Certified)</p>
+        <p class="invert green" style="padding: 1em;"
+          >Green (Scissor Lift Certified)</p
+        >
       <% end %>
       <% if @participant.wristbands.present? && @participant.wristbands.include?(:yellow) %>
         <p class="gold" style="padding: 1em;">Yellow (Alumni)</p>
@@ -24,10 +29,16 @@
         <li>The wristband should not be loose enough to take off</li>
         <li>They cannot remove the wristband until after teardown</li>
         <li>If it is damaged, a new one can be obtained at the SCC trailer</li>
-        <li><strong>The wristband excess/tail must be cut off to prevent injury
-            from getting caught in power tools</strong></li>
+        <li
+          ><strong
+            >The wristband excess/tail must be cut off to prevent injury from
+            getting caught in power tools</strong
+          ></li
+        >
       </ul>
-  </li>
-<ol>
-  <%= submit_tag 'Next' %>
+    </li>
+    <ol>
+      <%= submit_tag 'Next' %>
+    </ol></ol
+  >
 <% end %>

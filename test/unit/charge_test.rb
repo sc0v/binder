@@ -1,5 +1,6 @@
 # frozen_string_literal: true
-require 'test_helper'
+
+require "test_helper"
 
 class ChargeTest < ActiveSupport::TestCase
   # Relationships
@@ -20,7 +21,7 @@ class ChargeTest < ActiveSupport::TestCase
   should validate_numericality_of(:amount)
 
   # Methods
-  context 'With a proper context, ' do
+  context "With a proper context, " do
     setup do
       # Create a charges
       @fine = FactoryGirl.create(:charge, is_approved: false)
@@ -28,24 +29,23 @@ class ChargeTest < ActiveSupport::TestCase
       @fine3 = FactoryGirl.create(:charge, is_approved: true)
     end
 
-    teardown do
-    end
+    teardown {}
 
-    should 'show that all factories are properly created' do
+    should "show that all factories are properly created" do
       assert_equal 3, Charge.all.size
     end
 
-    should 'show that pending scope works' do
+    should "show that pending scope works" do
       assert_equal 2, Charge.pending.size
     end
 
-    should 'show that approved scope works' do
+    should "show that approved scope works" do
       assert_equal 1, Charge.approved.size
     end
 
-    context 'Testing charges' do
-      should 'not let charge with string for amount value be created' do
-        charge1 = FactoryGirl.build(:charge, amount: 'a')
+    context "Testing charges" do
+      should "not let charge with string for amount value be created" do
+        charge1 = FactoryGirl.build(:charge, amount: "a")
         deny charge1.valid?
       end
     end

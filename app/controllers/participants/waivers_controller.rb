@@ -1,6 +1,8 @@
 # frozen_string_literal: true
+
 class Participants::WaiversController < ApplicationController
   include PersonalPathable
+
   before_action :require_authentication
   before_action -> { fix_personal_path(waiver_path, params[:id].to_i) },
                 :load_participant,
@@ -14,12 +16,12 @@ class Participants::WaiversController < ApplicationController
   def update
     @participant.assign_attributes(participant_params)
     if @participant.save(context: :waiver_signing)
-      #redirect_to @participant, notice: t('.notice', name: @participant.name)
-      redirect_to profile_path, notice: t('.notice', name: @participant.name)
+      # redirect_to @participant, notice: t('.notice', name: @participant.name)
+      redirect_to profile_path, notice: t(".notice", name: @participant.name)
     else
       # TODO: Don't leak participant_id in uri on personal paths
       @participant.restore_attributes
-      flash.now[:alert] = t('.alert')
+      flash.now[:alert] = t(".alert")
       render :show, status: :unprocessable_entity
     end
   end
@@ -32,12 +34,13 @@ class Participants::WaiversController < ApplicationController
 
   def require_safety_briefing
     return if @participant.watched_safety_video?
+
     redirect_to participant_safety_briefing_path(@participant)
   end
 
   def participant_params
-    params.require(:participant).permit(
-      Current.ability.permitted_attributes(:update, @participant)
+    params.expect(
+      participant: [Current.ability.permitted_attributes(:update, @participant)]
     )
   end
 end

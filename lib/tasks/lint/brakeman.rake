@@ -1,13 +1,14 @@
 # frozen_string_literal: true
 
-BRAKEMAN_BIN = 'brakeman -q --no-summary'
+BRAKEMAN_BIN = "brakeman -q --no-summary"
 
 namespace :lint do
-  desc 'Check for security vulnerabilities'
+  desc "Check for security vulnerabilities"
   task :brakeman do |t|
     include LintHelper
+
     log(t.name)
-    log(t.name, ' * warning: superfluous dryrun rule') if dryrun?(t.name)
+    log(t.name, " * warning: superfluous dryrun rule") if dryrun?(t.name)
 
     bin = BRAKEMAN_BIN
 

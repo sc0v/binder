@@ -1,7 +1,7 @@
 <% update_document_title(add: 'Charge Types') %>
 <% update_breadcrumbs(add: link_to('Charges', charges_path)) %>
 <% update_breadcrumbs(add: 'Charge Types') %>
-<%= nav() %>
+<%= nav %>
 
 <%- model_class = ChargeType -%>
 <div class="content">
@@ -36,9 +36,9 @@
                   <%= link_to t('.destroy', default: t('helpers.links.destroy')),
                               charge_type_path(charge_type),
                               class: 'btn btn-danger btn-xs',
-                              data: { 
+                              data: {
                                 turbo_confirm: t('.confirm', default: t('helpers.links.confirm', default: 'Are you sure?')),
-                                turbo_method: 'delete',
+                                turbo_method: 'delete'
                               } %>
                 <% end %>
               </td>

@@ -6,11 +6,15 @@
 <div class="content">
   <div>
     <h1>Structural Queue</h1>
-    <%= render partial: 'organization_timeline_entries', locals: { entries: @structural } %>
-    <br><br>
+    <%= render partial: 'organization_timeline_entries',
+               locals: {
+                 entries: @structural
+               } %>
+    <br /><br />
     <h1>Electrical Queue</h1>
-    <%= render partial: 'organization_timeline_entries', locals: { entries: @electrical} %>
-  </div><div class="sidebar">
-    <%= render partial: 'queue_sidebar' %>
-  </div>
+    <%= render partial: 'organization_timeline_entries',
+               locals: {
+                 entries: @electrical
+               } %> </div
+  ><div class="sidebar"> <%= render partial: 'queue_sidebar' %> </div>
 </div>

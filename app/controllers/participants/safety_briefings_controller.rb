@@ -1,8 +1,10 @@
 # frozen_string_literal: true
+
 class Participants::SafetyBriefingsController < ApplicationController
   include PersonalPathable
+
   before_action :require_authentication
-  before_action -> {
+  before_action lambda {
                   fix_personal_path(safety_briefing_path, params[:id].to_i)
                 },
                 :load_participant,
@@ -28,7 +30,7 @@ class Participants::SafetyBriefingsController < ApplicationController
       redirect_to participant_waiver_path(@participant)
     else
       flash.alert =
-        t('.alert', errors: @participant.errors.full_messages.join(', '))
+        t(".alert", errors: @participant.errors.full_messages.join(", "))
       redirect_to action: :show
     end
   end
@@ -40,12 +42,8 @@ class Participants::SafetyBriefingsController < ApplicationController
   end
 
   def participant_params
-    params
-      .require(:participant)
-      .permit(:watched_safety_video)
-      .merge(
-        safety_briefing_expected_end_at:
-          session[:safety_briefing_expected_end_at]
-      )
+    params.expect(participant: [:watched_safety_video]).merge(
+      safety_briefing_expected_end_at: session[:safety_briefing_expected_end_at]
+    )
   end
 end

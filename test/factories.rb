@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 FactoryGirl.define do
   # Tool Barcodes
   sequence :barcode do |n|
@@ -13,8 +14,8 @@ FactoryGirl.define do
   # charge
   factory :charge do
     amount 100.00
-    charged_at Date.today
-    description 'Missed 10/2 meeting'
+    charged_at Time.zone.today
+    description "Missed 10/2 meeting"
 
     association :charge_type
     association :organization
@@ -46,8 +47,8 @@ FactoryGirl.define do
 
   # faq
   factory :faq do
-    question 'MyText'
-    answer 'MyText'
+    question "MyText"
+    answer "MyText"
   end
 
   # membership
@@ -80,7 +81,8 @@ FactoryGirl.define do
   end
 
   # participant
-  factory :participant, aliases: %i[completed_by issuing_participant receiving_participant] do
+  factory :participant,
+          aliases: %i[completed_by issuing_participant receiving_participant] do
     andrewid { generate(:random_string) }
     waiver_start DateTime.now
   end
@@ -109,25 +111,25 @@ FactoryGirl.define do
 
   # task
   factory :task do
-    due_at Date.today
-    name 'Assign rides'
+    due_at Time.zone.today
+    name "Assign rides"
   end
 
   # tool type
   factory :tool_type do
-    name 'Hammer'
+    name "Hammer"
   end
 
   # tool
   factory :tool do
     barcode { generate(:barcode) }
-    description 'HAMMER'
+    description "HAMMER"
     association :tool_type
   end
 
   # user
   factory :user do
-    name 'Default Factory User'
+    name "Default Factory User"
     email { "#{generate(:random_string)}@andrew.cmu.edu" }
 
     association :participant
@@ -140,6 +142,6 @@ FactoryGirl.define do
 
   # store_item
   factory :store_item do
-    name 'Hammer'
+    name "Hammer"
   end
 end

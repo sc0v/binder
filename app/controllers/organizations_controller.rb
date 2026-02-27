@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class OrganizationsController < ApplicationController
   load_and_authorize_resource
 
@@ -11,14 +12,24 @@ class OrganizationsController < ApplicationController
         size = params[:size].present? ? params[:size].to_i : 1
 
         offset = (page - 1) * size
-        last_page = organizations.count / size + (organizations.count % size == 0 ? 0 : 1)
+        last_page =
+          (organizations.count / size) +
+            ((organizations.count % size).zero? ? 0 : 1)
         organizations = organizations.offset(offset).limit(size)
         data =
           organizations.as_json(
-            methods: %i[building? category_name link remaining_downtime downtime_link]
+            methods: %i[
+              building?
+              category_name
+              link
+              remaining_downtime
+              downtime_link
+            ]
           )
         data.each do |d|
-          d["remaining_downtime"] = helpers.format_duration d["remaining_downtime"]
+          d["remaining_downtime"] = helpers.format_duration d[
+                                    "remaining_downtime"
+                                  ]
         end
         render json: { last_page:, data: }
       end
@@ -38,9 +49,15 @@ class OrganizationsController < ApplicationController
         page = params[:page].present? ? params[:page].to_i : 1
         size = params[:size].present? ? params[:size].to_i : 1
 
-        participants = @organization.participants.accessible_by(Current.ability).ordered_by_name
+        participants =
+          @organization
+            .participants
+            .accessible_by(Current.ability)
+            .ordered_by_name
         offset = (page - 1) * size
-        last_page = participants.count / size + (participants.count % size == 0 ? 0 : 1)
+        last_page =
+          (participants.count / size) +
+            ((participants.count % size).zero? ? 0 : 1)
         participants = participants.offset(offset).limit(size)
         data =
           participants.as_json(
@@ -51,19 +68,28 @@ class OrganizationsController < ApplicationController
     end
 
     # Get Structural Build Status
-    @structural = @organization.organization_build_statuses.find_by(status_type: :structural)
-    @electrical = @organization.organization_build_statuses.find_by(status_type: :electrical)
+    @structural =
+      @organization.organization_build_statuses.find_by(
+        status_type: :structural
+      )
+    @electrical =
+      @organization.organization_build_statuses.find_by(
+        status_type: :electrical
+      )
 
     # Get Tools Checked Out by Organization
-    @tools_checked_out = Tool.just_tools.checked_out_by_organization(@organization)
+    @tools_checked_out =
+      Tool.just_tools.checked_out_by_organization(@organization)
   end
 
   # GET /organizations/new
   # GET /organizations/new.json
-  def new; end
+  def new
+  end
 
   # GET /organizations/1/edit
-  def edit; end
+  def edit
+  end
 
   # POST /organizations
   # POST /organizations.json
@@ -93,8 +119,6 @@ class OrganizationsController < ApplicationController
   private
 
   def organization_params
-    params
-      .require(:organization)
-      .permit(:name, :short_name, :organization_category_id)
+    params.expect(organization: %i[name short_name organization_category_id])
   end
 end

@@ -1,12 +1,16 @@
 <h1>Add to Queue</h1>
 <%= form_with model: OrganizationTimelineEntry.new do |f| %>
-<% if can?(:create, OrganizationTimelineEntry.new) %>
-  <%= f.collection_select :organization_id, Organization.all.ordered_by_name, :id, :name, prompt: true %>
-<% else %>
-  <%= f.collection_select :organization_id, Current.user.organizations, :id, :name %>
-<% end %>
-<%= f.text_field :description, placeholder: 'Enter reason...' %>
-<%= hidden_field_tag 'url', request.original_fullpath %>
-<%= f.submit 'Structural', class: 'btn wide' %>
-<%= f.submit 'Electrical', class: 'btn wide ghost' %>
+  <% if can?(:create, OrganizationTimelineEntry.new) %>
+    <%= f.collection_select :organization_id,
+                            Organization.all.ordered_by_name,
+                            :id,
+                            :name,
+                            prompt: true %>
+  <% else %>
+    <%= f.collection_select :organization_id, Current.user.organizations, :id, :name %>
+  <% end %>
+  <%= f.text_field :description, placeholder: 'Enter reason...' %>
+  <%= hidden_field_tag 'url', request.original_fullpath %>
+  <%= f.submit 'Structural', class: 'btn wide' %>
+  <%= f.submit 'Electrical', class: 'btn wide ghost' %>
 <% end %>

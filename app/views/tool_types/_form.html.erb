@@ -1,6 +1,6 @@
 <%= form_with model: ToolType.new do |f| %>
   <%= hidden_field(nil, :from_tools, value: params[:from_tools]) %>
-    <%= f.label :name, 'Tool Type Name' %> 
-    <%= f.text_field :name %>
-    <%= f.button :submit, class: 'btn-primary' %>
+  <%= f.label :name, 'Tool Type Name' %>
+  <%= f.text_field :name %>
+  <%= f.button :submit, class: 'btn-primary' %>
 <% end %>

@@ -5,6 +5,6 @@ class ShiftType < ApplicationRecord
 
   has_many :shifts, dependent: :destroy
 
-  scope :active,       -> { where(active: true) }
-  scope :inactive,     -> { where(active: false) }
+  scope :active, -> { where(active: true) }
+  scope :inactive, -> { where(active: false) }
 end

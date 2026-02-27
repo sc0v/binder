@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class OrganizationBuildStatusesController < ApplicationController
   def show
     @build_status = OrganizationBuildStatus.find(params[:id])
@@ -28,7 +30,6 @@ class OrganizationBuildStatusesController < ApplicationController
   private
 
   def update_params
-    params.require(:organization_build_status).permit(:notes)
+    params.expect(organization_build_status: [:notes])
   end
 end
-

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Organization < ApplicationRecord
   include Rails.application.routes.url_helpers
 
@@ -18,7 +19,7 @@ class Organization < ApplicationRecord
   scope :search,
         lambda { |term|
           where(
-            'lower(name) LIKE lower(?) OR lower(short_name) LIKE lower(?)',
+            "lower(name) LIKE lower(?) OR lower(short_name) LIKE lower(?)",
             "%#{term}%",
             "%#{term}%"
           )
@@ -36,15 +37,16 @@ class Organization < ApplicationRecord
   end
 
   def validated_non_booth_chairs
-    validated_participants.reject { |participant| booth_chairs.include?(participant) }
-  end  
+    validated_participants.reject do |participant|
+      booth_chairs.include?(participant)
+    end
+  end
 
   def downtime
     elapsed = 0
-    organization_timeline_entries
-      .today
-      .downtime
-      .each { |timeline_entry| elapsed += timeline_entry.duration }
+    organization_timeline_entries.today.downtime.each do |timeline_entry|
+      elapsed += timeline_entry.duration
+    end
 
     elapsed.seconds
   end

@@ -1,12 +1,13 @@
 # frozen_string_literal: true
-# config valid only for current version of Capistrano
-lock '3.4.0'
 
-set :application, 'binder-app'
-set :repo_url, 'https://github.com/sc0v/binder-app.git'
+# config valid only for current version of Capistrano
+lock "3.4.0"
+
+set :application, "binder-app"
+set :repo_url, "https://github.com/sc0v/binder-app.git"
 
 # Default branch is :master
-set :branch, ENV['branch'] if ENV['branch']
+set :branch, ENV["branch"] if ENV["branch"]
 
 # Default deploy_to directory is /var/www/my_app_name
 set :deploy_to, "/var/www/#{fetch :application}/#{fetch :stage}"
@@ -38,10 +39,10 @@ set :deploy_to, "/var/www/#{fetch :application}/#{fetch :stage}"
 
 # rbenv options
 set :rbenv_type, :system
-set :rbenv_ruby, '2.3.0'
+set :rbenv_ruby, "2.3.0"
 
 # NewRelic
-before 'deploy:finished', 'newrelic:notice_deployment'
+before "deploy:finished", "newrelic:notice_deployment"
 
 namespace :deploy do
   after :restart, :clear_cache do
@@ -58,10 +59,10 @@ end
 # Apache Tasks
 #
 namespace :apache do
-  desc 'Restart Apache'
+  desc "Restart Apache"
   task :restart do
     on roles(:app) do |_h|
-      sudo :service, :apache2, 'restart'
+      sudo :service, :apache2, "restart"
     end
   end
 end
@@ -70,65 +71,65 @@ end
 # Database Tasks
 #
 namespace :db do
-  desc 'Runs rake db:reset'
+  desc "Runs rake db:reset"
   task :reset do
     on roles(:db) do
       within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          execute :rake, 'db:reset'
+        with rails_env: fetch(:rails_env) || fetch(:stage) do
+          execute :rake, "db:reset"
         end
       end
     end
   end
-  before 'db:reset', 'bundler:install'
+  before "db:reset", "bundler:install"
 
-  desc 'Runs rake db:drop'
+  desc "Runs rake db:drop"
   task :drop do
     on roles(:db) do
       within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          execute :rake, 'db:drop'
+        with rails_env: fetch(:rails_env) || fetch(:stage) do
+          execute :rake, "db:drop"
         end
       end
     end
   end
-  before 'db:drop', 'bundler:install'
+  before "db:drop", "bundler:install"
 
-  desc 'Runs rake db:seed'
+  desc "Runs rake db:seed"
   task :seed do
     on roles(:db) do
       within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          execute :rake, 'db:seed'
+        with rails_env: fetch(:rails_env) || fetch(:stage) do
+          execute :rake, "db:seed"
         end
       end
     end
   end
-  before 'db:seed', 'bundler:install'
+  before "db:seed", "bundler:install"
 
-  desc 'Runs rake db:migrate'
+  desc "Runs rake db:migrate"
   task :migrate do
     on roles(:db) do
       within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          execute :rake, 'db:migrate'
+        with rails_env: fetch(:rails_env) || fetch(:stage) do
+          execute :rake, "db:migrate"
         end
       end
     end
   end
-  before 'db:migrate', 'bundler:install'
+  before "db:migrate", "bundler:install"
 
-  desc 'Runs rake db:setup'
+  desc "Runs rake db:setup"
   task :setup do
     on roles(:db) do
       within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          execute :rake, 'db:setup'
+        with rails_env: fetch(:rails_env) || fetch(:stage) do
+          execute :rake, "db:setup"
         end
       end
     end
   end
-  before 'db:setup', 'bundler:install'
+  before "db:setup", "bundler:install"
 end
 
 #
@@ -136,17 +137,18 @@ end
 #
 # http://www.webascender.com/Blog/ID/577/Starting-a-Remote-Rails-Console-With-Capistrano
 namespace :rails do
-  desc 'Remote console'
+  desc "Remote console"
   task :console do
     on roles(:app) do |h|
       run_interactively "bundle exec rails console #{fetch(:rails_env)}", h.user
     end
   end
 
-  desc 'Remote dbconsole'
+  desc "Remote dbconsole"
   task :dbconsole do
     on roles(:app) do |h|
-      run_interactively "bundle exec rails dbconsole #{fetch(:rails_env)}", h.user
+      run_interactively "bundle exec rails dbconsole #{fetch(:rails_env)}",
+                        h.user
     end
   end
 
