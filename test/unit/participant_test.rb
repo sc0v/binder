@@ -46,7 +46,6 @@ class ParticipantTest < ActiveSupport::TestCase
       @user = FactoryGirl.create(:user, participant: @participant)
     end
 
-    teardown {}
 
     should 'show that all factories are properly created' do
       assert_equal 2, Participant.all.size
