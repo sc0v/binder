@@ -18,3 +18,8 @@ Style/ClassAndModuleChildren:
 
 Layout/LineLength:
   Max: 120
+
+# Lint tasks intentionally omit :environment to avoid booting Rails in CI,
+# which triggers a network call to login.cmu.edu and causes SocketError.
+Rails/RakeEnvironment:
+  Enabled: false
