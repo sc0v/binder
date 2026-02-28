@@ -1,12 +1,18 @@
-require:
+plugins:
   - rubocop-capybara
+  - rubocop-minitest
   - rubocop-rails
 
-inherit_from:
-  - node_modules/@prettier/plugin-ruby/rubocop.yml
 
 AllCops:
   NewCops: enable
+  Exclude:
+    - "bin/**/*"
+    - "config/initializers/new_framework_defaults_7_0.rb"
+    - "db/schema.rb"
+    - "node_modules/**/*"
+    - "shift_picker.rb"
+    - "vendor/**/*"
 
 Style/Documentation:
   Enabled: false
@@ -19,3 +25,8 @@ Style/ClassAndModuleChildren:
 
 Layout/LineLength:
   Max: 120
+
+# Lint tasks intentionally omit :environment to avoid booting Rails in CI,
+# which triggers a network call to login.cmu.edu and causes SocketError.
+Rails/RakeEnvironment:
+  Enabled: false

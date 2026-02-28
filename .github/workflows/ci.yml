@@ -1,0 +1,34 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          bundler-cache: true
+
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .node-version
+          cache: npm
+
+      - name: Install npm dependencies
+        run: npm install
+
+      - name: Set up credentials
+        run: |
+          rm -f config/master.key config/credentials.yml.enc
+          EDITOR="touch" bin/rails credentials:edit
+
+      - name: Run linters
+        run: bin/rails lint:dryrun
