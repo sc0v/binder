@@ -112,9 +112,9 @@ class ShiftTest < ActiveSupport::TestCase
 
     # Methods
 
-    should "have a method 'is_checked_in' that works" do
-      assert @checked_in.is_checked_in
-      assert_not @not_checked_in.is_checked_in
+    should "have a method 'checked_in?' that works" do
+      assert @checked_in.checked_in?
+      assert_not @not_checked_in.checked_in?
     end
 
     should "have a method 'formatted_name' that works" do

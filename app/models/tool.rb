@@ -60,11 +60,11 @@ class Tool < ApplicationRecord
     checkouts.current.take.participant if checkouts.current.present?
   end
 
-  def is_checked_out?
+  def checked_out?
     !checkouts.current.empty?
   end
 
-  def is_hardhat?
+  def hardhat?
     name.downcase.include?('hardhat')
   end
 

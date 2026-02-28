@@ -5,7 +5,7 @@
       <% role = 'Admin' %>
     <% elsif p.scc? %>
       <% role = 'SCC Member' %>
-    <% elsif p.is_booth_chair? %>
+    <% elsif p.booth_chair? %>
       <% role = 'Booth Chair' %>
     <% elsif Membership.where(participant: p).present? %>
       <% role = 'Participant' %>

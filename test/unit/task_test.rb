@@ -38,10 +38,10 @@ class TaskTest < ActiveSupport::TestCase
       assert_equal 1, Task.is_complete.size
     end
     # Methods
-    should 'show that the is_past_due method works' do
-      assert @assign_rides.is_past_due
-      assert_not @buy_wood.is_past_due
-      assert_not @takeout_trash.is_past_due
+    should 'show that the past_due? method works' do
+      assert @assign_rides.past_due?
+      assert_not @buy_wood.past_due?
+      assert_not @takeout_trash.past_due?
     end
   end
 end

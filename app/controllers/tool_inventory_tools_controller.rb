@@ -25,14 +25,14 @@ class ToolInventoryToolsController < ApplicationController
   end
 
   def create
-    defaultErrorMsg = 'Could not create the tool.'
+    default_error_msg = 'Could not create the tool.'
     @inventory = ToolInventory.first
 
     barcode = params[:tool_inventory_tool][:barcode]
     begin
       barcode = Integer(barcode)
     rescue ArgumentError
-      redirect_to tool_inventory_path(@inventory), alert: defaultErrorMsg
+      redirect_to tool_inventory_path(@inventory), alert: default_error_msg
       return
     end
     tool_type_id = params[:tool_inventory_tool][:tool_type_id]
@@ -51,13 +51,13 @@ class ToolInventoryToolsController < ApplicationController
                       "A tool with barcode \"#{barcode}\" has already been added to this inventory."
         return
       elsif tool_barcodes.include? barcode
-        pathParams = {
+        path_params = {
           default_barcode: barcode,
           default_tool_type_id: tool_type_id,
           default_description: description
         }
         @existing_tool = Tool.find_by(barcode: barcode)
-        redirect_to inventory_path(**pathParams),
+        redirect_to inventory_path(**path_params),
                     alert:
                       "A tool with barcode '#{barcode}' " \
                       "#{helpers.link_to('already exists', tool_path(@existing_tool))}. " \
@@ -76,7 +76,7 @@ class ToolInventoryToolsController < ApplicationController
     if @tool.save
       redirect_to inventory_path, notice: 'Added Tool!'
     else
-      redirect_to inventory_path, alert: defaultErrorMsg
+      redirect_to inventory_path, alert: default_error_msg
     end
   end
 

@@ -31,7 +31,7 @@
   }
 </style>
 
-<tr <%= raw 'class="warning"' if tool.is_checked_out? %>>
+<tr <%= raw 'class="warning"' if tool.checked_out? %>>
   <td><%= link_to tool.barcode, tool, class: 'btn btn-info btn-xs' %></td>
   <td><%= tool.name %></td>
   <td><%= tool.description %></td>
@@ -42,9 +42,9 @@
     <% rescue Propshaft::MissingAssetError %>
     <% end %>
   </td>
-  <td><%= date_and_time(tool.checkouts.current.first.checked_out_at) if tool.is_checked_out? %></td>
-  <td class="hidden-xs <%= 'hidden' if page == 'org' %>"><%= link_to tool.checkouts.current.first.organization.short_name, tool.checkouts.current.first.organization if tool.is_checked_out? %></td>
-  <td class="visible-lg <%= 'visible-sm visible-md' if page == 'org' %>"><%= link_to tool.checkouts.current.first.participant.name, tool.checkouts.current.first.participant if tool.is_checked_out? && tool.checkouts.current.first.participant.present? %></td>
+  <td><%= date_and_time(tool.checkouts.current.first.checked_out_at) if tool.checked_out? %></td>
+  <td class="hidden-xs <%= 'hidden' if page == 'org' %>"><%= link_to tool.checkouts.current.first.organization.short_name, tool.checkouts.current.first.organization if tool.checked_out? %></td>
+  <td class="visible-lg <%= 'visible-sm visible-md' if page == 'org' %>"><%= link_to tool.checkouts.current.first.participant.name, tool.checkouts.current.first.participant if tool.checked_out? && tool.checkouts.current.first.participant.present? %></td>
 </tr>
 
 <script>

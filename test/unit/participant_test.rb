@@ -102,7 +102,7 @@ class ParticipantTest < ActiveSupport::TestCase
       end
 
       should 'show that is_booth_chair method works correctly' do
-        assert_predicate @participant, :is_booth_chair?
+        assert_predicate @participant, :booth_chair?
       end
 
       should 'show that is_scc method works correctly' do

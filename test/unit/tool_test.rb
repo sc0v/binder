@@ -169,16 +169,16 @@ class ToolTest < ActiveSupport::TestCase
       assert_nil @ladder.current_participant
     end
 
-    should 'show that the is_checked_out? method works' do
-      assert_predicate @hammer, :is_checked_out?
-      assert_predicate @saw, :is_checked_out?
-      assert_predicate @hard_hat_1, :is_checked_out?
-      deny @ladder.is_checked_out?
+    should 'show that the checked_out? method works' do
+      assert_predicate @hammer, :checked_out?
+      assert_predicate @saw, :checked_out?
+      assert_predicate @hard_hat_1, :checked_out?
+      deny @ladder.checked_out?
     end
 
     should 'show that is_hardhat works' do
-      assert_predicate @hard_hat_1, :is_hardhat?
-      deny @radio.is_hardhat?
+      assert_predicate @hard_hat_1, :hardhat?
+      deny @radio.hardhat?
     end
 
     should "show that the 'self.checked_out_by_organization(organization)' method works" do

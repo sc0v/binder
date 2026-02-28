@@ -128,11 +128,11 @@ class Participant < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
 
-  def is_booth_chair?
+  def booth_chair?
     memberships.booth_chairs.present?
   end
 
-  def is_red_hardhat?
+  def red_hardhat?
     memberships.where(is_red_hardhat: true).present?
   end
 
@@ -263,7 +263,7 @@ class Participant < ApplicationRecord
     return if organization_categories.blank?
     return if organization_categories.pluck(:lookup_key).uniq == ['doghouse']
     return :blue if scc?
-    return :red if is_booth_chair? && is_red_hardhat?
+    return :red if booth_chair? && red_hardhat?
 
     :white
   end

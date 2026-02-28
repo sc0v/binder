@@ -229,7 +229,7 @@ class MembershipsController < ApplicationController
           participant_id: @participant.id,
           organization_id: org.id
         ).first
-      @membership.destroy unless @membership.is_booth_chair?
+      @membership.destroy unless @membership.booth_chair?
     end
 
     all_ok = true
