@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   # Default route
   root to: 'welcome#index'
@@ -23,12 +24,12 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
   direct :contact_email do |options|
     params = options.map { |k, v| "#{k}=#{v}" }.join('&')
-    params.prepend('?') if params.present?
+    params.presence&.prepend('?')
     "mailto:systems@springcarnival.org#{params}"
   end
   direct :waiver_questions_email do |options|
     params = options.map { |k, v| "#{k}=#{v}" }.join('&')
-    params.prepend('?') if params.present?
+    params.presence&.prepend('?')
     "mailto:slice@andrew.cmu.edu#{params}"
   end
   direct :gravatar do |email, size = 50|
@@ -80,9 +81,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   # Tools
   resources :tools do
-    member do
-      get :remove, to: 'tools/checkouts#remove'
-    end
+    member { get :remove, to: 'tools/checkouts#remove' }
     collection do
       post :add, to: 'tools/checkouts#add'
       post :checkout_participant, to: 'tools/checkouts#participant'
@@ -95,7 +94,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
   end
 
   # Tool types
-  resources :tool_types 
+  resources :tool_types
 
   # Tool Inventory
   resources :tool_inventory, path: 'inventory', only: [:show] do
@@ -106,9 +105,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   # Scissor Lifts
   resources :scissor_lifts, only: %i[index show] do
-    member do
-      get :remove, to: 'scissor_lift_checkouts#remove'
-    end
+    member { get :remove, to: 'scissor_lift_checkouts#remove' }
     collection do
       post :add, to: 'scissor_lift_checkouts#add'
       get :reset, to: 'scissor_lift_checkouts#reset'
@@ -125,20 +122,20 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   # TODO: Confirm everything below
   resources :organizations do
-    resources :organization_build_statuses, only: [:show, :edit, :update] do
-	    resources :organization_build_steps, only: %i[show create edit update destroy]
+    resources :organization_build_statuses, only: %i[show edit update] do
+      resources :organization_build_steps,
+                only: %i[show create edit update destroy]
     end
 
-    resources :participants, only: %i[new create index],
-      controller: "organization_members"
+    resources :participants,
+              only: %i[new create index],
+              controller: 'organization_members'
     patch 'remove_staged', to: 'organization_members#remove_staged'
 
     resources :shifts, only: [:index]
     resources :tools, only: [:index]
     get 'hardhats', on: :member
-    resources :downtime,
-              controller: :downtime,
-              only: [:index]
+    resources :downtime, controller: :downtime, only: [:index]
     resources :memberships, only: %i[new create destroy]
     # Membership bulk add operations
     post 'upload_membership_csv', to: 'memberships#upload_csv'
@@ -174,7 +171,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
     resources :memberships, except: %i[index show]
 
-    #resource :waiver, only: %i[show create]
+    # resource :waiver, only: %i[show create]
     resources :certifications, only: %i[new create destroy]
     post 'lookup', on: :collection
   end
@@ -225,14 +222,12 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
       :as => 'structural'
   get 'electrical' => 'organization_timeline_entries#electrical',
       :as => 'electrical'
-  get 'queues' => 'organization_timeline_entries#queues',
-      :as => 'queues'
+  get 'queues' => 'organization_timeline_entries#queues', :as => 'queues'
 
   resources :users
 
-  resources :visitor_counts, only: [:show, :update, :index]
+  resources :visitor_counts, only: %i[show update index]
 
   get 'manifest', to: 'pwa#manifest', defaults: { format: :json }
   get 'service-worker', to: 'pwa#service_worker', defaults: { format: :js }
-
 end

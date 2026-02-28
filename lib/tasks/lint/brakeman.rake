@@ -6,6 +6,7 @@ namespace :lint do
   desc 'Check for security vulnerabilities'
   task :brakeman do |t|
     include LintHelper
+
     log(t.name)
     log(t.name, ' * warning: superfluous dryrun rule') if dryrun?(t.name)
 

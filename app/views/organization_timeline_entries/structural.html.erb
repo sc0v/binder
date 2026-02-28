@@ -7,8 +7,9 @@
 <div class="content">
   <div>
     <h1>Structural Queue</h1>
-    <%= render partial: 'organization_timeline_entries', locals: { entries: @organization_timeline_entries } %>
-  </div><div class="sidebar">
-    <%= render partial: 'queue_sidebar' %>
-  </div>
+    <%= render partial: 'organization_timeline_entries',
+               locals: {
+                 entries: @organization_timeline_entries
+               } %> </div
+  ><div class="sidebar"> <%= render partial: 'queue_sidebar' %> </div>
 </div>

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Participants::SafetyBriefingsHelper
   def safety_video_duration(duration)
     ActiveSupport::Duration.build(duration).inspect
@@ -27,12 +28,12 @@ module Participants::SafetyBriefingsHelper
 
   NOTE_ADMIN =
     '<strong>Note:</strong> This is a privileged user account with playback ' \
-      'controls enabled.'
+    'controls enabled.'
   private_constant :NOTE_ADMIN
 
   NOTE_REWATCHING =
     'You have already watched the safety video all the way through, so ' \
-      'playback controls are enabled.'
+    'playback controls are enabled.'
   private_constant :NOTE_REWATCHING
 
   private

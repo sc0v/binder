@@ -4,12 +4,12 @@
 <% nav(active: 'ppe_distribution') %>
 
 <div class="content">
-  <div>
-    <%= render "step_#{params[:step]}" %>
-  </div><div class="sidebar">
+  <div> <%= render "step_#{params[:step]}" %> </div
+  ><div class="sidebar">
     <div class="red invert">
       <h2>
         <%= link_to 'Start Over', ppe_distribution_path, class: 'cta' %>
       </h2>
     </div>
+  </div>
 </div>

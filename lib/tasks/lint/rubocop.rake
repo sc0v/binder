@@ -7,6 +7,7 @@ namespace 'lint' do
   desc 'Lint project ruby files, lint specific ruby files'
   task :rubocop, [:files] do |t, args|
     include LintHelper
+
     log(t.name)
 
     bin = [RUBOCOP_BIN]

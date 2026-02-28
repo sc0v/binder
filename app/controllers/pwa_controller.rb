@@ -6,10 +6,12 @@ class PwaController < ApplicationController
   skip_before_action :authenticate_user!, raise: false
 
   def manifest
-    render "pwa/manifest", formats: [:json], content_type: "application/manifest+json"
+    render 'pwa/manifest',
+           formats: [:json],
+           content_type: 'application/manifest+json'
   end
 
   def service_worker
-    render "pwa/service_worker", formats: [:js], content_type: "text/javascript"
+    render 'pwa/service_worker', formats: [:js], content_type: 'text/javascript'
   end
 end

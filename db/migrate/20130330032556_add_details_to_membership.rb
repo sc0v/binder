@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class AddDetailsToMembership < ActiveRecord::Migration[6.0]
   def up
     add_column :memberships, :is_booth_chair, :boolean

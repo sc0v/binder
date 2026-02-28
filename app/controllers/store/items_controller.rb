@@ -23,9 +23,13 @@ class Store::ItemsController < ApplicationController
     @store_item = StoreItem.create(store_item_params)
     begin
       @store_item.save!
-      redirect_to store_path, notice: "#{params[:store_item][:name]} successfully added to the store!" 
-    rescue
-      redirect_to store_path, alert: "#{params[:store_item][:name]} could not be added to the store." 
+      redirect_to store_path,
+                  notice:
+                    "#{params[:store_item][:name]} successfully added to the store!"
+    rescue StandardError
+      redirect_to store_path,
+                  alert:
+                    "#{params[:store_item][:name]} could not be added to the store."
     end
   end
 
@@ -33,29 +37,34 @@ class Store::ItemsController < ApplicationController
     @store_item = StoreItem.find(params[:id])
     begin
       @store_item.update!(store_item_params)
-      redirect_to store_path, notice: "#{params[:store_item][:name]} successfully updated!" 
-    rescue 
-      redirect_to store_path, alert: "#{params[:store_item][:name]} could not be updated." 
+      redirect_to store_path,
+                  notice: "#{params[:store_item][:name]} successfully updated!"
+    rescue StandardError
+      redirect_to store_path,
+                  alert: "#{params[:store_item][:name]} could not be updated."
     end
   end
 
   def destroy
     @store_item = StoreItem.find(params[:id])
     @name = @store_item.name
-    if StorePurchase.where(store_item: @store_item).length > 0
-      redirect_to store_path, alert: "#{@name} is still in the cart!" and return 
+    if StorePurchase.where(store_item: @store_item).length.positive?
+      redirect_to store_path, alert: "#{@name} is still in the cart!" and return
     end
+
     begin
       @store_item.destroy!
-      redirect_to store_path, notice: "#{@name} successfully removed from the store!" 
-    rescue 
-      redirect_to store_path, alert: "#{@name} could not be removed from the store." 
+      redirect_to store_path,
+                  notice: "#{@name} successfully removed from the store!"
+    rescue StandardError
+      redirect_to store_path,
+                  alert: "#{@name} could not be removed from the store."
     end
   end
 
   private
 
   def store_item_params
-    params.require(:store_item).permit(:name, :price)
+    params.expect(store_item: %i[name price])
   end
 end

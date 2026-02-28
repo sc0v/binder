@@ -25,7 +25,12 @@ class HomeController < ApplicationController
       return
     end
 
-    @org = Organization.where('lower(name) = lower(?) OR lower(short_name) = lower(?)', @query, @query).first
+    @org =
+      Organization.where(
+        'lower(name) = lower(?) OR lower(short_name) = lower(?)',
+        @query,
+        @query
+      ).first
 
     if @org.present?
       redirect_to @org
@@ -49,10 +54,10 @@ class HomeController < ApplicationController
   def charge_overview
     @organizations = Organization.joins(:charges).distinct.includes(:charges)
     authorize! :read, @organizations
-    @charge_types = ChargeType.all.includes(:charges)
+    @charge_types = ChargeType.includes(:charges)
     @approved_total = Charge.approved.sum('amount')
     @pending_total = Charge.pending.sum('amount')
-    @total = Charge.all.sum('amount')
+    @total = Charge.sum('amount')
   end
 
   def downtime

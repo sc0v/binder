@@ -6,8 +6,11 @@
 
 <div class="content wide">
   <h1>Scissor Lift Checkout Log</h1>
-  <%= content_tag :div, data:
-        { controller: 'table', config: scissor_lift_checkouts_table_config } do %>
+  <%= content_tag :div,
+                  data: {
+                    controller: 'table',
+                    config: scissor_lift_checkouts_table_config
+                  } do %>
     Loading...
   <% end %>
 </div>

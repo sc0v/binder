@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ScissorLiftsHelper
   SCISSOR_LIFTS_TABLE_COLUMNS = [
     {
@@ -34,32 +36,32 @@ module ScissorLiftsHelper
       field: :checked_out_at,
       formatter: 'datetime',
       formatterParams: {
-        inputFormat:"yyyy-MM-dd'T'HH:mm:ss.SSSZZ",
+        inputFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSZZ",
         outputFormat: 'f',
         invalidPlaceholder: true
       },
       sorter: 'datetime',
       sorterParams: {
         format: "yyyy-MM-dd'T'HH:mm:ss.SSSZZ",
-        alignEmptyValues: "bottom",
-      },
+        alignEmptyValues: 'bottom'
+      }
     },
     {
       title: 'Time Due',
       field: :due_at,
       formatter: 'datetime',
       formatterParams: {
-        inputFormat:"yyyy-MM-dd'T'HH:mm:ss.SSSZZ",
+        inputFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSZZ",
         outputFormat: 'f',
         invalidPlaceholder: true
       },
       sorter: 'datetime',
       sorterParams: {
         format: "yyyy-MM-dd'T'HH:mm:ss.SSSZZ",
-        alignEmptyValues: "bottom",
-      },
-    },
-  ]
+        alignEmptyValues: 'bottom'
+      }
+    }
+  ].freeze
 
   def scissor_lifts_table_config
     {
@@ -74,9 +76,9 @@ module ScissorLiftsHelper
     }.to_json
   end
 
-  private 
+  private
 
-  def load_scissor_lifts_columns 
+  def load_scissor_lifts_columns
     SCISSOR_LIFTS_TABLE_COLUMNS
   end
 end

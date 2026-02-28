@@ -6,53 +6,48 @@ class ToolsController < ApplicationController
   # Index method with manual pagination using page and size parameters
   # The tools table gets data from here through AJAX, so we keep
   # compute last_page to tell table how many batches it needs
-  def index()
+  def index
     type = params[:type] || 'tool'
 
     tools = Tool.just_tools
 
     case type
-      when 'hardhat'
-        tools = Tool.hardhats
-      when 'radio'
-        tools = Tool.radios
+    when 'hardhat'
+      tools = Tool.hardhats
+    when 'radio'
+      tools = Tool.radios
     end
 
-    params.permit!()
-    @json_url = url_for(params.merge( format: :json))
+    params.permit!
+    @json_url = url_for(params.merge(format: :json))
 
     respond_to do |format|
-      format.html do
-        render :index
-      end
+      format.html { render :index }
       format.json do
         page = params[:page].present? ? params[:page].to_i : 1
         size = params[:size].present? ? params[:size].to_i : 1
 
-        offset = (page-1)*size
+        offset = (page - 1) * size
         # Compute last_page as ceil(tool.count / size)
-        last_page = tools.count / size + (tools.count % size == 0 ? 0 : 1)
+        last_page = (tools.count / size) + ((tools.count % size).zero? ? 0 : 1)
         # Only return the participants in this page
-        tools = tools
+        tools =
+          tools
           .accessible_by(Current.ability)
           .ordered_by_name
-          .offset(offset).limit(size)
-        data =
-          tools.table_attrs.as_json(methods: %i[link])
-        render json: {last_page: , data: }
+          .offset(offset)
+          .limit(size)
+        data = tools.table_attrs.as_json(methods: %i[link])
+        render json: { last_page:, data: }
       end
     end
   end
 
+  def show; end
 
-  def show
-  end
+  def new; end
 
-  def new
-  end
-
-  def edit
-  end
+  def edit; end
 
   def create
     if @tool.save
@@ -65,23 +60,21 @@ class ToolsController < ApplicationController
   def update
     @tool.update(tool_params)
     if @tool.valid?
-      redirect_to tool_path(@tool), notice: "Updated Tool!"
+      redirect_to tool_path(@tool), notice: 'Updated Tool!'
     else
-      redirect_to tool_path(@tool), alert: "Could not update tool."
+      redirect_to tool_path(@tool), alert: 'Could not update tool.'
     end
   end
 
   def destroy
     if @tool.destroy
-      redirect_to tools_path
-    else
-      redirect_to tools_path
     end
+    redirect_to tools_path
   end
 
   private
 
   def tool_params
-    params.require(:tool).permit(:name, :description, :barcode, :tool_type_id)
+    params.expect(tool: %i[name description barcode tool_type_id])
   end
 end

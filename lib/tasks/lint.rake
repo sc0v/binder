@@ -44,6 +44,7 @@ namespace :lint do |namespace|
 
   rule ':dryrun', [:files] do |t, args|
     include LintHelper
+
     task = t.name.delete_suffix(':dryrun') # determine task name
     dryrun(task) # flag env as dryrun for task
 

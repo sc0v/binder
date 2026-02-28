@@ -22,7 +22,7 @@ class ClockModule {
     label = "",
     format = (t) => {
       return t;
-    }
+    },
   ) {
     this.element = document.createElement("div");
     this.element.innerHTML =

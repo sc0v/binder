@@ -9,22 +9,14 @@
     <%= form.text_field :answer %>
 
     <%= form.label :organization_category %>
-    <%=
-      content_tag(
-        :div,
-        faq.errors[:organization_category].join(', '),
-        role: 'alert',
-      )
-    %>
-    <%=
-      form.collection_select(
-        :organization_category_id,
-        OrganizationCategory.collection_select,
-        :id,
-        :name,
-        include_blank: 'All Participants',
-      )
-    %>
+    <%= content_tag(:div, faq.errors[:organization_category].join(', '), role: 'alert') %>
+    <%= form.collection_select(
+          :organization_category_id,
+          OrganizationCategory.collection_select,
+          :id,
+          :name,
+          include_blank: 'All Participants'
+        ) %>
     <div aria-live></div>
   </div>
   <div>

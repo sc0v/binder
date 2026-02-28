@@ -8,6 +8,6 @@ class ToolType < ApplicationRecord
   validates :name, presence: true, uniqueness: true
 
   default_scope { order(:name) }
-  scope :active,       -> { where(active: true) }
-  scope :inactive,     -> { where(active: false) }
+  scope :active, -> { where(active: true) }
+  scope :inactive, -> { where(active: false) }
 end

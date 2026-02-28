@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CreateToolWaitlists < ActiveRecord::Migration[6.0]
   def change
     create_table :tool_waitlists do |t|

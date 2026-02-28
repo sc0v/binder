@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
@@ -74,7 +75,7 @@ namespace :db do
   task :reset do
     on roles(:db) do
       within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
+        with rails_env: fetch(:rails_env) || fetch(:stage) do
           execute :rake, 'db:reset'
         end
       end
@@ -86,7 +87,7 @@ namespace :db do
   task :drop do
     on roles(:db) do
       within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
+        with rails_env: fetch(:rails_env) || fetch(:stage) do
           execute :rake, 'db:drop'
         end
       end
@@ -98,7 +99,7 @@ namespace :db do
   task :seed do
     on roles(:db) do
       within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
+        with rails_env: fetch(:rails_env) || fetch(:stage) do
           execute :rake, 'db:seed'
         end
       end
@@ -110,7 +111,7 @@ namespace :db do
   task :migrate do
     on roles(:db) do
       within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
+        with rails_env: fetch(:rails_env) || fetch(:stage) do
           execute :rake, 'db:migrate'
         end
       end
@@ -122,7 +123,7 @@ namespace :db do
   task :setup do
     on roles(:db) do
       within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
+        with rails_env: fetch(:rails_env) || fetch(:stage) do
           execute :rake, 'db:setup'
         end
       end
@@ -146,7 +147,8 @@ namespace :rails do
   desc 'Remote dbconsole'
   task :dbconsole do
     on roles(:app) do |h|
-      run_interactively "bundle exec rails dbconsole #{fetch(:rails_env)}", h.user
+      run_interactively "bundle exec rails dbconsole #{fetch(:rails_env)}",
+                        h.user
     end
   end
 

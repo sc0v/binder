@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class FAQController < ApplicationController
   load_and_authorize_resource
 
@@ -42,14 +43,10 @@ class FAQController < ApplicationController
   private
 
   def create_params
-    params.require(:faq).permit(
-      Current.ability.permitted_attributes(:create, FAQ)
-    )
+    params.expect(faq: [Current.ability.permitted_attributes(:create, FAQ)])
   end
 
   def update_params
-    params.require(:faq).permit(
-      Current.ability.permitted_attributes(:update, @faq)
-    )
+    params.expect(faq: [Current.ability.permitted_attributes(:update, @faq)])
   end
 end
