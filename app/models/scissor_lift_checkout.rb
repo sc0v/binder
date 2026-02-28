@@ -30,7 +30,7 @@ class ScissorLiftCheckout < ApplicationRecord
   end
 
   def scissor_lift_available
-    return if scissor_lift.blank? || !scissor_lift.is_checked_out?
+    return if scissor_lift.blank? || !scissor_lift.checked_out?
 
     errors.add(:scissor_lift, 'is already checked out')
   end

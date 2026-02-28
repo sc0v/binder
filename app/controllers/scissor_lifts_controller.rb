@@ -16,7 +16,7 @@ class ScissorLiftsController < ApplicationController
             methods: %i[
               name
               link
-              is_checked_out?
+              checked_out?
               current_organization
               checked_out_at
               due_at

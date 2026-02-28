@@ -33,7 +33,7 @@ module OrganizationMembersHelper
     },
     {
       title: 'Booth Chair?',
-      field: :is_booth_chair?,
+      field: :booth_chair?,
       hozAlign: 'center',
       formatter: 'tickCross',
       headerFilter: 'tickCross',

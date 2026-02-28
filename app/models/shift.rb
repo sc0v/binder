@@ -82,7 +82,7 @@ class Shift < ApplicationRecord
     end
   end
 
-  def is_checked_in
+  def checked_in?
     participants.size
     required_number_of_participants
     Rails.logger.debug do
@@ -118,7 +118,7 @@ class Shift < ApplicationRecord
 
   # send notification to booth chairs of shift's org if required # of people haven't clocked in
   def send_late_notifications
-    if shift_type.name == 'Watch Shift' && is_checked_in == false
+    if shift_type.name == 'Watch Shift' && !checked_in?
       organization.booth_chairs.each do |chair|
         next unless chair.phone_number.length == 10
 
@@ -128,7 +128,7 @@ class Shift < ApplicationRecord
           'watch shift have checked in. Please send more people as soon as possible.'
         )
       end
-    elsif shift_type.name == 'Watch Shift' && is_checked_in == true
+    elsif shift_type.name == 'Watch Shift' && checked_in?
       organization.booth_chairs.each do |chair|
         next unless chair.phone_number.length == 10
 

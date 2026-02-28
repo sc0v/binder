@@ -13,7 +13,7 @@ class Task < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
 
-  def is_past_due
+  def past_due?
     due_at < Time.zone.now
   end
 end

@@ -15,7 +15,7 @@ class ScissorLift < ApplicationRecord
     scissor_lift_path(self)
   end
 
-  def is_checked_out?
+  def checked_out?
     current_checkout.present?
   end
 
