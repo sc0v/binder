@@ -3,8 +3,16 @@ plugins:
   - rubocop-minitest
   - rubocop-rails
 
+
 AllCops:
   NewCops: enable
+  Exclude:
+    - "bin/**/*"
+    - "config/initializers/new_framework_defaults_7_0.rb"
+    - "db/schema.rb"
+    - "node_modules/**/*"
+    - "shift_picker.rb"
+    - "vendor/**/*"
 
 Style/Documentation:
   Enabled: false
