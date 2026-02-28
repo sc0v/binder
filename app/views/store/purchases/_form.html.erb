@@ -3,14 +3,22 @@
   <%= form_tag store_cart_checkout_path do %>
     <% borrower = Participant.find(session[:borrower_id]) %>
     <h3><%= borrower.name %> (<%= borrower.eppn %>)</h3>
-    <%= collection_select(:checkout, :organization_id, borrower.organizations, :id, :name) %>
-    <%= submit_tag "Complete Checkout", class: 'wide' %>
-    <% end %>
+    <%= collection_select(
+          :checkout,
+          :organization_id,
+          borrower.organizations,
+          :id,
+          :name
+        ) %>
+    <%= submit_tag 'Complete Checkout', class: 'wide' %>
+  <% end %>
 <% else %>
   <%= form_tag checkout_participant_tools_path do %>
     <%= label_tag(:participant_search, 'Tap/Swipe/Type Andrew ID [Enter]') %>
     <%= hidden_field_tag(:url, request.path) %>
-    <%= text_field_tag(:participant_search, nil, autocomplete: :off, autofocus: :true) %>
+    <%= text_field_tag(:participant_search, nil, autocomplete: :off, autofocus: true) %>
   <% end %>
 <% end %>
-<p class="alignright"><%= link_to 'Reset', store_cart_reset_participant_path, class: 'cta' %></p>
+<p class="alignright"
+  ><%= link_to 'Reset', store_cart_reset_participant_path, class: 'cta' %></p
+>

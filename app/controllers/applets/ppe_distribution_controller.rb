@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class Applets::PPEDistributionController < ApplicationController
   def index
     case params[:step]
@@ -17,6 +18,7 @@ class Applets::PPEDistributionController < ApplicationController
 
   def load_step_one
     return if params[:participant_search].blank?
+
     @participant =
       Participant.find_or_create_by_search(params[:participant_search])
     if @participant.blank?
@@ -26,13 +28,22 @@ class Applets::PPEDistributionController < ApplicationController
       flash.now[:alert] = "#{@participant.name} did not sign the waiver yet."
       return false
     elsif @participant.organizations.blank?
-      flash.now[:alert] = "#{@participant.name} has no organization memberships."
+      flash.now[
+        :alert
+      ] = "#{@participant.name} has no organization memberships."
       return false
-    elsif Tool.hardhats
-      .joins(:checkouts)
-      .where(checkouts: {participant_id: @participant.id, checked_in_at: nil})
-      .exists?
-      flash.now[:alert] = "#{@participant.name} already has a hardhat checked out."
+    elsif Tool
+          .hardhats
+          .joins(:checkouts)
+          .exists?(
+            checkouts: {
+              participant_id: @participant.id,
+              checked_in_at: nil
+            }
+          )
+      flash.now[
+        :alert
+      ] = "#{@participant.name} already has a hardhat checked out."
       return false
     end
     true
@@ -41,6 +52,7 @@ class Applets::PPEDistributionController < ApplicationController
   def load_step_two
     @participant = Participant.find(params[:participant_id])
     return false if @participant.blank?
+
     session[:retry_hardhat] = nil
     true
   end
@@ -48,9 +60,10 @@ class Applets::PPEDistributionController < ApplicationController
   def load_step_three
     @participant = Participant.find(params[:participant_id])
     return false if @participant.blank?
+
     if params[:hardhat_search].blank?
-        flash.now[:alert] = 'No hardhat found with that information.'
-        return false
+      flash.now[:alert] = 'No hardhat found with that information.'
+      return false
     end
     if params[:organization_id].blank?
       flash.now[:alert] = 'No organization selected.'
@@ -58,29 +71,31 @@ class Applets::PPEDistributionController < ApplicationController
     end
     @organization = Organization.find(params[:organization_id])
     return false if @organization.blank?
-    hh_type = case @participant.hardhat_color
-               when :blue
-                 ToolType.find_by(name: 'SCC Hardhat')
-               when :red
-                 ToolType.find_by(name: 'Booth Chair Hardhat')
-               when :white
-                 ToolType.find_by(name: 'Org Hardhat')
-               end
+
+    hh_type =
+      case @participant.hardhat_color
+      when :blue
+        ToolType.find_by(name: 'SCC Hardhat')
+      when :red
+        ToolType.find_by(name: 'Booth Chair Hardhat')
+      when :white
+        ToolType.find_by(name: 'Org Hardhat')
+      end
     # Check if a hardhat exists with the given barcode
     @hardhat = Tool.find_by(barcode: params[:hardhat_search])
 
     # If it exists, check if it's the correct type
-    if @hardhat.present?
-      if @hardhat.tool_type != hh_type
-        if session[:retry_hardhat] == params[:hardhat_search]
-          # Update hardhat type
-          @hardhat.tool_type = hh_type
-          @hardhat.save!
-        else
-          flash.now[:warning] = "Hardhat #{@hardhat.barcode} is not the correct type in the database. If you are sure scan again to update the type."
-          session[:retry_hardhat] = params[:hardhat_search]
-          return false
-        end
+    if @hardhat.present? && (@hardhat.tool_type != hh_type)
+      if session[:retry_hardhat] == params[:hardhat_search]
+        # Update hardhat type
+        @hardhat.tool_type = hh_type
+        @hardhat.save!
+      else
+        flash.now[
+          :warning
+        ] = "Hardhat #{@hardhat.barcode} is not the correct type in the database. If you are sure scan again to update the type."
+        session[:retry_hardhat] = params[:hardhat_search]
+        return false
       end
     end
 
@@ -88,19 +103,31 @@ class Applets::PPEDistributionController < ApplicationController
 
     #  If hardhat doesn't exist create one
     if @hardhat.blank?
-      @hardhat = Tool.create!(tool_type: hh_type, barcode: params[:hardhat_search])
+      @hardhat =
+        Tool.create!(tool_type: hh_type, barcode: params[:hardhat_search])
     end
 
     return false if @hardhat.blank?
+
     true
   end
 
   def step_three
-    @checkout = Checkout.create(tool: @hardhat, participant: @participant, organization: @organization, checked_out_at: Time.now)
-    if !@checkout.save
-      flash.now[:alert] = "Checkout failed (#{@checkout.errors.full_messages.join(', ')})"
+    @checkout =
+      Checkout.create(
+        tool: @hardhat,
+        participant: @participant,
+        organization: @organization,
+        checked_out_at: Time.zone.now
+      )
+    unless @checkout.save
+      flash.now[
+        :alert
+      ] = "Checkout failed (#{@checkout.errors.full_messages.join(', ')})"
       return false
     end
-    flash.now[:notice] = "Hardhat #{@hardhat.barcode} checked out to #{@participant.name} of #{@organization.name}. Review below or start over."
+    flash.now[
+      :notice
+    ] = "Hardhat #{@hardhat.barcode} checked out to #{@participant.name} of #{@organization.name}. Review below or start over."
   end
 end

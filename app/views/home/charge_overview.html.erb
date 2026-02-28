@@ -15,44 +15,58 @@
   <tbody>
     <% @organizations.each do |organization| %>
       <tr>
-        <td><%= link_to organization.short_name, organization_path(organization) %></td>
+        <td
+          ><%= link_to organization.short_name, organization_path(organization) %></td
+        >
         <td><%= organization.organization_category.name %></td>
-        <td style="text-align: right;"><%=  organization.charges.approved.sum('amount') %></td>
-        <td style="text-align: right;"><%=  organization.charges.pending.sum('amount') %></td>
-        <td style="text-align: right;"><%=  organization.charges.sum('amount') %></td>
+        <td style="text-align: right;"
+          ><%= organization.charges.approved.sum('amount') %></td
+        >
+        <td style="text-align: right;"
+          ><%= organization.charges.pending.sum('amount') %></td
+        >
+        <td style="text-align: right;"
+          ><%= organization.charges.sum('amount') %></td
+        >
       </tr>
     <% end %>
     <tr>
       <td colspan="2"><b>Total:</b></td>
-      <td style="text-align: right;"><%=  @approved_total %></td>
-      <td style="text-align: right;"><%=  @pending_total %></td>
-      <td style="text-align: right;"><%=  @total %></td>
-    </tbody>
-  </table>
-  <br>
-  <br>
-  <table class="table table-striped">
-    <thead>
+      <td style="text-align: right;"><%= @approved_total %></td>
+      <td style="text-align: right;"><%= @pending_total %></td>
+      <td style="text-align: right;"><%= @total %></td>
+    </tr></tbody
+  >
+</table>
+<br />
+<br />
+<table class="table table-striped">
+  <thead>
+    <tr>
+      <th><%= model_class.human_attribute_name(:name) %></th>
+      <th style="text-align: right;">Approved</th>
+      <th style="text-align: right;">Pending</th>
+      <th style="text-align: right;">Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% @charge_types.each do |type| %>
       <tr>
-        <th><%= model_class.human_attribute_name(:name) %></th>
-        <th style="text-align: right;">Approved</th>
-        <th style="text-align: right;">Pending</th>
-        <th style="text-align: right;">Total</th>
+        <td><%= type.name %></td>
+        <td style="text-align: right;"
+          ><%= type.charges.approved.sum('amount') %></td
+        >
+        <td style="text-align: right;"
+          ><%= type.charges.pending.sum('amount') %></td
+        >
+        <td style="text-align: right;"><%= type.charges.sum('amount') %></td>
       </tr>
-    </thead>
-    <tbody>
-      <% @charge_types.each do |type| %>
-        <tr>
-          <td><%= type.name %></td>
-          <td style="text-align: right;"><%=  type.charges.approved.sum('amount') %></td>
-          <td style="text-align: right;"><%=  type.charges.pending.sum('amount') %></td>
-          <td style="text-align: right;"><%=  type.charges.sum('amount') %></td>
-        </tr>
-      <% end %>
-      <tr>
-        <td><b>Total:</b></td>
-        <td style="text-align: right;"><%=  @approved_total %></td>
-        <td style="text-align: right;"><%=  @pending_total %></td>
-        <td style="text-align: right;"><%=  @total %></td>
-      </tbody>
-    </table>
+    <% end %>
+    <tr>
+      <td><b>Total:</b></td>
+      <td style="text-align: right;"><%= @approved_total %></td>
+      <td style="text-align: right;"><%= @pending_total %></td>
+      <td style="text-align: right;"><%= @total %></td>
+    </tr></tbody
+  >
+</table>

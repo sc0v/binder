@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module ParticipantsHelper
   PARTICIPANTS_TABLE_COLUMNS = [
     {
@@ -28,8 +29,9 @@ module ParticipantsHelper
       headerFilter: 'tickCross',
       headerFilterParams: {
         tristate: true
-      }},
-      {
+      }
+    },
+    {
       title: 'Booth Chair?',
       field: :is_booth_chair,
       hozAlign: 'center',
@@ -37,7 +39,8 @@ module ParticipantsHelper
       headerFilter: 'tickCross',
       headerFilterParams: {
         tristate: true
-    }}
+      }
+    }
   ].freeze
 
   def participants_table_config

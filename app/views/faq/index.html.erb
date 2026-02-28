@@ -4,7 +4,7 @@
 
 <div class="content">
   <div>
-    <% @category_faq.each do |c,faq| %>
+    <% @category_faq.each do |c, faq| %>
       <h1><%= c.blank? ? 'General Questions' : c.name %> </h1>
       <div>
         <% faq.each do |f| %>
@@ -17,15 +17,13 @@
             <% end %>
             <% if can?(:destroy, f) %>
               <br />
-              <%=
-                link_to t('.destroy'),
-                        faq_path(f),
-                        data: {
-                          turbo_confirm: t('.confirm'),
-                          turbo_method: :delete,
-                        },
-                        class: 'cta'
-              %>
+              <%= link_to t('.destroy'),
+                          faq_path(f),
+                          data: {
+                            turbo_confirm: t('.confirm'),
+                            turbo_method: :delete
+                          },
+                          class: 'cta' %>
             <% end %>
           </div>
         <% end %>

@@ -2,12 +2,12 @@
 
 Binder uses four linters, all orchestrated through Rake:
 
-| Linter | Covers | Config |
-|--------|--------|--------|
-| [Prettier](https://prettier.io) | JS, CSS, YAML, Ruby, ERB | `.prettierrc`, `.prettierignore` |
-| [RuboCop](https://rubocop.org) | Ruby | `.rubocop.yml` |
-| [ERBLint](https://github.com/Shopify/erb-lint) | ERB templates | `.erb-lint.yml` |
-| [Brakeman](https://brakemanscanner.org) | Security (Ruby/Rails) | none |
+| Linter                                         | Covers                   | Config                           |
+| ---------------------------------------------- | ------------------------ | -------------------------------- |
+| [Prettier](https://prettier.io)                | JS, CSS, YAML, Ruby, ERB | `.prettierrc`, `.prettierignore` |
+| [RuboCop](https://rubocop.org)                 | Ruby                     | `.rubocop.yml`                   |
+| [ERBLint](https://github.com/Shopify/erb-lint) | ERB templates            | `.erb-lint.yml`                  |
+| [Brakeman](https://brakemanscanner.org)        | Security (Ruby/Rails)    | none                             |
 
 ## Running Linters
 

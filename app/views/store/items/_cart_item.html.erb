@@ -13,7 +13,13 @@
       <%= f.submit '+', class: 'btn btn-default btn-xs' %>
     <% end %>
   </td>
-  <td><%= number_to_currency(cart_item.quantity_purchased * cart_item.price_at_purchase) %></td>
-  <td><%= button_to t('.remove_from_cart', default: t('helpers.links.remove_from_cart')),
-                  remove_from_cart_store_item_path(cart_item), class: 'btn btn-danger btn-xs', method: :post %></td>
+  <td
+    ><%= number_to_currency(cart_item.quantity_purchased * cart_item.price_at_purchase) %></td
+  >
+  <td
+    ><%= button_to t('.remove_from_cart', default: t('helpers.links.remove_from_cart')),
+                   remove_from_cart_store_item_path(cart_item),
+                   class: 'btn btn-danger btn-xs',
+                   method: :post %></td
+  >
 </tr>

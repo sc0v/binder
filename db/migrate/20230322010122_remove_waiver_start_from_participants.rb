@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RemoveWaiverStartFromParticipants < ActiveRecord::Migration[7.0]
   def up
     remove_column :participants, :waiver_start

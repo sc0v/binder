@@ -19,10 +19,17 @@
           <td><%= link_to participant.eppn, participant %></td>
           <td><%= participant.signed_waiver ? 'yes' : 'no' %></td>
           <% if can?(:read_phone_number, Participant) %>
-            <td><%= participant.formatted_phone_number if can?(:read_phone_number, participant) %></td>
+            <td
+              ><%= participant.formatted_phone_number if can?(:read_phone_number, participant) %></td
+            >
             <% @membership = participant.memberships.find_by(organization_id: @organization.id) %>
             <% if can?(:destroy, @membership) %>
-              <td><%= link_to 'Remove', [@organization, @membership], method: :delete, class: 'btn btn-xs btn-danger' %></td>
+              <td
+                ><%= link_to 'Remove',
+                             [@organization, @membership],
+                             method: :delete,
+                             class: 'btn btn-xs btn-danger' %></td
+              >
             <% end %>
           <% end %>
         </tr>

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class RemoveColumnsFromTasks < ActiveRecord::Migration[6.0]
   def change
     remove_column :tasks, :assigned_person, :integer

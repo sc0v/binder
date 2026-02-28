@@ -10,28 +10,30 @@ class ShiftsController < ApplicationController
   def index
     s = shifts
 
-    @title = case params[:type]
-             when 'watch'
-               s = shifts.watch_shifts
-               'Watch Shifts'
-             when 'security'
-               s = shifts.sec_shifts
-               'Security Shifts'
-             when 'coordinator'
-               s = shifts.coord_shifts
-               'Coordinator Shifts'
-             else
-               'All Shifts'
-             end
+    @title =
+      case params[:type]
+      when 'watch'
+        s = shifts.watch_shifts
+        'Watch Shifts'
+      when 'security'
+        s = shifts.sec_shifts
+        'Security Shifts'
+      when 'coordinator'
+        s = shifts.coord_shifts
+        'Coordinator Shifts'
+      else
+        'All Shifts'
+      end
 
     @shifts_upcoming = s.where('ends_at > ?', Time.zone.now)
-    @shifts_past = s.where('ends_at <= ?', Time.zone.now)
+    @shifts_past = s.where(ends_at: ..Time.zone.now)
   end
 
   # GET /shifts/1
   # GET /shifts/1.json
   def show
-    @number_spots_left = @shift.required_number_of_participants - @shift.shift_participants.count
+    @number_spots_left =
+      @shift.required_number_of_participants - @shift.shift_participants.count
   end
 
   # GET /shifts/new
@@ -79,7 +81,15 @@ class ShiftsController < ApplicationController
   end
 
   def shift_params
-    params.require(:shift).permit(:starts_at, :ends_at, :shift_type_id, :organization_id,
-                                  :required_number_of_participants, :description)
+    params.expect(
+      shift: %i[
+        starts_at
+        ends_at
+        shift_type_id
+        organization_id
+        required_number_of_participants
+        description
+      ]
+    )
   end
 end

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 module ToolsHelper
   TOOLS_TABLE_COLUMNS = [
-     {
+    {
       title: 'Name',
       field: :t_name,
       formatter: 'link',
@@ -35,7 +36,8 @@ module ToolsHelper
       headerFilter: 'tickCross',
       headerFilterParams: {
         tristate: true
-      }},
+      }
+    },
     {
       title: 'Current Organization',
       field: :t_organization_name,
@@ -49,8 +51,8 @@ module ToolsHelper
       sorter: 'string',
       headerFilter: 'input',
       headerFilterPlaceholder: 'Search'
-    },
-  ]
+    }
+  ].freeze
 
   def tools_table_config
     {

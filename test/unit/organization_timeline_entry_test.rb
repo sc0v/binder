@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class OrganizationTimelineEntryTest < ActiveSupport::TestCase
@@ -13,10 +14,18 @@ class OrganizationTimelineEntryTest < ActiveSupport::TestCase
   context 'With a proper context, ' do
     setup do
       time = Time.zone.now
-      @finished = FactoryGirl.create(:organization_timeline_entry,
-                                     started_at: time - 1.hour, ended_at: time)
-      @not_finished = FactoryGirl.create(:organization_timeline_entry,
-                                         started_at: DateTime.now - 12.hours, ended_at: nil)
+      @finished =
+        FactoryGirl.create(
+          :organization_timeline_entry,
+          started_at: time - 1.hour,
+          ended_at: time
+        )
+      @not_finished =
+        FactoryGirl.create(
+          :organization_timeline_entry,
+          started_at: DateTime.now - 12.hours,
+          ended_at: nil
+        )
     end
 
     teardown do

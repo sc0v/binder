@@ -10,81 +10,92 @@
 </div>
 
 <% unless @participant.signed_waiver? %>
-<div class="content wide red invert none">
-  <div>
-    <h2>Has not signed waiver!</h2><strong> No wristbands. No rentals. No PPE.</strong>
+  <div class="content wide red invert none">
+    <div>
+      <h2>Has not signed waiver!</h2
+      ><strong> No wristbands. No rentals. No PPE.</strong>
+    </div>
   </div>
-</div>
 <% end %>
 
 <div class="content">
   <div>
     <% if @participant.signed_waiver? %>
-  <p class="invert green" style="padding: 1em;">
-   HAS SIGNED WAIVER <i class="fa fa-camera-retro fa-lg"></i>
-  </p>
-  <% end %>
+      <p class="invert green" style="padding: 1em;">
+        HAS SIGNED WAIVER <i class="fa fa-camera-retro fa-lg"></i>
+      </p>
+    <% end %>
     <p>
       <strong>EPPN:</strong> <%= @participant.eppn %><br />
-      <strong>Phone:</strong> <%= @participant.formatted_phone_number %><br /> 
+      <strong>Phone:</strong> <%= @participant.formatted_phone_number %><br />
       <strong>Department:</strong> <%= @participant.department %><br />
       <strong>Student Class:</strong> <%= @participant.student_class %>
     </p>
 
     <h2 style="padding: 0">Memberships</h2>
     <% if @participant.memberships.blank? %>
-    None yet.
+      None yet.
     <% else %>
-    <ul class="list-unstyled">
-      <% @participant.memberships.each do |membership| %>
-      <li>
-        <%= link_to membership.organization.name, membership.organization %>
-      </li>
-      <% end %>
-    </ul>
+      <ul class="list-unstyled">
+        <% @participant.memberships.each do |membership| %>
+          <li>
+            <%= link_to membership.organization.name, membership.organization %>
+          </li>
+        <% end %>
+      </ul>
     <% end %>
 
     <h2 style="padding: 0">Certifications</h2>
     <% if @participant.certifications.blank? %>
-    <p>None yet.</p>
+      <p>None yet.</p>
     <% else %>
-    <ul class="list-unstyled">
-      <% @participant.certifications.each do |cert| %>
-      <li>
-        <%= cert.certification_type.name %>
-      </li>
-      <% end %>
-    </ul>
-    <% end %>
-    
-    <h2 style="padding: 0">Tools</h2>
-    <% if @participant.checkouts.current.blank? %>
-    <p>No tools checked out.</p>
-    <% else %>
-    <ul class="list-unstyled">
-      <% @participant.checkouts.current.each do |checkout| %>
-      <li><%= link_to checkout.tool.formatted_name, checkout.tool %> - <%= checkout.checked_out_at.strftime('%b %e at %l:%M %p') %> for <%= link_to checkout.organization.short_name, checkout.organization %></li>
-      <% end %>
-    </ul>
+      <ul class="list-unstyled">
+        <% @participant.certifications.each do |cert| %>
+          <li> <%= cert.certification_type.name %> </li>
+        <% end %>
+      </ul>
     <% end %>
 
-  <% if @participant.signed_waiver? %>
-    <div>
-      <h2 style="padding: 0">Wristbands</h2>
-    Put the following <%= "wristband".pluralize(@participant.wristbands) %> on their wrist. <strong>Don't just give it to them!</strong>
-      <% if @participant.wristbands.present? && @participant.wristbands.include?(:red) %>
-        <p class="invert red" style="padding: 1em;">Red (Member of at least one organization that will be building)</p>
-      <% end %>
-      <% if @participant.wristbands.present? && @participant.wristbands.include?(:blue) %>
-        <p class="invert blue" style="padding: 1em;">Blue (Member of at least one organization that will not be building)</p>
-      <% end %>
-      <% if @participant.wristbands.present? && @participant.wristbands.include?(:green) %>
-        <p class="invert green" style="padding: 1em;">Green (Scissor Lift Certified)</p>
-      <% end %>
-      <% if @participant.wristbands.present? && @participant.wristbands.include?(:yellow) %>
-        <p class="gold" style="padding: 1em;">Alumni</p>
-      <% end %>
-      <% end %>
-    </div>
+    <h2 style="padding: 0">Tools</h2>
+    <% if @participant.checkouts.current.blank? %>
+      <p>No tools checked out.</p>
+    <% else %>
+      <ul class="list-unstyled">
+        <% @participant.checkouts.current.each do |checkout| %>
+          <li
+            ><%= link_to checkout.tool.formatted_name, checkout.tool %> -
+            <%= checkout.checked_out_at.strftime('%b %e at %l:%M %p') %> for
+            <%= link_to checkout.organization.short_name, checkout.organization %></li
+          >
+        <% end %>
+      </ul>
+    <% end %>
+
+    <% if @participant.signed_waiver? %>
+      <div>
+        <h2 style="padding: 0">Wristbands</h2>
+        Put the following <%= 'wristband'.pluralize(@participant.wristbands) %>
+        on their wrist. <strong>Don't just give it to them!</strong>
+        <% if @participant.wristbands.present? && @participant.wristbands.include?(:red) %>
+          <p class="invert red" style="padding: 1em;"
+            >Red (Member of at least one organization that will be building)</p
+          >
+        <% end %>
+        <% if @participant.wristbands.present? && @participant.wristbands.include?(:blue) %>
+          <p class="invert blue" style="padding: 1em;"
+            >Blue (Member of at least one organization that will not be
+            building)</p
+          >
+        <% end %>
+        <% if @participant.wristbands.present? && @participant.wristbands.include?(:green) %>
+          <p class="invert green" style="padding: 1em;"
+            >Green (Scissor Lift Certified)</p
+          >
+        <% end %>
+        <% if @participant.wristbands.present? && @participant.wristbands.include?(:yellow) %>
+          <p class="gold" style="padding: 1em;">Alumni</p>
+        <% end %>
+      </div>
+    <% end %>
   </div>
 </div>

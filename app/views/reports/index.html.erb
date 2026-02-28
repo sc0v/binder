@@ -6,7 +6,11 @@
     <div class="panel panel-default">
       <div class="panel-heading">
         <h4 class="panel-title">
-          <a data-toggle="collapse" data-parent="#accordion" href="#collapse<%= index %>">
+          <a
+            data-toggle="collapse"
+            data-parent="#accordion"
+            href="#collapse<%= index %>"
+          >
             <%= report[:title] %>
           </a>
         </h4>
@@ -19,7 +23,9 @@
               <%= hidden_field_tag 'options[footer]', value: 1 %>
               <% report[:params].each do |param| %>
                 <div>
-                  <span><strong><%= param[:name].to_s.humanize %>:</strong></span>
+                  <span
+                    ><strong><%= param[:name].to_s.humanize %>:</strong></span
+                  >
                   <% if param[:type] == :text %>
                     <%= text_field_tag "options[#{param[:name]}]" %>
                   <% elsif param[:type] == :select %>
@@ -28,10 +34,10 @@
                     <%= check_box_tag "options[#{param[:name]}]", checked: param[:checked] %>
                   <% end %>
                 </div>
-                <br>
+                <br />
               <% end %>
-              <br>
-              <br>
+              <br />
+              <br />
               <%= button_tag 'Run report!', class: 'btn btn-primary' %>
             <% end %>
           </div>

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 module ToolInventoryHelper
   TOOL_INVENTORY_TABLE_COLUMNS = [
-     {
+    {
       title: 'Name',
       field: :name,
       formatter: 'link',
@@ -26,12 +27,16 @@ module ToolInventoryHelper
       sorter: 'string',
       headerFilter: 'input',
       headerFilterPlaceholder: 'Search'
-    },
-  ]
-  
+    }
+  ].freeze
+
   def tool_inventory_table_config
     {
-      ajaxURL: tool_inventory_tool_inventory_tools_path(ToolInventory.first, format: :json),
+      ajaxURL:
+        tool_inventory_tool_inventory_tools_path(
+          ToolInventory.first,
+          format: :json
+        ),
       columns: load_tool_inventory_columns,
       dataLoader: false,
       height: '90vh',
@@ -41,7 +46,7 @@ module ToolInventoryHelper
       resizableColumnFit: true
     }.to_json
   end
-  
+
   private
 
   def load_tool_inventory_columns

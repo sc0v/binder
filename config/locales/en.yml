@@ -38,7 +38,7 @@ en:
 
   time:
     formats:
-      timestamp: '%Y-%m-%d %H:%M (%a)'
+      timestamp: "%Y-%m-%d %H:%M (%a)"
 
   # Controllers
   faq:
@@ -65,7 +65,7 @@ en:
   participants:
     safety_briefings:
       update:
-        alert: 'Problem: %{errors}'
+        alert: "Problem: %{errors}"
     waivers:
       form:
         cancel: Cancel
@@ -159,12 +159,12 @@ en:
   flash:
     actions:
       create:
-        notice: '%{resource_name} was successfully created'
+        notice: "%{resource_name} was successfully created"
       update:
-        notice: '%{resource_name} was successfully updated'
+        notice: "%{resource_name} was successfully updated"
       destroy:
-        notice: '%{resource_name} was successfully deleted'
-        alert: '%{resource_name} could not be deleted'
+        notice: "%{resource_name} was successfully deleted"
+        alert: "%{resource_name} could not be deleted"
     charges:
       approve:
         notice: Charge was successfully approved/un-approved

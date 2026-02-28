@@ -12,13 +12,12 @@ class ToolTypesController < ApplicationController
   def show
     @tool_type = ToolType.find(params[:id])
   end
+
   # GET /tool_types/new
   def new; end
 
   # GET /tool_types/1/edit
-  def edit
-    
-    end
+  def edit; end
 
   # POST /tool_types
   # POST /tool_types.json
@@ -45,8 +44,10 @@ class ToolTypesController < ApplicationController
   # DELETE /tool_types/1
   # DELETE /tool_types/1.json
   def destroy
-    if @tool_type.tools.count.positive?
-      flash[:error] = 'Cannot delete a tool type until all tools of that type are deleted.'
+    if @tool_type.tools.any?
+      flash[
+        :error
+      ] = 'Cannot delete a tool type until all tools of that type are deleted.'
       redirect_to tool_types_path
       return
     end
@@ -58,6 +59,6 @@ class ToolTypesController < ApplicationController
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def tool_type_params
-    params.require(:tool_type).permit(:name)
+    params.expect(tool_type: [:name])
   end
 end

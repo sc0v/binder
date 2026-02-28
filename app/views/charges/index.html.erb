@@ -1,32 +1,35 @@
 <% update_document_title(add: 'Charges') %>
 <% update_breadcrumbs(add: 'Charges') %>
-<%= nav() %>
+<%= nav %>
 
 <%- model_class = Charge -%>
 <div class="content">
   <div>
     <div class="title-row">
-    <h1>
-      <%= link_to "#{@organization.name}'s", @organization if @organization.present? %>
-      <%= t '.title', default: model_class.model_name.human.pluralize %>
-    </h1>
-    <div>
-      <%= link_to "Export Invoices", export_charges_path(format: :zip), class: 'cta'%>
+      <h1>
+        <%= link_to "#{@organization.name}'s", @organization if @organization.present? %>
+        <%= t '.title', default: model_class.model_name.human.pluralize %>
+      </h1>
+      <div>
+        <%= link_to 'Export Invoices', export_charges_path(format: :zip), class: 'cta' %>
+      </div>
     </div>
-    </div>
-    <%= content_tag :div, data:
-          { controller: 'table', config: charges_table_config } do %>
+    <%= content_tag :div, data: { controller: 'table', config: charges_table_config } do %>
       Loading...
+    <% end %> </div
+  ><div class="sidebar">
+    <% if can?(:create, Charge) %>
+      <div class="invert red">
+        <h1
+          ><%= link_to 'Create New Charge', new_charge_path, class: 'cta' %></h1
+        >
+      </div>
     <% end %>
-  </div><div class='sidebar'>
-    <% if can?(:create, Charge)%>
-    <div class='invert red'>
-      <h1><%= link_to 'Create New Charge', new_charge_path, class: 'cta'%></h1>
-    </div>
-    <% end %>
-    <div class='invert green'>
-      <h1><%= link_to 'See Charge Types', charge_types_path, class: 'cta'%></h1>
+    <div class="invert green">
+      <h1
+        ><%= link_to 'See Charge Types', charge_types_path, class: 'cta' %></h1
+      >
     </div>
   </div>
 </div>
-<%#= will_paginate @charges, renderer: BootstrapPagination::Rails %>
+<%# = will_paginate @charges, renderer: BootstrapPagination::Rails %>

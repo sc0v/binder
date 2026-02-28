@@ -4,20 +4,23 @@
 <% nav(active: 'organizations') %>
 <div class="content">
   <div>
-
     <!-- Buttons for Structural Progress and Electrical Progress -->
     <h1><%= @organization.name %></h1>
     <% if @structural %>
-      <%= link_to "Structural Progress", organization_organization_build_status_path(@organization, @structural), class: "btn wide" %>
+      <%= link_to 'Structural Progress',
+                  organization_organization_build_status_path(@organization, @structural),
+                  class: 'btn wide' %>
     <% end %>
     <% if @electrical %>
-      <%= link_to "Electrical Progress", organization_organization_build_status_path(@organization, @electrical), class: "btn wide" %>
+      <%= link_to 'Electrical Progress',
+                  organization_organization_build_status_path(@organization, @electrical),
+                  class: 'btn wide' %>
     <% end %>
 
-    <hr>
+    <hr />
 
     <!-- Tools Dropdown -->
-    <h2 class="collapsed">Tools (<%= @tools_checked_out.length() %>)</h2>
+    <h2 class="collapsed">Tools (<%= @tools_checked_out.length %>)</h2>
     <div style="display: none">
       <% if @tools_checked_out.length() == 0 %>
         <p>No Tools Checked Out!</p>
@@ -32,16 +35,19 @@
       <% end %>
     </div>
 
-    <!-- render partial: "show_org" -->
-
-  </div><div class="sidebar">
+    <!-- render partial: "show_org" --> </div
+  ><div class="sidebar">
     <!-- Only show Add Members button if user has permission to update Memberships for their org -->
     <% if can?(:create, Membership) %>
-      <%= link_to "Add Members", new_organization_membership_path(@organization), class: "btn wide" %>
+      <%= link_to 'Add Members',
+                  new_organization_membership_path(@organization),
+                  class: 'btn wide' %>
     <% end %>
 
     <!-- Booth Chairs Dropdown -->
-    <h2 class="collapsed" style="margin-bottom: 0px">Booth Chairs (<%= @booth_chairs.length() %>)</h2>
+    <h2 class="collapsed" style="margin-bottom: 0px"
+      >Booth Chairs (<%= @booth_chairs.length %>)</h2
+    >
     <div style="display: none; padding-top: 0px">
       <% if @booth_chairs.length() == 0 %>
         <p>No Booth Chairs!</p>
@@ -57,20 +63,19 @@
     </div>
 
     <!-- Builders Dropdown -->
-    <h2 class="collapsed" style="padding-top: 0px">Builders (<%= @non_booth_chairs.length() %>)</h2>
+    <h2 class="collapsed" style="padding-top: 0px"
+      >Builders (<%= @non_booth_chairs.length %>)</h2
+    >
     <div style="display: none; padding-top: 0px">
       <% if @non_booth_chairs.length() == 0 %>
-      <p>No Builders!</p>
+        <p>No Builders!</p>
       <% else %>
-      <ul>
-        <% @non_booth_chairs.each do |builder| %>
-          <li>
-            <%= link_to(builder.name, participant_path(builder)) %>
-          </li>
-        <% end %>
-      </ul>
-    <% end %>
+        <ul>
+          <% @non_booth_chairs.each do |builder| %>
+            <li> <%= link_to(builder.name, participant_path(builder)) %> </li>
+          <% end %>
+        </ul>
+      <% end %>
     </div>
-
-    </div>
+  </div>
 </div>

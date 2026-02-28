@@ -8,6 +8,7 @@ namespace :lint do
   desc 'Lint project embedded ruby files, lint specific erb files'
   task :erblint, [:files] => %i[lint:prettier] do |t, args|
     include LintHelper
+
     log(t.name)
 
     bin = [ERBLINT_BIN]

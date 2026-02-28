@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 FactoryGirl.define do
   # Tool Barcodes
   sequence :barcode do |n|
@@ -13,7 +14,7 @@ FactoryGirl.define do
   # charge
   factory :charge do
     amount 100.00
-    charged_at Date.today
+    charged_at Time.zone.today
     description 'Missed 10/2 meeting'
 
     association :charge_type
@@ -80,7 +81,8 @@ FactoryGirl.define do
   end
 
   # participant
-  factory :participant, aliases: %i[completed_by issuing_participant receiving_participant] do
+  factory :participant,
+          aliases: %i[completed_by issuing_participant receiving_participant] do
     andrewid { generate(:random_string) }
     waiver_start DateTime.now
   end
@@ -109,7 +111,7 @@ FactoryGirl.define do
 
   # task
   factory :task do
-    due_at Date.today
+    due_at Time.zone.today
     name 'Assign rides'
   end
 

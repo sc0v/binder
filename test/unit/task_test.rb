@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class TaskTest < ActiveSupport::TestCase
@@ -14,11 +15,11 @@ class TaskTest < ActiveSupport::TestCase
       # Create 3 tasks
       @assign_rides = FactoryGirl.create(:task, due_at: 2.hours.ago)
       @buy_wood = FactoryGirl.create(:task, due_at: 5.hours.from_now)
-      @takeout_trash = FactoryGirl.create(:task, is_completed: true, due_at: 1.hour.from_now)
+      @takeout_trash =
+        FactoryGirl.create(:task, is_completed: true, due_at: 1.hour.from_now)
     end
 
-    teardown do
-    end
+    teardown {}
 
     should 'show that all factories are properly created' do
       assert_equal 3, Task.all.size
@@ -38,9 +39,9 @@ class TaskTest < ActiveSupport::TestCase
     end
     # Methods
     should 'show that the is_past_due method works' do
-      assert_equal true, @assign_rides.is_past_due
-      assert_equal false, @buy_wood.is_past_due
-      assert_equal false, @takeout_trash.is_past_due
+      assert @assign_rides.is_past_due
+      assert_not @buy_wood.is_past_due
+      assert_not @takeout_trash.is_past_due
     end
   end
 end

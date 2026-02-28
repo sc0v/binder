@@ -78,15 +78,15 @@ type(scope): short description
 
 Common types:
 
-| Type | Use for |
-|------|---------|
-| `feat` | new feature |
-| `fix` | bug fix |
+| Type       | Use for                               |
+| ---------- | ------------------------------------- |
+| `feat`     | new feature                           |
+| `fix`      | bug fix                               |
 | `refactor` | restructuring with no behavior change |
-| `style` | formatting, whitespace |
-| `test` | adding or updating tests |
-| `docs` | documentation only |
-| `chore` | build process, dependencies, tooling |
+| `style`    | formatting, whitespace                |
+| `test`     | adding or updating tests              |
+| `docs`     | documentation only                    |
+| `chore`    | build process, dependencies, tooling  |
 
 Scope is optional but encouraged when the change is localized (e.g., `feat(checkouts):`, `fix(lint):`).
 

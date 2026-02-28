@@ -6,5 +6,5 @@ class OrganizationCategory < ApplicationRecord
 
   validates :name, presence: true, uniqueness: true
 
-  scope :collection_select, -> { all.order(:name) }
+  scope :collection_select, -> { order(:name) }
 end

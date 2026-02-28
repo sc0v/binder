@@ -9,11 +9,19 @@ class ChargeTypesController < ApplicationController
 
   # GET /charge_types/1
   def show
-    amount = ActiveSupport::NumberHelper.number_to_currency(@charge_type.default_amount, unit: '', delimiter: '').to_json
+    amount =
+      ActiveSupport::NumberHelper.number_to_currency(
+        @charge_type.default_amount,
+        unit: '',
+        delimiter: ''
+      ).to_json
     respond_to do |format|
       format.html # new.html.erb
       format.json do
-        render json: {amount: amount, description: @charge_type.description},
+        render json: {
+                 amount: amount,
+                 description: @charge_type.description
+               },
                status: :ok
       end
     end
@@ -46,19 +54,28 @@ class ChargeTypesController < ApplicationController
   # DELETE /charge_types/1
   # DELETE /charge_types/1.json
   def destroy
-    if @charge_type.charges.count.positive?
-      flash[:warn] = 'Cannot delete a charge type until all charges of that type are deleted.'
+    if @charge_type.charges.any?
+      flash[
+        :warn
+      ] = 'Cannot delete a charge type until all charges of that type are deleted.'
       redirect_to charge_types_url
       return
     end
     @charge_type.destroy
-    redirect_to charge_types_path, notice: "Charge type deleted!"
+    redirect_to charge_types_path, notice: 'Charge type deleted!'
   end
 
   private
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def charge_type_params
-    params.require(:charge_type).permit(:name, :default_amount, :description, :requires_booth_chair_approval)
+    params.expect(
+      charge_type: %i[
+        name
+        default_amount
+        description
+        requires_booth_chair_approval
+      ]
+    )
   end
 end
