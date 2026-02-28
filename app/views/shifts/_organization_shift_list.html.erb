@@ -10,7 +10,7 @@
         <th><%= model_class.human_attribute_name(:required_number_of_participants) %></th>
       </tr>
     </thead>
-  </tbody>
+  <tbody>
   <% organization_shift_list.each do |shift| %>
     <% if can?(:read, shift) %>
       <tr>
