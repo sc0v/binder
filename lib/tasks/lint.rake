@@ -38,7 +38,6 @@ namespace :lint do |namespace|
   desc 'Lint project without autocorrection (check only)'
   task :dryrun do
     include LintHelper
-
     dryrun('lint')
     Rake::Task['lint'].invoke
   end
@@ -64,6 +63,7 @@ end
 namespace :lint do
   # rubocop:disable Metrics/BlockLength
   namespace :file do |namespace|
+    # rubocop:disable Metrics/BlockLength
     rule '.css' do |t, _args|
       file = t.name.delete_prefix("#{namespace.scope.path}:")
       Rake::Task['lint:prettier'].invoke(file)

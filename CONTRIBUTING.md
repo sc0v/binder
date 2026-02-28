@@ -17,7 +17,6 @@ Binder ships with a dev container that provides a fully configured Ruby/Rails
 environment. This is the recommended way to develop locally.
 
 1. Clone the repository:
-
    ```
    git clone https://github.com/sc0v/binder.git
    cd binder
