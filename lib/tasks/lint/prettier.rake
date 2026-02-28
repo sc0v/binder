@@ -8,6 +8,7 @@ namespace :lint do
   desc 'Prettify project files, prettify specific files'
   task :prettier, [:files] do |t, args|
     include LintHelper
+
     log(t.name)
     bin = [PRETTIER_BIN]
     bin << (dryrun?(t.name) ? PRETTIER_OPT_CHECK : PRETTIER_OPT_AUTOCORRECT)

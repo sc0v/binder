@@ -13,6 +13,6 @@ class Membership < ApplicationRecord
   scope :validated, -> { where(is_added_by_csv: [false, nil]) }
 
   def organization_name_formatted
-    is_booth_chair? ? "#{organization.name} - Booth Chair" : organization.name
+    booth_chair? ? "#{organization.name} - Booth Chair" : organization.name
   end
 end

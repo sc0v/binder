@@ -132,7 +132,7 @@ class Ability
           name
           t_name
           link
-          is_checked_out?
+          checked_out?
           t_is_checked_out
           current_organization
           t_organization_name
@@ -140,7 +140,7 @@ class Ability
           t_participant_name
         ]
 
-    if user.is_booth_chair?
+    if user.booth_chair?
       # CertificationType: Same as Builder
       can %i[read read_phone_number],
           Certification,
@@ -324,7 +324,7 @@ class Ability
       end
       if user.scc?
         can :read, Participant
-        can :read, Participant, %i[name is_booth_chair? signed_waiver?]
+        can :read, Participant, %i[name booth_chair? signed_waiver?]
       end
       can :update, Participant, %i[phone_number], id: user.id
     end
@@ -352,7 +352,7 @@ class Ability
             name
             t_name
             link
-            is_checked_out?
+            checked_out?
             t_is_checked_out
             current_organization
             t_organization_name
@@ -419,7 +419,7 @@ class Ability
 
     can :read, StoreItem
 
-    if user.is_booth_chair?
+    if user.booth_chair?
       can :read, [ChargeType, Checkout, Shift]
       can :read_basic_details, Organization
 

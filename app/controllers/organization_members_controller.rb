@@ -9,7 +9,7 @@ class OrganizationMembersController < ApplicationController
       format.json do
         data =
           @members.as_json(
-            methods: %i[link name signed_waiver? is_booth_chair?]
+            methods: %i[link name signed_waiver? booth_chair?]
           )
         render json: { data: }
       end

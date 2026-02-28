@@ -7,7 +7,7 @@
 <div class="content wide">
   <h1><%= @scissor_lift.name %></h1>
 
-  <% if @scissor_lift.is_checked_out? %>
+  <% if @scissor_lift.checked_out? %>
     Checked out to
     <strong><%= @scissor_lift.current_participant %></strong>
     (<%= @scissor_lift.current_organization %>) <br /><br />

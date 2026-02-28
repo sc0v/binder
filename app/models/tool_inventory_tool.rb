@@ -16,8 +16,8 @@ class ToolInventoryTool < ApplicationRecord
 
   # Returns true if two tools have the same barcode and toolType
   def equal_to_tool(tool)
-    barcodeEquality = (barcode == tool.barcode)
-    toolTypeEquality = (name == tool.name)
-    barcodeEquality && toolTypeEquality
+    barcode_equality = (barcode == tool.barcode)
+    tool_type_equality = (name == tool.name)
+    barcode_equality && tool_type_equality
   end
 end

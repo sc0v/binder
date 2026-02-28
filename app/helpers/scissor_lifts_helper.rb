@@ -16,7 +16,7 @@ module ScissorLiftsHelper
     },
     {
       title: 'Checked Out',
-      field: :is_checked_out?,
+      field: :checked_out?,
       hozAlign: 'center',
       formatter: 'tickCross',
       headerFilter: 'tickCross',
