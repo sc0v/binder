@@ -1,17 +1,15 @@
 # frozen_string_literal: true
 
 class HomeController < ApplicationController
-  def index
-  end
+  def index; end
 
-  def milestones
-  end
+  def milestones; end
 
   def search
     authorize! :search, nil
 
     if params.blank? || params[:query].blank?
-      flash[:error] = "Please enter a query"
+      flash[:error] = 'Please enter a query'
       redirect_to root_url
       return
     end
@@ -29,7 +27,7 @@ class HomeController < ApplicationController
 
     @org =
       Organization.where(
-        "lower(name) = lower(?) OR lower(short_name) = lower(?)",
+        'lower(name) = lower(?) OR lower(short_name) = lower(?)',
         @query,
         @query
       ).first
@@ -57,9 +55,9 @@ class HomeController < ApplicationController
     @organizations = Organization.joins(:charges).distinct.includes(:charges)
     authorize! :read, @organizations
     @charge_types = ChargeType.includes(:charges)
-    @approved_total = Charge.approved.sum("amount")
-    @pending_total = Charge.pending.sum("amount")
-    @total = Charge.sum("amount")
+    @approved_total = Charge.approved.sum('amount')
+    @pending_total = Charge.pending.sum('amount')
+    @total = Charge.sum('amount')
   end
 
   def downtime
@@ -67,6 +65,5 @@ class HomeController < ApplicationController
     authorize! :read, @organizations
   end
 
-  def hardhat_return
-  end
+  def hardhat_return; end
 end

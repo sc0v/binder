@@ -5,7 +5,7 @@ class EventTest < ActiveSupport::TestCase
   should belong_to(:event_type)
 
   # Scopes
-  context "With a proper context, " do
+  context 'With a proper context, ' do
     setup do
       @type1 = FactoryGirl.create(:event_type, display: false)
       @type2 = FactoryGirl.create(:event_type, display: true)
@@ -18,7 +18,7 @@ class EventTest < ActiveSupport::TestCase
     teardown {}
 
     # scopes
-    should "show that displayable scope works" do
+    should 'show that displayable scope works' do
       assert_equal 1, Event.displayable.size
     end
   end

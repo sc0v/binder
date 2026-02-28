@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class ShiftTest < ActiveSupport::TestCase
   # Relationships
@@ -16,12 +16,12 @@ class ShiftTest < ActiveSupport::TestCase
   should validate_presence_of(:shift_type)
   should validate_presence_of(:required_number_of_participants)
 
-  context "With a proper context, " do
+  context 'With a proper context, ' do
     setup do
       # Create 3 shifts
-      @type1 = FactoryGirl.create(:shift_type, id: 1, name: "Watch Shift")
-      @type2 = FactoryGirl.create(:shift_type, id: 2, name: "Security Shift")
-      @type3 = FactoryGirl.create(:shift_type, id: 3, name: "Coordinator Shift")
+      @type1 = FactoryGirl.create(:shift_type, id: 1, name: 'Watch Shift')
+      @type2 = FactoryGirl.create(:shift_type, id: 2, name: 'Security Shift')
+      @type3 = FactoryGirl.create(:shift_type, id: 3, name: 'Coordinator Shift')
 
       @upcomming =
         FactoryGirl.create(
@@ -73,7 +73,7 @@ class ShiftTest < ActiveSupport::TestCase
 
     teardown {}
 
-    should "show that all factories are properly created" do
+    should 'show that all factories are properly created' do
       assert_equal 6, Shift.all.size
     end
 
@@ -118,7 +118,7 @@ class ShiftTest < ActiveSupport::TestCase
     end
 
     should "have a method 'formatted_name' that works" do
-      @type = FactoryGirl.create(:shift_type, name: "Bob")
+      @type = FactoryGirl.create(:shift_type, name: 'Bob')
       @ex =
         FactoryGirl.create(
           :shift,
@@ -127,7 +127,7 @@ class ShiftTest < ActiveSupport::TestCase
           starts_at: Time.zone.local(2000, 1, 1)
         )
 
-      assert_equal "Bob @ Jan  1 at 12:00 AM", @ex.formatted_name
+      assert_equal 'Bob @ Jan  1 at 12:00 AM', @ex.formatted_name
     end
   end
 end

@@ -7,12 +7,12 @@ module ApplicationHelper
   def flash_css_class(name)
     "flash-#{name} " +
       case name
-      when "notice"
-        "green invert"
-      when "alert"
-        "red invert"
+      when 'notice'
+        'green invert'
+      when 'alert'
+        'red invert'
       else
-        "gold"
+        'gold'
       end
   end
 end

@@ -3,68 +3,68 @@
 module NotesHelper
   NOTES_TABLE_COLUMNS = [
     {
-      title: "Title",
+      title: 'Title',
       field: :title,
-      sorter: "string",
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search"
+      sorter: 'string',
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search'
     },
     {
-      title: "Value",
+      title: 'Value',
       field: :value,
-      formatter: "link",
+      formatter: 'link',
       formatterParams: {
         urlField: :link
       },
       frozen: true,
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search",
-      sorter: "string"
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search',
+      sorter: 'string'
     },
     {
-      title: "Hidden",
+      title: 'Hidden',
       field: :hidden?,
-      hozAlign: "center",
-      formatter: "tickCross",
-      headerFilter: "tickCross",
+      hozAlign: 'center',
+      formatter: 'tickCross',
+      headerFilter: 'tickCross',
       headerFilterParams: {
         tristate: true
       }
     },
     {
-      title: "Participant Name",
+      title: 'Participant Name',
       field: :participant_name,
-      formatter: "link",
+      formatter: 'link',
       formatterParams: {
         urlField: :participant_link
       },
       frozen: true,
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search",
-      sorter: "string"
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search',
+      sorter: 'string'
     },
     {
-      title: "Organization Name",
+      title: 'Organization Name',
       field: :organization_name,
-      formatter: "link",
+      formatter: 'link',
       formatterParams: {
         urlField: :organization_link
       },
       frozen: true,
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search",
-      sorter: "string"
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search',
+      sorter: 'string'
     },
     {
-      title: "Last Change",
+      title: 'Last Change',
       field: :updated_at,
-      hozAlign: "left",
-      sorter: "datetime",
+      hozAlign: 'left',
+      sorter: 'datetime',
       sorterParams: {
-        format: "yyyy-MM-dd HH:mm (ccc)"
+        format: 'yyyy-MM-dd HH:mm (ccc)'
       },
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search"
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search'
     }
   ].freeze
 
@@ -73,10 +73,10 @@ module NotesHelper
       ajaxURL: notes_path(format: :json),
       columns: load_notes_columns,
       dataLoader: false,
-      height: "90vh",
+      height: '90vh',
       paginationSize: 200,
-      placeholder: "<h2>No Notes Found</h2>",
-      progressiveLoad: "load",
+      placeholder: '<h2>No Notes Found</h2>',
+      progressiveLoad: 'load',
       resizableColumnFit: true
     }.to_json
   end

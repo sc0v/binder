@@ -8,9 +8,12 @@
 <div class="content">
   <div>
     <div class="page-header">
-  <h1><%= t '.title', default: [:'helpers.titles.new', 'New %<model>s'], model: model_class.model_name.human %></h1>
-  </div>
-  <%= render 'form' %>
-  </div>
+      <h1
+        ><%= t '.title',
+               default: [:'helpers.titles.new', 'New %<model>s'],
+               model: model_class.model_name.human %></h1
+      >
+    </div>
+    <%= render 'form' %>
   </div>
 </div>

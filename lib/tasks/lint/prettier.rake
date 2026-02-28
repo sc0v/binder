@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-PRETTIER_BIN = "npm exec prettier --"
-PRETTIER_OPT_CHECK = "--check"
-PRETTIER_OPT_AUTOCORRECT = "--write"
+PRETTIER_BIN = 'npm exec prettier --'
+PRETTIER_OPT_CHECK = '--check'
+PRETTIER_OPT_AUTOCORRECT = '--write'
 
 namespace :lint do
-  desc "Prettify project files, prettify specific files"
+  desc 'Prettify project files, prettify specific files'
   task :prettier, [:files] do |t, args|
     include LintHelper
 
@@ -15,8 +15,8 @@ namespace :lint do
 
     # Pass explicit file if given; otherwise use '.' so prettier discovers files
     # itself and respects .prettierignore
-    bin << (args.files || ".")
-    bin = bin.join(" ")
+    bin << (args.files || '.')
+    bin = bin.join(' ')
 
     log(t.name, " * executing: #{bin}")
     system(bin) or abort_with_log(t.name)

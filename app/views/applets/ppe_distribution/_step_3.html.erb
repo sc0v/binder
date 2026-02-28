@@ -2,43 +2,53 @@
 <%= form_tag ppe_distribution_path, method: 'get' do %>
   <%= hidden_field_tag(:step, '3') %>
   <%= hidden_field_tag(:participant_id, @participant.id) %>
-<ol>
-  <li>
-    <strong>Please select</strong> <%= @participant.name %>'s primary membership:<br/>
-    <% @participant.organizations.each do |o| %>
-        <%= radio_button_tag 'organization_id', o.id %> <%= label_tag "organization_id_#{o.id}", "#{o.name} (#{o.category_name})" %><br/>
-    <% end %>
-   </li>
+  <ol>
+    <li>
+      <strong>Please select</strong> <%= @participant.name %>'s primary
+      membership:<br />
+      <% @participant.organizations.each do |o| %>
+        <%= radio_button_tag 'organization_id', o.id %>
+        <%= label_tag "organization_id_#{o.id}", "#{o.name} (#{o.category_name})" %><br />
+      <% end %>
+    </li>
 
-  <% hh = @participant.hardhat_color %>
-  <% if hh.blank? %>
-    <li>Participant does not get a hardhat</li>
-  <% else %>
-    <li>Give the participant the following hardhat.</li>
-    <% if hh == :blue %>
-      <p class="invert blue" style="padding: 1em;"><strong>Blue</strong> (Spring Carnival Committee Member)</p>
-    <% elsif hh == :red %>
-      <p class="invert red" style="padding: 1em;"><strong>Red</strong> (Red Hardhat-Designated Booth Chair)</p>
+    <% hh = @participant.hardhat_color %>
+    <% if hh.blank? %>
+      <li>Participant does not get a hardhat</li>
     <% else %>
-      <p style="padding: 1em; border: 1px solid"><strong>White</strong> (Booth Builder or White Hardhat-Designated Booth Chair)</p>
+      <li>Give the participant the following hardhat.</li>
+      <% if hh == :blue %>
+        <p class="invert blue" style="padding: 1em;"
+          ><strong>Blue</strong> (Spring Carnival Committee Member)</p
+        >
+      <% elsif hh == :red %>
+        <p class="invert red" style="padding: 1em;"
+          ><strong>Red</strong> (Red Hardhat-Designated Booth Chair)</p
+        >
+      <% else %>
+        <p style="padding: 1em; border: 1px solid"
+          ><strong>White</strong> (Booth Builder or White Hardhat-Designated
+          Booth Chair)</p
+        >
+      <% end %>
     <% end %>
-  <% end %>
 
-  <% if hh %>
-  <li>
-    <%= label_tag(:hardhat_search, 'Click on the search box below') %>
-    <%= text_field_tag(:hardhat_search, nil, autocomplete: :off) %>
-  </li>
-  <li>Scan the SCC Barcode tag with the barcode reader.<br/>
-    If it's not working, find the SCC Barcode number on the tag and type it in the search box above.
-    Press enter on the keyboard.
-  </li>
-  <% end %>
+    <% if hh %>
+      <li>
+        <%= label_tag(:hardhat_search, 'Click on the search box below') %>
+        <%= text_field_tag(:hardhat_search, nil, autocomplete: :off) %>
+      </li>
+      <li
+        >Scan the SCC Barcode tag with the barcode reader.<br />
+        If it's not working, find the SCC Barcode number on the tag and type it
+        in the search box above. Press enter on the keyboard.
+      </li>
+    <% end %>
 
-  <li>Give participant safety glasses</li>
-</ol>
+    <li>Give participant safety glasses</li>
+  </ol>
 
   <% if hh.blank? %>
-  <%= link_to 'Start Over', ppe_distribution_path, class: 'btn' %>
+    <%= link_to 'Start Over', ppe_distribution_path, class: 'btn' %>
   <% end %>
 <% end %>

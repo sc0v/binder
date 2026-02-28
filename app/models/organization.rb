@@ -19,7 +19,7 @@ class Organization < ApplicationRecord
   scope :search,
         lambda { |term|
           where(
-            "lower(name) LIKE lower(?) OR lower(short_name) LIKE lower(?)",
+            'lower(name) LIKE lower(?) OR lower(short_name) LIKE lower(?)',
             "%#{term}%",
             "%#{term}%"
           )

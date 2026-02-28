@@ -10,18 +10,17 @@ class Participants::WaiversController < ApplicationController
   load_and_authorize_resource :participant, parent: false
   before_action :require_safety_briefing
 
-  def show
-  end
+  def show; end
 
   def update
     @participant.assign_attributes(participant_params)
     if @participant.save(context: :waiver_signing)
       # redirect_to @participant, notice: t('.notice', name: @participant.name)
-      redirect_to profile_path, notice: t(".notice", name: @participant.name)
+      redirect_to profile_path, notice: t('.notice', name: @participant.name)
     else
       # TODO: Don't leak participant_id in uri on personal paths
       @participant.restore_attributes
-      flash.now[:alert] = t(".alert")
+      flash.now[:alert] = t('.alert')
       render :show, status: :unprocessable_entity
     end
   end

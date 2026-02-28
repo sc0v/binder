@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class OrganizationTimelineEntryTest < ActiveSupport::TestCase
   # Relationships
@@ -11,7 +11,7 @@ class OrganizationTimelineEntryTest < ActiveSupport::TestCase
   should validate_presence_of(:entry_type)
   should validate_presence_of(:organization)
 
-  context "With a proper context, " do
+  context 'With a proper context, ' do
     setup do
       time = Time.zone.now
       @finished =
@@ -33,15 +33,15 @@ class OrganizationTimelineEntryTest < ActiveSupport::TestCase
       @not_finished = nil
     end
 
-    should "show that all factories are properly created" do
+    should 'show that all factories are properly created' do
       assert_equal 2, OrganizationTimelineEntry.all.size
     end
 
-    should "the current scope should return the ongoing entry" do
+    should 'the current scope should return the ongoing entry' do
       assert_equal 1, OrganizationTimelineEntry.current.size
     end
 
-    should "show that the duration method works" do
+    should 'show that the duration method works' do
       assert_equal 1.hour, @finished.duration
       assert_equal 12.hours, (@not_finished.duration / 1.hour).round * 1.hour
     end

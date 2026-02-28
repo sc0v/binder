@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "csv"
+require 'csv'
 
 module MembershipsHelper
   # Parses the membership CSV, returning a hash with error if a problem occurs.
@@ -12,7 +12,7 @@ module MembershipsHelper
     # Make sure CSV has correct headers
     header_columns = header_columns(csv.headers)
     if header_columns.nil?
-      return(
+      return (
         {
           error:
             'Incorrect Headers! Make sure your file only has one column labeled "Andrew ID" with the Andrew IDs of your builders.'
@@ -22,7 +22,7 @@ module MembershipsHelper
 
     # Extract Andrew IDs from each row and create membership in organization
     csv.each do |row|
-      eppn = "#{row[header_columns["andrewid"]]}@andrew.cmu.edu"
+      eppn = "#{row[header_columns['andrewid']]}@andrew.cmu.edu"
       p = Participant.find_by(eppn: eppn)
       p = Participant.create!(eppn: eppn) if p.nil?
       m = Membership.find_by(participant: p, organization: organization)
@@ -45,7 +45,7 @@ module MembershipsHelper
     end
     { error: nil }
   rescue CSV::MalformedCSVError
-    { error: "Malformed CSV! Make sure you submit a CSV file." }
+    { error: 'Malformed CSV! Make sure you submit a CSV file.' }
   end
 
   private
@@ -53,8 +53,8 @@ module MembershipsHelper
   # Check whether the membership CSV has the correct headers (andrewid), and
   # if so determines which columns contain them
   def header_columns(csv_headers)
-    csv_headers = csv_headers.compact.map { |h| h.downcase.gsub(" ", "") }
-    required_headers = ["andrewid"]
+    csv_headers = csv_headers.compact.map { |h| h.downcase.gsub(' ', '') }
+    required_headers = ['andrewid']
     required_columns = {}
     # Ensure each required header is present
     required_headers.each do |header|

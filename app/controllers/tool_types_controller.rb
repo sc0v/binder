@@ -14,12 +14,10 @@ class ToolTypesController < ApplicationController
   end
 
   # GET /tool_types/new
-  def new
-  end
+  def new; end
 
   # GET /tool_types/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /tool_types
   # POST /tool_types.json
@@ -49,7 +47,7 @@ class ToolTypesController < ApplicationController
     if @tool_type.tools.any?
       flash[
         :error
-      ] = "Cannot delete a tool type until all tools of that type are deleted."
+      ] = 'Cannot delete a tool type until all tools of that type are deleted.'
       redirect_to tool_types_path
       return
     end

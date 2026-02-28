@@ -3,40 +3,40 @@
 module OrganizationMembersHelper
   PARTICIPANTS_TABLE_COLUMNS = [
     {
-      title: "Name",
+      title: 'Name',
       field: :name,
-      formatter: "link",
+      formatter: 'link',
       formatterParams: {
         urlField: :link
       },
       frozen: true,
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search",
-      sorter: "string"
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search',
+      sorter: 'string'
     },
     {
-      title: "Andrew Email",
+      title: 'Andrew Email',
       field: :eppn,
-      sorter: "string",
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search"
+      sorter: 'string',
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search'
     },
     {
-      title: "Signed Waiver",
+      title: 'Signed Waiver',
       field: :signed_waiver?,
-      hozAlign: "center",
-      formatter: "tickCross",
-      headerFilter: "tickCross",
+      hozAlign: 'center',
+      formatter: 'tickCross',
+      headerFilter: 'tickCross',
       headerFilterParams: {
         tristate: true
       }
     },
     {
-      title: "Booth Chair?",
+      title: 'Booth Chair?',
       field: :is_booth_chair?,
-      hozAlign: "center",
-      formatter: "tickCross",
-      headerFilter: "tickCross",
+      hozAlign: 'center',
+      formatter: 'tickCross',
+      headerFilter: 'tickCross',
       headerFilterParams: {
         tristate: true
       }
@@ -48,10 +48,10 @@ module OrganizationMembersHelper
       ajaxURL: organization_participants_path(format: :json),
       columns: load_participants_columns,
       dataLoader: false,
-      height: "90vh",
+      height: '90vh',
       paginationSize: 100,
-      placeholder: "<h2>No Members Found</h2>",
-      progressiveLoad: "load",
+      placeholder: '<h2>No Members Found</h2>',
+      progressiveLoad: 'load',
       resizableColumnFit: true
     }.to_json
   end

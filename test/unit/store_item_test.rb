@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class StoreItemTest < ActiveSupport::TestCase
   # relationships
@@ -9,11 +9,11 @@ class StoreItemTest < ActiveSupport::TestCase
 
   # methods
 
-  context "With a proper context, " do
+  context 'With a proper context, ' do
     setup do
       # Create store
       @store_item =
-        FactoryGirl.create(:store_item, name: "Hammer", price: 20, quantity: 5)
+        FactoryGirl.create(:store_item, name: 'Hammer', price: 20, quantity: 5)
       # Create charge
       @charge = FactoryGirl.create(:charge, is_approved: true)
       # Create store_purchase
@@ -28,7 +28,7 @@ class StoreItemTest < ActiveSupport::TestCase
 
     teardown {}
 
-    should "show that quantity_available method works correctly" do
+    should 'show that quantity_available method works correctly' do
       assert_equal 4, @store_item.quantity_available
     end
   end

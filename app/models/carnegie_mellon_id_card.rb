@@ -1,18 +1,17 @@
 # frozen_string_literal: true
 
 class CarnegieMellonIdCard
-  def self.initialize
-  end
+  def self.initialize; end
 
   def self.get_andrewid_by_card_id(full_card_id)
     begin
       client =
         Savon.client(
           wsdl:
-            "https://csgapp.andrew.cmu.edu/csgoldwebservice/idtranslation.asmx?WSDL",
+            'https://csgapp.andrew.cmu.edu/csgoldwebservice/idtranslation.asmx?WSDL',
           basic_auth: [
-            ENV.fetch("CARDSERVICE_USERNAME", nil),
-            ENV.fetch("CARDSERVICE_PASSWORD", nil)
+            ENV.fetch('CARDSERVICE_USERNAME', nil),
+            ENV.fetch('CARDSERVICE_PASSWORD', nil)
           ],
           convert_request_keys_to: :camelcase,
           log_level: :error,
@@ -29,7 +28,7 @@ class CarnegieMellonIdCard
           :get_card_holder_by_card_id,
           message: {
             CardID: card_id,
-            CompleteRecordRequired: "false"
+            CompleteRecordRequired: 'false'
           }
         )
       response_json = {
@@ -84,10 +83,10 @@ class CarnegieMellonIdCard
       client =
         Savon.client(
           wsdl:
-            "https://csgapp.andrew.cmu.edu/csgoldwebservice/idtranslation.asmx?WSDL",
+            'https://csgapp.andrew.cmu.edu/csgoldwebservice/idtranslation.asmx?WSDL',
           basic_auth: [
-            ENV.fetch("CARDSERVICE_USERNAME", nil),
-            ENV.fetch("CARDSERVICE_PASSWORD", nil)
+            ENV.fetch('CARDSERVICE_USERNAME', nil),
+            ENV.fetch('CARDSERVICE_PASSWORD', nil)
           ],
           convert_request_keys_to: :camelcase,
           log_level: :error,
@@ -104,7 +103,7 @@ class CarnegieMellonIdCard
           :get_card_holder_by_smar_card_csn,
           message: {
             SmartCardCSN: card_csn,
-            CompleteRecordRequired: "false"
+            CompleteRecordRequired: 'false'
           }
         )
       response_json = {

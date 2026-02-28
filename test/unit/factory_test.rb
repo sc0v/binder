@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class FactoryTest < ActiveSupport::TestCase
   # A simple method to test all our factories, but note that it
   # will fail if the association must exist in advance and be active
-  context "Building factories" do
+  context 'Building factories' do
     FactoryGirl
       .factories
       .map(&:name)

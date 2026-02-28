@@ -13,7 +13,7 @@ module Application::DocumentTitleHelper
     content_for :document_title
   end
 
-  def update_document_title(add: [], sep: " - ")
+  def update_document_title(add: [], sep: ' - ')
     document_title = Array(add).join(sep)
     document_title += sep unless document_title.empty?
 
@@ -21,7 +21,7 @@ module Application::DocumentTitleHelper
       if content_for? :document_title
         content_for :document_title
       else
-        ["Binder", "Spring Carnival", "Carnegie Mellon University"].join(sep)
+        ['Binder', 'Spring Carnival', 'Carnegie Mellon University'].join(sep)
       end
 
     content_for(:document_title, document_title, flush: true)

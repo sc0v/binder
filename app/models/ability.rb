@@ -437,7 +437,7 @@ class Ability
         m.organization.booth_chairs.include?(user)
       end
 
-      cannot :read, Shift, shift_type: { name: "Coordinator Shift" }
+      cannot :read, Shift, shift_type: { name: 'Coordinator Shift' }
 
       can :read, ShiftParticipant do |s|
         s.shift.organization.booth_chairs.include?(user)

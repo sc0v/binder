@@ -7,16 +7,16 @@ module Exportable
   private
 
   def file_export_headers(
-    prefix: "File",
+    prefix: 'File',
     body: "-#{DateTime.now.to_fs(:db)}",
     file_extension: nil
   )
-    filename = [prefix, body].join("-")
+    filename = [prefix, body].join('-')
     filename.concat(".#{file_extension}") if file_extension.present?
-    { "Content-Disposition": "attachment; filename=\"#{filename}\"" }
+    { 'Content-Disposition': "attachment; filename=\"#{filename}\"" }
   end
 
   def excel_export_headers(prefix:)
-    file_export_headers(prefix:, file_extension: "xlsx")
+    file_export_headers(prefix:, file_extension: 'xlsx')
   end
 end

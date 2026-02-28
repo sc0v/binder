@@ -21,21 +21,21 @@ class Tool < ApplicationRecord
   scope :by_barcode, -> { order(:barcode) }
   scope :by_type, ->(type) { where(tool_type: type) }
   scope :hardhats,
-        -> { joins(:tool_type).where("lower(name) LIKE lower(?)", "%hardhat") }
+        -> { joins(:tool_type).where('lower(name) LIKE lower(?)', '%hardhat') }
   scope :radios,
-        -> { joins(:tool_type).where("lower(name) LIKE lower(?)", "%radio") }
+        -> { joins(:tool_type).where('lower(name) LIKE lower(?)', '%radio') }
   scope :just_tools,
         lambda {
           joins(:tool_type).where(
-            "lower(name) NOT LIKE lower(?) AND lower(name) NOT LIKE lower(?)",
-            "%radio",
-            "%hardhat"
+            'lower(name) NOT LIKE lower(?) AND lower(name) NOT LIKE lower(?)',
+            '%radio',
+            '%hardhat'
           )
         }
   scope :search,
         lambda { |term|
           joins(:tool_type).where(
-            "lower(name) LIKE lower(?) OR CAST(barcode AS CHAR) LIKE lower(?) OR lower(description) LIKE lower(?)",
+            'lower(name) LIKE lower(?) OR CAST(barcode AS CHAR) LIKE lower(?) OR lower(description) LIKE lower(?)',
             "%#{term}%",
             "%#{term}%",
             "%#{term}%"
@@ -46,7 +46,7 @@ class Tool < ApplicationRecord
   scope :checked_in,
         lambda {
           where(
-            "tools.id NOT IN (SELECT checkouts.tool_id FROM checkouts WHERE checked_in_at IS NULL)"
+            'tools.id NOT IN (SELECT checkouts.tool_id FROM checkouts WHERE checked_in_at IS NULL)'
           )
         }
   scope :active, -> { where(active: true) }
@@ -65,7 +65,7 @@ class Tool < ApplicationRecord
   end
 
   def is_hardhat?
-    name.downcase.include?("hardhat")
+    name.downcase.include?('hardhat')
   end
 
   def self.checked_out_by_organization(organization)
@@ -92,18 +92,18 @@ class Tool < ApplicationRecord
   def self.table_attrs
     joins(:tool_type)
       .joins(
-        "LEFT OUTER JOIN checkouts AS c ON (c.tool_id = tools.id AND c.checked_in_at IS NULL)"
+        'LEFT OUTER JOIN checkouts AS c ON (c.tool_id = tools.id AND c.checked_in_at IS NULL)'
       )
       .joins(
-        "LEFT OUTER JOIN (SELECT id, name AS org_name from organizations) AS o ON o.id = c.organization_id"
+        'LEFT OUTER JOIN (SELECT id, name AS org_name from organizations) AS o ON o.id = c.organization_id'
       )
-      .joins("LEFT OUTER JOIN participants AS p ON p.id = c.participant_id")
+      .joins('LEFT OUTER JOIN participants AS p ON p.id = c.participant_id')
       .select(
-        "tools.*,
+        'tools.*,
             tool_types.name AS t_name,
             o.org_name AS t_organization_name,
             c.checked_out_at IS NOT NULL AS t_is_checked_out,
-            p.cached_name AS t_participant_name"
+            p.cached_name AS t_participant_name'
       )
   end
 

@@ -41,18 +41,18 @@ class OrganizationMembersController < ApplicationController
         membership.is_booth_chair = params[:participant][:booth_chair]
         membership.is_staged = true
         if membership.save
-          redirect_to back, notice: "Member updated!"
+          redirect_to back, notice: 'Member updated!'
         else
           redirect_to back,
                       warn:
                         "#{params[:participant][:andrewid]} already a member, but failed to update!"
         end
       elsif Membership.create(
-            organization: @organization,
-            participant: @participant,
-            is_booth_chair: params[:participant][:booth_chair],
-            is_staged: true
-          )
+        organization: @organization,
+        participant: @participant,
+        is_booth_chair: params[:participant][:booth_chair],
+        is_staged: true
+      )
         # Membership Doesn't Exist, try to add a new one
         redirect_to back, notice: "Added #{params[:participant][:andrewid]}!"
       else
@@ -75,6 +75,6 @@ class OrganizationMembersController < ApplicationController
       m.is_staged = false
       m.save!
     end
-    redirect_to organization_path(@organization), notice: "New Members Saved!"
+    redirect_to organization_path(@organization), notice: 'New Members Saved!'
   end
 end

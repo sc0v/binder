@@ -16,7 +16,7 @@ class ToolInventoryToolsController < ApplicationController
         offset = (page - 1) * size
         last_page =
           (@inventory_tools.count / size) +
-            ((@inventory_tools.count % size).zero? ? 0 : 1)
+          ((@inventory_tools.count % size).zero? ? 0 : 1)
         tools = @inventory_tools.offset(offset).limit(size)
         data = tools.as_json(methods: %i[name description barcode])
         render json: { last_page:, data: }
@@ -25,7 +25,7 @@ class ToolInventoryToolsController < ApplicationController
   end
 
   def create
-    defaultErrorMsg = "Could not create the tool."
+    defaultErrorMsg = 'Could not create the tool.'
     @inventory = ToolInventory.first
 
     barcode = params[:tool_inventory_tool][:barcode]
@@ -60,8 +60,8 @@ class ToolInventoryToolsController < ApplicationController
         redirect_to inventory_path(**pathParams),
                     alert:
                       "A tool with barcode '#{barcode}' " \
-                        "#{helpers.link_to("already exists", tool_path(@existing_tool))}. " \
-                        "Press 'Add Tool' again to confirm you want to replace the existing tool."
+                      "#{helpers.link_to('already exists', tool_path(@existing_tool))}. " \
+                      "Press 'Add Tool' again to confirm you want to replace the existing tool."
         return
       end
     end
@@ -74,7 +74,7 @@ class ToolInventoryToolsController < ApplicationController
         active: true
       )
     if @tool.save
-      redirect_to inventory_path, notice: "Added Tool!"
+      redirect_to inventory_path, notice: 'Added Tool!'
     else
       redirect_to inventory_path, alert: defaultErrorMsg
     end
@@ -84,7 +84,7 @@ class ToolInventoryToolsController < ApplicationController
     ToolInventory.find params[:tool_inventory_id]
     tool = ToolInventoryTool.find params[:id]
     tool.destroy
-    redirect_to inventory_path, notice: "Removed Tool!"
+    redirect_to inventory_path, notice: 'Removed Tool!'
   end
 
   def create_params

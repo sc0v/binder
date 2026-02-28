@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require "csv"
-require "zip"
+require 'csv'
+require 'zip'
 
 module Exporter
   # Generate a CSV based on some collection, with one row for each record

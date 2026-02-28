@@ -33,17 +33,17 @@ class OrganizationBuildStepsController < ApplicationController
     )
 
     if @organization_build_status.save
-      redirect_to params[:url], notice: "Added Build Task!"
+      redirect_to params[:url], notice: 'Added Build Task!'
     else
       redirect_to params[:url],
                   alert:
-                    "Failed to Add Build Task! (#{@organization_build_step.errors.full_messages.join(",")})"
+                    "Failed to Add Build Task! (#{@organization_build_step.errors.full_messages.join(',')})"
     end
   end
 
   def update
     @organization_build_step = OrganizationBuildStep.find(params[:id])
-    if params[:update_type] == "approved"
+    if params[:update_type] == 'approved'
       if @organization_build_step.approver.nil?
         @organization_build_step.approver = Participant.find(params[:approver])
         @organization_build_step.approved_at = Time.zone.now
@@ -55,13 +55,13 @@ class OrganizationBuildStepsController < ApplicationController
       if @organization_build_step.save!
         notice =
           if @organization_build_step.approver.present?
-            "Approved Checkoff!"
+            'Approved Checkoff!'
           else
-            "Unapproved Checkoff!"
+            'Unapproved Checkoff!'
           end
         redirect_to params[:url], notice: notice and return
       end
-    elsif params[:update_type] == "enabled"
+    elsif params[:update_type] == 'enabled'
       @organization_build_step.is_enabled = !@organization_build_step.is_enabled
       @organization_build_step.save!
       redirect_to params[:url] and return
@@ -70,7 +70,7 @@ class OrganizationBuildStepsController < ApplicationController
       redirect_to params[:url] and return
     end
     # TODO: Figure out flash with turbo
-    flash.now[:alert] = "type shit"
+    flash.now[:alert] = 'type shit'
     redirect_to params[:url]
   end
 
@@ -80,7 +80,7 @@ class OrganizationBuildStepsController < ApplicationController
       @organization_build_step.organization_build_status
     @organization_build_step.destroy
     redirect_to organizations_path(@organization_build_status),
-                notice: "Destroyed Build Task!"
+                notice: 'Destroyed Build Task!'
   end
 
   private

@@ -10,9 +10,7 @@ class DowntimeController < ApplicationController
         # TODO: This should be done using CanCanCan, but this is difficult because
         # booth chairs can manage queues but not downtime (which are both done
         # with the OrganizationTimelineEntry model)
-        unless Current.user.scc?
-          redirect_to root_path, alert: "Cannot Access Downtime!"
-        end
+        redirect_to root_path, alert: 'Cannot Access Downtime!' unless Current.user.scc?
       end
       format.json do
         on_downtime_map = {}
@@ -21,10 +19,10 @@ class DowntimeController < ApplicationController
         @building_orgs.each do |organization|
           on_downtime =
             OrganizationTimelineEntry
-              .downtime
-              .where(organization: organization)
-              .current
-              .present?
+            .downtime
+            .where(organization: organization)
+            .current
+            .present?
           on_downtime_map[organization.name] = !on_downtime
         end
         render json: on_downtime_map.as_json
@@ -40,22 +38,20 @@ class DowntimeController < ApplicationController
 
     @is_on_downtime =
       OrganizationTimelineEntry
-        .downtime
-        .where({ organization: @organization })
-        .current
-        .present?
+      .downtime
+      .where({ organization: @organization })
+      .current
+      .present?
   end
 
   def toggle
-    if params[:organization_id].blank?
-      redirect_to params[:url], alert: "Must select an organization"
-    end
+    redirect_to params[:url], alert: 'Must select an organization' if params[:organization_id].blank?
     @organization = Organization.find(params[:organization_id])
     current_downtime =
       OrganizationTimelineEntry
-        .downtime
-        .where(organization: @organization)
-        .current
+      .downtime
+      .where(organization: @organization)
+      .current
     if current_downtime.present?
       current_downtime.first.ended_at = DateTime.now
       if current_downtime.first.save
@@ -73,7 +69,7 @@ class DowntimeController < ApplicationController
         OrganizationTimelineEntry.new(
           {
             organization: @organization,
-            entry_type: "downtime",
+            entry_type: 'downtime',
             started_at: DateTime.now
           }
         )
@@ -83,7 +79,7 @@ class DowntimeController < ApplicationController
       else
         redirect_to params[:url],
                     alert:
-                      "Could not start downtime for #{@organization.name}: #{downtime.errors.full_messages.join(", ")}"
+                      "Could not start downtime for #{@organization.name}: #{downtime.errors.full_messages.join(', ')}"
       end
     end
   end

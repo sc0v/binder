@@ -11,9 +11,9 @@ class Charge < ApplicationRecord
 
   belongs_to :organization
   belongs_to :charge_type
-  belongs_to :issuing_participant, class_name: "Participant"
-  belongs_to :receiving_participant, class_name: "Participant"
-  belongs_to :creating_participant, class_name: "Participant"
+  belongs_to :issuing_participant, class_name: 'Participant'
+  belongs_to :receiving_participant, class_name: 'Participant'
+  belongs_to :creating_participant, class_name: 'Participant'
 
   default_scope { order(charged_at: :desc) }
   scope :approved, -> { where(is_approved: true) }

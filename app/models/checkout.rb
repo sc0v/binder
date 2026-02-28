@@ -23,12 +23,12 @@ class Checkout < ApplicationRecord
 
   def only_one_active_checkout_per_tool
     unless Checkout
-             .where(tool_id: tool_id, checked_in_at: nil)
-             .where.not(id: id)
-             .exists?
+           .where(tool_id: tool_id, checked_in_at: nil)
+           .where.not(id: id)
+           .exists?
       return
     end
 
-    errors.add(:tool_id, "already has an active checkout")
+    errors.add(:tool_id, 'already has an active checkout')
   end
 end

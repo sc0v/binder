@@ -12,7 +12,7 @@ module Application::BreadcrumbsHelper
     content_for :breadcrumbs
   end
 
-  def update_breadcrumbs(add: [], sep: "&nbsp;›&nbsp;")
+  def update_breadcrumbs(add: [], sep: '&nbsp;›&nbsp;')
     unless content_for? :breadcrumbs
       content_for :breadcrumbs do
         default_breadcrumbs(sep)
@@ -27,6 +27,6 @@ module Application::BreadcrumbsHelper
   private
 
   def default_breadcrumbs(sep)
-    sanitize([link_to("Spring Carnival Binder", root_url)].join(sep))
+    sanitize([link_to('Spring Carnival Binder', root_url)].join(sep))
   end
 end

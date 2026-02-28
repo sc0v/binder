@@ -15,7 +15,7 @@ FactoryGirl.define do
   factory :charge do
     amount 100.00
     charged_at Time.zone.today
-    description "Missed 10/2 meeting"
+    description 'Missed 10/2 meeting'
 
     association :charge_type
     association :organization
@@ -47,8 +47,8 @@ FactoryGirl.define do
 
   # faq
   factory :faq do
-    question "MyText"
-    answer "MyText"
+    question 'MyText'
+    answer 'MyText'
   end
 
   # membership
@@ -112,24 +112,24 @@ FactoryGirl.define do
   # task
   factory :task do
     due_at Time.zone.today
-    name "Assign rides"
+    name 'Assign rides'
   end
 
   # tool type
   factory :tool_type do
-    name "Hammer"
+    name 'Hammer'
   end
 
   # tool
   factory :tool do
     barcode { generate(:barcode) }
-    description "HAMMER"
+    description 'HAMMER'
     association :tool_type
   end
 
   # user
   factory :user do
-    name "Default Factory User"
+    name 'Default Factory User'
     email { "#{generate(:random_string)}@andrew.cmu.edu" }
 
     association :participant
@@ -142,6 +142,6 @@ FactoryGirl.define do
 
   # store_item
   factory :store_item do
-    name "Hammer"
+    name 'Hammer'
   end
 end

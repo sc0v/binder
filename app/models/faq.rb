@@ -14,7 +14,7 @@ class FAQ < ApplicationRecord
   scope :search,
         lambda { |term|
           where(
-            "lower(question) LIKE :term OR lower(answer) LIKE :term",
+            'lower(question) LIKE :term OR lower(answer) LIKE :term',
             { term: "%#{term}%".downcase }
           )
         }

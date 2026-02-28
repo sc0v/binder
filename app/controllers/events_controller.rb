@@ -12,8 +12,7 @@ class EventsController < ApplicationController
 
   # GET /events/1
   # GET /events/1.json
-  def show
-  end
+  def show; end
 
   # GET /events/new
   def new
@@ -27,7 +26,7 @@ class EventsController < ApplicationController
     @event.save
     redirect_to :back,
                 notice:
-                  "The note was #{@event.is_done ? "acknowledged" : "unacknowledged"}"
+                  "The note was #{@event.is_done ? 'acknowledged' : 'unacknowledged'}"
   end
 
   # GET /events/1/edit
@@ -47,7 +46,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.save
         format.html do
-          redirect_to @event, notice: "Event was successfully created."
+          redirect_to @event, notice: 'Event was successfully created.'
         end
         format.json { render :show, status: :created, location: @event }
       else
@@ -63,7 +62,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.update(event_params)
         format.html do
-          redirect_to @event, notice: "Event was successfully updated."
+          redirect_to @event, notice: 'Event was successfully updated.'
         end
         format.json { render :show, status: :ok, location: @event }
       else
@@ -81,7 +80,7 @@ class EventsController < ApplicationController
     @event.destroy
     respond_to do |format|
       format.html do
-        redirect_to events_url, notice: "Event was successfully destroyed."
+        redirect_to events_url, notice: 'Event was successfully destroyed.'
       end
       format.json { head :no_content }
     end

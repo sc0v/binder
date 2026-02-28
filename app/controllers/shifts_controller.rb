@@ -12,20 +12,20 @@ class ShiftsController < ApplicationController
 
     @title =
       case params[:type]
-      when "watch"
+      when 'watch'
         s = shifts.watch_shifts
-        "Watch Shifts"
-      when "security"
+        'Watch Shifts'
+      when 'security'
         s = shifts.sec_shifts
-        "Security Shifts"
-      when "coordinator"
+        'Security Shifts'
+      when 'coordinator'
         s = shifts.coord_shifts
-        "Coordinator Shifts"
+        'Coordinator Shifts'
       else
-        "All Shifts"
+        'All Shifts'
       end
 
-    @shifts_upcoming = s.where("ends_at > ?", Time.zone.now)
+    @shifts_upcoming = s.where('ends_at > ?', Time.zone.now)
     @shifts_past = s.where(ends_at: ..Time.zone.now)
   end
 
@@ -43,8 +43,7 @@ class ShiftsController < ApplicationController
   end
 
   # GET /shifts/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /shifts
   # POST /shifts.json

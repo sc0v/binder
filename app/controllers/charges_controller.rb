@@ -25,9 +25,9 @@ class ChargesController < ApplicationController
             methods: %i[charge_type_name organization_name organization_link]
           )
         data.each do |d|
-          charge = Charge.find(d["id"])
-          d["show_link"] = helpers.link_to "show", charge, class: "btn"
-          d["description_truncated"] = d["description"].truncate(
+          charge = Charge.find(d['id'])
+          d['show_link'] = helpers.link_to 'show', charge, class: 'btn'
+          d['description_truncated'] = d['description'].truncate(
             85,
             separator: /\s/
           )
@@ -49,7 +49,7 @@ class ChargesController < ApplicationController
 
       org_charges = Charge.where(organization: organization)
       if org_charges.any?
-        headers = ["Charge Type", "Description", "Amount"]
+        headers = ['Charge Type', 'Description', 'Amount']
         generate_row =
           lambda do |charge|
             [
@@ -60,7 +60,7 @@ class ChargesController < ApplicationController
           end
         footers = [
           nil,
-          "Total",
+          'Total',
           view_context.number_to_currency(org_charges.sum(:amount))
         ]
         charge_csv =
@@ -94,15 +94,14 @@ class ChargesController < ApplicationController
     zip = Exporter.generate_zip(csv_files)
     respond_to do |format|
       format.zip do
-        send_data zip, filename: "invoices.zip", type: "application/zip"
+        send_data zip, filename: 'invoices.zip', type: 'application/zip'
       end
     end
   end
 
   # GET /charges/1
   # GET /charges/1.json
-  def show
-  end
+  def show; end
 
   # GET /charges/new
   # GET /charges/new.json
@@ -115,7 +114,7 @@ class ChargesController < ApplicationController
     @current_receiving_participant =
       (
         if @charge.receiving_participant.nil?
-          ""
+          ''
         else
           @charge.receiving_participant.formatted_name
         end
@@ -136,7 +135,7 @@ class ChargesController < ApplicationController
         "Could not create the charge: #{@charge.errors.full_messages}"
       redirect_to new_charge_path and return
     end
-    redirect_to charge_path(@charge), notice: "Charge created!"
+    redirect_to charge_path(@charge), notice: 'Charge created!'
   end
 
   # PUT /charges/1
@@ -152,7 +151,7 @@ class ChargesController < ApplicationController
   def destroy
     return redirect_to charges_path if @charge.blank?
 
-    if @charge.charge_type == ChargeType.find_by(name: "Store Purchase")
+    if @charge.charge_type == ChargeType.find_by(name: 'Store Purchase')
       charge_store_purchase = StorePurchase.find_by(charge_id: @charge.id)
       charge_store_purchase.presence&.destroy
     end

@@ -11,7 +11,7 @@ class ShiftParticipantsController < ApplicationController
 
   # POST
   def create
-    Rails.logger.debug("nachos")
+    Rails.logger.debug('nachos')
     clock_in_now = params[:shift_participant][:clock_in_now]
     @shift_participant =
       ShiftParticipant.new(
@@ -19,7 +19,7 @@ class ShiftParticipantsController < ApplicationController
       )
 
     @shift_participant.clocked_in_at =
-      if clock_in_now == "0"
+      if clock_in_now == '0'
         nil
       else
         Time.zone.now

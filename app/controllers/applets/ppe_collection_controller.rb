@@ -10,14 +10,16 @@ class Applets::PPECollectionController < ApplicationController
   def return_hardhat
     @hardhat = Tool.hardhats.find_by(barcode: params[:hardhat_barcode])
     if @hardhat.nil?
-      redirect_to ppe_collection_path, alert: "Hardhat not found"
+      redirect_to ppe_collection_path, alert: 'Hardhat not found'
     else
-      @checkout =
-        @hardhat.checkouts.current.first unless @hardhat.checkouts.blank? ||
-        @hardhat.checkouts.current.blank?
+      unless @hardhat.checkouts.blank? ||
+             @hardhat.checkouts.current.blank?
+        @checkout =
+          @hardhat.checkouts.current.first
+      end
       if @hardhat.checkouts.blank? || @hardhat.checkouts.current.blank?
-        return(
-          redirect_to ppe_collection_path, alert: "Hardhat already checked in"
+        return (
+          redirect_to ppe_collection_path, alert: 'Hardhat already checked in'
         )
       end
 

@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class ShiftParticipantTest < ActiveSupport::TestCase
   # Relationships
@@ -11,7 +11,7 @@ class ShiftParticipantTest < ActiveSupport::TestCase
   should validate_presence_of(:shift_id)
   should validate_presence_of(:participant_id)
 
-  context "With a proper context, " do
+  context 'With a proper context, ' do
     setup do
       @shift =
         FactoryGirl.create(
@@ -35,7 +35,7 @@ class ShiftParticipantTest < ActiveSupport::TestCase
 
     teardown {}
 
-    should "show that all factories are properly created" do
+    should 'show that all factories are properly created' do
       assert_equal 2, ShiftParticipant.all.size
     end
 

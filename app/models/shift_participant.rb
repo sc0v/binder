@@ -7,12 +7,12 @@ class ShiftParticipant < ApplicationRecord
   belongs_to :participant, touch: true
 
   scope :checked_in_late,
-        -> do
+        lambda {
           joins(:shift).where(
-            "starts_at < ? AND clocked_in_at > starts_at",
+            'starts_at < ? AND clocked_in_at > starts_at',
             Time.zone.now
           )
-        end
+        }
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
 

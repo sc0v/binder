@@ -3,69 +3,69 @@
 module OrganizationsHelper
   ORGANIZATIONS_TABLE_COLUMNS = [
     {
-      title: "Name",
+      title: 'Name',
       field: :name,
-      formatter: "link",
+      formatter: 'link',
       formatterParams: {
         urlField: :link
       },
       frozen: true,
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search",
-      sorter: "string"
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search',
+      sorter: 'string'
     },
     {
-      title: "Short Name",
+      title: 'Short Name',
       field: :short_name,
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search",
-      sorter: "string"
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search',
+      sorter: 'string'
     },
     {
-      title: "Category",
+      title: 'Category',
       field: :category_name,
-      sorter: "string",
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search"
+      sorter: 'string',
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search'
     },
     {
-      title: "Building",
+      title: 'Building',
       field: :building?,
-      hozAlign: "center",
-      formatter: "tickCross",
-      headerFilter: "tickCross",
+      hozAlign: 'center',
+      formatter: 'tickCross',
+      headerFilter: 'tickCross',
       headerFilterParams: {
         tristate: true
       }
     },
     {
-      title: "Last Change",
+      title: 'Last Change',
       field: :updated_at,
-      hozAlign: "left",
-      sorter: "datetime",
+      hozAlign: 'left',
+      sorter: 'datetime',
       sorterParams: {
-        format: "yyyy-MM-dd HH:mm (ccc)"
+        format: 'yyyy-MM-dd HH:mm (ccc)'
       },
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search"
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search'
     },
     {
-      title: "Downtime Remaining",
+      title: 'Downtime Remaining',
       field: :remaining_downtime,
-      formatter: "link",
+      formatter: 'link',
       formatterParams: {
         urlField: :downtime_link
       },
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search",
-      sorter: "time",
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search',
+      sorter: 'time',
       sorterParams: {
-        format: "H:mm"
+        format: 'H:mm'
       }
     },
-    { title: "Structural Queue", hozAlign: "left" },
-    { title: "Electrical Queue", hozAlign: "left" },
-    { title: "Downtime", hozAlign: "left" }
+    { title: 'Structural Queue', hozAlign: 'left' },
+    { title: 'Electrical Queue', hozAlign: 'left' },
+    { title: 'Downtime', hozAlign: 'left' }
   ].freeze
 
   def organizations_table_config
@@ -73,10 +73,10 @@ module OrganizationsHelper
       ajaxURL: organizations_path(format: :json),
       columns: load_organizations_columns,
       dataLoader: false,
-      height: "90vh",
+      height: '90vh',
       paginationSize: 100,
-      placeholder: "<h2>No Organizations Found</h2>",
-      progressiveLoad: "load",
+      placeholder: '<h2>No Organizations Found</h2>',
+      progressiveLoad: 'load',
       resizableColumnFit: true
     }.to_json
   end

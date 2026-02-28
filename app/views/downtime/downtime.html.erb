@@ -34,7 +34,7 @@
       </tbody>
     </table> </div
   ><div class="sidebar">
-    <% if can?(:create, OrganizationTimelineEntry, entry_type: "downtime") %>
+    <% if can?(:create, OrganizationTimelineEntry, entry_type: 'downtime') %>
       <%= render partial: 'downtime_sidebar' %>
     <% end %>
   </div>

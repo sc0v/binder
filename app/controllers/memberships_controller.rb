@@ -29,22 +29,22 @@ class MembershipsController < ApplicationController
     @membership = Membership.new
     @membership.organization = @organization
 
-    params[:step] = "csv_upload" if params[:step].nil?
+    params[:step] = 'csv_upload' if params[:step].nil?
 
-    return unless params[:step] == "repair"
+    return unless params[:step] == 'repair'
 
     @members =
       Membership
-        .where(organization: @organization, is_in_csv: true)
-        .sort do |a, b|
-          if a.participant_name == "N/A"
-            -1
-          elsif b.participant_name == "N/A"
-            1
-          else
-            a.participant_eppn.downcase <=> b.participant_eppn.downcase
-          end
+      .where(organization: @organization, is_in_csv: true)
+      .sort do |a, b|
+        if a.participant_name == 'N/A'
+          -1
+        elsif b.participant_name == 'N/A'
+          1
+        else
+          a.participant_eppn.downcase <=> b.participant_eppn.downcase
         end
+      end
   end
 
   def upload_csv
@@ -52,7 +52,7 @@ class MembershipsController < ApplicationController
     # Make sure user uploaded a file
     if params[:csv_file].blank?
       redirect_to new_organization_membership_path(@organization),
-                  alert: "CSV Not Uploaded!" and return
+                  alert: 'CSV Not Uploaded!' and return
     end
 
     # Make sure the file parsed successfully
@@ -62,7 +62,7 @@ class MembershipsController < ApplicationController
                   alert: parse[:error] and return
     end
 
-    redirect_to new_organization_membership_path(@organization, step: "repair")
+    redirect_to new_organization_membership_path(@organization, step: 'repair')
   end
 
   # Insert a participant to the current membership CSV. This should create a new
@@ -74,12 +74,12 @@ class MembershipsController < ApplicationController
     # Find or create new participant
     new_eppn = "#{params[:new_participant]}@andrew.cmu.edu"
     new_participant = Participant.find_by(eppn: new_eppn)
-    new_participant =
-      Participant.create!(eppn: new_eppn) if new_participant.nil?
-    # Set participant as an alumni / regular student if a standing was selected
-    if params[:standing].present?
-      new_participant.update_attribute(:alumni, params[:standing] == "alumni")
+    if new_participant.nil?
+      new_participant =
+        Participant.create!(eppn: new_eppn)
     end
+    # Set participant as an alumni / regular student if a standing was selected
+    new_participant.update_attribute(:alumni, params[:standing] == 'alumni') if params[:standing].present?
     # Create new Membership, or set is_in_csv if it already exists
     m =
       Membership.find_by(
@@ -89,10 +89,10 @@ class MembershipsController < ApplicationController
     # Extract standing information from params
     booth_chair = m.nil? ? false : m.is_booth_chair
     red_hardhat = m.nil? ? false : m.is_red_hardhat
-    if params[:standing] == "booth_chair_red_hardhat"
+    if params[:standing] == 'booth_chair_red_hardhat'
       booth_chair = true
       red_hardhat = true
-    elsif params[:standing] == "booth_chair_white_hardhat"
+    elsif params[:standing] == 'booth_chair_white_hardhat'
       booth_chair = true
     end
     if m.nil?
@@ -118,7 +118,7 @@ class MembershipsController < ApplicationController
 
     return if params[:ignore_redirect]
 
-    redirect_to new_organization_membership_path(@organization, step: "repair")
+    redirect_to new_organization_membership_path(@organization, step: 'repair')
   end
 
   def remove
@@ -130,16 +130,14 @@ class MembershipsController < ApplicationController
       old_participant = old_membership.participant
       old_membership.destroy!
       # If old participant now has no memberships, destroy them too
-      if Membership.where(participant: old_participant).blank?
-        old_participant.destroy!
-      end
+      old_participant.destroy! if Membership.where(participant: old_participant).blank?
     else
       old_membership.update!({ is_in_csv: false })
     end
 
     return if params[:ignore_redirect]
 
-    redirect_to new_organization_membership_path(@organization, step: "repair")
+    redirect_to new_organization_membership_path(@organization, step: 'repair')
   end
 
   # Replace one staged membership with another, while respecting any participant's
@@ -164,14 +162,12 @@ class MembershipsController < ApplicationController
           participant = m.participant
           m.destroy!
           # If participant now has no memberships, destroy them too
-          if Membership.where(participant: participant).blank?
-            participant.destroy!
-          end
+          participant.destroy! if Membership.where(participant: participant).blank?
         else
           m.update!({ is_in_csv: false })
         end
       end
-    redirect_to organization_path(@organization), notice: "Cancelled!"
+    redirect_to organization_path(@organization), notice: 'Cancelled!'
   end
 
   # Commit all staged memberships
@@ -180,7 +176,7 @@ class MembershipsController < ApplicationController
     Membership
       .where(organization: @organization, is_in_csv: true)
       .find_each { |m| m.update!({ is_in_csv: false, is_added_by_csv: false }) }
-    redirect_to organization_path(@organization), notice: "Participants Added!"
+    redirect_to organization_path(@organization), notice: 'Participants Added!'
   end
 
   # GET /memberships/1/edit
@@ -197,9 +193,9 @@ class MembershipsController < ApplicationController
     @membership.organization = @organization
     authorize! :create, @membership
     if @membership.save
-      flash[:notice] = "Member added"
+      flash[:notice] = 'Member added'
     else
-      flash[:error] = "Error adding member"
+      flash[:error] = 'Error adding member'
     end
     redirect_to @organization
   end
@@ -223,15 +219,17 @@ class MembershipsController < ApplicationController
     @old_participant_orgs = @participant.organizations
 
     @old_participant_orgs.each do |org|
-      if @new_organization_ids.blank? ||
-           @new_organization_ids.exclude?(org.id.to_s)
-        @membership =
-          Membership.where(
-            participant_id: @participant.id,
-            organization_id: org.id
-          ).first
-        @membership.destroy unless @membership.is_booth_chair?
+      unless @new_organization_ids.blank? ||
+             @new_organization_ids.exclude?(org.id.to_s)
+        next
       end
+
+      @membership =
+        Membership.where(
+          participant_id: @participant.id,
+          organization_id: org.id
+        ).first
+      @membership.destroy unless @membership.is_booth_chair?
     end
 
     all_ok = true
@@ -239,9 +237,9 @@ class MembershipsController < ApplicationController
     # create new memberships (only if they don't have a membership already)
     @new_organization_ids&.each do |new_org_id|
       unless @participant
-               .organizations
-               .map { |o| o.id.to_s }
-               .exclude?(new_org_id.to_s)
+             .organizations
+             .map { |o| o.id.to_s }
+             .exclude?(new_org_id.to_s)
         next
       end
 
@@ -257,12 +255,12 @@ class MembershipsController < ApplicationController
 
     respond_to do |format|
       if all_ok
-        format.html { redirect_to @participant, notice: "Participant updated." }
+        format.html { redirect_to @participant, notice: 'Participant updated.' }
         format.json do
           render json: @participant, status: :created, location: @participant
         end
       else
-        format.html { render action: "new" }
+        format.html { render action: 'new' }
         format.json do
           render json: @membership.errors, status: :unprocessable_entity
         end

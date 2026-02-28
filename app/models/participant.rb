@@ -77,20 +77,21 @@ class Participant < ApplicationRecord
   #      }
 
   def self.find_by(*)
-      # puts args
-      # if args.first.keys.include?(:search)
-      #  find_by_search(args)
-      # elsif args.first.keys.include?(:card)
-      #  find_by_card(*args)
-      # else
-    super(*)
+    # puts args
+    # if args.first.keys.include?(:search)
+    #  find_by_search(args)
+    # elsif args.first.keys.include?(:card)
+    #  find_by_card(*args)
+    # else
+    super
     # end
   end
 
   def self.find_by_search(search)
-    @participant = Participant.find_by(eppn: search.to_s) ||
-                   Participant.find_by(eppn: "#{search}@andrew.cmu.edu") ||
-                   Participant.find_by(card: search.to_s)
+    @participant =
+      Participant.find_by(eppn: search.to_s) ||
+      Participant.find_by(eppn: "#{search}@andrew.cmu.edu") ||
+      Participant.find_by(card: search.to_s)
   end
 
   def self.find_or_create_by_search(search)
@@ -115,11 +116,14 @@ class Participant < ApplicationRecord
             .group(:id)
         }
 
-  scope :in_organization, lambda { |organization_id|
-    joins(:organizations)
-      .where(organizations: { id: organization_id })
-      .group(:id)
-  }
+  scope :in_organization,
+        lambda { |organization_id|
+          joins(:organizations).where(
+            organizations: {
+              id: organization_id
+            }
+          ).group(:id)
+        }
 
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
@@ -238,9 +242,15 @@ class Participant < ApplicationRecord
     return [:yellow] if alumni
 
     wristbands = []
-    wristbands += [:blue] if organization_categories.pluck(:building).include? false
-    wristbands += [:red] if organization_categories.pluck(:building).include? true
-    wristbands += [:green] if certification_types.pluck(:name).include? 'Scissor Lift'
+    wristbands += [:blue] if organization_categories.pluck(
+      :building
+    ).include? false
+    wristbands += [:red] if organization_categories.pluck(
+      :building
+    ).include? true
+    wristbands += [:green] if certification_types.pluck(
+      :name
+    ).include? 'Scissor Lift'
     wristbands
   end
 
@@ -259,8 +269,9 @@ class Participant < ApplicationRecord
   end
 
   def self.table_attrs
-    joins('LEFT OUTER JOIN memberships AS m ON m.participant_id = participants.id AND m.is_booth_chair = TRUE')
-      .select(
+    joins(
+      'LEFT OUTER JOIN memberships AS m ON m.participant_id = participants.id AND m.is_booth_chair = TRUE'
+    ).select(
       'participants.*,
       m.is_booth_chair AS is_booth_chair'
     )

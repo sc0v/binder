@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class OrganizationTest < ActiveSupport::TestCase
   # Relationships
@@ -18,52 +18,52 @@ class OrganizationTest < ActiveSupport::TestCase
   should validate_presence_of(:name)
   should validate_uniqueness_of(:name)
 
-  context "With a proper context, " do
+  context 'With a proper context, ' do
     setup do
       @short_org =
         FactoryGirl.create(
           :organization,
-          name: "short name",
-          short_name: "name"
+          name: 'short name',
+          short_name: 'name'
         )
       @long_org =
-        FactoryGirl.create(:organization, name: "long name", short_name: nil)
+        FactoryGirl.create(:organization, name: 'long name', short_name: nil)
     end
 
     teardown {}
 
-    should "show that all factories are properly created" do
+    should 'show that all factories are properly created' do
       assert_equal 2, Organization.all.size
     end
 
     # Scopes
     # only_categories
-    should "show that the only_categories functions correctly" do
+    should 'show that the only_categories functions correctly' do
       short_org_category = @short_org.organization_category.name
       long_org_category = @long_org.organization_category.name
 
-      assert_equal ["short name"],
+      assert_equal ['short name'],
                    Organization.only_categories(short_org_category).map(&:name)
-      assert_equal ["long name"],
+      assert_equal ['long name'],
                    Organization.only_categories(long_org_category).map(&:name)
     end
 
     # search
-    should "show that the search scope functions correcly" do
-      assert_equal ["long name"], Organization.search("long name").map(&:name)
-      assert_equal ["long name", "short name"],
-                   Organization.search("name").map(&:name)
+    should 'show that the search scope functions correcly' do
+      assert_equal ['long name'], Organization.search('long name').map(&:name)
+      assert_equal ['long name', 'short name'],
+                   Organization.search('name').map(&:name)
     end
 
     # ---------------------------- End of scope testing
 
     # Methods
-    should "have a short_name method" do
-      assert_equal("name", @short_org.short_name)
-      assert_equal("long name", @long_org.short_name)
+    should 'have a short_name method' do
+      assert_equal('name', @short_org.short_name)
+      assert_equal('long name', @long_org.short_name)
     end
 
-    should "give back the correct booth chair for this organization" do
+    should 'give back the correct booth chair for this organization' do
       chair_person = FactoryGirl.create(:participant)
       FactoryGirl.create(
         :membership,
@@ -77,7 +77,7 @@ class OrganizationTest < ActiveSupport::TestCase
       assert_equal [], @long_org.booth_chairs
     end
 
-    should "give back the correct hour of current downtime" do
+    should 'give back the correct hour of current downtime' do
       t = Time.zone.now
       FactoryGirl.create(
         :organization_timeline_entry,
@@ -90,7 +90,7 @@ class OrganizationTest < ActiveSupport::TestCase
       assert_equal 2.hours, @short_org.downtime
     end
 
-    should "give back the correct hour of remaining downtime" do
+    should 'give back the correct hour of remaining downtime' do
       t = Time.zone.now
       FactoryGirl.create(
         :organization_timeline_entry,
@@ -107,7 +107,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
     # Dependencies
 
-    should "delete all associated organization_timeline_entries once the organization is removed" do
+    should 'delete all associated organization_timeline_entries once the organization is removed' do
       FactoryGirl.create(:organization_timeline_entry, organization: @short_org)
       FactoryGirl.create(:organization_timeline_entry, organization: @short_org)
       FactoryGirl.create(:organization_timeline_entry, organization: @long_org)
@@ -118,7 +118,7 @@ class OrganizationTest < ActiveSupport::TestCase
       assert_equal 1, OrganizationTimelineEntry.all.size
     end
 
-    should "delete all associated charges once the organization is removed" do
+    should 'delete all associated charges once the organization is removed' do
       issuer = FactoryGirl.create(:participant)
       type = FactoryGirl.create(:charge_type)
 
@@ -149,7 +149,7 @@ class OrganizationTest < ActiveSupport::TestCase
       assert_equal 1, Charge.all.size
     end
 
-    should "delete all checkouts once the organization is removed" do
+    should 'delete all checkouts once the organization is removed' do
       type = FactoryGirl.create(:tool_type)
       tool = FactoryGirl.create(:tool, tool_type: type)
       FactoryGirl.create(:checkout, tool:, organization: @short_org)

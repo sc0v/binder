@@ -6,9 +6,7 @@
 <%- model_class = ChargeType -%>
 <div class="content">
   <div>
-    <h1>
-      <%= h @title || model_class.model_name.human.pluralize %>
-    </h1>
+    <h1> <%= h @title || model_class.model_name.human.pluralize %> </h1>
     <table class="table table-striped">
       <thead>
         <tr>
@@ -25,32 +23,41 @@
           <tr>
             <td><%= charge_type.name %></td>
             <td><%= number_to_currency charge_type.default_amount %></td>
-            <td style="word-wrap:break-word;max-width:300px;"><%= charge_type.description %></td>
+            <td style="word-wrap:break-word;max-width:300px;"
+              ><%= charge_type.description %></td
+            >
             <% if can?(:update, charge_type) or can?(:destroy, charge_type) %>
               <td class="hidden-xs">
                 <% if can?(:update, charge_type) %>
                   <%= link_to t('.edit', default: t('helpers.links.edit')),
-                              edit_charge_type_path(charge_type), class: 'btn btn-xs btn-primary' %>
+                              edit_charge_type_path(charge_type),
+                              class: 'btn btn-xs btn-primary' %>
                 <% end %>
                 <% if can?(:destroy, charge_type) %>
                   <%= link_to t('.destroy', default: t('helpers.links.destroy')),
                               charge_type_path(charge_type),
                               class: 'btn btn-danger btn-xs',
                               data: {
-                                turbo_confirm: t('.confirm', default: t('helpers.links.confirm', default: 'Are you sure?')),
+                                turbo_confirm:
+                                  t(
+                                    '.confirm',
+                                    default: t('helpers.links.confirm', default: 'Are you sure?')
+                                  ),
                                 turbo_method: 'delete'
                               } %>
                 <% end %>
               </td>
             <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-    </table>
-  </div><div class="sidebar">
+          </tr>
+        <% end %>
+      </tbody>
+    </table> </div
+  ><div class="sidebar">
     <div class="red invert">
       <% if can?(:create, ChargeType) %>
-        <h2><%= link_to 'Create charge type', new_charge_type_path, class: 'cta' %></h2>
+        <h2
+          ><%= link_to 'Create charge type', new_charge_type_path, class: 'cta' %></h2
+        >
       <% end %>
     </div>
   </div>

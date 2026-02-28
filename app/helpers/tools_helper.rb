@@ -3,54 +3,54 @@
 module ToolsHelper
   TOOLS_TABLE_COLUMNS = [
     {
-      title: "Name",
+      title: 'Name',
       field: :t_name,
-      formatter: "link",
+      formatter: 'link',
       formatterParams: {
         urlField: :link
       },
       frozen: true,
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search",
-      sorter: "string"
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search',
+      sorter: 'string'
     },
     {
-      title: "Description",
+      title: 'Description',
       field: :description,
-      sorter: "string",
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search"
+      sorter: 'string',
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search'
     },
     {
-      title: "Barcode",
+      title: 'Barcode',
       field: :barcode,
-      sorter: "string",
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search"
+      sorter: 'string',
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search'
     },
     {
-      title: "Checked Out",
+      title: 'Checked Out',
       field: :t_is_checked_out,
-      hozAlign: "center",
-      formatter: "tickCross",
-      headerFilter: "tickCross",
+      hozAlign: 'center',
+      formatter: 'tickCross',
+      headerFilter: 'tickCross',
       headerFilterParams: {
         tristate: true
       }
     },
     {
-      title: "Current Organization",
+      title: 'Current Organization',
       field: :t_organization_name,
-      sorter: "string",
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search"
+      sorter: 'string',
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search'
     },
     {
-      title: "Current Participant",
+      title: 'Current Participant',
       field: :t_participant_name,
-      sorter: "string",
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search"
+      sorter: 'string',
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search'
     }
   ].freeze
 
@@ -59,10 +59,10 @@ module ToolsHelper
       ajaxURL: @json_url,
       columns: load_tools_columns,
       dataLoader: false,
-      height: "90vh",
+      height: '90vh',
       paginationSize: 200,
-      placeholder: "<h2>No Tools Found</h2>",
-      progressiveLoad: "load",
+      placeholder: '<h2>No Tools Found</h2>',
+      progressiveLoad: 'load',
       resizableColumnFit: true
     }.to_json
   end

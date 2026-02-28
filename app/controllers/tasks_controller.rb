@@ -8,9 +8,9 @@ class TasksController < ApplicationController
   def index
     if params[:task_filter].blank?
       @tasks = Task.all
-    elsif params[:task_filter] == "completed_tasks"
+    elsif params[:task_filter] == 'completed_tasks'
       @tasks = Task.is_complete
-    elsif params[:task_filter] == "incomplete_tasks"
+    elsif params[:task_filter] == 'incomplete_tasks'
       @tasks = Task.is_incomplete
     end
   end
@@ -35,7 +35,7 @@ class TasksController < ApplicationController
   def complete
     @task.is_completed = true
     @task.save
-    redirect_to :back, notice: "The task was successfully completed"
+    redirect_to :back, notice: 'The task was successfully completed'
   end
 
   # POST /tasks

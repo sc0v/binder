@@ -4,7 +4,7 @@ class Task < ApplicationRecord
   validates :name, :due_at, presence: true
   # validates :completed_by, :presence => true, :unless => :is_uncompleted?
 
-  belongs_to :completed_by, class_name: "Participant"
+  belongs_to :completed_by, class_name: 'Participant'
 
   default_scope { order(:due_at) }
   scope :upcoming, -> { where(due_at: ...(DateTime.now + 4.hours)) }

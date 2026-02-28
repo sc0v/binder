@@ -20,14 +20,14 @@ class ParticipantsController < ApplicationController
         # Compute last_page as ceil(Participant.count / size)
         last_page =
           (Participant.count / size) +
-            ((Participant.count % size).zero? ? 0 : 1)
+          ((Participant.count % size).zero? ? 0 : 1)
         # Only return the participants in this page
         participants =
           Participant
-            .accessible_by(Current.ability)
-            .ordered_by_name
-            .offset(offset)
-            .limit(size)
+          .accessible_by(Current.ability)
+          .ordered_by_name
+          .offset(offset)
+          .limit(size)
         data =
           participants.table_attrs.as_json(
             methods: %i[link name signed_waiver?]
@@ -56,14 +56,14 @@ class ParticipantsController < ApplicationController
       render json: :nothing, status: :unprocessable_entity
     else
       render json: {
-               id: participant.id,
-               name: participant.name,
-               member_orgs: participant.organizations,
-               non_member_orgs:
+        id: participant.id,
+        name: participant.name,
+        member_orgs: participant.organizations,
+        non_member_orgs:
                  Organization.all.reject do |org|
                    participant.organizations.exclude?(org)
                  end
-             }
+      }
     end
   end
 
@@ -73,11 +73,9 @@ class ParticipantsController < ApplicationController
     @show ||= Current.user
   end
 
-  def new
-  end
+  def new; end
 
-  def edit
-  end
+  def edit; end
 
   def update
     @participant.update(participant_update_params)
@@ -104,8 +102,8 @@ class ParticipantsController < ApplicationController
   rescue ActiveRecord::RecordInvalid => e
     # TODO: participants_url/did you mean? results
     # redirect_to('/',
-    flash["error"] = "<strong>Participant does not exist.</strong> " \
-      "#{e.record.errors.full_messages.join(", ")}"
+    flash['error'] = '<strong>Participant does not exist.</strong> ' \
+                     "#{e.record.errors.full_messages.join(', ')}"
     redirect_to root_url
   rescue ActiveRecord::RecordNotUnique
     # Mitigate the race condition if an unrelated insert happens after this
@@ -115,9 +113,9 @@ class ParticipantsController < ApplicationController
 
   def set_wristband_colors
     @wristband_colors = {
-      building: "Red",
-      nonbuilding: "Blue",
-      scissor_lift: "Green"
+      building: 'Red',
+      nonbuilding: 'Blue',
+      scissor_lift: 'Green'
     }
   end
   # def set_participant

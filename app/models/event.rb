@@ -9,13 +9,13 @@ class Event < ApplicationRecord
   after_create :send_notifications
 
   scope :displayable,
-        -> do
+        lambda {
           joins(:event_type).where(is_done: false).where(
             event_types: {
               display: true
             }
           )
-        end
+        }
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
 

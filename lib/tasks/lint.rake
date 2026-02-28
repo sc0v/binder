@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
-require_relative "lint/lint_helper"
+require_relative 'lint/lint_helper'
 
 ALL_LINT_TASKS = %i[lint:rubocop lint:erblint lint:brakeman].freeze
 
 # TODO: Add CSS linter
-desc "Lint project (run w/ lint:dryrun to disable autocorrection), lint specific files"
+desc 'Lint project (run w/ lint:dryrun to disable autocorrection), lint specific files'
 task :lint, [:file] do |t, args|
   include LintHelper
 
   if args.file
     # TODO: Add dryrun mode for single files
-    abort_with_log(t.name, "No dryrun option for file.") if dryrun?(t.name)
+    abort_with_log(t.name, 'No dryrun option for file.') if dryrun?(t.name)
     Rake::Task["lint:file:#{args.file}"].invoke
   else
     errors = []
@@ -25,7 +25,7 @@ task :lint, [:file] do |t, args|
     end
 
     if errors.any?
-      log(t.name, "Errors from invoked tasks:")
+      log(t.name, 'Errors from invoked tasks:')
       errors.each { |e| log t.name, " * #{e}" }
       abort_with_log(t.name)
     end
@@ -35,18 +35,18 @@ end
 # Each lint task can be initiated with a dryrun rule via rake (pattern rules)
 # e.g. rake lint:rubocop:dryrun
 namespace :lint do |namespace|
-  desc "Lint project without autocorrection (check only)"
+  desc 'Lint project without autocorrection (check only)'
   task :dryrun do
     include LintHelper
 
-    dryrun("lint")
-    Rake::Task["lint"].invoke
+    dryrun('lint')
+    Rake::Task['lint'].invoke
   end
 
-  rule ":dryrun", [:files] do |t, args|
+  rule ':dryrun', [:files] do |t, args|
     include LintHelper
 
-    task = t.name.delete_suffix(":dryrun") # determine task name
+    task = t.name.delete_suffix(':dryrun') # determine task name
     dryrun(task) # flag env as dryrun for task
 
     # Change all lint-namespace prerequisites of the task to be dryruns, too
@@ -64,42 +64,42 @@ end
 namespace :lint do
   # rubocop:disable Metrics/BlockLength
   namespace :file do |namespace|
-    rule ".css" do |t, _args|
+    rule '.css' do |t, _args|
       file = t.name.delete_prefix("#{namespace.scope.path}:")
-      Rake::Task["lint:prettier"].invoke(file)
+      Rake::Task['lint:prettier'].invoke(file)
     end
 
-    rule ".html" do |t, _args|
+    rule '.html' do |t, _args|
       file = t.name.delete_prefix("#{namespace.scope.path}:")
-      Rake::Task["lint:prettier"].invoke(file)
+      Rake::Task['lint:prettier'].invoke(file)
     end
 
-    rule ".html.erb" do |t, _args|
+    rule '.html.erb' do |t, _args|
       file = t.name.delete_prefix("#{namespace.scope.path}:")
-      Rake::Task["lint:prettier"].invoke(file)
-      Rake::Task["lint:erblint"].invoke(file)
+      Rake::Task['lint:prettier'].invoke(file)
+      Rake::Task['lint:erblint'].invoke(file)
     end
 
-    rule ".js" do |t, _args|
+    rule '.js' do |t, _args|
       file = t.name.delete_prefix("#{namespace.scope.path}:")
-      Rake::Task["lint:prettier"].invoke(file)
+      Rake::Task['lint:prettier'].invoke(file)
     end
 
-    rule ".rake" do |t, _args|
+    rule '.rake' do |t, _args|
       file = t.name.delete_prefix("#{namespace.scope.path}:")
-      Rake::Task["lint:prettier"].invoke(file)
-      Rake::Task["lint:rubocop"].invoke(file)
+      Rake::Task['lint:prettier'].invoke(file)
+      Rake::Task['lint:rubocop'].invoke(file)
     end
 
-    rule ".rb" do |t, _args|
+    rule '.rb' do |t, _args|
       file = t.name.delete_prefix("#{namespace.scope.path}:")
-      Rake::Task["lint:prettier"].invoke(file)
-      Rake::Task["lint:rubocop"].invoke(file)
+      Rake::Task['lint:prettier'].invoke(file)
+      Rake::Task['lint:rubocop'].invoke(file)
     end
 
-    rule ".yml" do |t, _args|
+    rule '.yml' do |t, _args|
       file = t.name.delete_prefix("#{namespace.scope.path}:")
-      Rake::Task["lint:prettier"].invoke(file)
+      Rake::Task['lint:prettier'].invoke(file)
     end
   end
 end

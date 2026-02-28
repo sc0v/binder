@@ -8,6 +8,6 @@ class ToolInventory < ApplicationRecord
   def ensure_one
     return unless ToolInventory.count >= 1
 
-    errors.add(:base, "Only one Tool Inventory can exist at a time")
+    errors.add(:base, 'Only one Tool Inventory can exist at a time')
   end
 end

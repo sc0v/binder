@@ -2,46 +2,46 @@
 
 module ChargesHelper
   CHARGES_TABLE_COLUMNS = [
-    { frozen: true, field: "show_link", formatter: "html", headerSort: false },
+    { frozen: true, field: 'show_link', formatter: 'html', headerSort: false },
     {
-      title: "Charge Type",
+      title: 'Charge Type',
       field: :charge_type_name,
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search",
-      sorter: "string"
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search',
+      sorter: 'string'
     },
     {
-      title: "Amount",
+      title: 'Amount',
       field: :amount,
-      formatter: "money",
+      formatter: 'money',
       formatterParams: {
-        symbol: "$"
+        symbol: '$'
       },
-      sorter: "numeric",
-      bottomCalc: "sum",
-      bottomCalcFormatter: "money",
+      sorter: 'numeric',
+      bottomCalc: 'sum',
+      bottomCalcFormatter: 'money',
       bottomCalcFormatterParams: {
-        symbol: "$"
+        symbol: '$'
       }
     },
     {
-      title: "Organization",
+      title: 'Organization',
       field: :organization_name,
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search",
-      formatter: "link",
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search',
+      formatter: 'link',
       formatterParams: {
-        urlField: "organization_link"
+        urlField: 'organization_link'
       },
-      sorter: "string"
+      sorter: 'string'
     },
     {
-      title: "Description",
+      title: 'Description',
       field: :description_truncated,
-      formatter: "textarea",
-      sorter: "string",
-      headerFilter: "input",
-      headerFilterPlaceholder: "Search"
+      formatter: 'textarea',
+      sorter: 'string',
+      headerFilter: 'input',
+      headerFilterPlaceholder: 'Search'
     }
   ].freeze
 
@@ -50,10 +50,10 @@ module ChargesHelper
       ajaxURL: charges_path(format: :json),
       columns: CHARGES_TABLE_COLUMNS,
       dataLoader: false,
-      maxHeight: "90vh",
+      maxHeight: '90vh',
       paginationSize: 200,
-      placeholder: "<h2>No Charges Found</h2>",
-      progressiveLoad: "load",
+      placeholder: '<h2>No Charges Found</h2>',
+      progressiveLoad: 'load',
       resizableColumnFit: true
     }.to_json
   end

@@ -6,26 +6,26 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   idp_metadata_parser = OneLogin::RubySaml::IdpMetadataParser.new
   validate_cert = true
   options = {
-    sso_binding: "urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect"
+    sso_binding: 'urn:oasis:names:tc:SAML:2.0:bindings:HTTP-Redirect'
   }
   settings =
     idp_metadata_parser.parse_remote_to_hash(
-      "https://login.cmu.edu/idp/shibboleth",
+      'https://login.cmu.edu/idp/shibboleth',
       validate_cert,
       options
     )
 
   settings.merge!(
     certificate:
-      if Rails.root.join("config/private/sp-cert.pem").exist?
-        Rails.root.join("config/private/sp-cert.pem").read
-      end,
+      (
+        Rails.root.join('config/private/sp-cert.pem').read if Rails.root.join('config/private/sp-cert.pem').exist?
+      ),
     private_key:
-      if Rails.root.join("config/private/sp-key.pem").exist?
-        Rails.root.join("config/private/sp-key.pem").read
-      end,
-    sp_entity_id: "binder.springcarnival.org/auth/saml",
-    uid_attribute: "urn:oid:1.3.6.1.4.1.5923.1.1.1.6" # eduPersonPrincipalName
+      (
+        Rails.root.join('config/private/sp-key.pem').read if Rails.root.join('config/private/sp-key.pem').exist?
+      ),
+    sp_entity_id: 'binder.springcarnival.org/auth/saml',
+    uid_attribute: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6' # eduPersonPrincipalName
   )
 
   provider :saml, settings

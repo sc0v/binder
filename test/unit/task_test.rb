@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require "test_helper"
+require 'test_helper'
 
 class TaskTest < ActiveSupport::TestCase
   # Relationships
@@ -10,7 +10,7 @@ class TaskTest < ActiveSupport::TestCase
   should validate_presence_of(:name)
   should validate_presence_of(:due_at)
 
-  context "With a proper context, " do
+  context 'With a proper context, ' do
     setup do
       # Create 3 tasks
       @assign_rides = FactoryGirl.create(:task, due_at: 2.hours.ago)
@@ -21,7 +21,7 @@ class TaskTest < ActiveSupport::TestCase
 
     teardown {}
 
-    should "show that all factories are properly created" do
+    should 'show that all factories are properly created' do
       assert_equal 3, Task.all.size
     end
 
@@ -38,7 +38,7 @@ class TaskTest < ActiveSupport::TestCase
       assert_equal 1, Task.is_complete.size
     end
     # Methods
-    should "show that the is_past_due method works" do
+    should 'show that the is_past_due method works' do
       assert @assign_rides.is_past_due
       assert_not @buy_wood.is_past_due
       assert_not @takeout_trash.is_past_due

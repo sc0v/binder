@@ -12,8 +12,7 @@ class EventTypesController < ApplicationController
 
   # GET /event_types/1
   # GET /event_types/1.json
-  def show
-  end
+  def show; end
 
   # GET /event_types/new
   def new
@@ -21,8 +20,7 @@ class EventTypesController < ApplicationController
   end
 
   # GET /event_types/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /event_types
   # POST /event_types.json
@@ -34,11 +32,11 @@ class EventTypesController < ApplicationController
         format.html do
           if params[:from_new_event].present?
             redirect_to new_event_path,
-                        notice: "Event type was successfully created."
+                        notice: 'Event type was successfully created.'
             return
           end
           redirect_to @event_type,
-                      notice: "Event type was successfully created."
+                      notice: 'Event type was successfully created.'
         end
         format.json { render :show, status: :created, location: @event_type }
       else
@@ -57,7 +55,7 @@ class EventTypesController < ApplicationController
       if @event_type.update(event_type_params)
         format.html do
           redirect_to @event_type,
-                      notice: "Event type was successfully updated."
+                      notice: 'Event type was successfully updated.'
         end
         format.json { render :show, status: :ok, location: @event_type }
       else
@@ -76,7 +74,7 @@ class EventTypesController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to event_types_url,
-                    notice: "Event type was successfully destroyed."
+                    notice: 'Event type was successfully destroyed.'
       end
       format.json { head :no_content }
     end

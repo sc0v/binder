@@ -6,7 +6,7 @@ class Store::PurchasesController < ApplicationController
     item = StoreItem.find params[:id]
     if all_cart_items.include?(item)
       @old_store_purchase =
-        StorePurchase.items_in_cart.where("store_item_id= ?", item.id)
+        StorePurchase.items_in_cart.where('store_item_id= ?', item.id)
       @old_store_purchase[0].quantity_purchased += 1
       @old_store_purchase[0].price_at_purchase = item.price
       @old_store_purchase[0].store_item = item
@@ -49,14 +49,14 @@ class Store::PurchasesController < ApplicationController
 
   def create
     if session.nil? || session[:borrower_id].blank?
-      redirect_to store_path, alert: "Must specify who is checking out." and
+      redirect_to store_path, alert: 'Must specify who is checking out.' and
         return
     end
 
     StorePurchase.items_in_cart.each do |i|
       c = Charge.new
       c.organization_id = params[:checkout][:organization_id]
-      c.charge_type = ChargeType.find_by(name: "Store Purchase") # THIS works
+      c.charge_type = ChargeType.find_by(name: 'Store Purchase') # THIS works
       c.description = i.store_item.name + " (x #{i.quantity_purchased})"
       c.receiving_participant = Participant.find(session[:borrower_id])
       c.issuing_participant_id = Current.user.id
@@ -66,8 +66,10 @@ class Store::PurchasesController < ApplicationController
 
       i.charge = c
 
-      i.store_item.quantity =
-        i.store_item.quantity - i.quantity_purchased if i.store_item.quantity
+      if i.store_item.quantity
+        i.store_item.quantity =
+          i.store_item.quantity - i.quantity_purchased
+      end
 
       # begin
       c.save!
@@ -80,7 +82,7 @@ class Store::PurchasesController < ApplicationController
 
     session[:borrower_id] = nil
 
-    redirect_to store_url, notice: "Checkout completed!"
+    redirect_to store_url, notice: 'Checkout completed!'
   end
 
   def update

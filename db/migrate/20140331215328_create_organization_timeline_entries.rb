@@ -7,7 +7,7 @@ class CreateOrganizationTimelineEntries < ActiveRecord::Migration[6.0]
       t.datetime :ended_at
       t.references :organization_timeline_entry_type,
                    index: {
-                     name: "index_timeline_entries_on_type"
+                     name: 'index_timeline_entries_on_type'
                    }
       t.references :organization, index: true
       t.text :description

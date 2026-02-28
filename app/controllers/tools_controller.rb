@@ -7,14 +7,14 @@ class ToolsController < ApplicationController
   # The tools table gets data from here through AJAX, so we keep
   # compute last_page to tell table how many batches it needs
   def index
-    type = params[:type] || "tool"
+    type = params[:type] || 'tool'
 
     tools = Tool.just_tools
 
     case type
-    when "hardhat"
+    when 'hardhat'
       tools = Tool.hardhats
-    when "radio"
+    when 'radio'
       tools = Tool.radios
     end
 
@@ -33,28 +33,25 @@ class ToolsController < ApplicationController
         # Only return the participants in this page
         tools =
           tools
-            .accessible_by(Current.ability)
-            .ordered_by_name
-            .offset(offset)
-            .limit(size)
+          .accessible_by(Current.ability)
+          .ordered_by_name
+          .offset(offset)
+          .limit(size)
         data = tools.table_attrs.as_json(methods: %i[link])
         render json: { last_page:, data: }
       end
     end
   end
 
-  def show
-  end
+  def show; end
 
-  def new
-  end
+  def new; end
 
-  def edit
-  end
+  def edit; end
 
   def create
     if @tool.save
-      redirect_to tools_path, notice: "Tool created successfully."
+      redirect_to tools_path, notice: 'Tool created successfully.'
     else
       render :new, status: :unprocessable_entity
     end
@@ -63,9 +60,9 @@ class ToolsController < ApplicationController
   def update
     @tool.update(tool_params)
     if @tool.valid?
-      redirect_to tool_path(@tool), notice: "Updated Tool!"
+      redirect_to tool_path(@tool), notice: 'Updated Tool!'
     else
-      redirect_to tool_path(@tool), alert: "Could not update tool."
+      redirect_to tool_path(@tool), alert: 'Could not update tool.'
     end
   end
 

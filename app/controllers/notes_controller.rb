@@ -30,9 +30,9 @@ class NotesController < ApplicationController
   def create
     @note = Note.new(note_params)
     if @note.save
-      redirect_to root_path, notice: "Created the note!"
+      redirect_to root_path, notice: 'Created the note!'
     else
-      redirect_to root_path, notice: "Could not save the note!"
+      redirect_to root_path, notice: 'Could not save the note!'
     end
   end
 
@@ -42,16 +42,16 @@ class NotesController < ApplicationController
     if @note.valid?
       redirect_to notes_path
     else
-      flash.now[:alert] = t(".alert")
+      flash.now[:alert] = t('.alert')
       render :edit, status: :unprocessable_entity
     end
   end
 
   def destroy
     if @note.destroy
-      redirect_to root_path, notice: "Destroyed the note!"
+      redirect_to root_path, notice: 'Destroyed the note!'
     else
-      redirect_to root_path, alert: "Could not destroy the note"
+      redirect_to root_path, alert: 'Could not destroy the note'
     end
   end
 
@@ -59,7 +59,7 @@ class NotesController < ApplicationController
     @note = Note.find(params[:id])
     @note.update(hidden: params[:hidden])
 
-    render json: { message: "Success" }
+    render json: { message: 'Success' }
   end
 
   private

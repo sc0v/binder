@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-server "binder-dev.springcarnival.org", user: "sc0v", roles: %w[app db web]
-set :rails_env, "staging"
+server 'binder-dev.springcarnival.org', user: 'sc0v', roles: %w[app db web]
+set :rails_env, 'staging'
 
 # server-based syntax
 # ======================

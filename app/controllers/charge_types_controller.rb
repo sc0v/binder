@@ -5,16 +5,15 @@ class ChargeTypesController < ApplicationController
 
   # GET /charge_types
   # GET /charge_types.json
-  def index
-  end
+  def index; end
 
   # GET /charge_types/1
   def show
     amount =
       ActiveSupport::NumberHelper.number_to_currency(
         @charge_type.default_amount,
-        unit: "",
-        delimiter: ""
+        unit: '',
+        delimiter: ''
       ).to_json
     respond_to do |format|
       format.html # new.html.erb
@@ -29,12 +28,10 @@ class ChargeTypesController < ApplicationController
   end
 
   # GET /charge_types/new
-  def new
-  end
+  def new; end
 
   # GET /charge_types/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /charge_types
   # POST /charge_types.json
@@ -60,12 +57,12 @@ class ChargeTypesController < ApplicationController
     if @charge_type.charges.any?
       flash[
         :warn
-      ] = "Cannot delete a charge type until all charges of that type are deleted."
+      ] = 'Cannot delete a charge type until all charges of that type are deleted.'
       redirect_to charge_types_url
       return
     end
     @charge_type.destroy
-    redirect_to charge_types_path, notice: "Charge type deleted!"
+    redirect_to charge_types_path, notice: 'Charge type deleted!'
   end
 
   private

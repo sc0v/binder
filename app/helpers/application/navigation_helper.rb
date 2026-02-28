@@ -17,7 +17,7 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
 
   def nav_section(items: [], active: nil)
     items.map do |item|
-      item[:class] = item[:class].to_a.append("active") if item[:key] == active
+      item[:class] = item[:class].to_a.append('active') if item[:key] == active
       next if item[:can].blank?
       next unless can?(item[:can][:action], item[:can][:subject])
 
@@ -45,63 +45,63 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
   def nav_items # rubocop:disable Metrics/MethodLength
     [
       {
-        label: "Organizations",
+        label: 'Organizations',
         url: organizations_path,
-        key: "organizations",
+        key: 'organizations',
         can: {
           action: :index,
           subject: Organization
         }
       },
       {
-        label: "People",
+        label: 'People',
         url: participants_path,
-        key: "participants",
+        key: 'participants',
         can: {
           action: :index,
           subject: Participant
         }
       },
       {
-        label: "Tools",
+        label: 'Tools',
         url: tools_path,
-        key: "tools",
+        key: 'tools',
         can: {
           action: :index,
           subject: Tool
         }
       },
       {
-        label: "Store",
+        label: 'Store',
         url: store_path,
-        key: "store",
+        key: 'store',
         can: {
           action: :index,
           subject: StoreItem
         }
       },
       {
-        label: "Queues",
+        label: 'Queues',
         url: queues_path,
-        key: "queues",
+        key: 'queues',
         can: {
           action: :index,
           subject: OrganizationTimelineEntry
         }
       },
       {
-        label: "FAQ",
+        label: 'FAQ',
         url: faq_index_path,
-        key: "faq",
+        key: 'faq',
         can: {
           action: :index,
           subject: FAQ
         },
         children: [
           {
-            label: "Add Question",
+            label: 'Add Question',
             url: new_faq_path,
-            key: "new_faq",
+            key: 'new_faq',
             can: {
               action: :create,
               subject: FAQ
@@ -110,28 +110,28 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
         ]
       },
       {
-        label: "Applets",
+        label: 'Applets',
         url: applets_path,
-        key: "applets",
-        class: ["secondary"],
+        key: 'applets',
+        class: ['secondary'],
         can: {
           action: :index,
           subject: AppletsController
         },
         children: [
           {
-            label: "PPE Distribution",
+            label: 'PPE Distribution',
             url: ppe_distribution_path,
-            key: "ppe_distribution",
+            key: 'ppe_distribution',
             can: {
               action: :create,
               subject: Applets::PPEDistributionController
             }
           },
           {
-            label: "PPE Collection",
+            label: 'PPE Collection',
             url: ppe_collection_path,
-            key: "ppe_collection",
+            key: 'ppe_collection',
             can: {
               action: :create,
               subject: Applets::PPECollectionController
@@ -140,39 +140,39 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
         ]
       },
       {
-        label: "Charges",
+        label: 'Charges',
         url: charges_path,
-        key: "charges",
-        class: ["secondary"],
+        key: 'charges',
+        class: ['secondary'],
         can: {
           action: :index,
           subject: Charge
         }
       },
       {
-        label: "Downtime",
+        label: 'Downtime',
         url: downtime_path,
-        key: "downtime",
-        class: ["secondary"],
+        key: 'downtime',
+        class: ['secondary'],
         can: {
           action: :index,
           subject: OrganizationTimelineEntry
         }
       },
       {
-        label: "Notes",
+        label: 'Notes',
         url: notes_path,
-        key: "notes",
-        class: ["secondary"],
+        key: 'notes',
+        class: ['secondary'],
         can: {
           action: :index,
           subject: Note
         },
         children: [
           {
-            label: "New Note",
+            label: 'New Note',
             url: new_note_path,
-            key: "new_note",
+            key: 'new_note',
             can: {
               action: :create,
               subject: Note
@@ -181,39 +181,39 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
         ]
       },
       {
-        label: "Scissor Lifts",
+        label: 'Scissor Lifts',
         url: scissor_lifts_path,
-        key: "scissor_lifts",
-        class: ["secondary"],
+        key: 'scissor_lifts',
+        class: ['secondary'],
         can: {
           action: :index,
           subject: ScissorLift
         }
       },
       {
-        label: "Shifts",
+        label: 'Shifts',
         url: shifts_path,
-        key: "shifts",
-        class: ["secondary"],
+        key: 'shifts',
+        class: ['secondary'],
         can: {
           action: :index,
           subject: Shift
         }
       },
       {
-        label: "Tasks",
+        label: 'Tasks',
         url: tasks_path,
-        key: "tasks",
-        class: ["secondary"],
+        key: 'tasks',
+        class: ['secondary'],
         can: {
           action: :index,
           subject: Task
         },
         children: [
           {
-            label: "New Task",
+            label: 'New Task',
             url: new_task_path,
-            key: "new_task",
+            key: 'new_task',
             can: {
               action: :create,
               subject: Task

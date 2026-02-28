@@ -30,7 +30,7 @@ class Participants::SafetyBriefingsController < ApplicationController
       redirect_to participant_waiver_path(@participant)
     else
       flash.alert =
-        t(".alert", errors: @participant.errors.full_messages.join(", "))
+        t('.alert', errors: @participant.errors.full_messages.join(', '))
       redirect_to action: :show
     end
   end
