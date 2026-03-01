@@ -5,7 +5,7 @@ class CreateToolInventoryTools < ActiveRecord::Migration[7.0]
     create_table :tool_inventory_tools do |t|
       t.integer :barcode
       t.string :description
-      t.boolean :active
+      t.boolean :active, null: false, default: true
 
       t.timestamps
     end

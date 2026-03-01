@@ -8,7 +8,7 @@ class CreateToolWaitlists < ActiveRecord::Migration[6.0]
       t.references :participant
       t.references :organization
       t.string :note
-      t.boolean :active, default: true
+      t.boolean :active, null: false, default: true
 
       t.timestamps
     end
