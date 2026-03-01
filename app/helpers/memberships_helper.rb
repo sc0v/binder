@@ -15,7 +15,8 @@ module MembershipsHelper
       return (
         {
           error:
-            'Incorrect Headers! Make sure your file only has one column labeled "Andrew ID" with the Andrew IDs of your builders.'
+            'Incorrect Headers! Make sure your file only has one column labeled "Andrew ID" ' \
+            'with the Andrew IDs of your builders.'
         }
       )
     end
