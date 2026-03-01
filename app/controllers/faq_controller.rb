@@ -8,10 +8,12 @@ class FAQController < ApplicationController
       FAQ.accessible_by(Current.ability).group_by(&:organization_category)
   end
 
-  def new; end
+  def new
+  end
 
   # TODO: Inline Edit
-  def edit; end
+  def edit
+  end
 
   def create
     if @faq.save
