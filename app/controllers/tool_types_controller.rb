@@ -14,7 +14,8 @@ class ToolTypesController < ApplicationController
   end
 
   # GET /tool_types/new
-  def new; end
+  def new
+  end
 
   # GET /tool_types/1/edit
   def edit; end
