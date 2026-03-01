@@ -34,8 +34,6 @@ class AbilityTest < ActiveSupport::TestCase
       @admin_user.add_role(:admin)
     end
 
-    teardown {}
-
     # member tests
     should 'allow a member' do
       ability = Ability.new(@member_user)

@@ -33,7 +33,6 @@ class ShiftParticipantTest < ActiveSupport::TestCase
         )
     end
 
-    teardown {}
 
     should 'show that all factories are properly created' do
       assert_equal 2, ShiftParticipant.all.size

@@ -9,8 +9,6 @@ class FaqTest < ActiveSupport::TestCase
       @faq2 = FactoryGirl.create(:faq, question: 'how to build a booth?')
     end
 
-    teardown {}
-
     # Scope
     should 'show that a search scope works' do
       @ans = Faq.search('sign a waiver?')

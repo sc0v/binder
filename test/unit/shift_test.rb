@@ -71,7 +71,6 @@ class ShiftTest < ActiveSupport::TestCase
       FactoryGirl.create(:shift_participant, shift: @checked_in)
     end
 
-    teardown {}
 
     should 'show that all factories are properly created' do
       assert_equal 6, Shift.all.size
