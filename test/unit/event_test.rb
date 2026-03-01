@@ -15,8 +15,6 @@ class EventTest < ActiveSupport::TestCase
         FactoryGirl.create(:event, is_done: false, event_type_id: @type2.id)
     end
 
-    teardown {}
-
     # scopes
     should 'show that displayable scope works' do
       assert_equal 1, Event.displayable.size

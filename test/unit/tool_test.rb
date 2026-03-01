@@ -89,7 +89,6 @@ class ToolTest < ActiveSupport::TestCase
         FactoryGirl.create(:checkout, tool: @hard_hat_1, organization: @theta)
     end
 
-    teardown {}
     # scopes
 
     should 'show that all factories are properly created' do

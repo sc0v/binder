@@ -25,7 +25,6 @@ class StorePurchaseTest < ActiveSupport::TestCase
         )
     end
 
-    teardown {}
 
     should 'show that items_in_cart works properly' do
       assert_equal [@store_purchase], StorePurchase.items_in_cart
