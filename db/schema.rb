@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_04_08_185252) do
+ActiveRecord::Schema[8.0].define(version: 2026_02_27_151959) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_certification_types_on_name", unique: true
   end
 
   create_table "certifications", force: :cascade do |t|
@@ -33,6 +34,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_08_185252) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_charge_types_on_name", unique: true
   end
 
   create_table "charges", force: :cascade do |t|
@@ -112,6 +114,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_08_185252) do
     t.boolean "is_added_by_csv"
     t.boolean "is_red_hardhat"
     t.index ["organization_id"], name: "index_memberships_on_organization_id"
+    t.index ["participant_id", "organization_id"], name: "index_memberships_on_participant_id_and_organization_id", unique: true
     t.index ["participant_id"], name: "index_memberships_on_participant_id"
   end
 
@@ -178,6 +181,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_08_185252) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "short_name"
+    t.index ["name"], name: "index_organizations_on_name", unique: true
     t.index ["organization_category_id"], name: "index_organizations_on_organization_category_id"
   end
 
@@ -197,6 +201,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_08_185252) do
     t.boolean "watched_safety_video"
     t.boolean "alumni"
     t.index ["admin"], name: "index_participants_on_admin"
+    t.index ["eppn"], name: "index_participants_on_eppn", unique: true
   end
 
   create_table "scissor_lift_checkouts", force: :cascade do |t|
@@ -235,6 +240,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_08_185252) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "short_name"
+    t.index ["name"], name: "index_shift_types_on_name", unique: true
   end
 
   create_table "shifts", force: :cascade do |t|
@@ -256,6 +262,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_08_185252) do
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_store_items_on_name", unique: true
   end
 
   create_table "store_purchases", force: :cascade do |t|
@@ -310,6 +317,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_08_185252) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_tool_types_on_name", unique: true
   end
 
   create_table "tools", force: :cascade do |t|
@@ -319,7 +327,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_04_08_185252) do
     t.datetime "updated_at", null: false
     t.integer "tool_type_id"
     t.boolean "active"
-    t.index ["barcode"], name: "index_tools_on_barcode"
+    t.index ["barcode"], name: "index_tools_on_barcode", unique: true
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
   end
 
