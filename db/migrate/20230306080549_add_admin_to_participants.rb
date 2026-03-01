@@ -2,7 +2,7 @@
 
 class AddAdminToParticipants < ActiveRecord::Migration[7.0]
   def change
-    add_column :participants, :admin, :boolean
+    add_column :participants, :admin, :boolean, null: false, default: false
     add_index :participants, :admin
   end
 end

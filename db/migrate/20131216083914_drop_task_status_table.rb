@@ -4,6 +4,6 @@ class DropTaskStatusTable < ActiveRecord::Migration[6.0]
   def change
     remove_reference :tasks, :task_status
     drop_table :task_statuses
-    add_column :tasks, :is_completed, :boolean
+    add_column :tasks, :is_completed, :boolean, null: false, default: false
   end
 end

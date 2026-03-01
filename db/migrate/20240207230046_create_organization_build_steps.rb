@@ -6,7 +6,7 @@ class CreateOrganizationBuildSteps < ActiveRecord::Migration[7.0]
       t.string :title
       t.text :requirements
       t.integer :step
-      t.boolean :completed
+      t.boolean :completed, null: false, default: false
       t.references :organization_build_status, null: false, foreign_key: true
 
       t.timestamps
