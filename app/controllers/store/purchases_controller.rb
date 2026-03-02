@@ -49,7 +49,7 @@ class Store::PurchasesController < ApplicationController
 
   def create
     if session.nil? || session[:borrower_id].blank?
-      redirect_to store_path, alert: 'Must specify who is checking out.' and
+      redirect_to store_path, alert: t('.no_borrower') and
         return
     end
 
@@ -82,7 +82,7 @@ class Store::PurchasesController < ApplicationController
 
     session[:borrower_id] = nil
 
-    redirect_to store_url, notice: 'Checkout completed!'
+    redirect_to store_url, notice: t('.notice')
   end
 
   def update

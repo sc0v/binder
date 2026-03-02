@@ -30,10 +30,10 @@ class SessionsController < ApplicationController
       cookies.encrypted[:user_id] = participant.id
       redirect_to root_path, notice: "Now impersonating #{participant.name}"
     else
-      redirect_to root_path, alert: 'Participant not found.'
+      redirect_to root_path, alert: t('.not_found')
     end
   rescue ActiveRecord::RecordNotFound
-    redirect_to root_path, alert: 'Participant not found.'
+    redirect_to root_path, alert: t('.not_found')
   end
 
   def destroy

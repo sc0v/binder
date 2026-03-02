@@ -20,7 +20,7 @@ class ApplicationController < ActionController::Base
   rescue_from 'Participant::NotRegistered' do |_exception|
     flash[
       :notice
-    ] = 'The Student ID you swiped is not yet activated with a user account. Please register with andrew eMail'
+    ] = t('application.not_registered')
 
     # Event.new_event "Exception: #{exception.message}", current_user, request.remote_ip #deugging
     redirect_to '/participants/new'
@@ -39,7 +39,7 @@ class ApplicationController < ActionController::Base
   end
 
   rescue_from 'RestClient::Forbidden' do |_exception|
-    flash[:error] = 'Cannot connect to CMU Authentication'
+    flash[:error] = t('application.auth_error')
 
     # Event.new_event "Exception: #{exception.message}", current_user, request.remote_ip #deugging
     redirect_to '/'

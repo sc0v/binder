@@ -22,7 +22,7 @@ class Applets::PPEDistributionController < ApplicationController
     @participant =
       Participant.find_or_create_by_search(params[:participant_search])
     if @participant.blank?
-      flash.now[:alert] = 'No participant found with that information.'
+      flash.now[:alert] = t('applets.ppe_distribution.load_step_one.no_participant')
       return false
     elsif !@participant.signed_waiver?
       flash.now[:alert] = "#{@participant.name} did not sign the waiver yet."
@@ -62,11 +62,11 @@ class Applets::PPEDistributionController < ApplicationController
     return false if @participant.blank?
 
     if params[:hardhat_search].blank?
-      flash.now[:alert] = 'No hardhat found with that information.'
+      flash.now[:alert] = t('applets.ppe_distribution.load_step_three.no_hardhat')
       return false
     end
     if params[:organization_id].blank?
-      flash.now[:alert] = 'No organization selected.'
+      flash.now[:alert] = t('applets.ppe_distribution.load_step_three.no_organization')
       return false
     end
     @organization = Organization.find(params[:organization_id])
