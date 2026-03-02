@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-include Messenger
-
 class OrganizationTimelineEntry < ApplicationRecord
+  include Messenger
   validates :started_at, :entry_type, presence: true
   validates_associated :organization
 

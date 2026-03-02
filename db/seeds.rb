@@ -69,13 +69,15 @@ end
 #     participant = Participant.create(eppn: "#{row['andrewid'].strip}@andrew.cmu.edu")
 #   end
 #
-#   Membership.create(organization: Organization.find_by(name:row['organization'].strip), participant:participant, title: row['title'],
+#   Membership.create(organization: Organization.find_by(name: row['organization'].strip),
+#                     participant: participant, title: row['title'],
 #                     is_booth_chair: row['booth_chair'] == 'TRUE')
 #
 #   m = Membership.find_by(participant_id:participant.id)
 #   unless m
-#      m = Membership.create(organization: Organization.find_by(name:row['organization'].strip), participant:participant, title: row['title'],
-#                     is_booth_chair: row['booth_chair'] == 'TRUE')
+#      m = Membership.create(organization: Organization.find_by(name: row['organization'].strip),
+#                            participant: participant, title: row['title'],
+#                            is_booth_chair: row['booth_chair'] == 'TRUE')
 #   end
 #   if row['booth_chair'] == 'TRUE'
 #      m.is_booth_chair = true
@@ -222,7 +224,9 @@ end
 #   shift_type ||= ShiftType.create(name: row['shift_type'].strip)
 #
 #   shift = Shift.create(organization:, shift_type:,
-#                        starts_at: DateTime.strptime(row['starts_at'], '%m/%d/%Y %H:%M:%S'), ends_at: DateTime.strptime(row['ends_at'], '%m/%d/%Y %H:%M:%S'), required_number_of_participants: Integer(row['required_number_of_participants']))
+#                        starts_at: DateTime.strptime(row['starts_at'], '%m/%d/%Y %H:%M:%S'),
+#                        ends_at: DateTime.strptime(row['ends_at'], '%m/%d/%Y %H:%M:%S'),
+#                        required_number_of_participants: Integer(row['required_number_of_participants']))
 #
 #   next unless (row['andrewid'] || '') != ''
 #
