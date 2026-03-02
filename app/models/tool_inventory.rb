@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class ToolInventory < ApplicationRecord
-  has_many :tool_inventory_tools
+  has_many :tool_inventory_tools, dependent: :destroy
 
   validate :ensure_one, on: %i[create save]
 
