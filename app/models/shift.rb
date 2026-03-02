@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-include Messenger
-
 # require 'twilio-ruby'
 # require 'daemons'
 # require 'delayed_job'
 # require 'delayed_job_active_record'
 
 class Shift < ApplicationRecord
+  include Messenger
+
   validates :starts_at,
             :ends_at,
             :required_number_of_participants,

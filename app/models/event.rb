@@ -1,8 +1,7 @@
 # frozen_string_literal: true
 
-include Messenger
-
 class Event < ApplicationRecord
+  include Messenger
   belongs_to :event_type
   belongs_to :participant
 
