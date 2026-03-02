@@ -18,8 +18,7 @@ class ToolsController < ApplicationController
       tools = Tool.radios
     end
 
-    params.permit!
-    @json_url = url_for(params.merge(format: :json))
+    @json_url = url_for(params.permit(:type, :page, :size).merge(format: :json))
 
     respond_to do |format|
       format.html { render :index }
