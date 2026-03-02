@@ -29,7 +29,6 @@ class ChargeTest < ActiveSupport::TestCase
       @fine3 = FactoryGirl.create(:charge, is_approved: true)
     end
 
-
     should 'show that all factories are properly created' do
       assert_equal 3, Charge.all.size
     end

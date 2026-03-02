@@ -5,8 +5,7 @@ class ChargeTypesController < ApplicationController
 
   # GET /charge_types
   # GET /charge_types.json
-  def index
-  end
+  def index; end
 
   # GET /charge_types/1
   def show
@@ -29,12 +28,10 @@ class ChargeTypesController < ApplicationController
   end
 
   # GET /charge_types/new
-  def new
-  end
+  def new; end
 
   # GET /charge_types/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /charge_types
   # POST /charge_types.json
