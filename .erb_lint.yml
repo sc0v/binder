@@ -1,8 +1,7 @@
 ---
 EnableDefaultLinters: true
 exclude:
-  # This view has no corresponding controller or route and is never rendered.
-  - "app/views/reports/index.html.erb"
+  - "vendor/**/*"
 linters:
   ErbSafety:
     enabled: true
