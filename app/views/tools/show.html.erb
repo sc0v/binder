@@ -24,7 +24,9 @@
       <dt><strong>Checked out by:</strong></dt>
       <dd
         ><%= link_to @tool.current_organization.name, @tool.current_organization %>
-        <%= link_to("- #{@tool.current_participant.name}", @tool.current_participant) unless @tool.current_participant.nil? %></dd
+        <%= unless @tool.current_participant.nil?
+              link_to("- #{@tool.current_participant.name}", @tool.current_participant)
+            end %></dd
       >
       <dt><strong>Checked out at:</strong></dt>
       <dd><%= date_and_time @tool.checkouts.current.first.checked_out_at %></dd>

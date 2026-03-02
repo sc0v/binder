@@ -12,11 +12,11 @@ module MembershipsHelper
     # Make sure CSV has correct headers
     header_columns = header_columns(csv.headers)
     if header_columns.nil?
-      return (
+      return(
         {
           error:
             'Incorrect Headers! Make sure your file only has one column labeled "Andrew ID" ' \
-            'with the Andrew IDs of your builders.'
+              'with the Andrew IDs of your builders.'
         }
       )
     end

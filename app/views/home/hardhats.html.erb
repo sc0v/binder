@@ -15,13 +15,13 @@
     <% @organizations.each do |organization| %>
       <tr
         class="<%= 'danger' if Tool.hardhats.checked_out_by_organization(organization).count >= 10 %> <%= if Tool.hardhats.checked_out_by_organization(organization).any? &&
-                                                                                                             (Tool.hardhats.checked_out_by_organization(organization).count < 10)
-                                                                                                            'warning'
-                                                                                                          end %>"
+                 (Tool.hardhats.checked_out_by_organization(organization).count < 10)
+              'warning'
+            end %>"
       >
         <td
           ><%= link_to organization.name,
-                       organization_tools_path(organization, type: 'hardhats') %></td
+                      organization_tools_path(organization, type: 'hardhats') %></td
         >
         <td><%= organization.organization_category.name %></td>
         <td

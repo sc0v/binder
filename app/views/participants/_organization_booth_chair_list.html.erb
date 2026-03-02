@@ -19,9 +19,9 @@
         <% if can?(:destroy, @membership) %>
           <td
             ><%= link_to 'Remove',
-                         [@organization, @membership],
-                         method: :delete,
-                         class: 'btn btn-xs btn-danger' %></td
+                        [@organization, @membership],
+                        method: :delete,
+                        class: 'btn btn-xs btn-danger' %></td
           >
         <% end %>
       </tr>

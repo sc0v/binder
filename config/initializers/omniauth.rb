@@ -18,11 +18,15 @@ Rails.application.config.middleware.use OmniAuth::Builder do
   settings.merge!(
     certificate:
       (
-        Rails.root.join('config/private/sp-cert.pem').read if Rails.root.join('config/private/sp-cert.pem').exist?
+        if Rails.root.join('config/private/sp-cert.pem').exist?
+          Rails.root.join('config/private/sp-cert.pem').read
+        end
       ),
     private_key:
       (
-        Rails.root.join('config/private/sp-key.pem').read if Rails.root.join('config/private/sp-key.pem').exist?
+        if Rails.root.join('config/private/sp-key.pem').exist?
+          Rails.root.join('config/private/sp-key.pem').read
+        end
       ),
     sp_entity_id: 'binder.springcarnival.org/auth/saml',
     uid_attribute: 'urn:oid:1.3.6.1.4.1.5923.1.1.1.6' # eduPersonPrincipalName

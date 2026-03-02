@@ -3,7 +3,6 @@ plugins:
   - rubocop-minitest
   - rubocop-rails
 
-
 AllCops:
   NewCops: enable
   Exclude:
@@ -15,6 +14,26 @@ AllCops:
     - "vendor/**/*"
 
 Style/Documentation:
+  Enabled: false
+
+# The following cops conflict with Prettier's formatting decisions.
+# Prettier is the canonical formatter; these cops are disabled so the two
+# tools don't fight each other.
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+Style/IfUnlessModifier:
+  Enabled: false
+Layout/FirstArgumentIndentation:
+  Enabled: false
+Layout/FirstHashElementIndentation:
+  Enabled: false
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+Layout/MultilineOperationIndentation:
+  Enabled: false
+Layout/LineEndStringConcatenationIndentation:
+  Enabled: false
+Layout/SpaceAroundKeyword:
   Enabled: false
 
 Rails/I18nLocaleTexts:

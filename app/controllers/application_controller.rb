@@ -18,9 +18,7 @@ class ApplicationController < ActionController::Base
   # checkin error handling
   # just need to fix routing for this and user // participant creation flow/path
   rescue_from 'Participant::NotRegistered' do |_exception|
-    flash[
-      :notice
-    ] = t('application.not_registered')
+    flash[:notice] = t('application.not_registered')
 
     # Event.new_event "Exception: #{exception.message}", current_user, request.remote_ip #deugging
     redirect_to '/participants/new'

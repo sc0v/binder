@@ -106,26 +106,26 @@ if models_to_seed.empty? || models_to_seed.include?('organizationbuildstep')
   Rails.logger.debug '  Organization Build Steps'
   two_story_csv_text =
     Rails
-    .root
-    .join(
-      'lib',
-      'seeds',
-      seeds_folder,
-      'two_story_organization_build_steps.csv'
-    )
-    .read
+      .root
+      .join(
+        'lib',
+        'seeds',
+        seeds_folder,
+        'two_story_organization_build_steps.csv'
+      )
+      .read
   two_story_csv = CSV.parse(two_story_csv_text, headers: true)
 
   one_story_csv_text =
     Rails
-    .root
-    .join(
-      'lib',
-      'seeds',
-      seeds_folder,
-      'one_story_organization_build_steps.csv'
-    )
-    .read
+      .root
+      .join(
+        'lib',
+        'seeds',
+        seeds_folder,
+        'one_story_organization_build_steps.csv'
+      )
+      .read
   one_story_csv = CSV.parse(one_story_csv_text, headers: true)
 
   Organization.find_each do |o|
@@ -134,15 +134,15 @@ if models_to_seed.empty? || models_to_seed.include?('organizationbuildstep')
     # TODO: Manually change which orgs are 2-story since that's not defined in Binder
     csv =
       if o.name.in?(
-        [
-          'Kappa Alpha Theta',
-          'Alpha Epsilon Pi',
-          'Phi Delta Theta',
-          'Sigma Phi Epsilon',
-          'Kappa Kappa Gamma',
-          'Asian Student Association'
-        ]
-      )
+           [
+             'Kappa Alpha Theta',
+             'Alpha Epsilon Pi',
+             'Phi Delta Theta',
+             'Sigma Phi Epsilon',
+             'Kappa Kappa Gamma',
+             'Asian Student Association'
+           ]
+         )
         two_story_csv
       else
         one_story_csv

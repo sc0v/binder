@@ -43,7 +43,8 @@ class ShiftsController < ApplicationController
   end
 
   # GET /shifts/1/edit
-  def edit; end
+  def edit
+  end
 
   # POST /shifts
   # POST /shifts.json

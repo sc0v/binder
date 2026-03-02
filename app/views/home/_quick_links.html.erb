@@ -6,8 +6,8 @@
     <% if Rails.env.staging? or Rails.env.production? %>
       <p
         ><%= link_to 'Login to Begin',
-                     main_app.user_omniauth_authorize_path(:shibboleth),
-                     class: 'btn btn-success' %></p
+                    main_app.user_omniauth_authorize_path(:shibboleth),
+                    class: 'btn btn-success' %></p
       >
       <br />
     <% else %>

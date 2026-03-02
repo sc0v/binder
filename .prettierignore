@@ -8,6 +8,9 @@ db/schema.rb
 Gemfile.lock
 package-lock.json
 
+# Rails locale YAML files use %{interpolation} syntax that trips up prettier's YAML parser
+config/locales/
+
 # Upstream minified files
 app/assets/stylesheets/cmu.css
 

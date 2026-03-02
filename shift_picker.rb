@@ -2965,7 +2965,7 @@ def find_shift(org)
     # Return if we find a shift for the org that isn't full, meets their standards, and satifies their double preference.
     $popularity.each do |shift|
       if ($assigned[shift] < $required[shift]) &&
-         ($prefs[org][shift] >= $standards[org]) && can_double?(org, shift)
+           ($prefs[org][shift] >= $standards[org]) && can_double?(org, shift)
         return shift
       end
     end
@@ -3012,6 +3012,6 @@ puts 'Scores:'
 p $scores
 puts
 puts format(
-  "Total Score: #{$score} / #{$highest_pref * $required.reduce(:+)}",
-  $score
-)
+       "Total Score: #{$score} / #{$highest_pref * $required.reduce(:+)}",
+       $score
+     )

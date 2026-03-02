@@ -14,10 +14,12 @@ class ToolTypesController < ApplicationController
   end
 
   # GET /tool_types/new
-  def new; end
+  def new
+  end
 
   # GET /tool_types/1/edit
-  def edit; end
+  def edit
+  end
 
   # POST /tool_types
   # POST /tool_types.json
@@ -45,9 +47,7 @@ class ToolTypesController < ApplicationController
   # DELETE /tool_types/1.json
   def destroy
     if @tool_type.tools.any?
-      flash[
-        :error
-      ] = t('.no_delete')
+      flash[:error] = t('.no_delete')
       redirect_to tool_types_path
       return
     end

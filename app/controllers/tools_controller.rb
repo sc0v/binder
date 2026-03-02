@@ -32,21 +32,24 @@ class ToolsController < ApplicationController
         # Only return the participants in this page
         tools =
           tools
-          .accessible_by(Current.ability)
-          .ordered_by_name
-          .offset(offset)
-          .limit(size)
+            .accessible_by(Current.ability)
+            .ordered_by_name
+            .offset(offset)
+            .limit(size)
         data = tools.table_attrs.as_json(methods: %i[link])
         render json: { last_page:, data: }
       end
     end
   end
 
-  def show; end
+  def show
+  end
 
-  def new; end
+  def new
+  end
 
-  def edit; end
+  def edit
+  end
 
   def create
     if @tool.save

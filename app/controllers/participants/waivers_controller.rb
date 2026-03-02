@@ -10,7 +10,8 @@ class Participants::WaiversController < ApplicationController
   load_and_authorize_resource :participant, parent: false
   before_action :require_safety_briefing
 
-  def show; end
+  def show
+  end
 
   def update
     @participant.assign_attributes(participant_params)
