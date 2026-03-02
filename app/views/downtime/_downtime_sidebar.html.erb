@@ -19,7 +19,7 @@
       <tbody>
         <% @downtime_sidebar.each do |entry| %>
           <tr
-            <%= raw('class="danger"') if entry.organization.remaining_downtime.negative? %>
+            class="<%= 'danger' if entry.organization.remaining_downtime.negative? %>"
           >
             <td style="text-align: center;"
               ><%= link_to entry.organization.name,

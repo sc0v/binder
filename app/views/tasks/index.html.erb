@@ -19,15 +19,19 @@
             class="form-control"
             onchange="this.form.submit()"
           >
-            <%= raw(
-                  "<option value='' #{'selected' if params[:task_filter].blank?}>All Tasks</option>"
-                ) %>
-            <%= raw(
-                  "<option value='completed_tasks' #{'selected' if param_equals_s(:task_filter, 'completed_tasks')}>Completed Tasks</option>"
-                ) %>
-            <%= raw(
-                  "<option value='incomplete_tasks' #{'selected' if param_equals_s(:task_filter, 'incomplete_tasks')}>Incomplete Tasks</option>"
-                ) %>
+            <option value="" <%= 'selected' if params[:task_filter].blank? %>
+              >All Tasks</option
+            >
+            <option
+              value="completed_tasks"
+              <%= 'selected' if param_equals_s(:task_filter, 'completed_tasks') %>
+              >Completed Tasks</option
+            >
+            <option
+              value="incomplete_tasks"
+              <%= 'selected' if param_equals_s(:task_filter, 'incomplete_tasks') %>
+              >Incomplete Tasks</option
+            >
           </select>
         </div>
       </form>

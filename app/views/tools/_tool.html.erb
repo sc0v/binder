@@ -31,7 +31,7 @@
   }
 </style>
 
-<tr <%= raw 'class="warning"' if tool.checked_out? %>>
+<tr class="<%= 'warning' if tool.checked_out? %>">
   <td><%= link_to tool.barcode, tool, class: 'btn btn-info btn-xs' %></td>
   <td><%= tool.name %></td>
   <td><%= tool.description %></td>

@@ -6,7 +6,7 @@
 <div class="content wide">
   <div>
     <h1>
-      <%= link_to @organization.name + raw("'s"), @organization if @organization.present? %>
+      <%= link_to "#{@organization.name}'s", @organization if @organization.present? %>
       Downtime
     </h1>
     <% if @is_on_downtime %>

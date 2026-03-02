@@ -1,5 +1,8 @@
 ---
 EnableDefaultLinters: true
+exclude:
+  # This view has no corresponding controller or route and is never rendered.
+  - "app/views/reports/index.html.erb"
 linters:
   ErbSafety:
     enabled: true
@@ -9,6 +12,17 @@ linters:
     rubocop_config:
       inherit_from:
         - .rubocop.yml
+      # conflicts with prettier's ERB formatting
+      Layout/ArgumentAlignment:
+        Enabled: false
+      Layout/ElseAlignment:
+        Enabled: false
+      Layout/EndAlignment:
+        Enabled: false
+      Layout/FirstArrayElementIndentation:
+        Enabled: false
+      Layout/IndentationWidth:
+        Enabled: false
       Layout/InitialIndentation:
         Enabled: false
       Layout/LineLength:

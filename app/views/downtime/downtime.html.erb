@@ -17,7 +17,7 @@
       <tbody>
         <% Organization.ordered_by_name.each do |organization| %>
           <tr
-            <%= raw("class='danger'") if organization.remaining_downtime.negative? %>
+            class="<%= 'danger' if organization.remaining_downtime.negative? %>"
           >
             <td
               ><%= link_to organization.name, organization_downtime_index_path(organization) %></td

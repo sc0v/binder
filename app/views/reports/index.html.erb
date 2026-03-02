@@ -27,7 +27,7 @@
                     ><strong><%= param[:name].to_s.humanize %>:</strong></span
                   >
                   <% if param[:type] == :text %>
-                    <%= text_field_tag "options[#{param[:name]}]" %>
+                    <%= text_field_tag "options[#{param[:name]}]", nil, autocomplete: 'off' %>
                   <% elsif param[:type] == :select %>
                     <%= select_tag "options[#{param[:name]}]", options_for_select(param[:choices]) %>
                   <% elsif param[:type] == :checkbox %>
