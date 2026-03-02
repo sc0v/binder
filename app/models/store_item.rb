@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class StoreItem < ApplicationRecord
-  has_many :store_purchases
+  has_many :store_purchases, dependent: :restrict_with_error
   validates :name, presence: true, uniqueness: true
   validates :price, presence: true, numericality: true
 
