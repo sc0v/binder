@@ -48,7 +48,7 @@ class ToolTypesController < ApplicationController
     if @tool_type.tools.any?
       flash[
         :error
-      ] = 'Cannot delete a tool type until all tools of that type are deleted.'
+      ] = t('.no_delete')
       redirect_to tool_types_path
       return
     end

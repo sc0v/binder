@@ -74,7 +74,7 @@ class ToolInventoryToolsController < ApplicationController
         active: true
       )
     if @tool.save
-      redirect_to inventory_path, notice: 'Added Tool!'
+      redirect_to inventory_path, notice: t('.notice')
     else
       redirect_to inventory_path, alert: defaultErrorMsg
     end
@@ -84,7 +84,7 @@ class ToolInventoryToolsController < ApplicationController
     ToolInventory.find params[:tool_inventory_id]
     tool = ToolInventoryTool.find params[:id]
     tool.destroy
-    redirect_to inventory_path, notice: 'Removed Tool!'
+    redirect_to inventory_path, notice: t('.notice')
   end
 
   def create_params

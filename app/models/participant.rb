@@ -35,8 +35,7 @@ class Participant < ApplicationRecord
   validates :phone_number,
             format: {
               with: /\A\(?\d{3}\)?[-. ]?\d{3}[-.]?\d{4}\Z/,
-              message:
-                'should be 10 digits (area code needed) and separated by dashes only',
+              message: :format,
               allow_blank: true
             }
   before_save :reformat_phone

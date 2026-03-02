@@ -11,7 +11,7 @@ class HomeController < ApplicationController
     authorize! :search, nil
 
     if params.blank? || params[:query].blank?
-      flash[:error] = 'Please enter a query'
+      flash[:error] = t('.blank_query')
       redirect_to root_url
       return
     end

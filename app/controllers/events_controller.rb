@@ -47,7 +47,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.save
         format.html do
-          redirect_to @event, notice: 'Event was successfully created.'
+          redirect_to @event, notice: t('.notice')
         end
         format.json { render :show, status: :created, location: @event }
       else
@@ -63,7 +63,7 @@ class EventsController < ApplicationController
     respond_to do |format|
       if @event.update(event_params)
         format.html do
-          redirect_to @event, notice: 'Event was successfully updated.'
+          redirect_to @event, notice: t('.notice')
         end
         format.json { render :show, status: :ok, location: @event }
       else
@@ -81,7 +81,7 @@ class EventsController < ApplicationController
     @event.destroy
     respond_to do |format|
       format.html do
-        redirect_to events_url, notice: 'Event was successfully destroyed.'
+        redirect_to events_url, notice: t('.notice')
       end
       format.json { head :no_content }
     end

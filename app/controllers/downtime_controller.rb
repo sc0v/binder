@@ -10,7 +10,7 @@ class DowntimeController < ApplicationController
         # TODO: This should be done using CanCanCan, but this is difficult because
         # booth chairs can manage queues but not downtime (which are both done
         # with the OrganizationTimelineEntry model)
-        redirect_to root_path, alert: 'Cannot Access Downtime!' unless Current.user.scc?
+        redirect_to root_path, alert: t('.alert') unless Current.user.scc?
       end
       format.json do
         on_downtime_map = {}
@@ -45,7 +45,7 @@ class DowntimeController < ApplicationController
   end
 
   def toggle
-    redirect_to params[:url], alert: 'Must select an organization' if params[:organization_id].blank?
+    redirect_to params[:url], alert: t('.blank_organization') if params[:organization_id].blank?
     @organization = Organization.find(params[:organization_id])
     current_downtime =
       OrganizationTimelineEntry

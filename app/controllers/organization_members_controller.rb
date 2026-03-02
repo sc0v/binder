@@ -41,7 +41,7 @@ class OrganizationMembersController < ApplicationController
         membership.is_booth_chair = params[:participant][:booth_chair]
         membership.is_staged = true
         if membership.save
-          redirect_to back, notice: 'Member updated!'
+          redirect_to back, notice: t('.member_updated')
         else
           redirect_to back,
                       warn:
@@ -75,6 +75,6 @@ class OrganizationMembersController < ApplicationController
       m.is_staged = false
       m.save!
     end
-    redirect_to organization_path(@organization), notice: 'New Members Saved!'
+    redirect_to organization_path(@organization), notice: t('.notice')
   end
 end

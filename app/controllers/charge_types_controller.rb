@@ -60,12 +60,12 @@ class ChargeTypesController < ApplicationController
     if @charge_type.charges.any?
       flash[
         :warn
-      ] = 'Cannot delete a charge type until all charges of that type are deleted.'
+      ] = t('.warn')
       redirect_to charge_types_url
       return
     end
     @charge_type.destroy
-    redirect_to charge_types_path, notice: 'Charge type deleted!'
+    redirect_to charge_types_path, notice: t('.notice')
   end
 
   private
