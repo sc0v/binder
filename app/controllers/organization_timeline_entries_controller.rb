@@ -33,14 +33,14 @@ class OrganizationTimelineEntriesController < ApplicationController
       end
 
     if @organization_timeline_entry.already_in_queue?
-      redirect_to params[:url], alert: "You're already on the queue!"
+      redirect_to params[:url], alert: t('.already_queued')
     elsif @organization_timeline_entry.save
       if @organization_timeline_entry.entry_type == 'structural'
-        redirect_to params[:url], notice: 'Added to structural queue!'
+        redirect_to params[:url], notice: t('.structural_notice')
       elsif @organization_timeline_entry.entry_type == 'electrical'
-        redirect_to params[:url], notice: 'Added to electrical queue!'
+        redirect_to params[:url], notice: t('.electrical_notice')
       else
-        redirect_to params[:url], notice: 'Started downtime!'
+        redirect_to params[:url], notice: t('.downtime_notice')
       end
     else
       redirect_to params[:url], alert: t('.alert')
@@ -63,7 +63,7 @@ class OrganizationTimelineEntriesController < ApplicationController
 
     @organization_timeline_entry.ended_at = DateTime.now
     @organization_timeline_entry.save
-    redirect_to params[:url], notice: 'Removed from Queue!'
+    redirect_to params[:url], notice: t('.notice')
   end
 
   # DELETE /organizations_timeline_entry/1
@@ -71,7 +71,7 @@ class OrganizationTimelineEntriesController < ApplicationController
   def destroy
     @organization_timeline_entry = OrganizationTimelineEntry.find(params[:id])
     @organization_timeline_entry.destroy
-    flash[:notice] = 'Successfully removed entry from downtime tracker'
+    flash[:notice] = t('.notice')
     redirect_to organization_downtime_index_path(
       @organization_timeline_entry.organization
     )

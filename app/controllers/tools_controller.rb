@@ -51,7 +51,7 @@ class ToolsController < ApplicationController
 
   def create
     if @tool.save
-      redirect_to tools_path, notice: 'Tool created successfully.'
+      redirect_to tools_path, notice: t('.notice')
     else
       render :new, status: :unprocessable_entity
     end
@@ -60,9 +60,9 @@ class ToolsController < ApplicationController
   def update
     @tool.update(tool_params)
     if @tool.valid?
-      redirect_to tool_path(@tool), notice: 'Updated Tool!'
+      redirect_to tool_path(@tool), notice: t('.notice')
     else
-      redirect_to tool_path(@tool), alert: 'Could not update tool.'
+      redirect_to tool_path(@tool), alert: t('.alert')
     end
   end
 

@@ -87,7 +87,7 @@ class ScissorLiftCheckoutsController < ApplicationController
     end
 
     if params[:name].blank?
-      redirect_to scissor_lifts_path, alert: 'No Scissor Lift selected.'
+      redirect_to scissor_lifts_path, alert: t('.no_scissor_lift')
       return
     end
     @scissor_lift = ScissorLift.find_by(name: params[:name])
@@ -124,7 +124,7 @@ class ScissorLiftCheckoutsController < ApplicationController
     end
 
     if params[:name].blank?
-      redirect_to scissor_lifts_path, alert: 'No Scissor Lift selected.'
+      redirect_to scissor_lifts_path, alert: t('.no_scissor_lift')
       return
     end
     @scissor_lift = ScissorLift.find_by(name: params[:name])
