@@ -11,7 +11,7 @@ module OrganizationTimelineEntriesHelper
     end
     hours = time / 3600
     minutes = (time % 3600) / 60
-    "#{neg}#{'%d' % hours}:#{'%02d' % minutes}"
+    "#{neg}#{format('%d', hours)}:#{format('%02d', minutes)}"
   end
 
   def date_and_time(display_date_and_time)
