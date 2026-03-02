@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-include Messenger
-
 # require 'twilio-ruby'
 # require 'daemons'
 # require 'delayed_job'
 # require 'delayed_job_active_record'
 
 class Shift < ApplicationRecord
+  include Messenger
+
   validates :starts_at,
             :ends_at,
             :required_number_of_participants,
@@ -125,7 +125,7 @@ class Shift < ApplicationRecord
         send_sms(
           chair.phone_number,
           "Only #{participants.size} of #{required_number_of_participants} people for your " \
-          "watch shift have checked in. Please send more people as soon as possible."
+          'watch shift have checked in. Please send more people as soon as possible.'
         )
       end
     elsif shift_type.name == 'Watch Shift' && is_checked_in == true

@@ -17,7 +17,6 @@ class ShiftTypeTest < ActiveSupport::TestCase
       @ride_shift = FactoryGirl.create(:shift_type, name: 'Ride Shift')
     end
 
-
     should 'show that all factories are properly created' do
       assert_equal 3, ShiftType.all.size
     end

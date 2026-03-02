@@ -26,7 +26,6 @@ class StoreItemTest < ActiveSupport::TestCase
         )
     end
 
-
     should 'show that quantity_available method works correctly' do
       assert_equal 4, @store_item.quantity_available
     end

@@ -84,12 +84,10 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations/new
   # GET /organizations/new.json
-  def new
-  end
+  def new; end
 
   # GET /organizations/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /organizations
   # POST /organizations.json

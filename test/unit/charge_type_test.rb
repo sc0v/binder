@@ -17,7 +17,6 @@ class ChargeTypeTest < ActiveSupport::TestCase
       @charge_type = FactoryGirl.create(:charge, charge_type: @charge)
     end
 
-
     should 'show that all factories are properly created' do
       assert_equal 1, ChargeType.all.size
     end

@@ -19,7 +19,6 @@ class TaskTest < ActiveSupport::TestCase
         FactoryGirl.create(:task, is_completed: true, due_at: 1.hour.from_now)
     end
 
-
     should 'show that all factories are properly created' do
       assert_equal 3, Task.all.size
     end
