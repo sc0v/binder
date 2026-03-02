@@ -48,7 +48,6 @@ class CheckoutTest < ActiveSupport::TestCase
         )
     end
 
-
     should 'show that all factories are properly created' do
       assert_equal 3, Checkout.all.size
     end

@@ -10,7 +10,6 @@ class ToolTypeTest < ActiveSupport::TestCase
   context 'With an existing tool type' do
     setup { @hammer_type = FactoryGirl.create(:tool_type) }
 
-
     should 'Not allow duplicate tool type names' do
       duplicate_type = ToolType.new(name: 'Hammer')
       deny duplicate_type.save

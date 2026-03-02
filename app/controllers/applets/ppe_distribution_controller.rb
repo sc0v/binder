@@ -94,7 +94,7 @@ class Applets::PPEDistributionController < ApplicationController
         flash.now[
           :warning
         ] = "Hardhat #{@hardhat.barcode} is not the correct type in the database. " \
-            "If you are sure scan again to update the type."
+            'If you are sure scan again to update the type.'
         session[:retry_hardhat] = params[:hardhat_search]
         return false
       end

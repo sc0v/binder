@@ -30,7 +30,6 @@ class OrganizationTest < ActiveSupport::TestCase
         FactoryGirl.create(:organization, name: 'long name', short_name: nil)
     end
 
-
     should 'show that all factories are properly created' do
       assert_equal 2, Organization.all.size
     end

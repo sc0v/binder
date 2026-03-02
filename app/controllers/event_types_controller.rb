@@ -12,8 +12,7 @@ class EventTypesController < ApplicationController
 
   # GET /event_types/1
   # GET /event_types/1.json
-  def show
-  end
+  def show; end
 
   # GET /event_types/new
   def new
@@ -21,8 +20,7 @@ class EventTypesController < ApplicationController
   end
 
   # GET /event_types/1/edit
-  def edit
-  end
+  def edit; end
 
   # POST /event_types
   # POST /event_types.json
