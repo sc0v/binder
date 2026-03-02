@@ -135,7 +135,7 @@ class ChargesController < ApplicationController
         "Could not create the charge: #{@charge.errors.full_messages}"
       redirect_to new_charge_path and return
     end
-    redirect_to charge_path(@charge), notice: 'Charge created!'
+    redirect_to charge_path(@charge), notice: t('.notice')
   end
 
   # PUT /charges/1

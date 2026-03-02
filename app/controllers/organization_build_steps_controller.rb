@@ -33,7 +33,7 @@ class OrganizationBuildStepsController < ApplicationController
     )
 
     if @organization_build_status.save
-      redirect_to params[:url], notice: 'Added Build Task!'
+      redirect_to params[:url], notice: t('.notice')
     else
       redirect_to params[:url],
                   alert:
@@ -70,7 +70,7 @@ class OrganizationBuildStepsController < ApplicationController
       redirect_to params[:url] and return
     end
     # TODO: Figure out flash with turbo
-    flash.now[:alert] = 'type shit'
+    flash.now[:alert] = t('.alert')
     redirect_to params[:url]
   end
 
@@ -80,7 +80,7 @@ class OrganizationBuildStepsController < ApplicationController
       @organization_build_step.organization_build_status
     @organization_build_step.destroy
     redirect_to organizations_path(@organization_build_status),
-                notice: 'Destroyed Build Task!'
+                notice: t('.notice')
   end
 
   private

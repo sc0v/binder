@@ -52,7 +52,7 @@ class MembershipsController < ApplicationController
     # Make sure user uploaded a file
     if params[:csv_file].blank?
       redirect_to new_organization_membership_path(@organization),
-                  alert: 'CSV Not Uploaded!' and return
+                  alert: t('.csv_not_uploaded') and return
     end
 
     # Make sure the file parsed successfully
@@ -167,7 +167,7 @@ class MembershipsController < ApplicationController
           m.update!({ is_in_csv: false })
         end
       end
-    redirect_to organization_path(@organization), notice: 'Cancelled!'
+    redirect_to organization_path(@organization), notice: t('.notice')
   end
 
   # Commit all staged memberships
@@ -176,7 +176,7 @@ class MembershipsController < ApplicationController
     Membership
       .where(organization: @organization, is_in_csv: true)
       .find_each { |m| m.update!({ is_in_csv: false, is_added_by_csv: false }) }
-    redirect_to organization_path(@organization), notice: 'Participants Added!'
+    redirect_to organization_path(@organization), notice: t('.notice')
   end
 
   # GET /memberships/1/edit
@@ -193,9 +193,9 @@ class MembershipsController < ApplicationController
     @membership.organization = @organization
     authorize! :create, @membership
     if @membership.save
-      flash[:notice] = 'Member added'
+      flash[:notice] = t('.notice')
     else
-      flash[:error] = 'Error adding member'
+      flash[:error] = t('.error')
     end
     redirect_to @organization
   end
@@ -255,7 +255,7 @@ class MembershipsController < ApplicationController
 
     respond_to do |format|
       if all_ok
-        format.html { redirect_to @participant, notice: 'Participant updated.' }
+        format.html { redirect_to @participant, notice: t('.notice') }
         format.json do
           render json: @participant, status: :created, location: @participant
         end

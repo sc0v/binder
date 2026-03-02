@@ -30,9 +30,9 @@ class NotesController < ApplicationController
   def create
     @note = Note.new(note_params)
     if @note.save
-      redirect_to root_path, notice: 'Created the note!'
+      redirect_to root_path, notice: t('.notice')
     else
-      redirect_to root_path, notice: 'Could not save the note!'
+      redirect_to root_path, notice: t('.save_error')
     end
   end
 
@@ -49,9 +49,9 @@ class NotesController < ApplicationController
 
   def destroy
     if @note.destroy
-      redirect_to root_path, notice: 'Destroyed the note!'
+      redirect_to root_path, notice: t('.notice')
     else
-      redirect_to root_path, alert: 'Could not destroy the note'
+      redirect_to root_path, alert: t('.alert')
     end
   end
 

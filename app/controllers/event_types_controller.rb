@@ -32,11 +32,11 @@ class EventTypesController < ApplicationController
         format.html do
           if params[:from_new_event].present?
             redirect_to new_event_path,
-                        notice: 'Event type was successfully created.'
+                        notice: t('.notice')
             return
           end
           redirect_to @event_type,
-                      notice: 'Event type was successfully created.'
+                      notice: t('.notice')
         end
         format.json { render :show, status: :created, location: @event_type }
       else
@@ -55,7 +55,7 @@ class EventTypesController < ApplicationController
       if @event_type.update(event_type_params)
         format.html do
           redirect_to @event_type,
-                      notice: 'Event type was successfully updated.'
+                      notice: t('.notice')
         end
         format.json { render :show, status: :ok, location: @event_type }
       else
@@ -74,7 +74,7 @@ class EventTypesController < ApplicationController
     respond_to do |format|
       format.html do
         redirect_to event_types_url,
-                    notice: 'Event type was successfully destroyed.'
+                    notice: t('.notice')
       end
       format.json { head :no_content }
     end
