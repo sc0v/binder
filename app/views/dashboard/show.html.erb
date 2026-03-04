@@ -414,24 +414,14 @@
       <% end %>
 
       <% if @flow_kind == 'lookup' && @step == 'lookup' %>
-        <div data-controller="power-dashboard-autocomplete"
-             data-power-dashboard-autocomplete-url-value="<%= power_dashboard_autocomplete_path(mode: 'resources') %>">
-          <%= form_with url: dashboard_scan_path, method: :post, class: 'dashboard-action-form' do %>
-            <%= dashboard_flow_hidden_fields(@flow_params) %>
-            <%= hidden_field_tag :target, 'lookup' %>
-            <%= hidden_field_tag :continue_to, 'result' %>
-            <%= label_tag :scan_input, 'Scan tool, participant, organization, or lift' %>
-            <%= text_field_tag :scan_input, nil,
-                               autocomplete: 'off',
-                               autofocus: true,
-                               data: {
-                                 action: 'input->power-dashboard-autocomplete#queue keydown->power-dashboard-autocomplete#navigate click->power-dashboard-autocomplete#showExamples blur->power-dashboard-autocomplete#scheduleHide',
-                                 'power-dashboard-autocomplete-target': 'input'
-                               } %>
-            <div class="power-autocomplete" data-power-dashboard-autocomplete-target="menu"></div>
-            <%= submit_tag 'Continue', class: 'btn btn-primary' %>
-          <% end %>
-        </div>
+        <%= form_with url: dashboard_scan_path, method: :post, class: 'dashboard-action-form' do %>
+          <%= dashboard_flow_hidden_fields(@flow_params) %>
+          <%= hidden_field_tag :target, 'lookup' %>
+          <%= hidden_field_tag :continue_to, 'result' %>
+          <%= label_tag :scan_input, 'Scan tool, participant, organization, or lift' %>
+          <%= text_field_tag :scan_input, nil, autocomplete: 'off', autofocus: true %>
+          <%= submit_tag 'Continue', class: 'btn btn-primary' %>
+        <% end %>
       <% end %>
 
       <% if @flow_kind == 'lookup' && @step == 'result' %>
