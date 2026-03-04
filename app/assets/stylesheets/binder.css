@@ -362,3 +362,97 @@ li.tab {
         grid-template-columns: 1fr;
     }
 }
+
+/* Power Dashboard: Layout */
+.power-layout {
+    display: flex;
+    gap: 2rem;
+    align-items: flex-start;
+}
+
+.power-column {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.power-column--left {
+    background: #f5f4f0;
+    padding: 1rem;
+}
+
+.power-column--right {
+    background: #f0f6fb;
+    padding: 1rem;
+}
+
+@media only screen and (max-width: 767px) {
+    .power-layout {
+        flex-direction: column;
+    }
+}
+
+/* Power Dashboard: Input */
+#power_input {
+    scroll-margin-top: 16px;
+    margin-bottom: 0;
+}
+
+.power-input--submitting {
+    opacity: 0.6;
+    background: #eee;
+}
+
+/* Power Dashboard: Autocomplete */
+.power-autocomplete {
+    position: relative;
+}
+
+.power-autocomplete:not(.is-open) {
+    display: none;
+}
+
+.power-autocomplete__list {
+    position: absolute;
+    z-index: 10;
+    left: 0;
+    right: 0;
+    margin: 0;
+    padding: 0.35rem 0;
+    list-style: none;
+    border: 1px solid #ccc;
+    background: #fff;
+    box-shadow: 0 6px 14px rgba(0, 0, 0, 0.08);
+}
+
+.power-autocomplete__item {
+    margin: 0;
+    padding: 0;
+}
+
+.power-autocomplete__button {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    width: 100%;
+    border: none;
+    background: transparent;
+    text-align: left;
+    padding: 0.35rem 0.75rem;
+    font: inherit;
+    cursor: pointer;
+}
+
+.power-autocomplete__button:hover,
+.power-autocomplete__button.is-active {
+    background: #f3f3f3;
+}
+
+.power-autocomplete__label {
+    color: #111;
+}
+
+.power-autocomplete__meta {
+    color: #666;
+    font-size: 0.85em;
+    text-transform: capitalize;
+}
