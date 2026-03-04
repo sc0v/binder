@@ -338,7 +338,6 @@ en:
       view_not_authorized: Not authorized to view queues.
     receipts:
       add_queue_title: Add to %{queue_type} queue
-      checkin_scissor_lift_forfeit_title: Check in scissor lift (forfeit)
       checkin_scissor_lift_title: Check in scissor lift
       checkin_tool_title: Check in tool
       checkin_tools_cart_title: Check in tools cart
@@ -352,7 +351,6 @@ en:
       checkout_not_authorized: Not authorized to checkout a Scissorlift.
       checkout_success: "%{lift} checked out to %{name}."
       duration_hours: "%{hours} hours"
-      forfeited: "%{lift} successfully forfeited."
       missing: Missing scissor lift.
       not_available: No available scissor lift found.
       not_checked_out: Scissor lift is not checked out.
