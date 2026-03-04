@@ -25,6 +25,27 @@ module DashboardHelper
     tool.is_checked_out? ? 'power-item-unavailable' : 'power-item-available'
   end
 
+  def receipt_line_html(line)
+    if line[:list].present?
+      items = line[:list].map do |item|
+        if item.is_a?(Hash)
+          content_tag(:li, item[:label], class: item[:status_class])
+        else
+          content_tag(:li, item)
+        end
+      end
+
+      safe_join([
+        content_tag(:p) { content_tag(:strong, "#{line[:label]}:") },
+        content_tag(:ul) { safe_join(items) }
+      ])
+    else
+      content_tag(:p) do
+        safe_join(["#{line[:label]}: ", content_tag(:strong, line[:value])])
+      end
+    end
+  end
+
   private
 
   def dashboard_step_label(flow_kind, step, flow)
