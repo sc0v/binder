@@ -24,6 +24,10 @@ class Organization < ApplicationRecord
           )
         }
 
+  def self.autocomplete_matches(normalized)
+    where('lower(name) LIKE ? OR lower(short_name) LIKE ?', "%#{normalized}%", "%#{normalized}%")
+  end
+
   def self.find_by_query(input, exact: false)
     return if input.blank?
 

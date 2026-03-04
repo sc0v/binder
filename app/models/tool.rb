@@ -28,6 +28,15 @@ class Tool < ApplicationRecord
   scope :inactive,     -> { where(active: false) }
   scope :ordered_by_name, -> { order(name: :asc) }
 
+  def self.autocomplete_matches(normalized)
+    joins(:tool_type).where(
+      'cast(tools.barcode as text) LIKE ? OR lower(tool_types.name) LIKE ? OR lower(tools.description) LIKE ?',
+      "%#{normalized}%",
+      "%#{normalized}%",
+      "%#{normalized}%"
+    )
+  end
+
   def self.find_by_query(input)
     find_by(barcode: input)
   end

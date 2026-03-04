@@ -123,6 +123,16 @@ class Participant < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
 
+  def self.autocomplete_matches(normalized)
+    andrew_prefix = normalized
+    where(
+      'lower(cached_name) LIKE ? OR lower(cached_email) LIKE ? OR lower(eppn) LIKE ?',
+      "%#{normalized}%",
+      "#{andrew_prefix}%",
+      "#{andrew_prefix}%"
+    )
+  end
+
   def self.find_by_query(input)
     participant = find_by_search(input)
     return participant if participant.present?
