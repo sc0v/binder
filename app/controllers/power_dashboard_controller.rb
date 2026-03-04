@@ -11,7 +11,7 @@ class PowerDashboardController < ApplicationController
   def autocomplete
     query = params[:q].to_s.strip
     include_actions = params[:mode].to_s != 'resources'
-    suggestions = PowerDashboard::AutocompleteSuggestions.new(query:, include_actions: include_actions).call
+    suggestions = Dashboard::AutocompleteSuggestions.new(query:, include_actions: include_actions).call
     render json: { suggestions: suggestions }
   rescue StandardError => e
     render json: { error: e.message, suggestions: [] }, status: :internal_server_error

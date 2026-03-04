@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-module PowerDashboard
+module Dashboard
   class AutocompleteSuggestions
     def initialize(query:, include_actions: true)
       @query = query.to_s.strip
