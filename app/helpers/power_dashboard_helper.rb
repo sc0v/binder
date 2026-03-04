@@ -7,27 +7,27 @@ module PowerDashboardHelper
 
     case resource
     when Participant
-      config[:partial] = 'power_dashboard/resources/participant'
+      config[:partial] = 'shared/resources/participant'
       config[:locals] = { participant: resource }
       config[:link] = resource
     when Organization
-      config[:partial] = 'power_dashboard/resources/organization'
+      config[:partial] = 'shared/resources/organization'
       config[:locals] = { organization: resource }
       config[:link] = resource
     when Tool
-      config[:partial] = 'power_dashboard/resources/tool'
+      config[:partial] = 'shared/resources/tool'
       config[:locals] = { tool: resource }
       config[:link] = resource
     when ScissorLift
-      config[:partial] = 'power_dashboard/resources/scissor_lift'
+      config[:partial] = 'shared/resources/scissor_lift'
       config[:locals] = { lift: resource }
       config[:link] = resource
     when Dashboard::QueueResource
-      config[:partial] = 'power_dashboard/resources/queue'
+      config[:partial] = 'shared/resources/queue'
       config[:locals] = { queue: resource }
       config[:link] = resource.path if resource.path.present?
     when Dashboard::ScissorLiftOverviewResource
-      config[:partial] = 'power_dashboard/resources/scissor_lifts_overview'
+      config[:partial] = 'shared/resources/scissor_lifts_overview'
       config[:locals] = { overview: resource }
       config[:link] = resource.path
     end
