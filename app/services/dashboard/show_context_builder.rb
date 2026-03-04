@@ -31,7 +31,7 @@ module Dashboard
         checked_out_lifts: checked_out_lifts,
         available_lifts: available_lifts,
         random_available_lift: available_lifts.sample,
-        lift_overview_resource: flow_kind == 'lift' ? PowerDashboard::ScissorLiftOverviewResource.new : nil,
+        lift_overview_resource: flow_kind == 'lift' ? Dashboard::ScissorLiftOverviewResource.new : nil,
         lookup_resource: lookup_resource_for(@flow),
         flow_params: FlowState.to_params(@flow)
       }
@@ -43,7 +43,7 @@ module Dashboard
       return unless flow_kind == 'queue'
       return if @flow['queue_type'].blank?
 
-      PowerDashboard::QueueResource.new(@flow['queue_type'])
+      Dashboard::QueueResource.new(@flow['queue_type'])
     end
 
     def lookup_resource_for(flow)
