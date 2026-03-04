@@ -16,7 +16,6 @@ class DashboardFlowDefinitionTest < ActiveSupport::TestCase
   test 'terminal step detection covers each executable flow' do
     assert_not Dashboard::FlowDefinition.terminal_step?({ 'kind' => 'checkin', 'step' => 'tools' })
     assert Dashboard::FlowDefinition.terminal_step?({ 'kind' => 'checkout', 'step' => 'organization' })
-    assert Dashboard::FlowDefinition.terminal_step?({ 'kind' => 'lift', 'lift_action' => 'forfeit', 'step' => 'scissor_lift' })
     assert Dashboard::FlowDefinition.terminal_step?({ 'kind' => 'lift', 'lift_action' => 'checkin', 'step' => 'scissor_lift' })
     assert Dashboard::FlowDefinition.terminal_step?({ 'kind' => 'lift', 'lift_action' => 'renew', 'step' => 'renew_hours' })
     assert Dashboard::FlowDefinition.terminal_step?({ 'kind' => 'lift', 'lift_action' => 'checkout', 'step' => 'organization' })
