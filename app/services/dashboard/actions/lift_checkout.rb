@@ -57,13 +57,14 @@ module Dashboard
         organization = resources[:organization_required]
         return error(t('resources.scissor_lift.checkout_not_authorized')) unless ability.call(:create, ScissorLiftCheckout)
 
-        result = ScissorLiftCheckout.checkout_batch(
+        checkout = ScissorLiftCheckout.new(
           organization: organization,
           participant: borrower,
-          scissor_lift_ids: [lift.id]
+          scissor_lift: lift,
+          due_at: Time.zone.now + 8.hours
         )
-        if result[:failed].present?
-          message = result[:failed].map { |checkout| checkout.errors.full_messages.join(', ') }.join(', ')
+        unless checkout.save
+          message = checkout.errors.full_messages.join(', ')
           return error(message.presence || t('resources.scissor_lift.checkout_failed'))
         end
 
