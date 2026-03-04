@@ -5,7 +5,7 @@ module Dashboard
     COMMAND_ORDER = %w[
       queue q
       add remove clear rem a r
-      checkin checkout renew forfeit in out ren
+      checkin checkout renew in out ren
       electrical structural e s
       lifts
       auto
@@ -23,8 +23,7 @@ module Dashboard
         Actions::LiftCheckout.new,
         Actions::ToolsCartCheckout.new,
         Actions::LiftRenew.new,
-        Actions::LiftForfeit.new,
-        Actions::QueueAdd.new,
+Actions::QueueAdd.new,
         Actions::QueueRemove.new,
         Actions::QueueSelect.new,
         Actions::LiftOverviewSelect.new,
