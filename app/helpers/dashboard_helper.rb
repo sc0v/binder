@@ -25,6 +25,30 @@ module DashboardHelper
     tool.is_checked_out? ? 'power-item-unavailable' : 'power-item-available'
   end
 
+  def current_resource_config(resource)
+    title = resource&.try(:formatted_name) || resource&.try(:name) || 'Current Resource'
+    config = { title: title, partial: nil, locals: {} }
+
+    case resource
+    when Participant
+      config[:locals] = { participant: resource }
+    when Organization
+      config[:locals] = { organization: resource }
+    when Tool
+      config[:locals] = { tool: resource }
+    when ScissorLift
+      config[:locals] = { lift: resource }
+    when Dashboard::QueueResource
+      config[:title] = resource.queue_type.to_s.titleize
+      config[:locals] = { queue: resource }
+    when Dashboard::ScissorLiftOverviewResource
+      config[:title] = 'Scissor Lifts Overview'
+      config[:locals] = { overview: resource }
+    end
+
+    config
+  end
+
   def receipt_line_html(line)
     if line[:list].present?
       items = line[:list].map do |item|
