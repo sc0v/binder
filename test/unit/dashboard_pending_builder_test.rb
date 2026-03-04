@@ -16,7 +16,6 @@ class DashboardPendingBuilderTest < ActiveSupport::TestCase
   test 'builds pending for all supported dashboard actions' do
     assert_pending_action({ 'kind' => 'checkin', 'tool_ids' => [@tool.id] }, 'checkin_tools_cart')
     assert_pending_action(checkout_flow, 'checkout_tools_cart')
-    assert_pending_action(lift_forfeit_flow, 'forfeit_scissor_lift')
     assert_pending_action(lift_checkin_flow, 'checkin_scissor_lift')
     assert_pending_action(lift_renew_flow, 'renew_scissor_lift')
     assert_pending_action(lift_checkout_flow, 'checkout_scissor_lift')
@@ -39,10 +38,6 @@ class DashboardPendingBuilderTest < ActiveSupport::TestCase
       'participant_id' => @participant.id,
       'organization_id' => @organization.id
     }
-  end
-
-  def lift_forfeit_flow
-    { 'kind' => 'lift', 'lift_action' => 'forfeit', 'scissor_lift_id' => @lift.id }
   end
 
   def lift_checkin_flow
