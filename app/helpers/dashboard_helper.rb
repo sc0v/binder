@@ -31,22 +31,55 @@ module DashboardHelper
 
     case resource
     when Participant
+      config[:partial] = 'shared/resources/participant'
       config[:locals] = { participant: resource }
     when Organization
+      config[:partial] = 'shared/resources/organization'
       config[:locals] = { organization: resource }
     when Tool
+      config[:partial] = 'shared/resources/tool'
       config[:locals] = { tool: resource }
     when ScissorLift
+      config[:partial] = 'shared/resources/scissor_lift'
       config[:locals] = { lift: resource }
     when Dashboard::QueueResource
       config[:title] = resource.queue_type.to_s.titleize
+      config[:partial] = 'shared/resources/queue'
       config[:locals] = { queue: resource }
     when Dashboard::ScissorLiftOverviewResource
       config[:title] = 'Scissor Lifts Overview'
+      config[:partial] = 'shared/resources/scissor_lifts_overview'
       config[:locals] = { overview: resource }
     end
 
     config
+  end
+
+  def lift_overview_status(lift)
+    checkout = lift.current_checkout
+    overdue = checkout&.due_at.present? && checkout.due_at < Time.zone.now
+
+    return ['Overdue', 'power-item-overdue'] if overdue
+    return ['Checked out', 'power-item-unavailable'] if lift.is_checked_out?
+
+    ['Available', 'power-item-available']
+  end
+
+  def lift_overview_org_label(checkout)
+    organization = checkout&.organization
+    return if organization.blank?
+
+    organization.short_name.presence || organization.name
+  end
+
+  def lift_overview_due_label(checkout)
+    return if checkout&.due_at.blank?
+
+    if checkout.due_at < Time.zone.now
+      "overdue by #{time_ago_in_words(checkout.due_at)}"
+    else
+      "due in #{time_ago_in_words(checkout.due_at)}"
+    end
   end
 
   def receipt_line_html(line)

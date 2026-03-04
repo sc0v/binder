@@ -1,0 +1,13 @@
+<% entries = queue.entries %>
+<% if entries.present? %>
+  <ul>
+    <% entries.each do |entry| %>
+      <li>
+        <%= entry.organization&.name || 'Unknown organization' %>
+        (<%= time_ago_in_words(entry.started_at) %> ago)
+      </li>
+    <% end %>
+  </ul>
+<% else %>
+  <p>No organizations in queue.</p>
+<% end %>
