@@ -92,9 +92,7 @@ module Dashboard
         }
       end
 
-      return { error: 'Lift action must be renew, checkin, forfeit, or checkout.' } unless flow['lift_action'] == 'forfeit'
-
-      { pending: { 'action' => 'forfeit_scissor_lift', 'scissor_lift_id' => flow['scissor_lift_id'] } }
+      { error: 'Unknown lift action.' }
     end
 
     def build_queue(flow)

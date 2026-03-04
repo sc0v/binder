@@ -49,8 +49,7 @@ module Dashboard
       when 'checkout'
         step == 'organization'
       when 'lift'
-        (flow['lift_action'] == 'forfeit' && step == 'scissor_lift') ||
-          (flow['lift_action'] == 'checkin' && step == 'scissor_lift') ||
+        (flow['lift_action'] == 'checkin' && step == 'scissor_lift') ||
           (flow['lift_action'] == 'renew' && step == 'renew_hours') ||
           (flow['lift_action'] == 'checkout' && step == 'organization')
       else
