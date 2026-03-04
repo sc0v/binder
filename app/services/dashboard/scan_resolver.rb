@@ -63,7 +63,7 @@ module Dashboard
     end
 
     def resolve_lookup(flow, input)
-      resource = PowerDashboard::ResourceLookup.new.lookup_resource(input)
+      resource = Dashboard::ResourceLookup.new.lookup_resource(input)
       return { error: "No match found for \"#{input}\"." } if resource.blank?
 
       flow['lookup_type'] = resource[:type].to_s
