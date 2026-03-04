@@ -263,12 +263,6 @@
                 <%= hidden_field_tag :next_step, 'scissor_lift' %>
                 <%= submit_tag 'Renew', class: 'btn btn-primary' %>
               <% end %>
-              <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
-                <%= dashboard_flow_hidden_fields(@flow_params) %>
-                <%= hidden_field_tag :lift_action, 'forfeit' %>
-                <%= hidden_field_tag :next_step, 'scissor_lift' %>
-                <%= submit_tag 'Forfeit', class: 'btn btn-primary' %>
-          <% end %>
           <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
             <%= dashboard_flow_hidden_fields(@flow_params) %>
             <%= hidden_field_tag :next_step, 'lift_current' %>
