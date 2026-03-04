@@ -1,0 +1,28 @@
+<% nav %>
+<div class="content power-dashboard-content">
+  <div class="power-dashboard" data-controller="power-dashboard-focus">
+    <h1>Select Organization</h1>
+
+    <% if session[:power_pending_action].present? %>
+      <p><strong>Organization required for the pending action.</strong></p>
+    <% end %>
+
+    <% if @organizations.present? %>
+      <div class="power-section">
+        <ul>
+          <% @organizations.each do |organization| %>
+            <li>
+              <%= form_with url: power_dashboard_apply_organization_path, method: :post do %>
+                <%= hidden_field_tag :organization_id, organization.id %>
+                <%= submit_tag organization.name, class: 'btn' %>
+              <% end %>
+            </li>
+          <% end %>
+        </ul>
+      </div>
+    <% else %>
+      <p>No organizations available.</p>
+      <p>Select a participant first to see their organizations.</p>
+    <% end %>
+  </div>
+</div>

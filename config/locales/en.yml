@@ -302,6 +302,26 @@ en:
         notice: Charge was successfully approved/un-approved
         alert: Charge could not be approved/un-approved
 
+  power_dashboard:
+    cancel:
+      notice: Action cancelled.
+    confirm:
+      missing_action: No action to confirm.
+    organization:
+      selected: Organization selected.
+    select_organization:
+      invalid_organization: Invalid organization.
+    selection:
+      no_match: No match found for "%{input}".
+      organization_selected: Organization selected.
+      participant_selected: Participant selected.
+      scissor_lift_selected: Scissor lift selected.
+      tool_added_to_cart: "%{name} added to cart."
+      tool_selected: Tool selected.
+      unknown: Unknown resource type.
+    submit:
+      blank_input: Please enter a command.
+
   resources:
     checkin:
       missing_resource: Cart is empty and no tool or lift is selected.

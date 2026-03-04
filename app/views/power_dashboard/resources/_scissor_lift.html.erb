@@ -1,0 +1,27 @@
+<p><strong>Status:</strong> <%= lift.is_checked_out? ? 'Checked out' : 'Available' %></p>
+<p><strong>Current participant:</strong> <%= lift.current_participant || '—' %></p>
+<p><strong>Current organization:</strong> <%= lift.current_organization || '—' %></p>
+<% checkout = lift.current_checkout %>
+<% overdue = checkout&.due_at.present? && checkout.due_at < Time.zone.now %>
+<p>
+  <strong>Checked out at:</strong>
+  <% if checkout&.checked_out_at.present? %>
+    <%= l(checkout.checked_out_at, format: :short) %>
+    (<%= time_ago_in_words(checkout.checked_out_at) %> ago)
+  <% else %>
+    —
+  <% end %>
+</p>
+<p class="<%= overdue ? 'power-item-overdue' : '' %>">
+  <strong>Due at:</strong>
+  <% if checkout&.due_at.present? %>
+    <%= l(checkout.due_at, format: :short) %>
+    <% if overdue %>
+      (overdue by <%= time_ago_in_words(checkout.due_at) %>)
+    <% else %>
+      (in <%= time_ago_in_words(checkout.due_at) %>)
+    <% end %>
+  <% else %>
+    —
+  <% end %>
+</p>

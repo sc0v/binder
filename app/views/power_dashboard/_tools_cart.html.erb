@@ -1,0 +1,19 @@
+<div class="power-section">
+  <h2>Tools Cart</h2>
+  <% if tools.present? %>
+    <ul>
+      <% tools.each do |tool| %>
+        <li>
+          <% status_class = tool.is_checked_out? ? 'power-item-unavailable' : 'power-item-available' %>
+          <span class="<%= status_class %>"><%= tool.formatted_name %></span>
+          <%= form_with url: power_dashboard_submit_path, method: :post, class: 'power-tool-remove-form' do %>
+            <%= hidden_field_tag :power_input, "remove #{tool.barcode}" %>
+            <%= button_tag 'x', type: 'submit', class: 'btn ghost' %>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>No tools in cart.</p>
+  <% end %>
+</div>
