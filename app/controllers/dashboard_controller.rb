@@ -47,10 +47,7 @@ class DashboardController < ApplicationController
       return
     end
 
-    if continue_to == 'confirm' && (
-      (flow['kind'] == 'checkin' && target == 'tool') ||
-      (flow['kind'] == 'lift' && flow['lift_action'] == 'forfeit' && target == 'scissor_lift')
-    )
+    if continue_to == 'confirm' && flow['kind'] == 'checkin' && target == 'tool'
       unless scan_requirement_satisfied?(flow, target)
         redirect_to dashboard_path(flow_to_params(flow)), alert: 'Scan required before continuing.'
         return
