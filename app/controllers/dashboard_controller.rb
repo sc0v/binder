@@ -248,15 +248,15 @@ class DashboardController < ApplicationController
   end
 
   def action_executor
-    @action_executor ||= ::PowerDashboard::ActionExecutor.new(
-      session_state: ::PowerDashboard::SessionState.new(session),
+    @action_executor ||= Dashboard::ActionExecutor.new(
+      session_state: Dashboard::SessionState.new(session),
       ability: method(:can?)
     )
   end
 
   def receipt_builder
-    @receipt_builder ||= ::PowerDashboard::ReceiptBuilder.new(
-      session_state: ::PowerDashboard::SessionState.new(session)
+    @receipt_builder ||= Dashboard::ReceiptBuilder.new(
+      session_state: Dashboard::SessionState.new(session)
     )
   end
 
@@ -324,9 +324,7 @@ class DashboardController < ApplicationController
   end
 
   def action_requires_confirmation?(action_name)
-    return false unless defined?(::PowerDashboard::ActionRegistry)
-
-    handler = ::PowerDashboard::ActionRegistry.handler_for_action(action_name)
+    handler = Dashboard::ActionRegistry.handler_for_action(action_name)
     handler&.confirmation_required? == true
   end
 end
