@@ -23,7 +23,7 @@ module PowerDashboard
     private
 
     def self.cached_action_suggestions
-      @cached_action_suggestions ||= ActionRegistry.suggestions.freeze
+      @cached_action_suggestions ||= Dashboard::ActionRegistry.suggestions.freeze
     end
 
     def action_suggestions
