@@ -1,6 +1,23 @@
 <p><strong>Short name:</strong> <%= organization.short_name %></p>
 <p><strong>Category:</strong> <%= organization.category_name %></p>
 <p><strong>Tools:</strong> <%= Checkout.current.where(organization: organization).count %></p>
+<% all_queue_entries = OrganizationTimelineEntry.current
+                         .where(entry_type: %w[structural electrical])
+                         .order(:started_at) %>
+<% org_queue_entries = all_queue_entries.select { |e| e.organization_id == organization.id } %>
+<div>
+  <strong>Queues:</strong>
+  <% if org_queue_entries.any? %>
+    <ul>
+      <% org_queue_entries.each do |entry| %>
+        <% position = all_queue_entries.select { |e| e.entry_type == entry.entry_type }.index(entry) + 1 %>
+        <li><strong>#<%= position %> <%= entry.entry_type.titlecase %>:</strong> <%= entry.description %></li>
+      <% end %>
+    </ul>
+  <% else %>
+    Not in any queues
+  <% end %>
+</div>
 <div>
   <strong>Booth chairs:</strong>
   <% booth_chairs = organization.booth_chairs %>
