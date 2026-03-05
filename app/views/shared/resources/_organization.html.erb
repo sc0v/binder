@@ -11,7 +11,7 @@
     <ul>
       <% org_queue_entries.each do |entry| %>
         <% position = all_queue_entries.select { |e| e.entry_type == entry.entry_type }.index(entry) + 1 %>
-        <li><strong>#<%= position %> <%= entry.entry_type.titlecase %>:</strong> <%= entry.description %></li>
+        <li><strong><%= entry.entry_type.titlecase %> (#<%= position %>):</strong> <%= entry.description %></li>
       <% end %>
     </ul>
   <% else %>
