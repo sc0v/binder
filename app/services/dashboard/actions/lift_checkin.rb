@@ -16,7 +16,7 @@ module Dashboard
       end
 
       def priority
-        10
+        0
       end
 
       def match?(rest, session_state:)
