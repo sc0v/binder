@@ -22,6 +22,7 @@ module Dashboard
         Actions::CheckinMissingResource.new,
         Actions::LiftCheckout.new,
         Actions::ToolsCartCheckout.new,
+        Actions::ToolDirectCheckout.new,
         Actions::LiftRenew.new,
 Actions::QueueAdd.new,
         Actions::QueueRemove.new,

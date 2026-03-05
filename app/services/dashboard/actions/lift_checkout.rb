@@ -18,11 +18,13 @@ module Dashboard
       end
 
       def priority
-        10
+        0
       end
 
       def match?(rest, session_state:)
-        lift_match?(rest)
+        return false if targets_tools_cart?(rest)
+
+        lift_match?(rest) || session_state.current_scissor_lift.present?
       end
 
       def confirmation_required?

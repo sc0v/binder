@@ -35,7 +35,7 @@ module Dashboard
     end
 
     def auto_add_tools?
-      session[:power_auto_add_tools] == true
+      session[:power_auto_add_tools] != false
     end
 
     def toggle_auto_add_tools

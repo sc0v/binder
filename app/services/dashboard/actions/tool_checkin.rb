@@ -16,11 +16,13 @@ module Dashboard
       end
 
       def priority
-        10
+        20
       end
 
       def match?(rest, session_state:)
-        return false if targets_tools_cart?(rest)
+        return false if targets_tools_cart?(rest) || lift_match?(rest)
+        return false if session_state.current_scissor_lift.present?
+        return false if Array(session_state.session[:tools]).any?
 
         session_state.current_tool.present?
       end
