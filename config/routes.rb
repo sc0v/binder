@@ -226,7 +226,7 @@ Rails.application.routes.draw do # rubocop:disable Metrics/BlockLength
 
   resources :users
 
-  resources :visitor_counts, only: %i[show update index]
+  resources :weather, only: %i[index]
 
   get 'manifest', to: 'pwa#manifest', defaults: { format: :json }
   get 'service-worker', to: 'pwa#service_worker', defaults: { format: :js }

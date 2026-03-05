@@ -1,0 +1,19 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  location: MyString
+  date_time: 2026-03-05 22:06:54
+  precipitation_chance: 1.5
+  precipitation_type: 1
+  lighting_density: 1.5
+  temperature: 1.5
+  severe_weather_idx: 1
+
+two:
+  location: MyString
+  date_time: 2026-03-05 22:06:54
+  precipitation_chance: 1.5
+  precipitation_type: 1
+  lighting_density: 1.5
+  temperature: 1.5
+  severe_weather_idx: 1
