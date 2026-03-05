@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_02_27_151959) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_05_220654) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -329,6 +329,18 @@ ActiveRecord::Schema[8.0].define(version: 2026_02_27_151959) do
     t.boolean "active"
     t.index ["barcode"], name: "index_tools_on_barcode", unique: true
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
+  end
+
+  create_table "weathers", force: :cascade do |t|
+    t.string "location"
+    t.datetime "date_time"
+    t.float "precipitation_chance"
+    t.integer "precipitation_type"
+    t.float "lighting_density"
+    t.float "temperature"
+    t.integer "severe_weather_idx"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "certifications", "certification_types"
