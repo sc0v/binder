@@ -48,6 +48,7 @@ class Participant < ApplicationRecord
 
   has_many :memberships,
            -> { includes(organization: :organization_category) },
+           inverse_of: :participant,
            dependent: :destroy
   has_many :organizations, through: :memberships
   has_many :organization_categories, through: :organizations
@@ -183,37 +184,16 @@ class Participant < ApplicationRecord
     find_or_create_by!(eppn:)
   end
 
-  def self.find_by_card(card_number, lookup_only = false)
+  def self.find_by_card(card_number, lookup_only: false)
     return nil if card_number.blank?
 
     person = find_by(eppn: card_number)
+    return person if person
 
-    if person.present?
-      person # self.find_by_andrewid(card_number)
-    elsif !lookup_only &&
-          CarnegieMellonPerson.find_by(eppn: card_number.downcase).present?
-      find_or_create_by(eppn: card_number.downcase)
-      # Decimal CSN from MIFARE reader (10 decimal digits)
-    elsif card_number[/\A\d{10}\z/]
-      # Must pad to 8 hex digits for the card translation service
-      andrewid =
-        CarnegieMellonIdCard.get_andrewid_by_card_csn(
-          card_number.to_i.to_s(16).rjust(8, '0')
-        )
-      eppn = "#{andrewid}@andrew.cmu.edu"
-      find_or_create_by(eppn:) if andrewid.present? # stree-ignore
-      # PIK number from magstripe or printed on card (9 decimal digits, allow leading % character and trailing data)
-    elsif card_number[/^%?\d{9}/]
-      andrewid = CarnegieMellonIdCard.get_andrewid_by_card_id(card_number)
-      eppn = "#{andrewid}@andrew.cmu.edu"
-      find_or_create_by(eppn:) if andrewid.present?
-      # Hexadecimal CSN from MIFARE reader (8 hex digits)
-    elsif card_number[/\A[0-9a-fA-F]{8}\z/]
-      andrewid = CarnegieMellonIdCard.get_andrewid_by_card_csn(card_number)
-      eppn = "#{andrewid}@andrew.cmu.edu"
-      find_or_create_by(eppn:) if andrewid.present?
-    end
-  rescue StandardError
+    lookup_only ? participant_from_card_format(card_number) : participant_from_ldap_card(card_number)
+  rescue StandardError => e
+    Rails.logger.warn("Participant.find_by_card: #{e.message}")
+    nil
   end
 
   def self.search_ldap(uid = '')
@@ -240,17 +220,13 @@ class Participant < ApplicationRecord
     return if organization_categories.blank?
     return [:yellow] if alumni
 
-    wristbands = []
-    wristbands += [:blue] if organization_categories.pluck(
-      :building
-    ).include? false
-    wristbands += [:red] if organization_categories.pluck(
-      :building
-    ).include? true
-    wristbands += [:green] if certification_types.pluck(
-      :name
-    ).include? 'Scissor Lift'
-    wristbands
+    buildings = organization_categories.pluck(:building)
+    cert_names = certification_types.pluck(:name)
+    [].tap do |bands|
+      bands << :blue if buildings.include?(false)
+      bands << :red if buildings.include?(true)
+      bands << :green if cert_names.include?('Scissor Lift')
+    end
   end
 
   def scissor_lift_certified?
@@ -277,14 +253,6 @@ class Participant < ApplicationRecord
   end
 
   private
-
-  def self.get_andrewid_by_card_id(card_number)
-    CarnegieMellonIdCard.search(card_number)
-  end
-
-  def self.get_andrewid_by_card_csn(card_number)
-    CarnegieMellonIdCard.search_card_id(card_number)
-  end
 
   def cached_name
     update_cache
@@ -323,29 +291,36 @@ class Participant < ApplicationRecord
   end
 
   def update_cache
-    unless self[:cache_updated].nil? ||
-             DateTime.now - 14.days > self[:cache_updated]
-      return
-    end
+    return if cache_current?
 
-    ldap_reference ||= CarnegieMellonPerson.find_by(eppn:)
-
-    if ldap_reference.nil?
-      self[:cached_name] = 'N/A'
-      self[:cached_surname] = 'N/A'
-      self[:cached_email] = (eppn.presence || 'N/A')
-      self[:cached_department] = 'N/A'
-      self[:cached_student_class] = 'N/A'
-    else
-      self[:cached_name] = Array(ldap_reference['cn']).flatten.last
-      self[:cached_surname] = ldap_reference['sn']
-      self[:cached_email] = ldap_reference['mail']
-      self[:cached_department] = ldap_reference['cmuDepartment']
-      self[:cached_student_class] = ldap_reference['cmuStudentClass']
-    end
-
+    ldap_reference = CarnegieMellonPerson.find_by(eppn:)
+    apply_cache(ldap_reference)
     self[:cache_updated] = DateTime.now
     save!(validate: false) unless id.blank? || readonly?
+  end
+
+  def cache_current?
+    !self[:cache_updated].nil? && DateTime.now - 14.days <= self[:cache_updated]
+  end
+
+  def apply_cache(ldap_reference)
+    ldap_reference ? apply_ldap_cache(ldap_reference) : apply_na_cache
+  end
+
+  def apply_ldap_cache(ref)
+    self[:cached_name] = Array(ref['cn']).flatten.last
+    self[:cached_surname] = ref['sn']
+    self[:cached_email] = ref['mail']
+    self[:cached_department] = ref['cmuDepartment']
+    self[:cached_student_class] = ref['cmuStudentClass']
+  end
+
+  def apply_na_cache
+    self[:cached_name] = 'N/A'
+    self[:cached_surname] = 'N/A'
+    self[:cached_email] = eppn.presence || 'N/A'
+    self[:cached_department] = 'N/A'
+    self[:cached_student_class] = 'N/A'
   end
 
   def reformat_phone
@@ -354,5 +329,37 @@ class Participant < ApplicationRecord
     phone_number = self.phone_number.to_s
     phone_number.gsub!(/[^0-9]/, '')
     self.phone_number = phone_number
+  end
+
+  class << self
+    private
+
+    def participant_from_ldap_card(card_number)
+      if CarnegieMellonPerson.find_by(eppn: card_number.downcase).present?
+        find_or_create_by(eppn: card_number.downcase)
+      else
+        participant_from_card_format(card_number)
+      end
+    end
+
+    def participant_from_card_format(card_number)
+      # Decimal CSN from MIFARE reader (10 decimal digits)
+      if card_number[/\A\d{10}\z/]
+        # Must pad to 8 hex digits for the card translation service
+        csn = card_number.to_i.to_s(16).rjust(8, '0') # stree-ignore
+        andrewid_to_participant(CarnegieMellonIdCard.get_andrewid_by_card_csn(csn))
+      # PIK number from magstripe or printed on card (9 decimal digits, allow leading % and trailing data)
+      elsif card_number[/^%?\d{9}/]
+        andrewid_to_participant(CarnegieMellonIdCard.get_andrewid_by_card_id(card_number))
+      # Hexadecimal CSN from MIFARE reader (8 hex digits)
+      elsif card_number[/\A[0-9a-fA-F]{8}\z/]
+        andrewid_to_participant(CarnegieMellonIdCard.get_andrewid_by_card_csn(card_number))
+      end
+    end
+
+    def andrewid_to_participant(andrewid)
+      eppn = "#{andrewid}@andrew.cmu.edu"
+      find_or_create_by(eppn:) if andrewid.present?
+    end
   end
 end

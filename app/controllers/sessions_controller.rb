@@ -6,22 +6,7 @@ class SessionsController < ApplicationController
                 if: -> { Rails.env.development? && params[:participant_key] }
 
   def create
-    if Rails.env.production?
-      redirect_url = login_redirect_path(request.env['omniauth.origin'])
-      begin
-        cookies.encrypted[:user_id] = load_user(request.env['omniauth.auth'])
-        redirect_to redirect_url
-      rescue StandardError
-        redirect_to redirect_url, alert: t('.alert', message: help_message)
-      end
-    else
-      auth_hash = OmniAuth.config.mock_auth[:shibboleth]
-      participant = Participant.from_omniauth(auth_hash)
-      # session[:user_id] = participant.id (not necessary???)
-      cookies.encrypted[:user_id] = load_user(request.env['omniauth.auth'])
-      flash[:notice] = "Logged in as #{participant.name}"
-      redirect_to root_url
-    end
+    Rails.env.production? ? create_production : create_development
   end
 
   def impersonate
@@ -47,6 +32,23 @@ class SessionsController < ApplicationController
   end
 
   private
+
+  def create_production
+    redirect_url = login_redirect_path(request.env['omniauth.origin'])
+    cookies.encrypted[:user_id] = load_user(request.env['omniauth.auth'])
+    redirect_to redirect_url
+  rescue StandardError
+    redirect_to redirect_url, alert: t('.alert', message: help_message)
+  end
+
+  def create_development
+    auth_hash = OmniAuth.config.mock_auth[:shibboleth]
+    participant = Participant.from_omniauth(auth_hash)
+    # session[:user_id] = participant.id (not necessary???)
+    cookies.encrypted[:user_id] = load_user(request.env['omniauth.auth'])
+    flash[:notice] = "Logged in as #{participant.name}"
+    redirect_to root_url
+  end
 
   def load_user(auth_info)
     Participant.from_omniauth(auth_info).id
