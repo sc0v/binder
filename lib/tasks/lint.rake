@@ -62,7 +62,6 @@ end
 
 # Determine proper linter for single files
 namespace :lint do
-  # rubocop:disable Metrics/BlockLength
   namespace :file do |namespace|
     rule '.css' do |t, _args|
       file = t.name.delete_prefix("#{namespace.scope.path}:")

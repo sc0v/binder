@@ -7,15 +7,7 @@ class NotesController < ApplicationController
     notes = Note.accessible_by(Current.ability).ordered_by_created_at
     respond_to do |format|
       format.html
-      format.json do
-        page = params[:page].present? ? params[:page].to_i : 1
-        size = params[:size].present? ? params[:size].to_i : 1
-
-        offset = (page - 1) * size
-        last_page = (notes.count / size) + ((notes.count % size).zero? ? 0 : 1)
-        notes = notes.offset(offset).limit(size)
-        render json: { last_page:, data: load_json(notes) }
-      end
+      format.json { render json: notes_json_page(notes) }
     end
   end
 
@@ -63,6 +55,14 @@ class NotesController < ApplicationController
   end
 
   private
+
+  def notes_json_page(notes)
+    page = params[:page].present? ? params[:page].to_i : 1
+    size = params[:size].present? ? params[:size].to_i : 1
+    offset = (page - 1) * size
+    last_page = (notes.count / size) + ((notes.count % size).zero? ? 0 : 1)
+    { last_page:, data: load_json(notes.offset(offset).limit(size)) }
+  end
 
   def load_json(notes)
     notes.as_json(

@@ -12,28 +12,7 @@ class ParticipantsController < ApplicationController
   def index
     respond_to do |format|
       format.html
-      format.json do
-        page = params[:page].present? ? params[:page].to_i : 1
-        size = params[:size].present? ? params[:size].to_i : 1
-
-        offset = (page - 1) * size
-        # Compute last_page as ceil(Participant.count / size)
-        last_page =
-          (Participant.count / size) +
-            ((Participant.count % size).zero? ? 0 : 1)
-        # Only return the participants in this page
-        participants =
-          Participant
-            .accessible_by(Current.ability)
-            .ordered_by_name
-            .offset(offset)
-            .limit(size)
-        data =
-          participants.table_attrs.as_json(
-            methods: %i[link name signed_waiver?]
-          )
-        render json: { last_page:, data: }
-      end
+      format.json { render json: participants_json_page }
     end
   end
 
@@ -49,22 +28,15 @@ class ParticipantsController < ApplicationController
   end
 
   def lookup
-    # Process request if barcode is present
     participant = Participant.find_by card: params[:card_number]
+    return render json: :nothing, status: :unprocessable_entity if participant.blank?
 
-    if participant.blank?
-      render json: :nothing, status: :unprocessable_entity
-    else
-      render json: {
-               id: participant.id,
-               name: participant.name,
-               member_orgs: participant.organizations,
-               non_member_orgs:
-                 Organization.all.reject do |org|
-                   participant.organizations.exclude?(org)
-                 end
-             }
-    end
+    render json: {
+      id: participant.id,
+      name: participant.name,
+      member_orgs: participant.organizations,
+      non_member_orgs: Organization.all.reject { |org| participant.organizations.exclude?(org) }
+    }
   end
 
   def show
@@ -90,6 +62,16 @@ class ParticipantsController < ApplicationController
   end
 
   private
+
+  def participants_json_page
+    page = params[:page].present? ? params[:page].to_i : 1
+    size = params[:size].present? ? params[:size].to_i : 1
+    offset = (page - 1) * size
+    last_page = (Participant.count / size) + ((Participant.count % size).zero? ? 0 : 1)
+    participants = Participant.accessible_by(Current.ability).ordered_by_name.offset(offset).limit(size)
+    data = participants.table_attrs.as_json(methods: %i[link name signed_waiver?])
+    { last_page:, data: }
+  end
 
   def show_participant(uid = nil)
     return Current.user unless Current.user.admin?

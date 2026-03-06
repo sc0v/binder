@@ -22,56 +22,25 @@ class OrganizationBuildStepsController < ApplicationController
   end
 
   def create
-    @organization_build_status =
-      OrganizationBuildStatus.find(params[:organization_build_status_id])
-    @organization_build_status.organization_build_steps.new(
-      title: params[:organization_build_step][:title],
-      requirements: params[:organization_build_step][:requirements],
-      step: 0,
-      is_enabled: true,
-      approver: nil
-    )
-
+    @organization_build_status = OrganizationBuildStatus.find(params[:organization_build_status_id])
+    @organization_build_step = @organization_build_status.organization_build_steps.new(build_step_create_params)
     if @organization_build_status.save
       redirect_to params[:url], notice: t('.notice')
     else
-      redirect_to params[:url],
-                  alert:
-                    "Failed to Add Build Task! (#{@organization_build_step.errors.full_messages.join(',')})"
+      redirect_to params[:url], alert: build_step_error_alert
     end
   end
 
   def update
     @organization_build_step = OrganizationBuildStep.find(params[:id])
-    if params[:update_type] == 'approved'
-      if @organization_build_step.approver.nil?
-        @organization_build_step.approver = Participant.find(params[:approver])
-        @organization_build_step.approved_at = Time.zone.now
-      else
-        @organization_build_step.approver = nil
-        @organization_build_step.approved_at = nil
-      end
-
-      if @organization_build_step.save!
-        notice =
-          if @organization_build_step.approver.present?
-            'Approved Checkoff!'
-          else
-            'Unapproved Checkoff!'
-          end
-        redirect_to params[:url], notice: notice and return
-      end
-    elsif params[:update_type] == 'enabled'
-      @organization_build_step.is_enabled = !@organization_build_step.is_enabled
-      @organization_build_step.save!
-      redirect_to params[:url] and return
+    case params[:update_type]
+    when 'approved'
+      handle_approved_update
+    when 'enabled'
+      handle_enabled_update
     else
-      @organization_build_step.update(update_params)
-      redirect_to params[:url] and return
+      handle_field_update
     end
-    # TODO: Figure out flash with turbo
-    flash.now[:alert] = t('.alert')
-    redirect_to params[:url]
   end
 
   def destroy
@@ -85,9 +54,54 @@ class OrganizationBuildStepsController < ApplicationController
 
   private
 
+  def build_step_create_params
+    {
+      title: params[:organization_build_step][:title],
+      requirements: params[:organization_build_step][:requirements],
+      step: 0,
+      is_enabled: true,
+      approver: nil
+    }
+  end
+
   def update_params
     params.expect(
       organization_build_step: %i[requirements internal_notes is_enabled]
     )
+  end
+
+  def handle_approved_update
+    toggle_build_step_approval
+    @organization_build_step.save!
+    redirect_to params[:url], notice: approval_notice
+  end
+
+  def toggle_build_step_approval
+    if @organization_build_step.approver.nil?
+      @organization_build_step.approver = Participant.find(params[:approver])
+      @organization_build_step.approved_at = Time.zone.now
+    else
+      @organization_build_step.approver = nil
+      @organization_build_step.approved_at = nil
+    end
+  end
+
+  def approval_notice
+    @organization_build_step.approver.present? ? 'Approved Checkoff!' : 'Unapproved Checkoff!'
+  end
+
+  def build_step_error_alert
+    "Failed to Add Build Task! (#{@organization_build_step.errors.full_messages.join(',')})"
+  end
+
+  def handle_enabled_update
+    @organization_build_step.is_enabled = !@organization_build_step.is_enabled
+    @organization_build_step.save!
+    redirect_to params[:url]
+  end
+
+  def handle_field_update
+    @organization_build_step.update(update_params)
+    redirect_to params[:url]
   end
 end

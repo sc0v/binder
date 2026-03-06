@@ -10,17 +10,11 @@ class ChargeTypesController < ApplicationController
 
   # GET /charge_types/1
   def show
-    amount =
-      ActiveSupport::NumberHelper.number_to_currency(
-        @charge_type.default_amount,
-        unit: '',
-        delimiter: ''
-      ).to_json
     respond_to do |format|
-      format.html # new.html.erb
+      format.html
       format.json do
         render json: {
-                 amount: amount,
+                 amount: formatted_default_amount,
                  description: @charge_type.description
                },
                status: :ok
@@ -67,6 +61,14 @@ class ChargeTypesController < ApplicationController
   end
 
   private
+
+  def formatted_default_amount
+    ActiveSupport::NumberHelper.number_to_currency(
+      @charge_type.default_amount,
+      unit: '',
+      delimiter: ''
+    ).to_json
+  end
 
   # Never trust parameters from the scary internet, only allow the white list through.
   def charge_type_params

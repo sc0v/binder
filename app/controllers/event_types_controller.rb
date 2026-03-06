@@ -28,22 +28,13 @@ class EventTypesController < ApplicationController
   # POST /event_types.json
   def create
     @event_type = EventType.new(event_type_params)
-
     respond_to do |format|
       if @event_type.save
-        format.html do
-          if params[:from_new_event].present?
-            redirect_to new_event_path, notice: t('.notice')
-            return
-          end
-          redirect_to @event_type, notice: t('.notice')
-        end
+        format.html { redirect_after_event_type_create }
         format.json { render :show, status: :created, location: @event_type }
       else
         format.html { render :new }
-        format.json do
-          render json: @event_type.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @event_type.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -57,9 +48,7 @@ class EventTypesController < ApplicationController
         format.json { render :show, status: :ok, location: @event_type }
       else
         format.html { render :edit }
-        format.json do
-          render json: @event_type.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @event_type.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -79,6 +68,14 @@ class EventTypesController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_event_type
     @event_type = EventType.find(params[:id])
+  end
+
+  def redirect_after_event_type_create
+    if params[:from_new_event].present?
+      redirect_to new_event_path, notice: t('.notice')
+    else
+      redirect_to @event_type, notice: t('.notice')
+    end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

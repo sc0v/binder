@@ -9,22 +9,7 @@ class ShiftsController < ApplicationController
   # Regular index is watch shifts by default
   def index
     s = shifts
-
-    @title =
-      case params[:type]
-      when 'watch'
-        s = shifts.watch_shifts
-        'Watch Shifts'
-      when 'security'
-        s = shifts.sec_shifts
-        'Security Shifts'
-      when 'coordinator'
-        s = shifts.coord_shifts
-        'Coordinator Shifts'
-      else
-        'All Shifts'
-      end
-
+    @title, s = filtered_shifts(s)
     @shifts_upcoming = s.where('ends_at > ?', Time.zone.now)
     @shifts_past = s.where(ends_at: ..Time.zone.now)
   end
@@ -69,6 +54,19 @@ class ShiftsController < ApplicationController
   end
 
   private
+
+  def filtered_shifts(base)
+    case params[:type]
+    when 'watch'
+      ['Watch Shifts', base.watch_shifts]
+    when 'security'
+      ['Security Shifts', base.sec_shifts]
+    when 'coordinator'
+      ['Coordinator Shifts', base.coord_shifts]
+    else
+      ['All Shifts', base]
+    end
+  end
 
   def shifts
     return Shift.all if Current.user.admin? || Current.user.scc?
