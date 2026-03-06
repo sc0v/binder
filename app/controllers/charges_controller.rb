@@ -7,8 +7,6 @@ class ChargesController < ApplicationController
 
   before_action :set_charge, only: %i[show edit update destroy approve]
 
-  # GET /charges
-  # GET /charges.json
   def index
     if params[:organization_id].blank?
       @charges = Charge.all
@@ -19,136 +17,48 @@ class ChargesController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json do
-        data =
-          Charge.all.as_json(
-            methods: %i[charge_type_name organization_name organization_link]
-          )
-        data.each do |d|
-          charge = Charge.find(d['id'])
-          d['show_link'] = helpers.link_to 'show', charge, class: 'btn'
-          d['description_truncated'] = d['description'].truncate(
-            85,
-            separator: /\s/
-          )
-          # d['approve_link'] = link_to 'show', charge, class: 'btn'
-        end
-        render json: { data: }
-      end
+      format.json { render json: { data: charges_json_data } }
     end
   end
 
   # For each organization, generate a CSV including all charges and checked out
   # tools (since apparently that should be included in the invoice)
   def export
-    csv_files = {}
-
-    Organization.find_each do |organization|
-      charge_csv = nil
-      tool_csv = nil
-
-      org_charges = Charge.where(organization: organization)
-      if org_charges.any?
-        headers = ['Charge Type', 'Description', 'Amount']
-        generate_row =
-          lambda do |charge|
-            [
-              charge.charge_type_name,
-              charge.description,
-              view_context.number_to_currency(charge.amount)
-            ]
-          end
-        footers = [
-          nil,
-          'Total',
-          view_context.number_to_currency(org_charges.sum(:amount))
-        ]
-        charge_csv =
-          Exporter.generate_csv(org_charges, headers, generate_row, footers)
-      end
-
-      org_tools = Tool.checked_out_by_organization(organization)
-      if org_tools.any?
-        headers = %w[Tool Barcode]
-        generate_row = ->(tool) { [tool.name, tool.barcode] }
-        tool_csv = Exporter.generate_csv(org_tools, headers, generate_row, [])
-      end
-
-      csv =
-        CSV.generate do |csv|
-          unless charge_csv.nil?
-            CSV.parse(charge_csv).each { |row| csv << row }
-            csv << []
-          end
-          CSV.parse(tool_csv).each { |row| csv << row } unless tool_csv.nil?
-        end
-      unless csv.empty?
-        csv_filename =
-          ActiveStorage::Filename.new(
-            "#{organization.name} Invoice.csv"
-          ).sanitized
-        csv_files[csv_filename] = csv
-      end
-    end
-
-    zip = Exporter.generate_zip(csv_files)
+    zip = Exporter.generate_zip(build_invoice_csv_files)
     respond_to do |format|
-      format.zip do
-        send_data zip, filename: 'invoices.zip', type: 'application/zip'
-      end
+      format.zip { send_data zip, filename: 'invoices.zip', type: 'application/zip' }
     end
   end
 
-  # GET /charges/1
-  # GET /charges/1.json
   def show
   end
 
-  # GET /charges/new
-  # GET /charges/new.json
   def new
     @charge = Charge.new
   end
 
-  # GET /charges/1/edit
   def edit
     @current_receiving_participant =
-      (
-        if @charge.receiving_participant.nil?
-          ''
-        else
-          @charge.receiving_participant.formatted_name
-        end
-      )
+      @charge.receiving_participant&.formatted_name || ''
   end
 
-  # POST /charges
-  # POST /charges.json
   def create
-    @charge = Charge.new(charge_params)
-    @charge.charged_at = DateTime.now
-    @charge.creating_participant = Current.user
-    @charge.is_approved = false
-    begin
-      @charge.save!
-    rescue StandardError
+    @charge = build_charge
+    if @charge.save
+      redirect_to charge_path(@charge), notice: t('.notice')
+    else
       flash.alert =
         "Could not create the charge: #{@charge.errors.full_messages}"
-      redirect_to new_charge_path and return
+      redirect_to new_charge_path
     end
-    redirect_to charge_path(@charge), notice: t('.notice')
   end
 
-  # PUT /charges/1
-  # PUT /charges/1.json
   def update
     @charge.is_approved = false
     @charge.update(charge_params)
     redirect_to charge_path(@charge)
   end
 
-  # DELETE /charges/1
-  # DELETE /charges/1.json
   def destroy
     return redirect_to charges_path if @charge.blank?
 
@@ -160,12 +70,11 @@ class ChargesController < ApplicationController
     redirect_to charges_path
   end
 
-  # PUT
   def approve
     @charge.is_approved = !@charge.is_approved
     @charge.save
 
-    redirect_to params[:url] and return if params[:url].present?
+    return redirect_to params[:url] if params[:url].present?
 
     redirect_to charge_path(@charge)
   end
@@ -174,6 +83,14 @@ class ChargesController < ApplicationController
 
   def set_charge
     @charge = Charge.find(params[:id])
+  end
+
+  def build_charge
+    charge = Charge.new(charge_params)
+    charge.charged_at = DateTime.now
+    charge.creating_participant = Current.user
+    charge.is_approved = false
+    charge
   end
 
   def charge_params
@@ -187,5 +104,69 @@ class ChargesController < ApplicationController
         charge_type_id
       ]
     )
+  end
+
+  def charges_json_data
+    data = Charge.all.as_json(methods: %i[charge_type_name organization_name organization_link])
+    data.each { |d| enrich_charge_json(d) }
+  end
+
+  def enrich_charge_json(row)
+    charge = Charge.find(row['id'])
+    row['show_link'] = helpers.link_to 'show', charge, class: 'btn'
+    row['description_truncated'] = row['description'].truncate(85, separator: /\s/)
+  end
+
+  def build_invoice_csv_files
+    {}.tap do |csv_files|
+      Organization.find_each do |organization|
+        csv = build_org_invoice_csv(organization)
+        next if csv.empty?
+
+        filename = ActiveStorage::Filename.new("#{organization.name} Invoice.csv").sanitized
+        csv_files[filename] = csv
+      end
+    end
+  end
+
+  def build_org_invoice_csv(organization)
+    charge_csv = org_charge_csv(organization)
+    tool_csv = org_tool_csv(organization)
+    CSV.generate do |csv|
+      if charge_csv
+        CSV.parse(charge_csv).each { |row| csv << row }
+        csv << []
+      end
+      CSV.parse(tool_csv).each { |row| csv << row } if tool_csv
+    end
+  end
+
+  def org_charge_csv(organization)
+    org_charges = Charge.where(organization:)
+    return unless org_charges.any?
+
+    headers = ['Charge Type', 'Description', 'Amount']
+    generate_row =
+      lambda do |charge|
+        [
+          charge.charge_type_name,
+          charge.description,
+          view_context.number_to_currency(charge.amount)
+        ]
+      end
+    footers = [
+      nil,
+      'Total',
+      view_context.number_to_currency(org_charges.sum(:amount))
+    ]
+    Exporter.generate_csv(org_charges, headers, generate_row, footers)
+  end
+
+  def org_tool_csv(organization)
+    org_tools = Tool.checked_out_by_organization(organization)
+    return unless org_tools.any?
+
+    generate_row = ->(tool) { [tool.name, tool.barcode] }
+    Exporter.generate_csv(org_tools, %w[Tool Barcode], generate_row, [])
   end
 end

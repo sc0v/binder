@@ -72,65 +72,19 @@ end
 # Database Tasks
 #
 namespace :db do
-  desc 'Runs rake db:reset'
-  task :reset do
-    on roles(:db) do
-      within release_path do
-        with rails_env: fetch(:rails_env) || fetch(:stage) do
-          execute :rake, 'db:reset'
+  %i[reset drop seed migrate setup].each do |task|
+    desc "Runs rake db:#{task}"
+    task task do
+      on roles(:db) do
+        within release_path do
+          with rails_env: fetch(:rails_env) || fetch(:stage) do
+            execute :rake, "db:#{task}"
+          end
         end
       end
     end
+    before "db:#{task}", 'bundler:install'
   end
-  before 'db:reset', 'bundler:install'
-
-  desc 'Runs rake db:drop'
-  task :drop do
-    on roles(:db) do
-      within release_path do
-        with rails_env: fetch(:rails_env) || fetch(:stage) do
-          execute :rake, 'db:drop'
-        end
-      end
-    end
-  end
-  before 'db:drop', 'bundler:install'
-
-  desc 'Runs rake db:seed'
-  task :seed do
-    on roles(:db) do
-      within release_path do
-        with rails_env: fetch(:rails_env) || fetch(:stage) do
-          execute :rake, 'db:seed'
-        end
-      end
-    end
-  end
-  before 'db:seed', 'bundler:install'
-
-  desc 'Runs rake db:migrate'
-  task :migrate do
-    on roles(:db) do
-      within release_path do
-        with rails_env: fetch(:rails_env) || fetch(:stage) do
-          execute :rake, 'db:migrate'
-        end
-      end
-    end
-  end
-  before 'db:migrate', 'bundler:install'
-
-  desc 'Runs rake db:setup'
-  task :setup do
-    on roles(:db) do
-      within release_path do
-        with rails_env: fetch(:rails_env) || fetch(:stage) do
-          execute :rake, 'db:setup'
-        end
-      end
-    end
-  end
-  before 'db:setup', 'bundler:install'
 end
 
 #

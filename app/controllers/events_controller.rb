@@ -40,10 +40,7 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(event_params)
-    @event.created_at = DateTime.now
-    @event.updated_at = DateTime.now
-    @event.is_done = false
+    @event = build_event
     respond_to do |format|
       if @event.save
         format.html { redirect_to @event, notice: t('.notice') }
@@ -64,9 +61,7 @@ class EventsController < ApplicationController
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit }
-        format.json do
-          render json: @event.errors, status: :unprocessable_entity
-        end
+        format.json { render json: @event.errors, status: :unprocessable_entity }
       end
     end
   end
@@ -86,6 +81,14 @@ class EventsController < ApplicationController
   # Use callbacks to share common setup or constraints between actions.
   def set_event
     @event = Event.find(params[:id])
+  end
+
+  def build_event
+    Event.new(event_params).tap do |event|
+      event.created_at = DateTime.now
+      event.updated_at = DateTime.now
+      event.is_done = false
+    end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

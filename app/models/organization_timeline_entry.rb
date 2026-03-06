@@ -24,85 +24,78 @@ class OrganizationTimelineEntry < ApplicationRecord
   end
 
   def already_in_queue?
-    %w[structural electrical].include?(entry_type) &&
-      organization
-        &.organization_timeline_entries
-        &.current
-        &.send(entry_type)
-        .present?
+    return false unless %w[structural electrical].include?(entry_type)
+    return false if organization.nil?
+
+    organization
+      .organization_timeline_entries
+      .current
+      .public_send(entry_type)
+      .present?
   end
 
-  # notifcations
-  after_create :notifyStart, :notify_booth_committee
-  after_update :notifyEnd
+  # notifications
+  after_create :notify_start, :notify_booth_committee
+  after_update :notify_end
 
-  def notifyStart
+  def notify_start
     return unless entry_type == 'downtime'
 
-    organization.booth_chairs.each do |chair|
-      next unless chair.phone_number.present? && chair.phone_number.length == 10
-
-      send_sms(
-        chair.phone_number,
-        "Downtime for your organization, #{organization.name}, has started."
-      )
-    end
+    send_sms_to_booth_chairs(
+      "Downtime for your organization, #{organization.name}, has started."
+    )
   end
 
-  def notifyEnd
+  def notify_end
     return unless entry_type == 'downtime'
 
-    organization.booth_chairs.each do |chair|
-      next unless chair.phone_number.present? && chair.phone_number.length == 10
-
-      remaining =
-        Time
-          .at(organization.remaining_downtime)
-          .utc
-          .strftime('%H hours %M minutes')
-      send_sms(
-        chair.phone_number,
-        "Downtime for your organization, #{organization.name}, has ended. " \
-          "You have #{remaining} left."
-      )
-    end
+    remaining =
+      Time
+        .at(organization.remaining_downtime)
+        .utc
+        .strftime('%H hours %M minutes')
+    send_sms_to_booth_chairs(
+      "Downtime for your organization, #{organization.name}, has ended. You have #{remaining} left."
+    )
   end
 
   def notify_booth_committee
-    # post in the relevant groupme/slack when someone joins a queue
-
-    slack_webhook_urls =
-      case entry_type
-      when 'structural'
-        [ENV.fetch('SLACK_BOT_STRUCTURAL_WEBHOOK_URL', nil)]
-      when 'electrical'
-        [
-          ENV.fetch('SLACK_BOT_ELECTRICAL_WEBHOOK_URL', nil),
-          ENV.fetch('SLACK_BOT_ELECTRICAL_PRIVATE_WEBHOOK_URL', nil)
-        ]
-      end
-
-    groupme_bot_ids =
-      case entry_type
-      when 'structural'
-        [ENV.fetch('GROUPME_STRUCTURAL_BOT_ID', nil)]
-      when 'electrical'
-        [ENV.fetch('GROUPME_ELECTRICAL_BOT_ID', nil)]
-      end
-
     description_text =
       description.blank? ? 'was added' : "was added for: #{description}"
     message_text =
       "#{entry_type.titlecase} Queue: #{organization.short_name} #{description_text}"
+    slack_webhook_urls_for_type&.each { |url| send_slack(url, message_text) }
+    groupme_bot_ids_for_type&.each { |id| send_groupme(id, message_text) }
+  end
 
-    slack_webhook_urls&.each do |slack_webhook_url|
-      send_slack(slack_webhook_url, message_text)
+  private
+
+  def send_sms_to_booth_chairs(message)
+    organization.booth_chairs.each do |chair|
+      next unless chair.phone_number.present? && chair.phone_number.length == 10
+
+      send_sms(chair.phone_number, message)
     end
+  end
 
-    return if groupme_bot_ids.nil?
+  def slack_webhook_urls_for_type
+    case entry_type
+    when 'structural'
+      [ENV.fetch('SLACK_BOT_STRUCTURAL_WEBHOOK_URL', nil)]
+    when 'electrical'
+      [
+        ENV.fetch('SLACK_BOT_ELECTRICAL_WEBHOOK_URL', nil),
+        ENV.fetch('SLACK_BOT_ELECTRICAL_PRIVATE_WEBHOOK_URL', nil)
+      ]
+    end
+  end
 
-    groupme_bot_ids.each do |groupme_bot_id|
-      send_groupme(groupme_bot_id, message_text)
+  def groupme_bot_ids_for_type
+    case entry_type
+    when 'structural'
+      [ENV.fetch('GROUPME_STRUCTURAL_BOT_ID', nil)]
+    when 'electrical'
+      [ENV.fetch('GROUPME_ELECTRICAL_BOT_ID', nil)]
     end
   end
 end

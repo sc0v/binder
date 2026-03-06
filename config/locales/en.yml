@@ -116,6 +116,10 @@ en:
     remove_staged:
       notice: New Members Saved!
   scissor_lift_checkouts:
+    checkout:
+      unauthorized: Not authorized to checkout a Scissorlift.
+      no_scissor_lifts: Add at least one scissor lift to checkout.
+      no_participant: Select a valid participant to checkout.
     renew:
       no_scissor_lift: No Scissor Lift selected.
     checkin:

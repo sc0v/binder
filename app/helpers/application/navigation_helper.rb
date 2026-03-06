@@ -42,7 +42,7 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
       (children unless children == content_tag(:ul))
   end
 
-  def nav_items # rubocop:disable Metrics/MethodLength
+  def nav_items
     [
       {
         label: 'Organizations',

@@ -11,9 +11,7 @@ class CarnegieMellonPerson < ActiveLdap::Base
         attributes: %w[uid cn mail sn cmuDepartment cmuStudentClass]
       )
 
-    person['cmuDepartment'] = person['cmuDepartment'].join(', ') if person[
-      'cmuDepartment'
-    ].is_a? Array
+    person['cmuDepartment'] = person['cmuDepartment'].join(', ') if person['cmuDepartment'].is_a?(Array)
 
     person unless person[:cn] == 'Merged Person'
   rescue StandardError

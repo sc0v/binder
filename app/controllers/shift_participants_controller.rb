@@ -17,13 +17,7 @@ class ShiftParticipantsController < ApplicationController
       ShiftParticipant.new(
         params.expect(shift_participant: %i[shift_id participant_id])
       )
-
-    @shift_participant.clocked_in_at =
-      if clock_in_now == '0'
-        nil
-      else
-        Time.zone.now
-      end
+    @shift_participant.clocked_in_at = clock_in_now == '0' ? nil : Time.zone.now
     @shift_participant.save
 
     redirect_to shift_path(@shift_participant.shift)

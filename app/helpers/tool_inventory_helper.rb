@@ -32,11 +32,7 @@ module ToolInventoryHelper
 
   def tool_inventory_table_config
     {
-      ajaxURL:
-        tool_inventory_tool_inventory_tools_path(
-          ToolInventory.first,
-          format: :json
-        ),
+      ajaxURL: inventory_ajax_url,
       columns: load_tool_inventory_columns,
       dataLoader: false,
       height: '90vh',
@@ -52,6 +48,10 @@ module ToolInventoryHelper
   def load_tool_inventory_columns
     # TODO: Change to Reflect Actual Permissions
     TOOL_INVENTORY_TABLE_COLUMNS
+  end
+
+  def inventory_ajax_url
+    tool_inventory_tool_inventory_tools_path(ToolInventory.first, format: :json)
   end
 
   def cart_icon
