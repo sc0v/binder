@@ -172,8 +172,10 @@ en:
 
   resources:
     checkin:
-      missing_resource: Select a tool or scissor lift first.
+      missing_resource: Cart is empty and no tool or lift is selected.
       not_authorized: Not authorized to checkin.
+    checkout:
+      missing_resource: Cart is empty and no tool or lift is selected.
     labels:
       borrower: Borrower
       cart_contents: Cart contents
