@@ -69,8 +69,7 @@ class ToolsController < ApplicationController
   end
 
   def destroy
-    if @tool.destroy
-    end
+    @tool.destroy
     redirect_to tools_path
   end
 

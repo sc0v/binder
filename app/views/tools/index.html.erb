@@ -15,13 +15,17 @@
           <%= select_tag 'type',
                          options_for_select(
                            [%w[Tool tool], %w[Hardhat hardhat], %w[Radio radio]],
-                           params[:type]
+                           params[:type],
                          ),
                          onchange: 'this.form.submit()' %>
         <% end %>
       </div>
     </div>
-    <%= content_tag :div, data: { controller: 'table', config: tools_table_config } do %>
+    <%= content_tag :div,
+                    data: {
+                      controller: 'table',
+                      config: tools_table_config(@json_url),
+                    } do %>
       Loading...
     <% end %>
     <div>

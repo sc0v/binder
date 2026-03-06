@@ -10,8 +10,6 @@ class ParticipantTest < ActiveSupport::TestCase
 
     should 'check that participant factory object is created and can recieve message calls' do
       @participant.send(:update_cache)
-
-      assert true
     end
 
     should 'return name from directory' do
