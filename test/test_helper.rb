@@ -1,9 +1,17 @@
 # frozen_string_literal: true
 
-require 'coveralls'
-Coveralls.wear!('rails')
+begin
+  require 'coveralls'
+  Coveralls.wear!('rails')
+rescue LoadError
+  # Coveralls is optional in local/dev containers.
+end
 
-require 'webmock/minitest'
+begin
+  require 'webmock/minitest'
+rescue LoadError
+  # WebMock is optional in local/dev containers.
+end
 
 ENV['RAILS_ENV'] = 'test'
 require File.expand_path('../config/environment', __dir__)
