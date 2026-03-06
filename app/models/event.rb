@@ -2,6 +2,7 @@
 
 class Event < ApplicationRecord
   include Messenger
+
   belongs_to :event_type
   belongs_to :participant
 

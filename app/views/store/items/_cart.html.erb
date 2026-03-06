@@ -24,8 +24,8 @@
       <td><%= items.sum(&:quantity_purchased) %></td>
       <td
         ><%= number_to_currency(
-               items.sum { |item| item.quantity_purchased * item.price_at_purchase }
-             ) %></td
+              items.sum { |item| item.quantity_purchased * item.price_at_purchase }
+            ) %></td
       >
       <td>
         <%= button_to 'Clear Cart',

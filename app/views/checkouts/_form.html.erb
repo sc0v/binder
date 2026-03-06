@@ -6,7 +6,11 @@
   <%= f.input :tool_id, as: :hidden %>
   <%= f.input :participant_id, required: true do %>
     <%= f.input_field :participant_id, as: :hidden, required: true %>
-    <%= text_field_tag 'card-number-input', nil, class: 'form-control', required: true %>
+    <%= text_field_tag 'card-number-input',
+                       nil,
+                       class: 'form-control',
+                       required: true,
+                       autocomplete: 'off' %>
     <div id="participant-info"></div>
   <% end %>
   <div class="form-actions">

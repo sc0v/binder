@@ -125,7 +125,7 @@ class Shift < ApplicationRecord
         send_sms(
           chair.phone_number,
           "Only #{participants.size} of #{required_number_of_participants} people for your " \
-          'watch shift have checked in. Please send more people as soon as possible.'
+            'watch shift have checked in. Please send more people as soon as possible.'
         )
       end
     elsif shift_type.name == 'Watch Shift' && checked_in?

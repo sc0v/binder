@@ -35,16 +35,16 @@ class MembershipsController < ApplicationController
 
     @members =
       Membership
-      .where(organization: @organization, is_in_csv: true)
-      .sort do |a, b|
-        if a.participant_name == 'N/A'
-          -1
-        elsif b.participant_name == 'N/A'
-          1
-        else
-          a.participant_eppn.downcase <=> b.participant_eppn.downcase
+        .where(organization: @organization, is_in_csv: true)
+        .sort do |a, b|
+          if a.participant_name == 'N/A'
+            -1
+          elsif b.participant_name == 'N/A'
+            1
+          else
+            a.participant_eppn.downcase <=> b.participant_eppn.downcase
+          end
         end
-      end
   end
 
   def upload_csv
@@ -75,11 +75,12 @@ class MembershipsController < ApplicationController
     new_eppn = "#{params[:new_participant]}@andrew.cmu.edu"
     new_participant = Participant.find_by(eppn: new_eppn)
     if new_participant.nil?
-      new_participant =
-        Participant.create!(eppn: new_eppn)
+      new_participant = Participant.create!(eppn: new_eppn)
     end
     # Set participant as an alumni / regular student if a standing was selected
-    new_participant.update_attribute(:alumni, params[:standing] == 'alumni') if params[:standing].present?
+    if params[:standing].present?
+      new_participant.update_attribute(:alumni, params[:standing] == 'alumni')
+    end
     # Create new Membership, or set is_in_csv if it already exists
     m =
       Membership.find_by(
@@ -130,7 +131,9 @@ class MembershipsController < ApplicationController
       old_participant = old_membership.participant
       old_membership.destroy!
       # If old participant now has no memberships, destroy them too
-      old_participant.destroy! if Membership.where(participant: old_participant).blank?
+      if Membership.where(participant: old_participant).blank?
+        old_participant.destroy!
+      end
     else
       old_membership.update!({ is_in_csv: false })
     end
@@ -162,7 +165,9 @@ class MembershipsController < ApplicationController
           participant = m.participant
           m.destroy!
           # If participant now has no memberships, destroy them too
-          participant.destroy! if Membership.where(participant: participant).blank?
+          if Membership.where(participant: participant).blank?
+            participant.destroy!
+          end
         else
           m.update!({ is_in_csv: false })
         end
@@ -220,7 +225,7 @@ class MembershipsController < ApplicationController
 
     @old_participant_orgs.each do |org|
       unless @new_organization_ids.blank? ||
-             @new_organization_ids.exclude?(org.id.to_s)
+               @new_organization_ids.exclude?(org.id.to_s)
         next
       end
 
@@ -237,9 +242,9 @@ class MembershipsController < ApplicationController
     # create new memberships (only if they don't have a membership already)
     @new_organization_ids&.each do |new_org_id|
       unless @participant
-             .organizations
-             .map { |o| o.id.to_s }
-             .exclude?(new_org_id.to_s)
+               .organizations
+               .map { |o| o.id.to_s }
+               .exclude?(new_org_id.to_s)
         next
       end
 

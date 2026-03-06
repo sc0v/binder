@@ -26,8 +26,9 @@
     <div class="alert alert-info">
       <%= organization.name %> does not have any <%= @title %> checked out at
       this time.
-      <%= link_to raw('<strong>See all tools</strong>'),
-                  organization_tools_path(@organization, type_filter: 'all_tools') %>
+      <%= link_to organization_tools_path(@organization, type_filter: 'all_tools') do %>
+        <strong>See all tools</strong>
+      <% end %>
     </div>
   <% else %>
     <div class="alert alert-info">
@@ -36,8 +37,9 @@
       <%# = param_equals_s(:inventory_filter, 'checked_in') ? raw('<strong>Checked In</strong>') : '' %>
       <%= @title %>
       at this time.
-      <%= link_to raw("<strong>See All #{@title}</strong>"),
-                  tools_path(type_filter: params[:type_filter]) %>
+      <%= link_to tools_path(type_filter: params[:type_filter]) do %>
+        <strong>See All <%= @title %></strong>
+      <% end %>
     </div>
   <% end %>
 <% end %>

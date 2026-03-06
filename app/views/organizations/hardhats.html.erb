@@ -17,7 +17,7 @@
                     'Scan Hardhat:',
                     class: 'col-xs-4 col-sm-3 control-label' %>
       <div class="col-xs-5 col-sm-3">
-        <%= text_field_tag 'tool_barcode', nil, class: 'form-control' %>
+        <%= text_field_tag 'tool_barcode', nil, class: 'form-control', autocomplete: 'off' %>
       </div>
       <%= hidden_field_tag 'form', 'hardhats' %>
     </div>

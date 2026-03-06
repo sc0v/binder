@@ -89,8 +89,8 @@ class Participant < ApplicationRecord
   def self.find_by_search(search)
     @participant =
       Participant.find_by(eppn: search.to_s) ||
-      Participant.find_by(eppn: "#{search}@andrew.cmu.edu") ||
-      Participant.find_by(card: search.to_s)
+        Participant.find_by(eppn: "#{search}@andrew.cmu.edu") ||
+        Participant.find_by(card: search.to_s)
   end
 
   def self.find_or_create_by_search(search)
@@ -324,7 +324,7 @@ class Participant < ApplicationRecord
 
   def update_cache
     unless self[:cache_updated].nil? ||
-           DateTime.now - 14.days > self[:cache_updated]
+             DateTime.now - 14.days > self[:cache_updated]
       return
     end
 

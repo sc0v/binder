@@ -49,8 +49,7 @@ class Store::PurchasesController < ApplicationController
 
   def create
     if session.nil? || session[:borrower_id].blank?
-      redirect_to store_path, alert: t('.no_borrower') and
-        return
+      redirect_to store_path, alert: t('.no_borrower') and return
     end
 
     StorePurchase.items_in_cart.each do |i|
@@ -67,8 +66,7 @@ class Store::PurchasesController < ApplicationController
       i.charge = c
 
       if i.store_item.quantity
-        i.store_item.quantity =
-          i.store_item.quantity - i.quantity_purchased
+        i.store_item.quantity = i.store_item.quantity - i.quantity_purchased
       end
 
       # begin

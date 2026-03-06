@@ -20,8 +20,8 @@
           <tr>
             <td
               ><%= link_to t('.show', default: t('helpers.links.show')),
-                           charge,
-                           class: 'btn btn-info btn-xs' %></td
+                          charge,
+                          class: 'btn btn-info btn-xs' %></td
             >
             <td class="hidden-xs"><%= charge.charge_type.name %></td>
             <td><%= number_to_currency charge.amount %></td>
@@ -35,7 +35,7 @@
     </tbody>
   </table>
   <% if (organization_charge_list.length == 10) %>
-    <%= link_to raw('View more…'),
+    <%= link_to 'View more…',
                 organization_charges_path(@organization),
                 class: 'btn btn-xs' %>
   <% end %>

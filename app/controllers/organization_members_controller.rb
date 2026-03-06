@@ -8,9 +8,7 @@ class OrganizationMembersController < ApplicationController
       format.html
       format.json do
         data =
-          @members.as_json(
-            methods: %i[link name signed_waiver? booth_chair?]
-          )
+          @members.as_json(methods: %i[link name signed_waiver? booth_chair?])
         render json: { data: }
       end
     end
@@ -48,11 +46,11 @@ class OrganizationMembersController < ApplicationController
                         "#{params[:participant][:andrewid]} already a member, but failed to update!"
         end
       elsif Membership.create(
-        organization: @organization,
-        participant: @participant,
-        is_booth_chair: params[:participant][:booth_chair],
-        is_staged: true
-      )
+            organization: @organization,
+            participant: @participant,
+            is_booth_chair: params[:participant][:booth_chair],
+            is_staged: true
+          )
         # Membership Doesn't Exist, try to add a new one
         redirect_to back, notice: "Added #{params[:participant][:andrewid]}!"
       else

@@ -8,6 +8,10 @@ class RemoveHasSignedHardhatWaiverFromParticipants < ActiveRecord::Migration[
   end
 
   def down
-    add_column :participants, :has_signed_hardhat_waiver, :boolean, null: false, default: false
+    add_column :participants,
+               :has_signed_hardhat_waiver,
+               :boolean,
+               null: false,
+               default: false
   end
 end

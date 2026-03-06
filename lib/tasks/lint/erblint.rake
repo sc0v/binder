@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-ERBLINT_BIN = 'erblint'
+ERBLINT_BIN = 'erb_lint'
 ERBLINT_OPT_ALL = '--lint-all'
 ERBLINT_OPT_AUTOCORRECT = '-a'
 

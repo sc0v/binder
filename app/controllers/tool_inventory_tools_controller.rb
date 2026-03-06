@@ -16,7 +16,7 @@ class ToolInventoryToolsController < ApplicationController
         offset = (page - 1) * size
         last_page =
           (@inventory_tools.count / size) +
-          ((@inventory_tools.count % size).zero? ? 0 : 1)
+            ((@inventory_tools.count % size).zero? ? 0 : 1)
         tools = @inventory_tools.offset(offset).limit(size)
         data = tools.as_json(methods: %i[name description barcode])
         render json: { last_page:, data: }
@@ -60,8 +60,8 @@ class ToolInventoryToolsController < ApplicationController
         redirect_to inventory_path(**path_params),
                     alert:
                       "A tool with barcode '#{barcode}' " \
-                      "#{helpers.link_to('already exists', tool_path(@existing_tool))}. " \
-                      "Press 'Add Tool' again to confirm you want to replace the existing tool."
+                        "#{helpers.link_to('already exists', tool_path(@existing_tool))}. " \
+                        "Press 'Add Tool' again to confirm you want to replace the existing tool."
         return
       end
     end

@@ -37,7 +37,7 @@ class TaskTest < ActiveSupport::TestCase
     end
     # Methods
     should 'show that the past_due? method works' do
-      assert @assign_rides.past_due?
+      assert_predicate @assign_rides, :past_due?
       assert_not @buy_wood.past_due?
       assert_not @takeout_trash.past_due?
     end

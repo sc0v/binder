@@ -101,7 +101,8 @@ class ChargesController < ApplicationController
 
   # GET /charges/1
   # GET /charges/1.json
-  def show; end
+  def show
+  end
 
   # GET /charges/new
   # GET /charges/new.json
