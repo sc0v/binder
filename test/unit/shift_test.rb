@@ -111,7 +111,7 @@ class ShiftTest < ActiveSupport::TestCase
     # Methods
 
     should "have a method 'checked_in?' that works" do
-      assert @checked_in.checked_in?
+      assert_predicate @checked_in, :checked_in?
       assert_not @not_checked_in.checked_in?
     end
 

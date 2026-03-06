@@ -1,9 +1,11 @@
 # frozen_string_literal: true
 
 class HomeController < ApplicationController
-  def index; end
+  def index
+  end
 
-  def milestones; end
+  def milestones
+  end
 
   def search
     authorize! :search, nil
@@ -65,5 +67,6 @@ class HomeController < ApplicationController
     authorize! :read, @organizations
   end
 
-  def hardhat_return; end
+  def hardhat_return
+  end
 end
