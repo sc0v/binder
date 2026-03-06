@@ -43,9 +43,9 @@ class DowntimeController < ApplicationController
   private
 
   def building_downtime_map
-    Organization.select { |o| o.organization_category.building }.to_h do |org|
-      [org.name, !org_on_downtime?(org)]
-    end
+    Organization
+      .select { |o| o.organization_category.building }
+      .to_h { |org| [org.name, !org_on_downtime?(org)] }
   end
 
   def org_on_downtime?(org)
@@ -65,11 +65,15 @@ class DowntimeController < ApplicationController
   end
 
   def start_downtime
-    downtime = OrganizationTimelineEntry.new(
-      organization: @organization, entry_type: 'downtime', started_at: DateTime.now
-    )
+    downtime =
+      OrganizationTimelineEntry.new(
+        organization: @organization,
+        entry_type: 'downtime',
+        started_at: DateTime.now
+      )
     if downtime.save
-      redirect_to params[:url], notice: "Started downtime for #{@organization.name}"
+      redirect_to params[:url],
+                  notice: "Started downtime for #{@organization.name}"
     else
       redirect_to params[:url], alert: start_downtime_error(downtime)
     end

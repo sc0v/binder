@@ -20,7 +20,7 @@ class ParticipantsController < ApplicationController
     query = params[:q]
     return if query.blank?
 
-    # TODO:
+    # TODO: implement Participant.filter(keyword: query) for Andrew directory search
     # @andrew_people = Participant.filter(keyword: query)
     @andrew_people = []
 
@@ -29,14 +29,19 @@ class ParticipantsController < ApplicationController
 
   def lookup
     participant = Participant.find_by card: params[:card_number]
-    return render json: :nothing, status: :unprocessable_entity if participant.blank?
+    if participant.blank?
+      return render json: :nothing, status: :unprocessable_entity
+    end
 
     render json: {
-      id: participant.id,
-      name: participant.name,
-      member_orgs: participant.organizations,
-      non_member_orgs: Organization.all.reject { |org| participant.organizations.exclude?(org) }
-    }
+             id: participant.id,
+             name: participant.name,
+             member_orgs: participant.organizations,
+             non_member_orgs:
+               Organization.all.reject do |org|
+                 participant.organizations.exclude?(org)
+               end
+           }
   end
 
   def show
@@ -67,9 +72,16 @@ class ParticipantsController < ApplicationController
     page = params[:page].present? ? params[:page].to_i : 1
     size = params[:size].present? ? params[:size].to_i : 1
     offset = (page - 1) * size
-    last_page = (Participant.count / size) + ((Participant.count % size).zero? ? 0 : 1)
-    participants = Participant.accessible_by(Current.ability).ordered_by_name.offset(offset).limit(size)
-    data = participants.table_attrs.as_json(methods: %i[link name signed_waiver?])
+    last_page =
+      (Participant.count / size) + ((Participant.count % size).zero? ? 0 : 1)
+    participants =
+      Participant
+        .accessible_by(Current.ability)
+        .ordered_by_name
+        .offset(offset)
+        .limit(size)
+    data =
+      participants.table_attrs.as_json(methods: %i[link name signed_waiver?])
     { last_page:, data: }
   end
 

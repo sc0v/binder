@@ -39,7 +39,12 @@ module MembershipsHelper
     p = Participant.find_by(eppn:) || Participant.create!(eppn:)
     m = Membership.find_by(participant: p, organization:)
     if m.nil?
-      Membership.create!(participant: p, organization:, is_in_csv: true, is_added_by_csv: true)
+      Membership.create!(
+        participant: p,
+        organization:,
+        is_in_csv: true,
+        is_added_by_csv: true
+      )
     else
       m.update!(is_in_csv: true)
     end

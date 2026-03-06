@@ -12,12 +12,14 @@ class MembershipsController < ApplicationController
     @membership = Membership.find(params[:id])
   end
 
+  VALID_STEPS = %w[csv_upload repair].freeze
+
   def new
     @organization = Organization.find(params.require(:organization_id))
     @membership = Membership.new
     @membership.organization = @organization
-    params[:step] ||= 'csv_upload'
-    @members = repair_stage_members if params[:step] == 'repair'
+    @step = VALID_STEPS.include?(params[:step]) ? params[:step] : 'csv_upload'
+    @members = repair_stage_members if @step == 'repair'
   end
 
   def upload_csv
@@ -38,23 +40,17 @@ class MembershipsController < ApplicationController
     participant = find_or_create_insert_participant
     update_participant_standing(participant) if params[:standing].present?
     upsert_insert_membership(participant)
-    unless params[:ignore_redirect]
-      redirect_to new_organization_membership_path(
-                    @organization,
-                    step: 'repair'
-                  )
-    end
+    return if params[:ignore_redirect]
+
+    redirect_to new_organization_membership_path(@organization, step: 'repair')
   end
 
   def remove
     @organization = Organization.find(params[:organization])
     remove_membership(Membership.find(params[:old_membership]))
-    unless params[:ignore_redirect]
-      redirect_to new_organization_membership_path(
-                    @organization,
-                    step: 'repair'
-                  )
-    end
+    return if params[:ignore_redirect]
+
+    redirect_to new_organization_membership_path(@organization, step: 'repair')
   end
 
   # Replace one staged membership with another, respecting any other memberships
@@ -89,7 +85,10 @@ class MembershipsController < ApplicationController
   end
 
   def create
-    @membership = Membership.new(params.expect(membership: %i[participant_id is_booth_chair]))
+    @membership =
+      Membership.new(
+        params.expect(membership: %i[participant_id is_booth_chair])
+      )
     @organization = Organization.find(params.require(:organization_id))
     @membership.organization = @organization
     authorize! :create, @membership
@@ -150,11 +149,20 @@ class MembershipsController < ApplicationController
   def upsert_insert_membership(participant)
     existing = Membership.find_by(participant:, organization: @organization)
     booth_chair, red_hardhat = insert_standing_flags(existing)
-    flags = { is_in_csv: true, is_booth_chair: booth_chair, is_red_hardhat: red_hardhat }
+    flags = {
+      is_in_csv: true,
+      is_booth_chair: booth_chair,
+      is_red_hardhat: red_hardhat
+    }
     if existing
       existing.update!(**flags)
     else
-      Membership.create!(participant:, organization: @organization, is_added_by_csv: true, **flags)
+      Membership.create!(
+        participant:,
+        organization: @organization,
+        is_added_by_csv: true,
+        **flags
+      )
     end
   end
 

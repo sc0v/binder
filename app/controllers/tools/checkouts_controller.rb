@@ -85,7 +85,12 @@ class Tools::CheckoutsController < ApplicationController
 
   def checkout_single_tool(tool_id, participant, bad_barcodes)
     tool = Tool.find(tool_id)
-    if Checkout.create!(organization: @organization, participant:, tool:, checked_out_at: Time.zone.now)
+    if Checkout.create!(
+         organization: @organization,
+         participant:,
+         tool:,
+         checked_out_at: Time.zone.now
+       )
       session[:tools] -= [tool_id]
     else
       bad_barcodes.append(tool.barcode)

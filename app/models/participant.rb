@@ -190,7 +190,11 @@ class Participant < ApplicationRecord
     person = find_by(eppn: card_number)
     return person if person
 
-    lookup_only ? participant_from_card_format(card_number) : participant_from_ldap_card(card_number)
+    if lookup_only
+      participant_from_card_format(card_number)
+    else
+      participant_from_ldap_card(card_number)
+    end
   rescue StandardError => e
     Rails.logger.warn("Participant.find_by_card: #{e.message}")
     nil
@@ -347,13 +351,19 @@ class Participant < ApplicationRecord
       if card_number[/\A\d{10}\z/]
         # Must pad to 8 hex digits for the card translation service
         csn = card_number.to_i.to_s(16).rjust(8, '0') # stree-ignore
-        andrewid_to_participant(CarnegieMellonIdCard.get_andrewid_by_card_csn(csn))
-      # PIK number from magstripe or printed on card (9 decimal digits, allow leading % and trailing data)
+        andrewid_to_participant(
+          CarnegieMellonIdCard.get_andrewid_by_card_csn(csn)
+        )
+        # PIK number from magstripe or printed on card (9 decimal digits, allow leading % and trailing data)
       elsif card_number[/^%?\d{9}/]
-        andrewid_to_participant(CarnegieMellonIdCard.get_andrewid_by_card_id(card_number))
-      # Hexadecimal CSN from MIFARE reader (8 hex digits)
+        andrewid_to_participant(
+          CarnegieMellonIdCard.get_andrewid_by_card_id(card_number)
+        )
+        # Hexadecimal CSN from MIFARE reader (8 hex digits)
       elsif card_number[/\A[0-9a-fA-F]{8}\z/]
-        andrewid_to_participant(CarnegieMellonIdCard.get_andrewid_by_card_csn(card_number))
+        andrewid_to_participant(
+          CarnegieMellonIdCard.get_andrewid_by_card_csn(card_number)
+        )
       end
     end
 

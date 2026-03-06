@@ -99,10 +99,10 @@ class ScissorLiftCheckoutsController < ApplicationController
       return
     end
     @scissor_lift = ScissorLift.find_by(name: params[:name])
-    unless @scissor_lift
-      redirect_to scissor_lifts_path,
-                  alert: "Scissor Lift #{params[:name]} does not exist."
-    end
+    return if @scissor_lift
+
+    redirect_to scissor_lifts_path,
+                alert: "Scissor Lift #{params[:name]} does not exist."
   end
 
   def find_current_checkout
