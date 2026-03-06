@@ -6,8 +6,8 @@
     <% if Rails.env.staging? or Rails.env.production? %>
       <p
         ><%= link_to 'Login to Begin',
-                     main_app.user_omniauth_authorize_path(:shibboleth),
-                     class: 'btn btn-success' %></p
+                    main_app.user_omniauth_authorize_path(:shibboleth),
+                    class: 'btn btn-success' %></p
       >
       <br />
     <% else %>
@@ -51,7 +51,13 @@
     <%= form_tag(search_path, class: 'form-inline', role: 'search') do %>
       <div class="form-group">
         <div class="input-group">
-          <%= text_field_tag('query', '', size: 10, class: 'form-control col-md-6') %>
+          <%= text_field_tag(
+                'query',
+                '',
+                size: 10,
+                class: 'form-control col-md-6',
+                autocomplete: 'off'
+              ) %>
           <span class="input-group-btn">
             <%= submit_tag('Search', class: 'btn btn-default') %>
           </span>

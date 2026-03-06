@@ -2,6 +2,7 @@
 
 class OrganizationTimelineEntry < ApplicationRecord
   include Messenger
+
   validates :started_at, :entry_type, presence: true
   validates_associated :organization
 
@@ -54,11 +55,15 @@ class OrganizationTimelineEntry < ApplicationRecord
     organization.booth_chairs.each do |chair|
       next unless chair.phone_number.present? && chair.phone_number.length == 10
 
-      remaining = Time.at(organization.remaining_downtime).utc.strftime('%H hours %M minutes')
+      remaining =
+        Time
+          .at(organization.remaining_downtime)
+          .utc
+          .strftime('%H hours %M minutes')
       send_sms(
         chair.phone_number,
         "Downtime for your organization, #{organization.name}, has ended. " \
-        "You have #{remaining} left."
+          "You have #{remaining} left."
       )
     end
   end

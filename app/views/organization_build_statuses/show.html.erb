@@ -63,10 +63,10 @@
     <% if can?(:create, OrganizationBuildStep) %>
       <h1>Add <%= @status_name %> Step</h1>
       <%= form_with model: [
-            @organization,
-            @build_status,
-            OrganizationBuildStep.new
-          ] do |f| %>
+                      @organization,
+                      @build_status,
+                      OrganizationBuildStep.new
+                    ] do |f| %>
         <%= f.text_field :title, placeholder: 'Enter Title...' %>
         <%= f.text_area :requirements, placeholder: 'Enter Requirements...' %>
         <%= hidden_field_tag 'url', request.original_fullpath %>

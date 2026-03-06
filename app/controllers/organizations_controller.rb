@@ -14,7 +14,7 @@ class OrganizationsController < ApplicationController
         offset = (page - 1) * size
         last_page =
           (organizations.count / size) +
-          ((organizations.count % size).zero? ? 0 : 1)
+            ((organizations.count % size).zero? ? 0 : 1)
         organizations = organizations.offset(offset).limit(size)
         data =
           organizations.as_json(
@@ -51,13 +51,13 @@ class OrganizationsController < ApplicationController
 
         participants =
           @organization
-          .participants
-          .accessible_by(Current.ability)
-          .ordered_by_name
+            .participants
+            .accessible_by(Current.ability)
+            .ordered_by_name
         offset = (page - 1) * size
         last_page =
           (participants.count / size) +
-          ((participants.count % size).zero? ? 0 : 1)
+            ((participants.count % size).zero? ? 0 : 1)
         participants = participants.offset(offset).limit(size)
         data =
           participants.as_json(
@@ -84,10 +84,12 @@ class OrganizationsController < ApplicationController
 
   # GET /organizations/new
   # GET /organizations/new.json
-  def new; end
+  def new
+  end
 
   # GET /organizations/1/edit
-  def edit; end
+  def edit
+  end
 
   # POST /organizations
   # POST /organizations.json

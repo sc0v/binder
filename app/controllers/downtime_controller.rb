@@ -19,10 +19,10 @@ class DowntimeController < ApplicationController
         @building_orgs.each do |organization|
           on_downtime =
             OrganizationTimelineEntry
-            .downtime
-            .where(organization: organization)
-            .current
-            .present?
+              .downtime
+              .where(organization: organization)
+              .current
+              .present?
           on_downtime_map[organization.name] = !on_downtime
         end
         render json: on_downtime_map.as_json
@@ -38,20 +38,22 @@ class DowntimeController < ApplicationController
 
     @is_on_downtime =
       OrganizationTimelineEntry
-      .downtime
-      .where({ organization: @organization })
-      .current
-      .present?
+        .downtime
+        .where({ organization: @organization })
+        .current
+        .present?
   end
 
   def toggle
-    redirect_to params[:url], alert: t('.blank_organization') if params[:organization_id].blank?
+    if params[:organization_id].blank?
+      redirect_to params[:url], alert: t('.blank_organization')
+    end
     @organization = Organization.find(params[:organization_id])
     current_downtime =
       OrganizationTimelineEntry
-      .downtime
-      .where(organization: @organization)
-      .current
+        .downtime
+        .where(organization: @organization)
+        .current
     if current_downtime.present?
       current_downtime.first.ended_at = DateTime.now
       if current_downtime.first.save

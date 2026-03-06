@@ -140,21 +140,21 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(:destroy, Shift)
       assert ability.can?(:read, Shift.new)
       assert ability.cannot?(
-        :read,
-        Shift.new(shift_type: ShiftType.new(name: 'Coordinator Shift'))
-      )
+               :read,
+               Shift.new(shift_type: ShiftType.new(name: 'Coordinator Shift'))
+             )
 
       assert ability.cannot?(:create, ShiftParticipant)
       assert ability.cannot?(:update, ShiftParticipant)
       assert ability.cannot?(:destroy, ShiftParticipant)
       assert ability.can?(
-        :read,
-        ShiftParticipant.new(shift: Shift.new(organization: @org))
-      )
+               :read,
+               ShiftParticipant.new(shift: Shift.new(organization: @org))
+             )
       assert ability.cannot?(
-        :read,
-        ShiftParticipant.new(shift: Shift.new(organization: @scc))
-      )
+               :read,
+               ShiftParticipant.new(shift: Shift.new(organization: @scc))
+             )
     end
 
     # scc tests

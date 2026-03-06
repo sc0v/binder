@@ -12,7 +12,8 @@ class EventTypesController < ApplicationController
 
   # GET /event_types/1
   # GET /event_types/1.json
-  def show; end
+  def show
+  end
 
   # GET /event_types/new
   def new
@@ -20,7 +21,8 @@ class EventTypesController < ApplicationController
   end
 
   # GET /event_types/1/edit
-  def edit; end
+  def edit
+  end
 
   # POST /event_types
   # POST /event_types.json
@@ -31,12 +33,10 @@ class EventTypesController < ApplicationController
       if @event_type.save
         format.html do
           if params[:from_new_event].present?
-            redirect_to new_event_path,
-                        notice: t('.notice')
+            redirect_to new_event_path, notice: t('.notice')
             return
           end
-          redirect_to @event_type,
-                      notice: t('.notice')
+          redirect_to @event_type, notice: t('.notice')
         end
         format.json { render :show, status: :created, location: @event_type }
       else
@@ -53,10 +53,7 @@ class EventTypesController < ApplicationController
   def update
     respond_to do |format|
       if @event_type.update(event_type_params)
-        format.html do
-          redirect_to @event_type,
-                      notice: t('.notice')
-        end
+        format.html { redirect_to @event_type, notice: t('.notice') }
         format.json { render :show, status: :ok, location: @event_type }
       else
         format.html { render :edit }
@@ -72,10 +69,7 @@ class EventTypesController < ApplicationController
   def destroy
     @event_type.destroy
     respond_to do |format|
-      format.html do
-        redirect_to event_types_url,
-                    notice: t('.notice')
-      end
+      format.html { redirect_to event_types_url, notice: t('.notice') }
       format.json { head :no_content }
     end
   end

@@ -6,7 +6,7 @@
     <%= form.check_box :signed_waiver %>
     <%= form.label :signed_waiver,
                    'I have read this release and understand it' \
-                   'and I voluntarily agree to all its provisions' %>
+                     'and I voluntarily agree to all its provisions' %>
     <%= content_tag(:div, participant.errors[:signed_waiver].join(', '), role: 'alert') %>
   </div>
   <div>

@@ -17,7 +17,9 @@ class ToolInventoryController < ApplicationController
       inventory_tool = @inventory_tools.find_by(barcode: tool.barcode)
       if !inventory_tool.nil? && inventory_tool.equal_to_tool(tool)
         # Merge old and new Tools
-        ToolInventoryTool.delete(inventory_tool) if tool.update(description: inventory_tool.description)
+        if tool.update(description: inventory_tool.description)
+          ToolInventoryTool.delete(inventory_tool)
+        end
       else
         # Delete old Tool
         tool.delete
@@ -26,13 +28,13 @@ class ToolInventoryController < ApplicationController
     # Add all tool inventory tools without a corresponding existing tool
     @inventory_tools.each do |inventory_tool|
       unless Tool.create(
-        {
-          barcode: inventory_tool.barcode,
-          tool_type: inventory_tool.tool_type,
-          description: inventory_tool.description,
-          active: inventory_tool.active
-        }
-      )
+               {
+                 barcode: inventory_tool.barcode,
+                 tool_type: inventory_tool.tool_type,
+                 description: inventory_tool.description,
+                 active: inventory_tool.active
+               }
+             )
         next
       end
 

@@ -1,7 +1,8 @@
 # frozen_string_literal: true
 
 class Tools::CheckoutsController < ApplicationController
-  def new; end
+  def new
+  end
 
   def add
     session[:tools] ||= []
@@ -43,7 +44,7 @@ class Tools::CheckoutsController < ApplicationController
 
   def create
     unless params[:checkout].present? &&
-           params[:checkout][:organization_id].present?
+             params[:checkout][:organization_id].present?
       return
     end
 
@@ -61,11 +62,11 @@ class Tools::CheckoutsController < ApplicationController
       # begin
       t = Tool.find(tool_id)
       if Checkout.create!(
-        organization: @organization,
-        participant: p,
-        tool: t,
-        checked_out_at: Time.zone.now
-      )
+           organization: @organization,
+           participant: p,
+           tool: t,
+           checked_out_at: Time.zone.now
+         )
         session[:tools] -= [tool_id]
       else
         bad_barcodes.append(t.barcode)
@@ -93,8 +94,10 @@ class Tools::CheckoutsController < ApplicationController
                   alert: "Tool #{params[:barcode]} does not exist."
     else
       @checkout = @tool.checkouts.current.first unless @tool.checkouts.blank? ||
-                                                       @tool.checkouts.current.blank?
-      raise CheckoutError, I18n.t('errors.messages.tool_already_checked_in') if @checkout.blank?
+        @tool.checkouts.current.blank?
+      if @checkout.blank?
+        raise CheckoutError, I18n.t('errors.messages.tool_already_checked_in')
+      end
 
       @checkout.checked_in_at = Time.zone.now
       @checkout.save!

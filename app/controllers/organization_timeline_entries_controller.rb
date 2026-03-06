@@ -52,8 +52,8 @@ class OrganizationTimelineEntriesController < ApplicationController
   def update
     @organization_timeline_entry.update(organization_timeline_entry_params)
     redirect_to organization_downtime_index_path(
-      @organization_timeline_entry.organization
-    )
+                  @organization_timeline_entry.organization
+                )
   end
 
   # PUT /organizations_timeline_entry/1/end
@@ -73,8 +73,8 @@ class OrganizationTimelineEntriesController < ApplicationController
     @organization_timeline_entry.destroy
     flash[:notice] = t('.notice')
     redirect_to organization_downtime_index_path(
-      @organization_timeline_entry.organization
-    )
+                  @organization_timeline_entry.organization
+                )
   end
 
   def electrical

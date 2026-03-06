@@ -5,7 +5,9 @@ class ScissorLiftCheckoutsController < ApplicationController
     session[:scissor_lifts] ||= []
     scissor_lift = ScissorLift.find_by(name: params[:name])
     if scissor_lift.present?
-      session[:scissor_lifts].append(scissor_lift.id) unless session[:scissor_lifts].include?(scissor_lift.id)
+      unless session[:scissor_lifts].include?(scissor_lift.id)
+        session[:scissor_lifts].append(scissor_lift.id)
+      end
     else
       flash.alert = 'No scissor lift found with that name.'
     end
@@ -25,7 +27,7 @@ class ScissorLiftCheckoutsController < ApplicationController
 
   def checkout
     unless params[:checkout].present? &&
-           params[:checkout][:organization_id].present?
+             params[:checkout][:organization_id].present?
       return
     end
 
@@ -64,8 +66,8 @@ class ScissorLiftCheckoutsController < ApplicationController
       session[:borrower_id] = nil
       checked_out_names =
         result[:checked_out]
-        .map { |checkout| checkout.scissor_lift&.name }
-        .compact
+          .map { |checkout| checkout.scissor_lift&.name }
+          .compact
       flash.notice =
         "#{checked_out_names.join(', ')} checked out to #{participant.name}"
     else

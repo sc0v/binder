@@ -28,9 +28,9 @@
       >
       <dd
         ><%= if @task.completed_by.present?
-               link_to "#{@task.completed_by.name} (#{@task.completed_by.eppn})",
-                       @task.completed_by
-             end %></dd
+              link_to "#{@task.completed_by.name} (#{@task.completed_by.eppn})",
+                      @task.completed_by
+            end %></dd
       >
     <% end %>
   </dl>

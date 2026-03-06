@@ -82,7 +82,7 @@ class ScissorLiftCheckout < ApplicationRecord
     last_forfeit =
       org_checkouts.where(is_forfeit: true).order(checked_in_at: :desc).first
     if last_forfeit.present? && last_forfeit.checked_in_at.present? &&
-       last_forfeit.checked_in_at + 15.minutes > Time.zone.now
+         last_forfeit.checked_in_at + 15.minutes > Time.zone.now
       return last_forfeit.checked_in_at + 15.minutes
     end
 
