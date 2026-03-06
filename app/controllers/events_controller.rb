@@ -61,7 +61,9 @@ class EventsController < ApplicationController
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @event.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -84,11 +86,13 @@ class EventsController < ApplicationController
   end
 
   def build_event
-    Event.new(event_params).tap do |event|
-      event.created_at = DateTime.now
-      event.updated_at = DateTime.now
-      event.is_done = false
-    end
+    Event
+      .new(event_params)
+      .tap do |event|
+        event.created_at = DateTime.now
+        event.updated_at = DateTime.now
+        event.is_done = false
+      end
   end
 
   # Never trust parameters from the scary internet, only allow the white list through.

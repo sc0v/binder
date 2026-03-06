@@ -96,7 +96,7 @@ class Tool < ApplicationRecord
   ].freeze
   TABLE_ATTRS_SELECT =
     'tools.*, tool_types.name AS t_name, o.org_name AS t_organization_name, ' \
-    'c.checked_out_at IS NOT NULL AS t_is_checked_out, p.cached_name AS t_participant_name'
+      'c.checked_out_at IS NOT NULL AS t_is_checked_out, p.cached_name AS t_participant_name'
 
   def self.table_attrs
     TABLE_ATTRS_JOINS
