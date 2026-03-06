@@ -114,6 +114,24 @@ Metrics/PerceivedComplexity:
     - "app/controllers/applets/ppe_distribution_controller.rb"
     - "app/controllers/organization_timeline_entries_controller.rb"
 
+# load_step_* methods in ppe_distribution_controller return booleans as a side
+# effect of loading data — they are not pure predicates and should not end with ?.
+Naming/PredicateMethod:
+  Exclude:
+    - "app/controllers/applets/ppe_distribution_controller.rb"
+
+# ability.rb has intentional dead code below a return statement, kept as
+# reference while new abilities are migrated (see TODO comment in file).
+Lint/UnreachableCode:
+  Exclude:
+    - "app/models/ability.rb"
+
+# abort is the correct way to exit a Rake task with a non-zero status code.
+# raise would print a full backtrace, which is not appropriate for lint output.
+Rails/Exit:
+  Exclude:
+    - "lib/tasks/lint/lint_helper.rb"
+
 # The following cops conflict with Prettier's formatting decisions.
 # Prettier is the canonical formatter; these cops are disabled so the two
 # tools don't fight each other.

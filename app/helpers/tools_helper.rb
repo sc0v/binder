@@ -54,9 +54,9 @@ module ToolsHelper
     }
   ].freeze
 
-  def tools_table_config
+  def tools_table_config(json_url)
     {
-      ajaxURL: @json_url,
+      ajaxURL: json_url,
       columns: load_tools_columns,
       dataLoader: false,
       height: '90vh',
