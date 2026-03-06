@@ -44,14 +44,14 @@ class ToolTest < ActiveSupport::TestCase
         )
 
       @hard_hat_type = FactoryGirl.create(:tool_type, name: 'Hardhat')
-      @hard_hat_1 =
+      @hard_hat_one =
         FactoryGirl.create(
           :tool,
           barcode: 12_808,
           description: 'HARD HAT 1',
           tool_type: @hard_hat_type
         )
-      @hard_hat_2 =
+      @hard_hat_two =
         FactoryGirl.create(
           :tool,
           barcode: 12_809,
@@ -85,8 +85,8 @@ class ToolTest < ActiveSupport::TestCase
           organization: @theta,
           participant: @shannon_participant
         )
-      @hard_hat_1_checkout =
-        FactoryGirl.create(:checkout, tool: @hard_hat_1, organization: @theta)
+      @hard_hat_one_checkout =
+        FactoryGirl.create(:checkout, tool: @hard_hat_one, organization: @theta)
     end
 
     # scopes
@@ -101,7 +101,7 @@ class ToolTest < ActiveSupport::TestCase
     end
 
     should 'show that the by type scope works' do
-      assert_equal [@hard_hat_1, @hard_hat_2], Tool.by_type(@hard_hat_type)
+      assert_equal [@hard_hat_one, @hard_hat_two], Tool.by_type(@hard_hat_type)
       assert_equal [@radio], Tool.by_type(@radio_type)
       assert_equal [@ladder], Tool.by_type(@ladder_type)
     end
@@ -140,7 +140,7 @@ class ToolTest < ActiveSupport::TestCase
       @hardhat2_checkin =
         FactoryGirl.create(
           :checkout,
-          tool: @hard_hat_2,
+          tool: @hard_hat_two,
           checked_out_at: 1.hour.ago,
           checked_in_at: 1.hour.from_now
         )
@@ -157,31 +157,32 @@ class ToolTest < ActiveSupport::TestCase
     should "show that the 'current_organization' method works" do
       assert_equal @sdc, @hammer.current_organization
       assert_equal @theta, @saw.current_organization
-      assert_equal @theta, @hard_hat_1.current_organization
+      assert_equal @theta, @hard_hat_one.current_organization
       assert_nil @ladder.current_organization
     end
 
     should "show that the 'current_participant' method works" do
       assert_nil @hammer.current_participant
       assert_equal @shannon_participant, @saw.current_participant
-      assert_nil @hard_hat_1.current_participant
+      assert_nil @hard_hat_one.current_participant
       assert_nil @ladder.current_participant
     end
 
     should 'show that the checked_out? method works' do
       assert_predicate @hammer, :checked_out?
       assert_predicate @saw, :checked_out?
-      assert_predicate @hard_hat_1, :checked_out?
+      assert_predicate @hard_hat_one, :checked_out?
       deny @ladder.checked_out?
     end
 
     should 'show that is_hardhat works' do
-      assert_predicate @hard_hat_1, :hardhat?
+      assert_predicate @hard_hat_one, :hardhat?
       deny @radio.hardhat?
     end
 
     should "show that the 'self.checked_out_by_organization(organization)' method works" do
-      assert_equal [@saw, @hard_hat_1], Tool.checked_out_by_organization(@theta)
+      assert_equal [@saw, @hard_hat_one],
+                   Tool.checked_out_by_organization(@theta)
     end
 
     should 'show that name works' do
