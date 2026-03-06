@@ -5,6 +5,8 @@ plugins:
 
 AllCops:
   NewCops: enable
+  TargetRubyVersion: 3.4
+  ParserEngine: parser_prism
   Exclude:
     - "bin/**/*"
     - "config/initializers/new_framework_defaults_7_0.rb"
