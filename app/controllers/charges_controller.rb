@@ -26,7 +26,9 @@ class ChargesController < ApplicationController
   def export
     zip = Exporter.generate_zip(build_invoice_csv_files)
     respond_to do |format|
-      format.zip { send_data zip, filename: 'invoices.zip', type: 'application/zip' }
+      format.zip do
+        send_data zip, filename: 'invoices.zip', type: 'application/zip'
+      end
     end
   end
 
@@ -107,14 +109,20 @@ class ChargesController < ApplicationController
   end
 
   def charges_json_data
-    data = Charge.all.as_json(methods: %i[charge_type_name organization_name organization_link])
+    data =
+      Charge.all.as_json(
+        methods: %i[charge_type_name organization_name organization_link]
+      )
     data.each { |d| enrich_charge_json(d) }
   end
 
   def enrich_charge_json(row)
     charge = Charge.find(row['id'])
     row['show_link'] = helpers.link_to 'show', charge, class: 'btn'
-    row['description_truncated'] = row['description'].truncate(85, separator: /\s/)
+    row['description_truncated'] = row['description'].truncate(
+      85,
+      separator: /\s/
+    )
   end
 
   def build_invoice_csv_files
@@ -123,7 +131,10 @@ class ChargesController < ApplicationController
         csv = build_org_invoice_csv(organization)
         next if csv.empty?
 
-        filename = ActiveStorage::Filename.new("#{organization.name} Invoice.csv").sanitized
+        filename =
+          ActiveStorage::Filename.new(
+            "#{organization.name} Invoice.csv"
+          ).sanitized
         csv_files[filename] = csv
       end
     end

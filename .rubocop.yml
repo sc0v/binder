@@ -20,7 +20,7 @@ Style/Documentation:
   Enabled: false
 
 # TODO: extract ChargesController CSV export methods to a ChargeExporter service.
-# TODO: extract MembershipsController CSV import workflow to a concern.
+# TODO: extract MembershipsController CSV import workflow to a concern (upsert_insert_membership and create exceed MethodLength due to prettier formatting).
 # TODO: extract ScissorLiftCheckoutsController checkout helpers to a service/concern.
 # TODO: extract Participant LDAP caching to a concern (Participant is 269 lines).
 # TODO: split Ability into per-role modules (CanCanCan convention).
@@ -73,8 +73,20 @@ Metrics/MethodLength:
     - "app/controllers/organization_timeline_entries_controller.rb"
     - "app/controllers/store/purchases_controller.rb"
     - "app/controllers/tool_inventory_controller.rb"
+    - "app/controllers/applets/ppe_collection_controller.rb"
+    - "app/controllers/charges_controller.rb"
+    - "app/controllers/downtime_controller.rb"
+    - "app/controllers/event_types_controller.rb"
+    - "app/controllers/events_controller.rb"
+    - "app/controllers/memberships_controller.rb"
+    - "app/controllers/organization_build_steps_controller.rb"
+    - "app/controllers/participants_controller.rb"
+    - "app/controllers/tools/checkouts_controller.rb"
     - "app/controllers/tools_controller.rb"
     - "app/helpers/application/navigation_helper.rb"
+    - "app/helpers/memberships_helper.rb"
+    - "app/models/carnegie_mellon_person.rb"
+    - "app/models/participant.rb"
 Metrics/AbcSize:
   Exclude:
     - "app/models/ability.rb"

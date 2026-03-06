@@ -34,7 +34,9 @@ class EventTypesController < ApplicationController
         format.json { render :show, status: :created, location: @event_type }
       else
         format.html { render :new }
-        format.json { render json: @event_type.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @event_type.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -48,7 +50,9 @@ class EventTypesController < ApplicationController
         format.json { render :show, status: :ok, location: @event_type }
       else
         format.html { render :edit }
-        format.json { render json: @event_type.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @event_type.errors, status: :unprocessable_entity
+        end
       end
     end
   end

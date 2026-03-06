@@ -22,8 +22,12 @@ class OrganizationBuildStepsController < ApplicationController
   end
 
   def create
-    @organization_build_status = OrganizationBuildStatus.find(params[:organization_build_status_id])
-    @organization_build_step = @organization_build_status.organization_build_steps.new(build_step_create_params)
+    @organization_build_status =
+      OrganizationBuildStatus.find(params[:organization_build_status_id])
+    @organization_build_step =
+      @organization_build_status.organization_build_steps.new(
+        build_step_create_params
+      )
     if @organization_build_status.save
       redirect_to params[:url], notice: t('.notice')
     else
@@ -87,7 +91,11 @@ class OrganizationBuildStepsController < ApplicationController
   end
 
   def approval_notice
-    @organization_build_step.approver.present? ? 'Approved Checkoff!' : 'Unapproved Checkoff!'
+    if @organization_build_step.approver.present?
+      'Approved Checkoff!'
+    else
+      'Unapproved Checkoff!'
+    end
   end
 
   def build_step_error_alert
