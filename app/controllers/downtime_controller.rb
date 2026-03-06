@@ -45,7 +45,9 @@ class DowntimeController < ApplicationController
   end
 
   def toggle
-    redirect_to params[:url], alert: t('.blank_organization') if params[:organization_id].blank?
+    if params[:organization_id].blank?
+      redirect_to params[:url], alert: t('.blank_organization')
+    end
     @organization = Organization.find(params[:organization_id])
     current_downtime =
       OrganizationTimelineEntry
