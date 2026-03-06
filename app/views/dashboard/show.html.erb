@@ -7,15 +7,18 @@
       <p>Choose a flow.</p>
       <div class="dashboard-actions">
         <% [
-          ['Checkout', 'checkout'],
-          ['Checkin', 'checkin'],
-          ['Queue', 'queue'],
-          ['Lift', 'lift'],
-          ['Lookup', 'lookup']
-        ].each do |label, kind| %>
+          ['Checkout', 'checkout', 'Check out tools to a borrower'],
+          ['Checkin', 'checkin', 'Return borrowed tools'],
+          ['Queue', 'queue', 'Manage inspection queues'],
+          ['Lift', 'lift', 'Checkout, checkin, or renew a lift'],
+          ['Lookup', 'lookup', 'Look up any resource']
+        ].each do |label, kind, description| %>
           <%= form_with url: dashboard_start_path, method: :post, class: 'dashboard-action-form' do %>
             <%= hidden_field_tag :kind, kind %>
-            <%= submit_tag label, class: 'btn btn-primary' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label"><%= label %></span>
+              <span class="btn-description"><%= description %></span>
+            <% end %>
           <% end %>
         <% end %>
       </div>
@@ -93,13 +96,19 @@
             <%= dashboard_flow_hidden_fields(@flow_params, except: [:organization_id]) %>
             <%= hidden_field_tag :queue_type, 'electrical' %>
             <%= hidden_field_tag :next_step, 'queue_action' %>
-            <%= submit_tag 'Electrical', class: 'btn btn-primary' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">Electrical</span>
+              <span class="btn-description">For electrical inspections</span>
+            <% end %>
           <% end %>
           <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
             <%= dashboard_flow_hidden_fields(@flow_params, except: [:organization_id]) %>
             <%= hidden_field_tag :queue_type, 'structural' %>
             <%= hidden_field_tag :next_step, 'queue_action' %>
-            <%= submit_tag 'Structural', class: 'btn btn-primary' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">Structural</span>
+              <span class="btn-description">For structural inspections</span>
+            <% end %>
           <% end %>
         </div>
       <% end %>
@@ -110,18 +119,27 @@
             <%= dashboard_flow_hidden_fields(@flow_params) %>
             <%= hidden_field_tag :queue_action, 'add' %>
             <%= hidden_field_tag :next_step, 'queue_source' %>
-            <%= submit_tag 'Add', class: 'btn btn-primary' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">Add</span>
+              <span class="btn-description">Add an organization to the queue</span>
+            <% end %>
           <% end %>
           <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
             <%= dashboard_flow_hidden_fields(@flow_params) %>
             <%= hidden_field_tag :queue_action, 'remove' %>
             <%= hidden_field_tag :next_step, 'organization' %>
-            <%= submit_tag 'Remove', class: 'btn btn-primary' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">Remove</span>
+              <span class="btn-description">Remove an organization from the queue</span>
+            <% end %>
           <% end %>
           <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
             <%= dashboard_flow_hidden_fields(@flow_params) %>
             <%= hidden_field_tag :next_step, 'queue_current' %>
-            <%= submit_tag 'View Current', class: 'btn btn-primary' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">View Current</span>
+              <span class="btn-description">See current queue</span>
+            <% end %>
           <% end %>
         </div>
       <% end %>
@@ -146,13 +164,19 @@
             <%= dashboard_flow_hidden_fields(@flow_params, except: [:queue_source, :participant_id, :organization_id]) %>
             <%= hidden_field_tag :queue_source, 'by_user' %>
             <%= hidden_field_tag :next_step, 'participant' %>
-            <%= submit_tag 'By User', class: 'btn btn-primary' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">By User</span>
+              <span class="btn-description">Scan a user's ID, then select their org</span>
+            <% end %>
           <% end %>
           <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
             <%= dashboard_flow_hidden_fields(@flow_params, except: [:queue_source, :participant_id, :organization_id]) %>
             <%= hidden_field_tag :queue_source, 'by_org' %>
             <%= hidden_field_tag :next_step, 'organization' %>
-            <%= submit_tag 'By Org', class: 'btn btn-primary' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">By Org</span>
+              <span class="btn-description">Select an organization directly</span>
+            <% end %>
           <% end %>
         </div>
       <% end %>
@@ -245,28 +269,40 @@
 
       <% if @flow_kind == 'lift' && @step == 'lift_action' %>
         <div class="dashboard-actions">
-              <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
-                <%= dashboard_flow_hidden_fields(@flow_params) %>
-                <%= hidden_field_tag :lift_action, 'checkout' %>
-                <%= hidden_field_tag :next_step, 'scissor_lift' %>
-                <%= submit_tag 'Checkout Lift', class: 'btn btn-primary' %>
-              <% end %>
-              <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
-                <%= dashboard_flow_hidden_fields(@flow_params) %>
-                <%= hidden_field_tag :lift_action, 'checkin' %>
-                <%= hidden_field_tag :next_step, 'scissor_lift' %>
-                <%= submit_tag 'Checkin Lift', class: 'btn btn-primary' %>
-              <% end %>
-              <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
-                <%= dashboard_flow_hidden_fields(@flow_params) %>
-                <%= hidden_field_tag :lift_action, 'renew' %>
-                <%= hidden_field_tag :next_step, 'scissor_lift' %>
-                <%= submit_tag 'Renew', class: 'btn btn-primary' %>
-              <% end %>
+          <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params) %>
+            <%= hidden_field_tag :lift_action, 'checkout' %>
+            <%= hidden_field_tag :next_step, 'scissor_lift' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">Checkout Lift</span>
+              <span class="btn-description">Check out a lift to a borrower</span>
+            <% end %>
+          <% end %>
+          <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params) %>
+            <%= hidden_field_tag :lift_action, 'checkin' %>
+            <%= hidden_field_tag :next_step, 'scissor_lift' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">Checkin Lift</span>
+              <span class="btn-description">Return a borrowed lift</span>
+            <% end %>
+          <% end %>
+          <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params) %>
+            <%= hidden_field_tag :lift_action, 'renew' %>
+            <%= hidden_field_tag :next_step, 'scissor_lift' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">Renew</span>
+              <span class="btn-description">Extend an active lift checkout</span>
+            <% end %>
+          <% end %>
           <%= form_with url: dashboard_update_path, method: :post, class: 'dashboard-action-form' do %>
             <%= dashboard_flow_hidden_fields(@flow_params) %>
             <%= hidden_field_tag :next_step, 'lift_current' %>
-            <%= submit_tag 'View Current', class: 'btn btn-primary' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">View Current</span>
+              <span class="btn-description">See all active lift checkouts</span>
+            <% end %>
           <% end %>
         </div>
       <% end %>
