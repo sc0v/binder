@@ -19,8 +19,8 @@ require 'rails/test_help'
 
 ActiveRecord::Migration.maintain_test_schema!
 
-class ActiveSupport::TestCase
-  include WebMock::API
+class ActiveSupport::TestCase 
+  include WebMock::API if defined?(WebMock)
 
   def deny(condition)
     assert_not condition
