@@ -153,6 +153,13 @@ en:
       tool_is_not_hardhat: This page can only be used to checkout/checkin hardhats.
       participant_does_not_exist: The Participant or ID card you selected is invalid. Please try again or contact an admin if you think this message is in error
       organization_does_not_exist: The Organization you selected does not exist.
+  applets:
+    ppe_collection:
+      return_hardhat:
+        unauthorized: Not authorized to check in a hardhat.
+        not_found: Hardhat not found
+        already_checked_in: Hardhat already checked in
+        checked_in: "Hardhat %{barcode} successfully checked in."
   will_paginate:
     previous_label: «
     next_label: »
