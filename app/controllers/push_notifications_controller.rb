@@ -26,6 +26,6 @@ class PushNotificationsController < ApplicationController
   private
 
   def subscription_params
-    params.require(:subscription).permit(:endpoint, :auth, :p256dh)
+    params.expect(subscription: [:endpoint, :auth, :p256dh])
   end
 end

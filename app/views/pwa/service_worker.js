@@ -40,7 +40,11 @@ self.addEventListener("fetch", (event) => {
           .then((cache) => cache.put(event.request, clone));
         return response;
       })
-      .catch(() => caches.match(event.request).then((r) => r || caches.match("/offline.html"))),
+      .catch(() =>
+        caches
+          .match(event.request)
+          .then((r) => r || caches.match("/offline.html")),
+      ),
   );
 });
 
@@ -52,7 +56,7 @@ self.addEventListener("push", (event) => {
     icon: "/icon-192x192.png",
     badge: "/icon-192x192.png",
     actions: [],
-    data: {}
+    data: {},
   };
 
   if (event.data) {
@@ -70,7 +74,7 @@ self.addEventListener("push", (event) => {
     badge: notificationData.badge,
     data: notificationData.data,
     tag: notificationData.data?.tag || `binder-${Date.now()}`,
-    requireInteraction: notificationData.data?.requireInteraction || false
+    requireInteraction: notificationData.data?.requireInteraction || false,
   };
 
   if (notificationData.actions && notificationData.actions.length > 0) {
@@ -78,7 +82,7 @@ self.addEventListener("push", (event) => {
   }
 
   event.waitUntil(
-    self.registration.showNotification(notificationData.title, options)
+    self.registration.showNotification(notificationData.title, options),
   );
 });
 
@@ -90,17 +94,19 @@ self.addEventListener("notificationclick", (event) => {
 
   // Look for existing window with the target URL
   event.waitUntil(
-    clients.matchAll({ type: "window", includeUncontrolled: true }).then((clientList) => {
-      for (let i = 0; i < clientList.length; i++) {
-        const client = clientList[i];
-        if (client.url === urlToOpen && "focus" in client) {
-          return client.focus();
+    clients
+      .matchAll({ type: "window", includeUncontrolled: true })
+      .then((clientList) => {
+        for (let i = 0; i < clientList.length; i++) {
+          const client = clientList[i];
+          if (client.url === urlToOpen && "focus" in client) {
+            return client.focus();
+          }
         }
-      }
-      // If not found, open a new window
-      if (clients.openWindow) {
-        return clients.openWindow(urlToOpen);
-      }
-    })
+        // If not found, open a new window
+        if (clients.openWindow) {
+          return clients.openWindow(urlToOpen);
+        }
+      }),
   );
 });

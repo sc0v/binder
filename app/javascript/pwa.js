@@ -1,5 +1,9 @@
 // PWA Service Worker Registration and Notification Manager Import
-import { requestNotificationPermission, subscribeToNotifications, unsubscribeFromNotifications } from 'notification_manager';
+import {
+  requestNotificationPermission,
+  subscribeToNotifications,
+  unsubscribeFromNotifications,
+} from "notification_manager";
 
 if ("serviceWorker" in navigator) {
   navigator.serviceWorker
@@ -18,4 +22,3 @@ if ("serviceWorker" in navigator) {
 window.requestNotificationPermission = requestNotificationPermission;
 window.subscribeToNotifications = subscribeToNotifications;
 window.unsubscribeFromNotifications = unsubscribeFromNotifications;
-
