@@ -3,7 +3,7 @@
 class NotificationSubscription < ApplicationRecord
   belongs_to :participant
 
-  validates :participant_id, :endpoint, presence: true
+  validates :endpoint, presence: true
   validates :endpoint, uniqueness: true
 
   scope :active, -> { where(active: true) }
