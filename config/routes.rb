@@ -230,4 +230,8 @@ Rails.application.routes.draw do
 
   get 'manifest', to: 'pwa#manifest', defaults: { format: :json }
   get 'service-worker', to: 'pwa#service_worker', defaults: { format: :js }
+
+  # Push Notifications
+  post 'push_notifications/subscribe', to: 'push_notifications#subscribe'
+  delete 'push_notifications/:id', to: 'push_notifications#unsubscribe'
 end
