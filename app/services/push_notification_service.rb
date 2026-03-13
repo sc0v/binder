@@ -2,33 +2,34 @@
 
 class PushNotificationService
   class << self
-    def send(subscription, title:, body:, **options)
+    def send(subscription, title:, body:, **)
       unless subscription.is_a?(NotificationSubscription)
         raise ArgumentError, 'subscription must be a NotificationSubscription'
       end
 
-      deliver(subscription, build_message(title:, body:, **options))
+      deliver(subscription, build_message(title:, body:, **))
     rescue Webpush::InvalidSubscription, Webpush::ResponseError => e
-      Rails.logger.warn("Push notification failed for subscription #{subscription.id}: #{e.message}")
-      subscription.update(active: false)
-      { error: e.message }
+      handle_delivery_failure(subscription, e)
     rescue StandardError => e
-      Rails.logger.error("Unexpected error sending push notification: #{e.message}")
-      { error: e.message }
+      handle_unexpected_error(e)
     end
 
-    def send_to_all(title:, body:, **options)
-      NotificationSubscription.active.map { |s| send(s, title:, body:, **options) }
+    def send_to_all(title:, body:, **)
+      NotificationSubscription.active.map { |s| send(s, title:, body:, **) }
     end
 
-    def send_to_participant(participant, title:, body:, **options)
-      participant.notification_subscriptions.active.map { |s| send(s, title:, body:, **options) }
+    def send_to_participant(participant, title:, body:, **)
+      participant.notification_subscriptions.active.map do |s|
+        send(s, title:, body:, **)
+      end
     end
 
     private
 
     def build_message(title:, body:, icon: nil, actions: [], data: {})
-      JSON.generate({ title:, body:, icon: icon || '/icon-192x192.png', actions:, data: })
+      JSON.generate(
+        { title:, body:, icon: icon || '/icon-192x192.png', actions:, data: }
+      )
     end
 
     def deliver(subscription, message)
@@ -39,6 +40,17 @@ class PushNotificationService
         auth: subscription.auth,
         vapid: vapid_config
       )
+    end
+
+    def handle_delivery_failure(subscription, error)
+      Rails.logger.warn("Push failed (#{subscription.id}): #{error.message}")
+      subscription.update(active: false)
+      { error: error.message }
+    end
+
+    def handle_unexpected_error(error)
+      Rails.logger.error("Unexpected push error: #{error.message}")
+      { error: error.message }
     end
 
     def vapid_config
