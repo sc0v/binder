@@ -6,7 +6,7 @@
 
 <% if can?(:create, @shift) %>
   <%- model_class = Shift -%>
-  <%= render partial: "shifts/new_shifts/step_#{@step}" %> 
+  <%= render partial: "shifts/new_shifts/step_#{@step}", locals: { mode: 'new' } %> 
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>

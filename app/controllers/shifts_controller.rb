@@ -50,14 +50,14 @@ class ShiftsController < ApplicationController
   # PUT /shifts/1.json
   def update
     @shift.update(shift_params)
-    respond_with(@shift)
+    redirect_to shifts_path
   end
 
   # DELETE /shifts/1
   # DELETE /shifts/1.json
   def destroy
     @shift.destroy
-    respond_with(@shift)
+    respond_to(@shift)
   end
 
   private

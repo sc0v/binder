@@ -11,14 +11,20 @@
 
 <!-- Step 2: Manual Entry -->
 <div class="content wide">
-  <h1>Add Shift Manually</h1>
+  <h1><%= mode == 'edit' ? 'Edit Shift' : 'Add Shift Manually' %></h1>
   <br/>
   <%= simple_form_for @shift do |f| %>
     <div style="max-width: vw; background: #f9f9f9; padding: 2em; border-radius: 8px; display: flex; flex-direction: column; gap: 1.2em;">
       <%= f.input :andrew_id, label: 'Andrew ID' %>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em;">
-        <%= f.input :starts_at, as: :string, input_html: { type: 'datetime-local' } %>
-        <%= f.input :ends_at, as: :string, input_html: { type: 'datetime-local' } %>
+        <%= f.input :starts_at, as: :string, input_html: { 
+          type: 'datetime-local',
+          value: @shift.starts_at&.strftime('%Y-%m-%dT%H:%M')
+        } %>
+        <%= f.input :ends_at, as: :string, input_html: { 
+          type: 'datetime-local',
+          value: @shift.ends_at&.strftime('%Y-%m-%dT%H:%M')
+        } %>
       </div>
 
       <hr style="border: none; border-top: 1px solid #e0e0e0; margin: 0"/>
@@ -29,7 +35,7 @@
       <%= f.association :shift_type %>
 
       <div style="display: flex; gap: 1em; align-items: center; padding-top: 0.5em;">
-        <%= f.button :submit, 'Add Shift', class: 'btn-primary', style: 'margin-bottom: 0' %>
+        <%= f.button :submit, mode == 'edit' ? 'Update Shift' : 'Add Shift', class: 'btn-primary', style: 'margin-bottom: 0' %>
         <%= link_to t('.cancel', default: t('helpers.links.cancel')),
                     shifts_path,
                     class: 'btn btn-default', style: 'margin-bottom: 0'%>
