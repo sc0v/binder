@@ -42,7 +42,7 @@ module ShiftsHelper
       andrew_id: row[columns['andrew_id']],
       starts_at: row[columns['starts_at']],
       ends_at: row[columns['ends_at']],
-      required_number_of_participants: row[columns['required_number_of_participants']],
+      # required_number_of_participants: row[columns['required_number_of_participants']],
       description: row[columns['description']],
       shift_type:,
       organization:

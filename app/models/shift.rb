@@ -8,10 +8,10 @@
 class Shift < ApplicationRecord
   include Messenger
 
-  # validates :andrew_id, presence: true
+  validates :andrew_id, presence: true
   validates :starts_at,
             :ends_at,
-            :required_number_of_participants,
+            # :required_number_of_participants,
             presence: true
   validates_associated :organization, :shift_type
 
@@ -36,15 +36,15 @@ class Shift < ApplicationRecord
           )
         }
   scope :past, -> { where(ends_at: ...Time.zone.now) }
-  scope :missed,
-        lambda {
-          where(
-            'required_number_of_participants > (
-                                    SELECT COUNT(*)
-                                    FROM shift_participants
-                                    WHERE shift_participants.shift_id = shifts.id)'
-          )
-        }
+  # scope :missed,
+  #       lambda {
+  #         where(
+  #           'required_number_of_participants > (
+  #                                   SELECT COUNT(*)
+  #                                   FROM shift_participants
+  #                                   WHERE shift_participants.shift_id = shifts.id)'
+  #         )
+  #       }
 
   # scopes for each type of shift, selected by their shift_type ID
   # TODO: These can almost definitely be made more elegant
@@ -83,10 +83,10 @@ class Shift < ApplicationRecord
 
   def checked_in?
     participants.size
-    required_number_of_participants
-    Rails.logger.debug do
-      "size: #{participants.size}, required: #{required_number_of_participants}"
-    end
+    # required_number_of_participants
+    # Rails.logger.debug do
+    #   "size: #{participants.size}, required: #{required_number_of_participants}"
+    # end
   end
 
   def self.for_organizations(organizations)
@@ -134,11 +134,23 @@ class Shift < ApplicationRecord
   end
 
   def late_not_checked_in_message
-    "Only #{participants.size} of #{required_number_of_participants} people for your " \
-      'watch shift have checked in. Please send more people as soon as possible.'
+    # "Only #{participants.size} of #{required_number_of_participants} people for your " \
+    #   'watch shift have checked in. Please send more people as soon as possible.'
+    'Not everyone from your organization checked in, please send more people as soon as possible.'
   end
 
   def late_checked_in_message
     'The required number of people for your watch shift have checked in. Thank you!'
+  end
+
+  after_create :create_default_participant
+  def create_default_participant
+    return if andrew_id.blank?
+
+    eppn = "#{andrew_id}@andrew.cmu.edu"
+    participant = Participant.find_by(eppn:)
+    return if participant.nil?
+
+    ShiftParticipant.create!(shift: self, participant:)
   end
 end
