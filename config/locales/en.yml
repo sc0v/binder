@@ -132,6 +132,10 @@ en:
       create:
         no_borrower: Must specify who is checking out.
         notice: Checkout completed!
+  shifts: 
+    create:
+      notice: Shift was added successfully
+      error: Error adding shift
   tasks:
     complete:
       notice: The task was successfully completed

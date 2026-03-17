@@ -23,8 +23,10 @@ class ShiftsController < ApplicationController
 
   # GET /shifts/new
   # GET /shifts/new.json
+  VALID_STEPS = %w[csv_upload repair].freeze
   def new
     @shift = Shift.new
+    @step = VALID_STEPS.include?(params[:step]) ? params[:step] : 'csv_upload'
   end
 
   # GET /shifts/1/edit
@@ -35,8 +37,13 @@ class ShiftsController < ApplicationController
   # POST /shifts.json
   def create
     @shift = Shift.new(shift_params)
-    @shift.save
-    respond_with(@shift)
+    if @shift.save
+      flash[:notice] = t('.notice')
+      redirect_to shifts_path
+    else
+      flash[:error] = t('.error')
+    end
+    # respond_with(@shift)
   end
 
   # PUT /shifts/1
@@ -54,6 +61,16 @@ class ShiftsController < ApplicationController
   end
 
   private
+
+  def upload_csv
+    csv_file = params[:csv_file]
+    return redirect_csv_error(t('.csv_not_uploaded')) if csv_file.blank?
+
+    parse = helpers.parse_shift_csv(csv_file)
+    return redirect_csv_error(parse[:error]) if parse[:error].present?
+
+    redirect_to new_shift_path(step: 'repair')
+  end
 
   def filtered_shifts(base)
     case params[:type]
@@ -88,6 +105,7 @@ class ShiftsController < ApplicationController
         organization_id
         required_number_of_participants
         description
+        andrew_id
       ]
     )
   end
