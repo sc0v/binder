@@ -136,6 +136,9 @@ en:
     create:
       notice: Shift was added successfully
       error: Error adding shift
+    destroy:
+      notice: Shift deleted
+      error: Error deleting shift
   tasks:
     complete:
       notice: The task was successfully completed
@@ -235,7 +238,6 @@ en:
     # OLD
     attributes_OLD:
       shift:
-        # required_number_of_participants: # of People
         shift_participants: Participants
         shift_type: Type
       charge:

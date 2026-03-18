@@ -11,7 +11,6 @@ class Shift < ApplicationRecord
   validates :andrew_id, presence: true
   validates :starts_at,
             :ends_at,
-            # :required_number_of_participants,
             presence: true
   validates_associated :organization, :shift_type
 

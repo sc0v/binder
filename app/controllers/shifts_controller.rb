@@ -17,8 +17,6 @@ class ShiftsController < ApplicationController
   # GET /shifts/1
   # GET /shifts/1.json
   def show
-    # @number_spots_left =
-    #   @shift.required_number_of_participants - @shift.shift_participants.count
   end
 
   # GET /shifts/new
@@ -57,7 +55,7 @@ class ShiftsController < ApplicationController
   # DELETE /shifts/1.json
   def destroy
     @shift.destroy
-    flash[:notice] = 'Shift deleted.'
+    flash[:notice] = t('.notice')
     redirect_to shifts_path
   end
 
@@ -108,6 +106,5 @@ class ShiftsController < ApplicationController
         andrew_id
       ]
     )
-    # required_number_of_participants
   end
 end
