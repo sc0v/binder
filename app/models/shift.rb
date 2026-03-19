@@ -9,9 +9,7 @@ class Shift < ApplicationRecord
   include Messenger
 
   validates :andrew_id, presence: true
-  validates :starts_at,
-            :ends_at,
-            presence: true
+  validates :starts_at, :ends_at, presence: true
   validates_associated :organization, :shift_type
 
   belongs_to :organization

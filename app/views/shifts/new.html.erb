@@ -1,4 +1,4 @@
-<% update_document_title(add: "New Shifts") %>
+<% update_document_title(add: 'New Shifts') %>
 <% update_breadcrumbs(add: link_to('All Shifts', shifts_path)) %>
 <% update_breadcrumbs(add: 'Add Shifts') %>
 
@@ -6,7 +6,7 @@
 
 <% if can?(:create, @shift) %>
   <%- model_class = Shift -%>
-  <%= render partial: "shifts/new_shifts/step_#{@step}", locals: { mode: 'new' } %> 
+  <%= render partial: "shifts/new_shifts/step_#{@step}", locals: { mode: 'new' } %>
 <% else %>
   <h3>Not Authorized!</h3>
 <% end %>

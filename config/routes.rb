@@ -180,9 +180,7 @@ Rails.application.routes.draw do
     resources :participants,
               controller: :shift_participants,
               only: %i[new create update destroy]
-    collection do
-      post :upload_shift_csv, to: 'shifts#upload_csv'
-    end
+    collection { post :upload_shift_csv, to: 'shifts#upload_csv' }
   end
   resources :tasks do
     member { post 'complete' }

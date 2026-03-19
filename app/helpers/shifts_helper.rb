@@ -28,7 +28,13 @@ module ShiftsHelper
   # if so determines which columns contain them
   def header_columns(csv_headers)
     normalized = csv_headers.compact.map { |h| h.downcase.gsub(' ', '') }
-    required = %w[starts_at ends_at required_number_of_participants description shift_type]
+    required = %w[
+      starts_at
+      ends_at
+      required_number_of_participants
+      description
+      shift_type
+    ]
     return nil unless (required - normalized).empty?
 
     required.index_with { |h| normalized.index(h) }

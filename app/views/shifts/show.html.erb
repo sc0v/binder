@@ -61,57 +61,83 @@
       <%# Shift details %>
       <div class="card">
         <div>
-          <p class="field-label"><%= model_class.human_attribute_name(:andrew_id) %></p>
+          <p class="field-label"
+            ><%= model_class.human_attribute_name(:andrew_id) %></p
+          >
           <p class="field-value"><%= @shift.andrew_id.presence || 'N/A' %></p>
         </div>
-        <hr class="divider"/>
+        <hr class="divider" />
         <div>
-          <p class="field-label"><%= model_class.human_attribute_name(:description) %></p>
-          <p class="field-value"><%= h @shift.description.presence || 'N/A' %></p>
+          <p class="field-label"
+            ><%= model_class.human_attribute_name(:description) %></p
+          >
+          <p class="field-value"
+            ><%= h @shift.description.presence || 'N/A' %></p
+          >
         </div>
-        <hr class="divider"/>
+        <hr class="divider" />
         <div class="two-col-grid">
           <div>
-            <p class="field-label"><%= model_class.human_attribute_name(:starts_at) %></p>
+            <p class="field-label"
+              ><%= model_class.human_attribute_name(:starts_at) %></p
+            >
             <p class="field-value"><%= date_and_time(@shift.starts_at) %></p>
           </div>
           <div>
-            <p class="field-label"><%= model_class.human_attribute_name(:ends_at) %></p>
+            <p class="field-label"
+              ><%= model_class.human_attribute_name(:ends_at) %></p
+            >
             <p class="field-value"><%= date_and_time(@shift.ends_at) %></p>
           </div>
         </div>
         <%# <hr class="divider"/> %>
         <%# <div> %>
-          <%# <p class="field-label"><%= model_class.human_attribute_name(:required_number_of_participants) %> 
-          <%# <p class="field-value"><%= @shift.required_number_of_participants</p>  %>
+        <%# <p class="field-label"><%= model_class.human_attribute_name(:required_number_of_participants) %>
+        <%# <p class="field-value"><%= @shift.required_number_of_participants</p> %>
         <%# </div> %>
-        <hr class="divider"/>
+        <hr class="divider" />
         <div>
-          <p class="field-label"><%= model_class.human_attribute_name(:organization) %></p>
+          <p class="field-label"
+            ><%= model_class.human_attribute_name(:organization) %></p
+          >
           <p class="field-value">
-            <%= @shift.organization.blank? ? 'N/A' : link_to(@shift.organization.name, @shift.organization) %>
+            <%= if @shift.organization.blank?
+                  'N/A'
+                else
+                  link_to(@shift.organization.name, @shift.organization)
+                end %>
           </p>
         </div>
       </div>
-
     </div>
 
-    <br/>
+    <br />
     <div class="action-buttons">
-      <%= link_to t('.back', default: t('helpers.links.back')), shifts_path, class: 'btn btn-default' %>
+      <%= link_to t('.back', default: t('helpers.links.back')),
+                  shifts_path,
+                  class: 'btn btn-default' %>
       <% if can?(:update, @shift) %>
-        <%= link_to t('.edit', default: t('helpers.links.edit')), edit_shift_path(@shift), class: 'btn btn-primary' %>
+        <%= link_to t('.edit', default: t('helpers.links.edit')),
+                    edit_shift_path(@shift),
+                    class: 'btn btn-primary' %>
       <% end %>
       <% if can?(:destroy, @shift) %>
         <%= button_to t('.destroy', default: t('helpers.links.destroy')),
                       shift_path(@shift),
                       method: :delete,
-                      data: { confirm: t('.confirm', default: t('helpers.links.confirm', default: 'Are you sure?')) },
+                      data: {
+                        confirm:
+                          t(
+                            '.confirm',
+                            default: t('helpers.links.confirm', default: 'Are you sure?')
+                          )
+                      },
                       class: 'btn btn-danger',
-                      form: { style: 'display: inline' } %>
-    <% end %>
+                      form: {
+                        style: 'display: inline'
+                      } %>
+      <% end %>
     </div>
-
   <% else %>
     <h3>Not Authorized!</h3>
   <% end %>
