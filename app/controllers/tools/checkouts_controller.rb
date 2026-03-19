@@ -54,33 +54,6 @@ class Tools::CheckoutsController < ApplicationController
                 alert: "Tool #{params[:barcode]} was never checked out."
   end
 
-  def org_summary
-    org = Organization.find(params[:organization_id])
-    session_tools = (session[:tools] || []).map { |id| Tool.find(id) }
-    summary = session_tools.map do |tool|
-      tools_checked_out = Tool.checked_out_by_organization(org)
-                            .where(tool_type: tool.tool_type)
-      {
-        type: tool.name,
-        count: tools_checked_out.count,
-        barcodes: tools_checked_out.pluck(:barcode) # ← add this
-      }
-    end.uniq
-    render json: { summary: }
-  end
-
-  def add_checkin
-    tool = Tool.find_by(barcode: params[:barcode])
-    if tool.nil?
-      flash.alert = "No tool found with barcode #{params[:barcode]}"
-    elsif !tool.checked_out?
-      flash.alert = "#{tool.name} ##{tool.barcode} is not currently checked out!"
-    else
-      session[:checkin_barcode] = params[:barcode]
-    end
-    redirect_to checkout_tools_path
-  end
-
   private
 
   def update_tool_session(tool)
@@ -96,7 +69,7 @@ class Tools::CheckoutsController < ApplicationController
   end
 
   def store_borrower_in_session
-    borrower = Participant.find_by(eppn: params[:participant_search].to_s.strip)
+    borrower = Participant.find_by(search: params[:participant_search])
     if borrower
       session[:borrower_id] = borrower.id
     else
@@ -134,18 +107,5 @@ class Tools::CheckoutsController < ApplicationController
     else
       flash.alert = "Problem checking out tools #{bad_barcodes.join(', ')}"
     end
-  end
-
-  def checkin_tool
-    checkout = @tool.checkouts.current.first
-    if checkout.blank?
-      raise CheckoutError, I18n.t('errors.messages.tool_already_checked_in')
-    end
-
-    checkout.checked_in_at = Time.zone.now
-    checkout.save!
-    session[:checkin_barcode] = nil
-    redirect_to checkout_tools_path,
-                notice: "Tool #{params[:barcode]} successfully checked in."
   end
 end
