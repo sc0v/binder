@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class ParticipantTest < ActiveSupport::TestCase
@@ -7,12 +8,8 @@ class ParticipantTest < ActiveSupport::TestCase
       @participant = FactoryGirl.create(:participant, andrewid: 'saclark')
     end
 
-    teardown do
-    end
-
     should 'check that participant factory object is created and can recieve message calls' do
       @participant.send(:update_cache)
-      assert true
     end
 
     should 'return name from directory' do

@@ -1,0 +1,24 @@
+node_modules/
+vendor/
+public/assets/
+public/packs/
+log/
+tmp/
+db/schema.rb
+Gemfile.lock
+package-lock.json
+
+# Rails locale YAML files use %{interpolation} syntax that trips up prettier's YAML parser
+config/locales/
+
+# Upstream minified files
+app/assets/stylesheets/cmu.css
+
+# ERB templates with patterns the prettier ERB plugin cannot parse:
+# begin/rescue/end blocks, ERB inside JS literals, conditional tr tags, for..in loops
+app/views/home/search.html.erb
+app/views/participants/safety_briefings/_video.html.erb
+app/views/shifts/_list.html.erb
+app/views/store/items/show.html.erb
+app/views/tool_types/show.html.erb
+app/views/tools/_tool.html.erb

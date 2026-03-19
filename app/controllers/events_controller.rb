@@ -12,7 +12,8 @@ class EventsController < ApplicationController
 
   # GET /events/1
   # GET /events/1.json
-  def show; end
+  def show
+  end
 
   # GET /events/new
   def new
@@ -24,7 +25,9 @@ class EventsController < ApplicationController
   def approve
     @event.is_done = !@event.is_done
     @event.save
-    redirect_to :back, notice: "The note was #{@event.is_done ? 'acknowledged' : 'unacknowledged'}"
+    redirect_to :back,
+                notice:
+                  "The note was #{@event.is_done ? 'acknowledged' : 'unacknowledged'}"
   end
 
   # GET /events/1/edit
@@ -37,13 +40,10 @@ class EventsController < ApplicationController
   # POST /events
   # POST /events.json
   def create
-    @event = Event.new(event_params)
-    @event.created_at = DateTime.now
-    @event.updated_at = DateTime.now
-    @event.is_done = false
+    @event = build_event
     respond_to do |format|
       if @event.save
-        format.html { redirect_to @event, notice: 'Event was successfully created.' }
+        format.html { redirect_to @event, notice: t('.notice') }
         format.json { render :show, status: :created, location: @event }
       else
         format.html { render :new }
@@ -57,11 +57,13 @@ class EventsController < ApplicationController
   def update
     respond_to do |format|
       if @event.update(event_params)
-        format.html { redirect_to @event, notice: 'Event was successfully updated.' }
+        format.html { redirect_to @event, notice: t('.notice') }
         format.json { render :show, status: :ok, location: @event }
       else
         format.html { render :edit }
-        format.json { render json: @event.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @event.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -71,7 +73,7 @@ class EventsController < ApplicationController
   def destroy
     @event.destroy
     respond_to do |format|
-      format.html { redirect_to events_url, notice: 'Event was successfully destroyed.' }
+      format.html { redirect_to events_url, notice: t('.notice') }
       format.json { head :no_content }
     end
   end
@@ -83,9 +85,29 @@ class EventsController < ApplicationController
     @event = Event.find(params[:id])
   end
 
+  def build_event
+    Event
+      .new(event_params)
+      .tap do |event|
+        event.created_at = DateTime.now
+        event.updated_at = DateTime.now
+        event.is_done = false
+      end
+  end
+
   # Never trust parameters from the scary internet, only allow the white list through.
   def event_params
-    params.require(:event).permit(:is_done, :title, :created_at, :description, :updated_at, :display, :event_type_id,
-                                  :participant_id)
+    params.expect(
+      event: %i[
+        is_done
+        title
+        created_at
+        description
+        updated_at
+        display
+        event_type_id
+        participant_id
+      ]
+    )
   end
 end

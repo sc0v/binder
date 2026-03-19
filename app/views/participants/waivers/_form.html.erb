@@ -1,28 +1,18 @@
-<%=
-  form_with( model: participant,
-             url: participant_waiver_path(participant)) do |form|
-%>
+<%= form_with(
+      model: participant,
+      url: participant_waiver_path(participant)
+    ) do |form| %>
   <div>
     <%= form.check_box :signed_waiver %>
-    <%=
-      form.label :signed_waiver,
-                 'I have read this release and understand it' \
-                   'and I voluntarily agree to all its provisions'
-    %>
-    <%=
-      content_tag(
-        :div,
-        participant.errors[:signed_waiver].join(', '),
-        role: 'alert',
-      )
-    %>
+    <%= form.label :signed_waiver,
+                   'I have read this release and understand it' \
+                     'and I voluntarily agree to all its provisions' %>
+    <%= content_tag(:div, participant.errors[:signed_waiver].join(', '), role: 'alert') %>
   </div>
   <div>
     <%= form.check_box :adult %>
     <%= form.label :adult, 'I am 18 years of age or older' %>
-    <%=
-      content_tag(:div, participant.errors[:adult].join(', '), role: 'alert')
-    %>
+    <%= content_tag(:div, participant.errors[:adult].join(', '), role: 'alert') %>
   </div>
 
   <p>
@@ -32,13 +22,7 @@
 
   <div>
     <%= form.label :phone_number, 'Your cell phone number' %>
-    <%=
-      content_tag(
-        :div,
-        participant.errors[:phone_number].join(', '),
-        role: 'alert',
-      )
-    %>
+    <%= content_tag(:div, participant.errors[:phone_number].join(', '), role: 'alert') %>
     <%= form.telephone_field :phone_number, autocomplete: 'tel' %>
   </div>
 
@@ -47,23 +31,17 @@
   </p>
   <div>
     <%= form.label :name_confirmation, 'Your full name' %>
-    <%=
-      content_tag(
-        :div,
-        participant.errors[:name_confirmation].join(', '),
-        role: 'alert',
-      )
-    %>
+    <%= content_tag(
+          :div,
+          participant.errors[:name_confirmation].join(', '),
+          role: 'alert'
+        ) %>
     <%= form.text_field :name_confirmation %>
   </div>
 
   <%# TODO: Turbo %>
   <div>
-    <%=
-      form.submit 'Submit Waiver', class: 'btn wide', data: { turbo: 'false' }
-    %>
-    <%=
-      link_to t('.cancel'), participant_path(@participant), class: 'btn ghost'
-    %>
+    <%= form.submit 'Submit Waiver', class: 'btn wide', data: { turbo: 'false' } %>
+    <%= link_to t('.cancel'), participant_path(@participant), class: 'btn ghost' %>
   </div>
 <% end %>

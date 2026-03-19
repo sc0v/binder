@@ -38,9 +38,117 @@ en:
 
   time:
     formats:
-      timestamp: '%Y-%m-%d %H:%M (%a)'
+      timestamp: "%Y-%m-%d %H:%M (%a)"
 
   # Controllers
+  applets:
+    ppe_collection:
+      return_hardhat:
+        not_found: Hardhat not found
+        already_checked_in: Hardhat already checked in
+    ppe_distribution:
+      load_step_one:
+        no_participant: No participant found with that information.
+      load_step_three:
+        no_hardhat: No hardhat found with that information.
+        no_organization: No organization selected.
+  application:
+    not_registered: The Student ID you swiped is not yet activated with a user account. Please register with andrew eMail
+    auth_error: Cannot connect to CMU Authentication
+  charge_types:
+    destroy:
+      warn: Cannot delete a charge type until all charges of that type are deleted.
+      notice: Charge type deleted!
+  charges:
+    create:
+      notice: Charge created!
+  downtime:
+    downtime:
+      alert: Cannot Access Downtime!
+    toggle:
+      blank_organization: Must select an organization
+  event_types:
+    create:
+      notice: Event type was successfully created.
+    update:
+      notice: Event type was successfully updated.
+    destroy:
+      notice: Event type was successfully destroyed.
+  events:
+    create:
+      notice: Event was successfully created.
+    update:
+      notice: Event was successfully updated.
+    destroy:
+      notice: Event was successfully destroyed.
+  home:
+    search:
+      blank_query: Please enter a query
+  memberships:
+    upload_csv:
+      csv_not_uploaded: CSV Not Uploaded!
+    cancel:
+      notice: Cancelled!
+    commit:
+      notice: Participants Added!
+    create:
+      notice: Member added
+      error: Error adding member
+    old_create:
+      notice: Participant updated.
+  notes:
+    create:
+      notice: Created the note!
+      save_error: Could not save the note!
+    destroy:
+      notice: Destroyed the note!
+      alert: Could not destroy the note
+  organization_build_steps:
+    create:
+      notice: Added Build Task!
+    update:
+      alert: type shit
+    destroy:
+      notice: Destroyed Build Task!
+  organization_members:
+    create:
+      member_updated: Member updated!
+    remove_staged:
+      notice: New Members Saved!
+  scissor_lift_checkouts:
+    checkout:
+      unauthorized: Not authorized to checkout a Scissorlift.
+      no_scissor_lifts: Add at least one scissor lift to checkout.
+      no_participant: Select a valid participant to checkout.
+    renew:
+      no_scissor_lift: No Scissor Lift selected.
+    checkin:
+      no_scissor_lift: No Scissor Lift selected.
+  sessions:
+    impersonate:
+      not_found: Participant not found.
+  store:
+    purchases:
+      create:
+        no_borrower: Must specify who is checking out.
+        notice: Checkout completed!
+  tasks:
+    complete:
+      notice: The task was successfully completed
+  tool_inventory_tools:
+    create:
+      notice: Added Tool!
+    destroy:
+      notice: Removed Tool!
+  tool_types:
+    destroy:
+      no_delete: Cannot delete a tool type until all tools of that type are deleted.
+  tools:
+    create:
+      notice: Tool created successfully.
+    update:
+      notice: Updated Tool!
+      alert: Could not update tool.
   faq:
     index:
       new: Add Question to FAQ
@@ -65,7 +173,7 @@ en:
   participants:
     safety_briefings:
       update:
-        alert: 'Problem: %{errors}'
+        alert: "Problem: %{errors}"
     waivers:
       form:
         cancel: Cancel
@@ -83,6 +191,14 @@ en:
   organization_timeline_entries:
     create:
       alert: Failed to save organization timeline entry
+      already_queued: "You're already on the queue!"
+      structural_notice: Added to structural queue!
+      electrical_notice: Added to electrical queue!
+      downtime_notice: Started downtime!
+    end:
+      notice: Removed from Queue!
+    destroy:
+      notice: Successfully removed entry from downtime tracker
 
   # Views: Form helpers
   helpers:
@@ -110,6 +226,8 @@ en:
               less_than: too soon. Now watch it again from the beginning.
             name_confirmation:
               confirmation: doesn't match name above
+            phone_number:
+              format: should be 10 digits (area code needed) and separated by dashes only
     # OLD
     attributes_OLD:
       shift:
@@ -166,12 +284,12 @@ en:
   flash:
     actions:
       create:
-        notice: '%{resource_name} was successfully created'
+        notice: "%{resource_name} was successfully created"
       update:
-        notice: '%{resource_name} was successfully updated'
+        notice: "%{resource_name} was successfully updated"
       destroy:
-        notice: '%{resource_name} was successfully deleted'
-        alert: '%{resource_name} could not be deleted'
+        notice: "%{resource_name} was successfully deleted"
+        alert: "%{resource_name} could not be deleted"
     charges:
       approve:
         notice: Charge was successfully approved/un-approved

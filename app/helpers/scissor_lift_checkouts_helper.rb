@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ScissorLiftCheckoutsHelper
   SCISSOR_LIFT_CHECKOUTS_TABLE_COLUMNS = [
     {
@@ -35,30 +37,30 @@ module ScissorLiftCheckoutsHelper
       field: :checked_out_at,
       formatter: 'datetime',
       formatterParams: {
-        inputFormat:"yyyy-MM-dd'T'HH:mm:ss.SSSZZ",
+        inputFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSZZ",
         outputFormat: 'f',
         invalidPlaceholder: true
       },
       sorter: 'datetime',
       sorterParams: {
         format: "yyyy-MM-dd'T'HH:mm:ss.SSSZZ",
-        alignEmptyValues: "bottom",
-      },
+        alignEmptyValues: 'bottom'
+      }
     },
     {
       title: 'Checkin Time',
       field: :checked_in_at,
       formatter: 'datetime',
       formatterParams: {
-        inputFormat:"yyyy-MM-dd'T'HH:mm:ss.SSSZZ",
+        inputFormat: "yyyy-MM-dd'T'HH:mm:ss.SSSZZ",
         outputFormat: 'f',
         invalidPlaceholder: true
       },
       sorter: 'datetime',
       sorterParams: {
         format: "yyyy-MM-dd'T'HH:mm:ss.SSSZZ",
-        alignEmptyValues: "bottom",
-      },
+        alignEmptyValues: 'bottom'
+      }
     },
     {
       title: 'Forfeited',
@@ -68,8 +70,9 @@ module ScissorLiftCheckoutsHelper
       headerFilter: 'tickCross',
       headerFilterParams: {
         tristate: true
-    }},
-  ]
+      }
+    }
+  ].freeze
 
   def scissor_lift_checkouts_table_config
     {

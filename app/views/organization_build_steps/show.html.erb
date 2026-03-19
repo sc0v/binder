@@ -1,58 +1,65 @@
 <% update_document_title(add: 'Organizations') %>
 <% update_breadcrumbs(add: link_to('Organizations', organizations_path)) %>
-<% update_breadcrumbs(add: link_to(@organization.name, organization_path(@organization))) %>
-<% update_breadcrumbs(add: link_to(@status_name + " Progress", [@organization, @build_status])) %>
+<% update_breadcrumbs(
+     add: link_to(@organization.name, organization_path(@organization))
+   ) %>
+<% update_breadcrumbs(
+     add: link_to("#{@status_name} Progress", [@organization, @build_status])
+   ) %>
 <% update_breadcrumbs(add: @build_step.title) %>
 <% nav(active: 'organizations') %>
 
 <div class="content">
   <div>
-    <h1><%=@build_step.title%></h1>
+    <h1><%= @build_step.title %></h1>
     <div style="margin-bottom: 2em">
       <turbo-frame id="requirements_frame">
         <div style="display: flex; align-items: center">
           <h2 style="padding-bottom: 0px">Requirements</h2>
           <% if can?(:update, @build_step) %>
-          <%= link_to "Edit", 
-                [:edit, @organization, @build_status, @build_step],
-                class: "btn", style: "margin-left: 1em; padding: 0.5em 1.35em"%>
+            <%= link_to 'Edit',
+                        [:edit, @organization, @build_status, @build_step],
+                        class: 'btn',
+                        style: 'margin-left: 1em; padding: 0.5em 1.35em' %>
           <% end %>
         </div>
-        <div style="border: 1px solid; padding: 0.5em; margin-top: 0.5em; min-height: 5em">
+        <div
+          style="border: 1px solid; padding: 0.5em; margin-top: 0.5em; min-height: 5em"
+        >
           <%= @requirements %>
         </div>
       </turbo-frame>
     </div>
 
     <% if can?(:update, @build_step) %>
-    <turbo-frame id="internal_notes_frame">
-      <div style="display: flex; align-items: center">
-        <h2 style="padding-bottom: 0px">Internal Notes</h2>
-        <%= link_to "Edit", 
-              [:edit, @organization, @build_status, @build_step],
-              class: "btn", style: "margin-left: 1em; padding: 0.5em 1.35em"%>
-      </div>
-      <div style="border: 1px solid; padding: 0.5em; margin-top: 0.5em; min-height: 5em">
-        <%= @internal_notes %>
-      </div>
-    </turbo-frame>
-    <% end %>
-  </div><div class="sidebar">
+      <turbo-frame id="internal_notes_frame">
+        <div style="display: flex; align-items: center">
+          <h2 style="padding-bottom: 0px">Internal Notes</h2>
+          <%= link_to 'Edit',
+                      [:edit, @organization, @build_status, @build_step],
+                      class: 'btn',
+                      style: 'margin-left: 1em; padding: 0.5em 1.35em' %>
+        </div>
+        <div
+          style="border: 1px solid; padding: 0.5em; margin-top: 0.5em; min-height: 5em"
+        >
+          <%= @internal_notes %>
+        </div>
+      </turbo-frame>
+    <% end %> </div
+  ><div class="sidebar">
     <% if @build_step.approver.present? %>
-      <p class="invert green" style="padding: 1em;">
-      APPROVED!
-      </p>
-      by <b><%= @build_step.approver.name %></b><br/>
+      <p class="invert green" style="padding: 1em;"> APPROVED! </p>
+      by <b><%= @build_step.approver.name %></b><br />
       <% if @build_step.approved_at.present? %>
-        on <b><%= @build_step.approved_at.strftime('%b %e at %l:%M %p') %></b><br/>
+        on <b><%= @build_step.approved_at.strftime('%b %e at %l:%M %p') %></b
+        ><br />
       <% end %>
-    <%else%>
-      <p class="invert red" style="padding: 1em;">
-      NOT APPROVED!
-      </p>
-    <%end%>
+    <% else %>
+      <p class="invert red" style="padding: 1em;"> NOT APPROVED! </p>
+    <% end %>
     <% if can?(:update, OrganizationBuildStep) %>
-      <br/>
+      <br />
       <%= form_with model: [@organization, @build_status, @build_step] do |f| %>
         <%= hidden_field_tag 'update_type', :approved %>
         <%= hidden_field_tag 'url', request.original_fullpath %>
@@ -66,5 +73,3 @@
     <% end %>
   </div>
 </div>
-
-

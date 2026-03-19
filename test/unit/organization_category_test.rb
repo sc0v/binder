@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class OrganizationCategoryTest < ActiveSupport::TestCase
@@ -29,8 +30,10 @@ class OrganizationCategoryTest < ActiveSupport::TestCase
       @org1 = FactoryGirl.create(:organization, organization_category: @cat1)
       @org2 = FactoryGirl.create(:organization, organization_category: @cat1)
       @org3 = FactoryGirl.create(:organization, organization_category: @cat2)
+
       assert_equal 3, Organization.all.size
       @cat1.destroy
+
       assert_equal 1, Organization.all.size
     end
   end

@@ -1,6 +1,7 @@
+# frozen_string_literal: true
+
 class ScissorLiftCheckout < ApplicationRecord
   validates_associated :scissor_lift
-  validates :organization, :participant, :scissor_lift, presence: true
   validate :checkout_info
   validate :participant_scissor_lift_certified, on: :create
   validate :participant_signed_waiver, on: :create
@@ -29,7 +30,7 @@ class ScissorLiftCheckout < ApplicationRecord
   end
 
   def scissor_lift_available
-    return if scissor_lift.blank? || !scissor_lift.is_checked_out?
+    return if scissor_lift.blank? || !scissor_lift.checked_out?
 
     errors.add(:scissor_lift, 'is already checked out')
   end
@@ -40,7 +41,10 @@ class ScissorLiftCheckout < ApplicationRecord
     timeout_until = self.class.timeout_end(organization)
     return if timeout_until.blank?
 
-    errors.add(:organization, "is on timeout for using a scissor lift without a green wristband until #{timeout_until.strftime('%l:%M %p')}")
+    errors.add(
+      :organization,
+      "is on timeout for using a scissor lift without a green wristband until #{timeout_until.strftime('%l:%M %p')}"
+    )
   end
 
   def not_already_checked_in
@@ -75,11 +79,13 @@ class ScissorLiftCheckout < ApplicationRecord
 
   def self.timeout_end(organization)
     org_checkouts = ScissorLiftCheckout.where(organization: organization)
-    last_forfeit = org_checkouts.where(is_forfeit: true).order(checked_in_at: :desc).first
-    if last_forfeit.present? && last_forfeit.checked_in_at.present? && last_forfeit.checked_in_at + 15.minutes > Time.zone.now
+    last_forfeit =
+      org_checkouts.where(is_forfeit: true).order(checked_in_at: :desc).first
+    if last_forfeit.present? && last_forfeit.checked_in_at.present? &&
+         last_forfeit.checked_in_at + 15.minutes > Time.zone.now
       return last_forfeit.checked_in_at + 15.minutes
-    else
-      return nil
     end
+
+    nil
   end
 end

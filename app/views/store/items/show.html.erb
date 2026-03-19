@@ -1,6 +1,6 @@
-<% update_document_title(add: "#{@store_item.name}") %>
+<% update_document_title(add: @store_item.name.to_s) %>
 <% update_breadcrumbs(add: link_to('Store', store_path)) %>
-<% update_breadcrumbs(add: "#{@store_item.name}") %>
+<% update_breadcrumbs(add: @store_item.name.to_s) %>
 <% nav(active: 'store') %>
 
 <div class="content">
@@ -23,7 +23,7 @@
                 store_item_path(@store_item),
                 data: {
                   turbo_confirm: 'Are you sure?',
-                  turbo_method: 'delete',
+                  turbo_method: 'delete'
                 },
                 class: 'btn btn-danger' %>
   <% end %>
@@ -56,7 +56,7 @@
   }
 </style>
 <script>
-  // opens the image in a popup when it's clicked 
+  // opens the image in a popup when it's clicked
   // closes the image when the "Close Image" button is clicked
   function openPopup(imageUrl) {
   if (document.querySelector('.popup')) {
@@ -72,7 +72,7 @@
   closeButton.innerHTML = 'Close Image';
   popup.appendChild(closeButton);
   document.body.appendChild(popup);
-  
+
   popup.addEventListener('click', function(event) {
     if (event.target === popup) {
       popup.parentNode.removeChild(popup);

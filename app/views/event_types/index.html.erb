@@ -14,15 +14,23 @@
         <td><%= event_type.display ? 'Yes' : 'No' %></td>
         <td>
           <% if can?(:edit, EventType) %>
-            <%= link_to 'Edit', edit_event_type_path(event_type), class: 'btn btn-primary btn-xs' %></td>
-        <% end %>
-        <% if can?(:destroy, EventType) %>
-          <%= link_to 'Destroy', event_type, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %>
-        <% end %>
-      </td>
-    </tr>
-  <% end %>
-</tbody>
+            <%= link_to 'Edit',
+                        edit_event_type_path(event_type),
+                        class: 'btn btn-primary btn-xs' %>
+          <% end %>
+          <% if can?(:destroy, EventType) %>
+            <%= link_to 'Destroy',
+                        event_type,
+                        method: :delete,
+                        data: {
+                          confirm: 'Are you sure?'
+                        },
+                        class: 'btn btn-danger btn-xs' %>
+          <% end %>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
 </table>
-<br>
+<br />
 <%= link_to 'New Event Type', new_event_type_path, class: 'btn btn-primary' %>

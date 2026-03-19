@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 class Applets::PPECollectionController < ApplicationController
   def index
-    if params[:hardhat_barcode]
-      return_hardhat
-    end
+    return unless params[:hardhat_barcode]
+
+    return_hardhat
   end
 
   private

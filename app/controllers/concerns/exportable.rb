@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # format.xlsx { response.headers.merge! excel_export_headers(prefix: 'Organizations') }
 module Exportable
   extend ActiveSupport::Concern
@@ -10,7 +11,7 @@ module Exportable
     body: "-#{DateTime.now.to_fs(:db)}",
     file_extension: nil
   )
-    filename = [prefix,body].join('-')
+    filename = [prefix, body].join('-')
     filename.concat(".#{file_extension}") if file_extension.present?
     { 'Content-Disposition': "attachment; filename=\"#{filename}\"" }
   end

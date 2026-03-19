@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateOrganizationBuildStatuses < ActiveRecord::Migration[7.0]
   def change
     create_table :organization_build_statuses do |t|

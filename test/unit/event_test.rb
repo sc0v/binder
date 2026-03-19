@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class EventTest < ActiveSupport::TestCase
   # Relationships
   should belong_to(:event_type)
@@ -8,11 +9,10 @@ class EventTest < ActiveSupport::TestCase
     setup do
       @type1 = FactoryGirl.create(:event_type, display: false)
       @type2 = FactoryGirl.create(:event_type, display: true)
-      @event1 = FactoryGirl.create(:event, is_done: true, event_type_id: @type1.id)
-      @event2 = FactoryGirl.create(:event, is_done: false, event_type_id: @type2.id)
-    end
-
-    teardown do
+      @event1 =
+        FactoryGirl.create(:event, is_done: true, event_type_id: @type1.id)
+      @event2 =
+        FactoryGirl.create(:event, is_done: false, event_type_id: @type2.id)
     end
 
     # scopes

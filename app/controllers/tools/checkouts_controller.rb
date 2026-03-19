@@ -1,43 +1,32 @@
-class Tools::CheckoutsController < ApplicationController
+# frozen_string_literal: true
 
+class Tools::CheckoutsController < ApplicationController
   def new
 
   end
 
   def add
-    session[:tools]||=[]
+    session[:tools] ||= []
     tool = Tool.find_by(barcode: params[:barcode])
-    if tool.present? && !session[:tools].include?(tool.id)
-      session[:tools].append(tool.id)
-    else
-      flash.alert = "No tool found with that barcode. #{helpers.link_to 'Create it', new_tool_path, class: 'cta'}"
-    end
-    #redirect_to params[:url]
-    #redirect_to tools_path
+    update_tool_session(tool)
     redirect_to checkout_tools_path
   end
 
   def remove
     session[:tools].delete(params[:id].to_i)
-    #redirect_to tools_path
     redirect_to checkout_tools_path
   end
 
   def participant
-    borrower = Participant.find_by_search(params[:participant_search])
-    if borrower.present?
-      session[:borrower_id] = borrower.id
-    else
-      flash.alert = "Andrew ID \"#{params[:participant_search]}\" not found."
-    end
-    (redirect_to params[:url] and return) unless !params[:url].present?
+    store_borrower_in_session
+    return redirect_to params[:url] if params[:url].present?
+
     redirect_to checkout_tools_path
   end
 
   def reset
     session[:borrower_id] = nil
     session[:tools] = nil
-    #redirect_to tools_path
     redirect_to checkout_tools_path
   end
 

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class AbilityTest < ActiveSupport::TestCase
@@ -15,7 +16,12 @@ class AbilityTest < ActiveSupport::TestCase
       @member_user.add_role(:member)
 
       @booth_chair_participant = create(:participant)
-      create(:membership, participant: @booth_chair_participant, organization: @org, is_booth_chair: true)
+      create(
+        :membership,
+        participant: @booth_chair_participant,
+        organization: @org,
+        is_booth_chair: true
+      )
       @booth_chair_user = create(:user, participant: @booth_chair_participant)
       @booth_chair_user.add_role(:booth_chair)
 
@@ -28,19 +34,19 @@ class AbilityTest < ActiveSupport::TestCase
       @admin_user.add_role(:admin)
     end
 
-    teardown do
-    end
-
     # member tests
     should 'allow a member' do
       ability = Ability.new(@member_user)
 
-      assert ability.cannot?(:manage, CarnegieMellonIDCard), 'to not change an id card number'
-      assert ability.cannot?(:manage, CarnegieMellonPerson), 'to not change a person'
+      assert ability.cannot?(:manage, CarnegieMellonIDCard),
+             'to not change an id card number'
+      assert ability.cannot?(:manage, CarnegieMellonPerson),
+             'to not change a person'
       assert ability.cannot?(:manage, Charge), 'to not edit a charge'
       assert ability.cannot?(:manage, ChargeType), 'to not edit a charge type'
       assert ability.cannot?(:manage, Faq), 'to not edit an FAQ'
-      assert ability.cannot?(:manage, ShiftParticipant), 'to not edit a shift participant'
+      assert ability.cannot?(:manage, ShiftParticipant),
+             'to not edit a shift participant'
       assert ability.cannot?(:manage, Task), 'to not edit a task'
       assert ability.cannot?(:manage, User), 'to not edit a user'
 
@@ -98,6 +104,7 @@ class AbilityTest < ActiveSupport::TestCase
     # booth_chair tests
     should 'allow a booth chair to read most things but not edit anything' do
       ability = Ability.new(@booth_chair_user)
+
       assert ability.cannot?(:create, Charge)
       assert ability.cannot?(:update, Charge)
       assert ability.cannot?(:destroy, Charge)
@@ -132,18 +139,28 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(:update, Shift)
       assert ability.cannot?(:destroy, Shift)
       assert ability.can?(:read, Shift.new)
-      assert ability.cannot?(:read, Shift.new(shift_type: ShiftType.new(name: 'Coordinator Shift')))
+      assert ability.cannot?(
+               :read,
+               Shift.new(shift_type: ShiftType.new(name: 'Coordinator Shift'))
+             )
 
       assert ability.cannot?(:create, ShiftParticipant)
       assert ability.cannot?(:update, ShiftParticipant)
       assert ability.cannot?(:destroy, ShiftParticipant)
-      assert ability.can?(:read, ShiftParticipant.new(shift: Shift.new(organization: @org)))
-      assert ability.cannot?(:read, ShiftParticipant.new(shift: Shift.new(organization: @scc)))
+      assert ability.can?(
+               :read,
+               ShiftParticipant.new(shift: Shift.new(organization: @org))
+             )
+      assert ability.cannot?(
+               :read,
+               ShiftParticipant.new(shift: Shift.new(organization: @scc))
+             )
     end
 
     # scc tests
     should 'allow a scc member to read everything and create and update some things' do
       ability = Ability.new(@scc_user)
+
       assert ability.can?(:read, CarnegieMellonIDCard)
       assert ability.can?(:read, CarnegieMellonPerson)
       assert ability.can?(:read, Charge)
@@ -183,6 +200,7 @@ class AbilityTest < ActiveSupport::TestCase
     # admin tests
     should 'allow an admin to manage everything' do
       ability = Ability.new(@admin_user)
+
       assert ability.can?(:manage, :all)
       assert ability.can?(:create, Membership)
     end

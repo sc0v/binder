@@ -1,15 +1,17 @@
-development:
-  host: ldap.cmu.edu
-  port: 389
-  base: ou=andrewperson,dc=andrew,dc=cmu,dc=edu
-
-staging:
-  host: ldap.cmu.edu
-  port: 389
-  base: ou=andrewperson,dc=andrew,dc=cmu,dc=edu
-
-production:
+default: &default
   host: ldap.cmu.edu
   port: 636
   method: ssl
   base: dc=andrew,dc=cmu,dc=edu
+
+development:
+  <<: *default
+
+test:
+  <<: *default
+
+staging:
+  <<: *default
+
+production:
+  <<: *default

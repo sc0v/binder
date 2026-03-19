@@ -2,25 +2,31 @@
 <% update_breadcrumbs(add: 'Tools') %>
 <%= nav(active: 'tools') %>
 <% content_for :head do %>
-<script>
-
-</script>
+  <script></script>
 <% end %>
 
 <div class="content">
   <div>
     <div class="title-row">
-    <h1>Tools</h1>
-    <div>
+      <h1>Tools</h1>
+      <div>
         <%= label_tag 'type', 'Equipment Type' %>
         <%= form_tag(tools_url, method: 'get') do %>
-            <%= select_tag 'type', options_for_select([["Tool", "tool"], ["Hardhat", "hardhat"], ["Radio", "radio"]], params[:type]), :onchange => "this.form.submit()" %>
+          <%= select_tag 'type',
+                         options_for_select(
+                           [%w[Tool tool], %w[Hardhat hardhat], %w[Radio radio]],
+                           params[:type]
+                         ),
+                         onchange: 'this.form.submit()' %>
         <% end %>
+      </div>
     </div>
-    </div>
-    <%= content_tag :div, data:
-        { controller: 'table', config: tools_table_config } do %>
-    Loading...
+    <%= content_tag :div,
+                    data: {
+                      controller: 'table',
+                      config: tools_table_config(@json_url)
+                    } do %>
+      Loading...
     <% end %>
     <div>
       <% if can?(:create, Tool) and @organization.blank? %>
@@ -28,8 +34,8 @@
                     new_tool_path,
                     class: 'btn btn-primary' %>
       <% end %>
-    </div>
-   </div><div class="sidebar">
+    </div> </div
+  ><div class="sidebar">
     <% if can?(:create, Checkout) %>
       <%= render 'tools/checkouts/sidebar' %>
     <% end %>

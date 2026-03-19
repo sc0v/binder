@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class ParticipantTest < ActiveSupport::TestCase
@@ -16,20 +17,33 @@ class ParticipantTest < ActiveSupport::TestCase
 
   context 'With a proper context, ' do
     setup do
-      @participant = FactoryGirl.create(:participant, phone_number: 1_234_567_890, andrewid: 'saclark',
-                                                      cached_name: 'Stephen Clark', waiver_start: DateTime.now - 10.minutes)
+      @participant =
+        FactoryGirl.create(
+          :participant,
+          phone_number: 1_234_567_890,
+          andrewid: 'saclark',
+          cached_name: 'Stephen Clark',
+          waiver_start: DateTime.now - 10.minutes
+        )
       @organization_category = FactoryGirl.create(:organization_category)
-      @organization = FactoryGirl.create(:organization, name: 'Spring Carnival Committee',
-                                                        organization_category: @organization_category)
+      @organization =
+        FactoryGirl.create(
+          :organization,
+          name: 'Spring Carnival Committee',
+          organization_category: @organization_category
+        )
       @temp_participant = FactoryGirl.create(:participant)
-      @membership = FactoryGirl.create(:membership, is_booth_chair: true, participant: @participant,
-                                                    organization: @organization)
+      @membership =
+        FactoryGirl.create(
+          :membership,
+          is_booth_chair: true,
+          participant: @participant,
+          organization: @organization
+        )
       @checkout = FactoryGirl.create(:checkout, participant: @participant)
-      @shift_participant = FactoryGirl.create(:shift_participant, participant: @participant)
+      @shift_participant =
+        FactoryGirl.create(:shift_participant, participant: @participant)
       @user = FactoryGirl.create(:user, participant: @participant)
-    end
-
-    teardown do
     end
 
     should 'show that all factories are properly created' do
@@ -40,24 +54,28 @@ class ParticipantTest < ActiveSupport::TestCase
       should 'show that dependency on checkout works' do
         assert_equal 1, Checkout.all.size
         @participant.destroy
+
         assert_equal 0, Checkout.all.size
       end
 
       should 'show that dependency on membership works' do
         assert_equal 1, Membership.all.size
         @participant.destroy
+
         assert_equal 0, Membership.all.size
       end
 
       should 'show that dependency on shift_participant works' do
         assert_equal 1, ShiftParticipant.all.size
         @participant.destroy
+
         assert_equal 0, ShiftParticipant.all.size
       end
 
       should 'show that dependency on user works' do
         assert_equal 1, User.all.size
         @participant.destroy
+
         assert_equal 0, User.all.size
       end
 
@@ -76,17 +94,17 @@ class ParticipantTest < ActiveSupport::TestCase
       end
 
       should 'correctly determine if participant skipped video' do
-        assert_equal false, @participant.is_waiver_cheater?
+        assert_not_predicate @participant, :is_waiver_cheater?
 
-        assert_equal true, @temp_participant.is_waiver_cheater?
+        assert_predicate @temp_participant, :is_waiver_cheater?
       end
 
       should 'show that is_booth_chair method works correctly' do
-        assert_equal true, @participant.is_booth_chair?
+        assert_predicate @participant, :booth_chair?
       end
 
       should 'show that is_scc method works correctly' do
-        assert_equal true, @participant.is_scc?
+        assert_predicate @participant, :is_scc?
       end
 
       should 'show that name method works correctly' do

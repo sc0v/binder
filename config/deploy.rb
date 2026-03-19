@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 # config valid only for current version of Capistrano
 lock '3.4.0'
 
@@ -27,7 +28,8 @@ set :deploy_to, "/var/www/#{fetch :application}/#{fetch :stage}"
 # set :linked_files, fetch(:linked_files, []).push('config/database.yml', 'config/secrets.yml')
 
 # Default value for linked_dirs is []
-# set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle', 'public/system')
+# set :linked_dirs, fetch(:linked_dirs, []).push('log', 'tmp/pids', 'tmp/cache', 'tmp/sockets', 'vendor/bundle',
+#                                                'public/system')
 # set :linked_dirs, fetch(:linked_dirs, []).push('db/seeds/production')
 
 # Default value for default_env is {}
@@ -70,65 +72,19 @@ end
 # Database Tasks
 #
 namespace :db do
-  desc 'Runs rake db:reset'
-  task :reset do
-    on roles(:db) do
-      within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          execute :rake, 'db:reset'
+  %i[reset drop seed migrate setup].each do |task|
+    desc "Runs rake db:#{task}"
+    task task do
+      on roles(:db) do
+        within release_path do
+          with rails_env: fetch(:rails_env) || fetch(:stage) do
+            execute :rake, "db:#{task}"
+          end
         end
       end
     end
+    before "db:#{task}", 'bundler:install'
   end
-  before 'db:reset', 'bundler:install'
-
-  desc 'Runs rake db:drop'
-  task :drop do
-    on roles(:db) do
-      within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          execute :rake, 'db:drop'
-        end
-      end
-    end
-  end
-  before 'db:drop', 'bundler:install'
-
-  desc 'Runs rake db:seed'
-  task :seed do
-    on roles(:db) do
-      within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          execute :rake, 'db:seed'
-        end
-      end
-    end
-  end
-  before 'db:seed', 'bundler:install'
-
-  desc 'Runs rake db:migrate'
-  task :migrate do
-    on roles(:db) do
-      within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          execute :rake, 'db:migrate'
-        end
-      end
-    end
-  end
-  before 'db:migrate', 'bundler:install'
-
-  desc 'Runs rake db:setup'
-  task :setup do
-    on roles(:db) do
-      within release_path do
-        with rails_env: (fetch(:rails_env) || fetch(:stage)) do
-          execute :rake, 'db:setup'
-        end
-      end
-    end
-  end
-  before 'db:setup', 'bundler:install'
 end
 
 #
@@ -146,7 +102,8 @@ namespace :rails do
   desc 'Remote dbconsole'
   task :dbconsole do
     on roles(:app) do |h|
-      run_interactively "bundle exec rails dbconsole #{fetch(:rails_env)}", h.user
+      run_interactively "bundle exec rails dbconsole #{fetch(:rails_env)}",
+                        h.user
     end
   end
 

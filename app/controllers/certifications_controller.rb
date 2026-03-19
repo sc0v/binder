@@ -38,10 +38,13 @@ class CertificationsController < ApplicationController
     return unless @participant.certifications.size == CertificationType.all.size
 
     redirect_to (participant_path @participant),
-                flash: { error: "#{@participant.name} has already gotten all certifications." }
+                flash: {
+                  error:
+                    "#{@participant.name} has already gotten all certifications."
+                }
   end
 
   def certification_params
-    params.require(:certification).permit(:participant_id, :certification_type_id)
+    params.expect(certification: %i[participant_id certification_type_id])
   end
 end

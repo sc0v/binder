@@ -1,10 +1,12 @@
 # frozen_string_literal: true
+
 # Pin npm packages by running ./bin/importmap
 
 pin 'application', preload: true
 pin '@hotwired/turbo-rails', to: 'turbo.min.js', preload: true
 pin '@hotwired/stimulus', to: 'stimulus.min.js', preload: true
 pin '@hotwired/stimulus-loading', to: 'stimulus-loading.js', preload: true
+pin 'pwa', to: 'pwa.js'
 
 pin 'tabulator-tables' # @5.4.4
 pin 'luxon' # @3.3.0

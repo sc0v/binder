@@ -1,14 +1,155 @@
-require:
+plugins:
   - rubocop-capybara
+  - rubocop-minitest
   - rubocop-rails
-
-inherit_from:
-  - node_modules/@prettier/plugin-ruby/rubocop.yml
 
 AllCops:
   NewCops: enable
+  TargetRubyVersion: 3.4
+  ParserEngine: parser_prism
+  Exclude:
+    - "bin/**/*"
+    - "config/initializers/new_framework_defaults_7_0.rb"
+    - "db/migrate/**/*"
+    - "db/schema.rb"
+    - "node_modules/**/*"
+    - "shift_picker.rb"
+    - "vendor/**/*"
 
 Style/Documentation:
+  Enabled: false
+
+# TODO: extract ChargesController CSV export methods to a ChargeExporter service.
+# TODO: extract MembershipsController CSV import workflow to a concern (upsert_insert_membership and create exceed MethodLength due to prettier formatting).
+# TODO: extract ScissorLiftCheckoutsController checkout helpers to a service/concern.
+# TODO: extract Participant LDAP caching to a concern (Participant is 269 lines).
+# TODO: split Ability into per-role modules (CanCanCan convention).
+# TODO: fix Shift#checked_in? (currently broken) and extract SMS notification to a service.
+Metrics/ClassLength:
+  Exclude:
+    - "app/controllers/charges_controller.rb"
+    - "app/controllers/memberships_controller.rb"
+    - "app/controllers/scissor_lift_checkouts_controller.rb"
+    - "app/controllers/applets/ppe_distribution_controller.rb"
+    - "app/models/ability.rb"
+    - "app/models/carnegie_mellon_id_card.rb"
+    - "app/models/participant.rb"
+    - "app/models/shift.rb"
+    - "test/**/*"
+
+# Rake tasks, routes, seeds, environments, and test blocks are inherently
+# long and cannot be meaningfully split without losing context.
+Metrics/BlockLength:
+  Exclude:
+    - "config/environments/**/*.rb"
+    - "config/routes.rb"
+    - "db/seeds.rb"
+    - "lib/tasks/**/*.rake"
+    - "test/**/*"
+    - "test/factories.rb"
+    - "app/controllers/organizations_controller.rb"
+
+# TODO: split ability.rb initialize across per-role modules (CanCanCan convention).
+# TODO: extract CarnegieMellonIdCard HTTP request chains to a service object.
+# TODO: refactor PPEDistributionController load_step_* methods into smaller helpers.
+# TODO: refactor home#search, organizations#show/index, organization_members#create,
+#       organization_timeline_entries#create, store/purchases#create, tool_inventory#complete,
+#       tools#index, navigation_helper#nav_items into smaller methods or service objects.
+# Multi-line array/hash literals and heredocs in params allowlists inflate
+# MethodLength counts without adding real complexity.
+# ability.rb and other files below are excluded because splitting their methods
+# would require major architectural rework (tracked by the TODOs above).
+Metrics/MethodLength:
+  CountAsOne:
+    - array
+    - heredoc
+  Exclude:
+    - "app/models/ability.rb"
+    - "app/models/carnegie_mellon_id_card.rb"
+    - "app/controllers/applets/ppe_distribution_controller.rb"
+    - "app/controllers/home_controller.rb"
+    - "app/controllers/organizations_controller.rb"
+    - "app/controllers/organization_members_controller.rb"
+    - "app/controllers/organization_timeline_entries_controller.rb"
+    - "app/controllers/store/purchases_controller.rb"
+    - "app/controllers/tool_inventory_controller.rb"
+    - "app/controllers/applets/ppe_collection_controller.rb"
+    - "app/controllers/charges_controller.rb"
+    - "app/controllers/downtime_controller.rb"
+    - "app/controllers/event_types_controller.rb"
+    - "app/controllers/events_controller.rb"
+    - "app/controllers/memberships_controller.rb"
+    - "app/controllers/organization_build_steps_controller.rb"
+    - "app/controllers/participants_controller.rb"
+    - "app/controllers/tools/checkouts_controller.rb"
+    - "app/controllers/tools_controller.rb"
+    - "app/helpers/application/navigation_helper.rb"
+    - "app/helpers/memberships_helper.rb"
+    - "app/models/carnegie_mellon_person.rb"
+    - "app/models/participant.rb"
+Metrics/AbcSize:
+  Exclude:
+    - "app/models/ability.rb"
+    - "app/helpers/application/navigation_helper.rb"
+    - "app/models/carnegie_mellon_id_card.rb"
+    - "app/controllers/applets/ppe_collection_controller.rb"
+    - "app/controllers/applets/ppe_distribution_controller.rb"
+    - "app/controllers/home_controller.rb"
+    - "app/controllers/notes_controller.rb"
+    - "app/controllers/organizations_controller.rb"
+    - "app/controllers/organization_members_controller.rb"
+    - "app/controllers/organization_timeline_entries_controller.rb"
+    - "app/controllers/participants_controller.rb"
+    - "app/controllers/store/purchases_controller.rb"
+    - "app/controllers/tool_inventory_controller.rb"
+    - "app/controllers/tools_controller.rb"
+Metrics/CyclomaticComplexity:
+  Exclude:
+    - "app/models/ability.rb"
+    - "app/controllers/applets/ppe_distribution_controller.rb"
+    - "app/controllers/organization_timeline_entries_controller.rb"
+Metrics/PerceivedComplexity:
+  Exclude:
+    - "app/models/ability.rb"
+    - "app/controllers/applets/ppe_distribution_controller.rb"
+    - "app/controllers/organization_timeline_entries_controller.rb"
+
+# load_step_* methods in ppe_distribution_controller return booleans as a side
+# effect of loading data — they are not pure predicates and should not end with ?.
+Naming/PredicateMethod:
+  Exclude:
+    - "app/controllers/applets/ppe_distribution_controller.rb"
+
+# ability.rb has intentional dead code below a return statement, kept as
+# reference while new abilities are migrated (see TODO comment in file).
+Lint/UnreachableCode:
+  Exclude:
+    - "app/models/ability.rb"
+
+# abort is the correct way to exit a Rake task with a non-zero status code.
+# raise would print a full backtrace, which is not appropriate for lint output.
+Rails/Exit:
+  Exclude:
+    - "lib/tasks/lint/lint_helper.rb"
+
+# The following cops conflict with Prettier's formatting decisions.
+# Prettier is the canonical formatter; these cops are disabled so the two
+# tools don't fight each other.
+Style/EmptyMethod:
+  EnforcedStyle: expanded
+Style/IfUnlessModifier:
+  Enabled: false
+Layout/FirstArgumentIndentation:
+  Enabled: false
+Layout/FirstHashElementIndentation:
+  Enabled: false
+Layout/MultilineMethodCallIndentation:
+  Enabled: false
+Layout/MultilineOperationIndentation:
+  Enabled: false
+Layout/LineEndStringConcatenationIndentation:
+  Enabled: false
+Layout/SpaceAroundKeyword:
   Enabled: false
 
 Rails/I18nLocaleTexts:
@@ -19,3 +160,8 @@ Style/ClassAndModuleChildren:
 
 Layout/LineLength:
   Max: 120
+
+# Lint tasks intentionally omit :environment to avoid booting Rails in CI,
+# which triggers a network call to login.cmu.edu and causes SocketError.
+Rails/RakeEnvironment:
+  Enabled: false

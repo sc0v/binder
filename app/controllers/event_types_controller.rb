@@ -12,7 +12,8 @@ class EventTypesController < ApplicationController
 
   # GET /event_types/1
   # GET /event_types/1.json
-  def show; end
+  def show
+  end
 
   # GET /event_types/new
   def new
@@ -20,26 +21,22 @@ class EventTypesController < ApplicationController
   end
 
   # GET /event_types/1/edit
-  def edit; end
+  def edit
+  end
 
   # POST /event_types
   # POST /event_types.json
   def create
     @event_type = EventType.new(event_type_params)
-
     respond_to do |format|
       if @event_type.save
-        format.html do
-          if params[:from_new_event].present?
-            redirect_to new_event_path, notice: 'Event type was successfully created.'
-            return
-          end
-          redirect_to @event_type, notice: 'Event type was successfully created.'
-        end
+        format.html { redirect_after_event_type_create }
         format.json { render :show, status: :created, location: @event_type }
       else
         format.html { render :new }
-        format.json { render json: @event_type.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @event_type.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -49,11 +46,13 @@ class EventTypesController < ApplicationController
   def update
     respond_to do |format|
       if @event_type.update(event_type_params)
-        format.html { redirect_to @event_type, notice: 'Event type was successfully updated.' }
+        format.html { redirect_to @event_type, notice: t('.notice') }
         format.json { render :show, status: :ok, location: @event_type }
       else
         format.html { render :edit }
-        format.json { render json: @event_type.errors, status: :unprocessable_entity }
+        format.json do
+          render json: @event_type.errors, status: :unprocessable_entity
+        end
       end
     end
   end
@@ -63,7 +62,7 @@ class EventTypesController < ApplicationController
   def destroy
     @event_type.destroy
     respond_to do |format|
-      format.html { redirect_to event_types_url, notice: 'Event type was successfully destroyed.' }
+      format.html { redirect_to event_types_url, notice: t('.notice') }
       format.json { head :no_content }
     end
   end
@@ -75,8 +74,16 @@ class EventTypesController < ApplicationController
     @event_type = EventType.find(params[:id])
   end
 
+  def redirect_after_event_type_create
+    if params[:from_new_event].present?
+      redirect_to new_event_path, notice: t('.notice')
+    else
+      redirect_to @event_type, notice: t('.notice')
+    end
+  end
+
   # Never trust parameters from the scary internet, only allow the white list through.
   def event_type_params
-    params.require(:event_type).permit(:display, :name)
+    params.expect(event_type: %i[display name])
   end
 end

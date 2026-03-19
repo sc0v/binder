@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class FaqTest < ActiveSupport::TestCase
@@ -8,12 +9,10 @@ class FaqTest < ActiveSupport::TestCase
       @faq2 = FactoryGirl.create(:faq, question: 'how to build a booth?')
     end
 
-    teardown do
-    end
-
     # Scope
     should 'show that a search scope works' do
       @ans = Faq.search('sign a waiver?')
+
       assert_equal 'how to sign a waiver?', @ans[0].question
     end
   end

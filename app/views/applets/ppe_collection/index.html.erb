@@ -5,15 +5,15 @@
 
 <div class="content">
   <div>
-      <h1>Returns</h1>
-      <%= form_tag ppe_collection_path, method: 'get' do %>
+    <h1>Returns</h1>
+    <%= form_tag ppe_collection_path, method: 'get' do %>
       <ol>
         <li>Use the barcode scannner to read the Hardhat</li>
         <li>
           <%= label_tag(:hardhat_barcode, 'Barcode') %>
           <%= text_field_tag(:hardhat_barcode, nil, autocomplete: :off, autofocus: true) %>
         </li>
-      <ol>
-      <% end %>
+      </ol>
+    <% end %>
   </div>
 </div>
