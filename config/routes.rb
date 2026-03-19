@@ -83,6 +83,8 @@ Rails.application.routes.draw do
   resources :tools do
     member { get :remove, to: 'tools/checkouts#remove' }
     collection do
+      get :org_summary, to: 'tools/checkouts#org_summary'
+      post :add_checkin, to: 'tools/checkouts#add_checkin'
       post :add, to: 'tools/checkouts#add'
       post :checkout_participant, to: 'tools/checkouts#participant'
       get :checkout, to: 'tools/checkouts#new'

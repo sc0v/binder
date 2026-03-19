@@ -77,6 +77,16 @@ class Tool < ApplicationRecord
     )
   end
 
+  def self.checked_out_count_by_type_and_org(tool_type, organization)
+    joins(:checkouts).where(
+      tool_type: tool_type,
+      checkouts: {
+        organization_id: organization,
+        checked_in_at: nil
+      }.count
+    )
+  end
+
   delegate :name, to: :tool_type, allow_nil: true
 
   def formatted_name

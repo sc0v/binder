@@ -54,19 +54,49 @@ class Tools::CheckoutsController < ApplicationController
                 alert: "Tool #{params[:barcode]} was never checked out."
   end
 
+  def org_summary
+    org = Organization.find(params[:organization_id])
+    session_tools = (session[:tools] || []).map { |id| Tool.find(id) }
+    summary = session_tools.map do |tool|
+      tools_checked_out = Tool.checked_out_by_organization(org)
+                            .where(tool_type: tool.tool_type)
+      {
+        type: tool.name,
+        count: tools_checked_out.count,
+        barcodes: tools_checked_out.pluck(:barcode) # ← add this
+      }
+    end.uniq
+    render json: { summary: }
+  end
+
+  def add_checkin
+    tool = Tool.find_by(barcode: params[:barcode])
+    if tool.nil?
+      flash.alert = "No tool found with barcode #{params[:barcode]}"
+    elsif !tool.checked_out?
+      flash.alert = "#{tool.name} ##{tool.barcode} is not currently checked out!"
+    else
+      session[:checkin_barcode] = params[:barcode]
+    end
+    redirect_to checkout_tools_path
+  end
+
   private
 
   def update_tool_session(tool)
-    if tool
-      session[:tools] |= [tool.id]
-    else
+    if tool.nil?
       flash.alert =
         "No tool found with that barcode. #{helpers.link_to 'Create it', new_tool_path, class: 'cta'}"
+    elsif tool.checked_out?
+      flash.alert =
+        "#{tool.name} ##{tool.barcode} is already checked out!"
+    else
+      session[:tools] |= [tool.id]
     end
   end
 
   def store_borrower_in_session
-    borrower = Participant.find_by(search: params[:participant_search])
+    borrower = Participant.find_by(eppn: params[:participant_search].to_s.strip)
     if borrower
       session[:borrower_id] = borrower.id
     else
@@ -114,6 +144,7 @@ class Tools::CheckoutsController < ApplicationController
 
     checkout.checked_in_at = Time.zone.now
     checkout.save!
+    session[:checkin_barcode] = nil
     redirect_to checkout_tools_path,
                 notice: "Tool #{params[:barcode]} successfully checked in."
   end

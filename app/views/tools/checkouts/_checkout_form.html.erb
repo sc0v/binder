@@ -1,4 +1,4 @@
-<h3>The Stuff</h3>
+<h3>The Tool</h3>
 <ul>
   <% session[:tools] = [] if session[:tools].blank? %>
   <% session[:tools].each do |tool_id| %>
@@ -11,13 +11,13 @@
 </ul>
 <%= form_tag add_tools_path do %>
   <%= hidden_field_tag :url, params[:url] %>
-  <%= label_tag(:barcode, 'Scan Tool Barcode — or — Type Tool Barcode [Enter]') %>
+  <%= label_tag(:barcode, 'Scan or Type Tool Barcode [Enter]') %>
   <%= text_field_tag(:barcode, nil, autocomplete: :off, autofocus: true) %>
 <% end %>
 
 <h3>The Borrower</h3>
 <% if session[:borrower_id].present? %>
-  <%= form_tag checkout_tools_path do %>
+  <%= form_tag checkout_tools_path, data: {controller: 'org-summary'} do %>
     <% borrower = Participant.find(session[:borrower_id]) %>
     <h3><%= borrower.name %> (<%= borrower.eppn %>)</h3>
     <%= collection_select(
@@ -25,8 +25,14 @@
           :organization_id,
           borrower.organizations,
           :id,
-          :name
+          :name,
+          {},
+          { data: { 'org-summary-target': 'select', action: 'change->org-summary#update' } }
         ) %>
+    <div data-org-summary-target="summary" style="display:none; margin: 10px 0;">
+      <h5>Your Org Checkout Status:</h5>
+      <ul data-org-summary-target="list"></ul>
+    </div>
     <%= submit_tag 'Complete Checkout', class: 'wide' %>
   <% end %>
 <% else %>
