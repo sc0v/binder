@@ -85,7 +85,7 @@ Rails.application.routes.draw do
     collection do
       get :org_summary, to: 'tools/org_summary#show'
       post :add_checkin, to: 'tools/checkin#create'
-      post :checkin,     to: 'tools/checkin#update'
+      post :checkin, to: 'tools/checkin#update'
       post :add, to: 'tools/checkouts#add'
       post :checkout_participant, to: 'tools/checkouts#participant'
       get :checkout, to: 'tools/checkouts#new'

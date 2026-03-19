@@ -11,10 +11,16 @@ class Tools::OrgSummaryController < ApplicationController
   private
 
   def build_summary(session_tools, org)
-    session_tools.map do |tool|
-      tools_checked_out = Tool.checked_out_by_organization(org)
-                              .where(tool_type: tool.tool_type)
-      { type: tool.name, count: tools_checked_out.count, barcodes: tools_checked_out.pluck(:barcode) }
-    end.uniq
+    session_tools.map { |tool| tool_summary(tool, org) }.uniq
+  end
+
+  def tool_summary(tool, org)
+    tools_checked_out =
+      Tool.checked_out_by_organization(org).where(tool_type: tool.tool_type)
+    {
+      type: tool.name,
+      count: tools_checked_out.count,
+      barcodes: tools_checked_out.pluck(:barcode)
+    }
   end
 end

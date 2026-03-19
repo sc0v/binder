@@ -61,8 +61,7 @@ class Tools::CheckoutsController < ApplicationController
       flash.alert =
         "No tool found with that barcode. #{helpers.link_to 'Create it', new_tool_path, class: 'cta'}"
     elsif tool.checked_out?
-      flash.alert =
-        "#{tool.name} ##{tool.barcode} is already checked out!"
+      flash.alert = "#{tool.name} ##{tool.barcode} is already checked out!"
     else
       session[:tools] |= [tool.id]
     end

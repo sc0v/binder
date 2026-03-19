@@ -26,7 +26,8 @@ class Tools::CheckinController < ApplicationController
     if tool.nil?
       flash.alert = "No tool found with barcode #{params[:barcode]}"
     elsif !tool.checked_out?
-      flash.alert = "#{tool.name} ##{tool.barcode} is not currently checked out!"
+      flash.alert =
+        "#{tool.name} ##{tool.barcode} is not currently checked out!"
     else
       session[:checkin_barcode] = params[:barcode]
     end

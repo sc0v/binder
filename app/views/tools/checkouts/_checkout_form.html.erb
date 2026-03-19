@@ -17,7 +17,7 @@
 
 <h3>The Borrower</h3>
 <% if session[:borrower_id].present? %>
-  <%= form_tag checkout_tools_path, data: {controller: 'org-summary'} do %>
+  <%= form_tag checkout_tools_path, data: { controller: 'org-summary' } do %>
     <% borrower = Participant.find(session[:borrower_id]) %>
     <h3><%= borrower.name %> (<%= borrower.eppn %>)</h3>
     <%= collection_select(
@@ -27,9 +27,17 @@
           :id,
           :name,
           {},
-          { data: { 'org-summary-target': 'select', action: 'change->org-summary#update' } }
+          {
+            data: {
+              'org-summary-target': 'select',
+              action: 'change->org-summary#update'
+            }
+          }
         ) %>
-    <div data-org-summary-target="summary" style="display:none; margin: 10px 0;">
+    <div
+      data-org-summary-target="summary"
+      style="display:none; margin: 10px 0;"
+    >
       <h5>Your Org Checkout Status:</h5>
       <ul data-org-summary-target="list"></ul>
     </div>

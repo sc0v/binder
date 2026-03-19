@@ -8,9 +8,14 @@
   <% tool = Tool.find_by(barcode: session[:checkin_barcode]) %>
   <% if tool && tool.checked_out? %>
     <% org = tool.current_organization %>
-    <% remaining = Tool.checked_out_by_organization(org).where(tool_type: tool.tool_type).count - 1 %>
+    <% remaining =
+         Tool.checked_out_by_organization(org).where(tool_type: tool.tool_type).count -
+           1 %>
     <p>Returning <strong><%= tool.name %></strong> #<%= tool.barcode %></p>
-    <p><%= org.short_name %> will have <strong><%= remaining %></strong> remaining checked out</p>
+    <p
+      ><%= org.short_name %> will have
+      <strong><%= remaining %></strong> remaining checked out</p
+    >
     <%= form_tag checkin_tools_path do %>
       <%= hidden_field_tag :barcode, session[:checkin_barcode] %>
       <%= submit_tag 'Complete Checkin', class: 'wide' %>
