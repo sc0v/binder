@@ -18,4 +18,10 @@
     <h2><%= link_to 'Cameras' %></h2>
     <p>See the action.</p>
   </div>
+  <% if can?(:manage, :all) %>
+    <div>
+      <h2><%= link_to 'Push Broadcast', push_broadcast_path %></h2>
+      <p>Send a push notification to all subscribed participants.</p>
+    </div>
+  <% end %>
 </div>
