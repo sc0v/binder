@@ -23,6 +23,8 @@
                     turbo_method: :delete
                   },
                   class: 'cta' %>
+      <%= link_to "ARCHIVE", archive_note_path(n), data: { turbo_method: :patch } %>
+
     </li>
   <% end %>
 

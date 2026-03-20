@@ -8,11 +8,17 @@ class Note < ApplicationRecord
 
   scope :unhidden, -> { where(hidden: false) }
   scope :ordered_by_created_at, -> { order(created_at: :desc) }
+  scope :active, -> { where(archived_at: nil) }
+  scope :archived, -> { where.not(archived_at: nil) }
 
   delegate :name, to: :participant, prefix: :participant, allow_nil: true
   delegate :link, to: :participant, prefix: :participant, allow_nil: true
   delegate :name, to: :organization, prefix: :organization, allow_nil: true
   delegate :link, to: :organization, prefix: :organization, allow_nil: true
+
+  def archived?
+    archived_at.present?
+  end
 
   def link
     note_path(self)

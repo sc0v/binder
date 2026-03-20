@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_05_220654) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_18_055441) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -127,6 +127,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_05_220654) do
     t.string "color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "archived_at"
     t.index ["organization_id"], name: "index_notes_on_organization_id"
     t.index ["participant_id"], name: "index_notes_on_participant_id"
   end
@@ -331,6 +332,14 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_05_220654) do
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
   end
 
+  create_table "visitor_counts", force: :cascade do |t|
+    t.integer "organization_id", null: false
+    t.integer "count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_visitor_counts_on_organization_id"
+  end
+
   create_table "weathers", force: :cascade do |t|
     t.string "location"
     t.datetime "date_time"
@@ -361,4 +370,5 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_05_220654) do
   add_foreign_key "tool_type_certifications", "certification_types"
   add_foreign_key "tool_type_certifications", "tool_types"
   add_foreign_key "tools", "tool_types"
+  add_foreign_key "visitor_counts", "organizations"
 end

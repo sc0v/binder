@@ -51,6 +51,11 @@ Rails.application.routes.draw do
   # Notes
   # resources :notes
   resources :notes, only: %i[index show create new edit update destroy]
+  resources :notes do
+    member do
+      patch :archive
+    end
+  end
 
   # Participant Safety Briefing
   get 'safety-briefing',

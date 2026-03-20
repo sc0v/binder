@@ -47,6 +47,12 @@ class NotesController < ApplicationController
     end
   end
 
+  def archive
+    @note = Note.find(params[:id])
+    @note.update(archived_at: Time.current)
+    redirect_to root_path, notice: "Note archived."
+  end
+
   def hide
     @note = Note.find(params[:id])
     @note.update(hidden: params[:hidden])
