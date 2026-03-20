@@ -2,30 +2,30 @@
 <% nav(active: 'notes') %>
 
 <div class="content wide">
-    <h1>Archived Notes</h1>
+  <h1>Archived Notes</h1>
 
-    <% if @notes.empty? %>
+  <% if @notes.empty? %>
     <p>No archived notes.</p>
-    <% else %>
+  <% else %>
     <table>
-        <thead>
+      <thead>
         <tr>
-            <th>Title</th>
-            <th>Value</th>
-            <th>Archived At</th>
+          <th>Title</th>
+          <th>Value</th>
+          <th>Archived At</th>
         </tr>
-        </thead>
-        <tbody>
+      </thead>
+      <tbody>
         <% @notes.each do |note| %>
-            <tr>
+          <tr>
             <td><%= note.title %></td>
             <td><%= note.value %></td>
-            <td><%= note.archived_at.strftime("%B %d, %Y %I:%M %p") %></td>
-            </tr>
+            <td><%= note.archived_at.strftime('%B %d, %Y %I:%M %p') %></td>
+          </tr>
         <% end %>
-        </tbody>
+      </tbody>
     </table>
-    <% end %>
+  <% end %>
 
-    <%= link_to "Back to Home", root_path %>
+  <%= link_to 'Back to Home', root_path %>
 </div>
