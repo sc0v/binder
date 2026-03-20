@@ -40,7 +40,6 @@ module Webpush
       [server, server_pk_bn, client_pk_bn, client_pk]
     end
 
-    # rubocop:disable Metrics/MethodLength
     def derive_keys(
       shared_secret,
       client_auth_token,
@@ -68,8 +67,6 @@ module Webpush
         )
       [cek, nonce]
     end
-
-    # rubocop:enable Metrics/MethodLength
 
     # rubocop:enable Metrics/MethodLength
 
