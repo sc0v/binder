@@ -291,30 +291,30 @@ if models_to_seed.empty? || models_to_seed.include?('certification')
     csv_text = certifications_path.read
     csv = CSV.parse(csv_text, headers: true)
     csv.each do |row|
-    certification_type =
-      CertificationType.find_by(name: row['certification'].strip)
-    unless certification_type
-      tool_type = ToolType.find_by(name: row['certification'].strip)
-      unless tool_type
-        tool_type = ToolType.create(name: row['certification'].strip)
-        Rails.logger.debug do
-          "    ToolType (#{row['certification'].strip}) did not exist, created it"
+      certification_type =
+        CertificationType.find_by(name: row['certification'].strip)
+      unless certification_type
+        tool_type = ToolType.find_by(name: row['certification'].strip)
+        unless tool_type
+          tool_type = ToolType.create(name: row['certification'].strip)
+          Rails.logger.debug do
+            "    ToolType (#{row['certification'].strip}) did not exist, created it"
+          end
         end
+
+        certification_type =
+          CertificationType.create(name: row['certification'].strip)
+        ToolTypeCertification.create(tool_type:, certification_type:)
       end
 
-      certification_type =
-        CertificationType.create(name: row['certification'].strip)
-      ToolTypeCertification.create(tool_type:, certification_type:)
+      andrewid = row['andrewid']&.strip.presence
+      next if andrewid.blank?
+
+      eppn = "#{andrewid}@andrew.cmu.edu"
+      participant = Participant.find_or_create_by!(eppn: eppn)
+
+      Certification.create(participant:, certification_type:)
     end
-
-    andrewid = row['andrewid']&.strip.presence
-    next if andrewid.blank?
-
-    eppn = "#{andrewid}@andrew.cmu.edu"
-    participant = Participant.find_or_create_by!(eppn: eppn)
-
-    Certification.create(participant:, certification_type:)
-  end
   end
 end
 
