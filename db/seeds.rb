@@ -176,11 +176,8 @@ if models_to_seed.empty? || models_to_seed.include?('chargetype')
     Rails.root.join('lib', 'seeds', seeds_folder, 'charge_types.csv').read
   csv = CSV.parse(csv_text, headers: true)
   csv.each do |row|
-    name = row['name']&.strip.presence
-    next if name.blank?
-
     ChargeType.create(
-      name: name,
+      name: row['name'].strip,
       description: row['description'] || '',
       default_amount: Integer(row['default_amount'] || '0')
     )
@@ -284,37 +281,35 @@ if models_to_seed.empty? || models_to_seed.include?('scissorlift')
 end
 
 if models_to_seed.empty? || models_to_seed.include?('certification')
-  certifications_path = Rails.root.join('lib', 'seeds', seeds_folder, 'certifications.csv')
-  if certifications_path.exist?
-    Rails.logger.debug '  Certifications'
+  Rails.logger.debug '  Certifications'
 
-    csv_text = certifications_path.read
-    csv = CSV.parse(csv_text, headers: true)
-    csv.each do |row|
-      certification_type =
-        CertificationType.find_by(name: row['certification'].strip)
-      unless certification_type
-        tool_type = ToolType.find_by(name: row['certification'].strip)
-        unless tool_type
-          tool_type = ToolType.create(name: row['certification'].strip)
-          Rails.logger.debug do
-            "    ToolType (#{row['certification'].strip}) did not exist, created it"
-          end
+  csv_text =
+    Rails.root.join('lib', 'seeds', "#{gdrive_doc}certifications.csv").read
+  csv = CSV.parse(csv_text, headers: true)
+  csv.each do |row|
+    certification_type =
+      CertificationType.find_by(name: row['certification'].strip)
+    unless certification_type
+      tool_type = ToolType.find_by(name: row['certification'].strip)
+      unless tool_type
+        tool_type = ToolType.create(name: row['certification'].strip)
+        Rails.logger.debug do
+          "    ToolType (#{row['certification'].strip}) did not exist, created it"
         end
-
-        certification_type =
-          CertificationType.create(name: row['certification'].strip)
-        ToolTypeCertification.create(tool_type:, certification_type:)
       end
 
-      andrewid = row['andrewid']&.strip.presence
-      next if andrewid.blank?
-
-      eppn = "#{andrewid}@andrew.cmu.edu"
-      participant = Participant.find_or_create_by!(eppn: eppn)
-
-      Certification.create(participant:, certification_type:)
+      certification_type =
+        CertificationType.create(name: row['certification'].strip)
+      ToolTypeCertification.create(tool_type:, certification_type:)
     end
+
+    participant = Participant.find_by(andrewid: row['andrewid'].strip)
+    unless participant
+      user = User.create(email: "#{row['andrewid'].strip}@andrew.cmu.edu")
+      participant = Participant.create(andrewid: row['andrewid'], user:)
+    end
+
+    Certification.create(participant:, certification_type:)
   end
 end
 
@@ -329,43 +324,38 @@ if Rails.env.development?
   scc_org = Organization.find_by(name: 'Spring Carnival Committee')
   dtd_org = Organization.find_by(name: 'Delta Tau Delta')
 
-  seed_phone = '0000000000' # placeholder so Participant validations pass in seeds
-
-  admin = Participant.find_or_create_by!(eppn: "#{admin_andrewid}@andrew.cmu.edu") do |p|
-    p.phone_number = seed_phone
-  end
-  admin.update_column(:phone_number, seed_phone) if admin.phone_number.blank?
-  admin.update!(admin: true)
-  admin_membership = Membership.find_or_create_by!(
-    organization: scc_org,
-    participant: admin
+  admin_user = User.create({ email: "#{admin_andrewid}@andrew.cmu.edu" })
+  admin_user.add_role :admin
+  admin = Participant.create({ andrewid: admin_andrewid, user: admin_user })
+  Membership.create(
+    {
+      organization: scc_org,
+      participant: admin,
+      title: 'Admin',
+      is_booth_chair: true
+    }
   )
-  admin_membership.update!(title: 'Admin', is_booth_chair: true)
 
-  scc = Participant.find_or_create_by!(eppn: "#{scc_andrewid}@andrew.cmu.edu") do |p|
-    p.phone_number = seed_phone
-  end
-  scc.update_column(:phone_number, seed_phone) if scc.phone_number.blank?
-  Membership.find_or_create_by!(organization: scc_org, participant: scc)
+  scc_user = User.create({ email: "#{scc_andrewid}@andrew.cmu.edu" })
+  scc = Participant.create({ andrewid: scc_andrewid, user: scc_user })
+  Membership.create({ organization: scc_org, participant: scc })
 
-  booth_chair = Participant.find_or_create_by!(
-    eppn: "#{booth_chair_andrewid}@andrew.cmu.edu"
-  ) do |p|
-    p.phone_number = seed_phone
-  end
-  booth_chair.update_column(:phone_number, seed_phone) if booth_chair.phone_number.blank?
-  booth_chair_membership = Membership.find_or_create_by!(
-    organization: dtd_org,
-    participant: booth_chair
+  booth_chair_user =
+    User.create({ email: "#{booth_chair_andrewid}@andrew.cmu.edu" })
+  booth_chair =
+    Participant.create(
+      { andrewid: booth_chair_andrewid, user: booth_chair_user }
+    )
+  Membership.create(
+    { organization: dtd_org, participant: booth_chair, is_booth_chair: true }
   )
-  booth_chair_membership.update!(is_booth_chair: true)
 
-  participant = Participant.find_or_create_by!(
-    eppn: "#{participant_andrewid}@andrew.cmu.edu"
-  ) do |p|
-    p.phone_number = seed_phone
-  end
-  participant.update_column(:phone_number, seed_phone) if participant.phone_number.blank?
-  Membership.find_or_create_by!(organization: dtd_org, participant: participant)
+  participant_user =
+    User.create({ email: "#{participant_andrewid}@andrew.cmu.edu" })
+  participant =
+    Participant.create(
+      { andrewid: participant_andrewid, user: participant_user }
+    )
+  Membership.create({ organization: dtd_org, participant: })
 end
 Rails.logger.debug
