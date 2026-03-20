@@ -103,6 +103,9 @@ en:
     destroy:
       notice: Destroyed the note!
       alert: Could not destroy the note
+    archive:
+      notice: Archived the note!
+      
   organization_build_steps:
     create:
       notice: Added Build Task!

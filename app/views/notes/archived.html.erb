@@ -1,0 +1,31 @@
+<% update_breadcrumbs(add: 'Notes', add: 'Archived') %>
+<% nav(active: 'notes') %>
+
+<div class="content wide">
+    <h1>Archived Notes</h1>
+
+    <% if @notes.empty? %>
+    <p>No archived notes.</p>
+    <% else %>
+    <table>
+        <thead>
+        <tr>
+            <th>Title</th>
+            <th>Value</th>
+            <th>Archived At</th>
+        </tr>
+        </thead>
+        <tbody>
+        <% @notes.each do |note| %>
+            <tr>
+            <td><%= note.title %></td>
+            <td><%= note.value %></td>
+            <td><%= note.archived_at.strftime("%B %d, %Y %I:%M %p") %></td>
+            </tr>
+        <% end %>
+        </tbody>
+    </table>
+    <% end %>
+
+    <%= link_to "Back to Home", root_path %>
+</div>
