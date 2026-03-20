@@ -3,14 +3,16 @@
 class Applets::PushBroadcastController < ApplicationController
   before_action :require_admin
 
-  def index; end
+  def index
+  end
 
   def create
-    results = PushNotificationService.send_to_all(
-      title: params[:title],
-      body: params[:body]
-    )
-    set_broadcast_flash(results)
+    results =
+      PushNotificationService.send_to_all(
+        title: params[:title],
+        body: params[:body]
+      )
+    flash_broadcast_results(results)
     redirect_to push_broadcast_path
   end
 
@@ -20,7 +22,7 @@ class Applets::PushBroadcastController < ApplicationController
     authorize! :manage, NotificationSubscription
   end
 
-  def set_broadcast_flash(results)
+  def flash_broadcast_results(results)
     successes = results.count { |r| !r.is_a?(Hash) }
     failures = results.count { |r| r.is_a?(Hash) }
     flash[:notice] = "Sent #{successes} notification(s)."

@@ -8,16 +8,23 @@ require 'webpush'
 
 module Webpush
   module Encryption
+    # rubocop:disable Metrics/MethodLength
     def encrypt(message, p256dh, auth)
       assert_arguments(message, p256dh, auth)
       salt = Random.new.bytes(16)
       server, server_pk_bn, client_pk_bn, client_pk = generate_ec_keys(p256dh)
-      cek, nonce = derive_keys(
-        server.dh_compute_key(client_pk),
-        Webpush.decode64(auth), client_pk_bn, server_pk_bn, salt
-      )
+      cek, nonce =
+        derive_keys(
+          server.dh_compute_key(client_pk),
+          Webpush.decode64(auth),
+          client_pk_bn,
+          server_pk_bn,
+          salt
+        )
       ciphertext = encrypt_payload(message, cek, nonce)
-      raise ArgumentError, 'encrypted payload is too big' if ciphertext.bytesize > 4096
+      if ciphertext.bytesize > 4096
+        raise ArgumentError, 'encrypted payload is too big'
+      end
 
       build_header(salt, convert16bit(server_pk_bn), ciphertext)
     end
@@ -33,21 +40,42 @@ module Webpush
       [server, server_pk_bn, client_pk_bn, client_pk]
     end
 
-    def derive_keys(shared_secret, client_auth_token, client_pk_bn, server_pk_bn, salt)
+    # rubocop:disable Metrics/MethodLength
+    def derive_keys(
+      shared_secret,
+      client_auth_token,
+      client_pk_bn,
+      server_pk_bn,
+      salt
+    )
       info = "WebPush: info\0#{client_pk_bn.to_s(2)}#{server_pk_bn.to_s(2)}"
-      prk = HKDF.new(shared_secret, salt: client_auth_token, algorithm: 'SHA256',
-                                    info: info).next_bytes(32)
-      cek = HKDF.new(prk, salt: salt, info: "Content-Encoding: aes128gcm\0").next_bytes(16)
-      nonce = HKDF.new(prk, salt: salt, info: "Content-Encoding: nonce\0").next_bytes(12)
+      prk =
+        HKDF.new(
+          shared_secret,
+          salt: client_auth_token,
+          algorithm: 'SHA256',
+          info: info
+        ).next_bytes(32)
+      cek =
+        HKDF.new(
+          prk,
+          salt: salt,
+          info: "Content-Encoding: aes128gcm\0"
+        ).next_bytes(16)
+      nonce =
+        HKDF.new(prk, salt: salt, info: "Content-Encoding: nonce\0").next_bytes(
+          12
+        )
       [cek, nonce]
     end
 
+    # rubocop:enable Metrics/MethodLength
+
+    # rubocop:enable Metrics/MethodLength
+
     def build_header(salt, serverkey16bn, ciphertext)
-      salt.to_s +
-        [ciphertext.bytesize].pack('N*') +
-        [serverkey16bn.bytesize].pack('C*') +
-        serverkey16bn +
-        ciphertext
+      salt.to_s + [ciphertext.bytesize].pack('N*') +
+        [serverkey16bn.bytesize].pack('C*') + serverkey16bn + ciphertext
     end
   end
 
@@ -56,25 +84,38 @@ module Webpush
       @curve = OpenSSL::PKey::EC.generate('prime256v1')
     end
 
+    # rubocop:disable Metrics/MethodLength
     def self.from_keys(public_key, private_key)
       private_bytes = Base64.urlsafe_decode64(pad(private_key))
-      public_bytes  = Base64.urlsafe_decode64(pad(public_key))
+      public_bytes = Base64.urlsafe_decode64(pad(public_key))
 
-      asn1 = OpenSSL::ASN1::Sequence.new([
-        OpenSSL::ASN1::Integer.new(OpenSSL::BN.new(1)),
-        OpenSSL::ASN1::OctetString.new(private_bytes),
-        OpenSSL::ASN1::ASN1Data.new(
-          [OpenSSL::ASN1::ObjectId.new('prime256v1')], 0, :CONTEXT_SPECIFIC
-        ),
-        OpenSSL::ASN1::ASN1Data.new(
-          [OpenSSL::ASN1::BitString.new(public_bytes)], 1, :CONTEXT_SPECIFIC
+      asn1 =
+        OpenSSL::ASN1::Sequence.new(
+          [
+            OpenSSL::ASN1::Integer.new(OpenSSL::BN.new(1)),
+            OpenSSL::ASN1::OctetString.new(private_bytes),
+            OpenSSL::ASN1::ASN1Data.new(
+              [OpenSSL::ASN1::ObjectId.new('prime256v1')],
+              0,
+              :CONTEXT_SPECIFIC
+            ),
+            OpenSSL::ASN1::ASN1Data.new(
+              [OpenSSL::ASN1::BitString.new(public_bytes)],
+              1,
+              :CONTEXT_SPECIFIC
+            )
+          ]
         )
-      ])
 
       vapid_key = allocate
-      vapid_key.instance_variable_set(:@curve, OpenSSL::PKey::EC.new(asn1.to_der))
+      vapid_key.instance_variable_set(
+        :@curve,
+        OpenSSL::PKey::EC.new(asn1.to_der)
+      )
       vapid_key
     end
+
+    # rubocop:enable Metrics/MethodLength
 
     def self.pad(base64url)
       base64url + ('=' * ((4 - (base64url.length % 4)) % 4))
