@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_08_185252) do
+ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -98,6 +98,14 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_08_185252) do
     t.datetime "updated_at", null: false
     t.integer "organization_category_id"
     t.index ["organization_category_id"], name: "index_faq_on_organization_category_id"
+  end
+
+  create_table "hardhat_conditions", force: :cascade do |t|
+    t.integer "barcode"
+    t.integer "condition_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["condition_id"], name: "index_hardhat_conditions_on_condition_id"
   end
 
   create_table "memberships", force: :cascade do |t|
@@ -319,13 +327,23 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_08_185252) do
     t.datetime "updated_at", null: false
     t.integer "tool_type_id"
     t.boolean "active"
+    t.string "status"
     t.index ["barcode"], name: "index_tools_on_barcode"
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
+  end
+
+  create_table "visitor_counts", force: :cascade do |t|
+    t.integer "organization_id", null: false
+    t.integer "count"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["organization_id"], name: "index_visitor_counts_on_organization_id"
   end
 
   add_foreign_key "certifications", "certification_types"
   add_foreign_key "certifications", "participants"
   add_foreign_key "faq", "organization_categories"
+  add_foreign_key "hardhat_conditions", "conditions"
   add_foreign_key "notes", "organizations"
   add_foreign_key "notes", "participants"
   add_foreign_key "organization_build_statuses", "organizations"
@@ -341,4 +359,5 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_08_185252) do
   add_foreign_key "tool_type_certifications", "certification_types"
   add_foreign_key "tool_type_certifications", "tool_types"
   add_foreign_key "tools", "tool_types"
+  add_foreign_key "visitor_counts", "organizations"
 end

@@ -27,6 +27,10 @@ class Tool < ApplicationRecord
   scope :active,       -> { where(active: true) }
   scope :inactive,     -> { where(active: false) }
   scope :ordered_by_name, -> { order(name: :asc) }
+
+  scope :damaged, -> { where(status: "Damaged") }
+  scope :late, -> { where(status: "Late Return") }
+  scope :unreturned, -> { where(status: "Unreturned") }
   def current_organization
     checkouts.current.take.organization if checkouts.current.present?
   end
@@ -39,8 +43,20 @@ class Tool < ApplicationRecord
     !checkouts.current.empty?
   end
 
+  def unreturned_checker
+    return unless is_hardhat? && is_checked_out?
+    return unless Time.current > Time.zone.local(2026, 4, 14)
+    update(status: "unreturned")
+    
+  end
+
   def is_hardhat?
     name.downcase.include?('hardhat')
+  end
+
+  def hardhat_status_label
+    return nil unless is_hardhat?
+    status || "good condition"
   end
 
   def self.checked_out_by_organization(organization)

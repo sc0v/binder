@@ -16,8 +16,13 @@ class Applets::PPECollectionController < ApplicationController
       end
       @checkout.checked_in_at = Time.zone.now
       @checkout.save!
+      @hardhat.update(status: params[:status]) if params[:status].present?
+      
+      if @checkout.checked_in_at > Time.zone.local(2026, 4, 14)
+        @hardhat.update(status: "Late Return")
+      end
 
-      redirect_to ppe_collection_path, notice: "Hardhat #{params[:barcode]} successfully checked in."
+      redirect_to ppe_collection_path, notice: "Hardhat successfully checked in and marked as #{params[:status]}."
     end
   end
 end
