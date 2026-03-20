@@ -1,5 +1,5 @@
-# Use the ruby 3.2 for runtime image that works with ruby version 3.2.1
-FROM ruby:3.2.1
+# Use the ruby 3.2 for runtime image that works with ruby version 3.4.2
+FROM ruby:3.4.2
 
 # install RVM
 RUN apt-get update && apt-get install -y --no-install-recommends gnupg2
@@ -7,8 +7,8 @@ RUN gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E206
 
 # install ruby
 # TODO: change the env to match the ruby version in your Gemfile
-ENV RUBY_VERSION=3.2.1
-RUN /bin/bash -l -c "rvm install $RUBY_VERSION && rvm --default use 3.2.1"
+ENV RUBY_VERSION=3.4.2
+RUN /bin/bash -l -c "rvm install $RUBY_VERSION && rvm --default use 3.4.2"
 
 # install nodejs
 RUN curl -sL https://deb.nodesource.com/setup_20.x | bash && apt-get install -y --no-install-recommends nodejs
