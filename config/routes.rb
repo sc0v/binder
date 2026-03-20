@@ -41,6 +41,8 @@ Rails.application.routes.draw do
   get 'applets', to: 'applets#index', as: :applets
   get 'ppe-distribution', to: 'applets/ppe_distribution#index'
   get 'ppe-collection', to: 'applets/ppe_collection#index'
+  get 'push-broadcast', to: 'applets/push_broadcast#index', as: :push_broadcast
+  post 'push-broadcast', to: 'applets/push_broadcast#create'
 
   # FAQ
   # n.b.: FAQ is uncountable (like sheep). The Rails convention is to have:
