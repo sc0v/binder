@@ -1,0 +1,13 @@
+
+<% update_document_title(add:'Visitor Count')%>
+<% update_breadcrumbs(add: link_to('Home', root_path))%>
+<% update_breadcrumbs(add: link_to('Visitor Count'))%>
+<%= nav(active: 'home') %>
+
+<div class="content wide">
+    <h1><%= @organization_name %></h1>
+    <p>Visitor count: <%= @count %></p>
+    <%= form_with model: @visitor_count,method: :patch do%>
+    <%= submit_tag "Increment visitor count", class: "btn" %>
+<% end %>
+</div>

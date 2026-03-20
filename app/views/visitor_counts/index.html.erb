@@ -1,0 +1,17 @@
+<% update_document_title(add:'Visitor Counts')%>
+<% update_breadcrumbs(add: link_to('Home', root_path))%>
+<% update_breadcrumbs(add: 'Visitor Counts')%>
+<%= nav(active: 'home') %>
+
+<div class="content wide">
+    <h1>Visitor Counts</h1>
+
+    <ul>
+      <% @visitor_counts.each do |visitor_count|%>
+         <li>
+          <%= link_to visitor_count.organization.name, visitor_count_path(visitor_count) %>
+            <%= visitor_count.count %> visitors
+         </li>
+      <% end %>
+    </ul>
+</div>
