@@ -332,14 +332,6 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
   end
 
-  create_table "visitor_counts", force: :cascade do |t|
-    t.integer "organization_id", null: false
-    t.integer "count"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["organization_id"], name: "index_visitor_counts_on_organization_id"
-  end
-
   add_foreign_key "certifications", "certification_types"
   add_foreign_key "certifications", "participants"
   add_foreign_key "faq", "organization_categories"
@@ -359,5 +351,4 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
   add_foreign_key "tool_type_certifications", "certification_types"
   add_foreign_key "tool_type_certifications", "tool_types"
   add_foreign_key "tools", "tool_types"
-  add_foreign_key "visitor_counts", "organizations"
 end
