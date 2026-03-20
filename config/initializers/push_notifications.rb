@@ -8,4 +8,5 @@ vapid_subject_default =
 
 Rails.application.config.vapid_public_key = ENV.fetch('VAPID_PUBLIC_KEY')
 Rails.application.config.vapid_private_key = ENV.fetch('VAPID_PRIVATE_KEY')
-Rails.application.config.vapid_subject = ENV.fetch('VAPID_SUBJECT', vapid_subject_default)
+Rails.application.config.vapid_subject =
+  ENV.fetch('VAPID_SUBJECT', vapid_subject_default)

@@ -8,7 +8,9 @@ class PushNotificationService
       end
 
       deliver(subscription, build_message(title:, body:, **))
-    rescue Webpush::ExpiredSubscription, Webpush::InvalidSubscription, Webpush::ResponseError => e
+    rescue Webpush::ExpiredSubscription,
+           Webpush::InvalidSubscription,
+           Webpush::ResponseError => e
       handle_delivery_failure(subscription, e)
     rescue StandardError => e
       handle_unexpected_error(e)
