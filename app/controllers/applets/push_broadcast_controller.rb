@@ -10,10 +10,7 @@ class Applets::PushBroadcastController < ApplicationController
       title: params[:title],
       body: params[:body]
     )
-    successes = results.count { |r| !r.is_a?(Hash) }
-    failures = results.count { |r| r.is_a?(Hash) }
-    flash[:notice] = "Sent #{successes} notification(s)."
-    flash[:alert] = "#{failures} delivery failure(s)." if failures > 0
+    set_broadcast_flash(results)
     redirect_to push_broadcast_path
   end
 
@@ -21,5 +18,12 @@ class Applets::PushBroadcastController < ApplicationController
 
   def require_admin
     authorize! :manage, NotificationSubscription
+  end
+
+  def set_broadcast_flash(results)
+    successes = results.count { |r| !r.is_a?(Hash) }
+    failures = results.count { |r| r.is_a?(Hash) }
+    flash[:notice] = "Sent #{successes} notification(s)."
+    flash[:alert] = "#{failures} delivery failure(s)." if failures.positive?
   end
 end
