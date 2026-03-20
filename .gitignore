@@ -41,4 +41,4 @@
 
 # Generate fresh credentials for each developer in devcontainer setup
 /config/master.key
-/config/credentials.yml.enc.devcontainer/.env.local
+/config/credentials.yml.enc
