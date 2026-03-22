@@ -21,6 +21,7 @@
       <%= link_to 'ARCHIVE',
                   archive_note_path(n),
                   data: {
+                    turbo_confirm: 'Archive this note?',
                     turbo_method: :patch
                   },
                   class: 'cta' %>

@@ -370,5 +370,4 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_18_055441) do
   add_foreign_key "tool_type_certifications", "certification_types"
   add_foreign_key "tool_type_certifications", "tool_types"
   add_foreign_key "tools", "tool_types"
-  add_foreign_key "visitor_counts", "organizations"
 end

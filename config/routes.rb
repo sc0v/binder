@@ -50,7 +50,7 @@ Rails.application.routes.draw do
 
   # Notes
   # resources :notes
-  resources :notes, only: %i[index show create new edit update destroy] do
+  resources :notes, only: %i[index show create new edit update] do
     member { patch :archive }
     collection { get :archived }
   end

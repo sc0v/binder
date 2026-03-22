@@ -13,6 +13,9 @@ class NotesController < ApplicationController
 
   def show
     @note = Note.find(params[:id])
+    return unless @note.archived?
+
+    redirect_to archived_notes_path, alert: t('.archived')
   end
 
   def edit
@@ -39,22 +42,13 @@ class NotesController < ApplicationController
     end
   end
 
-  # def destroy
-  #   if @note.destroy
-  #     redirect_to root_path, notice: t('.notice')
-  #   else
-  #     redirect_to root_path, alert: t('.alert')
-  #   end
-  # end
-
   def archive
-    @note = Note.find(params[:id])
     @note.update(archived_at: Time.current)
     redirect_to root_path, notice: t('.notice')
   end
 
   def archived
-    @notes = Note.archived
+    @notes = Note.accessible_by(Current.ability).archived
   end
 
   def hide
