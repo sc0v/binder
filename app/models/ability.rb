@@ -217,7 +217,7 @@ class Ability
     # Event                            -- Not currently used: Feature No Longer Used
     # FAQ: Same as Builder
     can :manage, Membership
-    can %i[create destroy archive], Note
+    can %i[create destroy archive unarchive], Note
     can :manage, OrganizationBuildStatus
     can :manage, OrganizationBuildStep
     # OrganizationCategory: Same as Builder

@@ -332,14 +332,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_18_055441) do
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
   end
 
-  create_table "visitor_counts", force: :cascade do |t|
-    t.integer "organization_id", null: false
-    t.integer "count"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["organization_id"], name: "index_visitor_counts_on_organization_id"
-  end
-
   create_table "weathers", force: :cascade do |t|
     t.string "location"
     t.datetime "date_time"

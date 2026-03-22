@@ -107,6 +107,8 @@ en:
       archived: That note has been archived.
     archive:
       notice: Archived the note!
+    unarchive:
+      notice: Unarchived the note!
       
   organization_build_steps:
     create:

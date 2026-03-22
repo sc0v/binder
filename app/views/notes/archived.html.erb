@@ -13,6 +13,7 @@
           <th>Title</th>
           <th>Value</th>
           <th>Archived At</th>
+          <th>Actions</th>
         </tr>
       </thead>
       <tbody>
@@ -21,6 +22,7 @@
             <td><%= note.title %></td>
             <td><%= note.value %></td>
             <td><%= note.archived_at.strftime('%B %d, %Y %I:%M %p') %></td>
+            <td><%= link_to 'UNARCHIVE', unarchive_note_path(note), data: {turbo_method: :patch}, class: 'cta' %></td>
           </tr>
         <% end %>
       </tbody>

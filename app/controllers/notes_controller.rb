@@ -47,6 +47,11 @@ class NotesController < ApplicationController
     redirect_to root_path, notice: t('.notice')
   end
 
+  def unarchive
+    @note.update(archived_at: nil)
+    redirect_to archived_notes_path, notice: t('.notice')
+  end
+
   def archived
     @notes = Note.accessible_by(Current.ability).archived
   end
