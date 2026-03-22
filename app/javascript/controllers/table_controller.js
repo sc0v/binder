@@ -3,16 +3,33 @@ import { DateTime } from "luxon";
 window.DateTime = DateTime;
 import { TabulatorFull as Tabulator } from "tabulator-tables";
 
+/** @param {import("tabulator-tables").TabulatorFull} table */
+function clearCountdownIntervalsFromTable(table) {
+  table?.getRows?.()?.forEach((row) => {
+    row.getCells().forEach((cell) => {
+      const el = cell.getElement();
+      if (el?._binderCountdownInterval) {
+        clearInterval(el._binderCountdownInterval);
+        el._binderCountdownInterval = null;
+      }
+    });
+  });
+}
+
 export default class extends Controller {
   connect() {
-    this._countdownIntervals = [];
     const e = document.createElement("div");
     const config = JSON.parse(this.element.dataset.config);
-    const controller = this;
 
     config.columns?.forEach((col) => {
       if (col.field === "due_at_countdown") {
         col.formatter = (cell) => {
+          const el = cell.getElement();
+          if (el?._binderCountdownInterval) {
+            clearInterval(el._binderCountdownInterval);
+            el._binderCountdownInterval = null;
+          }
+
           const value = cell.getValue();
           const span = document.createElement("span");
           if (!value) {
@@ -25,7 +42,8 @@ export default class extends Controller {
             const ms = endMs - Date.now();
             if (ms <= 0) {
               span.textContent = "Overdue";
-              clearInterval(intervalId);
+              if (intervalId) clearInterval(intervalId);
+              if (el) el._binderCountdownInterval = null;
               return;
             }
             const totalSec = Math.floor(ms / 1000);
@@ -34,8 +52,10 @@ export default class extends Controller {
             span.textContent = `${String(h).padStart(2, "0")}:${String(m).padStart(2, "0")}`;
           };
           tick();
-          intervalId = setInterval(tick, 1000);
-          controller._countdownIntervals.push(intervalId);
+          if (span.textContent !== "Overdue") {
+            intervalId = setInterval(tick, 1000);
+            if (el) el._binderCountdownInterval = intervalId;
+          }
           return span;
         };
       }
@@ -43,12 +63,20 @@ export default class extends Controller {
 
     const table = new Tabulator(e, config);
     this._table = table;
+
+    table.on("dataLoading", () => {
+      clearCountdownIntervalsFromTable(table);
+    });
+
+    table.on("rowUpdated", (row) => {
+      row.reformat();
+    });
+
     this.element.replaceChildren(e);
   }
 
   disconnect() {
-    this._countdownIntervals?.forEach(clearInterval);
-    this._countdownIntervals = [];
+    clearCountdownIntervalsFromTable(this._table);
     this._table?.destroy();
     this._table = null;
   }
