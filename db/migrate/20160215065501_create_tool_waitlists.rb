@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 class CreateToolWaitlists < ActiveRecord::Migration[6.0]
   def change
     create_table :tool_waitlists do |t|
@@ -7,7 +8,7 @@ class CreateToolWaitlists < ActiveRecord::Migration[6.0]
       t.references :participant
       t.references :organization
       t.string :note
-      t.boolean :active, default: true
+      t.boolean :active, null: false, default: true
 
       t.timestamps
     end

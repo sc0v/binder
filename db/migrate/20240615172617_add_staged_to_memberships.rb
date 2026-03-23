@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class AddStagedToMemberships < ActiveRecord::Migration[7.0]
   def change
-    add_column :memberships, :is_staged, :boolean
+    add_column :memberships, :is_staged, :boolean, null: false, default: false
   end
 end

@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class ToolTypeTest < ActiveSupport::TestCase
@@ -7,12 +8,7 @@ class ToolTypeTest < ActiveSupport::TestCase
   should validate_uniqueness_of(:name)
 
   context 'With an existing tool type' do
-    setup do
-      @hammer_type = FactoryGirl.create(:tool_type)
-    end
-
-    teardown do
-    end
+    setup { @hammer_type = FactoryGirl.create(:tool_type) }
 
     should 'Not allow duplicate tool type names' do
       duplicate_type = ToolType.new(name: 'Hammer')

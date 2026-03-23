@@ -4,7 +4,7 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 1;
-          line-clamp: 1;
+  line-clamp: 1;
   overflow: hidden;
 }
 
@@ -18,7 +18,7 @@
   display: -webkit-box;
   -webkit-box-orient: vertical;
   -webkit-line-clamp: 4;
-          line-clamp: 4;
+  line-clamp: 4;
   overflow: hidden;
 }
 
@@ -57,7 +57,6 @@ ul.notes li.create-notes a {
   line-height: 1.2;
   font-family: "Patrick Hand", cursive;
 }
-
 
 ul.notes li a.cta {
   position: absolute;
@@ -144,7 +143,7 @@ ul.notes li {
 .note-info-tooltip {
   visibility: hidden;
   position: absolute;
-  bottom: 30px; 
+  bottom: 30px;
   right: -70px;
   background-color: #333;
   color: #fff;
@@ -154,7 +153,9 @@ ul.notes li {
   width: 180px;
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
   opacity: 0;
-  transition: opacity 0.2s, visibility 0.2s;
+  transition:
+    opacity 0.2s,
+    visibility 0.2s;
   z-index: 100;
   pointer-events: none;
   text-align: left;
@@ -180,13 +181,12 @@ ul.notes li {
 .note-info-tooltip::after {
   content: "";
   position: absolute;
-  top: 100%; 
+  top: 100%;
   right: 80px;
   border-width: 5px;
   border-style: solid;
   border-color: #333 transparent transparent transparent; /* Arrow pointing down */
 }
-
 
 /* Color selection styles */
 .color-selection {
@@ -215,7 +215,9 @@ ul.notes li {
   align-items: center;
   justify-content: center;
   box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-  transition: transform 0.2s, box-shadow 0.2s;
+  transition:
+    transform 0.2s,
+    box-shadow 0.2s;
   position: relative;
   border: 2px solid transparent;
   color: transparent; /* Hide the text */

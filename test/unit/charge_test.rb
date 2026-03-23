@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class ChargeTest < ActiveSupport::TestCase
@@ -26,9 +27,6 @@ class ChargeTest < ActiveSupport::TestCase
       @fine = FactoryGirl.create(:charge, is_approved: false)
       @fine2 = FactoryGirl.create(:charge, is_approved: false)
       @fine3 = FactoryGirl.create(:charge, is_approved: true)
-    end
-
-    teardown do
     end
 
     should 'show that all factories are properly created' do

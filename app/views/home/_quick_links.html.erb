@@ -3,21 +3,29 @@
 </div>
 <div class="col-xs-10 col-sm-6">
   <% if Current.user.blank? %>
-    <% if Rails.env.staging? or Rails.env.production? then %>
-      <p><%= link_to 'Login to Begin', main_app.user_omniauth_authorize_path(:shibboleth), class: 'btn btn-success' %></p>
-      <br>
+    <% if Rails.env.staging? or Rails.env.production? %>
+      <p
+        ><%= link_to 'Login to Begin',
+                    main_app.user_omniauth_authorize_path(:shibboleth),
+                    class: 'btn btn-success' %></p
+      >
+      <br />
     <% else %>
       <p>Please login to continue.</p>
     <% end %>
-  <% elsif Current.user && Current.user.has_signed_waiver? then %>
-    <p><%= link_to 'Sign Waiver', new_waiver_path, class: 'btn btn-success' %></p>
-    <br>
+  <% elsif Current.user && Current.user.has_signed_waiver? %>
+    <p
+      ><%= link_to 'Sign Waiver', new_waiver_path, class: 'btn btn-success' %></p
+    >
+    <br />
   <% end %>
   <% if can?(:read, Charge) %>
     <p><%= link_to 'Charges', charges_path, class: 'btn btn-primary' %></p>
   <% end %>
   <% if can?(:downtime, OrganizationTimelineEntry) %>
-    <p><%= link_to 'Downtime', downtime_index_path, class: 'btn btn-primary' %></p>
+    <p
+      ><%= link_to 'Downtime', downtime_index_path, class: 'btn btn-primary' %></p
+    >
   <% end %>
   <% if can?(:read, Faq) %>
     <p><%= link_to 'FAQs', faqs_path, class: 'btn btn-primary' %></p>
@@ -29,17 +37,27 @@
     <p><%= link_to 'Tasks', tasks_path, class: 'btn btn-primary' %></p>
   <% end %>
   <% if can?(:structural, OrganizationTimelineEntry) %>
-    <p><%= link_to 'Structural Queue', structural_path, class: 'btn btn-primary' %></p>
+    <p
+      ><%= link_to 'Structural Queue', structural_path, class: 'btn btn-primary' %></p
+    >
   <% end %>
   <% if can?(:electrical, OrganizationTimelineEntry) %>
-    <p><%= link_to 'Electrical Queue', electrical_path, class: 'btn btn-primary' %></p>
+    <p
+      ><%= link_to 'Electrical Queue', electrical_path, class: 'btn btn-primary' %></p
+    >
   <% end %>
-  <br>
-  <% if user_signed_in? then %>
+  <br />
+  <% if user_signed_in? %>
     <%= form_tag(search_path, class: 'form-inline', role: 'search') do %>
       <div class="form-group">
         <div class="input-group">
-          <%= text_field_tag('query', '', size: 10, class: 'form-control col-md-6') %>
+          <%= text_field_tag(
+                'query',
+                '',
+                size: 10,
+                class: 'form-control col-md-6',
+                autocomplete: 'off'
+              ) %>
           <span class="input-group-btn">
             <%= submit_tag('Search', class: 'btn btn-default') %>
           </span>

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class CreateScissorLiftCheckouts < ActiveRecord::Migration[7.0]
   def change
     create_table :scissor_lift_checkouts do |t|

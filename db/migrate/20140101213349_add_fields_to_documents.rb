@@ -1,7 +1,8 @@
 # frozen_string_literal: true
+
 class AddFieldsToDocuments < ActiveRecord::Migration[6.0]
   def change
     add_column :documents, :organization_id, :integer
-    add_column :documents, :public, :boolean
+    add_column :documents, :public, :boolean, null: false, default: false
   end
 end

@@ -9,29 +9,16 @@ class ShiftsController < ApplicationController
   # Regular index is watch shifts by default
   def index
     s = shifts
-
-    @title = case params[:type]
-             when 'watch'
-               s = shifts.watch_shifts
-               'Watch Shifts'
-             when 'security'
-               s = shifts.sec_shifts
-               'Security Shifts'
-             when 'coordinator'
-               s = shifts.coord_shifts
-               'Coordinator Shifts'
-             else
-               'All Shifts'
-             end
-
+    @title, s = filtered_shifts(s)
     @shifts_upcoming = s.where('ends_at > ?', Time.zone.now)
-    @shifts_past = s.where('ends_at <= ?', Time.zone.now)
+    @shifts_past = s.where(ends_at: ..Time.zone.now)
   end
 
   # GET /shifts/1
   # GET /shifts/1.json
   def show
-    @number_spots_left = @shift.required_number_of_participants - @shift.shift_participants.count
+    @number_spots_left =
+      @shift.required_number_of_participants - @shift.shift_participants.count
   end
 
   # GET /shifts/new
@@ -41,7 +28,8 @@ class ShiftsController < ApplicationController
   end
 
   # GET /shifts/1/edit
-  def edit; end
+  def edit
+  end
 
   # POST /shifts
   # POST /shifts.json
@@ -67,6 +55,19 @@ class ShiftsController < ApplicationController
 
   private
 
+  def filtered_shifts(base)
+    case params[:type]
+    when 'watch'
+      ['Watch Shifts', base.watch_shifts]
+    when 'security'
+      ['Security Shifts', base.sec_shifts]
+    when 'coordinator'
+      ['Coordinator Shifts', base.coord_shifts]
+    else
+      ['All Shifts', base]
+    end
+  end
+
   def shifts
     return Shift.all if Current.user.admin? || Current.user.scc?
 
@@ -79,7 +80,15 @@ class ShiftsController < ApplicationController
   end
 
   def shift_params
-    params.require(:shift).permit(:starts_at, :ends_at, :shift_type_id, :organization_id,
-                                  :required_number_of_participants, :description)
+    params.expect(
+      shift: %i[
+        starts_at
+        ends_at
+        shift_type_id
+        organization_id
+        required_number_of_participants
+        description
+      ]
+    )
   end
 end

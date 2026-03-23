@@ -1,13 +1,17 @@
+# frozen_string_literal: true
+
 class ScissorLiftCheckoutsController < ApplicationController
+  before_action :require_update_permission, only: %i[renew checkin]
+  before_action :find_scissor_lift_by_name, only: %i[renew checkin]
+  before_action :find_current_checkout, only: %i[renew checkin]
+
   def add
-    session[:scissor_lifts]||=[]
+    session[:scissor_lifts] ||= []
     scissor_lift = ScissorLift.find_by(name: params[:name])
-    if scissor_lift.present?
-      if !session[:scissor_lifts].include?(scissor_lift.id)
-        session[:scissor_lifts].append(scissor_lift.id)
-      end
+    if scissor_lift
+      session[:scissor_lifts] |= [scissor_lift.id]
     else
-      flash.alert = "No scissor lift found with that name."
+      flash.alert = 'No scissor lift found with that name.'
     end
     redirect_to params[:url]
   end
@@ -24,144 +28,36 @@ class ScissorLiftCheckoutsController < ApplicationController
   end
 
   def checkout
-    return unless params[:checkout].present? && params[:checkout][:organization_id].present?
+    return if params.dig(:checkout, :organization_id).blank?
 
-    unless can? :create, ScissorLiftCheckout
-      flash.alert = "Not authorized to checkout a Scissorlift."
-      redirect_to scissor_lifts_path
-      return
+    unless can?(:create, ScissorLiftCheckout)
+      return redirect_to scissor_lifts_path, alert: t('.unauthorized')
     end
 
     @organization = Organization.find(params[:checkout][:organization_id])
-    if @organization.blank?
-      flash.alert = "Select a valid organization."
-      redirect_to scissor_lifts_path
-      return
-    else
-      timeout_end = ScissorLiftCheckout.timeout_end(@organization)
-      if timeout_end.present?
-        flash.alert = "#{@organization.name} is on timeout for using a scissor lift without a green wristband until #{timeout_end.strftime('%l:%M %p')}!"
-        redirect_to scissor_lifts_path
-        return
-      end
-    end
-
-    if session[:scissor_lifts].empty?
-      flash.alert = "Add at least one scissor lift to checkout."
-      redirect_to scissor_lifts_path
-      return
-    end
-
-    p = Participant.find_by(id: session[:borrower_id])
-    if p.blank?
-      flash.alert = "Select a valid participant to checkout."
-      redirect_to scissor_lifts_path
-      return
-    elsif !p.wristbands.present? || !p.wristbands.include?(:green)
-      flash.alert = "#{p.name} is not scissor lift certified."
-      redirect_to scissor_lifts_path
-      return
-    end
-
-    bad_lifts = []
-    good_lifts = []
-    lift_errors = []
-    session[:scissor_lifts].each do |scissor_lift_id|
-      begin
-        s = ScissorLift.find(scissor_lift_id)
-        if s.is_checked_out?
-          bad_lifts.append(s.name)
-          lift_errors.append('Scissor lift is already checked out')
-          next
-        end
-        checkout = ScissorLiftCheckout.new(organization: @organization,
-                            participant: p,
-                            scissor_lift: s,
-                            checked_out_at: Time.zone.now,
-                            due_at: Time.zone.now + 2.hours)
-        if checkout.save
-          good_lifts.append(s.name)
-          session[:scissor_lifts] -= [scissor_lift_id]
-        else
-          bad_lifts.append(s.name)
-          lift_errors.append(checkout.errors.full_messages.join(", "))
-        end
-      rescue
-        flash.alert = "Error checking out '#{s.name}'"
-        redirect_to scissor_lifts_path and return
-      end
-    end
-    
-    if session[:scissor_lifts].empty?
-      session[:borrower_id] = nil
-      flash.notice = "#{good_lifts.join(", ")} checked out to #{p.name}"
-    else
-      lifts_errors = bad_lifts.zip(lift_errors).map do |e|
-        "#{e[0]} (#{e[1]})"
-      end
-      flash.alert = "Problem checking out #{lifts_errors.join(", ")}"
-    end
-    redirect_to scissor_lifts_path
+    run_checkout
   end
 
   def renew
-    unless can? :update, ScissorLiftCheckout
-      flash.alert = "Not authorized to renew a Scissorlift."
-      redirect_to scissor_lifts_path
-      return
+    result = @checkout.renew_for(duration_hours: params[:duration])
+    if result.errors.any?
+      return redirect_to scissor_lifts_path, alert: renew_error_alert(result)
     end
 
-    if params[:name].blank?
-      redirect_to scissor_lifts_path, alert: "No Scissor Lift selected."
-      return
-    end
-    @scissor_lift = ScissorLift.find_by(name: params[:name])
-    if @scissor_lift.blank?
-      redirect_to scissor_lifts_path, alert: "Scissor Lift #{params[:name]} does not exist."
-      return
-    end
-    @checkout = @scissor_lift.scissor_lift_checkouts.current.first unless @scissor_lift.scissor_lift_checkouts.blank? || @scissor_lift.scissor_lift_checkouts.current.blank?
-    if @checkout.blank?
-      redirect_to scissor_lifts_path, alert: "#{params[:name]} is not checked out." 
-      return
-    end
-    @checkout.due_at = Time.zone.now + params[:duration].to_i.hours
-    if @checkout.save
-      redirect_to scissor_lifts_path, notice: "#{params[:name]} successfully renewed for #{params[:duration]} hours."
-    else
-      redirect_to scissor_lifts_path, alert: "Problem renewing #{params[:name]}."
-    end
+    redirect_to scissor_lifts_path,
+                notice:
+                  "#{params[:name]} successfully renewed for #{params[:duration]} hours."
   end
 
   def checkin
-    unless can? :update, ScissorLiftCheckout
-      flash.alert = "Not authorized to checkin a Scissorlift."
-      redirect_to scissor_lifts_path
+    result = @checkout.checkin(forfeit: params[:checkin_type] == '1')
+    if result.errors.any?
+      redirect_to scissor_lifts_path,
+                  alert:
+                    "Problem checking in #{params[:name]}: #{result.errors.full_messages.join(', ')}"
       return
     end
-
-    if params[:name].blank?
-      redirect_to scissor_lifts_path, alert: "No Scissor Lift selected."
-      return
-    end
-    @scissor_lift = ScissorLift.find_by(name: params[:name])
-    if @scissor_lift.blank?
-      redirect_to scissor_lifts_path, alert: "Scissor Lift #{params[:name]} does not exist."
-    else
-      @checkout = @scissor_lift.scissor_lift_checkouts.current.first unless @scissor_lift.scissor_lift_checkouts.blank? || @scissor_lift.scissor_lift_checkouts.current.blank?
-      if @checkout.blank?
-        redirect_to scissor_lifts_path, alert: "#{params[:name]} is already checked in." and return
-      end
-      @checkout.checked_in_at = Time.zone.now
-      @checkout.due_at = nil
-      @checkout.is_forfeit = params[:checkin_type] == "1"
-      @checkout.save!
-      if @checkout.is_forfeit
-        redirect_to scissor_lifts_path, notice: "#{params[:name]} successfully forfeited."
-      else
-        redirect_to scissor_lifts_path, notice: "#{params[:name]} successfully checked in."
-      end
-    end
+    redirect_to scissor_lifts_path, notice: checkin_notice(result)
   end
 
   def index
@@ -169,11 +65,114 @@ class ScissorLiftCheckoutsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json do
-        data = 
-          checkouts.as_json(methods: %i[scissor_lift_name scissor_lift_link participant_name participant_link organization_name is_forfeit])
-        render json: {data: }
-      end
+      format.json { render json: { data: checkouts_json(checkouts) } }
     end
+  end
+
+  private
+
+  def run_checkout
+    participant = Participant.find_by(id: session[:borrower_id])
+    scissor_lift_ids = session[:scissor_lifts] || []
+
+    if scissor_lift_ids.blank?
+      return redirect_to scissor_lifts_path, alert: t('.no_scissor_lifts')
+    end
+    if participant.blank?
+      return redirect_to scissor_lifts_path, alert: t('.no_participant')
+    end
+
+    process_checkout(participant, scissor_lift_ids)
+    redirect_to scissor_lifts_path
+  end
+
+  def require_update_permission
+    return if can?(:update, ScissorLiftCheckout)
+
+    flash.alert = "Not authorized to #{action_name} a Scissorlift."
+    redirect_to scissor_lifts_path
+  end
+
+  def find_scissor_lift_by_name
+    if params[:name].blank?
+      redirect_to scissor_lifts_path, alert: t('.no_scissor_lift')
+      return
+    end
+    @scissor_lift = ScissorLift.find_by(name: params[:name])
+    return if @scissor_lift
+
+    redirect_to scissor_lifts_path,
+                alert: "Scissor Lift #{params[:name]} does not exist."
+  end
+
+  def find_current_checkout
+    return unless @scissor_lift
+
+    @checkout = @scissor_lift.current_checkout
+    return if @checkout.present?
+
+    alert =
+      if action_name == 'checkin'
+        "#{params[:name]} is already checked in."
+      else
+        "#{params[:name]} is not checked out."
+      end
+    redirect_to scissor_lifts_path, alert:
+  end
+
+  def process_checkout(participant, scissor_lift_ids)
+    result =
+      ScissorLiftCheckout.checkout_batch(
+        organization: @organization,
+        participant: participant,
+        scissor_lift_ids: scissor_lift_ids
+      )
+    session[:scissor_lifts] = result[:remaining_ids]
+    apply_checkout_flash(result, participant)
+  end
+
+  def apply_checkout_flash(result, participant)
+    if session[:scissor_lifts].empty?
+      session[:borrower_id] = nil
+      flash.notice =
+        "#{checkout_names(result).join(', ')} checked out to #{participant.name}"
+    else
+      flash.alert = "Problem checking out #{checkout_errors(result).join(', ')}"
+    end
+  end
+
+  def checkin_notice(result)
+    if result.is_forfeit
+      "#{params[:name]} successfully forfeited."
+    else
+      "#{params[:name]} successfully checked in."
+    end
+  end
+
+  def checkout_names(result)
+    result[:checked_out].map { |c| c.scissor_lift&.name }.compact
+  end
+
+  def checkout_errors(result)
+    result[:failed].map do |c|
+      "#{c.scissor_lift&.name || 'Scissor lift'} (#{c.errors.full_messages.join(', ')})"
+    end
+  end
+
+  def renew_error_alert(result)
+    "Problem renewing #{params[:name]}: #{result.errors.full_messages.join(', ')}"
+  end
+
+  def checkouts_json(checkouts)
+    checkouts.as_json(
+      methods: %i[
+        scissor_lift_name
+        scissor_lift_link
+        participant_name
+        participant_link
+        organization_name
+        is_forfeit
+      ]
+    )
   end
 end

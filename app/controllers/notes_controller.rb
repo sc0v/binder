@@ -1,34 +1,31 @@
 # frozen_string_literal: true
+
 class NotesController < ApplicationController
-  include Pagy::Backend
   load_and_authorize_resource except: :index
 
   def index
-    pagy, notes =
-      pagy(Note.accessible_by(Current.ability).ordered_by_created_at)
+    notes = Note.accessible_by(Current.ability).ordered_by_created_at
     respond_to do |format|
       format.html
-      format.json do
-        render json: { last_page: pagy.pages, data: load_json(notes) }
-      end
+      format.json { render json: notes_json_page(notes) }
     end
   end
 
   def show
-  @note = Note.find(params[:id])
+    @note = Note.find(params[:id])
+  end
+
+  def edit
+    @note = Note.find(params[:id])
   end
 
   def create
     @note = Note.new(note_params)
     if @note.save
-      redirect_to root_path, notice: "Created the note!"
+      redirect_to root_path, notice: t('.notice')
     else
-      redirect_to root_path, notice: "Could not save the note!"
+      redirect_to root_path, notice: t('.save_error')
     end
-  end
-
-  def edit
-    @note = Note.find(params[:id])
   end
 
   def update
@@ -44,20 +41,28 @@ class NotesController < ApplicationController
 
   def destroy
     if @note.destroy
-      redirect_to root_path, notice: "Destroyed the note!"
+      redirect_to root_path, notice: t('.notice')
     else
-      redirect_to root_path, alert: "Could not destroy the note"
+      redirect_to root_path, alert: t('.alert')
     end
   end
 
   def hide
     @note = Note.find(params[:id])
     @note.update(hidden: params[:hidden])
-    
-    render json: { message: "Success" }
+
+    render json: { message: 'Success' }
   end
 
   private
+
+  def notes_json_page(notes)
+    page = params[:page].present? ? params[:page].to_i : 1
+    size = params[:size].present? ? params[:size].to_i : 1
+    offset = (page - 1) * size
+    last_page = (notes.count / size) + ((notes.count % size).zero? ? 0 : 1)
+    { last_page:, data: load_json(notes.offset(offset).limit(size)) }
+  end
 
   def load_json(notes)
     notes.as_json(
@@ -73,6 +78,6 @@ class NotesController < ApplicationController
   end
 
   def note_params
-    params.require(:note).permit(:title, :value, :participant_id, :hidden, :color)
+    params.expect(note: %i[title value participant_id hidden color])
   end
 end

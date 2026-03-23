@@ -12,18 +12,24 @@
           <i class="fas fa-info-circle"></i>
           <div class="note-info-tooltip">
             <p>Created by: <%= n.participant_name %></p>
-            <p>Created at: <%= n.created_at.strftime("%b %d at %I:%M %p") %></p>
+            <p>Created at: <%= n.created_at.strftime('%b %d at %I:%M %p') %></p>
           </div>
         </div>
       <% end %>
-      <%= link_to "DESTROY", note_path(n), data: { turbo_confirm: "Are you sure?", turbo_method: :delete}, class: "cta" %>
+      <%= link_to 'DESTROY',
+                  note_path(n),
+                  data: {
+                    turbo_confirm: 'Are you sure?',
+                    turbo_method: :delete
+                  },
+                  class: 'cta' %>
     </li>
   <% end %>
 
   <li class="create-notes">
-    <%= link_to "Create New Note", new_note_path, class: "cta-button create-fullscreen" %>
+    <%= link_to 'Create New Note', new_note_path, class: 'cta-button create-fullscreen' %>
   </li>
 </ul>
 <p class="alignright">
-  <%= link_to 'See all notes', notes_path, class: 'cta' %><br/>
+  <%= link_to 'See all notes', notes_path, class: 'cta' %><br />
 </p>

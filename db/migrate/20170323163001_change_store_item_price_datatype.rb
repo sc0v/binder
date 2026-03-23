@@ -1,7 +1,16 @@
 # frozen_string_literal: true
+
 class ChangeStoreItemPriceDatatype < ActiveRecord::Migration[6.0]
-  def change
+  def up
     change_column :store_items, :price, :decimal, precision: 8, scale: 2
-    change_column :store_purchases, :price_at_purchase, :decimal, precision: 8, scale: 2
+    change_column :store_purchases,
+                  :price_at_purchase,
+                  :decimal,
+                  precision: 8,
+                  scale: 2
+  end
+
+  def down
+    raise ActiveRecord::IrreversibleMigration
   end
 end

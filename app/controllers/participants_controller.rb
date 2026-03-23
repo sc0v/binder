@@ -1,6 +1,8 @@
 # frozen_string_literal: true
+
 class ParticipantsController < ApplicationController
   include PersonalPathable
+
   before_action :require_authentication
   load_and_authorize_resource
 
@@ -10,22 +12,7 @@ class ParticipantsController < ApplicationController
   def index
     respond_to do |format|
       format.html
-      format.json do
-        page = params[:page].present? ? params[:page].to_i : 1
-        size = params[:size].present? ? params[:size].to_i : 1
-
-        offset = (page-1)*size
-        # Compute last_page as ceil(Participant.count / size)
-        last_page = Participant.count / size + (Participant.count % size == 0 ? 0 : 1)
-        # Only return the participants in this page
-        participants = Participant.accessible_by(Current.ability)
-                        .ordered_by_name.offset(offset).limit(size)
-        data =
-          participants.table_attrs.as_json(
-            methods: %i[link name signed_waiver?]
-           )
-        render json: { last_page: , data: }
-      end
+      format.json { render json: participants_json_page }
     end
   end
 
@@ -33,7 +20,7 @@ class ParticipantsController < ApplicationController
     query = params[:q]
     return if query.blank?
 
-    # TODO:
+    # TODO: implement Participant.filter(keyword: query) for Andrew directory search
     # @andrew_people = Participant.filter(keyword: query)
     @andrew_people = []
 
@@ -41,28 +28,26 @@ class ParticipantsController < ApplicationController
   end
 
   def lookup
-    # Process request if barcode is present
     participant = Participant.find_by card: params[:card_number]
-
     if participant.blank?
-      render json: :nothing, status: :unprocessable_entity
-    else
-      render json: {
-               id: participant.id,
-               name: participant.name,
-               member_orgs: participant.organizations,
-               non_member_orgs:
-                 Organization.all.reject do |org|
-                   participant.organizations.exclude?(org)
-                 end
-             }
+      return render json: :nothing, status: :unprocessable_entity
     end
+
+    render json: {
+             id: participant.id,
+             name: participant.name,
+             member_orgs: participant.organizations,
+             non_member_orgs:
+               Organization.all.reject do |org|
+                 participant.organizations.exclude?(org)
+               end
+           }
   end
 
   def show
     # load_resource doesn't work for the /profile URL that the waiver redirects
     # to, so fallback @participant to the current user in that case
-    @participant ||= Current.user
+    @show ||= Current.user
   end
 
   def new
@@ -83,16 +68,33 @@ class ParticipantsController < ApplicationController
 
   private
 
+  def participants_json_page
+    page = params[:page].present? ? params[:page].to_i : 1
+    size = params[:size].present? ? params[:size].to_i : 1
+    offset = (page - 1) * size
+    last_page =
+      (Participant.count / size) + ((Participant.count % size).zero? ? 0 : 1)
+    participants =
+      Participant
+        .accessible_by(Current.ability)
+        .ordered_by_name
+        .offset(offset)
+        .limit(size)
+    data =
+      participants.table_attrs.as_json(methods: %i[link name signed_waiver?])
+    { last_page:, data: }
+  end
+
   def show_participant(uid = nil)
     return Current.user unless Current.user.admin?
-    return Current.user if uid.blank?
 
-    #find_or_create_participant(uid)
+    Current.user if uid.blank?
+
+    # find_or_create_participant(uid)
   end
 
   def find_or_create_participant(_uid)
     Participant.find_or_create_by! eppn: p.update_ldap_attrs
-
   rescue ActiveRecord::RecordInvalid => e
     # TODO: participants_url/did you mean? results
     # redirect_to('/',
@@ -104,6 +106,7 @@ class ParticipantsController < ApplicationController
     # lookup fails
     retry
   end
+
   def set_wristband_colors
     @wristband_colors = {
       building: 'Red',
@@ -116,14 +119,12 @@ class ParticipantsController < ApplicationController
   # end
 
   def create_params
-    params.require(:participant).permit(
-      :eppn
-    )
+    params.expect(participant: [:eppn])
   end
 
   def update_params
-    params.require(:participant).permit(
-      Current.ability.permitted_attributes(:update, @participant)
+    params.expect(
+      participant: [Current.ability.permitted_attributes(:update, @participant)]
     )
   end
 

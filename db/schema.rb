@@ -10,11 +10,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_05_220654) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_certification_types_on_name", unique: true
   end
 
   create_table "certifications", force: :cascade do |t|
@@ -28,11 +29,12 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
 
   create_table "charge_types", force: :cascade do |t|
     t.string "name"
-    t.boolean "requires_booth_chair_approval"
+    t.boolean "requires_booth_chair_approval", default: false, null: false
     t.decimal "default_amount", precision: 8, scale: 2
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_charge_types_on_name", unique: true
   end
 
   create_table "charges", force: :cascade do |t|
@@ -45,7 +47,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.datetime "charged_at", precision: nil
-    t.boolean "is_approved"
+    t.boolean "is_approved", default: false, null: false
     t.integer "creating_participant_id"
     t.index ["charge_type_id"], name: "index_charges_on_charge_type_id"
     t.index ["organization_id"], name: "index_charges_on_organization_id"
@@ -78,12 +80,12 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
   end
 
   create_table "event_types", force: :cascade do |t|
-    t.boolean "display"
+    t.boolean "display", default: false, null: false
     t.string "name", limit: 255
   end
 
   create_table "events", force: :cascade do |t|
-    t.boolean "is_done"
+    t.boolean "is_done", default: false, null: false
     t.integer "event_type_id", limit: 4
     t.datetime "created_at", precision: nil
     t.text "description", limit: 65535
@@ -100,33 +102,26 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
     t.index ["organization_category_id"], name: "index_faq_on_organization_category_id"
   end
 
-  create_table "hardhat_conditions", force: :cascade do |t|
-    t.integer "barcode"
-    t.integer "condition_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["condition_id"], name: "index_hardhat_conditions_on_condition_id"
-  end
-
   create_table "memberships", force: :cascade do |t|
     t.integer "organization_id"
     t.integer "participant_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "is_booth_chair"
+    t.boolean "is_booth_chair", default: false, null: false
     t.string "title"
     t.integer "booth_chair_order"
-    t.boolean "is_in_csv"
-    t.boolean "is_added_by_csv"
-    t.boolean "is_red_hardhat"
+    t.boolean "is_in_csv", default: false, null: false
+    t.boolean "is_added_by_csv", default: false, null: false
+    t.boolean "is_red_hardhat", default: false, null: false
     t.index ["organization_id"], name: "index_memberships_on_organization_id"
+    t.index ["participant_id", "organization_id"], name: "index_memberships_on_participant_id_and_organization_id", unique: true
     t.index ["participant_id"], name: "index_memberships_on_participant_id"
   end
 
   create_table "notes", force: :cascade do |t|
     t.integer "participant_id", null: false
     t.integer "organization_id"
-    t.boolean "hidden"
+    t.boolean "hidden", default: false, null: false
     t.string "title"
     t.string "value"
     t.string "color"
@@ -155,7 +150,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
     t.text "internal_notes"
     t.integer "approver_id"
     t.datetime "approved_at"
-    t.boolean "is_enabled"
+    t.boolean "is_enabled", default: false, null: false
     t.index ["approver_id"], name: "index_organization_build_steps_on_approver_id"
     t.index ["organization_build_status_id"], name: "index_organization_build_steps_on_organization_build_status_id"
   end
@@ -164,7 +159,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "building"
+    t.boolean "building", default: false, null: false
     t.string "lookup_key"
     t.index ["name"], name: "index_organization_categories_on_name", unique: true
   end
@@ -186,6 +181,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "short_name"
+    t.index ["name"], name: "index_organizations_on_name", unique: true
     t.index ["organization_category_id"], name: "index_organizations_on_organization_category_id"
   end
 
@@ -193,7 +189,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
     t.string "eppn"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "signed_waiver"
+    t.boolean "signed_waiver", default: false, null: false
     t.string "phone_number"
     t.string "cached_name"
     t.string "cached_surname"
@@ -201,10 +197,11 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
     t.string "cached_department"
     t.string "cached_student_class"
     t.datetime "cache_updated", precision: nil
-    t.boolean "admin"
-    t.boolean "watched_safety_video"
-    t.boolean "alumni"
+    t.boolean "admin", default: false, null: false
+    t.boolean "watched_safety_video", default: false, null: false
+    t.boolean "alumni", default: false, null: false
     t.index ["admin"], name: "index_participants_on_admin"
+    t.index ["eppn"], name: "index_participants_on_eppn", unique: true
   end
 
   create_table "scissor_lift_checkouts", force: :cascade do |t|
@@ -216,7 +213,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
     t.datetime "updated_at", null: false
     t.datetime "checked_in_at"
     t.datetime "due_at"
-    t.boolean "is_forfeit"
+    t.boolean "is_forfeit", default: false, null: false
     t.index ["organization_id"], name: "index_scissor_lift_checkouts_on_organization_id"
     t.index ["participant_id"], name: "index_scissor_lift_checkouts_on_participant_id"
     t.index ["scissor_lift_id"], name: "index_scissor_lift_checkouts_on_scissor_lift_id"
@@ -243,6 +240,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "short_name"
+    t.index ["name"], name: "index_shift_types_on_name", unique: true
   end
 
   create_table "shifts", force: :cascade do |t|
@@ -264,6 +262,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
     t.integer "quantity"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_store_items_on_name", unique: true
   end
 
   create_table "store_purchases", force: :cascade do |t|
@@ -284,7 +283,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.boolean "is_completed"
+    t.boolean "is_completed", default: false, null: false
   end
 
   create_table "tool_inventories", force: :cascade do |t|
@@ -295,7 +294,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
   create_table "tool_inventory_tools", force: :cascade do |t|
     t.integer "barcode"
     t.string "description"
-    t.boolean "active"
+    t.boolean "active", default: true, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "tool_type_id", null: false
@@ -318,6 +317,7 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
     t.string "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.index ["name"], name: "index_tool_types_on_name", unique: true
   end
 
   create_table "tools", force: :cascade do |t|
@@ -326,16 +326,26 @@ ActiveRecord::Schema[7.0].define(version: 2026_03_13_031121) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "tool_type_id"
-    t.boolean "active"
-    t.string "status"
-    t.index ["barcode"], name: "index_tools_on_barcode"
+    t.boolean "active", default: true, null: false
+    t.index ["barcode"], name: "index_tools_on_barcode", unique: true
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
+  end
+
+  create_table "weathers", force: :cascade do |t|
+    t.string "location"
+    t.datetime "date_time"
+    t.float "precipitation_chance"
+    t.integer "precipitation_type"
+    t.float "lighting_density"
+    t.float "temperature"
+    t.integer "severe_weather_idx"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   add_foreign_key "certifications", "certification_types"
   add_foreign_key "certifications", "participants"
   add_foreign_key "faq", "organization_categories"
-  add_foreign_key "hardhat_conditions", "conditions"
   add_foreign_key "notes", "organizations"
   add_foreign_key "notes", "participants"
   add_foreign_key "organization_build_statuses", "organizations"

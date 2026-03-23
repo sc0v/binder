@@ -6,31 +6,29 @@ USER_UNSUBSCRIBED_FROM_TWILIO_ERROR_CODE = 21_610
 
 module Messenger
   def send_sms(number, content)
-=begin
-    sid = ENV.fetch('TWILIO_ACCT_SID', nil)
-    auth = ENV.fetch('TWILIO_AUTH', nil)
-
-    @client = Twilio::REST::Client.new sid, auth
-
-    from = '+14123854063'
-
-    # The following try-rescue block is needed in case user unsubscribe
-    # if the user ubsubscribe and we attempt to message them
-    # the api will report an error
-
-    begin
-      message = @client.account.messages.create(
-        from:,
-        to: "+1#{number}",
-        body: content
-      )
-    rescue Twilio::REST::RequestError => e
-      case e.code
-      when USER_UNSUBSCRIBED_FROM_TWILIO_ERROR_CODE
-        Rails.logger.debug e.message
-      end
-    end
-=end
+    #     sid = ENV.fetch('TWILIO_ACCT_SID', nil)
+    #     auth = ENV.fetch('TWILIO_AUTH', nil)
+    #
+    #     @client = Twilio::REST::Client.new sid, auth
+    #
+    #     from = '+14123854063'
+    #
+    #     # The following try-rescue block is needed in case user unsubscribe
+    #     # if the user ubsubscribe and we attempt to message them
+    #     # the api will report an error
+    #
+    #     begin
+    #       message = @client.account.messages.create(
+    #         from:,
+    #         to: "+1#{number}",
+    #         body: content
+    #       )
+    #     rescue Twilio::REST::RequestError => e
+    #       case e.code
+    #       when USER_UNSUBSCRIBED_FROM_TWILIO_ERROR_CODE
+    #         Rails.logger.debug e.message
+    #       end
+    #     end
   end
 
   def send_groupme(bot_id, text)

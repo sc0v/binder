@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class ShiftTypeTest < ActiveSupport::TestCase
@@ -14,9 +15,6 @@ class ShiftTypeTest < ActiveSupport::TestCase
       @watch_shift = FactoryGirl.create(:shift_type)
       @security_shift = FactoryGirl.create(:shift_type, name: 'Security Shift')
       @ride_shift = FactoryGirl.create(:shift_type, name: 'Ride Shift')
-    end
-
-    teardown do
     end
 
     should 'show that all factories are properly created' do

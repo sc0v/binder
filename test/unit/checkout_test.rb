@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class CheckoutTest < ActiveSupport::TestCase
@@ -21,15 +22,30 @@ class CheckoutTest < ActiveSupport::TestCase
       @t1 = FactoryGirl.create(:tool, barcode: 1111, tool_type: @type1)
       @t2 = FactoryGirl.create(:tool, barcode: 2222, tool_type: @type2)
       @t3 = FactoryGirl.create(:tool, barcode: 3333, tool_type: @type3)
-      @checkout1 = FactoryGirl.create(:checkout, checked_in_at: Time.zone.now, organization: @org, participant: @person,
-                                                 tool: @t1)
-      @checkout2 = FactoryGirl.create(:checkout, checked_in_at: Time.zone.now, organization: @org, participant: @person,
-                                                 tool: @t2)
-      @checkout3 = FactoryGirl.create(:checkout, checked_in_at: nil, organization: @org, participant: @person,
-                                                 tool: @t3)
-    end
-
-    teardown do
+      @checkout1 =
+        FactoryGirl.create(
+          :checkout,
+          checked_in_at: Time.zone.now,
+          organization: @org,
+          participant: @person,
+          tool: @t1
+        )
+      @checkout2 =
+        FactoryGirl.create(
+          :checkout,
+          checked_in_at: Time.zone.now,
+          organization: @org,
+          participant: @person,
+          tool: @t2
+        )
+      @checkout3 =
+        FactoryGirl.create(
+          :checkout,
+          checked_in_at: nil,
+          organization: @org,
+          participant: @person,
+          tool: @t3
+        )
     end
 
     should 'show that all factories are properly created' do

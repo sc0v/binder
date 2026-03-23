@@ -35,7 +35,7 @@ class TasksController < ApplicationController
   def complete
     @task.is_completed = true
     @task.save
-    redirect_to :back, notice: 'The task was successfully completed'
+    redirect_to :back, notice: t('.notice')
   end
 
   # POST /tasks
@@ -65,6 +65,8 @@ class TasksController < ApplicationController
   private
 
   def task_params
-    params.require(:task).permit(:name, :due_at, :completed_by_id, :is_completed, :description)
+    params.expect(
+      task: %i[name due_at completed_by_id is_completed description]
+    )
   end
 end

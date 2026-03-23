@@ -11,22 +11,20 @@ class ShiftParticipantsController < ApplicationController
 
   # POST
   def create
-    Rails.logger.debug("nachos")
+    Rails.logger.debug('nachos')
     clock_in_now = params[:shift_participant][:clock_in_now]
-    @shift_participant = ShiftParticipant.new(params.require(:shift_participant).permit(:shift_id, :participant_id))
-
-    @shift_participant.clocked_in_at = if clock_in_now == '0'
-                                         nil
-                                       else
-                                         Time.zone.now
-                                       end
+    @shift_participant =
+      ShiftParticipant.new(
+        params.expect(shift_participant: %i[shift_id participant_id])
+      )
+    @shift_participant.clocked_in_at = clock_in_now == '0' ? nil : Time.zone.now
     @shift_participant.save
 
     redirect_to shift_path(@shift_participant.shift)
-    #redirect_back_or_to @shift_participant.shift
-    #<%= link_to t('.back', default: t('helpers.links.back')),
+    # redirect_back_or_to @shift_participant.shift
+    # <%= link_to t('.back', default: t('helpers.links.back')),
     #            shifts_path, class: 'btn btn-default' %>
-    #respond_with @shift_participant, location: -> { @shift_participant.shift }
+    # respond_with @shift_participant, location: -> { @shift_participant.shift }
   end
 
   # UPDATE
@@ -36,10 +34,10 @@ class ShiftParticipantsController < ApplicationController
     @shift_participant.save
 
     @shift_participant.shift
-    
+
     redirect_to shift_path(@shift_participant.shift)
-    #redirect_back_or_to shift_participant_path(@shift, @shift_participant)
-    #respond_with @shift_participant, location: -> { @shift_participant.shift }
+    # redirect_back_or_to shift_participant_path(@shift, @shift_participant)
+    # respond_with @shift_participant, location: -> { @shift_participant.shift }
   end
 
   # DELETE /shift_participants/1
@@ -48,9 +46,9 @@ class ShiftParticipantsController < ApplicationController
     @shift_participant = ShiftParticipant.find(params[:id])
     @shift = @shift_participant.shift
     @shift_participant.destroy
-    
+
     redirect_to shift_path(@shift_participant.shift)
-    #redirect_back_or_to shift_participant_path(@shift, @shift_participant)
-    #respond_with @shift_participant, location: -> { @shift_participant.shift }
+    # redirect_back_or_to shift_participant_path(@shift, @shift_participant)
+    # respond_with @shift_participant, location: -> { @shift_participant.shift }
   end
 end

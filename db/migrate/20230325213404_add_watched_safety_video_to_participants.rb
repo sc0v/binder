@@ -1,6 +1,11 @@
 # frozen_string_literal: true
+
 class AddWatchedSafetyVideoToParticipants < ActiveRecord::Migration[7.0]
   def change
-    add_column :participants, :watched_safety_video, :boolean
+    add_column :participants,
+               :watched_safety_video,
+               :boolean,
+               null: false,
+               default: false
   end
 end

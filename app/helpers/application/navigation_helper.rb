@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
   # Navigation
   #
@@ -29,17 +30,19 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
   end
 
   def nav_link(item:, active:)
-    children =
-      content_tag(
-        :ul,
-        sanitize(nav_section(items: item[:children], active: active).join)
-      ) if item[:children].present?
+    if item[:children].present?
+      children =
+        content_tag(
+          :ul,
+          sanitize(nav_section(items: item[:children], active: active).join)
+        )
+    end
 
     link_to(item[:label], item[:url]) +
       (children unless children == content_tag(:ul))
   end
 
-  def nav_items # rubocop:disable Metrics/MethodLength
+  def nav_items
     [
       {
         label: 'Organizations',

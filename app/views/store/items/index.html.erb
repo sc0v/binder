@@ -4,24 +4,21 @@
 
 <div class="content">
   <div>
-	<%- model_class = StoreItem -%>
-  <h1>Cart</h1>
+    <%- model_class = StoreItem -%>
+    <h1>Cart</h1>
     <%= render partial: 'cart', locals: { items: StorePurchase.items_in_cart } %>
-  <div class="page-header">
-    <h1>Store</h1>
-  </div>
-  <%= render partial: 'items', object: @store_items %>
-  <p>
-    <% if can?(:create, StoreItem) and @organization.blank? %>
-      <%= link_to "New Store Item",
-                  new_store_item_path,
-                  class: 'btn btn-primary' %>
-    <% end %>
-  </p>
-  </div><% if can?(:create, StorePurchase) %><div class="sidebar">
-    <div class="gold">
-      <%= render 'store/purchases/form' %>
+    <div class="page-header">
+      <h1>Store</h1>
     </div>
-  </div>
+    <%= render partial: 'items', object: @store_items %>
+    <p>
+      <% if can?(:create, StoreItem) and @organization.blank? %>
+        <%= link_to 'New Store Item', new_store_item_path, class: 'btn btn-primary' %>
+      <% end %>
+    </p> </div
+  ><% if can?(:create, StorePurchase) %>
+    <div class="sidebar">
+      <div class="gold"> <%= render 'store/purchases/form' %> </div>
+    </div>
   <% end %>
 </div>

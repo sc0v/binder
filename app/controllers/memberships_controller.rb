@@ -3,244 +3,103 @@
 class MembershipsController < ApplicationController
   load_and_authorize_resource
   skip_load_resource only: %i[new create update]
-  #responders :flash, :http_cache
 
-  # GET /memberships
-  # GET /memberships.json
   def index
     @memberships = Membership.all
   end
 
-  # declare error / info classes
-  class OrganizationNotExist < StandardError
-  end
-
-  class ParticipantNotExist < StandardError
-  end
-
-  # GET /memberships/1
-  # GET /memberships/1.json
   def show
     @membership = Membership.find(params[:id])
   end
+
+  VALID_STEPS = %w[csv_upload repair].freeze
 
   def new
     @organization = Organization.find(params.require(:organization_id))
     @membership = Membership.new
     @membership.organization = @organization
-
-    if params[:step].nil?
-      params[:step] = 'csv_upload'
-    end
-    
-    if params[:step] == 'repair'
-      @members = Membership.where(organization: @organization, is_in_csv: true)
-                  .sort { |a, b| if a.participant_name == "N/A" then -1 
-                            elsif b.participant_name == "N/A" then 1 
-                            else a.participant_eppn.downcase <=> b.participant_eppn.downcase end }
-    end
+    @step = VALID_STEPS.include?(params[:step]) ? params[:step] : 'csv_upload'
+    @members = repair_stage_members if @step == 'repair'
   end
 
   def upload_csv
     @organization = Organization.find(params[:organization])
-    # Make sure user uploaded a file
-    if params[:csv_file].blank?
-      redirect_to new_organization_membership_path(@organization), alert: 'CSV Not Uploaded!' and return
-    end
-    # Make sure the file parsed successfully
-    parse = helpers.parse_membership_csv(params[:csv_file], @organization)
-    if parse[:error].present?
-      redirect_to new_organization_membership_path(@organization), alert: parse[:error] and return
-    end
+    csv_file = params[:csv_file]
+    return redirect_csv_error(t('.csv_not_uploaded')) if csv_file.blank?
+
+    parse = helpers.parse_membership_csv(csv_file, @organization)
+    return redirect_csv_error(parse[:error]) if parse[:error].present?
+
     redirect_to new_organization_membership_path(@organization, step: 'repair')
   end
 
-  # Insert a participant to the current membership CSV. This should create a new
-  # participant and membership to the organization if either doesn't exist, and
-  # if params[:standing] exists set them accordingly
+  # Insert a participant to the current membership CSV. Creates a new participant
+  # and membership if either doesn't exist; sets standing if params[:standing] present.
   def insert
     @organization = Organization.find(params[:organization])
+    participant = find_or_create_insert_participant
+    update_participant_standing(participant) if params[:standing].present?
+    upsert_insert_membership(participant)
+    return if params[:ignore_redirect]
 
-    # Find or create new participant
-    new_eppn = "#{params[:new_participant]}@andrew.cmu.edu"
-    new_participant = Participant.find_by(eppn: new_eppn)
-    if new_participant.nil?
-      new_participant = Participant.create!(eppn: new_eppn)
-    end
-    # Set participant as an alumni / regular student if a standing was selected
-    if params[:standing].present?
-      new_participant.update_attribute(:alumni, params[:standing] == "alumni")
-    end
-    # Create new Membership, or set is_in_csv if it already exists
-    m = Membership.find_by(participant: new_participant, organization: @organization)
-    # Extract standing information from params
-    booth_chair = m.nil? ? false : m.is_booth_chair
-    red_hardhat = m.nil? ? false : m.is_red_hardhat
-    if params[:standing] == "booth_chair_red_hardhat"
-      booth_chair = true
-      red_hardhat = true
-    elsif params[:standing] == "booth_chair_white_hardhat"
-      booth_chair = true
-    end
-    if m.nil?
-      m = Membership.create!({
-        participant: new_participant,
-        organization: @organization,
-        is_in_csv: true,
-        is_added_by_csv: true,
-        is_booth_chair: booth_chair,
-        is_red_hardhat: red_hardhat,
-      })
-    else
-      m.update!({
-        is_in_csv: true,
-        is_booth_chair: booth_chair,
-        is_red_hardhat: red_hardhat,
-      })
-    end
-  
-    if !params[:ignore_redirect]
-      redirect_to new_organization_membership_path(@organization, step: 'repair')
-    end
+    redirect_to new_organization_membership_path(@organization, step: 'repair')
   end
 
   def remove
     @organization = Organization.find(params[:organization])
-    # If the membership we're replacing was added by the CSV, destroy it
-    # Otherwise, just remove from the CSV
-    old_membership = Membership.find(params[:old_membership])
-    if old_membership.is_added_by_csv
-      old_participant = old_membership.participant
-      old_membership.destroy!
-      # If old participant now has no memberships, destroy them too
-      if Membership.where(participant: old_participant).blank?
-        old_participant.destroy!
-      end
-    else
-      old_membership.update!({is_in_csv: false})
-    end
+    remove_membership(Membership.find(params[:old_membership]))
+    return if params[:ignore_redirect]
 
-    if !params[:ignore_redirect]
-      redirect_to new_organization_membership_path(@organization, step: 'repair')
-    end
+    redirect_to new_organization_membership_path(@organization, step: 'repair')
   end
 
-  # Replace one staged membership with another, while respecting any participant's
-  # other memberships
+  # Replace one staged membership with another, respecting any other memberships
   def replace
-    # Remove old membership
     params[:ignore_redirect] = true
-    remove()
-    # Find or create new membership
+    remove
     params[:ignore_redirect] = false
     params[:standing] = params[:fix_standing]
-    insert()
+    insert
   end
 
-  # Cancel all staged memberships, deleting any that were added by the csv
+  # Cancel all staged memberships, deleting any that were added by the CSV
   def cancel
     @organization = Organization.find(params[:organization])
-    Membership.where(organization: @organization, is_in_csv: true).each do |m|
-      if m.is_added_by_csv
-        participant = m.participant
-        m.destroy!
-        # If participant now has no memberships, destroy them too
-        if Membership.where(participant: participant).blank?
-          participant.destroy!
-        end
-      else
-        m.update!({is_in_csv: false})
-      end
-    end
-    redirect_to organization_path(@organization), notice: "Cancelled!"
+    Membership
+      .where(organization: @organization, is_in_csv: true)
+      .find_each { |m| remove_membership(m) }
+    redirect_to organization_path(@organization), notice: t('.notice')
   end
 
   # Commit all staged memberships
   def commit
     @organization = Organization.find(params[:organization])
-    Membership.where(organization: @organization, is_in_csv: true).each do |m|
-      m.update!({is_in_csv: false, is_added_by_csv: false})
-    end
-    redirect_to organization_path(@organization), notice: "Participants Added!"
+    Membership
+      .where(organization: @organization, is_in_csv: true)
+      .find_each { |m| m.update!({ is_in_csv: false, is_added_by_csv: false }) }
+    redirect_to organization_path(@organization), notice: t('.notice')
   end
 
-  # GET /memberships/1/edit
   def edit
     @participant = Participant.find(params[:participant_id])
   end
 
   def create
-    @membership = Membership.new(params.require(:membership).permit(:participant_id, :is_booth_chair))
+    @membership =
+      Membership.new(
+        params.expect(membership: %i[participant_id is_booth_chair])
+      )
     @organization = Organization.find(params.require(:organization_id))
     @membership.organization = @organization
     authorize! :create, @membership
     if @membership.save
-      flash[:notice] = 'Member added'
+      flash[:notice] = t('.notice')
     else
-      flash[:error] = 'Error adding member'
+      flash[:error] = t('.error')
     end
     redirect_to @organization
   end
 
-  # POST
-  def old_create
-    @new_organization_ids = params.permit(organization_ids: [])[:organization_ids]
-    logger.info(@new_organization_ids)
-
-    @participant = Participant.find(params.require(:participant_id))
-    raise ParticipantDoesNotExist if @participant.nil?
-
-    # make sure all organizations exist
-    @new_organization_ids&.each do |org_id|
-      @organization = Organization.find(org_id)
-      raise OrganizationDoesNotExist if @organization.nil?
-    end
-
-    # delete any organizations that were previously added, but not checked on submission
-    @old_participant_orgs = @participant.organizations
-
-    @old_participant_orgs.each do |org|
-      if @new_organization_ids.blank? || @new_organization_ids.exclude?(org.id.to_s)
-        @membership = Membership.where(participant_id: @participant.id, organization_id: org.id).first
-        @membership.destroy unless @membership.is_booth_chair?
-      end
-    end
-
-    all_ok = true
-
-    # create new memberships (only if they don't have a membership already)
-    @new_organization_ids&.each do |new_org_id|
-      next unless @participant.organizations.map { |o| o.id.to_s }.exclude?(new_org_id.to_s)
-
-      @membership = Membership.new
-      @membership.participant = @participant
-
-      @membership.organization = Organization.find_by(id: new_org_id)
-      unless @membership.save!
-        all_ok = false
-        break
-      end
-    end
-
-    respond_to do |format|
-      if all_ok
-        format.html { redirect_to @participant, notice: 'Participant updated.' }
-        format.json { render json: @participant, status: :created, location: @participant }
-      else
-        format.html { render action: 'new' }
-        format.json { render json: @membership.errors, status: :unprocessable_entity }
-      end
-    end
-  end
-
-  # GET /memberships/new
-  # GET /memberships/new.json
-  def old_new
-    @participant = Participant.find(params[:participant_id])
-  end
-
-  # PUT /memberships/1
-  # PUT /memberships/1.json
   def update
     @participant = Participant.find(params[:participant_id])
     @membership = Membership.find(params[:id])
@@ -249,8 +108,6 @@ class MembershipsController < ApplicationController
     respond_with @membership, location: -> { @participant }
   end
 
-  # DELETE /memberships/1
-  # DELETE /memberships/1.json
   def destroy
     @membership = Membership.find(params[:id])
     @organization = @membership.organization
@@ -260,7 +117,74 @@ class MembershipsController < ApplicationController
 
   private
 
+  def repair_stage_members
+    Membership
+      .where(organization: @organization, is_in_csv: true)
+      .sort_by do |m|
+        m.participant_name == 'N/A' ? '' : m.participant_eppn.downcase
+      end
+  end
+
+  def find_or_create_insert_participant
+    eppn = "#{params[:new_participant]}@andrew.cmu.edu"
+    Participant.find_by(eppn:) || Participant.create!(eppn:)
+  end
+
+  def update_participant_standing(participant)
+    participant.update!(alumni: params[:standing] == 'alumni')
+  end
+
+  def insert_standing_flags(existing)
+    booth_chair = existing&.is_booth_chair || false
+    red_hardhat = existing&.is_red_hardhat || false
+    if params[:standing] == 'booth_chair_red_hardhat'
+      [true, true]
+    elsif params[:standing] == 'booth_chair_white_hardhat'
+      [true, red_hardhat]
+    else
+      [booth_chair, red_hardhat]
+    end
+  end
+
+  def upsert_insert_membership(participant)
+    existing = Membership.find_by(participant:, organization: @organization)
+    booth_chair, red_hardhat = insert_standing_flags(existing)
+    flags = {
+      is_in_csv: true,
+      is_booth_chair: booth_chair,
+      is_red_hardhat: red_hardhat
+    }
+    if existing
+      existing.update!(**flags)
+    else
+      Membership.create!(
+        participant:,
+        organization: @organization,
+        is_added_by_csv: true,
+        **flags
+      )
+    end
+  end
+
+  def remove_membership(membership)
+    if membership.is_added_by_csv
+      destroy_csv_membership(membership)
+    else
+      membership.update!(is_in_csv: false)
+    end
+  end
+
+  def destroy_csv_membership(membership)
+    participant = membership.participant
+    membership.destroy!
+    participant.destroy! if Membership.where(participant:).blank?
+  end
+
   def update_params
-    params.require(:membership).permit(:is_booth_chair, :title, :booth_chair_order)
+    params.expect(membership: %i[is_booth_chair title booth_chair_order])
+  end
+
+  def redirect_csv_error(message)
+    redirect_to new_organization_membership_path(@organization), alert: message
   end
 end

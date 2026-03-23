@@ -1,4 +1,5 @@
 # frozen_string_literal: true
+
 require 'test_helper'
 
 class MembershipTest < ActiveSupport::TestCase
@@ -15,7 +16,12 @@ class MembershipTest < ActiveSupport::TestCase
       @org1 = FactoryGirl.create(:organization)
       @org2 = FactoryGirl.create(:organization)
       @nonchair = FactoryGirl.create(:membership, organization: @org1)
-      @chair = FactoryGirl.create(:membership, organization: @org2, is_booth_chair: true)
+      @chair =
+        FactoryGirl.create(
+          :membership,
+          organization: @org2,
+          is_booth_chair: true
+        )
     end
 
     teardown do
@@ -35,7 +41,8 @@ class MembershipTest < ActiveSupport::TestCase
     # Methods
     should 'formatted_name should return the organization followed and indication if this member is booth chair' do
       assert_equal @org1.name.to_s, @nonchair.organization_name_formatted
-      assert_equal "#{@org2.name} - Booth Chair", @chair.organization_name_formatted
+      assert_equal "#{@org2.name} - Booth Chair",
+                   @chair.organization_name_formatted
     end
   end
 end

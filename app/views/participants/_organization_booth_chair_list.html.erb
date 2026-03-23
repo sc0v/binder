@@ -11,16 +11,23 @@
       <tr>
         <td><%= link_to chair.formatted_name, chair %></td>
         <% if can?(:read_phone_number, Participant) %>
-          <td><%= chair.formatted_phone_number if can?(:read_phone_number, chair) %></td>
+          <td
+            ><%= chair.formatted_phone_number if can?(:read_phone_number, chair) %></td
+          >
         <% end %>
         <% @membership = chair.memberships.find_by(organization_id: @organization.id) %>
         <% if can?(:destroy, @membership) %>
-          <td><%= link_to 'Remove', [@organization, @membership], method: :delete, class: 'btn btn-xs btn-danger' %></td>
+          <td
+            ><%= link_to 'Remove',
+                        [@organization, @membership],
+                        method: :delete,
+                        class: 'btn btn-xs btn-danger' %></td
+          >
         <% end %>
       </tr>
     <% end %>
   </table>
 <% else %>
-  <br>
+  <br />
   This organization has no booth chairs.
 <% end %>

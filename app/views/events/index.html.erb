@@ -5,7 +5,7 @@
   <div>
     <%= link_to 'New Event', new_event_path, class: 'btn btn-primary' %>
   </div>
-  <br>
+  <br />
 <% end %>
 <table class="table table-striped">
   <thead>
@@ -19,7 +19,7 @@
   </thead>
   <tbody>
     <% @events.each do |event| %>
-      <tr <%= raw('class="warning"') unless event.is_done %>>
+      <tr class="<%= 'warning' unless event.is_done %>">
         <td><%= link_to 'Show', event, class: 'btn btn-info btn-xs' %></td>
         <td><%= event.event_type.name %></td>
         <td><%= event.description %></td>
@@ -38,7 +38,13 @@
             <%= link_to 'Edit', edit_event_path(event), class: 'btn btn-primary btn-xs' %>
           <% end %>
           <% if can?(:destroy, Event) %>
-            <%= link_to 'Destroy', event, method: :delete, data: { confirm: 'Are you sure?' }, class: 'btn btn-danger btn-xs' %>
+            <%= link_to 'Destroy',
+                        event,
+                        method: :delete,
+                        data: {
+                          confirm: 'Are you sure?'
+                        },
+                        class: 'btn btn-danger btn-xs' %>
           <% end %>
         </td>
       </tr>

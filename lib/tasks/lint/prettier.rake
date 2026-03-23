@@ -1,22 +1,24 @@
 # frozen_string_literal: true
 
-PRETTIER_BIN = 'npm exec prettier -- --check'
-PRETTIER_OPT_AUTOCORRECT = '-w'
+PRETTIER_BIN = 'npm exec prettier --'
+PRETTIER_OPT_CHECK = '--check'
+PRETTIER_OPT_AUTOCORRECT = '--write'
 
 namespace :lint do
   desc 'Prettify project files, prettify specific files'
-  task :prettier, [:files] => :environment do |t, args|
+  task :prettier, [:files] do |t, args|
     include LintHelper
-    log(t.name)
-    args.with_defaults(files: Rake::FileList['**/*'])
 
+    log(t.name)
     bin = [PRETTIER_BIN]
-    bin << PRETTIER_OPT_AUTOCORRECT unless dryrun?(t.name)
-    bin << args.files if args.files.present?
+    bin << (dryrun?(t.name) ? PRETTIER_OPT_CHECK : PRETTIER_OPT_AUTOCORRECT)
+
+    # Pass explicit file if given; otherwise use '.' so prettier discovers files
+    # itself and respects .prettierignore
+    bin << (args.files || '.')
     bin = bin.join(' ')
 
     log(t.name, " * executing: #{bin}")
-    system(bin) or
-      abort_with_log(t.name)
+    system(bin) or abort_with_log(t.name)
   end
 end

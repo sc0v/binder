@@ -1,56 +1,7 @@
+# frozen_string_literal: true
+
 class ToolInventoryToolsController < ApplicationController
-  include Pagy::Backend
   load_and_authorize_resource
-
-  def create
-    defaultErrorMsg = 'Could not create the tool.'
-    @inventory = ToolInventory.first()
-
-    barcode = params[:tool_inventory_tool][:barcode]
-    begin
-      barcode = Integer(barcode)
-    rescue ArgumentError
-      redirect_to tool_inventory_path(@inventory), alert: defaultErrorMsg
-      return
-    end
-    tool_type_id = params[:tool_inventory_tool][:tool_type_id]
-    description = params[:tool_inventory_tool][:description]
-    tool_check_override = params[:override]
-
-    # We want to let users add tools that have existing IDs after confirmation,
-    # So skip barcode uniqueness check if override is set
-    if barcode.to_s != tool_check_override
-      # Ensure no other tool has the same barcode
-      tool_inventory_barcodes = @inventory.tool_inventory_tools.map {|tool| tool.barcode}
-      tool_barcodes = Tool.all.map {|tool| tool.barcode}
-      if tool_inventory_barcodes.include? barcode
-        redirect_to inventory_path(), alert: 'A tool with barcode "' + barcode.to_s + '" has already been added to this inventory.'
-        return
-      elsif tool_barcodes.include? barcode
-        pathParams = {
-          default_barcode: barcode,
-          default_tool_type_id: tool_type_id,
-          default_description: description,
-        }
-        @existing_tool = Tool.find_by(barcode: barcode)
-        redirect_to inventory_path(**pathParams), alert: "A tool with barcode '#{barcode.to_s}' "\
-                                         "#{helpers.link_to('already exists', tool_path(@existing_tool))}. "\
-                                         "Press 'Add Tool' again to confirm you want to replace the existing tool."
-        return  
-      end
-    end
-
-    @tool = @inventory.tool_inventory_tools.new(
-      barcode: barcode, 
-      tool_type_id: tool_type_id, 
-      description: description,
-      active: true)
-    if @tool.save
-      redirect_to inventory_path(), notice: 'Added Tool!'
-    else
-      redirect_to inventory_path(), alert: defaultErrorMsg
-    end
-  end
 
   def index
     @inventory = ToolInventory.first
@@ -58,26 +9,110 @@ class ToolInventoryToolsController < ApplicationController
 
     respond_to do |format|
       format.html
-      format.json do
-        data = @inventory_tools.as_json(
-          methods: %i[name description barcode]
-        )
-        render json: { last_page: pagy.pages, data: data}
-      end
+      format.json { render json: paginated_tools_json }
     end
   end
 
-  def destroy
-    inventory = ToolInventory.find params[:tool_inventory_id]
-    tool = ToolInventoryTool.find params[:id]
-    tool.destroy
-    redirect_to inventory_path(), notice: 'Removed Tool!'
+  def create
+    @inventory = ToolInventory.first
+    barcode = parse_barcode(params[:tool_inventory_tool][:barcode])
+    # rubocop:disable Rails/I18nLocaleTexts
+    unless barcode
+      return(
+        redirect_to tool_inventory_path(@inventory),
+                    alert: 'Could not create the tool.'
+      )
+    end
+    # rubocop:enable Rails/I18nLocaleTexts
+    return if check_barcode_conflict(barcode)
+
+    save_inventory_tool(barcode)
   end
 
-  def create_params 
-    params.require(:tool_inventory_tool).permit(
-      :tool_type_id,
-      :description
-    )
+  def destroy
+    ToolInventory.find params[:tool_inventory_id]
+    tool = ToolInventoryTool.find params[:id]
+    tool.destroy
+    redirect_to inventory_path, notice: t('.notice')
+  end
+
+  def create_params
+    params.expect(tool_inventory_tool: %i[tool_type_id description])
+  end
+
+  private
+
+  def paginated_tools_json
+    page = page_param
+    size = size_param
+    offset = (page - 1) * size
+    last_page = @inventory_tools.count.fdiv(size).ceil
+    tools = @inventory_tools.offset(offset).limit(size)
+    data = tools.as_json(methods: %i[name description barcode])
+    { last_page:, data: }
+  end
+
+  def page_param
+    (params[:page].presence || 1).to_i
+  end
+
+  def size_param
+    (params[:size].presence || 1).to_i
+  end
+
+  def parse_barcode(value)
+    Integer(value)
+  rescue ArgumentError
+    nil
+  end
+
+  def check_barcode_conflict(barcode)
+    return false if barcode.to_s == params[:override]
+
+    check_inventory_barcode(barcode) || check_tool_barcode(barcode)
+  end
+
+  def check_inventory_barcode(barcode)
+    unless @inventory.tool_inventory_tools.map(&:barcode).include?(barcode)
+      return
+    end
+
+    redirect_to inventory_path,
+                alert:
+                  "A tool with barcode \"#{barcode}\" has already been added to this inventory."
+    true
+  end
+
+  def check_tool_barcode(barcode)
+    return unless Tool.all.map(&:barcode).include?(barcode)
+
+    @existing_tool = Tool.find_by(barcode:)
+    path_params = {
+      default_barcode: barcode,
+      default_tool_type_id: params[:tool_inventory_tool][:tool_type_id],
+      default_description: params[:tool_inventory_tool][:description]
+    }
+    redirect_to inventory_path(**path_params),
+                alert: tool_conflict_alert(barcode)
+    true
+  end
+
+  def tool_conflict_alert(barcode)
+    "A tool with barcode '#{barcode}' " \
+      "#{helpers.link_to('already exists', tool_path(@existing_tool))}. " \
+      "Press 'Add Tool' again to confirm you want to replace the existing tool."
+  end
+
+  def save_inventory_tool(barcode)
+    @tool =
+      @inventory.tool_inventory_tools.new(
+        barcode:,
+        tool_type_id: params[:tool_inventory_tool][:tool_type_id],
+        description: params[:tool_inventory_tool][:description],
+        active: true
+      )
+    return redirect_to inventory_path, notice: t('.notice') if @tool.save
+
+    redirect_to inventory_path, alert: 'Could not create the tool.' # rubocop:disable Rails/I18nLocaleTexts
   end
 end

@@ -5,9 +5,12 @@
 <div class="content wide">
   <div>
     <h1>Event Participants</h1>
-    <%= content_tag :div, data:
-        { controller: 'table', config: participants_table_config } do %>
-    Loading...
+    <%= content_tag :div,
+                    data: {
+                      controller: 'table',
+                      config: participants_table_config
+                    } do %>
+      Loading...
     <% end %>
   </div>
 </div>

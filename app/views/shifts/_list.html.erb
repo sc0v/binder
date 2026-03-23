@@ -26,7 +26,7 @@
     <% shifts.each do |shift| %>
       <% if can?(:read, shift) %>
         <% if current?(shift) %>
-          <tr class="<%= shift.is_checked_in ? 'success' : 'danger' %>">
+          <tr class="<%= shift.checked_in? ? 'success' : 'danger' %>">
           <% else %>
             <tr>
             <% end %>

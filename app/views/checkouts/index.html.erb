@@ -19,8 +19,12 @@
         <tr>
           <td><%= checkout.id %></td>
           <td><%= checkout.tool.name %></td>
-          <td><%= date_and_time(checkout.checked_out_at) unless checkout.checked_out_at.nil? %></td>
-          <td><%= date_and_time(checkout.checked_in_at) unless checkout.checked_in_at.nil? %></td>
+          <td
+            ><%= date_and_time(checkout.checked_out_at) unless checkout.checked_out_at.nil? %></td
+          >
+          <td
+            ><%= date_and_time(checkout.checked_in_at) unless checkout.checked_in_at.nil? %></td
+          >
           <td><%= checkout.participant&.eppn %></td>
           <td><%= checkout.organization&.name %></td>
         </tr>

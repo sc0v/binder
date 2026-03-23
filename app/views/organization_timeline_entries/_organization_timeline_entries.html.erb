@@ -10,7 +10,9 @@
     <tbody>
       <% entries.each do |entry| %>
         <tr>
-          <td><%= link_to entry.organization.short_name, entry.organization %></td>
+          <td
+            ><%= link_to entry.organization.short_name, entry.organization %></td
+          >
           <td><%= h entry.description %></td>
           <td><%= entry.started_at %></td>
           <td><%= format_duration(Time.zone.now - entry.started_at) %></td>
@@ -20,8 +22,7 @@
             <% end %>
           </td>
         </tr>
-        <tr>
-        </tr>
+        <tr> </tr>
       <% end %>
     </tbody>
   </table>
