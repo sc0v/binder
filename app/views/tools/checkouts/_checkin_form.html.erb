@@ -1,24 +1,17 @@
 <h3>What is being returned?</h3>
-<%= form_tag add_checkin_tools_path do %>
+<%= form_tag checkin_tools_path do %>
   <%= label_tag(:barcode, 'Scan or Type Tool Barcode [Enter]') %>
   <%= text_field_tag(:barcode, nil, autocomplete: :off) %>
 <% end %>
 
-<% if session[:checkin_barcode].present? %>
-  <% tool = Tool.find_by(barcode: session[:checkin_barcode]) %>
-  <% if tool && tool.checked_out? %>
-    <% org = tool.current_organization %>
-    <% remaining =
-         Tool.checked_out_by_organization(org).where(tool_type: tool.tool_type).count -
-           1 %>
-    <p>Returning <strong><%= tool.name %></strong> #<%= tool.barcode %></p>
+<% if session[:checkin_summary].present? %>
+  <%# <%= debug session[:checkin_summary] %> 
+  <% summary = session[:checkin_summary] %>
+    <p>Returning <strong><%= summary["name"] %>
+      </strong> #<%= summary["barcode"] %></p>
     <p
-      ><%= org.short_name %> will have
-      <strong><%= remaining %></strong> remaining checked out</p
+      ><%= summary["org"] %> will have
+      <strong><%= summary["remaining"] %></strong> remaining checked out</p
     >
-    <%= form_tag checkin_tools_path do %>
-      <%= hidden_field_tag :barcode, session[:checkin_barcode] %>
-      <%= submit_tag 'Complete Checkin', class: 'wide' %>
-    <% end %>
-  <% end %>
+
 <% end %>

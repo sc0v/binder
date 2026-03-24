@@ -68,7 +68,8 @@ class Tools::CheckoutsController < ApplicationController
   end
 
   def store_borrower_in_session
-    borrower = Participant.find_by(search: params[:participant_search])
+    # borrower = Participant.find_by(search: params[:participant_search])
+    borrower = Participant.find_by(eppn: params[:participant_search].to_s.strip)
     if borrower
       session[:borrower_id] = borrower.id
     else
