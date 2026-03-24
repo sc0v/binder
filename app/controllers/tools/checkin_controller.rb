@@ -33,17 +33,7 @@ class Tools::CheckinController < ApplicationController
     end
   end
 
-  def checkin_tool
-    checkout = @tool.checkouts.current.first
-    if checkout.blank?
-      raise CheckoutError, I18n.t('errors.messages.tool_already_checked_in')
-    end
-
-    org = @tool.current_organization
-    remaining = Tool.checked_out_by_organization(org).where(tool_type: @tool.tool_type).count - 1
-
-    checkout.checked_in_at = Time.zone.now
-    checkout.save!
+  def get_checkin_tool_summary(org, remaining)
     session[:checkin_barcode] = nil
     session[:checkin_summary] = {
       name: @tool.name,
@@ -51,7 +41,28 @@ class Tools::CheckinController < ApplicationController
       org: org.short_name,
       remaining: remaining
     }
+  end
 
+  def org_and_remaining_tools
+    org = @tool.current_organization
+    remaining = Tool.checked_out_by_organization(org).where(tool_type: @tool.tool_type).count - 1
+    { org: org, remaining: remaining }
+  end
+
+  def process_checkout
+    checkout = @tool.checkouts.current.first
+    if checkout.blank?
+      raise CheckoutError, I18n.t('errors.messages.tool_already_checked_in')
+    end
+
+    checkout.checked_in_at = Time.zone.now
+    checkout.save!
+  end
+
+  def checkin_tool
+    data = org_and_remaining_tools
+    process_checkout
+    get_checkin_tool_summary(data[:org], data[:remaining])
     redirect_to checkout_tools_path,
                 notice: "Tool #{params[:barcode]} successfully checked in."
   end

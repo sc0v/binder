@@ -5,7 +5,7 @@
 <% end %>
 
 <% if session[:checkin_summary].present? %>
-  <%# <%= debug session[:checkin_summary] %> 
+  <%= debug session[:checkin_summary] %>
   <% summary = session[:checkin_summary] %>
     <p>Returning <strong><%= summary["name"] %>
       </strong> #<%= summary["barcode"] %></p>
