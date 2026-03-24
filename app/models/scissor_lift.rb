@@ -35,6 +35,8 @@ class ScissorLift < ApplicationRecord
     current_checkout.presence&.due_at
   end
 
+  alias due_at_countdown due_at
+
   def current_checkout
     scissor_lift_checkouts.current.first
   end
