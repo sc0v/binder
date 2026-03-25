@@ -38,15 +38,18 @@ class ScissorLiftCheckoutsController < ApplicationController
     run_checkout
   end
 
-  def renew
-    result = @checkout.renew_for(duration_hours: params[:duration])
-    if result.errors.any?
-      return redirect_to scissor_lifts_path, alert: renew_error_alert(result)
-    end
+  def all_checked_out
+    return unless ScissorLift.all.all?(&:checked_out?)
 
-    redirect_to scissor_lifts_path,
-                notice:
-                  "#{params[:name]} successfully renewed for #{params[:duration]} hours."
+    redirect_to scissor_lifts_path, alert: t('.all_checked_out')
+  end
+
+  def renew
+    all_checked_out
+    return if performed?
+    return redirect_to scissor_lifts_path, alert: queue_blocks_renewal_alert if scissor_lift_queue?
+
+    process_renewal
   end
 
   def checkin
@@ -157,6 +160,22 @@ class ScissorLiftCheckoutsController < ApplicationController
     result[:failed].map do |c|
       "#{c.scissor_lift&.name || 'Scissor lift'} (#{c.errors.full_messages.join(', ')})"
     end
+  end
+
+  def process_renewal
+    result = @checkout.renew_for(duration_hours: params[:duration])
+    return redirect_to scissor_lifts_path, alert: renew_error_alert(result) if result.errors.any?
+
+    redirect_to scissor_lifts_path,
+                notice: "#{params[:name]} successfully renewed for #{params[:duration]} hours."
+  end
+
+  def scissor_lift_queue?
+    OrganizationTimelineEntry.scissor_lift.current.any?
+  end
+
+  def queue_blocks_renewal_alert
+    "Cannot renew #{params[:name]}: organizations are waiting in the queue."
   end
 
   def renew_error_alert(result)
