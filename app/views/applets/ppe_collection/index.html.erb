@@ -14,11 +14,13 @@
           <%= text_field_tag(:hardhat_barcode, nil, autocomplete: :off, autofocus: true) %>
         </li>
         <li>Mark the condition of the Hardhat</li>
-      
-          <%= button_tag "Good Condition", name: "status", value: "good condition",class: "btn"%>
-          <%= button_tag "Damaged", name: "status", value: "damaged",class: "btn"%>
-        
+
+        <%= button_tag 'Good Condition',
+                       name: 'status',
+                       value: 'good condition',
+                       class: 'btn' %>
+        <%= button_tag 'Damaged', name: 'status', value: 'damaged', class: 'btn' %>
       </ol>
-      <% end %>
+    <% end %>
   </div>
 </div>
