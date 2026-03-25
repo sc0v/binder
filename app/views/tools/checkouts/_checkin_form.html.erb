@@ -7,11 +7,12 @@
 <% if session[:checkin_summary].present? %>
   <%= debug session[:checkin_summary] %>
   <% summary = session[:checkin_summary] %>
-    <p>Returning <strong><%= summary["name"] %>
-      </strong> #<%= summary["barcode"] %></p>
-    <p
-      ><%= summary["org"] %> will have
-      <strong><%= summary["remaining"] %></strong> remaining checked out</p
-    >
-
+  <p
+    >Returning
+    <strong><%= summary['name'] %> </strong> #<%= summary['barcode'] %></p
+  >
+  <p
+    ><%= summary['org'] %> will have
+    <strong><%= summary['remaining'] %></strong> remaining checked out</p
+  >
 <% end %>

@@ -45,7 +45,11 @@ class Tools::CheckinController < ApplicationController
 
   def org_and_remaining_tools
     org = @tool.current_organization
-    remaining = Tool.checked_out_by_organization(org).where(tool_type: @tool.tool_type).count - 1
+    remaining =
+      Tool
+        .checked_out_by_organization(org)
+        .where(tool_type: @tool.tool_type)
+        .count - 1
     { org: org, remaining: remaining }
   end
 
