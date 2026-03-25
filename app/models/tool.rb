@@ -56,6 +56,7 @@ class Tool < ApplicationRecord
   def self.find_by_query(input)
     find_by(barcode: input)
   end
+
   def current_organization
     checkouts.current.take.organization if checkouts.current.present?
   end

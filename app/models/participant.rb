@@ -129,18 +129,23 @@ class Participant < ApplicationRecord
   scope :inactive, -> { where(active: false) }
 
   def self.find_by_query(input)
-    participant = find_by_search(input)
+    participant = find_by(search: input)
     return participant if participant.present?
 
     return if input.to_s.strip.length < 3
 
-    participant = where('lower(eppn) = lower(?) OR lower(cached_email) = lower(?)', input, input).first
+    participant =
+      where(
+        'lower(eppn) = lower(?) OR lower(cached_email) = lower(?)',
+        input,
+        input
+      ).first
     return participant if participant.present?
 
     where('lower(cached_name) LIKE lower(?)', "%#{input}%").first
   end
 
-  def is_booth_chair?
+  def booth_chair?
     memberships.booth_chairs.present?
   end
 
@@ -254,7 +259,7 @@ class Participant < ApplicationRecord
     return if organization_categories.blank?
     return if organization_categories.pluck(:lookup_key).uniq == ['doghouse']
     return :blue if scc?
-    return :red if is_booth_chair? && red_hardhat?
+    return :red if booth_chair? && red_hardhat?
 
     :white
   end

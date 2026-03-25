@@ -121,18 +121,21 @@ class Applets::PPEDistributionController < ApplicationController
 
   def step_three
     unless can? :create, Checkout
-      flash.now[:alert] = "Not authorized to check out a hardhat."
+      flash.now[:alert] = t('.unauthorized')
       return false
     end
 
-    @checkout = Checkout.new(
-      tool: @hardhat,
-      participant: @participant,
-      organization: @organization,
-      checked_out_at: Time.zone.now
-    )
+    @checkout =
+      Checkout.new(
+        tool: @hardhat,
+        participant: @participant,
+        organization: @organization,
+        checked_out_at: Time.zone.now
+      )
     unless @checkout.save
-      flash.now[:alert] = "Checkout failed (#{@checkout.errors.full_messages.join(', ')})"
+      flash.now[
+        :alert
+      ] = "Checkout failed (#{@checkout.errors.full_messages.join(', ')})"
       return false
     end
     flash.now[

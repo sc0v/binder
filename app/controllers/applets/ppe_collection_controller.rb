@@ -26,9 +26,13 @@ class Applets::PPECollectionController < ApplicationController
     @checkout = @hardhat.checkouts.current.first
     @checkout.checkin
     if @checkout.errors.any?
-      return redirect_to ppe_collection_path, alert: @checkout.errors.full_messages.join(', ')
+      return(
+        redirect_to ppe_collection_path,
+                    alert: @checkout.errors.full_messages.join(', ')
+      )
     end
 
-    redirect_to ppe_collection_path, notice: t('.checked_in', barcode: params[:hardhat_barcode])
+    redirect_to ppe_collection_path,
+                notice: t('.checked_in', barcode: params[:hardhat_barcode])
   end
 end

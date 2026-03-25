@@ -52,6 +52,8 @@ en:
       load_step_three:
         no_hardhat: No hardhat found with that information.
         no_organization: No organization selected.
+      step_three:
+        unauthorized: Not authorized to check out a hardhat.
   application:
     not_registered: The Student ID you swiped is not yet activated with a user account. Please register with andrew eMail
     auth_error: Cannot connect to CMU Authentication
@@ -144,6 +146,11 @@ en:
     destroy:
       no_delete: Cannot delete a tool type until all tools of that type are deleted.
   tools:
+    checkouts:
+      create:
+        unauthorized: Not authorized to check out tools.
+      checkin:
+        unauthorized: Not authorized to check in tools.
     create:
       notice: Tool created successfully.
     update:

@@ -28,7 +28,12 @@ class Organization < ApplicationRecord
   def self.find_by_query(input, exact: false)
     return if input.blank?
 
-    organization = where('lower(name) = lower(?) OR lower(short_name) = lower(?)', input, input).first
+    organization =
+      where(
+        'lower(name) = lower(?) OR lower(short_name) = lower(?)',
+        input,
+        input
+      ).first
     return organization if organization.present? || exact
 
     search(input).first
