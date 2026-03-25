@@ -69,7 +69,7 @@ class Tools::CheckoutsController < ApplicationController
 
   def store_borrower_in_session
     borrower =
-      Participant.find_by_search(params[:participant_search].to_s.strip)
+      Participant.find_by_search(params[:participant_search].to_s.strip) # rubocop:disable Rails/DynamicFindBy
     if borrower
       session[:borrower_id] = borrower.id
     else
