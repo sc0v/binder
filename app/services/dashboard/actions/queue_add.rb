@@ -40,6 +40,7 @@ module Dashboard
         if organization.blank?
           return pending(queue_type: queue_type, queue_message: queue_message, needs_org_selection: true)
         end
+
         pending(queue_type: queue_type, queue_message: queue_message, organization_id: organization.id)
       end
 
@@ -49,7 +50,7 @@ module Dashboard
 
       def execute(pending, resources:, session_state:, ability:)
         organization = resources[:organization]
-        return error(t('resources.queue.add_not_authorized')) unless ability.call(:create, OrganizationTimelineEntry)
+        return error(t('resources.queue.add_not_authorized')) unless ability.can?(:create, OrganizationTimelineEntry)
 
         entry = OrganizationTimelineEntry.new(
           organization: organization,
@@ -59,15 +60,16 @@ module Dashboard
         )
         return error(t('resources.queue.already_in_queue')) if entry.already_in_queue?
         return error(entry.errors.full_messages.join(', ').presence || t('resources.queue.add_problem')) unless entry.save
+
         message(t('resources.queue.add_success', queue_type: pending['queue_type']))
       end
 
       def receipt(pending, resources:, session:)
         organization = resources[:organization]
         receipt_payload(t('resources.receipts.add_queue_title', queue_type: pending['queue_type']), [
-          receipt_line(t('resources.labels.organization'), organization&.name),
-          receipt_line(t('resources.labels.message'), pending['queue_message'])
-        ])
+                          receipt_line(t('resources.labels.organization'), organization&.name),
+                          receipt_line(t('resources.labels.message'), pending['queue_message'])
+                        ])
       end
 
       private

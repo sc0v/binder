@@ -32,7 +32,8 @@ module Dashboard
 
       def execute(_pending, resources:, session_state:, ability:)
         tool = resources[:tool]
-        return error(t('resources.tool.checkout_not_authorized')) unless ability.call(:create, Checkout)
+        return error(t('resources.tool.checkout_not_authorized')) unless ability.can?(:create, Checkout)
+
         session = session_state.session
         session[:tools] ||= []
         if session[:tools].include?(tool.id)

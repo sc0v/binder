@@ -17,11 +17,11 @@ module Dashboard
         30
       end
 
-      def match?(_rest, session_state:)
+      def match?(_rest, _session_state:)
         true
       end
 
-      def parse(_rest, session_state:, command:)
+      def parse(_rest, _session_state:, _command:)
         error(t('resources.checkout.missing_resource'))
       end
     end

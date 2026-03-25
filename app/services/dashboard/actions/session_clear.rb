@@ -20,7 +20,8 @@ module Dashboard
       end
 
       def execute(_pending, resources:, session_state:, ability:)
-        return error(t('resources.session.update_not_authorized')) unless ability.call(:read, Tool)
+        return error(t('resources.session.update_not_authorized')) unless ability.can?(:read, Tool)
+
         session_state.clear_power_session
         message(t('resources.session.cleared'))
       end

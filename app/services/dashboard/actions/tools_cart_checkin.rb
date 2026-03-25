@@ -37,7 +37,8 @@ module Dashboard
       end
 
       def execute(_pending, resources:, session_state:, ability:)
-        return error(t('resources.tool.checkin_not_authorized')) unless ability.call(:update, Checkout)
+        return error(t('resources.tool.checkin_not_authorized')) unless ability.can?(:update, Checkout)
+
         session = session_state.session
         tool_ids = Array(session[:tools]).map(&:to_i)
         return error(t('resources.tool.cart_empty')) if tool_ids.empty?
@@ -59,7 +60,8 @@ module Dashboard
               error[:message] || error.inspect
             end
           end
-          error(t('resources.tool.cart_checked_in_with_errors', count: result[:checked_in], errors: error_messages.join(', ')))
+          error(t('resources.tool.cart_checked_in_with_errors', count: result[:checked_in],
+                                                                errors: error_messages.join(', ')))
         else
           message(t('resources.tool.cart_checked_in', count: result[:checked_in]))
         end
@@ -79,9 +81,9 @@ module Dashboard
         end
 
         receipt_payload(t('resources.receipts.checkin_tools_cart_title'), [
-          receipt_line(t('resources.labels.tools_in_cart'), Array(session[:tools]).size.to_s),
-          receipt_list(t('resources.labels.cart_contents'), cart_items)
-        ])
+                          receipt_line(t('resources.labels.tools_in_cart'), Array(session[:tools]).size.to_s),
+                          receipt_list(t('resources.labels.cart_contents'), cart_items)
+                        ])
       end
     end
   end

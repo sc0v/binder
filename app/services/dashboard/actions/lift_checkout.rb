@@ -31,7 +31,7 @@ module Dashboard
         true
       end
 
-      def parse(rest, session_state:, command:)
+      def parse(_rest, session_state:, command:)
         # Resolve a lift to use, preferring the current selection.
         available_lift = ScissorLift.where.not(
           id: ScissorLiftCheckout.where(checked_in_at: nil).select(:scissor_lift_id)
@@ -42,10 +42,12 @@ module Dashboard
         # Require a borrower and organization before checkout.
         borrower = session_state.current_borrower
         return error(t('resources.participant.select_first')) if borrower.blank?
+
         organization = session_state.selected_organization_for_borrower
         if organization.blank?
           return pending(scissor_lift_id: lift.id, participant_id: borrower.id, needs_org_selection: true)
         end
+
         pending(scissor_lift_id: lift.id, participant_id: borrower.id, organization_id: organization.id)
       end
 
@@ -57,13 +59,14 @@ module Dashboard
         lift = resources[:scissor_lift_required]
         borrower = resources[:participant]
         organization = resources[:organization_required]
-        return error(t('resources.scissor_lift.checkout_not_authorized')) unless ability.call(:create, ScissorLiftCheckout)
+        return error(t('resources.scissor_lift.checkout_not_authorized')) unless ability.can?(:create,
+                                                                                              ScissorLiftCheckout)
 
         checkout = ScissorLiftCheckout.new(
           organization: organization,
           participant: borrower,
           scissor_lift: lift,
-          due_at: Time.zone.now + 8.hours
+          due_at: 8.hours.from_now
         )
         unless checkout.save
           message = checkout.errors.full_messages.join(', ')
@@ -78,10 +81,10 @@ module Dashboard
         borrower = resources[:participant]
         organization = resources[:organization_required]
         receipt_payload(t('resources.receipts.checkout_scissor_lift_title'), [
-          receipt_line(t('resources.labels.scissor_lift'), lift&.name),
-          receipt_line(t('resources.labels.borrower'), borrower&.formatted_name),
-          receipt_line(t('resources.labels.organization'), organization&.name)
-        ])
+                          receipt_line(t('resources.labels.scissor_lift'), lift&.name),
+                          receipt_line(t('resources.labels.borrower'), borrower&.formatted_name),
+                          receipt_line(t('resources.labels.organization'), organization&.name)
+                        ])
       end
     end
   end

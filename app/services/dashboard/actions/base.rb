@@ -19,7 +19,7 @@ module Dashboard
         100
       end
 
-      def match?(_rest, session_state:)
+      def match?(_rest, _session_state:)
         true
       end
 
@@ -31,7 +31,7 @@ module Dashboard
         []
       end
 
-      def parse(_rest, session_state:, command:)
+      def parse(_rest, _session_state:, _command:)
         nil
       end
 
@@ -39,7 +39,7 @@ module Dashboard
         raise NotImplementedError, "#{self.class} must define #execute"
       end
 
-      def receipt(_pending, resources:, session:)
+      def receipt(_pending, _resources:, _session:)
         if confirmation_required?
           raise NotImplementedError, "#{self.class} must implement #receipt"
         end
@@ -73,8 +73,8 @@ module Dashboard
         { title: title, lines: lines }
       end
 
-      def t(key, **options)
-        I18n.t(key, **options)
+      def t(key, **)
+        I18n.t(key, **)
       end
 
       def cart_tool_names(session)
@@ -84,7 +84,7 @@ module Dashboard
           tool = tools_by_id[tool_id]
           next if tool.blank?
 
-          status_class = tool.is_checked_out? ? 'power-item-unavailable' : 'power-item-available'
+          status_class = tool.checked_out? ? 'power-item-unavailable' : 'power-item-available'
           { label: tool.formatted_name, status_class: status_class }
         end
       end

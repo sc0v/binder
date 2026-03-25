@@ -38,7 +38,7 @@ module Dashboard
 
       def execute(pending, resources:, session_state:, ability:)
         lift = resources[:scissor_lift]
-        return error(t('resources.scissor_lift.renew_not_authorized')) unless ability.call(:update, ScissorLiftCheckout)
+        return error(t('resources.scissor_lift.renew_not_authorized')) unless ability.can?(:update, ScissorLiftCheckout)
 
         checkout = lift.current_checkout
         return error(t('resources.scissor_lift.not_checked_out')) if checkout.blank?
@@ -52,9 +52,10 @@ module Dashboard
       def receipt(pending, resources:, session:)
         lift = resources[:scissor_lift]
         receipt_payload(t('resources.receipts.renew_scissor_lift_title'), [
-          receipt_line(t('resources.labels.scissor_lift'), lift&.name),
-          receipt_line(t('resources.labels.duration'), t('resources.scissor_lift.duration_hours', hours: pending['hours']))
-        ])
+                          receipt_line(t('resources.labels.scissor_lift'), lift&.name),
+                          receipt_line(t('resources.labels.duration'),
+                                       t('resources.scissor_lift.duration_hours', hours: pending['hours']))
+                        ])
       end
 
       private

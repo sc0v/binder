@@ -29,10 +29,11 @@ module Dashboard
         true
       end
 
-      def parse(rest, session_state:, command:)
+      def parse(rest, session_state:, _command:)
         lift = session_state.current_scissor_lift
         if lift.blank?
           return error(t('resources.scissor_lift.select_first')) if lift_match?(rest)
+
           return error(t('resources.checkin.missing_resource'))
         end
 
@@ -43,27 +44,37 @@ module Dashboard
         %i[scissor_lift]
       end
 
-      def execute(pending, resources:, session_state:, ability:)
+      def execute(_pending, resources:, _session_state:, ability:)
         lift = resources[:scissor_lift]
-        return error(t('resources.scissor_lift.checkin_not_authorized')) unless ability.call(:update, ScissorLiftCheckout)
+        return error(t('resources.scissor_lift.checkin_not_authorized')) unless authorized_checkin?(ability)
 
-        # Ensure the lift is currently checked out before checkin.
         checkout = lift.current_checkout
         return error(t('resources.scissor_lift.not_checked_out')) if checkout.blank?
 
-        checkout.checkin(forfeit: false)
-        return error(checkout.errors.full_messages.join(', ')) if checkout.errors.any?
-
-        message(t('resources.scissor_lift.checked_in', lift: lift.name))
+        perform_checkin(checkout)
       end
 
-      def receipt(pending, resources:, session:)
+      def receipt(_pending, resources:, _session:)
         lift = resources[:scissor_lift]
         checkout = lift&.current_checkout
         receipt_payload(t('resources.receipts.checkin_scissor_lift_title'), [
-          receipt_line(t('resources.labels.scissor_lift'), lift&.name),
-          receipt_line(t('resources.labels.checked_out_to'), checked_out_to_label(checkout))
-        ])
+                          receipt_line(t('resources.labels.scissor_lift'), lift&.name),
+                          receipt_line(t('resources.labels.checked_out_to'), checked_out_to_label(checkout))
+                        ])
+      end
+
+      private
+
+      def authorized_checkin?(ability)
+        ability.can?(:update, ScissorLiftCheckout)
+      end
+
+      def perform_checkin(checkout)
+        checkout.checkin(forfeit: false)
+        return error(checkout.errors.full_messages.join(', ')) if checkout.errors.any?
+
+        lift = checkout.scissor_lift
+        message(t('resources.scissor_lift.checked_in', lift: lift.name))
       end
     end
   end

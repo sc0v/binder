@@ -23,14 +23,15 @@ module Dashboard
         session_state.current_tool.blank? && session_state.current_scissor_lift.blank?
       end
 
-      def parse(_rest, session_state:, command:)
+      def parse(_rest, _session_state:, _command:)
         error(t('resources.checkin.missing_resource'))
       end
 
-      def execute(_pending, resources:, session_state:, ability:)
-        unless ability.call(:update, Checkout) || ability.call(:update, ScissorLiftCheckout)
+      def execute(_pending, _resources:, _session_state:, ability:)
+        unless ability.can?(:update, Checkout) || ability.can?(:update, ScissorLiftCheckout)
           return error(t('resources.checkin.not_authorized'))
         end
+
         error(t('resources.checkin.missing_resource'))
       end
     end

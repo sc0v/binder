@@ -31,6 +31,7 @@ module Dashboard
 
         organization = session_state.organization_for_queue
         return error(t('resources.organization.select_first')) if organization.blank?
+
         pending(queue_type: queue_type, organization_id: organization.id)
       end
 
@@ -43,7 +44,7 @@ module Dashboard
         return error(t('resources.queue.unknown')) unless %w[electrical structural].include?(queue_type)
 
         organization = resources[:organization]
-        return error(t('resources.queue.remove_not_authorized')) unless ability.call(:update, OrganizationTimelineEntry)
+        return error(t('resources.queue.remove_not_authorized')) unless ability.can?(:update, OrganizationTimelineEntry)
 
         entry = OrganizationTimelineEntry.current.where(entry_type: queue_type, organization: organization).first
         return error(t('resources.queue.not_in_queue')) if entry.blank?

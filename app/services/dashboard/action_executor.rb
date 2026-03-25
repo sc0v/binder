@@ -17,11 +17,13 @@ module Dashboard
       if handler.confirmation_required? && !pending['confirmed']
         return error_result(I18n.t('power_dashboard.actions.confirmation_required'))
       end
+
       resources = load_resources_for(handler, pending)
       return error_result(resources[:error]) if resources[:error]
 
       result = handler.execute(pending, resources: resources, session_state: session_state, ability: ability)
       return error_result(I18n.t('power_dashboard.actions.unknown')) if result.blank?
+
       result[:error].present? ? error_result(result[:error]) : result
     end
 

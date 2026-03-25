@@ -20,7 +20,8 @@ module Dashboard
       end
 
       def execute(_pending, resources:, session_state:, ability:)
-        return error(t('resources.scissor_lift.overview_not_authorized')) unless ability.call(:read, ScissorLift)
+        return error(t('resources.scissor_lift.overview_not_authorized')) unless ability.can?(:read, ScissorLift)
+
         session_state.set_scissor_lift_overview
         message(t('resources.scissor_lift.overview_selected'))
       end

@@ -53,7 +53,8 @@ module Dashboard
       def execute(_pending, resources:, session_state:, ability:)
         borrower = resources[:participant]
         organization = resources[:organization_required]
-        return error(t('resources.tool.checkout_not_authorized')) unless ability.call(:create, Checkout)
+        return error(t('resources.tool.checkout_not_authorized')) unless ability.can?(:create, Checkout)
+
         session = session_state.session
         tool_ids = Array(session[:tools]).map(&:to_i)
         result = Checkout.checkout_batch(
@@ -77,10 +78,10 @@ module Dashboard
         borrower = resources[:participant]
         organization = resources[:organization_required]
         receipt_payload(t('resources.receipts.checkout_tools_cart_title'), [
-          receipt_line(t('resources.labels.borrower'), borrower&.formatted_name),
-          receipt_line(t('resources.labels.organization'), organization&.name),
-          receipt_list(t('resources.labels.cart_contents'), cart_tool_names(session))
-        ])
+                          receipt_line(t('resources.labels.borrower'), borrower&.formatted_name),
+                          receipt_line(t('resources.labels.organization'), organization&.name),
+                          receipt_list(t('resources.labels.cart_contents'), cart_tool_names(session))
+                        ])
       end
     end
   end

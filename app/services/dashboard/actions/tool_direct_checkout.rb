@@ -55,7 +55,7 @@ module Dashboard
         borrower = resources[:participant]
         organization = resources[:organization_required]
 
-        return error(t('resources.tool.checkout_not_authorized')) unless ability.call(:create, Checkout)
+        return error(t('resources.tool.checkout_not_authorized')) unless ability.can?(:create, Checkout)
 
         checkout = Checkout.new(
           organization: organization,
@@ -75,10 +75,10 @@ module Dashboard
         borrower = resources[:participant]
         organization = resources[:organization_required]
         receipt_payload(t('resources.receipts.checkout_tool_title'), [
-          receipt_line(t('resources.labels.tool'), tool&.formatted_name),
-          receipt_line(t('resources.labels.borrower'), borrower&.formatted_name),
-          receipt_line(t('resources.labels.organization'), organization&.name)
-        ])
+                          receipt_line(t('resources.labels.tool'), tool&.formatted_name),
+                          receipt_line(t('resources.labels.borrower'), borrower&.formatted_name),
+                          receipt_line(t('resources.labels.organization'), organization&.name)
+                        ])
       end
     end
   end

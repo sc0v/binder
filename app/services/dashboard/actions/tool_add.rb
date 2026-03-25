@@ -31,13 +31,13 @@ module Dashboard
 
       def execute(_pending, resources:, session_state:, ability:)
         tool = resources[:tool]
-        return error(t('resources.tool.checkout_not_authorized')) unless ability.call(:create, Checkout)
+        return error(t('resources.tool.checkout_not_authorized')) unless ability.can?(:create, Checkout)
+
         session = session_state.session
         session[:tools] ||= []
         session[:tools] << tool.id unless session[:tools].include?(tool.id)
         message(t('resources.tool.added_to_cart', name: tool.formatted_name))
       end
-
     end
   end
 end

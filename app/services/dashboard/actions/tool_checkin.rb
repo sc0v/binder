@@ -45,13 +45,14 @@ module Dashboard
       def execute(_pending, resources:, session_state:, ability:)
         tool = resources[:tool]
 
-        return error(t('resources.tool.checkin_not_authorized')) unless ability.call(:update, Checkout)
+        return error(t('resources.tool.checkin_not_authorized')) unless ability.can?(:update, Checkout)
 
         checkout = tool.checkouts.current.first
         return error(t('resources.tool.not_checked_out')) if checkout.blank?
 
         checkout.checkin
         return error(checkout.errors.full_messages.join(', ')) if checkout.errors.any?
+
         message(t('resources.tool.checked_in', barcode: tool.barcode))
       end
 
@@ -59,9 +60,9 @@ module Dashboard
         tool = resources[:tool]
         checkout = tool&.checkouts&.current&.first
         receipt_payload(t('resources.receipts.checkin_tool_title'), [
-          receipt_line(t('resources.labels.tool'), tool&.formatted_name),
-          receipt_line(t('resources.labels.checked_out_to'), checked_out_to_label(checkout))
-        ])
+                          receipt_line(t('resources.labels.tool'), tool&.formatted_name),
+                          receipt_line(t('resources.labels.checked_out_to'), checked_out_to_label(checkout))
+                        ])
       end
     end
   end

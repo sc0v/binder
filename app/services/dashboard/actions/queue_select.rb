@@ -35,7 +35,7 @@ module Dashboard
         queue_type = pending['queue_type'].to_s
         return error(t('resources.queue.unknown')) unless %w[electrical structural].include?(queue_type)
 
-        return error(t('resources.queue.view_not_authorized')) unless ability.call(:read, OrganizationTimelineEntry)
+        return error(t('resources.queue.view_not_authorized')) unless ability.can?(:read, OrganizationTimelineEntry)
 
         session_state.set_queue_resource(queue_type)
         message(t('resources.queue.select_success', queue_type: queue_type.titlecase))
