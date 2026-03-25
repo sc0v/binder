@@ -19,8 +19,23 @@ class Applets::PPECollectionController < ApplicationController
     @checkout = @hardhat.checkouts.current.first
     @checkout.checked_in_at = Time.zone.now
     @checkout.save!
+    @hardhat.update(status: params[:status]) if params[:status].present?
+
+    if @checkout.checked_in_at > Time.zone.local(2026, 4, 14)
+      new_status =
+        (
+          if params[:status].present?
+            "#{params[:status]}, Late Return"
+          else
+            'Late Return'
+          end
+        )
+      @hardhat.update(status: new_status)
+    end
+
     redirect_to ppe_collection_path,
-                notice: "Hardhat #{params[:barcode]} successfully checked in."
+                notice:
+                  "Hardhat #{params[:hardhat_barcode]} successfully checked in."
   end
 
   def no_current_checkout?

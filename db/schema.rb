@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_05_220654) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_13_031121) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -327,6 +327,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_05_220654) do
     t.datetime "updated_at", null: false
     t.integer "tool_type_id"
     t.boolean "active", default: true, null: false
+    t.string "status"
     t.index ["barcode"], name: "index_tools_on_barcode", unique: true
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
   end

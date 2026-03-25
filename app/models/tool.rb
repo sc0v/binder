@@ -2,6 +2,7 @@
 
 class Tool < ApplicationRecord
   include Rails.application.routes.url_helpers
+  extend ToolTableAttrs
 
   has_many :checkouts, dependent: :destroy
   has_many :participants, through: :checkouts
@@ -52,6 +53,10 @@ class Tool < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
   scope :ordered_by_name, -> { order(name: :asc) }
+
+  scope :damaged, -> { where(status: 'Damaged') }
+  scope :late, -> { where(status: 'Late Return') }
+  scope :unreturned, -> { where(status: 'Unreturned') }
   def current_organization
     checkouts.current.take.organization if checkouts.current.present?
   end
@@ -66,6 +71,19 @@ class Tool < ApplicationRecord
 
   def hardhat?
     name.downcase.include?('hardhat')
+  end
+
+  def unreturned_checker
+    return unless hardhat? && checked_out?
+    return unless Time.current > Time.zone.local(2026, 4, 14)
+
+    update(status: 'unreturned')
+  end
+
+  def hardhat_status_label
+    return nil unless hardhat?
+
+    status || 'good condition'
   end
 
   def self.checked_out_by_organization(organization)
@@ -95,23 +113,4 @@ class Tool < ApplicationRecord
   def link
     tool_path(self)
   end
-
-  TABLE_ATTRS_JOINS = [
-    'LEFT OUTER JOIN checkouts AS c ON (c.tool_id = tools.id AND c.checked_in_at IS NULL)',
-    'LEFT OUTER JOIN (SELECT id, name AS org_name from organizations) AS o ON o.id = c.organization_id',
-    'LEFT OUTER JOIN participants AS p ON p.id = c.participant_id'
-  ].freeze
-  TABLE_ATTRS_SELECT =
-    'tools.*, tool_types.name AS t_name, o.org_name AS t_organization_name, ' \
-      'c.checked_out_at IS NOT NULL AS t_is_checked_out, p.cached_name AS t_participant_name'
-
-  def self.table_attrs
-    TABLE_ATTRS_JOINS
-      .reduce(joins(:tool_type)) { |scope, j| scope.joins(j) }
-      .select(TABLE_ATTRS_SELECT)
-  end
-
-  # def self.find_or_create_by_search(search)
-  #  t = Tool.find_by(barcode: search)
-  # end
 end
