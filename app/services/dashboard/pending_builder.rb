@@ -51,6 +51,7 @@ module Dashboard
 
       if flow['lift_action'] == 'renew'
         return { error: 'Set renewal hours.' } if flow['hours'].blank?
+
         return {
           pending: {
             'action' => 'renew_scissor_lift',
@@ -103,8 +104,10 @@ module Dashboard
 
       if flow['queue_action'] == 'add'
         return { error: 'Select queue source.' } if flow['queue_source'].blank?
+
         if flow['queue_source'] == 'by_user'
           return { error: 'Select a borrower.' } if flow['participant_id'].blank?
+
           participant = Participant.find_by(id: flow['participant_id'])
           return { error: 'Borrower is invalid.' } if participant.blank?
           unless participant.organizations.exists?(flow['organization_id'])

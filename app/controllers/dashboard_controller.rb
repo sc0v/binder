@@ -247,7 +247,7 @@ class DashboardController < ApplicationController
   def action_executor
     @action_executor ||= Dashboard::ActionExecutor.new(
       session_state: Dashboard::SessionState.new(session),
-      ability: method(:can?)
+      ability: current_ability
     )
   end
 

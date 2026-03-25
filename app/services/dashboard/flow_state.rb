@@ -61,7 +61,7 @@ module Dashboard
     end
 
     def self.parse_ids(value)
-      value.to_s.split(',').map(&:strip).reject(&:blank?).map(&:to_i).uniq
+      value.to_s.split(',').map(&:strip).compact_blank.map(&:to_i).uniq
     end
 
     private

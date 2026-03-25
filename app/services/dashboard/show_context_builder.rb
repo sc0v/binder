@@ -22,7 +22,7 @@ module Dashboard
         terminal_step: @flow.present? ? FlowDefinition.terminal_step?(@flow) : false,
         flow_tools: Tool.where(id: Array(@flow&.dig('tool_ids')).map(&:to_i)).index_by(&:id),
         flow_participant: flow_participant,
-        flow_participant_organizations: flow_participant&.organizations&.order(:name)&.to_a || [],
+        flow_participant_organizations: flow_participant&.organizations&.order(:name).to_a,
         flow_organization: Organization.find_by(id: @flow&.dig('organization_id')),
         all_organizations: Organization.order(:name).to_a,
         queued_organizations: queued_organizations_for(@flow&.dig('queue_type')),

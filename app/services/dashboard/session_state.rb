@@ -88,11 +88,9 @@ module Dashboard
     def set_participant(participant)
       session[:borrower_id] = participant.id
       organizations = participant.organizations
-      if organizations.count == 1
-        session[:power_organization_id] = organizations.first.id
-      else
-        session[:power_organization_id] = nil
-      end
+      session[:power_organization_id] = if organizations.one?
+                                          organizations.first.id
+                                        end
     end
 
     def set_current_resource(type, record)

@@ -18,6 +18,7 @@ module Dashboard
       apply_lift_action
       hours_error = apply_hours
       return { error: hours_error } if hours_error.present?
+
       apply_next_step
       { flow: @flow }
     rescue ArgumentError
@@ -27,7 +28,7 @@ module Dashboard
     private
 
     def apply_queue_action
-      return unless @params[:queue_action].present?
+      return if @params[:queue_action].blank?
 
       new_queue_action = @params[:queue_action]
       @flow['queue_message'] = nil if @flow['queue_action'] != new_queue_action
@@ -39,7 +40,7 @@ module Dashboard
     end
 
     def apply_queue_source
-      return unless @params[:queue_source].present?
+      return if @params[:queue_source].blank?
 
       @flow['queue_source'] = @params[:queue_source]
       @flow['participant_id'] = nil if @flow['queue_source'] == 'by_org'
@@ -48,7 +49,7 @@ module Dashboard
     end
 
     def apply_lift_action
-      return unless @params[:lift_action].present?
+      return if @params[:lift_action].blank?
 
       new_lift_action = @params[:lift_action]
       if @flow['lift_action'] != new_lift_action

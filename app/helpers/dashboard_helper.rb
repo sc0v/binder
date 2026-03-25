@@ -1,6 +1,28 @@
 # frozen_string_literal: true
 
 module DashboardHelper
+  STEP_LABELS = {
+    %w[checkout tools] => 'Scan Tools',
+    %w[checkin tools] => 'Scan Tools',
+    %w[checkout participant] => 'Scan Borrower',
+    %w[lift participant] => 'Scan Borrower',
+    %w[queue participant] => 'Scan Borrower',
+    %w[checkout organization] => 'Select Organization',
+    %w[lift organization] => 'Select Organization',
+    %w[queue organization] => 'Select Organization',
+    %w[queue queue_type] => 'Select Queue Type',
+    %w[queue queue_action] => 'Select Queue Action',
+    %w[queue queue_source] => 'Select Source',
+    %w[queue queue_message] => 'Enter Message',
+    %w[queue queue_current] => 'Current Queue',
+    %w[lift lift_action] => 'Select Lift Action',
+    %w[lift renew_hours] => 'Select Renewal Hours',
+    %w[lift renew_custom] => 'Custom Renewal Hours',
+    %w[lift lift_current] => 'Current Lifts',
+    %w[lookup lookup] => 'Lookup',
+    %w[lookup result] => 'Lookup Result'
+  }.freeze
+
   def dashboard_h1(flow_kind, step, flow = {})
     return 'Dashboard' if flow_kind.blank?
 
@@ -11,58 +33,30 @@ module DashboardHelper
     return if flow_params.blank?
 
     keys_to_skip = Array(except).map(&:to_s)
-    fields = flow_params.except(*keys_to_skip).map do |key, value|
-      hidden_field_tag(key, value)
-    end
-    safe_join(fields)
+    safe_join(flow_params.except(*keys_to_skip).map { |k, v| hidden_field_tag(k, v) })
   end
 
   def dashboard_tool_state(tool)
-    tool.is_checked_out? ? 'Checked out' : 'Checked in'
+    tool.checked_out? ? 'Checked out' : 'Checked in'
   end
 
   def dashboard_tool_state_class(tool)
-    tool.is_checked_out? ? 'power-item-unavailable' : 'power-item-available'
+    tool.checked_out? ? 'power-item-unavailable' : 'power-item-available'
   end
 
   def current_resource_config(resource)
     title = resource&.try(:formatted_name) || resource&.try(:name) || 'Current Resource'
-    config = { title: title, partial: nil, locals: {} }
-
-    case resource
-    when Participant
-      config[:partial] = 'shared/resources/participant'
-      config[:locals] = { participant: resource }
-    when Organization
-      config[:partial] = 'shared/resources/organization'
-      config[:locals] = { organization: resource }
-    when Tool
-      config[:partial] = 'shared/resources/tool'
-      config[:locals] = { tool: resource }
-    when ScissorLift
-      config[:partial] = 'shared/resources/scissor_lift'
-      config[:locals] = { lift: resource }
-    when Dashboard::QueueResource
-      config[:title] = resource.queue_type.to_s.titleize
-      config[:partial] = 'shared/resources/queue'
-      config[:locals] = { queue: resource }
-    when Dashboard::ScissorLiftOverviewResource
-      config[:title] = 'Scissor Lifts Overview'
-      config[:partial] = 'shared/resources/scissor_lifts_overview'
-      config[:locals] = { overview: resource }
-    end
-
+    config = { title:, partial: nil, locals: {} }
+    apply_resource_display_config(config, resource)
     config
   end
 
   def lift_overview_status(lift)
     checkout = lift.current_checkout
-    overdue = checkout&.due_at.present? && checkout.due_at < Time.zone.now
+    return %w[Overdue power-item-overdue] if checkout&.due_at.present? && checkout.due_at < Time.zone.now
+    return ['Checked out', 'power-item-unavailable'] if lift.checked_out?
 
-    return ['Overdue', 'power-item-overdue'] if overdue
-    return ['Checked out', 'power-item-unavailable'] if lift.is_checked_out?
-
-    ['Available', 'power-item-available']
+    %w[Available power-item-available]
   end
 
   def lift_overview_org_label(checkout)
@@ -75,70 +69,53 @@ module DashboardHelper
   def lift_overview_due_label(checkout)
     return if checkout&.due_at.blank?
 
-    if checkout.due_at < Time.zone.now
-      "overdue by #{time_ago_in_words(checkout.due_at)}"
-    else
-      "due in #{time_ago_in_words(checkout.due_at)}"
-    end
+    prefix = checkout.due_at < Time.zone.now ? 'overdue by' : 'due in'
+    "#{prefix} #{time_ago_in_words(checkout.due_at)}"
   end
 
   def receipt_line_html(line)
-    if line[:list].present?
-      items = line[:list].map do |item|
-        if item.is_a?(Hash)
-          content_tag(:li, item[:label], class: item[:status_class])
-        else
-          content_tag(:li, item)
-        end
-      end
+    return receipt_list_html(line) if line[:list].present?
 
-      safe_join([
-        content_tag(:p) { content_tag(:strong, "#{line[:label]}:") },
-        content_tag(:ul) { safe_join(items) }
-      ])
-    else
-      content_tag(:p) do
-        safe_join(["#{line[:label]}: ", content_tag(:strong, line[:value])])
-      end
+    content_tag(:p) do
+      safe_join(["#{line[:label]}: ", content_tag(:strong, line[:value])])
     end
   end
 
   private
 
-  def dashboard_step_label(flow_kind, step, flow)
-    case [flow_kind.to_s, step.to_s]
-    when ['checkout', 'tools'], ['checkin', 'tools']
-      'Scan Tools'
-    when ['checkout', 'participant'], ['lift', 'participant'], ['queue', 'participant']
-      'Scan Borrower'
-    when ['checkout', 'organization'], ['lift', 'organization'], ['queue', 'organization']
-      'Select Organization'
-    when ['queue', 'queue_type']
-      'Select Queue Type'
-    when ['queue', 'queue_action']
-      'Select Queue Action'
-    when ['queue', 'queue_source']
-      'Select Source'
-    when ['queue', 'queue_message']
-      'Enter Message'
-    when ['queue', 'queue_current']
-      'Current Queue'
-    when ['lift', 'lift_action']
-      'Select Lift Action'
-    when ['lift', 'scissor_lift']
-      %w[renew checkin].include?(flow['lift_action']) ? 'Select Checked Out Lift' : 'Select Lift'
-    when ['lift', 'renew_hours']
-      'Select Renewal Hours'
-    when ['lift', 'renew_custom']
-      'Custom Renewal Hours'
-    when ['lift', 'lift_current']
-      'Current Lifts'
-    when ['lookup', 'lookup']
-      'Lookup'
-    when ['lookup', 'result']
-      'Lookup Result'
-    else
-      step.to_s.humanize.presence || 'Step'
+  def apply_resource_display_config(config, resource)
+    case resource
+    when Participant then config.merge!(partial: 'shared/resources/participant', locals: { participant: resource })
+    when Organization then config.merge!(partial: 'shared/resources/organization', locals: { organization: resource })
+    when Tool then config.merge!(partial: 'shared/resources/tool', locals: { tool: resource })
+    when ScissorLift then config.merge!(partial: 'shared/resources/scissor_lift', locals: { lift: resource })
+    when Dashboard::QueueResource then config.merge!(queue_resource_display(resource))
+    when Dashboard::ScissorLiftOverviewResource then config.merge!(lift_overview_display(resource))
     end
+  end
+
+  def queue_resource_display(resource)
+    { title: resource.queue_type.to_s.titleize, partial: 'shared/resources/queue', locals: { queue: resource } }
+  end
+
+  def lift_overview_display(resource)
+    partial = 'shared/resources/scissor_lifts_overview'
+    { title: 'Scissor Lifts Overview', partial:, locals: { overview: resource } }
+  end
+
+  def receipt_list_html(line)
+    items = line[:list].map do |item|
+      item.is_a?(Hash) ? content_tag(:li, item[:label], class: item[:status_class]) : content_tag(:li, item)
+    end
+    safe_join([content_tag(:p) { content_tag(:strong, "#{line[:label]}:") }, content_tag(:ul) { safe_join(items) }])
+  end
+
+  def dashboard_step_label(flow_kind, step, flow)
+    key = [flow_kind.to_s, step.to_s]
+    if key == %w[lift scissor_lift]
+      return %w[renew checkin].include?(flow['lift_action']) ? 'Select Checked Out Lift' : 'Select Lift'
+    end
+
+    STEP_LABELS[key] || step.to_s.humanize.presence || 'Step'
   end
 end
