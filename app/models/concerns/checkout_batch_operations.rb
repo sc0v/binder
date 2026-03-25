@@ -5,7 +5,10 @@ module CheckoutBatchOperations
 
   module ClassMethods
     def checkout_batch(organization:, participant:, tool_ids:)
-      return empty_checkout_result(organization, participant) if tool_ids.blank?
+      if tool_ids.blank?
+        failed = [missing_tools_checkout(organization: organization, participant: participant)]
+        return { checked_out: [], failed: failed, remaining_ids: [] }
+      end
 
       results = { checked_out: [], failed: [], remaining_ids: tool_ids.dup }
       accumulate_checkouts(tool_ids, organization, participant, results)
@@ -37,21 +40,17 @@ module CheckoutBatchOperations
 
     def checkout_tool(tool_id, organization, participant)
       tool = Tool.find_by(id: tool_id)
-      return missing_tool_result(organization, participant, tool_id) if tool.blank?
+      if tool.blank?
+        checkout = missing_tool_checkout(organization: organization, participant: participant, tool_id: tool_id)
+        return { success: false, checkout: checkout }
+      end
 
       checkout = build_checkout(organization: organization, participant: participant, tool: tool)
       return { success: true, checkout: checkout } if checkout.save
 
-      apply_checkout_error(checkout, tool)
-      { success: false, checkout: checkout }
+      { success: false, checkout: apply_checkout_error(checkout, tool) }
     rescue StandardError => e
-      error = error_checkout_for_exception(checkout: checkout, tool: tool, tool_id: tool_id, exception: e)
-      { success: false, checkout: error }
-    end
-
-    def missing_tool_result(organization, participant, tool_id)
-      checkout = missing_tool_checkout(organization: organization, participant: participant, tool_id: tool_id)
-      { success: false, checkout: checkout }
+      { success: false, checkout: apply_checkout_error(checkout, tool, exception: e) }
     end
 
     def accumulate_checkin(tool_id, results)
@@ -96,9 +95,10 @@ module CheckoutBatchOperations
     end
 
     def apply_checkout_error(checkout, tool, exception: nil)
-      message = format_checkout_error(tool_name: tool.name, errors: checkout.errors, exception: exception)
+      message = format_checkout_error(tool_name: tool&.name, errors: checkout.errors, exception: exception)
       checkout.errors.clear
       checkout.errors.add(:base, message)
+      checkout
     end
 
     def format_checkout_error(tool_name:, errors:, exception: nil)
@@ -108,13 +108,6 @@ module CheckoutBatchOperations
 
       details = exception ? exception.message : errors.full_messages.join(', ')
       "Could not check out '#{tool_name}': #{details}"
-    end
-
-    def error_checkout_for_exception(checkout:, tool:, tool_id:, exception:)
-      message = format_checkout_error(tool_name: tool&.name || tool_id, errors: checkout.errors, exception: exception)
-      checkout.errors.clear
-      checkout.errors.add(:base, message)
-      checkout
     end
   end
 end

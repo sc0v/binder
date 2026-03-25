@@ -79,7 +79,7 @@ class Participant < ApplicationRecord
   def self.find_by(*)
     # puts args
     # if args.first.keys.include?(:search)
-    #  find_by_search(args)
+    #  search(args)
     # elsif args.first.keys.include?(:card)
     #  find_by_card(*args)
     # else
@@ -87,7 +87,7 @@ class Participant < ApplicationRecord
     # end
   end
 
-  def self.find_by_search(search)
+  def self.search(search)
     @participant =
       Participant.find_by(eppn: search.to_s) ||
         Participant.find_by(eppn: "#{search}@andrew.cmu.edu") ||
@@ -95,7 +95,7 @@ class Participant < ApplicationRecord
   end
 
   def self.find_or_create_by_search(search)
-    @participant = Participant.find_by(search: search.to_s)
+    @participant = Participant.search(search.to_s)
     # TODO: creation
   end
 
@@ -129,7 +129,7 @@ class Participant < ApplicationRecord
   scope :inactive, -> { where(active: false) }
 
   def self.find_by_query(input)
-    participant = find_by(search: input)
+    participant = search(input)
     return participant if participant.present?
 
     return if input.to_s.strip.length < 3
