@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'csv'
+# require 'csv'
 
 module MembershipsHelper
   # Parses the membership CSV, returning a hash with error if a problem occurs.
