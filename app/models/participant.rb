@@ -95,7 +95,7 @@ class Participant < ApplicationRecord
   end
 
   def self.find_or_create_by_search(search)
-    @participant = Participant.find_by(search: search.to_s)
+    @participant = Participant.find_by_search(search.to_s)
     # TODO: creation
   end
 
