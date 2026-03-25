@@ -1,7 +1,8 @@
 <% content_for :head do %>
-javascript_include_tag(
+  <%=
+    javascript_include_tag(
       'custom/youtube-player-api.js',
-      'data-turbo-track': 'reload'
+      'data-turbo-track': 'reload',
     )
   %>
 
@@ -10,11 +11,11 @@ javascript_include_tag(
       player = new YT.Player("safety-video", {
         height: "390",
         width: "640",
-        videoId: <%= @safety_video_id.to_json %>,
+        videoId: "<%= @safety_video_id %>",
         playerVars: {
           autoplay: 1,
-          controls: <%= (can?(:skip_safety_video, @participant) ? 1 : 0).to_json %>,
-          disablekb: <%= (can?(:skip_safety_video, @participant) ? 0 : 1).to_json %>,
+          controls: <%= can?(:skip_safety_video, @participant) ? 1 : 0 %>,
+          disablekb: <%= can?(:skip_safety_video, @participant) ? 0 : 1 %>,
             modestbranding: 1,
           rel: 0,
           showinfo: 0,

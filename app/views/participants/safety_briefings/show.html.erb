@@ -13,8 +13,8 @@
     <p>
       <%= sanitize(page_instructions(@participant, @safety_video_duration)) %>
     </p>
-    <%= render 'video' %> </div
-  ><div class="sidebar">
+    <%= render 'video' %>
+  </div><div class="sidebar">
     <% if @participant.cannot?(:participate, :carnival) %>
       <%= render 'form', participant: @participant %>
     <% end %>

@@ -1,5 +1,4 @@
 # frozen_string_literal: true
-
 module Participants::SafetyBriefingsHelper
   def safety_video_duration(duration)
     ActiveSupport::Duration.build(duration).inspect
