@@ -47,7 +47,9 @@ class ScissorLiftCheckoutsController < ApplicationController
   def renew
     all_checked_out
     return if performed?
-    return redirect_to scissor_lifts_path, alert: queue_blocks_renewal_alert if scissor_lift_queue?
+    if scissor_lift_queue?
+      return redirect_to scissor_lifts_path, alert: queue_blocks_renewal_alert
+    end
 
     process_renewal
   end
@@ -164,10 +166,13 @@ class ScissorLiftCheckoutsController < ApplicationController
 
   def process_renewal
     result = @checkout.renew_for(duration_hours: params[:duration])
-    return redirect_to scissor_lifts_path, alert: renew_error_alert(result) if result.errors.any?
+    if result.errors.any?
+      return redirect_to scissor_lifts_path, alert: renew_error_alert(result)
+    end
 
     redirect_to scissor_lifts_path,
-                notice: "#{params[:name]} successfully renewed for #{params[:duration]} hours."
+                notice:
+                  "#{params[:name]} successfully renewed for #{params[:duration]} hours."
   end
 
   def scissor_lift_queue?
