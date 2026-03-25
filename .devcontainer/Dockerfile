@@ -28,7 +28,7 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m -s /bin/bash $USERNAME \
     && mkdir -p /usr/local/bundle \
     && chown -R $USERNAME:$USERNAME /usr/local/bundle \
     && apt-get update \
