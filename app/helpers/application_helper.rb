@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  include Application::BreadcrumbsHelper
+  include Application::DocumentTitleHelper
+  include Application::NavigationHelper
+
   # Flash
   #
   # Map flash categories to css classes.

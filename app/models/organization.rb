@@ -25,7 +25,7 @@ class Organization < ApplicationRecord
           )
         }
 
-  def self.find_by_query(input, exact: false)
+  def self.lookup(input, exact: false)
     return if input.blank?
 
     organization =

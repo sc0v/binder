@@ -181,6 +181,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_05_220654) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "short_name"
+    t.string "slack_webhook"
     t.index ["name"], name: "index_organizations_on_name", unique: true
     t.index ["organization_category_id"], name: "index_organizations_on_organization_category_id"
   end
@@ -200,8 +201,10 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_05_220654) do
     t.boolean "admin"
     t.boolean "watched_safety_video"
     t.boolean "alumni"
+    t.integer "primary_organization_id"
     t.index ["admin"], name: "index_participants_on_admin"
     t.index ["eppn"], name: "index_participants_on_eppn", unique: true
+    t.index ["primary_organization_id"], name: "index_participants_on_primary_organization_id"
   end
 
   create_table "scissor_lift_checkouts", force: :cascade do |t|
@@ -351,6 +354,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_05_220654) do
   add_foreign_key "organization_build_statuses", "organizations"
   add_foreign_key "organization_build_steps", "organization_build_statuses"
   add_foreign_key "organization_build_steps", "participants", column: "approver_id"
+  add_foreign_key "participants", "organizations", column: "primary_organization_id"
   add_foreign_key "scissor_lift_checkouts", "organizations"
   add_foreign_key "scissor_lift_checkouts", "participants"
   add_foreign_key "scissor_lift_checkouts", "scissor_lifts"

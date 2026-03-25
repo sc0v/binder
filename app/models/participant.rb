@@ -128,7 +128,7 @@ class Participant < ApplicationRecord
   scope :active, -> { where(active: true) }
   scope :inactive, -> { where(active: false) }
 
-  def self.find_by_query(input)
+  def self.lookup(input)
     participant = search(input)
     return participant if participant.present?
 
