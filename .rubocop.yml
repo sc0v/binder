@@ -165,3 +165,7 @@ Layout/LineLength:
 # which triggers a network call to login.cmu.edu and causes SocketError.
 Rails/RakeEnvironment:
   Enabled: false
+
+Rails/DynamicFindBy:
+  Whitelist:
+    - "find_by_search"
