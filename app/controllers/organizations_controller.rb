@@ -82,8 +82,7 @@ class OrganizationsController < ApplicationController
       Tool.just_tools.checked_out_by_organization(@organization)
     @hardhats_checked_out =
       Tool.hardhats.checked_out_by_organization(@organization)
-    @radios_checked_out =
-      Tool.radios.checked_out_by_organization(@organization)
+    @radios_checked_out = Tool.radios.checked_out_by_organization(@organization)
   end
 
   # GET /organizations/new
