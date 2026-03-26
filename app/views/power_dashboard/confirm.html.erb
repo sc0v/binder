@@ -13,7 +13,11 @@
       </div>
 
       <div class="power-confirm-actions">
-        <%= form_with url: power_dashboard_execute_path, method: :post, html: { id: 'power-confirm-form' } do %>
+        <%= form_with url: power_dashboard_execute_path,
+                      method: :post,
+                      html: {
+                        id: 'power-confirm-form'
+                      } do %>
           <%= submit_tag 'Confirm', class: 'btn btn-primary' %>
         <% end %>
         <%= form_with url: power_dashboard_cancel_path, method: :post do %>
@@ -25,9 +29,9 @@
 </div>
 
 <script>
-  document.addEventListener('keydown', (event) => {
-    if (!(event.ctrlKey && event.key === 'Enter')) return;
-    const form = document.getElementById('power-confirm-form');
+  document.addEventListener("keydown", (event) => {
+    if (!(event.ctrlKey && event.key === "Enter")) return;
+    const form = document.getElementById("power-confirm-form");
     if (!form) return;
     event.preventDefault();
     form.requestSubmit();

@@ -24,7 +24,9 @@ module Dashboard
 
       def match?(rest, session_state:)
         return true if targets_tools_cart?(rest)
-        return false if lift_match?(rest) || session_state.current_scissor_lift.present?
+        if lift_match?(rest) || session_state.current_scissor_lift.present?
+          return false
+        end
 
         Array(session_state.session[:tools]).any?
       end
@@ -36,7 +38,9 @@ module Dashboard
       def parse(_rest, session_state:, command:)
         borrower = session_state.current_borrower
         return error(t('resources.participant.select_first')) if borrower.blank?
-        return error(t('resources.tool.cart_empty')) if Array(session_state.session[:tools]).empty?
+        if Array(session_state.session[:tools]).empty?
+          return error(t('resources.tool.cart_empty'))
+        end
 
         organization = session_state.selected_organization_for_borrower
         if organization.blank?
@@ -53,30 +57,54 @@ module Dashboard
       def execute(_pending, resources:, session_state:, ability:)
         borrower = resources[:participant]
         organization = resources[:organization_required]
-        return error(t('resources.tool.checkout_not_authorized')) unless ability.can?(:create, Checkout)
+        unless ability.can?(:create, Checkout)
+          return error(t('resources.tool.checkout_not_authorized'))
+        end
 
         session = session_state.session
         tool_ids = Array(session[:tools]).map(&:to_i)
-        result = Checkout.checkout_batch(organization: organization, participant: borrower, tool_ids: tool_ids)
+        result =
+          Checkout.checkout_batch(
+            organization: organization,
+            participant: borrower,
+            tool_ids: tool_ids
+          )
         session[:tools] = result[:remaining_ids]
 
         if result[:failed].empty? && session[:tools].empty?
           session[:borrower_id] = nil
           message(t('resources.tool.checkout_success', name: borrower.name))
         else
-          failed_messages = result[:failed].flat_map { |co| co.errors.full_messages }
-          error((failed_messages.presence || [t('resources.tool.checkout_failed')]).join(', '))
+          failed_messages =
+            result[:failed].flat_map { |co| co.errors.full_messages }
+          error(
+            (
+              failed_messages.presence || [t('resources.tool.checkout_failed')]
+            ).join(', ')
+          )
         end
       end
 
       def receipt(_pending, resources:, session:)
         borrower = resources[:participant]
         organization = resources[:organization_required]
-        receipt_payload(t('resources.receipts.checkout_tools_cart_title'), [
-                          receipt_line(t('resources.labels.borrower'), borrower&.formatted_name),
-                          receipt_line(t('resources.labels.organization'), organization&.name),
-                          receipt_list(t('resources.labels.cart_contents'), cart_tool_items(session))
-                        ])
+        receipt_payload(
+          t('resources.receipts.checkout_tools_cart_title'),
+          [
+            receipt_line(
+              t('resources.labels.borrower'),
+              borrower&.formatted_name
+            ),
+            receipt_line(
+              t('resources.labels.organization'),
+              organization&.name
+            ),
+            receipt_list(
+              t('resources.labels.cart_contents'),
+              cart_tool_items(session)
+            )
+          ]
+        )
       end
     end
   end

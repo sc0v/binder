@@ -9,7 +9,12 @@ module PowerDashboard
     def parse(input)
       action, rest = input.split(/\s+/, 2)
       command = action.to_s.downcase
-      handler = Dashboard::ActionRegistry.handler_for_command(command, rest: rest, session_state: session_state)
+      handler =
+        Dashboard::ActionRegistry.handler_for_command(
+          command,
+          rest: rest,
+          session_state: session_state
+        )
       return nil if handler.blank?
 
       handler.parse(rest, session_state: session_state, command: command)

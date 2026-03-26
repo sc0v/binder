@@ -55,7 +55,12 @@ class Checkout < ApplicationRecord
 
   def participant_belongs_to_org
     return if organization_id.blank? || participant_id.blank?
-    return if Membership.exists?(organization_id: organization_id, participant_id: participant_id)
+    if Membership.exists?(
+         organization_id: organization_id,
+         participant_id: participant_id
+       )
+      return
+    end
 
     errors.add(:participant, 'does not belong to organization')
   end
@@ -69,9 +74,10 @@ class Checkout < ApplicationRecord
   end
 
   def self.checkin_batch(tool_ids:)
-    results = { checked_in: 0, errors: [], remaining_ids: [] }
-    tool_ids.map(&:to_i).each { |id| attempt_checkin(id, results) }
-    results
+    attempts = tool_ids.map(&:to_i).map { |id| attempt_checkin(id) }
+    errors = attempts.filter_map { |a| a[:error] }
+    remaining_ids = attempts.filter_map { |a| a[:remaining_id] }
+    { checked_in: tool_ids.size - errors.size, errors:, remaining_ids: }
   end
 
   def self.attempt_checkout(tool_id, organization, participant)
@@ -79,27 +85,27 @@ class Checkout < ApplicationRecord
   end
   private_class_method :attempt_checkout
 
-  def self.attempt_checkin(tool_id, results)
+  def self.attempt_checkin(tool_id)
     tool = Tool.find_by(id: tool_id)
     unless tool
-      results[:errors] << { type: :missing_tool, id: tool_id }
-      results[:remaining_ids] << tool_id
-      return
+      return(
+        { error: { type: :missing_tool, id: tool_id }, remaining_id: tool_id }
+      )
     end
 
     checkout = tool.checkouts.current.first
-    unless checkout
-      results[:checked_in] += 1
-      return
-    end
+    return {} unless checkout
 
     checkout.checkin
-    if checkout.errors.blank?
-      results[:checked_in] += 1
-    else
-      results[:errors] << { type: :checkin_error, message: checkout.errors.full_messages.join(', ') }
-      results[:remaining_ids] << tool_id
-    end
+    return {} if checkout.errors.blank?
+
+    {
+      error: {
+        type: :checkin_error,
+        message: checkout.errors.full_messages.join(', ')
+      },
+      remaining_id: tool_id
+    }
   end
   private_class_method :attempt_checkin
 end

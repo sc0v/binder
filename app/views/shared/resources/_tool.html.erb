@@ -1,8 +1,17 @@
 <p><strong>Barcode:</strong> <%= tool.barcode %></p>
 <p><strong>Type:</strong> <%= tool.name %></p>
-<p><strong>Status:</strong> <%= tool.checked_out? ? 'Checked out' : 'Available' %></p>
-<p><strong>Current participant:</strong> <%= tool.current_participant&.name || '—' %></p>
-<p><strong>Current organization:</strong> <%= tool.current_organization&.name || '—' %></p>
+<p
+  ><strong>Status:</strong>
+  <%= tool.checked_out? ? 'Checked out' : 'Available' %></p
+>
+<p
+  ><strong>Current participant:</strong>
+  <%= tool.current_participant&.name || '—' %></p
+>
+<p
+  ><strong>Current organization:</strong>
+  <%= tool.current_organization&.name || '—' %></p
+>
 <% checkout = tool.checkouts.current.first %>
 <p>
   <strong>Checked out at:</strong>

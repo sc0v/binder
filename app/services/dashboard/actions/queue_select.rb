@@ -33,11 +33,17 @@ module Dashboard
 
       def execute(pending, resources:, session_state:, ability:)
         queue_type = pending['queue_type'].to_s
-        return error(t('resources.queue.unknown')) unless %w[electrical structural].include?(queue_type)
-        return error(t('resources.queue.view_not_authorized')) unless ability.can?(:read, OrganizationTimelineEntry)
+        unless %w[electrical structural].include?(queue_type)
+          return error(t('resources.queue.unknown'))
+        end
+        unless ability.can?(:read, OrganizationTimelineEntry)
+          return error(t('resources.queue.view_not_authorized'))
+        end
 
         session_state.assign_queue_resource(queue_type)
-        message(t('resources.queue.select_success', queue_type: queue_type.titlecase))
+        message(
+          t('resources.queue.select_success', queue_type: queue_type.titlecase)
+        )
       end
     end
   end

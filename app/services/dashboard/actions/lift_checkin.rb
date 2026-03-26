@@ -32,7 +32,9 @@ module Dashboard
       def parse(rest, session_state:, command:)
         lift = session_state.current_scissor_lift
         if lift.blank?
-          return error(t('resources.scissor_lift.select_first')) if lift_match?(rest)
+          if lift_match?(rest)
+            return error(t('resources.scissor_lift.select_first'))
+          end
 
           return error(t('resources.checkin.missing_resource'))
         end
@@ -47,13 +49,19 @@ module Dashboard
       def execute(_pending, resources:, session_state:, ability:)
         lift = resources[:scissor_lift]
         authorized = ability.can?(:update, ScissorLiftCheckout)
-        return error(t('resources.scissor_lift.checkin_not_authorized')) unless authorized
+        unless authorized
+          return error(t('resources.scissor_lift.checkin_not_authorized'))
+        end
 
         checkout = lift.current_checkout
-        return error(t('resources.scissor_lift.not_checked_out')) if checkout.blank?
+        if checkout.blank?
+          return error(t('resources.scissor_lift.not_checked_out'))
+        end
 
         checkout.checkin(forfeit: false)
-        return error(checkout.errors.full_messages.join(', ')) if checkout.errors.any?
+        if checkout.errors.any?
+          return error(checkout.errors.full_messages.join(', '))
+        end
 
         message(t('resources.scissor_lift.checked_in', lift: lift.name))
       end
@@ -61,10 +69,16 @@ module Dashboard
       def receipt(_pending, resources:, session:)
         lift = resources[:scissor_lift]
         checkout = lift&.current_checkout
-        receipt_payload(t('resources.receipts.checkin_scissor_lift_title'), [
-                          receipt_line(t('resources.labels.scissor_lift'), lift&.name),
-                          receipt_line(t('resources.labels.checked_out_to'), checked_out_to_label(checkout))
-                        ])
+        receipt_payload(
+          t('resources.receipts.checkin_scissor_lift_title'),
+          [
+            receipt_line(t('resources.labels.scissor_lift'), lift&.name),
+            receipt_line(
+              t('resources.labels.checked_out_to'),
+              checked_out_to_label(checkout)
+            )
+          ]
+        )
       end
     end
   end

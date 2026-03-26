@@ -21,7 +21,9 @@ module Dashboard
 
       def match?(rest, session_state:)
         return true if targets_tools_cart?(rest)
-        return false if lift_match?(rest) || session_state.current_scissor_lift.present?
+        if lift_match?(rest) || session_state.current_scissor_lift.present?
+          return false
+        end
 
         Array(session_state.session[:tools]).any?
       end
@@ -31,13 +33,17 @@ module Dashboard
       end
 
       def parse(_rest, session_state:, command:)
-        return error(t('resources.tool.cart_empty')) if Array(session_state.session[:tools]).empty?
+        if Array(session_state.session[:tools]).empty?
+          return error(t('resources.tool.cart_empty'))
+        end
 
         pending
       end
 
       def execute(_pending, resources:, session_state:, ability:)
-        return error(t('resources.tool.checkin_not_authorized')) unless ability.can?(:update, Checkout)
+        unless ability.can?(:update, Checkout)
+          return error(t('resources.tool.checkin_not_authorized'))
+        end
 
         session = session_state.session
         tool_ids = Array(session[:tools]).map(&:to_i)
@@ -49,40 +55,74 @@ module Dashboard
         if result[:errors].any?
           error(checkin_error_message(result))
         else
-          message(t('resources.tool.cart_checked_in', count: result[:checked_in]))
+          message(
+            t('resources.tool.cart_checked_in', count: result[:checked_in])
+          )
         end
       end
 
       def receipt(_pending, resources:, session:)
         tool_ids = Array(session[:tools]).map(&:to_i)
-        tools_by_id = Tool.includes(checkouts: %i[participant organization]).where(id: tool_ids).index_by(&:id)
-        cart_items = tool_ids.filter_map do |tool_id|
-          tool = tools_by_id[tool_id]
-          next if tool.blank?
+        tools_by_id =
+          Tool
+            .includes(checkouts: %i[participant organization])
+            .where(id: tool_ids)
+            .index_by(&:id)
+        cart_items =
+          tool_ids.filter_map do |tool_id|
+            tool = tools_by_id[tool_id]
+            next if tool.blank?
 
-          checkout = tool.checkouts.find { |item| item.checked_in_at.nil? }
-          holder = checked_out_to_label(checkout)
-          status_class = checkout.present? ? 'power-item-unavailable' : 'power-item-available'
-          { label: "#{tool.formatted_name} -> #{holder}", status_class: status_class }
-        end
+            checkout = tool.checkouts.find { |item| item.checked_in_at.nil? }
+            holder = checked_out_to_label(checkout)
+            status_class =
+              (
+                if checkout.present?
+                  'power-item-unavailable'
+                else
+                  'power-item-available'
+                end
+              )
+            {
+              label: "#{tool.formatted_name} -> #{holder}",
+              status_class: status_class
+            }
+          end
 
-        receipt_payload(t('resources.receipts.checkin_tools_cart_title'), [
-                          receipt_line(t('resources.labels.tools_in_cart'), Array(session[:tools]).size.to_s),
-                          receipt_list(t('resources.labels.cart_contents'), cart_items)
-                        ])
+        receipt_payload(
+          t('resources.receipts.checkin_tools_cart_title'),
+          [
+            receipt_line(
+              t('resources.labels.tools_in_cart'),
+              Array(session[:tools]).size.to_s
+            ),
+            receipt_list(t('resources.labels.cart_contents'), cart_items)
+          ]
+        )
       end
 
       private
 
       def checkin_error_message(result)
-        error_messages = result[:errors].map do |e|
-          case e[:type]
-          when :missing_tool then t('resources.tool.cart_tool_missing', id: e[:id])
-          when :not_checked_out then t('resources.tool.cart_tool_not_checked_out', barcode: e[:barcode])
-          else e[:message] || e.inspect
+        error_messages =
+          result[:errors].map do |e|
+            case e[:type]
+            when :missing_tool
+              t('resources.tool.cart_tool_missing', id: e[:id])
+            when :not_checked_out
+              t(
+                'resources.tool.cart_tool_not_checked_out',
+                barcode: e[:barcode]
+              )
+            else
+              e[:message] || e.inspect
+            end
           end
-        end
-        t('resources.tool.cart_checked_in_with_errors', count: result[:checked_in], errors: error_messages.join(', '))
+        t(
+          'resources.tool.cart_checked_in_with_errors',
+          count: result[:checked_in],
+          errors: error_messages.join(', ')
+        )
       end
     end
   end

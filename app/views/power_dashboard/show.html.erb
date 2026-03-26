@@ -8,7 +8,10 @@
 
     <div class="power-layout">
       <div class="power-column power-column--left">
-        <%= render 'power_dashboard/session', borrower: @borrower, organization: @organization, auto_add_tools: @auto_add_tools %>
+        <%= render 'power_dashboard/session',
+                   borrower: @borrower,
+                   organization: @organization,
+                   auto_add_tools: @auto_add_tools %>
         <%= render 'power_dashboard/tools_cart', tools: @tools %>
       </div>
 

@@ -12,7 +12,10 @@ module Dashboard
       end
 
       def suggestions
-        [{ label: 'checkin', value: 'checkin', type: 'action' }, { label: 'in', value: 'in', type: 'action' }]
+        [
+          { label: 'checkin', value: 'checkin', type: 'action' },
+          { label: 'in', value: 'in', type: 'action' }
+        ]
       end
 
       def priority
@@ -44,13 +47,17 @@ module Dashboard
 
       def execute(_pending, resources:, session_state:, ability:)
         tool = resources[:tool]
-        return error(t('resources.tool.checkin_not_authorized')) unless ability.can?(:update, Checkout)
+        unless ability.can?(:update, Checkout)
+          return error(t('resources.tool.checkin_not_authorized'))
+        end
 
         checkout = tool.checkouts.current.first
         return error(t('resources.tool.not_checked_out')) if checkout.blank?
 
         checkout.checkin
-        return error(checkout.errors.full_messages.join(', ')) if checkout.errors.any?
+        if checkout.errors.any?
+          return error(checkout.errors.full_messages.join(', '))
+        end
 
         message(t('resources.tool.checked_in', barcode: tool.barcode))
       end
@@ -58,10 +65,16 @@ module Dashboard
       def receipt(_pending, resources:, session:)
         tool = resources[:tool]
         checkout = tool ? tool.checkouts.current.first : nil
-        receipt_payload(t('resources.receipts.checkin_tool_title'), [
-                          receipt_line(t('resources.labels.tool'), tool&.formatted_name),
-                          receipt_line(t('resources.labels.checked_out_to'), checked_out_to_label(checkout))
-                        ])
+        receipt_payload(
+          t('resources.receipts.checkin_tool_title'),
+          [
+            receipt_line(t('resources.labels.tool'), tool&.formatted_name),
+            receipt_line(
+              t('resources.labels.checked_out_to'),
+              checked_out_to_label(checkout)
+            )
+          ]
+        )
       end
     end
   end

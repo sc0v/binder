@@ -1,6 +1,15 @@
-<p><strong>Status:</strong> <%= lift.checked_out? ? 'Checked out' : 'Available' %></p>
-<p><strong>Current participant:</strong> <%= lift.current_participant || '—' %></p>
-<p><strong>Current organization:</strong> <%= lift.current_organization || '—' %></p>
+<p
+  ><strong>Status:</strong>
+  <%= lift.checked_out? ? 'Checked out' : 'Available' %></p
+>
+<p
+  ><strong>Current participant:</strong>
+  <%= lift.current_participant || '—' %></p
+>
+<p
+  ><strong>Current organization:</strong>
+  <%= lift.current_organization || '—' %></p
+>
 <% checkout = lift.current_checkout %>
 <% overdue = checkout&.due_at.present? && checkout.due_at < Time.zone.now %>
 <p>

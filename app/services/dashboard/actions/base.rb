@@ -40,7 +40,9 @@ module Dashboard
       end
 
       def receipt(_pending, resources:, session:)
-        raise NotImplementedError, "#{self.class} must implement #receipt" if confirmation_required?
+        if confirmation_required?
+          raise NotImplementedError, "#{self.class} must implement #receipt"
+        end
 
         raise NotImplementedError, "#{self.class} does not require confirmation"
       end
@@ -48,7 +50,13 @@ module Dashboard
       protected
 
       def pending(payload = {})
-        { pending: payload.merge(action: name, requires_confirmation: confirmation_required?) }
+        {
+          pending:
+            payload.merge(
+              action: name,
+              requires_confirmation: confirmation_required?
+            )
+        }
       end
 
       def error(message)
@@ -82,7 +90,14 @@ module Dashboard
           tool = tools_by_id[tool_id]
           next if tool.blank?
 
-          status_class = tool.checked_out? ? 'power-item-unavailable' : 'power-item-available'
+          status_class =
+            (
+              if tool.checked_out?
+                'power-item-unavailable'
+              else
+                'power-item-available'
+              end
+            )
           { label: tool.formatted_name, status_class: status_class }
         end
       end
@@ -90,7 +105,8 @@ module Dashboard
       def checked_out_to_label(checkout)
         return '—' if checkout.blank?
 
-        borrower = checkout.participant&.formatted_name || checkout.participant&.name
+        borrower =
+          checkout.participant&.formatted_name || checkout.participant&.name
         organization = checkout.organization&.name
         return borrower if organization.blank?
 

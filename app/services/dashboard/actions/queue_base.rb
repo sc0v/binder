@@ -20,9 +20,12 @@ module Dashboard
 
       def normalize_queue_type(command)
         case command
-        when 'e' then 'electrical'
-        when 's' then 'structural'
-        else command
+        when 'e'
+          'electrical'
+        when 's'
+          'structural'
+        else
+          command
         end
       end
 

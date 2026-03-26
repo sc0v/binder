@@ -13,7 +13,11 @@
       </div>
 
       <div class="power-confirm-actions">
-        <%= form_with url: dashboard_execute_path, method: :post, html: { id: 'dashboard-confirm-form' } do %>
+        <%= form_with url: dashboard_execute_path,
+                      method: :post,
+                      html: {
+                        id: 'dashboard-confirm-form'
+                      } do %>
           <% @pending_action.each do |key, value| %>
             <%= hidden_field_tag key, value %>
           <% end %>

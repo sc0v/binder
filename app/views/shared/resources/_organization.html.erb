@@ -1,22 +1,31 @@
 <p><strong>Short name:</strong> <%= organization.short_name %></p>
 <p><strong>Category:</strong> <%= organization.category_name %></p>
-<% tool_names = Checkout.current.where(organization: organization).joins(:tool).pluck('tools.name') %>
-<% hardhat_count = tool_names.count { |n| n.downcase.end_with?('hardhat') } %>
-<% radio_count   = tool_names.count { |n| n.downcase.end_with?('radio') } %>
-<p><strong>Tools:</strong> <%= tool_names.size - hardhat_count - radio_count %></p>
-<p><strong>Hardhats:</strong> <%= hardhat_count %></p>
-<p><strong>Radios:</strong> <%= radio_count %></p>
-<% all_queue_entries = OrganizationTimelineEntry.current
-                         .where(entry_type: %w[structural electrical])
-                         .order(:started_at) %>
-<% org_queue_entries = all_queue_entries.select { |e| e.organization_id == organization.id } %>
+<% base = Checkout.current.where(organization: organization).joins(:tool) %>
+<p><strong>Tools:</strong> <%= base.merge(Tool.just_tools).count %></p>
+<p><strong>Hardhats:</strong> <%= base.merge(Tool.hardhats).count %></p>
+<p><strong>Radios:</strong> <%= base.merge(Tool.radios).count %></p>
+<% all_queue_entries =
+     OrganizationTimelineEntry
+       .current
+       .where(entry_type: %w[structural electrical])
+       .order(:started_at) %>
+<% org_queue_entries =
+     all_queue_entries.select { |e| e.organization_id == organization.id } %>
 <div>
   <strong>Queues:</strong>
   <% if org_queue_entries.any? %>
     <ul>
       <% org_queue_entries.each do |entry| %>
-        <% position = all_queue_entries.select { |e| e.entry_type == entry.entry_type }.index(entry) + 1 %>
-        <li><strong><%= entry.entry_type.titlecase %> (#<%= position %>):</strong> <%= entry.description %></li>
+        <% position =
+             all_queue_entries
+               .select { |e| e.entry_type == entry.entry_type }
+               .index(entry) + 1 %>
+        <li
+          ><strong
+            ><%= entry.entry_type.titlecase %> (#<%= position %>):</strong
+          >
+          <%= entry.description %></li
+        >
       <% end %>
     </ul>
   <% else %>

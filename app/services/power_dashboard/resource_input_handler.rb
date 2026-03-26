@@ -17,7 +17,9 @@ module PowerDashboard
 
     def handle(input)
       resource = resource_lookup.lookup_resource(input)
-      return { error: t('power_dashboard.selection.no_match', input: input) } if resource.blank?
+      if resource.blank?
+        return { error: t('power_dashboard.selection.no_match', input: input) }
+      end
 
       type, record = resource.values_at(:type, :record)
       handler = SELECTION_HANDLERS[type]
@@ -39,7 +41,14 @@ module PowerDashboard
       if session_state.auto_add_tools? && !in_cart
         session[:tools] ||= []
         session[:tools] << tool.id
-        return selection_message(t('power_dashboard.selection.tool_added_to_cart', name: tool.formatted_name))
+        return(
+          selection_message(
+            t(
+              'power_dashboard.selection.tool_added_to_cart',
+              name: tool.formatted_name
+            )
+          )
+        )
       end
 
       selection_message(t('power_dashboard.selection.tool_selected'))
@@ -51,7 +60,9 @@ module PowerDashboard
     end
 
     def select_organization(organization)
-      session[:power_organization_id] = organization.id if session_state.organization_allowed?(organization)
+      if session_state.organization_allowed?(organization)
+        session[:power_organization_id] = organization.id
+      end
       selection_message(t('power_dashboard.selection.organization_selected'))
     end
 

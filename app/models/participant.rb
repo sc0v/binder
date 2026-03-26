@@ -104,11 +104,12 @@ class Participant < ApplicationRecord
     return participant if participant.present?
     return if input.to_s.strip.length < 3
 
-    participant = where(
-      'lower(eppn) = lower(?) OR lower(cached_email) = lower(?)',
-      input,
-      input
-    ).first
+    participant =
+      where(
+        'lower(eppn) = lower(?) OR lower(cached_email) = lower(?)',
+        input,
+        input
+      ).first
     return participant if participant.present?
 
     where('lower(cached_name) LIKE lower(?)', "%#{input}%").first

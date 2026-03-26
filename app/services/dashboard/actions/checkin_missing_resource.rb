@@ -18,7 +18,8 @@ module Dashboard
       def match?(rest, session_state:)
         return false if targets_tools_cart?(rest)
 
-        session_state.current_tool.blank? && session_state.current_scissor_lift.blank?
+        session_state.current_tool.blank? &&
+          session_state.current_scissor_lift.blank?
       end
 
       def parse(_rest, session_state:, command:)
@@ -26,7 +27,8 @@ module Dashboard
       end
 
       def execute(_pending, resources:, session_state:, ability:)
-        unless ability.can?(:update, Checkout) || ability.can?(:update, ScissorLiftCheckout)
+        unless ability.can?(:update, Checkout) ||
+                 ability.can?(:update, ScissorLiftCheckout)
           return error(t('resources.checkin.not_authorized'))
         end
 

@@ -36,10 +36,20 @@ module Dashboard
 
         organization = session_state.selected_organization_for_borrower
         if organization.blank?
-          return pending(tool_id: tool.id, participant_id: borrower.id, needs_org_selection: true)
+          return(
+            pending(
+              tool_id: tool.id,
+              participant_id: borrower.id,
+              needs_org_selection: true
+            )
+          )
         end
 
-        pending(tool_id: tool.id, participant_id: borrower.id, organization_id: organization.id)
+        pending(
+          tool_id: tool.id,
+          participant_id: borrower.id,
+          organization_id: organization.id
+        )
       end
 
       def required_resources(_pending)
@@ -50,13 +60,24 @@ module Dashboard
         tool = resources[:tool]
         borrower = resources[:participant]
         organization = resources[:organization_required]
-        return error(t('resources.tool.checkout_not_authorized')) unless ability.can?(:create, Checkout)
+        unless ability.can?(:create, Checkout)
+          return error(t('resources.tool.checkout_not_authorized'))
+        end
 
-        checkout = Checkout.new(
-          organization: organization, participant: borrower, tool: tool, checked_out_at: Time.zone.now
-        )
+        checkout =
+          Checkout.new(
+            organization: organization,
+            participant: borrower,
+            tool: tool,
+            checked_out_at: Time.zone.now
+          )
         unless checkout.save
-          return error(checkout.errors.full_messages.join(', ').presence || t('resources.tool.checkout_failed'))
+          return(
+            error(
+              checkout.errors.full_messages.join(', ').presence ||
+                t('resources.tool.checkout_failed')
+            )
+          )
         end
 
         message(t('resources.tool.checkout_success', name: borrower.name))
@@ -66,11 +87,17 @@ module Dashboard
         tool = resources[:tool]
         borrower = resources[:participant]
         organization = resources[:organization_required]
-        receipt_payload(t('resources.receipts.checkout_tool_title'), [
-                          receipt_line(t('resources.labels.tool'), tool&.formatted_name),
-                          receipt_line(t('resources.labels.borrower'), borrower&.formatted_name),
-                          receipt_line(t('resources.labels.organization'), organization&.name)
-                        ])
+        receipt_payload(
+          t('resources.receipts.checkout_tool_title'),
+          [
+            receipt_line(t('resources.labels.tool'), tool&.formatted_name),
+            receipt_line(
+              t('resources.labels.borrower'),
+              borrower&.formatted_name
+            ),
+            receipt_line(t('resources.labels.organization'), organization&.name)
+          ]
+        )
       end
     end
   end

@@ -30,7 +30,9 @@
             <% @remaining_tools.each do |tool| %>
               <li>
                 <strong><%= tool.formatted_name %></strong>
-                <span class="<%= dashboard_tool_state_class(tool) %>"><%= dashboard_tool_state(tool) %></span>
+                <span class="<%= dashboard_tool_state_class(tool) %>"
+                  ><%= dashboard_tool_state(tool) %></span
+                >
               </li>
             <% end %>
           <% end %>

@@ -21,16 +21,19 @@ class DashboardController < ApplicationController
   def scan
     flow = flow_from_params
     if flow.blank?
-      redirect_to dashboard_path, alert: t('dashboard.errors.choose_action_first')
+      redirect_to dashboard_path,
+                  alert: t('dashboard.errors.choose_action_first')
       return
     end
 
-    input       = params[:scan_input].to_s.strip
-    target      = params[:target].to_s
+    input = params[:scan_input].to_s.strip
+    target = params[:target].to_s
     continue_to = params[:continue_to].to_s
 
     # Barcode/text was submitted — resolve it and advance the flow.
-    return process_scan_input(flow, input, target, continue_to) if input.present?
+    if input.present?
+      return process_scan_input(flow, input, target, continue_to)
+    end
 
     # No input. The user pressed "Next" without scanning. Allow this only if the
     # step doesn't strictly require a scan (e.g. checkin confirm with tools already
@@ -40,7 +43,8 @@ class DashboardController < ApplicationController
     # cart already has tools and no new scan is needed.
     if continue_to == 'confirm' && flow['kind'] == 'checkin' && target == 'tool'
       unless scan_requirement_satisfied?(flow, target)
-        redirect_to dashboard_path(flow_to_params(flow)), alert: t('dashboard.errors.scan_required')
+        redirect_to dashboard_path(flow_to_params(flow)),
+                    alert: t('dashboard.errors.scan_required')
         return
       end
 
@@ -49,9 +53,11 @@ class DashboardController < ApplicationController
 
     # General step advance: move to continue_to if the step is valid and the
     # scan requirement for the current target is already met.
-    if continue_to.present? && Dashboard::FlowDefinition.valid_step?(flow, continue_to)
+    if continue_to.present? &&
+         Dashboard::FlowDefinition.valid_step?(flow, continue_to)
       unless scan_requirement_satisfied?(flow, target)
-        redirect_to dashboard_path(flow_to_params(flow)), alert: t('dashboard.errors.scan_required')
+        redirect_to dashboard_path(flow_to_params(flow)),
+                    alert: t('dashboard.errors.scan_required')
         return
       end
 
@@ -60,19 +66,22 @@ class DashboardController < ApplicationController
       return
     end
 
-    redirect_to dashboard_path(flow_to_params(flow)), alert: t('dashboard.errors.scan_or_enter_value')
+    redirect_to dashboard_path(flow_to_params(flow)),
+                alert: t('dashboard.errors.scan_or_enter_value')
   end
 
   def update
     flow = flow_from_params
     if flow.blank?
-      redirect_to dashboard_path, alert: t('dashboard.errors.choose_action_first')
+      redirect_to dashboard_path,
+                  alert: t('dashboard.errors.choose_action_first')
       return
     end
 
     update_result = Dashboard::FlowUpdater.new(flow: flow, params: params).call
     if update_result[:error].present?
-      redirect_to dashboard_path(flow_to_params(flow)), alert: update_result[:error]
+      redirect_to dashboard_path(flow_to_params(flow)),
+                  alert: update_result[:error]
       return
     end
 
@@ -94,12 +103,14 @@ class DashboardController < ApplicationController
   def complete
     flow = flow_from_params
     if flow.blank?
-      redirect_to dashboard_path, alert: t('dashboard.errors.choose_action_first')
+      redirect_to dashboard_path,
+                  alert: t('dashboard.errors.choose_action_first')
       return
     end
 
     if flow['kind'] == 'lookup'
-      redirect_to dashboard_path(flow_to_params(flow)), notice: t('dashboard.errors.lookup_no_action')
+      redirect_to dashboard_path(flow_to_params(flow)),
+                  notice: t('dashboard.errors.lookup_no_action')
       return
     end
 
@@ -108,29 +119,69 @@ class DashboardController < ApplicationController
 
   def confirm
     # Uses pending_action so Rails' reserved params[:action] is not overwritten.
-    @pending_action = params.permit(:pending_action, :participant_id, :organization_id, :scissor_lift_id, :queue_type,
-                                    :hours, :requires_confirmation, :flow_tool_ids, :queue_message).to_h
-    @flow_params_for_confirm = params.permit(:kind, :step, :tool_ids, :participant_id, :organization_id,
-                                             :scissor_lift_id, :queue_type, :queue_action, :lift_action, :hours,
-                                             :lookup_type, :lookup_id, :queue_message, :undo_step).to_h
+    @pending_action =
+      params.permit(
+        :pending_action,
+        :participant_id,
+        :organization_id,
+        :scissor_lift_id,
+        :queue_type,
+        :hours,
+        :requires_confirmation,
+        :flow_tool_ids,
+        :queue_message
+      ).to_h
+    @flow_params_for_confirm =
+      params.permit(
+        :kind,
+        :step,
+        :tool_ids,
+        :participant_id,
+        :organization_id,
+        :scissor_lift_id,
+        :queue_type,
+        :queue_action,
+        :lift_action,
+        :hours,
+        :lookup_type,
+        :lookup_id,
+        :queue_message,
+        :undo_step
+      ).to_h
     if @pending_action['pending_action'].blank?
-      redirect_to dashboard_path, alert: t('dashboard.errors.missing_pending_action')
+      redirect_to dashboard_path,
+                  alert: t('dashboard.errors.missing_pending_action')
       return
     end
 
-    @pending_receipt = receipt_builder.build(@pending_action.merge('action' => @pending_action['pending_action']))
+    @pending_receipt =
+      receipt_builder.build(
+        @pending_action.merge('action' => @pending_action['pending_action'])
+      )
   end
 
   def execute
-    pending = params.permit(:pending_action, :participant_id, :organization_id, :scissor_lift_id, :queue_type,
-                            :hours, :requires_confirmation, :flow_tool_ids, :queue_message).to_h
+    pending =
+      params.permit(
+        :pending_action,
+        :participant_id,
+        :organization_id,
+        :scissor_lift_id,
+        :queue_type,
+        :hours,
+        :requires_confirmation,
+        :flow_tool_ids,
+        :queue_message
+      ).to_h
     if pending['pending_action'].blank?
-      redirect_to dashboard_path, alert: t('dashboard.errors.missing_pending_action')
+      redirect_to dashboard_path,
+                  alert: t('dashboard.errors.missing_pending_action')
       return
     end
 
     pending['action'] = pending.delete('pending_action')
-    pre_checkout_tool_ids = Dashboard::FlowState.parse_ids(pending['flow_tool_ids'])
+    pre_checkout_tool_ids =
+      Dashboard::FlowState.parse_ids(pending['flow_tool_ids'])
     pending['confirmed'] = true
     result = action_executor.execute(pending)
 
@@ -140,17 +191,20 @@ class DashboardController < ApplicationController
 
       if result[:error].blank? && remaining_ids.empty?
         session[:tools] = []
-        redirect_to dashboard_path, notice: result[:message].presence || t('dashboard.notices.checkout_complete')
+        redirect_to dashboard_path,
+                    notice:
+                      result[:message].presence ||
+                        t('dashboard.notices.checkout_complete')
         return
       end
 
       redirect_to dashboard_result_path(
-        message: result[:error].presence || result[:message],
-        checked_out_ids: checked_out_ids.join(','),
-        remaining_ids: remaining_ids.join(','),
-        participant_id: pending['participant_id'],
-        organization_id: pending['organization_id']
-      )
+                    message: result[:error].presence || result[:message],
+                    checked_out_ids: checked_out_ids.join(','),
+                    remaining_ids: remaining_ids.join(','),
+                    participant_id: pending['participant_id'],
+                    organization_id: pending['organization_id']
+                  )
       return
     end
 
@@ -160,9 +214,12 @@ class DashboardController < ApplicationController
   def cancel
     flow = flow_from_params
     if flow.present?
-      target_step = params[:undo_step].presence || Dashboard::FlowDefinition.previous_step(flow)
+      target_step =
+        params[:undo_step].presence ||
+          Dashboard::FlowDefinition.previous_step(flow)
       flow['step'] = target_step if target_step.present?
-      redirect_to dashboard_path(flow_to_params(flow)), notice: t('dashboard.notices.action_canceled')
+      redirect_to dashboard_path(flow_to_params(flow)),
+                  notice: t('dashboard.notices.action_canceled')
       return
     end
 
@@ -171,8 +228,10 @@ class DashboardController < ApplicationController
 
   def result
     @message = params[:message].to_s
-    @checked_out_tools = Tool.where(id: Dashboard::FlowState.parse_ids(params[:checked_out_ids]))
-    @remaining_tools = Tool.where(id: Dashboard::FlowState.parse_ids(params[:remaining_ids]))
+    @checked_out_tools =
+      Tool.where(id: Dashboard::FlowState.parse_ids(params[:checked_out_ids]))
+    @remaining_tools =
+      Tool.where(id: Dashboard::FlowState.parse_ids(params[:remaining_ids]))
     @continue_params = {
       kind: 'checkout',
       step: 'organization',
@@ -198,23 +257,30 @@ class DashboardController < ApplicationController
 
     # For non-tool targets (participant, scissor lift), a successful scan can
     # implicitly advance the step if continue_to is set and valid.
-    if target != 'tool' && continue_to.present? && Dashboard::FlowDefinition.valid_step?(flow, continue_to)
+    if target != 'tool' && continue_to.present? &&
+         Dashboard::FlowDefinition.valid_step?(flow, continue_to)
       flow['step'] = next_step_after_successful_scan(flow, target, continue_to)
     end
 
     # If the flow now has everything it needs (e.g. single-org participant was
     # auto-selected), skip straight to confirm/complete rather than showing an
     # intermediate step.
-    return advance_ready_flow(flow) if auto_selected_org_ready_for_next_stage?(flow, target, continue_to)
+    if auto_selected_org_ready_for_next_stage?(flow, target, continue_to)
+      return advance_ready_flow(flow)
+    end
 
     flash_key = result[:flash_key].presence || :notice
-    redirect_to dashboard_path(flow_to_params(flow)), flash: { flash_key => result[:notice] }
+    redirect_to dashboard_path(flow_to_params(flow)),
+                flash: {
+                  flash_key => result[:notice]
+                }
   end
 
   def load_flow
-    Dashboard::ShowContextBuilder.new(flow: flow_from_params).call.each do |key, value|
-      instance_variable_set("@#{key}", value)
-    end
+    Dashboard::ShowContextBuilder
+      .new(flow: flow_from_params)
+      .call
+      .each { |key, value| instance_variable_set("@#{key}", value) }
   end
 
   def flow_state
@@ -234,16 +300,18 @@ class DashboardController < ApplicationController
   end
 
   def action_executor
-    @action_executor ||= Dashboard::ActionExecutor.new(
-      session_state: Dashboard::SessionState.new(session),
-      ability: current_ability
-    )
+    @action_executor ||=
+      Dashboard::ActionExecutor.new(
+        session_state: Dashboard::SessionState.new(session),
+        ability: current_ability
+      )
   end
 
   def receipt_builder
-    @receipt_builder ||= Dashboard::ReceiptBuilder.new(
-      session_state: Dashboard::SessionState.new(session)
-    )
+    @receipt_builder ||=
+      Dashboard::ReceiptBuilder.new(
+        session_state: Dashboard::SessionState.new(session)
+      )
   end
 
   def pending_builder
@@ -251,7 +319,11 @@ class DashboardController < ApplicationController
   end
 
   def flash_for(result)
-    result[:error].present? ? { alert: result[:error] } : { notice: result[:message] }
+    if result[:error].present?
+      { alert: result[:error] }
+    else
+      { notice: result[:message] }
+    end
   end
 
   def sync_cart_to_session(flow)
@@ -268,15 +340,24 @@ class DashboardController < ApplicationController
   def advance_ready_flow(flow)
     pending_result = pending_builder.call(flow)
     if pending_result[:error].present?
-      return redirect_to dashboard_path(flow_to_params(flow)), alert: pending_result[:error]
+      return(
+        redirect_to dashboard_path(flow_to_params(flow)),
+                    alert: pending_result[:error]
+      )
     end
 
     pending = pending_result[:pending]
-    pending['requires_confirmation'] = action_requires_confirmation?(pending['action'])
+    pending['requires_confirmation'] = action_requires_confirmation?(
+      pending['action']
+    )
     sync_cart_to_session(flow)
 
     if pending['requires_confirmation']
-      return redirect_to dashboard_confirm_path(build_confirm_params(flow: flow, pending: pending))
+      return(
+        redirect_to dashboard_confirm_path(
+                      build_confirm_params(flow: flow, pending: pending)
+                    )
+      )
     end
 
     result = action_executor.execute(pending)
@@ -284,15 +365,20 @@ class DashboardController < ApplicationController
   end
 
   def build_confirm_params(flow:, pending:)
-    pending.except('action').merge(
-      'pending_action' => pending['action'],
-      'flow_tool_ids' => Array(flow['tool_ids']).join(','),
-      'undo_step' => Dashboard::FlowDefinition.previous_step(flow)
-    ).merge(flow_to_params(flow))
+    pending
+      .except('action')
+      .merge(
+        'pending_action' => pending['action'],
+        'flow_tool_ids' => Array(flow['tool_ids']).join(','),
+        'undo_step' => Dashboard::FlowDefinition.previous_step(flow)
+      )
+      .merge(flow_to_params(flow))
   end
 
   def next_step_after_successful_scan(flow, target, continue_to)
-    return continue_to unless target == 'participant' && continue_to == 'organization'
+    unless target == 'participant' && continue_to == 'organization'
+      return continue_to
+    end
 
     participant = Participant.find_by(id: flow['participant_id'])
     return continue_to if participant.blank?
@@ -301,7 +387,9 @@ class DashboardController < ApplicationController
     return continue_to unless organizations.size == 1
 
     flow['organization_id'] = organizations.first.id
-    return flow['queue_action'] == 'add' ? 'queue_message' : 'organization' if flow['kind'] == 'queue'
+    if flow['kind'] == 'queue'
+      return flow['queue_action'] == 'add' ? 'queue_message' : 'organization'
+    end
 
     'organization'
   end
@@ -310,17 +398,24 @@ class DashboardController < ApplicationController
     return false unless target == 'participant' && continue_to == 'organization'
     return false if flow['organization_id'].blank?
 
-    flow['kind'] == 'checkout' || (flow['kind'] == 'lift' && flow['lift_action'] == 'checkout')
+    flow['kind'] == 'checkout' ||
+      (flow['kind'] == 'lift' && flow['lift_action'] == 'checkout')
   end
 
   def scan_requirement_satisfied?(flow, target)
     case target
-    when 'tool' then Array(flow['tool_ids']).any?
-    when 'participant' then flow['participant_id'].present?
-    when 'organization' then flow['organization_id'].present?
-    when 'scissor_lift' then flow['scissor_lift_id'].present?
-    when 'lookup' then flow['lookup_id'].present? && flow['lookup_type'].present?
-    else false
+    when 'tool'
+      Array(flow['tool_ids']).any?
+    when 'participant'
+      flow['participant_id'].present?
+    when 'organization'
+      flow['organization_id'].present?
+    when 'scissor_lift'
+      flow['scissor_lift_id'].present?
+    when 'lookup'
+      flow['lookup_id'].present? && flow['lookup_type'].present?
+    else
+      false
     end
   end
 end

@@ -70,7 +70,9 @@ module Dashboard
     def assign_participant(participant)
       session[:borrower_id] = participant.id
       organizations = participant.organizations
-      session[:power_organization_id] = organizations.one? ? organizations.first.id : nil
+      session[:power_organization_id] = (
+        organizations.first.id if organizations.one?
+      )
     end
 
     def assign_resource(type, record)
@@ -115,7 +117,9 @@ module Dashboard
     end
 
     def organization_for_queue
-      return Organization.find_by(id: current_resource_id) if current_resource_type == 'organization'
+      if current_resource_type == 'organization'
+        return Organization.find_by(id: current_resource_id)
+      end
 
       allowed_organization(session[:power_organization_id])
     end
@@ -130,18 +134,25 @@ module Dashboard
 
     def load_current_resource
       case current_resource_type
-      when 'tool' then Tool.find_by(id: current_resource_id)
-      when 'scissor_lift' then ScissorLift.find_by(id: current_resource_id)
-      when 'organization' then Organization.find_by(id: current_resource_id)
-      when 'participant' then Participant.find_by(id: current_resource_id)
-      when 'queue' then Dashboard::QueueResource.new(current_resource_id)
-      when 'scissor_lift_overview' then Dashboard::ScissorLiftOverviewResource.new
+      when 'tool'
+        Tool.find_by(id: current_resource_id)
+      when 'scissor_lift'
+        ScissorLift.find_by(id: current_resource_id)
+      when 'organization'
+        Organization.find_by(id: current_resource_id)
+      when 'participant'
+        Participant.find_by(id: current_resource_id)
+      when 'queue'
+        Dashboard::QueueResource.new(current_resource_id)
+      when 'scissor_lift_overview'
+        Dashboard::ScissorLiftOverviewResource.new
       end
     end
 
     def load_current_organization
       organization = Organization.find_by(id: session[:power_organization_id])
-      if organization.present? && current_borrower.present? && !current_borrower.organizations.exists?(organization.id)
+      if organization.present? && current_borrower.present? &&
+           !current_borrower.organizations.exists?(organization.id)
         session[:power_organization_id] = nil
         return nil
       end

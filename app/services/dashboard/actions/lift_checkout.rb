@@ -30,9 +30,16 @@ module Dashboard
       end
 
       def parse(_rest, session_state:, command:)
-        available_lift = ScissorLift.where.not(
-          id: ScissorLiftCheckout.where(checked_in_at: nil).select(:scissor_lift_id)
-        ).order(:name).first
+        available_lift =
+          ScissorLift
+            .where.not(
+              id:
+                ScissorLiftCheckout.where(checked_in_at: nil).select(
+                  :scissor_lift_id
+                )
+            )
+            .order(:name)
+            .first
         lift = session_state.current_scissor_lift || available_lift
         return error(t('resources.scissor_lift.not_available')) if lift.blank?
 
@@ -41,10 +48,20 @@ module Dashboard
 
         organization = session_state.selected_organization_for_borrower
         if organization.blank?
-          return pending(scissor_lift_id: lift.id, participant_id: borrower.id, needs_org_selection: true)
+          return(
+            pending(
+              scissor_lift_id: lift.id,
+              participant_id: borrower.id,
+              needs_org_selection: true
+            )
+          )
         end
 
-        pending(scissor_lift_id: lift.id, participant_id: borrower.id, organization_id: organization.id)
+        pending(
+          scissor_lift_id: lift.id,
+          participant_id: borrower.id,
+          organization_id: organization.id
+        )
       end
 
       def required_resources(_pending)
@@ -56,30 +73,50 @@ module Dashboard
         borrower = resources[:participant]
         organization = resources[:organization_required]
         authorized = ability.can?(:create, ScissorLiftCheckout)
-        return error(t('resources.scissor_lift.checkout_not_authorized')) unless authorized
-
-        checkout = ScissorLiftCheckout.new(
-          organization: organization,
-          participant: borrower,
-          scissor_lift: lift,
-          due_at: 8.hours.from_now
-        )
-        unless checkout.save
-          return error(checkout.errors.full_messages.join(', ').presence || t('resources.scissor_lift.checkout_failed'))
+        unless authorized
+          return error(t('resources.scissor_lift.checkout_not_authorized'))
         end
 
-        message(t('resources.scissor_lift.checkout_success', lift: lift.name, name: borrower.name))
+        checkout =
+          ScissorLiftCheckout.new(
+            organization: organization,
+            participant: borrower,
+            scissor_lift: lift,
+            due_at: 8.hours.from_now
+          )
+        unless checkout.save
+          return(
+            error(
+              checkout.errors.full_messages.join(', ').presence ||
+                t('resources.scissor_lift.checkout_failed')
+            )
+          )
+        end
+
+        message(
+          t(
+            'resources.scissor_lift.checkout_success',
+            lift: lift.name,
+            name: borrower.name
+          )
+        )
       end
 
       def receipt(_pending, resources:, session:)
         lift = resources[:scissor_lift_required]
         borrower = resources[:participant]
         organization = resources[:organization_required]
-        receipt_payload(t('resources.receipts.checkout_scissor_lift_title'), [
-                          receipt_line(t('resources.labels.scissor_lift'), lift&.name),
-                          receipt_line(t('resources.labels.borrower'), borrower&.formatted_name),
-                          receipt_line(t('resources.labels.organization'), organization&.name)
-                        ])
+        receipt_payload(
+          t('resources.receipts.checkout_scissor_lift_title'),
+          [
+            receipt_line(t('resources.labels.scissor_lift'), lift&.name),
+            receipt_line(
+              t('resources.labels.borrower'),
+              borrower&.formatted_name
+            ),
+            receipt_line(t('resources.labels.organization'), organization&.name)
+          ]
+        )
       end
     end
   end

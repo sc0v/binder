@@ -39,7 +39,8 @@ Metrics/ClassLength:
     - "app/models/participant.rb"
     - "app/models/shift.rb"
     - "app/models/tool.rb"
-    - "app/services/dashboard/session_state.rb"
+    - "app/services/dashboard/**/*.rb"
+    - "app/services/power_dashboard/**/*.rb"
     - "test/**/*"
 
 Metrics/ModuleLength:
@@ -75,8 +76,9 @@ Metrics/MethodLength:
     - hash
   Exclude:
     - "app/models/ability.rb"
-    - "app/services/dashboard/action_executor.rb"
-    - "app/services/dashboard/actions/**/*"
+    - "app/models/checkout.rb"
+    - "app/services/dashboard/**/*.rb"
+    - "app/services/power_dashboard/**/*.rb"
     - "app/models/carnegie_mellon_id_card.rb"
     - "app/controllers/applets/ppe_distribution_controller.rb"
     - "app/controllers/home_controller.rb"
@@ -130,6 +132,7 @@ Metrics/AbcSize:
     - "app/controllers/power_dashboard_controller.rb"
     - "app/controllers/tools_controller.rb"
     - "app/controllers/tools/checkouts_controller.rb"
+    - "app/models/checkout.rb"
 Metrics/CyclomaticComplexity:
   Exclude:
     - "app/controllers/dashboard_controller.rb"
@@ -157,6 +160,13 @@ Naming/PredicateMethod:
 
 # ability.rb has intentional dead code below a return statement, kept as
 # reference while new abilities are migrated (see TODO comment in file).
+# Action handlers implement a common interface (parse/execute/receipt/match?)
+# where not every action needs every keyword argument. Unused params are
+# intentional — they exist to satisfy the interface, not because they're needed.
+Lint/UnusedMethodArgument:
+  Exclude:
+    - "app/services/dashboard/actions/**/*.rb"
+
 Lint/UnreachableCode:
   Exclude:
     - "app/models/ability.rb"

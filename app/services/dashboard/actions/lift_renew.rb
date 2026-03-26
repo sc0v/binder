@@ -27,7 +27,9 @@ module Dashboard
         return error(t('resources.scissor_lift.select_first')) if lift.blank?
 
         hours = parse_hours(rest)
-        return error(t('resources.scissor_lift.renew_requires_hours')) if hours.blank?
+        if hours.blank?
+          return error(t('resources.scissor_lift.renew_requires_hours'))
+        end
 
         pending(scissor_lift_id: lift.id, hours: hours)
       end
@@ -38,24 +40,44 @@ module Dashboard
 
       def execute(pending, resources:, session_state:, ability:)
         lift = resources[:scissor_lift]
-        return error(t('resources.scissor_lift.renew_not_authorized')) unless ability.can?(:update, ScissorLiftCheckout)
+        unless ability.can?(:update, ScissorLiftCheckout)
+          return error(t('resources.scissor_lift.renew_not_authorized'))
+        end
 
         checkout = lift.current_checkout
-        return error(t('resources.scissor_lift.not_checked_out')) if checkout.blank?
+        if checkout.blank?
+          return error(t('resources.scissor_lift.not_checked_out'))
+        end
 
         checkout.renew_for(duration_hours: pending['hours'].to_i)
-        return error(checkout.errors.full_messages.join(', ')) if checkout.errors.any?
+        if checkout.errors.any?
+          return error(checkout.errors.full_messages.join(', '))
+        end
 
-        message(t('resources.scissor_lift.renew_success', lift: lift.name, hours: pending['hours']))
+        message(
+          t(
+            'resources.scissor_lift.renew_success',
+            lift: lift.name,
+            hours: pending['hours']
+          )
+        )
       end
 
       def receipt(pending, resources:, session:)
         lift = resources[:scissor_lift]
-        receipt_payload(t('resources.receipts.renew_scissor_lift_title'), [
-                          receipt_line(t('resources.labels.scissor_lift'), lift&.name),
-                          receipt_line(t('resources.labels.duration'),
-                                       t('resources.scissor_lift.duration_hours', hours: pending['hours']))
-                        ])
+        receipt_payload(
+          t('resources.receipts.renew_scissor_lift_title'),
+          [
+            receipt_line(t('resources.labels.scissor_lift'), lift&.name),
+            receipt_line(
+              t('resources.labels.duration'),
+              t(
+                'resources.scissor_lift.duration_hours',
+                hours: pending['hours']
+              )
+            )
+          ]
+        )
       end
 
       private

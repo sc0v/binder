@@ -6,8 +6,11 @@ module Dashboard
     FLOW_KINDS = %w[checkout checkin queue lift lookup].freeze
 
     INITIAL_STEP = {
-      'checkout' => 'tools', 'checkin' => 'tools',
-      'queue' => 'queue_type', 'lift' => 'lift_action', 'lookup' => 'lookup'
+      'checkout' => 'tools',
+      'checkin' => 'tools',
+      'queue' => 'queue_type',
+      'lift' => 'lift_action',
+      'lookup' => 'lookup'
     }.freeze
 
     def self.valid_kind?(kind)
@@ -23,8 +26,12 @@ module Dashboard
     end
 
     def self.previous_step(flow)
-      return 'queue_action' if flow['kind'] == 'queue' && flow['step'] == 'queue_current'
-      return 'lift_action' if flow['kind'] == 'lift' && flow['step'] == 'lift_current'
+      if flow['kind'] == 'queue' && flow['step'] == 'queue_current'
+        return 'queue_action'
+      end
+      if flow['kind'] == 'lift' && flow['step'] == 'lift_current'
+        return 'lift_action'
+      end
 
       steps = sequence(flow)
       index = steps.index(flow['step'].to_s)
@@ -37,28 +44,40 @@ module Dashboard
       return false if flow.blank?
 
       case flow['kind'].to_s
-      when 'checkout' then flow['step'] == 'organization'
-      when 'lift' then lift_terminal?(flow)
-      else false
+      when 'checkout'
+        flow['step'] == 'organization'
+      when 'lift'
+        lift_terminal?(flow)
+      else
+        false
       end
     end
 
     def self.sequence(flow)
       case flow['kind'].to_s
-      when 'checkout' then %w[tools participant organization]
-      when 'checkin' then %w[tools]
-      when 'queue' then queue_sequence(flow)
-      when 'lift' then lift_sequence(flow)
-      when 'lookup' then %w[lookup result]
-      else []
+      when 'checkout'
+        %w[tools participant organization]
+      when 'checkin'
+        %w[tools]
+      when 'queue'
+        queue_sequence(flow)
+      when 'lift'
+        lift_sequence(flow)
+      when 'lookup'
+        %w[lookup result]
+      else
+        []
       end
     end
 
     def self.auxiliary_step?(flow, step)
       case flow['kind'].to_s
-      when 'queue' then step.to_s == 'queue_current'
-      when 'lift' then step.to_s == 'lift_current'
-      else false
+      when 'queue'
+        step.to_s == 'queue_current'
+      when 'lift'
+        step.to_s == 'lift_current'
+      else
+        false
       end
     end
 
@@ -71,10 +90,21 @@ module Dashboard
     private_class_method :lift_terminal?
 
     def self.queue_sequence(flow)
-      return %w[queue_type queue_action organization] if flow['queue_action'] == 'remove'
+      if flow['queue_action'] == 'remove'
+        return %w[queue_type queue_action organization]
+      end
 
       if flow['queue_source'] == 'by_user'
-        return %w[queue_type queue_action queue_source participant organization queue_message]
+        return(
+          %w[
+            queue_type
+            queue_action
+            queue_source
+            participant
+            organization
+            queue_message
+          ]
+        )
       end
 
       %w[queue_type queue_action queue_source organization queue_message]
@@ -83,9 +113,12 @@ module Dashboard
 
     def self.lift_sequence(flow)
       case flow['lift_action']
-      when 'checkout' then %w[lift_action scissor_lift participant organization]
-      when 'renew' then %w[lift_action scissor_lift renew_hours renew_custom]
-      else %w[lift_action scissor_lift]
+      when 'checkout'
+        %w[lift_action scissor_lift participant organization]
+      when 'renew'
+        %w[lift_action scissor_lift renew_hours renew_custom]
+      else
+        %w[lift_action scissor_lift]
       end
     end
     private_class_method :lift_sequence

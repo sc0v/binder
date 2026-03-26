@@ -25,10 +25,18 @@ module Dashboard
     private
 
     def apply_scalar_params
-      @flow['queue_type'] = @params[:queue_type] if @params[:queue_type].present?
-      @flow['organization_id'] = @params[:organization_id].presence if @params.key?(:organization_id)
-      @flow['queue_message'] = @params[:queue_message].to_s.strip if @params.key?(:queue_message)
-      @flow['scissor_lift_id'] = @params[:scissor_lift_id] if @params[:scissor_lift_id].present?
+      @flow['queue_type'] = @params[:queue_type] if @params[
+        :queue_type
+      ].present?
+      if @params.key?(:organization_id)
+        @flow['organization_id'] = @params[:organization_id].presence
+      end
+      if @params.key?(:queue_message)
+        @flow['queue_message'] = @params[:queue_message].to_s.strip
+      end
+      @flow['scissor_lift_id'] = @params[:scissor_lift_id] if @params[
+        :scissor_lift_id
+      ].present?
     end
 
     def apply_queue_action

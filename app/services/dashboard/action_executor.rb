@@ -13,17 +13,29 @@ module Dashboard
     def execute(pending)
       pending = pending.stringify_keys
       handler = ActionRegistry.handler_for_action(pending['action'])
-      return error_result(I18n.t('power_dashboard.actions.unknown')) if handler.blank?
+      if handler.blank?
+        return error_result(I18n.t('power_dashboard.actions.unknown'))
+      end
 
       if handler.confirmation_required? && !pending['confirmed']
-        return error_result(I18n.t('power_dashboard.actions.confirmation_required'))
+        return(
+          error_result(I18n.t('power_dashboard.actions.confirmation_required'))
+        )
       end
 
       resources = load_resources_for(handler, pending)
       return error_result(resources[:error]) if resources[:error]
 
-      result = handler.execute(pending, resources: resources, session_state: session_state, ability: ability)
-      return error_result(I18n.t('power_dashboard.actions.unknown')) if result.blank?
+      result =
+        handler.execute(
+          pending,
+          resources: resources,
+          session_state: session_state,
+          ability: ability
+        )
+      if result.blank?
+        return error_result(I18n.t('power_dashboard.actions.unknown'))
+      end
 
       result[:error].present? ? error_result(result[:error]) : result
     end

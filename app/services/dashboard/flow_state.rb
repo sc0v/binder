@@ -18,7 +18,11 @@ module Dashboard
     end
 
     def default_flow(kind)
-      { 'kind' => kind, 'step' => FlowDefinition.initial_step(kind), 'tool_ids' => [] }
+      {
+        'kind' => kind,
+        'step' => FlowDefinition.initial_step(kind),
+        'tool_ids' => []
+      }
     end
 
     def self.to_params(flow)

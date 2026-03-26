@@ -10,9 +10,17 @@ module Dashboard
       def suggestions
         [
           { label: 'queue add <message>', value: 'queue add ', type: 'action' },
-          { label: 'electrical add <message>', value: 'electrical add ', type: 'action' },
+          {
+            label: 'electrical add <message>',
+            value: 'electrical add ',
+            type: 'action'
+          },
           { label: 'e add <message>', value: 'e add ', type: 'action' },
-          { label: 'structural add <message>', value: 'structural add ', type: 'action' },
+          {
+            label: 'structural add <message>',
+            value: 'structural add ',
+            type: 'action'
+          },
           { label: 's add <message>', value: 's add ', type: 'action' }
         ]
       end
@@ -31,17 +39,31 @@ module Dashboard
 
       def parse(rest, session_state:, command:)
         queue_type = queue_type_for(session_state:, command:)
-        return error(t('resources.queue.select_queue_first')) if queue_type.blank?
+        if queue_type.blank?
+          return error(t('resources.queue.select_queue_first'))
+        end
 
         queue_message = extract_queue_message(rest)
-        return error(t('resources.queue.message_required')) if queue_message.blank?
+        if queue_message.blank?
+          return error(t('resources.queue.message_required'))
+        end
 
         organization = session_state.organization_for_queue
         if organization.blank?
-          return pending(queue_type: queue_type, queue_message: queue_message, needs_org_selection: true)
+          return(
+            pending(
+              queue_type: queue_type,
+              queue_message: queue_message,
+              needs_org_selection: true
+            )
+          )
         end
 
-        pending(queue_type: queue_type, queue_message: queue_message, organization_id: organization.id)
+        pending(
+          queue_type: queue_type,
+          queue_message: queue_message,
+          organization_id: organization.id
+        )
       end
 
       def required_resources(_pending)
@@ -50,28 +72,49 @@ module Dashboard
 
       def execute(pending, resources:, session_state:, ability:)
         organization = resources[:organization]
-        return error(t('resources.queue.add_not_authorized')) unless ability.can?(:create, OrganizationTimelineEntry)
+        unless ability.can?(:create, OrganizationTimelineEntry)
+          return error(t('resources.queue.add_not_authorized'))
+        end
 
-        entry = OrganizationTimelineEntry.new(
-          organization: organization,
-          started_at: Time.zone.now,
-          entry_type: pending['queue_type'],
-          description: pending['queue_message']
-        )
-        return error(t('resources.queue.already_in_queue')) if entry.already_in_queue?
+        entry =
+          OrganizationTimelineEntry.new(
+            organization: organization,
+            started_at: Time.zone.now,
+            entry_type: pending['queue_type'],
+            description: pending['queue_message']
+          )
+        if entry.already_in_queue?
+          return error(t('resources.queue.already_in_queue'))
+        end
 
-        error_msg = entry.errors.full_messages.join(', ').presence || t('resources.queue.add_problem')
+        error_msg =
+          entry.errors.full_messages.join(', ').presence ||
+            t('resources.queue.add_problem')
         return error(error_msg) unless entry.save
 
-        message(t('resources.queue.add_success', queue_type: pending['queue_type']))
+        message(
+          t('resources.queue.add_success', queue_type: pending['queue_type'])
+        )
       end
 
       def receipt(pending, resources:, session:)
         organization = resources[:organization]
-        receipt_payload(t('resources.receipts.add_queue_title', queue_type: pending['queue_type']), [
-                          receipt_line(t('resources.labels.organization'), organization&.name),
-                          receipt_line(t('resources.labels.message'), pending['queue_message'])
-                        ])
+        receipt_payload(
+          t(
+            'resources.receipts.add_queue_title',
+            queue_type: pending['queue_type']
+          ),
+          [
+            receipt_line(
+              t('resources.labels.organization'),
+              organization&.name
+            ),
+            receipt_line(
+              t('resources.labels.message'),
+              pending['queue_message']
+            )
+          ]
+        )
       end
 
       private

@@ -18,8 +18,10 @@ module Dashboard
 
     def path
       case queue_type
-      when 'structural' then '/structural'
-      when 'electrical' then '/electrical'
+      when 'structural'
+        '/structural'
+      when 'electrical'
+        '/electrical'
       end
     end
 

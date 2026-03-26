@@ -3,10 +3,24 @@
 module Dashboard
   class ActionRegistry
     COMMAND_ORDER = %w[
-      queue q
-      add remove clear rem a r
-      checkin checkout renew in out ren
-      electrical structural e s
+      queue
+      q
+      add
+      remove
+      clear
+      rem
+      a
+      r
+      checkin
+      checkout
+      renew
+      in
+      out
+      ren
+      electrical
+      structural
+      e
+      s
       lifts
       auto
     ].freeze
@@ -38,18 +52,22 @@ module Dashboard
     end
 
     def self.handler_for_command(command, rest:, session_state:)
-      candidates = handlers.select { |handler| handler.command_words.include?(command) }
-      candidates.sort_by(&:priority).find { |handler| handler.match?(rest, session_state: session_state) }
+      candidates =
+        handlers.select { |handler| handler.command_words.include?(command) }
+      candidates
+        .sort_by(&:priority)
+        .find { |handler| handler.match?(rest, session_state: session_state) }
     end
 
     def self.suggestions
-      handlers.flat_map(&:suggestions)
-              .each_with_index
-              .sort_by do |(suggestion, index)|
-                key = suggestion[:value].to_s.split(/\s+/, 2).first
-                [COMMAND_ORDER.index(key) || COMMAND_ORDER.length, index]
-              end
-              .map(&:first)
+      handlers
+        .flat_map(&:suggestions)
+        .each_with_index
+        .sort_by do |(suggestion, index)|
+          key = suggestion[:value].to_s.split(/\s+/, 2).first
+          [COMMAND_ORDER.index(key) || COMMAND_ORDER.length, index]
+        end
+        .map(&:first)
     end
   end
 end

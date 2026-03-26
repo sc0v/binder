@@ -20,7 +20,14 @@ module Dashboard
       end
 
       def parse(rest, session_state:, command:)
-        tool = rest.present? ? Tool.find_by(barcode: rest) : session_state.current_tool
+        tool =
+          (
+            if rest.present?
+              Tool.find_by(barcode: rest)
+            else
+              session_state.current_tool
+            end
+          )
         return error(t('resources.tool.select_first')) if tool.blank?
 
         pending(tool_id: tool.id)
@@ -32,13 +39,17 @@ module Dashboard
 
       def execute(_pending, resources:, session_state:, ability:)
         tool = resources[:tool]
-        return error(t('resources.tool.checkout_not_authorized')) unless ability.can?(:create, Checkout)
+        unless ability.can?(:create, Checkout)
+          return error(t('resources.tool.checkout_not_authorized'))
+        end
 
         session = session_state.session
         session[:tools] ||= []
         if session[:tools].include?(tool.id)
           session[:tools].delete(tool.id)
-          message(t('resources.tool.removed_from_cart', name: tool.formatted_name))
+          message(
+            t('resources.tool.removed_from_cart', name: tool.formatted_name)
+          )
         else
           error(t('resources.tool.not_in_cart'))
         end

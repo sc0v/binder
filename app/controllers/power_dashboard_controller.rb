@@ -11,10 +11,15 @@ class PowerDashboardController < ApplicationController
   def autocomplete
     query = params[:q].to_s.strip
     include_actions = params[:mode].to_s != 'resources'
-    suggestions = PowerDashboard::AutocompleteSuggestions.new(query:, include_actions:).call
+    suggestions =
+      PowerDashboard::AutocompleteSuggestions.new(query:, include_actions:).call
     render json: { suggestions: }
   rescue StandardError => e
-    render json: { error: e.message, suggestions: [] }, status: :internal_server_error
+    render json: {
+             error: e.message,
+             suggestions: []
+           },
+           status: :internal_server_error
   end
 
   def submit
@@ -99,7 +104,8 @@ class PowerDashboardController < ApplicationController
   def execute
     pending = session[:power_pending_action]
     if pending.blank?
-      redirect_to power_dashboard_path, alert: t('power_dashboard.confirm.missing_action')
+      redirect_to power_dashboard_path,
+                  alert: t('power_dashboard.confirm.missing_action')
       return
     end
 
@@ -107,7 +113,9 @@ class PowerDashboardController < ApplicationController
     result = action_executor.execute(pending)
     session[:power_pending_action] = nil
 
-    return redirect_to power_dashboard_path, alert: result[:error] if result[:error].present?
+    if result[:error].present?
+      return redirect_to power_dashboard_path, alert: result[:error]
+    end
 
     redirect_to power_dashboard_path, notice: result[:message]
   end
@@ -121,7 +129,8 @@ class PowerDashboardController < ApplicationController
     load_session_state
     @borrower = session_state.current_borrower
     if @borrower.blank?
-      redirect_to power_dashboard_path, alert: t('resources.participant.select_first')
+      redirect_to power_dashboard_path,
+                  alert: t('resources.participant.select_first')
       return
     end
     @organizations = @borrower.organizations.order(:name)
@@ -130,14 +139,18 @@ class PowerDashboardController < ApplicationController
   def apply_organization
     borrower = session_state.current_borrower
     if borrower.blank?
-      redirect_to power_dashboard_path, alert: t('resources.participant.select_first')
+      redirect_to power_dashboard_path,
+                  alert: t('resources.participant.select_first')
       return
     end
 
     organization = borrower.organizations.find_by(id: params[:organization_id])
     if organization.blank?
       redirect_to power_dashboard_select_organization_path,
-                  alert: t('power_dashboard.select_organization.invalid_organization')
+                  alert:
+                    t(
+                      'power_dashboard.select_organization.invalid_organization'
+                    )
       return
     end
 
@@ -148,7 +161,12 @@ class PowerDashboardController < ApplicationController
       session[:power_pending_action]['organization_id'] ||= organization.id
       redirect_to power_dashboard_confirm_path
     else
-      redirect_to power_dashboard_path, notice: t('power_dashboard.organization.selected', name: organization.name)
+      redirect_to power_dashboard_path,
+                  notice:
+                    t(
+                      'power_dashboard.organization.selected',
+                      name: organization.name
+                    )
     end
   end
 
@@ -175,11 +193,13 @@ class PowerDashboardController < ApplicationController
   end
 
   def action_executor
-    @action_executor ||= Dashboard::ActionExecutor.new(session_state:, ability: current_ability)
+    @action_executor ||=
+      Dashboard::ActionExecutor.new(session_state:, ability: current_ability)
   end
 
   def resource_input_handler
-    @resource_input_handler ||= PowerDashboard::ResourceInputHandler.new(session_state:, resource_lookup:)
+    @resource_input_handler ||=
+      PowerDashboard::ResourceInputHandler.new(session_state:, resource_lookup:)
   end
 
   def receipt_builder
