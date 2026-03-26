@@ -93,11 +93,8 @@ class Checkout < ApplicationRecord
       )
     end
 
-    checkout = tool.checkouts.current.first
-    return {} unless checkout
-
-    checkout.checkin
-    return {} if checkout.errors.blank?
+    checkout = tool.checkouts.current.first&.tap(&:checkin)
+    return {} if checkout.nil? || checkout.errors.blank?
 
     {
       error: {
