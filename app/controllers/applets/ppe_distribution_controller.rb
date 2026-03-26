@@ -6,7 +6,9 @@ class Applets::PPEDistributionController < ApplicationController
     when '1'
       params[:step] = '2' if load_step_one # participant look up
     when '2'
-      params[:step] = '3' if load_step_two # wristband
+      if load_step_two # wristband
+        params[:step] = @participant.hardhat_color.present? ? '3' : 'done'
+      end
     when '3'
       step_three if load_step_three # hardhat checkout
     else
