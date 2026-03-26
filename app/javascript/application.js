@@ -12,6 +12,7 @@ import "jquery";
 // n.b.: convert document.ready( to document.on('turbo:load',
 // `.ready(` => `.on('turbo:load',`
 import "custom/cmu";
+import "custom/nfc";
 import "controllers";
 
 import "pwa";
