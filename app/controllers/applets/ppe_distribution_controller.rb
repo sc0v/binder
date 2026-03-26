@@ -52,7 +52,7 @@ class Applets::PPEDistributionController < ApplicationController
   end
 
   def load_step_two
-    @participant = Participant.find(params[:participant_id])
+    @participant = Participant.find_by(id: params[:participant_id])
     return false if @participant.blank?
 
     session[:retry_hardhat] = nil
@@ -60,7 +60,7 @@ class Applets::PPEDistributionController < ApplicationController
   end
 
   def load_step_three
-    @participant = Participant.find(params[:participant_id])
+    @participant = Participant.find_by(id: params[:participant_id])
     return false if @participant.blank?
 
     if params[:hardhat_search].blank?
@@ -75,7 +75,7 @@ class Applets::PPEDistributionController < ApplicationController
       )
       return false
     end
-    @organization = Organization.find(params[:organization_id])
+    @organization = Organization.find_by(id: params[:organization_id])
     return false if @organization.blank?
 
     hh_type =
@@ -121,7 +121,7 @@ class Applets::PPEDistributionController < ApplicationController
 
   def step_three
     @checkout =
-      Checkout.create(
+      Checkout.new(
         tool: @hardhat,
         participant: @participant,
         organization: @organization,
