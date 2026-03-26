@@ -21,7 +21,7 @@
         :name,
         :name,
         { prompt: 'Add Scissor Lift...' },
-        onchange: 'this.form.submit()',
+        onchange: 'this.form.submit()'
       ) %>
 <% end %>
 
@@ -40,7 +40,7 @@
             borrower.organizations,
             :id,
             :name,
-            { include_blank: 'Select an organization...' },
+            { include_blank: 'Select an organization...' }
           ) %>
     <% end %>
     <%= submit_tag 'Complete Checkout', class: 'wide' %>
