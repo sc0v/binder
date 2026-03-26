@@ -65,7 +65,6 @@ Rails.application.configure do
   # Annotate rendered view with file names.
   config.action_view.annotate_rendered_view_with_filenames = true
   config.hosts << 'binder-dev.springcarnival.org'
-  config.hosts << '5536-128-237-82-209.ngrok-free.app'
 
   # Uncomment if you wish to allow Action Cable access from any origin.
   # config.action_cable.disable_request_forgery_protection = true
