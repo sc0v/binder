@@ -4,6 +4,7 @@ class ParticipantsController < ApplicationController
   include PersonalPathable
 
   before_action :require_authentication
+  before_action :load_participant, only: :show
   load_and_authorize_resource
 
   # Index method with manual pagination using page and size parameters
@@ -45,9 +46,6 @@ class ParticipantsController < ApplicationController
   end
 
   def show
-    # load_resource doesn't work for the /profile URL that the waiver redirects
-    # to, so fallback @participant to the current user in that case
-    @show ||= Current.user
   end
 
   def new
@@ -124,7 +122,7 @@ class ParticipantsController < ApplicationController
 
   def update_params
     params.expect(
-      participant: [Current.ability.permitted_attributes(:update, @participant)]
+      participant: Current.ability.permitted_attributes(:update, @participant)
     )
   end
 

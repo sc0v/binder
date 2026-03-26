@@ -1,16 +1,15 @@
 <% content_for :head do %>
-javascript_include_tag(
-      'custom/youtube-player-api.js',
-      'data-turbo-track': 'reload'
-    )
-  %>
+  <%= javascript_include_tag(
+        'custom/youtube-player-api.js',
+        'data-turbo-track': 'reload'
+      ) %>
 
   <script type="text/javascript">
     function onYouTubePlayerAPIReady() {
       player = new YT.Player("safety-video", {
         height: "390",
         width: "640",
-        videoId: <%= @safety_video_id.to_json %>,
+        videoId: <%= safety_video_id_json(@safety_video_id) %>, <%# erblint:disable ErbSafety %>
         playerVars: {
           autoplay: 1,
           controls: <%= (can?(:skip_safety_video, @participant) ? 1 : 0).to_json %>,
