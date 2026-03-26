@@ -29,6 +29,7 @@ class ScissorLiftsController < ApplicationController
           current_organization
           checked_out_at
           due_at
+          due_at_countdown
         ]
       )
     { data: }
