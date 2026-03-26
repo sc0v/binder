@@ -21,22 +21,28 @@
         :name,
         :name,
         { prompt: 'Add Scissor Lift...' },
-        onchange: 'this.form.submit()'
+        onchange: 'this.form.submit()',
       ) %>
 <% end %>
 
 <h3>The Borrower</h3>
 <% if session[:borrower_id].present? %>
+  <% borrower = Participant.find(session[:borrower_id]) %>
   <%= form_tag checkout_scissor_lifts_path do %>
-    <% borrower = Participant.find(session[:borrower_id]) %>
     <strong><%= borrower.name %> (<%= borrower.eppn %>)</strong>
-    <%= collection_select(
-          :checkout,
-          :organization_id,
-          borrower.organizations,
-          :id,
-          :name
-        ) %>
+    <% if borrower.organizations.one? %>
+      <p><%= borrower.organizations.first.name %></p>
+      <%= hidden_field_tag 'checkout[organization_id]', borrower.organizations.first.id %>
+    <% else %>
+      <%= collection_select(
+            :checkout,
+            :organization_id,
+            borrower.organizations,
+            :id,
+            :name,
+            { include_blank: 'Select an organization...' },
+          ) %>
+    <% end %>
     <%= submit_tag 'Complete Checkout', class: 'wide' %>
   <% end %>
 <% else %>

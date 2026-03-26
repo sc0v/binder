@@ -17,30 +17,37 @@
 
 <h3>The Borrower</h3>
 <% if session[:borrower_id].present? %>
-  <%= form_tag checkout_tools_path, data: { controller: 'org-summary' } do %>
-    <% borrower = Participant.find(session[:borrower_id]) %>
+  <% borrower = Participant.find(session[:borrower_id]) %>
+  <%= form_tag checkout_tools_path,
+               data:
+                 borrower.organizations.one? ? {} : { controller: 'org-summary' } do %>
     <h3><%= borrower.name %> (<%= borrower.eppn %>)</h3>
-    <%= collection_select(
-          :checkout,
-          :organization_id,
-          borrower.organizations,
-          :id,
-          :name,
-          {},
-          {
-            data: {
-              'org-summary-target': 'select',
-              action: 'change->org-summary#update'
-            }
-          }
-        ) %>
-    <div
-      data-org-summary-target="summary"
-      style="display:none; margin: 10px 0;"
-    >
-      <h5>Your Org Checkout Status:</h5>
-      <ul data-org-summary-target="list"></ul>
-    </div>
+    <% if borrower.organizations.one? %>
+      <p><%= borrower.organizations.first.name %></p>
+      <%= hidden_field_tag 'checkout[organization_id]', borrower.organizations.first.id %>
+    <% else %>
+      <%= collection_select(
+            :checkout,
+            :organization_id,
+            borrower.organizations,
+            :id,
+            :name,
+            { include_blank: 'Select an organization...' },
+            {
+              data: {
+                'org-summary-target': 'select',
+                action: 'change->org-summary#update',
+              },
+            },
+          ) %>
+      <div
+        data-org-summary-target="summary"
+        style="display:none; margin: 10px 0;"
+      >
+        <h5>Your Org Checkout Status:</h5>
+        <ul data-org-summary-target="list"></ul>
+      </div>
+    <% end %>
     <%= submit_tag 'Complete Checkout', class: 'wide' %>
   <% end %>
 <% else %>
