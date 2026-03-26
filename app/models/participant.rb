@@ -91,7 +91,7 @@ class Participant < ApplicationRecord
     @participant =
       Participant.find_by(eppn: search.to_s) ||
         Participant.find_by(eppn: "#{search}@andrew.cmu.edu") ||
-        Participant.find_by(card: search.to_s)
+        Participant.find_by_card(search.to_s)
   end
 
   def self.find_or_create_by_search(search)

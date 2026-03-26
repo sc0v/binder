@@ -1,8 +1,10 @@
+<%# THIS FORM IS CURRENTLY UNUSED,
+USING new_shifts/_step_csv_upload and _step_repair.erb instead %>
+
 <%= simple_form_for @shift do |f| %>
   <div class="form-inputs">
     <%= f.input :starts_at %>
     <%= f.input :ends_at %>
-    <%= f.input :required_number_of_participants %>
     <%= f.input :description %>
     <%= f.association :organization %>
     <%= f.association :shift_type %>

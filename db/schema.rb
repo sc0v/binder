@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_13_031121) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_17_190420) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -274,6 +274,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_13_031121) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "description"
+    t.string "andrew_id"
     t.index ["organization_id"], name: "index_shifts_on_organization_id"
     t.index ["shift_type_id"], name: "index_shifts_on_shift_type_id"
   end

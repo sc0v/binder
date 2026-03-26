@@ -1,25 +1,23 @@
 <!-- Step 1: CSV Upload -->
 <div class="content wide">
-  <h1>Add Members</h1>
+  <h1>Add Shifts</h1>
   <br/>
   <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3em; align-items: center;">
     <div>
       <p style="line-height: 1.7; color: #555;">
-        Organizations are required to register their own members with Spring Carnival's
-        management application "Binder" so builders can check out tools and scissor lifts,
-        and buy from our store themselves. Please fill out the spreadsheet template SCC
-        sent out and submit it here as a CSV file.
+        Shifts are scheduled time slots where designated members oversee Midway operations.
+        The three types of shifts are Watch Shifts, Security Shifts, and Coordinator Shifts,
+        each serving a different role in keeping Midway safe and organized during Spring Carnival.
       </p>
-      <p style="line-height: 1.7; color: #c00;">
-        <b>Only enter builders that are part of your organization!</b> We reserve the
-        right to remove builders who shouldn't be registered with your organization!
+      <p style="line-height: 1.7; color: #555;">
+        Upload a CSV with the headers: <code>Andrew ID</code>, <code>starts_at</code>, <code>ends_at</code>, 
+         <code>description</code>, <code>shift_type</code>.
       </p>
     </div>
 
     <div>
-      <%= form_with url: organization_upload_membership_csv_path(@organization) do |f| %>
+      <%= form_with url: upload_shift_csv_shifts_path() do |f| %>
         <%= f.hidden_field :step, value: 'csv_upload' %>
-        <%= f.hidden_field :organization, value: @organization.id %>
         <div class='light grey file-upload'>
           <p>Choose a CSV or drag it here.</p>
           <%= f.file_field :csv_file, accept: 'text/plain,txt/csv', onchange: "this.form.submit()" %>
@@ -30,7 +28,7 @@
 
   <br/>
   <div style="display: flex; justify-content: right">
-    <%= link_to "...or add participants manually", new_organization_membership_path(@organization, step: 'repair'), class: 'cta'%>
+    <%= link_to "...or add shifts manually", new_shift_path(step: 'repair'), class: 'cta'%>
   </div>
 </div>
 
