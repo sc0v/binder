@@ -4,6 +4,10 @@
     <title><%= document_title %></title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="manifest" href="/manifest.json" />
+    <meta
+      name="push-notification-key"
+      content="<%= Rails.application.config.vapid_public_key %>"
+    />
     <meta name="theme-color" content="#9F0000" />
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
