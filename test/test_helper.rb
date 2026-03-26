@@ -32,3 +32,9 @@ class ActiveSupport::TestCase
   def remove_context
   end
 end
+
+class ActionDispatch::IntegrationTest
+  def sign_in_as(participant)
+    cookies.encrypted[:user_id] = participant.id
+  end
+end

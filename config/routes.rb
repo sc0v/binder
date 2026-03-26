@@ -4,6 +4,31 @@ Rails.application.routes.draw do
   # Default route
   root to: 'welcome#index'
 
+  # Power Dashboard (session-based, command-driven)
+  get 'power-dashboard', to: 'power_dashboard#show', as: :power_dashboard
+  get 'power-dashboard/autocomplete', to: 'power_dashboard#autocomplete', as: :power_dashboard_autocomplete
+  post 'power-dashboard/submit', to: 'power_dashboard#submit', as: :power_dashboard_submit
+  get 'power-dashboard/confirm', to: 'power_dashboard#confirm', as: :power_dashboard_confirm
+  post 'power-dashboard/confirm', to: 'power_dashboard#execute', as: :power_dashboard_execute
+  post 'power-dashboard/cancel', to: 'power_dashboard#cancel', as: :power_dashboard_cancel
+  get 'power-dashboard/select-organization', to: 'power_dashboard#select_organization',
+                                             as: :power_dashboard_select_organization
+  post 'power-dashboard/select-organization', to: 'power_dashboard#apply_organization',
+                                              as: :power_dashboard_apply_organization
+
+  # Dashboard (mobile-first, stateless flow wizard)
+  get 'dashboard', to: 'dashboard#show', as: :dashboard
+  post 'dashboard/start', to: 'dashboard#start', as: :dashboard_start
+  post 'dashboard/scan', to: 'dashboard#scan', as: :dashboard_scan
+  post 'dashboard/update', to: 'dashboard#update', as: :dashboard_update
+  post 'dashboard/undo', to: 'dashboard#undo', as: :dashboard_undo
+  post 'dashboard/complete', to: 'dashboard#complete', as: :dashboard_complete
+  get 'dashboard/confirm', to: 'dashboard#confirm', as: :dashboard_confirm
+  post 'dashboard/confirm', to: 'dashboard#execute', as: :dashboard_execute
+  post 'dashboard/cancel', to: 'dashboard#cancel', as: :dashboard_cancel
+  get 'dashboard/result', to: 'dashboard#result', as: :dashboard_result
+  post 'dashboard/reset', to: 'dashboard#reset', as: :dashboard_reset
+
   # Session management
   direct :login do
     '/auth/saml'

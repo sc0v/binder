@@ -55,12 +55,7 @@ class Checkout < ApplicationRecord
 
   def participant_belongs_to_org
     return if organization_id.blank? || participant_id.blank?
-    if Membership.exists?(
-         organization_id: organization_id,
-         participant_id: participant_id
-       )
-      return
-    end
+    return if Membership.exists?(organization_id: organization_id, participant_id: participant_id)
 
     errors.add(:participant, 'does not belong to organization')
   end
@@ -73,8 +68,38 @@ class Checkout < ApplicationRecord
     { checked_out:, failed:, remaining_ids: failed.map(&:tool_id) }
   end
 
+  def self.checkin_batch(tool_ids:)
+    results = { checked_in: 0, errors: [], remaining_ids: [] }
+    tool_ids.map(&:to_i).each { |id| attempt_checkin(id, results) }
+    results
+  end
+
   def self.attempt_checkout(tool_id, organization, participant)
     create(tool_id:, organization:, participant:, checked_out_at: Time.zone.now)
   end
   private_class_method :attempt_checkout
+
+  def self.attempt_checkin(tool_id, results)
+    tool = Tool.find_by(id: tool_id)
+    unless tool
+      results[:errors] << { type: :missing_tool, id: tool_id }
+      results[:remaining_ids] << tool_id
+      return
+    end
+
+    checkout = tool.checkouts.current.first
+    unless checkout
+      results[:checked_in] += 1
+      return
+    end
+
+    checkout.checkin
+    if checkout.errors.blank?
+      results[:checked_in] += 1
+    else
+      results[:errors] << { type: :checkin_error, message: checkout.errors.full_messages.join(', ') }
+      results[:remaining_ids] << tool_id
+    end
+  end
+  private_class_method :attempt_checkin
 end

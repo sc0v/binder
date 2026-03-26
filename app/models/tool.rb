@@ -86,6 +86,19 @@ class Tool < ApplicationRecord
     status || 'good condition'
   end
 
+  def self.lookup(input)
+    find_by(barcode: input)
+  end
+
+  def self.autocomplete_matches(normalized)
+    joins(:tool_type).where(
+      'cast(tools.barcode as text) LIKE ? OR lower(tool_types.name) LIKE ? OR lower(tools.description) LIKE ?',
+      "%#{normalized}%",
+      "%#{normalized}%",
+      "%#{normalized}%"
+    )
+  end
+
   def self.checked_out_by_organization(organization)
     joins(:checkouts).where(
       checkouts: {

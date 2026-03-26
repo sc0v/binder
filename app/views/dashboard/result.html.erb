@@ -1,0 +1,48 @@
+<% nav %>
+<div class="content power-dashboard-content">
+  <div class="power-dashboard dashboard-flow">
+    <h1>Checkout Result</h1>
+
+    <div class="power-section">
+      <% if @message.present? %>
+        <p><strong>Status:</strong> <%= @message %></p>
+      <% end %>
+
+      <div class="dashboard-block">
+        <h2>Checked Out</h2>
+        <ul class="power-ppe-list">
+          <% if @checked_out_tools.blank? %>
+            <li>None.</li>
+          <% else %>
+            <% @checked_out_tools.each do |tool| %>
+              <li><strong><%= tool.formatted_name %></strong></li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+
+      <div class="dashboard-block">
+        <h2>Still In Cart</h2>
+        <ul class="power-ppe-list">
+          <% if @remaining_tools.blank? %>
+            <li>None.</li>
+          <% else %>
+            <% @remaining_tools.each do |tool| %>
+              <li>
+                <strong><%= tool.formatted_name %></strong>
+                <span class="<%= dashboard_tool_state_class(tool) %>"><%= dashboard_tool_state(tool) %></span>
+              </li>
+            <% end %>
+          <% end %>
+        </ul>
+      </div>
+
+      <div class="power-confirm-actions">
+        <%= form_with url: dashboard_reset_path, method: :post do %>
+          <%= submit_tag 'Back To Start', class: 'btn btn-primary' %>
+        <% end %>
+        <%= link_to 'Continue Checkout Flow', dashboard_path(@continue_params), class: 'btn' %>
+      </div>
+    </div>
+  </div>
+</div>
