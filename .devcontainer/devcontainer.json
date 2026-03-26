@@ -12,22 +12,17 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "rebornix.Ruby",
+        "Shopify.ruby-lsp",
+        "rubocop.vscode-rubocop",
         "kaiwood.endwise",
-        "misogi.ruby-rubocop",
         "aki77.rails-db-schema",
         "hridoy.rails-snippets"
       ],
       "settings": {
         "[ruby]": {
-          "editor.defaultFormatter": "misogi.ruby-rubocop",
+          "editor.defaultFormatter": "rubocop.vscode-rubocop",
           "editor.formatOnSave": true
-        },
-        "ruby.useBundler": true,
-        "ruby.lint": {
-          "rubocop": false
-        },
-        "ruby.format": "rubocop"
+        }
       }
     }
   },
@@ -41,7 +36,7 @@
     }
   },
 
-  "postCreateCommand": "bash .devcontainer/setup",
+  "postCreateCommand": ".devcontainer/setup",
 
   "remoteUser": "vscode"
 }
