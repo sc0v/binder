@@ -4,7 +4,7 @@ set -e
 echo "Setting up development environment..."
 
 echo "Configuring bundle directory..."
-sudo chown -R vscode:vscode /usr/local/bundle
+sudo chown -R "$(whoami):$(whoami)" /usr/local/bundle
 
 echo "Setting up credentials..."
 rm -f config/master.key config/credentials.yml.enc
