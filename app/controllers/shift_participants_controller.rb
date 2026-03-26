@@ -3,6 +3,7 @@
 class ShiftParticipantsController < ApplicationController
   # GET
   def new
+    Rails.logger.debug('shift_participant')
     @shift_participant = ShiftParticipant.new
     shift = Shift.find(params[:shift_id])
     @shift_participant.shift = shift
