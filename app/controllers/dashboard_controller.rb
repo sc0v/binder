@@ -25,12 +25,19 @@ class DashboardController < ApplicationController
       return
     end
 
-    input      = params[:scan_input].to_s.strip
-    target     = params[:target].to_s
+    input       = params[:scan_input].to_s.strip
+    target      = params[:target].to_s
     continue_to = params[:continue_to].to_s
 
+    # Barcode/text was submitted — resolve it and advance the flow.
     return process_scan_input(flow, input, target, continue_to) if input.present?
 
+    # No input. The user pressed "Next" without scanning. Allow this only if the
+    # step doesn't strictly require a scan (e.g. checkin confirm with tools already
+    # in the cart), or if continue_to points to a valid next step.
+
+    # Checkin confirm shortcut: jump straight to the confirmation page if the
+    # cart already has tools and no new scan is needed.
     if continue_to == 'confirm' && flow['kind'] == 'checkin' && target == 'tool'
       unless scan_requirement_satisfied?(flow, target)
         redirect_to dashboard_path(flow_to_params(flow)), alert: t('dashboard.errors.scan_required')
@@ -40,6 +47,8 @@ class DashboardController < ApplicationController
       return advance_ready_flow(flow)
     end
 
+    # General step advance: move to continue_to if the step is valid and the
+    # scan requirement for the current target is already met.
     if continue_to.present? && Dashboard::FlowDefinition.valid_step?(flow, continue_to)
       unless scan_requirement_satisfied?(flow, target)
         redirect_to dashboard_path(flow_to_params(flow)), alert: t('dashboard.errors.scan_required')
@@ -187,10 +196,15 @@ class DashboardController < ApplicationController
       return
     end
 
+    # For non-tool targets (participant, scissor lift), a successful scan can
+    # implicitly advance the step if continue_to is set and valid.
     if target != 'tool' && continue_to.present? && Dashboard::FlowDefinition.valid_step?(flow, continue_to)
       flow['step'] = next_step_after_successful_scan(flow, target, continue_to)
     end
 
+    # If the flow now has everything it needs (e.g. single-org participant was
+    # auto-selected), skip straight to confirm/complete rather than showing an
+    # intermediate step.
     return advance_ready_flow(flow) if auto_selected_org_ready_for_next_stage?(flow, target, continue_to)
 
     flash_key = result[:flash_key].presence || :notice
