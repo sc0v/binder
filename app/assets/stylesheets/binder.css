@@ -185,7 +185,9 @@ li.tab {
   justify-content: center;
   font-size: 1.3rem;
   z-index: 9999;
-  transition: transform 0.15s ease, opacity 0.3s ease;
+  transition:
+    transform 0.15s ease,
+    opacity 0.3s ease;
 }
 
 #nfc-fab:hover {
