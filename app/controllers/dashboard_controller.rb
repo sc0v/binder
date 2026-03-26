@@ -25,27 +25,11 @@ class DashboardController < ApplicationController
       return
     end
 
-    input = params[:scan_input].to_s.strip
-    target = params[:target].to_s
+    input      = params[:scan_input].to_s.strip
+    target     = params[:target].to_s
     continue_to = params[:continue_to].to_s
 
-    if input.present?
-      result = scan_resolver.call(flow: flow, target: target, input: input)
-      if result[:error].present?
-        redirect_to dashboard_path(flow_to_params(flow)), alert: result[:error]
-        return
-      end
-
-      if target != 'tool' && continue_to.present? && Dashboard::FlowDefinition.valid_step?(flow, continue_to)
-        flow['step'] = next_step_after_successful_scan(flow, target, continue_to)
-      end
-
-      return advance_ready_flow(flow) if auto_selected_org_ready_for_next_stage?(flow, target, continue_to)
-
-      flash_key = result[:flash_key].presence || :notice
-      redirect_to dashboard_path(flow_to_params(flow)), flash: { flash_key => result[:notice] }
-      return
-    end
+    return process_scan_input(flow, input, target, continue_to) if input.present?
 
     if continue_to == 'confirm' && flow['kind'] == 'checkin' && target == 'tool'
       unless scan_requirement_satisfied?(flow, target)
@@ -195,6 +179,23 @@ class DashboardController < ApplicationController
   end
 
   private
+
+  def process_scan_input(flow, input, target, continue_to)
+    result = scan_resolver.call(flow: flow, target: target, input: input)
+    if result[:error].present?
+      redirect_to dashboard_path(flow_to_params(flow)), alert: result[:error]
+      return
+    end
+
+    if target != 'tool' && continue_to.present? && Dashboard::FlowDefinition.valid_step?(flow, continue_to)
+      flow['step'] = next_step_after_successful_scan(flow, target, continue_to)
+    end
+
+    return advance_ready_flow(flow) if auto_selected_org_ready_for_next_stage?(flow, target, continue_to)
+
+    flash_key = result[:flash_key].presence || :notice
+    redirect_to dashboard_path(flow_to_params(flow)), flash: { flash_key => result[:notice] }
+  end
 
   def load_flow
     Dashboard::ShowContextBuilder.new(flow: flow_from_params).call.each do |key, value|
