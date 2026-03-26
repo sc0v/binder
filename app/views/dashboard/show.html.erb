@@ -11,7 +11,7 @@
              ['Checkin', 'checkin', 'Return borrowed tools'],
              ['Queue', 'queue', 'Manage inspection queues'],
              ['Lift', 'lift', 'Checkout, checkin, or renew a lift'],
-             ['Lookup', 'lookup', 'Look up any resource'],
+             ['Lookup', 'lookup', 'Look up any resource']
            ].each do |label, kind, description| %>
           <%= form_with url: dashboard_start_path,
                         method: :post,
@@ -116,7 +116,7 @@
                              @flow_participant_organizations,
                              :id,
                              :name,
-                             @flow_organization&.id,
+                             @flow_organization&.id
                            ),
                            include_blank: 'Select organization' %>
             <%= submit_tag 'Continue', class: 'btn btn-primary' %>
@@ -214,7 +214,7 @@
                         class: 'dashboard-action-form' do %>
             <%= dashboard_flow_hidden_fields(
                   @flow_params,
-                  except: %i[queue_source participant_id organization_id],
+                  except: %i[queue_source participant_id organization_id]
                 ) %>
             <%= hidden_field_tag :queue_source, 'by_user' %>
             <%= hidden_field_tag :next_step, 'participant' %>
@@ -230,7 +230,7 @@
                         class: 'dashboard-action-form' do %>
             <%= dashboard_flow_hidden_fields(
                   @flow_params,
-                  except: %i[queue_source participant_id organization_id],
+                  except: %i[queue_source participant_id organization_id]
                 ) %>
             <%= hidden_field_tag :queue_source, 'by_org' %>
             <%= hidden_field_tag :next_step, 'organization' %>
@@ -326,7 +326,7 @@
                                  @flow_participant_organizations,
                                  :id,
                                  :name,
-                                 @flow_organization&.id,
+                                 @flow_organization&.id
                                ),
                                include_blank: 'Select organization' %>
                 <%= submit_tag 'Continue', class: 'btn btn-primary' %>
@@ -351,7 +351,7 @@
                                @all_organizations,
                                :id,
                                :name,
-                               @flow_organization&.id,
+                               @flow_organization&.id
                              ),
                              include_blank: 'Select organization' %>
               <%= submit_tag 'Continue', class: 'btn btn-primary' %>
@@ -606,7 +606,7 @@
                              @flow_participant_organizations,
                              :id,
                              :name,
-                             @flow_organization&.id,
+                             @flow_organization&.id
                            ),
                            include_blank: 'Select organization' %>
             <%= submit_tag 'Continue', class: 'btn btn-primary' %>
