@@ -17,8 +17,14 @@ class Applets::PPECollectionController < ApplicationController
     end
 
     @checkout = @hardhat.checkouts.current.first
-    @checkout.checked_in_at = Time.zone.now
-    @checkout.save!
+    @checkout.checkin
+    if @checkout.errors.any?
+      return(
+        redirect_to ppe_collection_path,
+                    alert: @checkout.errors.full_messages.join(', ')
+      )
+    end
+
     @hardhat.update(status: params[:status]) if params[:status].present?
 
     if @checkout.checked_in_at > Time.zone.local(2026, 4, 14)
