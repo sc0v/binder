@@ -48,6 +48,13 @@ document.addEventListener("turbo:load", () => {
 
   document.body.appendChild(fab);
 
+  let previousFocus = null;
+
+  fab.addEventListener("mousedown", (e) => {
+    previousFocus = document.activeElement;
+    e.preventDefault(); // prevent the button from stealing focus
+  });
+
   fab.addEventListener("click", async () => {
     try {
       const ndef = new NDEFReader();
@@ -55,6 +62,7 @@ document.addEventListener("turbo:load", () => {
 
       ndefActive = true;
       fab.classList.add("nfc-hidden");
+      previousFocus?.focus();
 
       ndef.onreading = handleNfcRead;
       ndef.onreadingerror = (err) => console.error("NFC read error:", err);
