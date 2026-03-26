@@ -41,7 +41,8 @@ document.addEventListener("turbo:load", () => {
   fab.setAttribute("type", "button");
   fab.setAttribute("title", "Enable NFC scanning");
   fab.setAttribute("aria-label", "Enable NFC scanning");
-  fab.innerHTML = '<i class="fa-solid fa-wifi" style="transform: rotate(90deg)"></i>';
+  fab.innerHTML =
+    '<i class="fa-solid fa-wifi" style="transform: rotate(90deg)"></i>';
 
   // If permissions were already granted this session, hide immediately.
   if (ndefActive) fab.classList.add("nfc-hidden");
