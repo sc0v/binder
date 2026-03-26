@@ -122,6 +122,7 @@ en:
       no_participant: Select a valid participant to checkout.
     renew:
       no_scissor_lift: No Scissor Lift selected.
+      all_checked_out: All scissor lifts are currently checked out.
     checkin:
       no_scissor_lift: No Scissor Lift selected.
   sessions:
