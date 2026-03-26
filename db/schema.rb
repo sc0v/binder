@@ -132,18 +132,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_18_055441) do
     t.index ["participant_id"], name: "index_notes_on_participant_id"
   end
 
-  create_table "notification_subscriptions", force: :cascade do |t|
-    t.bigint "participant_id", null: false
-    t.string "endpoint", null: false
-    t.string "auth", null: false
-    t.string "p256dh", null: false
-    t.boolean "active", default: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["endpoint"], name: "index_notification_subscriptions_on_endpoint", unique: true
-    t.index ["participant_id"], name: "index_notification_subscriptions_on_participant_id"
-  end
-
   create_table "organization_build_statuses", force: :cascade do |t|
     t.integer "organization_id", null: false
     t.string "status_type"
@@ -215,16 +203,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_18_055441) do
     t.boolean "alumni", default: false, null: false
     t.index ["admin"], name: "index_participants_on_admin"
     t.index ["eppn"], name: "index_participants_on_eppn", unique: true
-  end
-
-  create_table "push_subscriptions", force: :cascade do |t|
-    t.integer "participant_id"
-    t.text "endpoint", null: false
-    t.string "p256dh", null: false
-    t.string "auth", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["participant_id"], name: "index_push_subscriptions_on_participant_id"
   end
 
   create_table "scissor_lift_checkouts", force: :cascade do |t|
@@ -373,11 +351,9 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_18_055441) do
   add_foreign_key "faq", "organization_categories"
   add_foreign_key "notes", "organizations"
   add_foreign_key "notes", "participants"
-  add_foreign_key "notification_subscriptions", "participants"
   add_foreign_key "organization_build_statuses", "organizations"
   add_foreign_key "organization_build_steps", "organization_build_statuses"
   add_foreign_key "organization_build_steps", "participants", column: "approver_id"
-  add_foreign_key "push_subscriptions", "participants"
   add_foreign_key "scissor_lift_checkouts", "organizations"
   add_foreign_key "scissor_lift_checkouts", "participants"
   add_foreign_key "scissor_lift_checkouts", "scissor_lifts"

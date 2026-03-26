@@ -56,9 +56,6 @@ gem 'net-ldap'
 # Connect to CMU's card service using SOAP
 gem 'savon'
 
-# Web Push Notifications for PWA
-gem 'webpush'
-
 # Paginatation
 gem 'pagy'
 
@@ -108,7 +105,6 @@ group :test do
   gem 'capybara'
   gem 'selenium-webdriver'
   gem 'webdrivers'
-  gem 'webmock'
 end
 
 group :production do
