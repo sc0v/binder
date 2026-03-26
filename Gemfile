@@ -68,7 +68,6 @@ gem 'font-awesome-sass'
 # Replace sprockets as asset pipeline
 gem 'propshaft'
 
-# csv
 gem 'csv'
 
 group :development, :test do

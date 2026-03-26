@@ -253,6 +253,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_18_055441) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "description"
+    t.string "andrew_id"
     t.index ["organization_id"], name: "index_shifts_on_organization_id"
     t.index ["shift_type_id"], name: "index_shifts_on_shift_type_id"
   end
@@ -328,6 +329,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_18_055441) do
     t.datetime "updated_at", null: false
     t.integer "tool_type_id"
     t.boolean "active", default: true, null: false
+    t.string "status"
     t.index ["barcode"], name: "index_tools_on_barcode", unique: true
     t.index ["tool_type_id"], name: "index_tools_on_tool_type_id"
   end

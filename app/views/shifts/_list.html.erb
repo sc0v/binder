@@ -6,12 +6,12 @@
       <% if params[:type].blank? %>
         <th><%= model_class.human_attribute_name(:type) %></th>
       <% end %>
+      <th><%= model_class.human_attribute_name(:andrew_id) %></th>
       <th><%= model_class.human_attribute_name(:starts_at) %></th>
       <th class="hidden-xs"><%= model_class.human_attribute_name(:ends_at) %></th>
-      <th class="hidden-xs"><%= model_class.human_attribute_name(:required_number_of_participants) %></th>
       <th>
-        <% if ( @organization.blank? ) %>
-          <% if ( params[:type] == "coordinator" ) %>
+        <% if @organization.blank? %>
+          <% if params[:type] == "coordinator" %>
             SCC Member
           <% else %>
             <%= model_class.human_attribute_name(:organization) %>
@@ -20,6 +20,7 @@
           <%= model_class.human_attribute_name(:shift_type) %>
         <% end %>
       </th>
+      <th>Checked In?</th>
     </tr>
   </thead>
   <tbody>
@@ -27,33 +28,51 @@
       <% if can?(:read, shift) %>
         <% if current?(shift) %>
           <tr class="<%= shift.checked_in? ? 'success' : 'danger' %>">
-          <% else %>
-            <tr>
-            <% end %>
-            <td><%= link_to t('.show', default: t('helpers.links.show')),
-                            shift_path(shift), class: 'btn btn-info btn-xs' %></td>
-            <% if params[:type].blank? %>
-              <td><%= shift.shift_type.name %></td>
-            <% end %>
-            <td><%= date_and_time shift.starts_at %></td>
-            <td class="hidden-xs"><%= date_and_time shift.ends_at %></td>
-            <td class="hidden-xs"><%= shift.required_number_of_participants %></td>
-            <td>
-              <% if ( @organization.blank? ) %>
-                <% if ( params[:type] == "coordinator" ) %>
-                  <%= link_to shift.shift_participants.first.participant.name, shift.shift_participants.first.participant if shift.shift_participants.present? %>
-                <% else %>
-                  <%= link_to shift.organization.short_name, shift.organization if shift.organization.present? %>
-                <% end %>
-              <% else %>
-                <%= shift.shift_type.name %>
-              <% end %>
-            </td>
-          </tr>
+        <% else %>
+          <tr>
         <% end %>
+          <td><%= link_to t('.show', default: t('helpers.links.show')),
+                          shift_path(shift), class: 'btn btn-info btn-xs' %></td>
+          <% if params[:type].blank? %>
+            <td><%= shift.shift_type.name %></td>
+          <% end %>
+          <td><%= shift.andrew_id %></td>
+          <td><%= date_and_time shift.starts_at %></td>
+          <td class="hidden-xs"><%= date_and_time shift.ends_at %></td>
+          <td>
+            <% if @organization.blank? %>
+              <% if params[:type] == "coordinator" %>
+                <%= link_to shift.shift_participants.first.participant.name, shift.shift_participants.first.participant if shift.shift_participants.present? %>
+              <% else %>
+                <%= link_to shift.organization.short_name, shift.organization if shift.organization.present? %>
+              <% end %>
+            <% else %>
+              <%= shift.shift_type.name %>
+            <% end %>
+          </td>
+          <td>
+            <% shift.shift_participants.each do |sp| %>
+              <div style="display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.3em;">
+                <% if sp.clocked_in_at %>
+                  <small style="color: #888;">✓ <%= date_and_time(sp.clocked_in_at) %></small>
+                <% else %>
+                  <%= button_to 'Clock in',
+                                shift_participant_path(shift, sp),
+                                method: :put,
+                                class: 'btn btn-danger btn-xs',
+                                form: { style: 'display: inline' } %>
+                <% end %>
+              </div>
+            <% end %>
+            <% if shift.shift_participants.empty? %>
+              <small style="color: #c00;">Participant Not Found</small>
+            <% end %>
+          </td>
+        </tr>
       <% end %>
-    </tbody>
-  </table>
-  <span class="smtext">
-    <%#= will_paginate shifts, param_name: pagination_param, renderer: BootstrapPagination::Rails %>
-  </span>
+    <% end %>
+  </tbody>
+</table>
+<span class="smtext">
+  <%#= will_paginate shifts, param_name: pagination_param, renderer: BootstrapPagination::Rails %>
+</span>

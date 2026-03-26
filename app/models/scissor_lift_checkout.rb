@@ -77,6 +77,24 @@ class ScissorLiftCheckout < ApplicationRecord
     self
   end
 
+  def self.checkout_batch(organization:, participant:, scissor_lift_ids:)
+    checked_out, failed =
+      scissor_lift_ids
+        .map { |id| attempt_checkout(id, organization, participant) }
+        .partition { |c| c.errors.none? }
+    { checked_out:, failed:, remaining_ids: failed.map(&:scissor_lift_id) }
+  end
+
+  def self.attempt_checkout(scissor_lift_id, organization, participant)
+    create(
+      scissor_lift_id:,
+      organization:,
+      participant:,
+      due_at: 4.hours.from_now
+    )
+  end
+  private_class_method :attempt_checkout
+
   def self.timeout_end(organization)
     org_checkouts = ScissorLiftCheckout.where(organization: organization)
     last_forfeit =
