@@ -57,16 +57,19 @@ class Tools::CheckoutsController < ApplicationController
   private
 
   def update_tool_session(tool)
-    if tool
-      session[:tools] |= [tool.id]
-    else
+    if tool.nil?
       flash.alert =
         "No tool found with that barcode. #{helpers.link_to 'Create it', new_tool_path, class: 'cta'}"
+    elsif tool.checked_out?
+      flash.alert = "#{tool.name} ##{tool.barcode} is already checked out!"
+    else
+      session[:tools] |= [tool.id]
     end
   end
 
   def store_borrower_in_session
-    borrower = Participant.find_by(search: params[:participant_search])
+    borrower =
+      Participant.find_by_search(params[:participant_search].to_s.strip)
     if borrower
       session[:borrower_id] = borrower.id
     else
@@ -104,17 +107,5 @@ class Tools::CheckoutsController < ApplicationController
     else
       flash.alert = "Problem checking out tools #{bad_barcodes.join(', ')}"
     end
-  end
-
-  def checkin_tool
-    checkout = @tool.checkouts.current.first
-    if checkout.blank?
-      raise CheckoutError, I18n.t('errors.messages.tool_already_checked_in')
-    end
-
-    checkout.checked_in_at = Time.zone.now
-    checkout.save!
-    redirect_to checkout_tools_path,
-                notice: "Tool #{params[:barcode]} successfully checked in."
   end
 end

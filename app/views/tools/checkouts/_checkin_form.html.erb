@@ -1,5 +1,18 @@
 <h3>What is being returned?</h3>
 <%= form_tag checkin_tools_path do %>
-  <%= label_tag(:barcode, 'Scan Tool Barcode/Type Tool Barcode [Enter]') %>
+  <%= label_tag(:barcode, 'Scan or Type Tool Barcode [Enter]') %>
   <%= text_field_tag(:barcode, nil, autocomplete: :off) %>
+<% end %>
+
+<% if session[:checkin_summary].present? %>
+  <%= debug session[:checkin_summary] %>
+  <% summary = session[:checkin_summary] %>
+  <p
+    >Returning
+    <strong><%= summary['name'] %> </strong> #<%= summary['barcode'] %></p
+  >
+  <p
+    ><%= summary['org'] %> will have
+    <strong><%= summary['remaining'] %></strong> remaining checked out</p
+  >
 <% end %>

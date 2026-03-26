@@ -60,6 +60,15 @@ module ScissorLiftsHelper
         format: "yyyy-MM-dd'T'HH:mm:ss.SSSZZ",
         alignEmptyValues: 'bottom'
       }
+    },
+    {
+      title: 'Time remaining',
+      field: :due_at_countdown,
+      sorter: 'datetime',
+      sorterParams: {
+        format: "yyyy-MM-dd'T'HH:mm:ss.SSSZZ",
+        alignEmptyValues: 'bottom'
+      }
     }
   ].freeze
 

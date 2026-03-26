@@ -20,6 +20,10 @@
       ></dt
     >
     <dd><%= @tool.checked_out? %></dd>
+    <% if @tool.is_hardhat? %>
+      <dt><strong>Condition:</strong></dt>
+      <dd><%= @tool.hardhat_status_label.humanize %></dd>
+    <% end %>
     <% if @tool.checked_out? %>
       <dt><strong>Checked out by:</strong></dt>
       <dd
