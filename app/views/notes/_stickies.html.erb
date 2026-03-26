@@ -3,7 +3,9 @@
 <% end %>
 
 <ul class="notes">
-  <% notes.each do |n| %>
+  <% notes
+       .where(archived_at: nil)
+       .find_each do |n| %>
     <li>
       <%= link_to note_path(n), style: "background-color: #{n.color || '#ffc'};" do %>
         <h2><%= n.title %></h2>
@@ -16,11 +18,11 @@
           </div>
         </div>
       <% end %>
-      <%= link_to 'DESTROY',
-                  note_path(n),
+      <%= link_to 'ARCHIVE',
+                  archive_note_path(n),
                   data: {
-                    turbo_confirm: 'Are you sure?',
-                    turbo_method: :delete
+                    turbo_confirm: 'Archive this note?',
+                    turbo_method: :patch
                   },
                   class: 'cta' %>
     </li>
@@ -32,4 +34,7 @@
 </ul>
 <p class="alignright">
   <%= link_to 'See all notes', notes_path, class: 'cta' %><br />
+</p>
+<p class="alignright">
+  <%= link_to 'See archived notes', archived_notes_path, class: 'cta' %><br />
 </p>

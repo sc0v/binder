@@ -50,7 +50,13 @@ Rails.application.routes.draw do
 
   # Notes
   # resources :notes
-  resources :notes, only: %i[index show create new edit update destroy]
+  resources :notes, only: %i[index show create new edit update] do
+    member do
+      patch :archive
+      patch :unarchive
+    end
+    collection { get :archived }
+  end
 
   # Participant Safety Briefing
   get 'safety-briefing',

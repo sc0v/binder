@@ -103,6 +103,13 @@ en:
     destroy:
       notice: Destroyed the note!
       alert: Could not destroy the note
+    show:
+      archived: That note has been archived.
+    archive:
+      notice: Archived the note!
+    unarchive:
+      notice: Unarchived the note!
+      
   organization_build_steps:
     create:
       notice: Added Build Task!

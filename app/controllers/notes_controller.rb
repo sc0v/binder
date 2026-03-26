@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 class NotesController < ApplicationController
-  load_and_authorize_resource except: :index
+  load_and_authorize_resource except: %i[index archived]
 
   def index
     notes = Note.accessible_by(Current.ability).ordered_by_created_at
@@ -13,6 +13,9 @@ class NotesController < ApplicationController
 
   def show
     @note = Note.find(params[:id])
+    return unless @note.archived?
+
+    redirect_to archived_notes_path, alert: t('.archived')
   end
 
   def edit
@@ -39,12 +42,18 @@ class NotesController < ApplicationController
     end
   end
 
-  def destroy
-    if @note.destroy
-      redirect_to root_path, notice: t('.notice')
-    else
-      redirect_to root_path, alert: t('.alert')
-    end
+  def archive
+    @note.update(archived_at: Time.current)
+    redirect_to root_path, notice: t('.notice')
+  end
+
+  def unarchive
+    @note.update(archived_at: nil)
+    redirect_to archived_notes_path, notice: t('.notice')
+  end
+
+  def archived
+    @notes = Note.accessible_by(Current.ability).archived
   end
 
   def hide
