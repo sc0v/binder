@@ -169,3 +169,4 @@ Rails/RakeEnvironment:
 Rails/DynamicFindBy:
   Whitelist:
     - "find_by_search"
+    - "find_by_card"
