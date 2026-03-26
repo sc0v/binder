@@ -24,38 +24,56 @@ class PowerDashboardController < ApplicationController
       return
     end
 
+    # Each submit starts fresh — clear any leftover pending action from a
+    # previous interaction before we parse the new input.
     session_state.clear_pending_action
 
+    # Try to parse the input as a command (checkin, checkout, add, clear, etc.).
+    # If it matches, dispatch to the appropriate action path.
     action = action_parser.parse(input)
-    if action
-      if action[:error].present?
-        redirect_to power_dashboard_path, alert: action[:error]
-        return
-      end
+    return dispatch_action(action) if action
 
-      pending = action[:pending]
-      if pending[:needs_org_selection]
-        session[:power_pending_action] = pending.except(:needs_org_selection)
-        redirect_to power_dashboard_select_organization_path
-        return
-      end
+    # Input wasn't a command — treat it as a resource identifier (barcode,
+    # eppn, lift name, etc.) and update the session context accordingly.
+    handle_resource_input(input)
+  end
 
-      if pending[:requires_confirmation]
-        session[:power_pending_action] = pending
-        redirect_to power_dashboard_confirm_path
-        return
-      end
+  private
 
-      result = action_executor.execute(pending)
-      if result[:error].present?
-        redirect_to power_dashboard_path, alert: result[:error]
-      else
-        redirect_to power_dashboard_path, notice: result[:message]
-      end
+  # Routes a parsed action to confirm, org selection, or immediate execution.
+  def dispatch_action(action)
+    if action[:error].present?
+      redirect_to power_dashboard_path, alert: action[:error]
       return
     end
 
+    pending = action[:pending]
+
+    # Checkout needs an org but the participant belongs to multiple — ask first.
+    if pending[:needs_org_selection]
+      session[:power_pending_action] = pending.except(:needs_org_selection)
+      redirect_to power_dashboard_select_organization_path
+      return
+    end
+
+    # Destructive actions (checkin, checkout) require explicit confirmation.
+    if pending[:requires_confirmation]
+      session[:power_pending_action] = pending
+      redirect_to power_dashboard_confirm_path
+      return
+    end
+
+    # Safe actions (add, remove, clear, select queue, etc.) execute immediately.
+    result = action_executor.execute(pending)
+    redirect_to power_dashboard_path, **flash_for(result)
+  end
+
+  # Resolves the input as a resource and updates the session context.
+  # On success, redirects with a notice. On unrecognised input, re-renders
+  # the show page with an inline error so the input field stays focused.
+  def handle_resource_input(input)
     result = resource_input_handler.handle(input)
+
     if result[:flash].present?
       redirect_to power_dashboard_path, **result[:flash]
       return
@@ -133,8 +151,6 @@ class PowerDashboardController < ApplicationController
       redirect_to power_dashboard_path, notice: t('power_dashboard.organization.selected', name: organization.name)
     end
   end
-
-  private
 
   def load_session_state
     state = session_state.load_state
