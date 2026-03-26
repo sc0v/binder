@@ -21,9 +21,6 @@
 # Ignore local asset pipeline cache files
 /public/assets
 
-# Ignore binstubs
-/bin
-
 # Ignore coverage reports
 /coverage
 
