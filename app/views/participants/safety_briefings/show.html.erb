@@ -15,7 +15,7 @@
     </p>
     <%= render 'video' %> </div
   ><div class="sidebar">
-    <% if @participant.cannot?(:participate, :carnival) %>
+    <% unless @participant.watched_safety_video? %>
       <%= render 'form', participant: @participant %>
     <% end %>
   </div>
