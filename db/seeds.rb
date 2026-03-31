@@ -156,57 +156,58 @@ if models_to_seed.empty? || models_to_seed.include?('organizationbuildstep')
     end
   end
 
+  one_story_electrical = ['Cables Inspection', 'Devices Inspection', 'Final Inspection']
+  two_story_electrical = [
+    'First Floor Cable Inspection', 'First Floor Devices Inspection',
+    'Second Floor Cable Inspection', 'Second Floor Devices Inspection',
+    'Final Inspection'
+  ]
+  asa_kkg_electrical = [
+    'First Floor Cable Inspection', 'First Floor Devices Inspection',
+    'First Floor Final Inspection', 'Second Floor Cable Inspection',
+    'Second Floor Devices Inspection', 'Second Floor Final Inspection'
+  ]
+
   electrical_steps = {
-      'Alpha Epsilon Pi' => ['First Floor Cable Inspection',
-                             'First Floor Devices Inspection', 'Second Floor Cable Inspection', 'Second Floor Devices Inspection', 'Final Inspection'],
-      'Phi Delta Theta' => ['Cables Inspection', 'Devices Inspection',
-                            'Final Inspection'],
-      'Sigma Phi Epsilon' => ['First Floor Cable Inspection',
-                              'First Floor Devices Inspection', 'Second Floor Cable Inspection', 'Second Floor Devices Inspection', 'Final Inspection'],
-      'Alpha Phi' => ['Cables Inspection', 'Devices Inspection',
-                      'Final Inspection'],
-      'Alpha Chi Omega' => ['Cables Inspection', 'Devices Inspection',
-                            'Final Inspection'],
-      'Delta Delta Delta' => ['Cables Inspection', 'Devices Inspection',
-                              'Final Inspection'],
-      'Delta Gamma' => ['First Floor Cable Inspection',
-                        'First Floor Devices Inspection', 'Second Floor Cable Inspection', 'Second Floor Devices Inspection', 'Final Inspection'],
-      'Kappa Alpha Theta' => ['First Floor Cable Inspection',
-                              'First Floor Devices Inspection', 'Second Floor Cable Inspection', 'Second Floor Devices Inspection', 'Final Inspection'],
-      'Kappa Kappa Gamma' => ['First Floor Cable Inspection',
-                              'First Floor Devices Inspection', 'First Floor Final Inspection', 'Second Floor Cable Inspection', 'Second Floor Devices Inspection', 'Second Floor Final Inspection'],
-      'Asian Student Association' => ['First Floor Cable Inspection',
-                                      'First Floor Devices Inspection', 'First Floor Final Inspection', 'Second Floor Cable Inspection', 'Second Floor Devices Inspection', 'Second Floor Final Inspection'],
-      'Chinese Students Association' => ['Cables Inspection', 'Devices Inspection',
-                                         'Final Inspection'],
-      'Fringe' => ['Cables Inspection', 'Devices Inspection',
-                   'Final Inspection'],
-      'Student Dormitory Council' => ['Cables Inspection', 'Devices Inspection',
-                                      'Final Inspection'],
-      'TSA/HKSA' => ['Cables Inspection', 'Devices Inspection',
-                     'Final Inspection'],
-      'Sustainable Earth/Theme Park Engineering Group' => ['Cables Inspection', 'Devices Inspection',
-                                                           'Final Inspection'],
-      'KGB/Roboclub' => ['Cables Inspection', 'Devices Inspection',
-                         'Final Inspection'],
-      'MENASA/Spirit' => ['Cables Inspection', 'Devices Inspection',
-                          'Final Inspection'],
-      'Society of Women Engineers' => ['Cables Inspection', 'Devices Inspection',
-                                       'Final Inspection'],
-      'Alpha Phi Omega' => ['Cables Inspection', 'Devices Inspection',
-                            'Final Inspection']
-    }
+    'Alpha Epsilon Pi' => two_story_electrical,
+    'Phi Delta Theta' => one_story_electrical,
+    'Sigma Phi Epsilon' => two_story_electrical,
+    'Alpha Phi' => one_story_electrical,
+    'Alpha Chi Omega' => one_story_electrical,
+    'Delta Delta Delta' => one_story_electrical,
+    'Delta Gamma' => two_story_electrical,
+    'Kappa Alpha Theta' => two_story_electrical,
+    'Kappa Kappa Gamma' => asa_kkg_electrical,
+    'Asian Student Association' => asa_kkg_electrical,
+    'Chinese Students Association' => one_story_electrical,
+    'Fringe' => one_story_electrical,
+    'Student Dormitory Council' => one_story_electrical,
+    'TSA/HKSA' => one_story_electrical,
+    'Sustainable Earth/Theme Park Engineering Group' => one_story_electrical,
+    'KGB/Roboclub' => one_story_electrical,
+    'MENASA/Spirit' => one_story_electrical,
+    'Society of Women Engineers' => one_story_electrical,
+    'Alpha Phi Omega' => one_story_electrical
+  }
 
   electrical_steps.each do |org_name, steps|
     org = Organization.find_by(name: org_name)
     unless org
-      Rails.logger.debug { "Skipping electrical steps for #{org_name} (not found)" }
+      Rails.logger.debug do
+        "Skipping electrical steps for #{org_name} (not found)"
+      end
       next
     end
 
-    status = OrganizationBuildStatus.find_by(organization: org, status_type: 'electrical')
+    status =
+      OrganizationBuildStatus.find_by(
+        organization: org,
+        status_type: 'electrical'
+      )
     unless status
-      Rails.logger.debug { "Skipping electrical steps for #{org_name} (no electrical status)" }
+      Rails.logger.debug do
+        "Skipping electrical steps for #{org_name} (no electrical status)"
+      end
       next
     end
 

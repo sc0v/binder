@@ -10,14 +10,13 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    /* gap: 16px; */
     padding: 10px 14px;
-    border-radius: 8px;
+    /* border-radius: 8px; */
   }
 
   .step-card.approved {
-    border: 0.5px solid #9FE1CB;
-    background: #F4FBF8;
+    /* border: 0.5px solid #9fe1cb; */
+    background: #f4fbf8;
   }
 
   .step-card.pending {
@@ -33,7 +32,7 @@
 
   .step-meta {
     font-size: 12px;
-    color: #0F6E56;
+    color: #0f6e56;
     margin-top: 2px;
   }
 
@@ -45,27 +44,25 @@
   }
 
   .badge-approved {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 500;
-    color: #0F6E56;
-    background: #E1F5EE;
+    color: #0f6e56;
+    background: #e1f5ee;
     padding: 3px 10px;
-    border-radius: 5px;
+    /* border-radius: 5px; */
   }
 
   .badge-pending {
-    font-size: 11px;
+    font-size: 12px;
     font-weight: 500;
-    color: #A32D2D;
-    background: #FCEBEB;
+    color: #a32d2d;
+    background: #fcebeb;
     padding: 3px 10px;
-    border-radius: 5px;
+    /* border-radius: 5px; */
   }
 </style>
 
 <div class="step-row">
-  
-
   <div class="step-card <%= step.approver.present? ? 'approved' : 'pending' %>">
     <div>
       <%= link_to step.title, [@organization, @build_status, step], class: 'step-title' %>
@@ -91,7 +88,9 @@
           <%= hidden_field_tag 'update_type', :enabled %>
           <%= hidden_field_tag 'url', request.original_fullpath %>
           <%= f.submit step.is_enabled ? 'Disable' : 'Enable',
-                       style: 'font-size: 12px; padding: 0.5em; padding-right: 1em; margin-left: 0.5em'%>
+                       style:
+                         'font-size: 12px; padding: 0.5em; padding-right: 1em; margin-left: 0.5em;
+                                       background: #555;' %>
         <% end %>
       <% end %>
     </div>
