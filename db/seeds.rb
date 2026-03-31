@@ -41,7 +41,8 @@ if models_to_seed.empty? || models_to_seed.include?('organization')
     Organization.create(
       name: row['name'].strip,
       organization_category:,
-      short_name: row['short_name']
+      short_name: row['short_name'],
+      booth_type: row['booth_type'].presence
     )
   end
 end
@@ -131,22 +132,9 @@ if models_to_seed.empty? || models_to_seed.include?('organizationbuildstep')
   Organization.find_each do |o|
     next unless o.building?
 
-    # TODO: Manually change which orgs are 2-story since that's not defined in Binder
-    csv =
-      if o.name.in?(
-           [
-             'Kappa Alpha Theta',
-             'Alpha Epsilon Pi',
-             'Phi Delta Theta',
-             'Sigma Phi Epsilon',
-             'Kappa Kappa Gamma',
-             'Asian Student Association'
-           ]
-         )
-        two_story_csv
-      else
-        one_story_csv
-      end
+    # Manually change which orgs are 2-story in organization.csv
+    csv = o.two_story? ? two_story_csv : one_story_csv
+
     csv.each do |row|
       status =
         OrganizationBuildStatus.where(
@@ -163,6 +151,71 @@ if models_to_seed.empty? || models_to_seed.include?('organizationbuildstep')
         title: row['title'],
         requirements: row['requirements'],
         organization_build_status: status,
+        is_enabled: true
+      )
+    end
+  end
+
+  electrical_steps = {
+      'Alpha Epsilon Pi' => ['First Floor Cable Inspection',
+                             'First Floor Devices Inspection', 'Second Floor Cable Inspection', 'Second Floor Devices Inspection', 'Final Inspection'],
+      'Phi Delta Theta' => ['Cables Inspection', 'Devices Inspection',
+                            'Final Inspection'],
+      'Sigma Phi Epsilon' => ['First Floor Cable Inspection',
+                              'First Floor Devices Inspection', 'Second Floor Cable Inspection', 'Second Floor Devices Inspection', 'Final Inspection'],
+      'Alpha Phi' => ['Cables Inspection', 'Devices Inspection',
+                      'Final Inspection'],
+      'Alpha Chi Omega' => ['Cables Inspection', 'Devices Inspection',
+                            'Final Inspection'],
+      'Delta Delta Delta' => ['Cables Inspection', 'Devices Inspection',
+                              'Final Inspection'],
+      'Delta Gamma' => ['First Floor Cable Inspection',
+                        'First Floor Devices Inspection', 'Second Floor Cable Inspection', 'Second Floor Devices Inspection', 'Final Inspection'],
+      'Kappa Alpha Theta' => ['First Floor Cable Inspection',
+                              'First Floor Devices Inspection', 'Second Floor Cable Inspection', 'Second Floor Devices Inspection', 'Final Inspection'],
+      'Kappa Kappa Gamma' => ['First Floor Cable Inspection',
+                              'First Floor Devices Inspection', 'First Floor Final Inspection', 'Second Floor Cable Inspection', 'Second Floor Devices Inspection', 'Second Floor Final Inspection'],
+      'Asian Student Association' => ['First Floor Cable Inspection',
+                                      'First Floor Devices Inspection', 'First Floor Final Inspection', 'Second Floor Cable Inspection', 'Second Floor Devices Inspection', 'Second Floor Final Inspection'],
+      'Chinese Students Association' => ['Cables Inspection', 'Devices Inspection',
+                                         'Final Inspection'],
+      'Fringe' => ['Cables Inspection', 'Devices Inspection',
+                   'Final Inspection'],
+      'Student Dormitory Council' => ['Cables Inspection', 'Devices Inspection',
+                                      'Final Inspection'],
+      'TSA/HKSA' => ['Cables Inspection', 'Devices Inspection',
+                     'Final Inspection'],
+      'Sustainable Earth/Theme Park Engineering Group' => ['Cables Inspection', 'Devices Inspection',
+                                                           'Final Inspection'],
+      'KGB/Roboclub' => ['Cables Inspection', 'Devices Inspection',
+                         'Final Inspection'],
+      'MENASA/Spirit' => ['Cables Inspection', 'Devices Inspection',
+                          'Final Inspection'],
+      'Society of Women Engineers' => ['Cables Inspection', 'Devices Inspection',
+                                       'Final Inspection'],
+      'Alpha Phi Omega' => ['Cables Inspection', 'Devices Inspection',
+                            'Final Inspection']
+    }
+
+  electrical_steps.each do |org_name, steps|
+    org = Organization.find_by(name: org_name)
+    unless org
+      Rails.logger.debug { "Skipping electrical steps for #{org_name} (not found)" }
+      next
+    end
+
+    status = OrganizationBuildStatus.find_by(organization: org, status_type: 'electrical')
+    unless status
+      Rails.logger.debug { "Skipping electrical steps for #{org_name} (no electrical status)" }
+      next
+    end
+
+    steps.each_with_index do |title, index|
+      OrganizationBuildStep.create!(
+        title: title,
+        requirements: '',
+        organization_build_status: status,
+        step: index + 1,
         is_enabled: true
       )
     end
@@ -313,7 +366,7 @@ if models_to_seed.empty? || models_to_seed.include?('certification')
   end
 end
 
-if Rails.env.development?
+if Rails.env.development? && models_to_seed.empty?
   Rails.logger.debug '  Development Stuff'
 
   admin_andrewid = 'rcrown'

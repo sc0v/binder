@@ -1,38 +1,33 @@
-name,organization_category,short_name,is_building
-Spring Carnival Committee,SCC,SCC,FALSE
-Alpha Epsilon Pi,Fraternity,AEPi,TRUE
-Alpha Phi Omega,Other Building,APhiO,TRUE
-Phi Delta Theta,Fraternity,PhiDelt,TRUE
-Sigma Phi Epsilon,Fraternity,SigEp,TRUE
-Alpha Chi Omega,Sorority,AXO,TRUE
-Alpha Phi,Sorority,APhi,TRUE
-Delta Delta Delta,Sorority,TriDelt,TRUE
-Delta Gamma,Sorority,DG,TRUE
-Kappa Alpha Theta,Sorority,Theta,TRUE
-Kappa Kappa Gamma,Sorority,Kappa,TRUE
-Asian Student Association,Independent,ASA,TRUE
-Chinese Students Association,Independent,CSA,TRUE
-Fringe,Independent,,TRUE
-Student Dormitory Council,Independent,SDC,TRUE
-Taiwanese Students Association,Independent,TSA,TRUE
-American Society of Civil Engineers,Blitz,ASCE,TRUE
-Sustainable Earth/Theme Park Engineering Group,Blitz,SusEarth/TPEG,TRUE
-KGB/PRISM,Blitz,,TRUE
-SSA/HKSA/FSA/KASA,Blitz,,TRUE
-MENASA/Spirit,Blitz,,TRUE
-Society of Women Engineers,Blitz,SWE,TRUE
-Awareness of Roots in Chinese Culture,Doghouse,ARCC,TRUE
-Biological Sciences Student Advisory Council,Doghouse,BioSAC,TRUE
-Build18,Doghouse,,TRUE
-Robotics Club,Doghouse,RoboClub,TRUE
-180 Degrees Consulting,Doghouse,180DC,TRUE
-Society of Asian Scientists and Engineers,Doghouse,SASE,TRUE
-Kappa Phi Lambda,Doghouse,,TRUE
-Scotch'n'Soda,Doghouse,,TRUE
-ScottyLabs,Doghouse,,TRUE
-Undergraduate Student Senate,Doghouse,Senate,TRUE
-Lambda Phi Epsilon,Doghouse,,TRUE
-Institute for Electrical and Electronics Engineers,Doghouse,IEEE,TRUE
-Architectural Crafts Collective,Other Building,ACC,TRUE
-Student Leadership Involvement and Civic Engagement,Staff,SLICE,FALSE
-Department of Student Affairs,Staff,DoSA,FALSE
+name,organization_category,short_name,is_building,booth_type
+Spring Carnival Committee,SCC,SCC,FALSE,
+Alpha Epsilon Pi,Fraternity,AEPi,TRUE,two_story
+Alpha Phi Omega,Other Building,APhiO,TRUE,one_story
+Phi Delta Theta,Fraternity,PhiDelt,TRUE,two_story
+Sigma Phi Epsilon,Fraternity,SigEp,TRUE,two_story
+Alpha Chi Omega,Sorority,AXO,TRUE,one_story
+Alpha Phi,Sorority,APhi,TRUE,one_story
+Delta Delta Delta,Sorority,TriDelt,TRUE,one_story
+Delta Gamma,Sorority,DG,TRUE,two_story
+Kappa Alpha Theta,Sorority,Theta,TRUE,two_story
+Kappa Kappa Gamma,Sorority,Kappa,TRUE,two_story
+Asian Student Association,Independent,ASA,TRUE,two_story
+Chinese Students Association,Independent,CSA,TRUE,one_story
+Fringe,Independent,,TRUE,one_story
+Student Dormitory Council,Independent,SDC,TRUE,one_story
+TSA/HKSA,Independent,,TRUE,one_story
+ASCE/Sustainable Earch/TPEG,Blitz,,TRUE,
+KGB/RoboClub,Blitz,,TRUE,
+MENASA/Spirit,Blitz,,TRUE,
+Society of Women Engineers,Blitz,SWE,TRUE,
+IEEE/WinECE,Doghouse,,TRUE,
+SHPE/SALSA/LGSA,Doghouse,,TRUE,
+Mayur SASE,Doghouse,,TRUE,
+ScottyLabs,Doghouse,,TRUE,
+Society of Asian Scientists and Engineers,Doghouse,SASE,TRUE,
+Awareness of Roots in Chinese Culture,Doghouse,ARCC,TRUE,
+Biological Sciences Student Advisory Council,Doghouse,BioSAC,TRUE,
+TartanAUV,Doghouse,Senate,TRUE,
+FirstTogether,Doghouse,Senate,TRUE,
+Multicultural Greek Council,Doghouse,Senate,TRUE,
+Architectural Crafts Collective,Other Building,ACC,TRUE,
+Department of Student Affairs,Staff,DoSA,FALSE,
