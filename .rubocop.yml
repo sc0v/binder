@@ -159,6 +159,11 @@ Style/ClassAndModuleChildren:
   Enabled: false
 
 Layout/LineLength:
+  Whitelist:
+    - "one_story_electrical"
+    - "two_story_electrical"
+    - "asa_kkg_electrical"
+    - "electrical_steps"
   Max: 120
 
 # Lint tasks intentionally omit :environment to avoid booting Rails in CI,

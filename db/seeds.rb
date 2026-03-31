@@ -156,16 +156,25 @@ if models_to_seed.empty? || models_to_seed.include?('organizationbuildstep')
     end
   end
 
-  one_story_electrical = ['Cables Inspection', 'Devices Inspection', 'Final Inspection']
+  one_story_electrical = [
+    'Cables Inspection',
+    'Devices Inspection',
+    'Final Inspection'
+  ]
   two_story_electrical = [
-    'First Floor Cable Inspection', 'First Floor Devices Inspection',
-    'Second Floor Cable Inspection', 'Second Floor Devices Inspection',
+    'First Floor Cable Inspection',
+    'First Floor Devices Inspection',
+    'Second Floor Cable Inspection',
+    'Second Floor Devices Inspection',
     'Final Inspection'
   ]
   asa_kkg_electrical = [
-    'First Floor Cable Inspection', 'First Floor Devices Inspection',
-    'First Floor Final Inspection', 'Second Floor Cable Inspection',
-    'Second Floor Devices Inspection', 'Second Floor Final Inspection'
+    'First Floor Cable Inspection',
+    'First Floor Devices Inspection',
+    'First Floor Final Inspection',
+    'Second Floor Cable Inspection',
+    'Second Floor Devices Inspection',
+    'Second Floor Final Inspection'
   ]
 
   electrical_steps = {
