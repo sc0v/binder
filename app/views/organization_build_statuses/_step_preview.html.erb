@@ -27,7 +27,7 @@
         <%= form_with model: [@organization, @build_status, step] do |f| %>
           <%= hidden_field_tag 'update_type', :enabled %>
           <%= hidden_field_tag 'url', request.original_fullpath %>
-          <%= f.submit step.is_enabled ? 'Disable' : 'Enable', class: 'step-toggle-btn' %>
+          <%= f.button step.is_enabled ? 'Disable' : 'Enable', class: 'step-toggle-btn' %>
         <% end %>
       <% end %>
     </div>
