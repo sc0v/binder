@@ -36,6 +36,7 @@
     }
   },
 
+  "initializeCommand": ".devcontainer/init",
   "postCreateCommand": ".devcontainer/setup",
 
   "remoteUser": "vscode"
