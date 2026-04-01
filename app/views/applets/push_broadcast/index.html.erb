@@ -1,0 +1,26 @@
+<% update_document_title(add: 'Push Broadcast') %>
+<% update_breadcrumbs(add: link_to('Applets', applets_path)) %>
+<% update_breadcrumbs(add: 'Push Broadcast') %>
+<% nav(active: 'push_broadcast') %>
+
+<div class="content">
+  <div>
+    <h1>Push Broadcast</h1>
+    <p>
+      Send a push notification to all subscribed participants.
+      <%= NotificationSubscription.active.count %> active subscription(s).
+    </p>
+
+    <%= form_with url: push_broadcast_path, method: :post do |f| %>
+      <div>
+        <%= f.label :title, 'Title' %>
+        <%= f.text_field :title, required: true, placeholder: 'Notification title' %>
+      </div>
+      <div>
+        <%= f.label :body, 'Message' %>
+        <%= f.text_area :body, required: true, placeholder: 'Notification body', rows: 4 %>
+      </div>
+      <div> <%= f.submit 'Send to All', class: 'cta' %> </div>
+    <% end %>
+  </div>
+</div>

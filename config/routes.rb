@@ -41,6 +41,8 @@ Rails.application.routes.draw do
   get 'applets', to: 'applets#index', as: :applets
   get 'ppe-distribution', to: 'applets/ppe_distribution#index'
   get 'ppe-collection', to: 'applets/ppe_collection#index'
+  get 'push-broadcast', to: 'applets/push_broadcast#index', as: :push_broadcast
+  post 'push-broadcast', to: 'applets/push_broadcast#create'
 
   # FAQ
   # n.b.: FAQ is uncountable (like sheep). The Rails convention is to have:
@@ -50,7 +52,13 @@ Rails.application.routes.draw do
 
   # Notes
   # resources :notes
-  resources :notes, only: %i[index show create new edit update destroy]
+  resources :notes, only: %i[index show create new edit update] do
+    member do
+      patch :archive
+      patch :unarchive
+    end
+    collection { get :archived }
+  end
 
   # Participant Safety Briefing
   get 'safety-briefing',
@@ -234,4 +242,8 @@ Rails.application.routes.draw do
 
   get 'manifest', to: 'pwa#manifest', defaults: { format: :json }
   get 'service-worker', to: 'pwa#service_worker', defaults: { format: :js }
+
+  # Push Notifications
+  post 'push_notifications/subscribe', to: 'push_notifications#subscribe'
+  delete 'push_notifications/:id', to: 'push_notifications#unsubscribe'
 end

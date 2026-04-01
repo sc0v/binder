@@ -9,6 +9,8 @@ services:
     command: sleep infinity
     environment:
       RAILS_ENV: development
+    env_file:
+      - .env.local
 
 volumes:
   bundle-cache:

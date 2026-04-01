@@ -41,7 +41,8 @@ if models_to_seed.empty? || models_to_seed.include?('organization')
     Organization.create(
       name: row['name'].strip,
       organization_category:,
-      short_name: row['short_name']
+      short_name: row['short_name'],
+      booth_type: row['booth_type'].presence
     )
   end
 end
@@ -131,22 +132,9 @@ if models_to_seed.empty? || models_to_seed.include?('organizationbuildstep')
   Organization.find_each do |o|
     next unless o.building?
 
-    # TODO: Manually change which orgs are 2-story since that's not defined in Binder
-    csv =
-      if o.name.in?(
-           [
-             'Kappa Alpha Theta',
-             'Alpha Epsilon Pi',
-             'Phi Delta Theta',
-             'Sigma Phi Epsilon',
-             'Kappa Kappa Gamma',
-             'Asian Student Association'
-           ]
-         )
-        two_story_csv
-      else
-        one_story_csv
-      end
+    # Manually change which orgs are 2-story in organization.csv
+    csv = o.two_story? ? two_story_csv : one_story_csv
+
     csv.each do |row|
       status =
         OrganizationBuildStatus.where(
@@ -163,6 +151,72 @@ if models_to_seed.empty? || models_to_seed.include?('organizationbuildstep')
         title: row['title'],
         requirements: row['requirements'],
         organization_build_status: status,
+        is_enabled: true
+      )
+    end
+  end
+
+  one_story_electrical = ['Cables Inspection', 'Devices Inspection', 'Final Inspection']
+  two_story_electrical = [
+    'First Floor Cable Inspection', 'First Floor Devices Inspection',
+    'Second Floor Cable Inspection', 'Second Floor Devices Inspection',
+    'Final Inspection'
+  ]
+  asa_kkg_electrical = [
+    'First Floor Cable Inspection', 'First Floor Devices Inspection',
+    'First Floor Final Inspection', 'Second Floor Cable Inspection',
+    'Second Floor Devices Inspection', 'Second Floor Final Inspection'
+  ]
+
+  electrical_steps = {
+    'Alpha Epsilon Pi' => two_story_electrical,
+    'Phi Delta Theta' => one_story_electrical,
+    'Sigma Phi Epsilon' => two_story_electrical,
+    'Alpha Phi' => one_story_electrical,
+    'Alpha Chi Omega' => one_story_electrical,
+    'Delta Delta Delta' => one_story_electrical,
+    'Delta Gamma' => two_story_electrical,
+    'Kappa Alpha Theta' => two_story_electrical,
+    'Kappa Kappa Gamma' => asa_kkg_electrical,
+    'Asian Student Association' => asa_kkg_electrical,
+    'Chinese Students Association' => one_story_electrical,
+    'Fringe' => one_story_electrical,
+    'Student Dormitory Council' => one_story_electrical,
+    'TSA/HKSA' => one_story_electrical,
+    'Sustainable Earth/Theme Park Engineering Group' => one_story_electrical,
+    'KGB/Roboclub' => one_story_electrical,
+    'MENASA/Spirit' => one_story_electrical,
+    'Society of Women Engineers' => one_story_electrical,
+    'Alpha Phi Omega' => one_story_electrical
+  }
+
+  electrical_steps.each do |org_name, steps|
+    org = Organization.find_by(name: org_name)
+    unless org
+      Rails.logger.debug do
+        "Skipping electrical steps for #{org_name} (not found)"
+      end
+      next
+    end
+
+    status =
+      OrganizationBuildStatus.find_by(
+        organization: org,
+        status_type: 'electrical'
+      )
+    unless status
+      Rails.logger.debug do
+        "Skipping electrical steps for #{org_name} (no electrical status)"
+      end
+      next
+    end
+
+    steps.each_with_index do |title, index|
+      OrganizationBuildStep.create!(
+        title: title,
+        requirements: '',
+        organization_build_status: status,
+        step: index + 1,
         is_enabled: true
       )
     end
@@ -313,7 +367,7 @@ if models_to_seed.empty? || models_to_seed.include?('certification')
   end
 end
 
-if Rails.env.development?
+if Rails.env.development? && models_to_seed.empty?
   Rails.logger.debug '  Development Stuff'
 
   admin_andrewid = 'rcrown'

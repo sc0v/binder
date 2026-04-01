@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_17_190420) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_31_011701) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -127,8 +127,21 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_190420) do
     t.string "color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "archived_at"
     t.index ["organization_id"], name: "index_notes_on_organization_id"
     t.index ["participant_id"], name: "index_notes_on_participant_id"
+  end
+
+  create_table "notification_subscriptions", force: :cascade do |t|
+    t.bigint "participant_id", null: false
+    t.string "endpoint", null: false
+    t.string "auth", null: false
+    t.string "p256dh", null: false
+    t.boolean "active", default: true
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["endpoint"], name: "index_notification_subscriptions_on_endpoint", unique: true
+    t.index ["participant_id"], name: "index_notification_subscriptions_on_participant_id"
   end
 
   create_table "organization_build_statuses", force: :cascade do |t|
@@ -181,6 +194,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_190420) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "short_name"
+    t.string "booth_type"
     t.index ["name"], name: "index_organizations_on_name", unique: true
     t.index ["organization_category_id"], name: "index_organizations_on_organization_category_id"
   end
@@ -350,6 +364,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_17_190420) do
   add_foreign_key "faq", "organization_categories"
   add_foreign_key "notes", "organizations"
   add_foreign_key "notes", "participants"
+  add_foreign_key "notification_subscriptions", "participants"
   add_foreign_key "organization_build_statuses", "organizations"
   add_foreign_key "organization_build_steps", "organization_build_statuses"
   add_foreign_key "organization_build_steps", "participants", column: "approver_id"

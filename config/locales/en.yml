@@ -103,6 +103,13 @@ en:
     destroy:
       notice: Destroyed the note!
       alert: Could not destroy the note
+    show:
+      archived: That note has been archived.
+    archive:
+      notice: Archived the note!
+    unarchive:
+      notice: Unarchived the note!
+      
   organization_build_steps:
     create:
       notice: Added Build Task!
@@ -122,6 +129,7 @@ en:
       no_participant: Select a valid participant to checkout.
     renew:
       no_scissor_lift: No Scissor Lift selected.
+      all_checked_out: All scissor lifts are currently checked out.
     checkin:
       no_scissor_lift: No Scissor Lift selected.
   sessions:
