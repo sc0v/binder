@@ -1,0 +1,64 @@
+.step-row {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.step-card {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 14px;
+}
+
+.step-card.approved {
+  background: #f4fbf8;
+}
+
+.step-card.pending {
+  border: 0.5px solid var(--color-border-tertiary);
+  background: var(--color-background-primary);
+}
+
+.step-title {
+  font-weight: 500;
+  text-decoration: none;
+  color: inherit;
+}
+
+.step-meta {
+  font-size: 12px;
+  color: #0f6e56;
+  margin-top: 2px;
+}
+
+.step-actions {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.badge-approved {
+  font-size: 12px;
+  font-weight: 500;
+  color: #0f6e56;
+  background: #e1f5ee;
+  padding: 3px 10px;
+}
+
+.badge-pending {
+  font-size: 12px;
+  font-weight: 500;
+  color: #a32d2d;
+  background: #fcebeb;
+  padding: 3px 10px;
+}
+
+.step-toggle-btn {
+  font-size: 12px;
+  padding: 0.5em 1em 0.5em 0.5em;
+  margin-left: 0.5em;
+  background: #555;
+}
