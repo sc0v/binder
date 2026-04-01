@@ -47,7 +47,7 @@ class ParticipantsController < ApplicationController
   def show
     # load_resource doesn't work for the /profile URL that the waiver redirects
     # to, so fallback @participant to the current user in that case
-    @show ||= Current.user
+    participant
   end
 
   def new
@@ -67,6 +67,10 @@ class ParticipantsController < ApplicationController
   end
 
   private
+
+  def participant
+    @participant ||= Current.user
+  end
 
   def participants_json_page
     page = params[:page].present? ? params[:page].to_i : 1
