@@ -26,24 +26,45 @@ environment. This is the recommended way to develop locally.
 2. Open in VS Code and when prompted, click **Reopen in Container** (or run
    **Dev Containers: Reopen in Container** from the command palette).
 
-3. VS Code will build the container and run `.devcontainer/setup.sh`
+3. VS Code will run `.devcontainer/init` on the host before building the
+   container. This generates `.devcontainer/.env.local` with fresh VAPID keys
+   for push notifications if it doesn't already exist.
+
+4. VS Code will then build the container and run `.devcontainer/setup`
    automatically. This will:
    - Install gem and npm dependencies
    - Generate fresh Rails credentials
-   - Create and seed the database from fixtures
+   - Create and seed the database
    - Clear logs and temp files
 
-4. Start the server:
+5. Start the server:
    ```
    rails s
    ```
    The app will be available at `http://localhost:3000`.
 
+### Developing Without a Dev Container
+
+If you prefer to develop outside the dev container, you will need Ruby 3.4.2
+and the project dependencies installed locally. Run `bin/setup` to get started.
+
+Push notification features require VAPID keys in your environment. Generate
+them once and add to your shell profile or a local env file:
+
+```ruby
+require 'openssl'
+require 'base64'
+
+key = OpenSSL::PKey::EC.generate('prime256v1')
+puts "VAPID_PUBLIC_KEY=#{Base64.urlsafe_encode64(key.public_key.to_octet_string(:uncompressed), padding: false)}"
+puts "VAPID_PRIVATE_KEY=#{Base64.urlsafe_encode64(key.private_key.to_s(2), padding: false)}"
+```
+
 ### Credentials
 
 The setup script generates fresh credentials on each container build, so no
 `master.key` or `config/credentials.yml.enc` is needed from another developer.
-If you need to add or edit credentials:
+Both files are gitignored. If you need to add or edit credentials:
 
 ```
 bin/rails credentials:edit
