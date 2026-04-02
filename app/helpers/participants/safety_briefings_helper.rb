@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 module Participants::SafetyBriefingsHelper
+  def safety_video_id_json(video_id)
+    video_id.to_json.html_safe # rubocop:disable Rails/OutputSafety
+  end
+
   def safety_video_duration(duration)
     ActiveSupport::Duration.build(duration).inspect
   end

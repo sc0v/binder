@@ -40,7 +40,7 @@ class Participants::WaiversController < ApplicationController
 
   def participant_params
     params.expect(
-      participant: [Current.ability.permitted_attributes(:update, @participant)]
+      participant: Current.ability.permitted_attributes(:update, @participant)
     )
   end
 end

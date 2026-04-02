@@ -1,8 +1,8 @@
 <% content_for :head do %>
   <%= javascript_include_tag(
-    'custom/youtube-player-api.js',
-    'data-turbo-track': 'reload'
-  ) %>
+        'custom/youtube-player-api.js',
+        'data-turbo-track': 'reload'
+      ) %>
 
   <script type="text/javascript">
     function onYouTubePlayerAPIReady() {
@@ -10,7 +10,7 @@
       player = new YT.Player("safety-video", {
         height: "390",
         width: "640",
-        videoId: el.dataset.videoId,
+        videoId: <%= safety_video_id_json(@safety_video_id) %>, <%# erblint:disable ErbSafety %>
         playerVars: {
           autoplay: 1,
           controls: parseInt(el.dataset.controls),

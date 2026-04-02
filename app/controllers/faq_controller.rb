@@ -45,10 +45,10 @@ class FAQController < ApplicationController
   private
 
   def create_params
-    params.expect(faq: [Current.ability.permitted_attributes(:create, FAQ)])
+    params.expect(faq: Current.ability.permitted_attributes(:create, FAQ))
   end
 
   def update_params
-    params.expect(faq: [Current.ability.permitted_attributes(:update, @faq)])
+    params.expect(faq: Current.ability.permitted_attributes(:update, @faq))
   end
 end
