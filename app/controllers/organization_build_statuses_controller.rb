@@ -8,7 +8,7 @@ class OrganizationBuildStatusesController < ApplicationController
     @status_type = @build_status.status_type
     @status_name = @status_type.capitalize
 
-    @build_steps = @build_status.organization_build_steps
+    @build_steps = @build_status.organization_build_steps.order(:step)
     @show_disabled_steps = params[:show_disabled_steps].present?
 
     @notes = OrganizationBuildStep.format_note(@build_status.notes)
