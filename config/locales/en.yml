@@ -164,6 +164,11 @@ en:
     update:
       notice: Updated Tool!
       alert: Could not update tool.
+    checkouts:
+      create:
+        unauthorized: Not authorized to check out tools.
+      checkin:
+        unauthorized: Not authorized to check in tools.
   faq:
     index:
       new: Add Question to FAQ
