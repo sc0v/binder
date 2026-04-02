@@ -1,4 +1,5 @@
 name: "Production: deploy"
+run-name: "Production: deploy ${{ inputs.tag || github.event.workflow_run.display_title }}"
 
 on:
   workflow_run:
