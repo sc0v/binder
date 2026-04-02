@@ -1,0 +1,13 @@
+#!/bin/bash
+set -e
+
+echo "Setting up development environment..."
+
+echo "Configuring bundle directory..."
+sudo chown -R "$(whoami):$(whoami)" /usr/local/bundle
+
+echo "Setting up credentials..."
+rm -f config/master.key config/credentials.yml.enc
+EDITOR="touch" bin/rails credentials:edit
+
+bin/setup --skip-server

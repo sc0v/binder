@@ -1,9 +1,5 @@
 # Binder
 
-[![Build Status](https://travis-ci.org/sc0v/binder-app.svg?branch=master)](https://travis-ci.org/sc0v/binder-app)
-[![Coverage Status](https://img.shields.io/coveralls/sc0v/binder-app.svg)](https://coveralls.io/r/sc0v/binder-app?branch=master)
-[![Code Climate](https://codeclimate.com/github/sc0v/binder-app/badges/gpa.svg)](https://codeclimate.com/github/sc0v/binder-app)
-
 Binder is a Spring Carnival management application built for [Carnegie Mellon Spring Carnival](https://www.springcarnival.org) using [Ruby on Rails](http://rubyonrails.org/). Binder is used by Spring Carnival Committee and booth building organizations to do things including tracking build progress, managing tool and scissor lift checkouts, selling building supplies, assessing fines/charges, and supervising student shifts.
 
 Carnegie Mellon's Spring Carnival Committee hosts two live instances of Binder:
