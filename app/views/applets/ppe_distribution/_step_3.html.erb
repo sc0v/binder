@@ -7,8 +7,11 @@
       <strong>Please select</strong> <%= @participant.name %>'s primary
       membership:<br />
       <% @participant.organizations.each do |o| %>
-        <%= radio_button_tag 'organization_id', o.id %>
-        <%= label_tag "organization_id_#{o.id}", "#{o.name} (#{o.category_name})" %><br />
+        <% doghouse = o.organization_category.lookup_key == 'doghouse' %>
+        <%= radio_button_tag 'organization_id', o.id, false, disabled: doghouse %>
+        <%= label_tag "organization_id_#{o.id}",
+                      "#{o.name} (#{o.category_name})#{' — no hardhat' if doghouse}",
+                      style: ('color: gray' if doghouse) %><br />
       <% end %>
     </li>
 
