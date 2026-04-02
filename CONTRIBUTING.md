@@ -165,6 +165,27 @@ For example: `v2026.1` is the first production release for Carnival 2026, and `v
 3. This triggers `Production: build` followed by `Production: deploy` automatically.
 4. Monitor the Actions tab to confirm both jobs complete successfully.
 
+### Rolling back
+
+To deploy a previous release without cutting a new one, use the manual dispatch
+button on the `Production: deploy` workflow in the Actions tab. Enter the release
+tag (e.g. `v2026.1`) and the workflow will deploy that image.
+
+### GitHub secrets
+
+The following secrets must be set in the repository settings:
+
+Production: `PRODUCTION_HOST`, `PRODUCTION_USERNAME`, `PRODUCTION_SSH_KEY`
+Staging: `STAGING_HOST`, `STAGING_USERNAME`, `STAGING_SSH_KEY`
+
+To generate a deploy key:
+```
+ssh-keygen -t ed25519 -C "binder-deploy" -f ~/.ssh/binder-deploy
+```
+
+Add the public key to `~/.ssh/authorized_keys` on the server, and store the
+private key as the `PRODUCTION_SSH_KEY` or `STAGING_SSH_KEY` secret.
+
 ### Production server prerequisites
 
 The production server requires three things that are not managed by the pipeline:
