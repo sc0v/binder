@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_18_055441) do
+ActiveRecord::Schema[8.0].define(version: 2026_03_31_011701) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -194,6 +194,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_18_055441) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "short_name"
+    t.string "booth_type"
     t.index ["name"], name: "index_organizations_on_name", unique: true
     t.index ["organization_category_id"], name: "index_organizations_on_organization_category_id"
   end
@@ -215,16 +216,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_18_055441) do
     t.boolean "alumni", default: false, null: false
     t.index ["admin"], name: "index_participants_on_admin"
     t.index ["eppn"], name: "index_participants_on_eppn", unique: true
-  end
-
-  create_table "push_subscriptions", force: :cascade do |t|
-    t.integer "participant_id"
-    t.text "endpoint", null: false
-    t.string "p256dh", null: false
-    t.string "auth", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["participant_id"], name: "index_push_subscriptions_on_participant_id"
   end
 
   create_table "scissor_lift_checkouts", force: :cascade do |t|
@@ -377,7 +368,6 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_18_055441) do
   add_foreign_key "organization_build_statuses", "organizations"
   add_foreign_key "organization_build_steps", "organization_build_statuses"
   add_foreign_key "organization_build_steps", "participants", column: "approver_id"
-  add_foreign_key "push_subscriptions", "participants"
   add_foreign_key "scissor_lift_checkouts", "organizations"
   add_foreign_key "scissor_lift_checkouts", "participants"
   add_foreign_key "scissor_lift_checkouts", "scissor_lifts"
