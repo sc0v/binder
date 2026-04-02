@@ -182,6 +182,7 @@ Production: `PRODUCTION_HOST`, `PRODUCTION_USERNAME`, `PRODUCTION_SSH_KEY`
 Staging: `STAGING_HOST`, `STAGING_USERNAME`, `STAGING_SSH_KEY`
 
 To generate a deploy key:
+
 ```
 ssh-keygen -t ed25519 -C "binder-deploy" -f ~/.ssh/binder-deploy
 ```
