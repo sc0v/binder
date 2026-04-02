@@ -18,7 +18,7 @@ RUN bundle check || bundle install --without development test
 ENV RAILS_ENV=production
 ENV RAILS_SERVE_STATIC_FILES=true
 
-RUN bundle exec rake assets:precompile
+RUN SECRET_KEY_BASE_DUMMY=1 bundle exec rake assets:precompile
 
 COPY ./docker/production/entrypoint.sh /usr/bin/
 RUN chmod +x /usr/bin/entrypoint.sh
