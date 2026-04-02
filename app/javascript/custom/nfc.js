@@ -1,9 +1,10 @@
+import { application } from "controllers/application";
 import { Controller } from "@hotwired/stimulus";
 
 // Persists across Turbo navigations since the module is loaded once.
 let ndefActive = false;
 
-export default class extends Controller {
+class NfcController extends Controller {
   connect() {
     if (!("NDEFReader" in window)) {
       this.element.hidden = true;
@@ -55,3 +56,5 @@ export default class extends Controller {
     }
   }
 }
+
+application.register("nfc", NfcController);
