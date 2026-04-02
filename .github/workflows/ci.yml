@@ -1,4 +1,4 @@
-name: CI: lint
+name: "CI: lint"
 
 on:
   push:

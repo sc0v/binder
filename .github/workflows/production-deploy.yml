@@ -1,4 +1,4 @@
-name: Production: deploy
+name: "Production: deploy"
 
 on:
   workflow_run:
