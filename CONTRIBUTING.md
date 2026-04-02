@@ -158,7 +158,7 @@ For example: `v2026.1` is the first production release for Carnival 2026, and `v
 ### Steps
 
 1. Verify the change looks correct on staging at https://binder-dev.springcarnival.org
-2. Create a GitHub release:
+2. Create a GitHub release (this also creates the git tag):
    ```
    gh release create v2026.N --title "v2026.N" --generate-notes
    ```
