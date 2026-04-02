@@ -94,5 +94,8 @@
       </div>
       <%= render partial: 'layouts/footer' %>
     </div>
+    <% if Current.user&.admin? %>
+      <%= render partial: 'layouts/nfc_fab' %>
+    <% end %>
   </body>
 </html>
