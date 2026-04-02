@@ -171,8 +171,8 @@ To deploy a previous release without cutting a new one, use the manual dispatch
 button on the `Production: deploy` workflow in the Actions tab. Enter the release
 tag (e.g. `v2026.1`) and the workflow will deploy that image.
 
-You can also run `scripts/deploy-production.sh` directly on the production server
-for manual deploys. It accepts an optional tag argument: `./scripts/deploy-production.sh v2026.1`
+For manual deploys from the server, copy the podman commands from
+`.github/workflows/production-deploy.yml`.
 
 ### GitHub secrets
 

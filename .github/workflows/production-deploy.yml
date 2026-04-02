@@ -24,4 +24,16 @@ jobs:
           username: ${{ secrets.PRODUCTION_USERNAME }}
           key: ${{ secrets.PRODUCTION_SSH_KEY }}
           script: |
-            cd binder && git pull && ./scripts/deploy-production.sh ${{ inputs.tag }}
+            TAG=${{ inputs.tag || 'master' }}
+            podman stop binder
+            podman rm binder
+            podman rmi ghcr.io/sc0v/binder-production:$TAG
+            podman run \
+              --name binder \
+              --network binder-mysql-network \
+              -dt \
+              -p 3000:3000/tcp \
+              --env-file /home/sc0v/binder-production.env \
+              -v binder-private:/build/config/private \
+              -v binder-logs:/build/log \
+              ghcr.io/sc0v/binder-production:$TAG
