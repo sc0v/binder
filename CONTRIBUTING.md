@@ -142,3 +142,39 @@ bin/rails test
 ```
 
 All new features and bug fixes should include tests.
+
+## Deploying to Production
+
+Binder uses a manual promotion model for production. Staging deploys automatically
+on every merge to master. Production deploys are triggered by creating a GitHub
+release.
+
+### Release naming
+
+Releases are named by year and build number: `vYYYY.N`
+
+For example: `v2026.1` is the first production release for Carnival 2026, and `v2026.2` is the second.
+
+### Steps
+
+1. Verify the change looks correct on staging at https://binder-dev.springcarnival.org
+2. Create a GitHub release:
+   ```
+   gh release create v2026.N --title "v2026.N" --generate-notes
+   ```
+3. This triggers `Production: build` followed by `Production: deploy` automatically.
+4. Monitor the Actions tab to confirm both jobs complete successfully.
+
+### Production server prerequisites
+
+The production server requires three things that are not managed by the pipeline:
+
+`/home/sc0v/binder-production.env`: environment variables including VAPID keys,
+database credentials, and Rails secrets. Never commit this file.
+
+`binder-private` podman volume: contains `config/private/sp-cert.pem` and
+`config/private/sp-key.pem` for university SSO. Obtain these from the university
+identity provider and load manually.
+
+`binder-logs` podman volume: mounted at `/build/log` to persist Rails logs across
+container restarts. Create with `podman volume create binder-logs`.

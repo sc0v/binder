@@ -38,6 +38,9 @@ RUN groupadd --gid $USER_GID $USERNAME \
 # Install Rails and Bundler
 RUN gem install bundler
 
+COPY Gemfile Gemfile.lock /tmp/gems/
+RUN cd /tmp/gems && bundle install
+
 WORKDIR /workspace
 
 USER $USERNAME

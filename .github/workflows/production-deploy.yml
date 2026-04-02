@@ -1,13 +1,13 @@
-name: Production - Export Container
+name: Production: deploy
 
 on:
   workflow_run:
     workflows:
-      - "Production - Build Container"
+      - "Production: build"
     types:
       - completed
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
     steps:
       - name: ssh and podman run
