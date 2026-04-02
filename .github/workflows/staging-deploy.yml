@@ -13,9 +13,9 @@ jobs:
       - name: ssh and podman run
         uses: appleboy/ssh-action@v1.2.0
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          password: ${{ secrets.PASSWORD }}
+          host: ${{ secrets.STAGING_HOST }}
+          username: ${{ secrets.STAGING_USERNAME }}
+          key: ${{ secrets.STAGING_SSH_KEY }}
           script: |
             podman stop binder
             podman rm binder

@@ -6,6 +6,13 @@ on:
       - "Production: build"
     types:
       - completed
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to deploy (e.g. v2026.1)"
+        required: true
+        type: string
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -15,6 +22,6 @@ jobs:
         with:
           host: ${{ secrets.PRODUCTION_HOST }}
           username: ${{ secrets.PRODUCTION_USERNAME }}
-          password: ${{ secrets.PRODUCTION_PASSWORD }}
+          key: ${{ secrets.PRODUCTION_SSH_KEY }}
           script: |
-            ./binderbounce.sh
+            ./binderbounce.sh ${{ inputs.tag }}
