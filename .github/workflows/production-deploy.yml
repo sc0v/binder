@@ -24,7 +24,7 @@ jobs:
           username: ${{ secrets.PRODUCTION_USERNAME }}
           key: ${{ secrets.PRODUCTION_SSH_KEY }}
           script: |
-            TAG=${{ inputs.tag || 'master' }}
+            TAG=${{ inputs.tag || 'latest' }}
             podman stop binder
             podman rm binder
             podman rmi ghcr.io/sc0v/binder-production:$TAG
