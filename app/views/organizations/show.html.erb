@@ -29,6 +29,13 @@
           <% @tools_checked_out.each do |tool| %>
             <li>
               <%= link_to("#{tool.name} (#{tool.barcode})", "/tools/#{tool.id}") %>
+              <% if tool.current_participant %>
+                &mdash;
+                <%= link_to(
+                      tool.current_participant.name,
+                      participant_path(tool.current_participant)
+                    ) %>
+              <% end %>
             </li>
           <% end %>
         </ul>
@@ -45,6 +52,13 @@
           <% @hardhats_checked_out.each do |tool| %>
             <li>
               <%= link_to("#{tool.name} (#{tool.barcode})", "/tools/#{tool.id}") %>
+              <% if tool.current_participant %>
+                &mdash;
+                <%= link_to(
+                      tool.current_participant.name,
+                      participant_path(tool.current_participant)
+                    ) %>
+              <% end %>
             </li>
           <% end %>
         </ul>
@@ -61,6 +75,13 @@
           <% @radios_checked_out.each do |tool| %>
             <li>
               <%= link_to("#{tool.name} (#{tool.barcode})", "/tools/#{tool.id}") %>
+              <% if tool.current_participant %>
+                &mdash;
+                <%= link_to(
+                      tool.current_participant.name,
+                      participant_path(tool.current_participant)
+                    ) %>
+              <% end %>
             </li>
           <% end %>
         </ul>
