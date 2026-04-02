@@ -1,16 +1,12 @@
 services:
   rails:
-    build:
-      context: ..
-      dockerfile: .devcontainer/Dockerfile
+    image: ghcr.io/sc0v/binder-devcontainer:latest
     volumes:
       - ..:/workspace:cached
-      - bundle-cache:/usr/local/bundle
     command: sleep infinity
     environment:
       RAILS_ENV: development
     env_file:
       - .env.local
 
-volumes:
-  bundle-cache:
+volumes: {}

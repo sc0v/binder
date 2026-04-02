@@ -1,0 +1,24 @@
+name: Staging: deploy
+
+on:
+  workflow_run:
+    workflows:
+      - "Staging: build"
+    types:
+      - completed
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ssh and podman run
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          script: |
+            podman stop binder
+            podman rm binder
+            image_id=`podman images --format "table {{.Repository}} {{.ID}}" | grep "ghcr.io/sc0v/binder-staging" | grep -oE '[^ ]+$'`
+            podman rmi "$image_id"
+            podman run --name binder -dt -p 3000:3000/tcp ghcr.io/sc0v/binder-staging:master
