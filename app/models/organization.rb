@@ -3,6 +3,8 @@
 class Organization < ApplicationRecord
   include Rails.application.routes.url_helpers
 
+  enum :booth_type, { one_story: 'one_story', two_story: 'two_story' }
+
   belongs_to :organization_category
   has_many :memberships, dependent: :destroy
   has_many :organization_build_statuses, dependent: :destroy

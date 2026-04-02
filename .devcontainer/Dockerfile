@@ -28,16 +28,18 @@ ARG USER_UID=1000
 ARG USER_GID=$USER_UID
 
 RUN groupadd --gid $USER_GID $USERNAME \
-    && useradd --uid $USER_UID --gid $USER_GID -m $USERNAME \
+    && useradd --uid $USER_UID --gid $USER_GID -m -s /bin/bash $USERNAME \
     && mkdir -p /usr/local/bundle \
-    && chown -R $USERNAME:$USERNAME /usr/local/bundle \
     && apt-get update \
     && apt-get install -y sudo \
     && echo $USERNAME ALL=\(root\) NOPASSWD:ALL > /etc/sudoers.d/$USERNAME \
     && chmod 0440 /etc/sudoers.d/$USERNAME
 
 # Install Rails and Bundler
-RUN gem install rails bundler
+RUN gem install bundler
+
+COPY Gemfile Gemfile.lock /tmp/gems/
+RUN cd /tmp/gems && bundle install
 
 WORKDIR /workspace
 

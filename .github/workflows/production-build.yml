@@ -1,4 +1,5 @@
-name: Development - Build Container
+name: "Production: build"
+run-name: "Production: build ${{ github.event.release.tag_name || github.ref_name }}"
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -6,17 +7,15 @@ name: Development - Build Container
 # documentation.
 
 on:
-  push:
-    branches: ["master"]
-    # Publish semver tags as releases.
-    tags: ["v*.*.*"]
+  release:
+    types: [published]
   workflow_dispatch:
 
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}
+  IMAGE_NAME: ${{ github.repository }}-production
 
 jobs:
   build:
@@ -71,7 +70,7 @@ jobs:
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           context: .
-          file: ./docker/development/Dockerfile
+          file: ./docker/production/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

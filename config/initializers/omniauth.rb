@@ -1,5 +1,8 @@
 # frozen_string_literal: true
 
+# Skip SAML setup during asset precompilation (no network access in Docker build)
+return if ENV['SECRET_KEY_BASE_DUMMY']
+
 sp_cert = Rails.root.join('config/private/sp-cert.pem')
 sp_key = Rails.root.join('config/private/sp-key.pem')
 

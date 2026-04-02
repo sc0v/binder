@@ -66,6 +66,10 @@ class ParticipantsController < ApplicationController
 
   private
 
+  def participant
+    @participant ||= Current.user
+  end
+
   def participants_json_page
     page = params[:page].present? ? params[:page].to_i : 1
     size = params[:size].present? ? params[:size].to_i : 1

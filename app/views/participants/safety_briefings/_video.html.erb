@@ -6,15 +6,16 @@
 
   <script type="text/javascript">
     function onYouTubePlayerAPIReady() {
+      const el = document.getElementById('safety-video');
       player = new YT.Player("safety-video", {
         height: "390",
         width: "640",
         videoId: <%= safety_video_id_json(@safety_video_id) %>, <%# erblint:disable ErbSafety %>
         playerVars: {
           autoplay: 1,
-          controls: <%= (can?(:skip_safety_video, @participant) ? 1 : 0).to_json %>,
-          disablekb: <%= (can?(:skip_safety_video, @participant) ? 0 : 1).to_json %>,
-            modestbranding: 1,
+          controls: parseInt(el.dataset.controls),
+          disablekb: parseInt(el.dataset.disablekb),
+          modestbranding: 1,
           rel: 0,
           showinfo: 0,
         },
@@ -30,11 +31,15 @@
     }
 
     function onPlayerStateChange(event) {
-        if (event.data === YT.PlayerState.ENDED) {
-          document.getElementById('attestation').classList.remove("hidden");
-        }
+      if (event.data === YT.PlayerState.ENDED) {
+        document.getElementById('attestation').classList.remove("hidden");
+      }
     }
   </script>
 <% end %>
 
-<span id="safety-video"></span>
+<span id="safety-video"
+      data-video-id="<%= @safety_video_id %>"
+      data-controls="<%= can?(:skip_safety_video, @participant) ? 1 : 0 %>"
+      data-disablekb="<%= can?(:skip_safety_video, @participant) ? 0 : 1 %>">
+</span>

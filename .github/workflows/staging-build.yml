@@ -1,4 +1,5 @@
-name: Production - Build Container
+name: "Staging: build"
+run-name: "Staging: build ${{ github.event.head_commit.message || github.ref_name }}"
 
 # This workflow uses actions that are not certified by GitHub.
 # They are provided by a third-party and are governed by
@@ -6,15 +7,15 @@ name: Production - Build Container
 # documentation.
 
 on:
-  release:
-    types: [published]
+  push:
+    branches: ["master"]
   workflow_dispatch:
 
 env:
   # Use docker.io for Docker Hub if empty
   REGISTRY: ghcr.io
   # github.repository as <account>/<repo>
-  IMAGE_NAME: ${{ github.repository }}-production
+  IMAGE_NAME: ${{ github.repository }}-staging
 
 jobs:
   build:
@@ -69,7 +70,7 @@ jobs:
         uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
         with:
           context: .
-          file: ./docker/production/Dockerfile
+          file: ./docker/staging/Dockerfile
           push: ${{ github.event_name != 'pull_request' }}
           tags: ${{ steps.meta.outputs.tags }}
           labels: ${{ steps.meta.outputs.labels }}

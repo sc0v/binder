@@ -1,0 +1,40 @@
+name: "Production: deploy"
+run-name: "Production: deploy ${{ inputs.tag || github.event.workflow_run.display_title }}"
+
+on:
+  workflow_run:
+    workflows:
+      - "Production: build"
+    types:
+      - completed
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: "Release tag to deploy (e.g. v2026.1)"
+        required: true
+        type: string
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: ssh and podman run
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.PRODUCTION_HOST }}
+          username: ${{ secrets.PRODUCTION_USERNAME }}
+          key: ${{ secrets.PRODUCTION_SSH_KEY }}
+          script: |
+            TAG=${{ inputs.tag || 'latest' }}
+            podman stop binder
+            podman rm binder
+            podman rmi ghcr.io/sc0v/binder-production:$TAG
+            podman run \
+              --name binder \
+              --network binder-mysql-network \
+              -dt \
+              -p 3000:3000/tcp \
+              --env-file /home/sc0v/binder-production.env \
+              -v binder-private:/build/config/private \
+              -v binder-logs:/build/log \
+              ghcr.io/sc0v/binder-production:$TAG
