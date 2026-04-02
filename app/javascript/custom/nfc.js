@@ -13,9 +13,8 @@ class NfcController extends Controller {
     if (ndefActive) this.element.classList.add("nfc-hidden");
   }
 
-  retainFocus(event) {
+  retainFocus() {
     this._previousFocus = document.activeElement;
-    event.preventDefault(); // prevent button from stealing focus
   }
 
   async enable() {
@@ -28,7 +27,7 @@ class NfcController extends Controller {
       this.element.classList.add("nfc-hidden");
       this._previousFocus?.focus();
 
-      ndef.onreading = this.#handleRead;
+      ndef.onreading = (event) => this.#handleRead(event);
       ndef.onreadingerror = (err) => console.error("NFC read error:", err);
     } catch (err) {
       console.error("NFC permission denied or unavailable:", err);
