@@ -43,7 +43,7 @@ en:
   # Controllers
   applets:
     ppe_collection:
-      return_hardhat:
+      index:
         not_found: Hardhat not found
         already_checked_in: Hardhat already checked in
     ppe_distribution:
