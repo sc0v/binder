@@ -35,6 +35,38 @@
       <% end %>
     </div>
 
+    <!-- Hardhats Dropdown -->
+    <h2 class="collapsed">Hardhats (<%= @hardhats_checked_out.length %>)</h2>
+    <div style="display: none">
+      <% if @hardhats_checked_out.empty? %>
+        <p>No Hardhats Checked Out!</p>
+      <% else %>
+        <ul>
+          <% @hardhats_checked_out.each do |tool| %>
+            <li>
+              <%= link_to("#{tool.name} (#{tool.barcode})", "/tools/#{tool.id}") %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+
+    <!-- Radios Dropdown -->
+    <h2 class="collapsed">Radios (<%= @radios_checked_out.length %>)</h2>
+    <div style="display: none">
+      <% if @radios_checked_out.empty? %>
+        <p>No Radios Checked Out!</p>
+      <% else %>
+        <ul>
+          <% @radios_checked_out.each do |tool| %>
+            <li>
+              <%= link_to("#{tool.name} (#{tool.barcode})", "/tools/#{tool.id}") %>
+            </li>
+          <% end %>
+        </ul>
+      <% end %>
+    </div>
+
     <!-- render partial: "show_org" --> </div
   ><div class="sidebar">
     <!-- Only show Add Members button if user has permission to update Memberships for their org -->
