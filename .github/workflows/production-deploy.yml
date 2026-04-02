@@ -24,4 +24,4 @@ jobs:
           username: ${{ secrets.PRODUCTION_USERNAME }}
           key: ${{ secrets.PRODUCTION_SSH_KEY }}
           script: |
-            ./binderbounce.sh ${{ inputs.tag }}
+            cd binder && git pull && ./scripts/deploy-production.sh ${{ inputs.tag }}
