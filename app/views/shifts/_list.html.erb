@@ -6,7 +6,7 @@
       <% if params[:type].blank? %>
         <th><%= model_class.human_attribute_name(:type) %></th>
       <% end %>
-      <th><%= model_class.human_attribute_name(:andrew_id) %></th>
+      <th><%= model_class.human_attribute_name(:capacity) %></th>
       <th><%= model_class.human_attribute_name(:starts_at) %></th>
       <th class="hidden-xs"><%= model_class.human_attribute_name(:ends_at) %></th>
       <th>
@@ -20,7 +20,7 @@
           <%= model_class.human_attribute_name(:shift_type) %>
         <% end %>
       </th>
-      <th>Checked In?</th>
+      <th>Clocked In?</th>
     </tr>
   </thead>
   <tbody>
@@ -36,7 +36,7 @@
           <% if params[:type].blank? %>
             <td><%= shift.shift_type.name %></td>
           <% end %>
-          <td><%= shift.andrew_id %></td>
+          <td><%= shift.capacity %></td>
           <td><%= date_and_time shift.starts_at %></td>
           <td class="hidden-xs"><%= date_and_time shift.ends_at %></td>
           <td>
@@ -53,6 +53,7 @@
           <td>
             <% shift.shift_participants.each do |sp| %>
               <div style="display: flex; align-items: center; gap: 0.5em; margin-bottom: 0.3em;">
+                <span><%= sp.participant.name %></span>
                 <% if sp.clocked_in_at %>
                   <small style="color: #888;">✓ <%= date_and_time(sp.clocked_in_at) %></small>
                 <% else %>
@@ -64,8 +65,15 @@
                 <% end %>
               </div>
             <% end %>
-            <% if shift.shift_participants.empty? %>
-              <small style="color: #c00;">Participant Not Found</small>
+            <% if shift.shift_participants.where.not(clocked_in_at: nil).count < shift.capacity %>
+              <% if shift.shift_participants.empty? %>
+                <small style="color: #c00;">Participant Not Specified</small>
+              <% end %>
+              <%= button_to 'Clock In',
+                            new_shift_participant_path(shift),
+                            method: :get,
+                            class: 'btn btn-danger btn-xs',
+                            form: { style: 'display: inline' } %>
             <% end %>
           </td>
         </tr>

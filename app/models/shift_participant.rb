@@ -2,6 +2,7 @@
 
 class ShiftParticipant < ApplicationRecord
   validates_associated :shift, :participant
+  validates :participant_id, uniqueness: { scope: :shift_id }
 
   belongs_to :shift, touch: true
   belongs_to :participant, touch: true

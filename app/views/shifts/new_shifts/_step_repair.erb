@@ -15,7 +15,10 @@
   <br/>
   <%= simple_form_for @shift do |f| %>
     <div style="max-width: vw; background: #f9f9f9; padding: 2em; border-radius: 8px; display: flex; flex-direction: column; gap: 1.2em;">
-      <%= f.input :andrew_id, label: 'Andrew ID' %>
+      <%= f.input :capacity, label: 'Number of Participants' %>
+      <%= f.input :andrewids, label: 'Andrew IDs (optional; semicolon-separated)', 
+        hint: 'e.g. rcrown;cbrownel;rpwhite',
+        required: false %>
       <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1em;">
         <%= f.input :starts_at, as: :string, input_html: { 
           type: 'datetime-local',

@@ -263,35 +263,56 @@ end
 #               due_at: DateTime.strptime(row['due_at'], '%m/%d/%Y %H:%M:%S'))
 # end
 #
-# Rails.logger.debug '  Shifts'
-#
-# csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}shifts.csv").read
-# csv = CSV.parse(csv_text, headers: true)
-# csv.each do |row|
-#   organization = Organization.find_by(name: row['organization'].strip)
-#   unless organization
-#     Rails.logger.debug { "    Organization (#{row['organization'].strip}) does not exist" }
-#     raise
-#   end
-#
-#   shift_type ||= ShiftType.find_by(name: row['shift_type'].strip)
-#   shift_type ||= ShiftType.create(name: row['shift_type'].strip)
-#
-#   shift = Shift.create(organization:, shift_type:,
-#                        starts_at: DateTime.strptime(row['starts_at'], '%m/%d/%Y %H:%M:%S'),
-#                        ends_at: DateTime.strptime(row['ends_at'], '%m/%d/%Y %H:%M:%S'),
-#                        required_number_of_participants: Integer(row['required_number_of_participants']))
-#
-#   next unless (row['andrewid'] || '') != ''
-#
-#   participant = Participant.find_by(andrewid: row['andrewid'].strip)
-#   unless participant
-#     Rails.logger.debug { "    Participant (#{row['andrewid']}) does not exist" }
-#     raise
-#   end
-#
-#   ShiftParticipant.create(shift:, participant:)
-# end
+
+if models_to_seed.empty? || models_to_seed.include?('shifttype')
+  Rails.logger.debug 'Shift Types'
+
+  ['Watch Shift', 'Security Shift', 'Coordinator Shift'].each do |name|
+    ShiftType.find_or_create_by!(name:)
+  end
+end
+
+if models_to_seed.empty? || models_to_seed.include?('shift')
+  Rails.logger.debug 'Shift'
+  csv_text = Rails.root.join('lib', 'seeds', "#{gdrive_doc}shifts.csv").read
+  csv = CSV.parse(csv_text, headers: true)
+  csv.each do |row|
+    organization = Organization.find_by(name: row['organization'].strip)
+    unless organization
+      Rails.logger.debug { "Organization (#{row['organization'].strip}) does not exist" }
+      raise
+    end
+
+    shift_type = ShiftType.find_by(name: row['shift_type'].strip)
+    shift_type ||= ShiftType.create(name: row['shift_type'].strip)
+
+    shift = Shift.create(organization:, shift_type:,
+                         starts_at: DateTime.strptime(row['starts_at'], '%m/%d/%Y %H:%M:%S'),
+                         ends_at: DateTime.strptime(row['ends_at'], '%m/%d/%Y %H:%M:%S'),
+                         capacity: Integer(row['capacity']))
+
+    # next unless (row['andrewid'] || '') != ''
+
+    # participant = Participant.find_by(andrewid: row['andrewid'].strip)
+    # unless participant
+    #   Rails.logger.debug { "    Participant (#{row['andrewid']}) does not exist" }
+    #   raise
+    # end
+
+    # ShiftParticipant.create(shift:, participant:)
+    next if row['andrewids'].blank?
+
+    row['andrewids'].split(';').each do |andrewid|
+      andrewid = andrewid.strip
+      participant = Participant.find_by(andrewid:)
+      unless participant
+        Rails.logger.debug { "    Participant (#{andrewid}) does not exist" }
+        raise
+      end
+      ShiftParticipant.create(shift:, participant:)
+    end
+  end
+end
 
 if models_to_seed.empty? || models_to_seed.include?('storeitem')
   Rails.logger.debug '  Store'

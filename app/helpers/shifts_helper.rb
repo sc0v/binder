@@ -45,10 +45,11 @@ module ShiftsHelper
     return if shift_type.nil?
 
     Shift.create!(
-      andrew_id: row[columns['andrew_id']],
+      capacity: row[columns['capacity']],
       starts_at: row[columns['starts_at']],
       ends_at: row[columns['ends_at']],
       description: row[columns['description']],
+      andrewids: row[columns['andrewids']],
       shift_type:,
       organization:
     )
