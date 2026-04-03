@@ -1,0 +1,129 @@
+# frozen_string_literal: true
+
+module Dashboard
+  module Actions
+    class ToolsCartCheckin < Base
+      def name
+        'checkin_tools_cart'
+      end
+
+      def command_words
+        %w[checkin in]
+      end
+
+      def suggestions
+        [{ label: 'checkin cart', value: 'checkin cart', type: 'action' }]
+      end
+
+      def priority
+        10
+      end
+
+      def match?(rest, session_state:)
+        return true if targets_tools_cart?(rest)
+        if lift_match?(rest) || session_state.current_scissor_lift.present?
+          return false
+        end
+
+        Array(session_state.session[:tools]).any?
+      end
+
+      def confirmation_required?
+        true
+      end
+
+      def parse(_rest, session_state:, command:)
+        if Array(session_state.session[:tools]).empty?
+          return error(t('resources.tool.cart_empty'))
+        end
+
+        pending
+      end
+
+      def execute(_pending, resources:, session_state:, ability:)
+        unless ability.can?(:update, Checkout)
+          return error(t('resources.tool.checkin_not_authorized'))
+        end
+
+        session = session_state.session
+        tool_ids = Array(session[:tools]).map(&:to_i)
+        return error(t('resources.tool.cart_empty')) if tool_ids.empty?
+
+        result = Checkout.checkin_batch(tool_ids: tool_ids)
+        session[:tools] = result[:remaining_ids]
+
+        if result[:errors].any?
+          error(checkin_error_message(result))
+        else
+          message(
+            t('resources.tool.cart_checked_in', count: result[:checked_in])
+          )
+        end
+      end
+
+      def receipt(_pending, resources:, session:)
+        tool_ids = Array(session[:tools]).map(&:to_i)
+        tools_by_id =
+          Tool
+            .includes(checkouts: %i[participant organization])
+            .where(id: tool_ids)
+            .index_by(&:id)
+        cart_items =
+          tool_ids.filter_map do |tool_id|
+            tool = tools_by_id[tool_id]
+            next if tool.blank?
+
+            checkout = tool.checkouts.find { |item| item.checked_in_at.nil? }
+            holder = checked_out_to_label(checkout)
+            status_class =
+              (
+                if checkout.present?
+                  'power-item-unavailable'
+                else
+                  'power-item-available'
+                end
+              )
+            {
+              label: "#{tool.formatted_name} -> #{holder}",
+              status_class: status_class
+            }
+          end
+
+        receipt_payload(
+          t('resources.receipts.checkin_tools_cart_title'),
+          [
+            receipt_line(
+              t('resources.labels.tools_in_cart'),
+              Array(session[:tools]).size.to_s
+            ),
+            receipt_list(t('resources.labels.cart_contents'), cart_items)
+          ]
+        )
+      end
+
+      private
+
+      def checkin_error_message(result)
+        error_messages =
+          result[:errors].map do |e|
+            case e[:type]
+            when :missing_tool
+              t('resources.tool.cart_tool_missing', id: e[:id])
+            when :not_checked_out
+              t(
+                'resources.tool.cart_tool_not_checked_out',
+                barcode: e[:barcode]
+              )
+            else
+              e[:message] || e.inspect
+            end
+          end
+        t(
+          'resources.tool.cart_checked_in_with_errors',
+          count: result[:checked_in],
+          errors: error_messages.join(', ')
+        )
+      end
+    end
+  end
+end

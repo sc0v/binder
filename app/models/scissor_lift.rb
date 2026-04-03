@@ -11,6 +11,14 @@ class ScissorLift < ApplicationRecord
 
   scope :ordered_by_name, -> { order(name: :asc) }
 
+  def self.lookup(input)
+    where('lower(name) = lower(?)', input).first
+  end
+
+  def self.autocomplete_matches(normalized)
+    where('lower(name) LIKE ?', "%#{normalized}%")
+  end
+
   def link
     scissor_lift_path(self)
   end

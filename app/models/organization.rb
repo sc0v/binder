@@ -17,6 +17,28 @@ class Organization < ApplicationRecord
 
   scope :ordered_by_name, -> { order(name: :asc) }
 
+  def self.lookup(input, exact: false)
+    return if input.blank?
+
+    organization =
+      where(
+        'lower(name) = lower(?) OR lower(short_name) = lower(?)',
+        input,
+        input
+      ).first
+    return organization if organization.present? || exact
+
+    search(input).first
+  end
+
+  def self.autocomplete_matches(normalized)
+    where(
+      'lower(name) LIKE ? OR lower(short_name) LIKE ?',
+      "%#{normalized}%",
+      "%#{normalized}%"
+    )
+  end
+
   # TODO: Searching
   scope :search,
         lambda { |term|

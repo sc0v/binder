@@ -28,14 +28,24 @@ Style/Documentation:
 Metrics/ClassLength:
   Exclude:
     - "app/controllers/charges_controller.rb"
+    - "app/controllers/dashboard_controller.rb"
     - "app/controllers/memberships_controller.rb"
+    - "app/controllers/power_dashboard_controller.rb"
     - "app/controllers/scissor_lift_checkouts_controller.rb"
     - "app/controllers/applets/ppe_distribution_controller.rb"
     - "app/models/ability.rb"
     - "app/models/carnegie_mellon_id_card.rb"
+    - "app/models/checkout.rb"
     - "app/models/participant.rb"
     - "app/models/shift.rb"
+    - "app/models/tool.rb"
+    - "app/services/dashboard/**/*.rb"
+    - "app/services/power_dashboard/**/*.rb"
     - "test/**/*"
+
+Metrics/ModuleLength:
+  Exclude:
+    - "app/helpers/dashboard_helper.rb"
 
 # Rake tasks, routes, seeds, environments, and test blocks are inherently
 # long and cannot be meaningfully split without losing context.
@@ -63,8 +73,12 @@ Metrics/MethodLength:
   CountAsOne:
     - array
     - heredoc
+    - hash
   Exclude:
     - "app/models/ability.rb"
+    - "app/models/checkout.rb"
+    - "app/services/dashboard/**/*.rb"
+    - "app/services/power_dashboard/**/*.rb"
     - "app/models/carnegie_mellon_id_card.rb"
     - "app/controllers/applets/ppe_distribution_controller.rb"
     - "app/controllers/home_controller.rb"
@@ -82,14 +96,26 @@ Metrics/MethodLength:
     - "app/controllers/organization_build_steps_controller.rb"
     - "app/controllers/participants_controller.rb"
     - "app/controllers/tools/checkouts_controller.rb"
+    - "app/controllers/dashboard_controller.rb"
+    - "app/controllers/power_dashboard_controller.rb"
     - "app/controllers/tools_controller.rb"
     - "app/helpers/application/navigation_helper.rb"
+    - "app/helpers/dashboard_helper.rb"
     - "app/helpers/memberships_helper.rb"
     - "app/models/carnegie_mellon_person.rb"
     - "app/models/participant.rb"
 Metrics/AbcSize:
   Exclude:
     - "app/models/ability.rb"
+    - "app/services/dashboard/flow_state.rb"
+    - "app/services/dashboard/flow_updater.rb"
+    - "app/services/dashboard/action_executor.rb"
+    - "app/services/dashboard/action_registry.rb"
+    - "app/services/dashboard/actions/**/*"
+    - "app/services/dashboard/pending_builder.rb"
+    - "app/services/dashboard/scan_resolver.rb"
+    - "app/services/dashboard/show_context_builder.rb"
+    - "app/services/power_dashboard/resource_input_handler.rb"
     - "app/helpers/application/navigation_helper.rb"
     - "app/models/carnegie_mellon_id_card.rb"
     - "app/controllers/applets/ppe_collection_controller.rb"
@@ -102,17 +128,29 @@ Metrics/AbcSize:
     - "app/controllers/participants_controller.rb"
     - "app/controllers/store/purchases_controller.rb"
     - "app/controllers/tool_inventory_controller.rb"
+    - "app/controllers/dashboard_controller.rb"
+    - "app/controllers/power_dashboard_controller.rb"
     - "app/controllers/tools_controller.rb"
+    - "app/controllers/tools/checkouts_controller.rb"
+    - "app/models/checkout.rb"
 Metrics/CyclomaticComplexity:
   Exclude:
+    - "app/controllers/dashboard_controller.rb"
+    - "app/controllers/power_dashboard_controller.rb"
     - "app/models/ability.rb"
+    - "app/services/dashboard/show_context_builder.rb"
     - "app/controllers/applets/ppe_distribution_controller.rb"
     - "app/controllers/organization_timeline_entries_controller.rb"
+    - "app/controllers/tools/checkouts_controller.rb"
 Metrics/PerceivedComplexity:
   Exclude:
+    - "app/controllers/dashboard_controller.rb"
+    - "app/controllers/power_dashboard_controller.rb"
     - "app/models/ability.rb"
+    - "app/services/dashboard/show_context_builder.rb"
     - "app/controllers/applets/ppe_distribution_controller.rb"
     - "app/controllers/organization_timeline_entries_controller.rb"
+    - "app/controllers/tools/checkouts_controller.rb"
 
 # load_step_* methods in ppe_distribution_controller return booleans as a side
 # effect of loading data — they are not pure predicates and should not end with ?.
@@ -122,6 +160,13 @@ Naming/PredicateMethod:
 
 # ability.rb has intentional dead code below a return statement, kept as
 # reference while new abilities are migrated (see TODO comment in file).
+# Action handlers implement a common interface (parse/execute/receipt/match?)
+# where not every action needs every keyword argument. Unused params are
+# intentional — they exist to satisfy the interface, not because they're needed.
+Lint/UnusedMethodArgument:
+  Exclude:
+    - "app/services/dashboard/actions/**/*.rb"
+
 Lint/UnreachableCode:
   Exclude:
     - "app/models/ability.rb"
@@ -170,3 +215,9 @@ Rails/DynamicFindBy:
   Whitelist:
     - "find_by_search"
     - "find_by_card"
+
+Minitest/MultipleAssertions:
+  Exclude:
+    - "test/unit/dashboard_flow_definition_test.rb"
+    - "test/unit/dashboard_pending_builder_test.rb"
+    - "test/unit/power_dashboard_actions_test.rb"

@@ -99,6 +99,31 @@ class Participant < ApplicationRecord
     # TODO: creation
   end
 
+  def self.lookup(input)
+    participant = find_by_search(input.to_s)
+    return participant if participant.present?
+    return if input.to_s.strip.length < 3
+
+    participant =
+      where(
+        'lower(eppn) = lower(?) OR lower(cached_email) = lower(?)',
+        input,
+        input
+      ).first
+    return participant if participant.present?
+
+    where('lower(cached_name) LIKE lower(?)', "%#{input}%").first
+  end
+
+  def self.autocomplete_matches(normalized)
+    where(
+      'lower(cached_name) LIKE ? OR lower(cached_email) LIKE ? OR lower(eppn) LIKE ?',
+      "%#{normalized}%",
+      "#{normalized}%",
+      "#{normalized}%"
+    )
+  end
+
   scope :scc,
         lambda {
           joins(:organizations).where(

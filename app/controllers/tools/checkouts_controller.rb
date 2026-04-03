@@ -30,28 +30,67 @@ class Tools::CheckoutsController < ApplicationController
   end
 
   def create
-    return if params.dig(:checkout, :organization_id).blank?
-
-    @organization = Organization.find(params[:checkout][:organization_id])
-    if session[:tools].blank?
-      flash.alert = 'Add at least one tool to checkout.'
+    unless can? :create, Checkout
+      flash.alert = t('.unauthorized')
+      redirect_to checkout_tools_path
       return
     end
-    perform_tool_checkout
+
+    return if params.dig(:checkout, :organization_id).blank?
+
+    @organization =
+      Organization.find_by(id: params[:checkout][:organization_id])
+    participant = Participant.find_by(id: session[:borrower_id])
+    tool_ids = Array(session[:tools])
+
+    result =
+      Checkout.checkout_batch(
+        organization: @organization,
+        participant: participant,
+        tool_ids: tool_ids
+      )
+    session[:tools] = result[:remaining_ids]
+
+    if result[:failed].empty? && session[:tools].empty?
+      session[:borrower_id] = nil
+      flash.notice = "Tools checked out to #{participant&.name}"
+    else
+      failed_messages = result[:failed].flat_map { |c| c.errors.full_messages }
+      flash.alert =
+        (failed_messages.presence || ['Problem checking out tools']).join(', ')
+    end
     redirect_to checkout_tools_path
   end
 
-  def update
+  def checkin
+    unless can? :update, Checkout
+      redirect_to checkout_tools_path, alert: t('.unauthorized')
+      return
+    end
+
     @tool = Tool.find_by(barcode: params[:barcode])
     if @tool.blank?
       redirect_to checkout_tools_path,
                   alert: "Tool #{params[:barcode]} does not exist."
-    else
-      checkin_tool
+      return
     end
-  rescue StandardError
+
+    @checkout = @tool.checkouts.current.first
+    if @checkout.blank?
+      redirect_to checkout_tools_path,
+                  alert: "Tool #{params[:barcode]} was never checked out."
+      return
+    end
+
+    @checkout.checkin
+    if @checkout.errors.any?
+      redirect_to checkout_tools_path,
+                  alert: @checkout.errors.full_messages.join(', ')
+      return
+    end
+
     redirect_to checkout_tools_path,
-                alert: "Tool #{params[:barcode]} was never checked out."
+                notice: "Tool #{params[:barcode]} successfully checked in."
   end
 
   private
@@ -74,38 +113,6 @@ class Tools::CheckoutsController < ApplicationController
       session[:borrower_id] = borrower.id
     else
       flash.alert = "Andrew ID \"#{params[:participant_search]}\" not found."
-    end
-  end
-
-  def perform_tool_checkout
-    participant = Participant.find(session[:borrower_id])
-    bad_barcodes = []
-    session[:tools].each do |tool_id|
-      checkout_single_tool(tool_id, participant, bad_barcodes)
-    end
-    apply_tool_checkout_flash(participant, bad_barcodes)
-  end
-
-  def checkout_single_tool(tool_id, participant, bad_barcodes)
-    tool = Tool.find(tool_id)
-    if Checkout.create!(
-         organization: @organization,
-         participant:,
-         tool:,
-         checked_out_at: Time.zone.now
-       )
-      session[:tools] -= [tool_id]
-    else
-      bad_barcodes.append(tool.barcode)
-    end
-  end
-
-  def apply_tool_checkout_flash(participant, bad_barcodes)
-    if session[:tools].empty?
-      session[:borrower_id] = nil
-      flash.notice = "Tools checked out to #{participant.name}"
-    else
-      flash.alert = "Problem checking out tools #{bad_barcodes.join(', ')}"
     end
   end
 end

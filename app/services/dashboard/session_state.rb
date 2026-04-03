@@ -1,0 +1,170 @@
+# frozen_string_literal: true
+
+module Dashboard
+  class SessionState
+    attr_reader :session
+
+    def initialize(session)
+      @session = session
+    end
+
+    def load_state
+      {
+        borrower: current_borrower,
+        organization: current_organization,
+        current_resource_type: current_resource_type,
+        current_resource: current_resource,
+        tools: ordered_cart_tools,
+        auto_add_tools: auto_add_tools?
+      }
+    end
+
+    def update_auto_add_from_params(params)
+      return unless params.key?(:auto_add_tools)
+
+      session[:power_auto_add_tools] = params[:auto_add_tools].to_s == '1'
+    end
+
+    def auto_add_tools?
+      session[:power_auto_add_tools] != false
+    end
+
+    def toggle_auto_add_tools
+      session[:power_auto_add_tools] = !auto_add_tools?
+    end
+
+    def current_borrower
+      return @current_borrower if defined?(@current_borrower)
+
+      @current_borrower = Participant.find_by(id: session[:borrower_id])
+    end
+
+    def current_tool
+      current_resource if current_resource_type == 'tool'
+    end
+
+    def current_scissor_lift
+      current_resource if current_resource_type == 'scissor_lift'
+    end
+
+    def current_resource
+      return @current_resource if defined?(@current_resource)
+
+      @current_resource = load_current_resource
+    end
+
+    def current_resource_type
+      session[:power_current_resource_type]
+    end
+
+    def current_resource_id
+      session[:power_current_resource_id]
+    end
+
+    def current_organization
+      return @current_organization if defined?(@current_organization)
+
+      @current_organization = load_current_organization
+    end
+
+    def assign_participant(participant)
+      session[:borrower_id] = participant.id
+      organizations = participant.organizations
+      session[:power_organization_id] = (
+        organizations.first.id if organizations.one?
+      )
+    end
+
+    def assign_resource(type, record)
+      session[:power_current_resource_type] = type.to_s
+      session[:power_current_resource_id] = record.id
+    end
+
+    def assign_queue_resource(queue_type)
+      session[:power_current_resource_type] = 'queue'
+      session[:power_current_resource_id] = queue_type.to_s
+    end
+
+    def assign_scissor_lift_overview
+      session[:power_current_resource_type] = 'scissor_lift_overview'
+      session[:power_current_resource_id] = 'overview'
+    end
+
+    def clear_pending_action
+      session[:power_pending_action] = nil
+    end
+
+    def clear_power_session
+      session[:borrower_id] = nil
+      session[:power_organization_id] = nil
+      session[:power_current_resource_type] = nil
+      session[:power_current_resource_id] = nil
+      session[:power_pending_action] = nil
+      session[:power_auto_add_tools] = nil
+      session[:tools] = []
+    end
+
+    def organization_allowed?(organization)
+      borrower = current_borrower
+      return true if borrower.blank?
+      return false if organization.blank?
+
+      borrower.organizations.exists?(organization.id)
+    end
+
+    def selected_organization_for_borrower
+      allowed_organization(session[:power_organization_id])
+    end
+
+    def organization_for_queue
+      if current_resource_type == 'organization'
+        return Organization.find_by(id: current_resource_id)
+      end
+
+      allowed_organization(session[:power_organization_id])
+    end
+
+    private
+
+    def ordered_cart_tools
+      tool_ids = Array(session[:tools]).map(&:to_i)
+      tools_by_id = Tool.where(id: tool_ids).index_by(&:id)
+      tool_ids.filter_map { |id| tools_by_id[id] }
+    end
+
+    def load_current_resource
+      case current_resource_type
+      when 'tool'
+        Tool.find_by(id: current_resource_id)
+      when 'scissor_lift'
+        ScissorLift.find_by(id: current_resource_id)
+      when 'organization'
+        Organization.find_by(id: current_resource_id)
+      when 'participant'
+        Participant.find_by(id: current_resource_id)
+      when 'queue'
+        Dashboard::QueueResource.new(current_resource_id)
+      when 'scissor_lift_overview'
+        Dashboard::ScissorLiftOverviewResource.new
+      end
+    end
+
+    def load_current_organization
+      organization = Organization.find_by(id: session[:power_organization_id])
+      if organization.present? && current_borrower.present? &&
+           !current_borrower.organizations.exists?(organization.id)
+        session[:power_organization_id] = nil
+        return nil
+      end
+
+      organization
+    end
+
+    def allowed_organization(organization_id)
+      organization = Organization.find_by(id: organization_id)
+      return if organization.blank? || !organization_allowed?(organization)
+
+      organization
+    end
+  end
+end

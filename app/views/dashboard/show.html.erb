@@ -1,0 +1,671 @@
+<% nav %>
+<div class="content power-dashboard-content">
+  <div class="power-dashboard dashboard-flow">
+    <h1><%= dashboard_h1(@flow_kind, @step, @flow) %></h1>
+
+    <% if @flow.blank? %>
+      <p>Choose a flow.</p>
+      <div class="dashboard-actions">
+        <% [
+             ['Checkout', 'checkout', 'Check out tools to a borrower'],
+             ['Checkin', 'checkin', 'Return borrowed tools'],
+             ['Queue', 'queue', 'Manage inspection queues'],
+             ['Lift', 'lift', 'Checkout, checkin, or renew a lift'],
+             ['Lookup', 'lookup', 'Look up any resource']
+           ].each do |label, kind, description| %>
+          <%= form_with url: dashboard_start_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= hidden_field_tag :kind, kind %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label"><%= label %></span>
+              <span class="btn-description"><%= description %></span>
+            <% end %>
+          <% end %>
+        <% end %>
+      </div>
+    <% else %>
+      <% if @step == 'tools' %>
+        <div class="dashboard-block">
+          <p
+            ><strong>Tools in cart:</strong>
+            <%= Array(@flow['tool_ids']).size %></p
+          >
+          <ul class="power-ppe-list">
+            <% Array(@flow['tool_ids'])
+                 .last(4)
+                 .each do |tool_id| %>
+              <% tool = @flow_tools[tool_id] %>
+              <% if tool.present? %>
+                <li>
+                  <strong><%= tool.formatted_name %></strong>
+                  <span class="<%= dashboard_tool_state_class(tool) %>"
+                    ><%= dashboard_tool_state(tool) %></span
+                  >
+                </li>
+              <% end %>
+            <% end %>
+          </ul>
+          <p>Scan the same tool again to remove it from cart.</p>
+        </div>
+
+        <%= form_with url: dashboard_scan_path,
+                      method: :post,
+                      class: 'dashboard-action-form' do %>
+          <%= dashboard_flow_hidden_fields(@flow_params) %>
+          <%= hidden_field_tag :target, 'tool' %>
+          <%= hidden_field_tag :continue_to,
+                               (
+                                 if @flow_kind == 'checkout'
+                                   'participant'
+                                 else
+                                   (@flow_kind == 'checkin' ? 'confirm' : 'tools')
+                                 end
+                               ) %>
+          <%= label_tag :scan_input, 'Scan tool barcode' %>
+          <%= text_field_tag :scan_input, nil, autocomplete: 'off', autofocus: true %>
+          <% if %w[checkout checkin].include?(@flow_kind) %>
+            <%= submit_tag 'Continue', class: 'btn btn-primary' %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% if @flow_kind == 'checkout' && @step == 'participant' %>
+        <div class="dashboard-block">
+          <p
+            ><strong>Borrower:</strong>
+            <%= @flow_participant&.formatted_name || 'None' %></p
+          >
+        </div>
+        <%= form_with url: dashboard_scan_path,
+                      method: :post,
+                      class: 'dashboard-action-form' do %>
+          <%= dashboard_flow_hidden_fields(@flow_params) %>
+          <%= hidden_field_tag :target, 'participant' %>
+          <%= hidden_field_tag :continue_to, 'organization' %>
+          <%= label_tag :scan_input, 'Scan borrower' %>
+          <%= text_field_tag :scan_input, nil, autocomplete: 'off', autofocus: true %>
+          <%= submit_tag 'Continue', class: 'btn btn-primary' %>
+        <% end %>
+      <% end %>
+
+      <% if @flow_kind == 'checkout' && @step == 'organization' %>
+        <% if @flow_participant.blank? %>
+          <div class="dashboard-block">
+            <p>Select a borrower first.</p>
+          </div>
+        <% elsif @flow_participant_organizations.empty? %>
+          <div class="dashboard-block">
+            <p>This borrower has no organizations.</p>
+          </div>
+        <% elsif @flow_participant_organizations.size == 1 && @flow_organization.present? %>
+          <div class="dashboard-block">
+            <p
+              ><strong>Organization:</strong> <%= @flow_organization.name %>
+              (auto-selected)</p
+            >
+          </div>
+        <% else %>
+          <%= form_with url: dashboard_complete_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params, except: [:organization_id]) %>
+            <%= label_tag :organization_id, 'Choose organization' %>
+            <%= select_tag :organization_id,
+                           options_from_collection_for_select(
+                             @flow_participant_organizations,
+                             :id,
+                             :name,
+                             @flow_organization&.id
+                           ),
+                           include_blank: 'Select organization' %>
+            <%= submit_tag 'Continue', class: 'btn btn-primary' %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% if @flow_kind == 'queue' && @step == 'queue_type' %>
+        <div class="dashboard-actions">
+          <%= form_with url: dashboard_update_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params, except: [:organization_id]) %>
+            <%= hidden_field_tag :queue_type, 'electrical' %>
+            <%= hidden_field_tag :next_step, 'queue_action' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">Electrical</span>
+              <span class="btn-description">For electrical inspections</span>
+            <% end %>
+          <% end %>
+          <%= form_with url: dashboard_update_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params, except: [:organization_id]) %>
+            <%= hidden_field_tag :queue_type, 'structural' %>
+            <%= hidden_field_tag :next_step, 'queue_action' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">Structural</span>
+              <span class="btn-description">For structural inspections</span>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @flow_kind == 'queue' && @step == 'queue_action' %>
+        <div class="dashboard-actions">
+          <%= form_with url: dashboard_update_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params) %>
+            <%= hidden_field_tag :queue_action, 'add' %>
+            <%= hidden_field_tag :next_step, 'queue_source' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">Add</span>
+              <span class="btn-description"
+                >Add an organization to the queue</span
+              >
+            <% end %>
+          <% end %>
+          <%= form_with url: dashboard_update_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params) %>
+            <%= hidden_field_tag :queue_action, 'remove' %>
+            <%= hidden_field_tag :next_step, 'organization' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">Remove</span>
+              <span class="btn-description"
+                >Remove an organization from the queue</span
+              >
+            <% end %>
+          <% end %>
+          <%= form_with url: dashboard_update_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params) %>
+            <%= hidden_field_tag :next_step, 'queue_current' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">View Current</span>
+              <span class="btn-description">See current queue</span>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @flow_kind == 'queue' && @step == 'queue_current' %>
+        <div class="dashboard-block">
+          <% if @queue_current_resource.present? %>
+            <% config = current_resource_config(@queue_current_resource) %>
+            <h3><%= config[:title] %></h3>
+            <% if config[:partial].present? %>
+              <%= render config[:partial], config[:locals] %>
+            <% end %>
+          <% else %>
+            <p>Select queue type first.</p>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @flow_kind == 'queue' && @step == 'queue_source' &&
+              @flow['queue_action'] == 'add' %>
+        <div class="dashboard-actions">
+          <%= form_with url: dashboard_update_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(
+                  @flow_params,
+                  except: %i[queue_source participant_id organization_id]
+                ) %>
+            <%= hidden_field_tag :queue_source, 'by_user' %>
+            <%= hidden_field_tag :next_step, 'participant' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">By User</span>
+              <span class="btn-description"
+                >Scan a user's ID, then select their org</span
+              >
+            <% end %>
+          <% end %>
+          <%= form_with url: dashboard_update_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(
+                  @flow_params,
+                  except: %i[queue_source participant_id organization_id]
+                ) %>
+            <%= hidden_field_tag :queue_source, 'by_org' %>
+            <%= hidden_field_tag :next_step, 'organization' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">By Org</span>
+              <span class="btn-description"
+                >Select an organization directly</span
+              >
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @flow_kind == 'queue' && @step == 'participant' &&
+              @flow['queue_action'] == 'add' %>
+        <div class="dashboard-block">
+          <p
+            ><strong>User:</strong>
+            <%= @flow_participant&.formatted_name || 'None' %></p
+          >
+        </div>
+        <%= form_with url: dashboard_scan_path,
+                      method: :post,
+                      class: 'dashboard-action-form' do %>
+          <%= dashboard_flow_hidden_fields(@flow_params) %>
+          <%= hidden_field_tag :target, 'participant' %>
+          <%= hidden_field_tag :continue_to, 'organization' %>
+          <%= label_tag :scan_input, 'Scan user ID' %>
+          <%= text_field_tag :scan_input, nil, autocomplete: 'off', autofocus: true %>
+          <%= submit_tag 'Continue', class: 'btn btn-primary' %>
+        <% end %>
+      <% end %>
+
+      <% if @flow_kind == 'queue' && @step == 'organization' %>
+        <div class="dashboard-block">
+          <p
+            ><strong>Organization:</strong>
+            <%= @flow_organization&.name || 'None' %></p
+          >
+        </div>
+        <% if @flow['queue_action'] == 'remove' %>
+          <% queued_orgs = @queued_organizations %>
+          <% if queued_orgs.empty? %>
+            <div class="dashboard-block">
+              <p>No organizations are currently in this queue.</p>
+            </div>
+          <% else %>
+            <div class="dashboard-actions">
+              <% queued_orgs.each do |organization| %>
+                <%= form_with url: dashboard_complete_path,
+                              method: :post,
+                              class: 'dashboard-action-form' do %>
+                  <%= dashboard_flow_hidden_fields(@flow_params, except: [:organization_id]) %>
+                  <%= hidden_field_tag :organization_id, organization.id %>
+                  <%= submit_tag organization.name, class: 'btn btn-primary' %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        <% else %>
+          <% if @flow['queue_source'] == 'by_user' %>
+            <% if @flow_participant.blank? %>
+              <div class="dashboard-block">
+                <p>Select a user first.</p>
+              </div>
+            <% elsif @flow_participant_organizations.empty? %>
+              <div class="dashboard-block">
+                <p>This user has no organizations.</p>
+              </div>
+            <% elsif @flow_participant_organizations.size == 1 && @flow_organization.present? %>
+              <div class="dashboard-block">
+                <p
+                  ><strong>Organization:</strong> <%= @flow_organization.name %>
+                  (auto-selected)</p
+                >
+              </div>
+            <% else %>
+              <%= form_with url: dashboard_update_path,
+                            method: :post,
+                            class: 'dashboard-action-form' do %>
+                <%= dashboard_flow_hidden_fields(@flow_params, except: [:organization_id]) %>
+                <%= hidden_field_tag :next_step,
+                                     (
+                                       if @flow['queue_action'] == 'add'
+                                         'queue_message'
+                                       else
+                                         'organization'
+                                       end
+                                     ) %>
+                <%= label_tag :organization_id, 'Choose organization' %>
+                <%= select_tag :organization_id,
+                               options_from_collection_for_select(
+                                 @flow_participant_organizations,
+                                 :id,
+                                 :name,
+                                 @flow_organization&.id
+                               ),
+                               include_blank: 'Select organization' %>
+                <%= submit_tag 'Continue', class: 'btn btn-primary' %>
+              <% end %>
+            <% end %>
+          <% else %>
+            <%= form_with url: dashboard_update_path,
+                          method: :post,
+                          class: 'dashboard-action-form' do %>
+              <%= dashboard_flow_hidden_fields(@flow_params, except: [:organization_id]) %>
+              <%= hidden_field_tag :next_step,
+                                   (
+                                     if @flow['queue_action'] == 'add'
+                                       'queue_message'
+                                     else
+                                       'organization'
+                                     end
+                                   ) %>
+              <%= label_tag :organization_id, 'Choose organization' %>
+              <%= select_tag :organization_id,
+                             options_from_collection_for_select(
+                               @all_organizations,
+                               :id,
+                               :name,
+                               @flow_organization&.id
+                             ),
+                             include_blank: 'Select organization' %>
+              <%= submit_tag 'Continue', class: 'btn btn-primary' %>
+            <% end %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% if @flow_kind == 'queue' && @step == 'queue_message' %>
+        <div class="dashboard-block">
+          <p
+            ><strong>Message:</strong>
+            <%= @flow['queue_message'].presence || 'None' %></p
+          >
+        </div>
+        <%= form_with url: dashboard_complete_path,
+                      method: :post,
+                      class: 'dashboard-action-form' do %>
+          <%= dashboard_flow_hidden_fields(@flow_params, except: [:queue_message]) %>
+          <%= label_tag :queue_message, 'Queue message' %>
+          <%= text_field_tag :queue_message,
+                             @flow['queue_message'],
+                             autocomplete: 'off',
+                             autofocus: true %>
+          <%= submit_tag 'Continue', class: 'btn btn-primary' %>
+        <% end %>
+      <% end %>
+
+      <% if @flow_kind == 'lift' && @step == 'lift_action' %>
+        <div class="dashboard-actions">
+          <%= form_with url: dashboard_update_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params) %>
+            <%= hidden_field_tag :lift_action, 'checkout' %>
+            <%= hidden_field_tag :next_step, 'scissor_lift' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">Checkout Lift</span>
+              <span class="btn-description"
+                >Check out a lift to a borrower</span
+              >
+            <% end %>
+          <% end %>
+          <%= form_with url: dashboard_update_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params) %>
+            <%= hidden_field_tag :lift_action, 'checkin' %>
+            <%= hidden_field_tag :next_step, 'scissor_lift' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">Checkin Lift</span>
+              <span class="btn-description">Return a borrowed lift</span>
+            <% end %>
+          <% end %>
+          <%= form_with url: dashboard_update_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params) %>
+            <%= hidden_field_tag :lift_action, 'renew' %>
+            <%= hidden_field_tag :next_step, 'scissor_lift' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">Renew</span>
+              <span class="btn-description"
+                >Extend an active lift checkout</span
+              >
+            <% end %>
+          <% end %>
+          <%= form_with url: dashboard_update_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params) %>
+            <%= hidden_field_tag :next_step, 'lift_current' %>
+            <%= button_tag type: 'submit', class: 'btn btn-primary' do %>
+              <span class="btn-label">View Current</span>
+              <span class="btn-description">See all active lift checkouts</span>
+            <% end %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @flow_kind == 'lift' && @step == 'lift_current' %>
+        <div class="dashboard-block">
+          <% config = current_resource_config(@lift_overview_resource) %>
+          <h3><%= config[:title] %></h3>
+          <% if config[:partial].present? %>
+            <%= render config[:partial], config[:locals] %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @flow_kind == 'lift' && @step == 'scissor_lift' %>
+        <% if @flow['lift_action'] == 'checkout' %>
+          <% if @available_lifts.empty? %>
+            <div class="dashboard-block">
+              <p>No available scissor lifts.</p>
+            </div>
+          <% else %>
+            <% if @random_available_lift.present? %>
+              <%= form_with url: dashboard_update_path,
+                            method: :post,
+                            class: 'dashboard-action-form dashboard-action-form--double' do %>
+                <%= dashboard_flow_hidden_fields(@flow_params, except: [:scissor_lift_id]) %>
+                <%= hidden_field_tag :scissor_lift_id, @random_available_lift.id %>
+                <%= hidden_field_tag :next_step, 'participant' %>
+                <%= submit_tag "Random Available Lift (#{@random_available_lift.name})",
+                               class: 'btn dashboard-btn-blue' %>
+              <% end %>
+            <% end %>
+
+            <div class="dashboard-actions">
+              <% @available_lifts.each do |lift| %>
+                <%= form_with url: dashboard_update_path,
+                              method: :post,
+                              class: 'dashboard-action-form' do %>
+                  <%= dashboard_flow_hidden_fields(@flow_params, except: [:scissor_lift_id]) %>
+                  <%= hidden_field_tag :scissor_lift_id, lift.id %>
+                  <%= hidden_field_tag :next_step, 'participant' %>
+                  <%= submit_tag lift.name, class: 'btn btn-primary' %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        <% elsif %w[renew checkin].include?(@flow['lift_action']) %>
+          <% if @checked_out_lifts.empty? %>
+            <div class="dashboard-block">
+              <p>No checked out scissor lifts.</p>
+            </div>
+          <% else %>
+            <div class="dashboard-actions">
+              <% @checked_out_lifts.each do |lift| %>
+                <%= form_with url:
+                                (
+                                  if @flow['lift_action'] == 'renew'
+                                    dashboard_update_path
+                                  else
+                                    dashboard_complete_path
+                                  end
+                                ),
+                              method: :post,
+                              class: 'dashboard-action-form' do %>
+                  <%= dashboard_flow_hidden_fields(@flow_params, except: [:scissor_lift_id]) %>
+                  <%= hidden_field_tag :scissor_lift_id, lift.id %>
+                  <% if @flow['lift_action'] == 'renew' %>
+                    <%= hidden_field_tag :next_step, 'renew_hours' %>
+                  <% end %>
+                  <%= submit_tag lift.name, class: 'btn btn-primary' %>
+                <% end %>
+              <% end %>
+            </div>
+          <% end %>
+        <% else %>
+          <div class="dashboard-block">
+            <p
+              ><strong>Scissor lift:</strong>
+              <%= @flow_lift&.name || 'None' %></p
+            >
+          </div>
+          <%= form_with url: dashboard_scan_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params) %>
+            <%= hidden_field_tag :target, 'scissor_lift' %>
+            <%= hidden_field_tag :continue_to,
+                                 (@flow['lift_action'] == 'renew' ? 'renew_hours' : 'confirm') %>
+            <%= label_tag :scan_input, 'Scan lift' %>
+            <%= text_field_tag :scan_input, nil, autocomplete: 'off', autofocus: true %>
+            <%= submit_tag 'Continue', class: 'btn btn-primary' %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% if @flow_kind == 'lift' && @step == 'renew_hours' %>
+        <div class="dashboard-actions">
+          <% [1, 2, 4, 8].each do |hours| %>
+            <%= form_with url: dashboard_complete_path,
+                          method: :post,
+                          class: 'dashboard-action-form' do %>
+              <%= dashboard_flow_hidden_fields(@flow_params) %>
+              <%= hidden_field_tag :hours, hours %>
+              <%= submit_tag "#{hours}h", class: 'btn btn-primary' %>
+            <% end %>
+          <% end %>
+          <%= form_with url: dashboard_update_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params) %>
+            <%= hidden_field_tag :next_step, 'renew_custom' %>
+            <%= submit_tag 'Custom', class: 'btn' %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <% if @flow_kind == 'lift' && @step == 'renew_custom' %>
+        <%= form_with url: dashboard_complete_path,
+                      method: :post,
+                      class: 'dashboard-action-form' do %>
+          <%= dashboard_flow_hidden_fields(@flow_params) %>
+          <%= label_tag :hours, 'Custom hours' %>
+          <%= number_field_tag :hours,
+                               nil,
+                               min: 1,
+                               step: 1,
+                               autofocus: true,
+                               autocomplete: 'off' %>
+          <%= submit_tag 'Continue', class: 'btn btn-primary' %>
+        <% end %>
+      <% end %>
+
+      <% if @flow_kind == 'lift' && @step == 'participant' %>
+        <div class="dashboard-block">
+          <p
+            ><strong>Borrower:</strong>
+            <%= @flow_participant&.formatted_name || 'None' %></p
+          >
+        </div>
+        <%= form_with url: dashboard_scan_path,
+                      method: :post,
+                      class: 'dashboard-action-form' do %>
+          <%= dashboard_flow_hidden_fields(@flow_params) %>
+          <%= hidden_field_tag :target, 'participant' %>
+          <%= hidden_field_tag :continue_to, 'organization' %>
+          <%= label_tag :scan_input, 'Scan borrower' %>
+          <%= text_field_tag :scan_input, nil, autocomplete: 'off', autofocus: true %>
+          <%= submit_tag 'Continue', class: 'btn btn-primary' %>
+        <% end %>
+      <% end %>
+
+      <% if @flow_kind == 'lift' && @step == 'organization' %>
+        <% if @flow_participant.blank? %>
+          <div class="dashboard-block">
+            <p>Select a borrower first.</p>
+          </div>
+        <% elsif @flow_participant_organizations.empty? %>
+          <div class="dashboard-block">
+            <p>This borrower has no organizations.</p>
+          </div>
+        <% elsif @flow_participant_organizations.size == 1 && @flow_organization.present? %>
+          <div class="dashboard-block">
+            <p
+              ><strong>Organization:</strong> <%= @flow_organization.name %>
+              (auto-selected)</p
+            >
+          </div>
+        <% else %>
+          <%= form_with url: dashboard_complete_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params, except: [:organization_id]) %>
+            <%= label_tag :organization_id, 'Choose organization' %>
+            <%= select_tag :organization_id,
+                           options_from_collection_for_select(
+                             @flow_participant_organizations,
+                             :id,
+                             :name,
+                             @flow_organization&.id
+                           ),
+                           include_blank: 'Select organization' %>
+            <%= submit_tag 'Continue', class: 'btn btn-primary' %>
+          <% end %>
+        <% end %>
+      <% end %>
+
+      <% if @flow_kind == 'lookup' && @step == 'lookup' %>
+        <%= form_with url: dashboard_scan_path,
+                      method: :post,
+                      class: 'dashboard-action-form' do %>
+          <%= dashboard_flow_hidden_fields(@flow_params) %>
+          <%= hidden_field_tag :target, 'lookup' %>
+          <%= hidden_field_tag :continue_to, 'result' %>
+          <%= label_tag :scan_input, 'Scan tool, participant, organization, or lift' %>
+          <%= text_field_tag :scan_input, nil, autocomplete: 'off', autofocus: true %>
+          <%= submit_tag 'Continue', class: 'btn btn-primary' %>
+        <% end %>
+      <% end %>
+
+      <% if @flow_kind == 'lookup' && @step == 'result' %>
+        <div class="dashboard-block">
+          <h3>Lookup Result</h3>
+          <% if @lookup_resource.present? %>
+            <% config = current_resource_config(@lookup_resource) %>
+            <p><strong><%= config[:title] %></strong></p>
+            <% if config[:partial].present? %>
+              <%= render config[:partial], config[:locals] %>
+            <% end %>
+          <% else %>
+            <p>No resource selected.</p>
+          <% end %>
+        </div>
+        <div class="dashboard-actions">
+          <%= form_with url: dashboard_update_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params) %>
+            <%= hidden_field_tag :next_step, 'lookup' %>
+            <%= submit_tag 'New Lookup', class: 'btn btn-primary' %>
+          <% end %>
+        </div>
+      <% end %>
+
+      <div class="dashboard-actions" style="margin-top: 0.75rem;">
+        <% if @step.present? && @initial_step.present? && @step != @initial_step %>
+          <%= form_with url: dashboard_undo_path,
+                        method: :post,
+                        class: 'dashboard-action-form' do %>
+            <%= dashboard_flow_hidden_fields(@flow_params) %>
+            <%= submit_tag 'Undo', class: 'btn ghost' %>
+          <% end %>
+        <% end %>
+        <%= form_with url: dashboard_reset_path,
+                      method: :post,
+                      class: 'dashboard-action-form' do %>
+          <%= submit_tag 'Start Over', class: 'btn ghost' %>
+        <% end %>
+      </div>
+    <% end %>
+  </div>
+</div>
