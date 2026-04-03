@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2026_03_31_011701) do
+ActiveRecord::Schema[8.0].define(version: 2026_04_03_183232) do
   create_table "certification_types", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", null: false
@@ -246,6 +246,7 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_31_011701) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["participant_id"], name: "index_shift_participants_on_participant_id"
+    t.index ["shift_id", "participant_id"], name: "index_shift_participants_on_shift_id_and_participant_id", unique: true
     t.index ["shift_id"], name: "index_shift_participants_on_shift_id"
   end
 
@@ -260,13 +261,13 @@ ActiveRecord::Schema[8.0].define(version: 2026_03_31_011701) do
   create_table "shifts", force: :cascade do |t|
     t.datetime "starts_at", precision: nil
     t.datetime "ends_at", precision: nil
-    t.integer "required_number_of_participants"
     t.integer "organization_id"
     t.integer "shift_type_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.string "description"
-    t.string "andrew_id"
+    t.integer "capacity"
+    t.string "andrewids"
     t.index ["organization_id"], name: "index_shifts_on_organization_id"
     t.index ["shift_type_id"], name: "index_shifts_on_shift_type_id"
   end

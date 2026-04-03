@@ -36,6 +36,7 @@ class ShiftsController < ApplicationController
   def create
     @shift = Shift.new(shift_params)
     if @shift.save
+      create_shift_participants
       flash[:notice] = t('.notice')
       redirect_to shifts_path
     else
@@ -103,8 +104,23 @@ class ShiftsController < ApplicationController
         shift_type_id
         organization_id
         description
-        andrew_id
+        capacity
+        andrewids
       ]
     )
+  end
+
+  def create_shift_participants
+    return if @shift.andrewids.blank?
+
+    @shift.andrewids.split(';').each do |andrewid|
+      andrewid = andrewid.strip
+      participant = Participant.find_by(eppn: "#{andrewid}@andrew.cmu.edu")
+      unless participant
+        Rails.logger.debug { "Participant (#{andrewid}) does not exist" }
+        next
+      end
+      ShiftParticipant.create(shift: @shift, participant:)
+    end
   end
 end
