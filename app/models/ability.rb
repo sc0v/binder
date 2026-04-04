@@ -478,8 +478,8 @@ class Ability
       can %i[create update destroy], Membership
       can %i[hardhats read_basic_details read_all_details], Organization
       can %i[create update destroy], OrganizationBuildStatus
-      can %i[create edit update end structural electrical downtime],
-          OrganizationTimelineEntry
+      can %i[create edit update end downtime], OrganizationTimelineEntry
+      can %i[structural electrical queues history], OrganizationTimelineEntry
       can %i[create update read_phone_number], Participant
       can :read_coord, Shift
       can :create, ShiftParticipant

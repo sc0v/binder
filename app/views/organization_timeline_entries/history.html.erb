@@ -1,0 +1,36 @@
+<% update_document_title(add: 'Queue History') %>
+<% update_breadcrumbs(add: link_to('Queues', queues_path)) %>
+<% update_breadcrumbs(add: 'History') %>
+<% nav(active: 'queues') %>
+
+<div class="content wide">
+  <div>
+    <h1>Queue History</h1>
+    <% if @entries.empty? %>
+      <p>No history yet.</p>
+    <% else %>
+      <table class="table table-striped">
+        <thead>
+          <th>Org</th>
+          <th>Type</th>
+          <th>Notes</th>
+          <th>Entered</th>
+          <th>Ended</th>
+        </thead>
+        <tbody>
+          <% @entries.each do |entry| %>
+            <tr>
+              <td
+                ><%= link_to entry.organization.short_name, entry.organization %></td
+              >
+              <td><%= entry.entry_type.humanize %></td>
+              <td><%= h entry.description %></td>
+              <td><%= entry.started_at %></td>
+              <td><%= entry.ended_at %></td>
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
+  </div>
+</div>
