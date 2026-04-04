@@ -5,6 +5,6 @@ class Applets::WristbandLookupController < ApplicationController
     return if params[:participant_search].blank?
 
     @participant = Participant.find_by_search(params[:participant_search])
-    flash.now[:alert] = 'No participant found for that ID.' if @participant.blank?
+    flash.now[:alert] = t('.no_participant') if @participant.blank?
   end
 end
