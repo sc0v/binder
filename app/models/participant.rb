@@ -96,7 +96,8 @@ class Participant < ApplicationRecord
 
   def self.find_or_create_by_search(search)
     @participant = Participant.find_by_search(search.to_s)
-    # TODO: creation
+    Participant.create!(eppn: "#{search}@andrew.cmu.edu")
+    # TODO: double check creation
   end
 
   scope :scc,
