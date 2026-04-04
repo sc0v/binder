@@ -93,9 +93,8 @@ class OrganizationTimelineEntriesController < ApplicationController
   end
 
   def history
-    @entries = OrganizationTimelineEntry
-                 .where.not(ended_at: nil)
-                 .order(ended_at: :desc)
+    @entries =
+      OrganizationTimelineEntry.where.not(ended_at: nil).order(ended_at: :desc)
   end
 
   private
