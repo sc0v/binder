@@ -92,6 +92,12 @@ class OrganizationTimelineEntriesController < ApplicationController
     @structural = OrganizationTimelineEntry.structural.current
   end
 
+  def history
+    @entries = OrganizationTimelineEntry
+                 .where.not(ended_at: nil)
+                 .order(ended_at: :desc)
+  end
+
   private
 
   def set_organization_timeline_entry

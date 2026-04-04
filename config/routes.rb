@@ -235,6 +235,7 @@ Rails.application.routes.draw do
   get 'electrical' => 'organization_timeline_entries#electrical',
       :as => 'electrical'
   get 'queues' => 'organization_timeline_entries#queues', :as => 'queues'
+  get 'queues/history' => 'organization_timeline_entries#history', :as => 'queue_history'
 
   resources :users
 
