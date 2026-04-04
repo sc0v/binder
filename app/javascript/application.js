@@ -14,4 +14,12 @@ import "jquery";
 import "custom/cmu";
 import "controllers";
 
+// cmu.js wraps .collapsed elements in <a> tags on every page load.
+// Unwrap before Turbo caches the page to prevent arrows from accumulating.
+document.addEventListener("turbo:before-cache", () => {
+  document.querySelectorAll(".collapsed a").forEach((a) => {
+    a.replaceWith(...a.childNodes);
+  });
+});
+
 import "pwa";
