@@ -16,7 +16,6 @@
           <th>Notes</th>
           <th>Entered</th>
           <th>Ended</th>
-          <th>Duration</th>
         </thead>
         <tbody>
           <% @entries.each do |entry| %>
@@ -26,7 +25,6 @@
               <td><%= h entry.description %></td>
               <td><%= entry.started_at %></td>
               <td><%= entry.ended_at %></td>
-              <td><%= format_duration(entry.ended_at - entry.started_at) %></td>
             </tr>
           <% end %>
         </tbody>
