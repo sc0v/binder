@@ -53,7 +53,11 @@ class ShiftParticipantsController < ApplicationController
   private
 
   def clock_in_participant(participant)
-    sp = ShiftParticipant.find_or_initialize_by(shift: @shift, participant: participant)
+    sp =
+      ShiftParticipant.find_or_initialize_by(
+        shift: @shift,
+        participant: participant
+      )
     return already_clocked_in if sp.clocked_in_at.present?
 
     sp.update!(clocked_in_at: Time.zone.now)
