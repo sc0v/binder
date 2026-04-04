@@ -46,6 +46,9 @@ en:
       index:
         not_found: Hardhat not found
         already_checked_in: Hardhat already checked in
+    wristband_lookup:
+      index:
+        no_participant: No participant found for that ID.
     ppe_distribution:
       load_step_one:
         no_participant: No participant found with that information.

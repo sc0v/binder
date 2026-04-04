@@ -8,10 +8,11 @@
     <h1>Wristband Lookup</h1>
     <%= form_tag wristband_lookup_path, method: 'get' do %>
       <%= label_tag :participant_search, 'Scan or enter CMU ID' %>
-      <%= text_field_tag :participant_search, nil,
-            autocomplete: :off,
-            autofocus: true,
-            placeholder: 'Tap card or type Andrew ID...' %>
+      <%= text_field_tag :participant_search,
+                         nil,
+                         autocomplete: :off,
+                         autofocus: true,
+                         placeholder: 'Tap card or type Andrew ID...' %>
     <% end %>
 
     <% if @participant %>
