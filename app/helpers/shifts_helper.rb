@@ -44,7 +44,11 @@ module ShiftsHelper
     shift_type = ShiftType.find_by(name: row[columns['shift_type']])
     return if shift_type.nil?
 
-    Shift.create!(
+    Shift.create!(shift_attrs(row, columns, organization, shift_type))
+  end
+
+  def shift_attrs(row, columns, organization, shift_type)
+    {
       capacity: row[columns['capacity']],
       starts_at: row[columns['starts_at']],
       ends_at: row[columns['ends_at']],
@@ -52,6 +56,6 @@ module ShiftsHelper
       andrewids: row[columns['andrewids']],
       shift_type:,
       organization:
-    )
+    }
   end
 end
