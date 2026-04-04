@@ -113,17 +113,15 @@ class ShiftsController < ApplicationController
   def create_shift_participants
     return if @shift.andrewids.blank?
 
-    @shift
-      .andrewids
-      .split(';')
-      .each do |andrewid|
-        andrewid = andrewid.strip
-        participant = Participant.find_by(eppn: "#{andrewid}@andrew.cmu.edu")
-        unless participant
-          Rails.logger.debug { "Participant (#{andrewid}) does not exist" }
-          next
-        end
-        ShiftParticipant.create(shift: @shift, participant:)
-      end
+    @shift.andrewids.split(';').each { |andrewid| create_shift_participant(andrewid.strip) }
+  end
+
+  def create_shift_participant(andrewid)
+    participant = Participant.find_by(eppn: "#{andrewid}@andrew.cmu.edu")
+    unless participant
+      Rails.logger.debug { "Participant (#{andrewid}) does not exist" }
+      return
+    end
+    ShiftParticipant.create(shift: @shift, participant:)
   end
 end
