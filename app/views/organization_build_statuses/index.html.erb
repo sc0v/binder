@@ -15,30 +15,38 @@
                 class: "btn#{' active' if @type == 'electrical'}" %>
   </div>
 
-  <table class="js-list">
-    <thead>
-      <tr>
-        <th>Organization</th>
-        <th>Steps</th>
-        <th>Approved</th>
-        <th>Pending</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @statuses.each do |status| %>
-        <% steps = status.organization_build_steps.select(&:is_enabled) %>
-        <% approved = steps.select { |s| s.approver.present? } %>
-        <% pending = steps.reject { |s| s.approver.present? } %>
+  <div style="overflow-x: auto;">
+    <table class="build-progress-grid">
+      <thead>
         <tr>
-          <td>
-            <%= link_to status.organization.name,
-                        organization_organization_build_status_path(status.organization, status) %>
-          </td>
-          <td><%= steps.count %></td>
-          <td><%= approved.count %></td>
-          <td><%= pending.count %></td>
+          <th class="org-col">Organization</th>
+          <% @step_titles.each do |title| %>
+            <th class="step-col"><span><%= title %></span></th>
+          <% end %>
         </tr>
-      <% end %>
-    </tbody>
-  </table>
+      </thead>
+      <tbody>
+        <% @statuses.each do |status| %>
+          <tr>
+            <td class="org-col">
+              <%= link_to status.organization.name,
+                          organization_organization_build_status_path(status.organization, status) %>
+            </td>
+            <% @step_titles.each do |title| %>
+              <% step = @step_lookup[status.id][title] %>
+              <% css =
+                   if step.nil?
+                     'step-na'
+                   elsif step.approver.present?
+                     'step-approved'
+                   else
+                     'step-pending'
+                   end %>
+              <td class="<%= css %>" title="<%= title %>"></td>
+            <% end %>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 </div>

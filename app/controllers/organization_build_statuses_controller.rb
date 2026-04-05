@@ -10,6 +10,8 @@ class OrganizationBuildStatusesController < ApplicationController
         .includes(organization: {}, organization_build_steps: :approver)
         .joins(:organization)
         .order('organizations.name')
+    @step_titles = build_step_titles(@statuses)
+    @step_lookup = build_step_lookup(@statuses)
   end
 
   def show
@@ -42,5 +44,23 @@ class OrganizationBuildStatusesController < ApplicationController
 
   def update_params
     params.expect(organization_build_status: [:notes])
+  end
+
+  def build_step_titles(statuses)
+    statuses
+      .flat_map do |s|
+        s.organization_build_steps.select(&:is_enabled).map(&:title)
+      end
+      .uniq
+  end
+
+  def build_step_lookup(statuses)
+    statuses.each_with_object({}) do |status, hash|
+      hash[status.id] = status
+        .organization_build_steps
+        .select(&:is_enabled)
+        .group_by(&:title)
+        .transform_values(&:first)
+    end
   end
 end
