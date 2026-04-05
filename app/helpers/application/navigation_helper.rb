@@ -51,7 +51,18 @@ module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
         can: {
           action: :index,
           subject: Organization
-        }
+        },
+        children: [
+          {
+            label: 'Build Progress',
+            url: organization_build_statuses_path,
+            key: 'build_progress',
+            can: {
+              action: :manage,
+              subject: OrganizationBuildStatus
+            }
+          }
+        ]
       },
       {
         label: 'People',
