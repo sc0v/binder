@@ -52,7 +52,9 @@ class OrganizationBuildStatusesController < ApplicationController
 
   def enabled_steps_exist
     OrganizationBuildStep
-      .where('organization_build_steps.organization_build_status_id = organization_build_statuses.id')
+      .where(
+        'organization_build_steps.organization_build_status_id = organization_build_statuses.id'
+      )
       .where(is_enabled: true)
       .select('1')
       .arel
