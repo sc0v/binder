@@ -1,0 +1,44 @@
+<% update_document_title(add: 'Build Progress') %>
+<% update_breadcrumbs(add: link_to('Organizations', organizations_path)) %>
+<% update_breadcrumbs(add: 'Build Progress') %>
+<% nav(active: 'organizations') %>
+
+<div class="content wide">
+  <h1>Build Progress</h1>
+
+  <div style="margin-bottom: 1rem;">
+    <%= link_to 'Structural',
+                organization_build_statuses_path(type: 'structural'),
+                class: "btn#{' active' if @type == 'structural'}" %>
+    <%= link_to 'Electrical',
+                organization_build_statuses_path(type: 'electrical'),
+                class: "btn#{' active' if @type == 'electrical'}" %>
+  </div>
+
+  <table class="js-list">
+    <thead>
+      <tr>
+        <th>Organization</th>
+        <th>Steps</th>
+        <th>Approved</th>
+        <th>Pending</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @statuses.each do |status| %>
+        <% steps = status.organization_build_steps.select(&:is_enabled) %>
+        <% approved = steps.select { |s| s.approver.present? } %>
+        <% pending = steps.reject { |s| s.approver.present? } %>
+        <tr>
+          <td>
+            <%= link_to status.organization.name,
+                        organization_organization_build_status_path(status.organization, status) %>
+          </td>
+          <td><%= steps.count %></td>
+          <td><%= approved.count %></td>
+          <td><%= pending.count %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>

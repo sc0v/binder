@@ -1,6 +1,17 @@
 # frozen_string_literal: true
 
 class OrganizationBuildStatusesController < ApplicationController
+  def index
+    authorize! :manage, OrganizationBuildStatus
+    @type = params[:type].presence_in(%w[structural electrical]) || 'structural'
+    @statuses =
+      OrganizationBuildStatus
+        .where(status_type: @type)
+        .includes(organization: {}, organization_build_steps: :approver)
+        .joins(:organization)
+        .order('organizations.name')
+  end
+
   def show
     @build_status = OrganizationBuildStatus.find(params[:id])
 

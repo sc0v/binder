@@ -135,6 +135,8 @@ Rails.application.routes.draw do
   post 'toggle_downtime', to: 'downtime#toggle'
 
   # TODO: Confirm everything below
+  resources :organization_build_statuses, only: [:index]
+
   resources :organizations do
     resources :organization_build_statuses, only: %i[show edit update] do
       resources :organization_build_steps,
