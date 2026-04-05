@@ -65,7 +65,7 @@
                 <% end %>
               </div>
             <% end %>
-            <% if shift.shift_participants.where.not(clocked_in_at: nil).count < shift.capacity %>
+            <% if shift.shift_participants.count < shift.capacity %>
               <% if shift.shift_participants.empty? %>
                 <small style="color: #c00;">Participant Not Specified</small>
               <% end %>
