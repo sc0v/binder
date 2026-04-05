@@ -4,12 +4,7 @@ class OrganizationBuildStatusesController < ApplicationController
   def index
     authorize! :manage, OrganizationBuildStatus
     @type = params[:type].presence_in(%w[structural electrical]) || 'structural'
-    @statuses =
-      OrganizationBuildStatus
-        .where(status_type: @type)
-        .includes(organization: {}, organization_build_steps: :approver)
-        .joins(:organization)
-        .order('organizations.name')
+    @statuses = load_statuses
     @step_titles = build_step_titles(@statuses)
     @step_lookup = build_step_lookup(@statuses)
   end
@@ -44,6 +39,24 @@ class OrganizationBuildStatusesController < ApplicationController
 
   def update_params
     params.expect(organization_build_status: [:notes])
+  end
+
+  def load_statuses
+    OrganizationBuildStatus
+      .where(status_type: @type)
+      .where(enabled_steps_exist)
+      .includes(organization: {}, organization_build_steps: :approver)
+      .joins(:organization)
+      .order('organizations.name')
+  end
+
+  def enabled_steps_exist
+    OrganizationBuildStep
+      .where('organization_build_steps.organization_build_status_id = organization_build_statuses.id')
+      .where(is_enabled: true)
+      .select('1')
+      .arel
+      .exists
   end
 
   def build_step_titles(statuses)
