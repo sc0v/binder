@@ -169,6 +169,7 @@ li.tab {
 }
 
 #nfc-fab {
+  display: none;
   position: fixed;
   bottom: 1.5rem;
   right: 1.5rem;
@@ -180,7 +181,6 @@ li.tab {
   border: none;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
   cursor: pointer;
-  display: flex;
   align-items: center;
   justify-content: center;
   font-size: 1.3rem;

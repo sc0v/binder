@@ -6,10 +6,8 @@ let ndefActive = false;
 
 class NfcController extends Controller {
   connect() {
-    if (!("NDEFReader" in window)) {
-      this.element.hidden = true;
-      return;
-    }
+    if (!("NDEFReader" in window)) return;
+    this.element.style.display = "flex";
     if (ndefActive) this.element.classList.add("nfc-hidden");
   }
 
