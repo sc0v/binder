@@ -1,6 +1,14 @@
 # frozen_string_literal: true
 
 class OrganizationBuildStatusesController < ApplicationController
+  def index
+    authorize! :manage, OrganizationBuildStatus
+    @type = params[:type].presence_in(%w[structural electrical]) || 'structural'
+    @statuses = load_statuses
+    @step_titles = build_step_titles(@statuses)
+    @step_lookup = build_step_lookup(@statuses)
+  end
+
   def show
     @build_status = OrganizationBuildStatus.find(params[:id])
 
@@ -31,5 +39,43 @@ class OrganizationBuildStatusesController < ApplicationController
 
   def update_params
     params.expect(organization_build_status: [:notes])
+  end
+
+  def load_statuses
+    OrganizationBuildStatus
+      .where(status_type: @type)
+      .where(enabled_steps_exist)
+      .includes(organization: {}, organization_build_steps: :approver)
+      .joins(:organization)
+      .order('organizations.name')
+  end
+
+  def enabled_steps_exist
+    OrganizationBuildStep
+      .where(
+        'organization_build_steps.organization_build_status_id = organization_build_statuses.id'
+      )
+      .where(is_enabled: true)
+      .select('1')
+      .arel
+      .exists
+  end
+
+  def build_step_titles(statuses)
+    statuses
+      .flat_map do |s|
+        s.organization_build_steps.select(&:is_enabled).map(&:title)
+      end
+      .uniq
+  end
+
+  def build_step_lookup(statuses)
+    statuses.each_with_object({}) do |status, hash|
+      hash[status.id] = status
+        .organization_build_steps
+        .select(&:is_enabled)
+        .group_by(&:title)
+        .transform_values(&:first)
+    end
   end
 end
