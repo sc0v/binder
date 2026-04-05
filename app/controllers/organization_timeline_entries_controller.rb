@@ -88,8 +88,8 @@ class OrganizationTimelineEntriesController < ApplicationController
   end
 
   def queues
-    @electrical = OrganizationTimelineEntry.electrical.current
-    @structural = OrganizationTimelineEntry.structural.current
+    @electrical = OrganizationTimelineEntry.electrical.current.includes(organization: :organization_build_statuses)
+    @structural = OrganizationTimelineEntry.structural.current.includes(organization: :organization_build_statuses)
   end
 
   def history
