@@ -41,6 +41,6 @@
 /config/credentials.yml.enc
 .devcontainer/.env.local
 
-echo "db/*.sqlite3-shm" >> .gitignore
-echo "db/*.sqlite3-wal" >> .gitignore
-echo "*.deb" >> .gitignore
+db/*.sqlite3-shm
+db/*.sqlite3-wal
+*.deb
