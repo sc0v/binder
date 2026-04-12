@@ -1,7 +1,14 @@
 <h3>What is being returned?</h3>
 <%= form_tag checkin_tools_path do %>
-  <%= label_tag(:barcode, 'Scan or Type Tool Barcode [Enter]') %>
-  <%= text_field_tag(:barcode, nil, autocomplete: :off) %>
+  <%= hidden_field_tag :focus, 'checkin_barcode' %>
+  <%= label_tag(:checkin_barcode, 'Scan or Type Tool Barcode [Enter]') %>
+  <%= text_field_tag(
+        :barcode,
+        nil,
+        id: 'checkin_barcode',
+        autocomplete: :off,
+        autofocus: params[:focus] == 'checkin_barcode'
+      ) %>
 <% end %>
 
 <% if session[:checkin_summary].present? %>

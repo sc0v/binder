@@ -11,8 +11,15 @@
 </ul>
 <%= form_tag add_tools_path do %>
   <%= hidden_field_tag :url, params[:url] %>
-  <%= label_tag(:barcode, 'Scan or Type Tool Barcode [Enter]') %>
-  <%= text_field_tag(:barcode, nil, autocomplete: :off, autofocus: true) %>
+  <%= hidden_field_tag :focus, 'checkout_barcode' %>
+  <%= label_tag(:checkout_barcode, 'Scan or Type Tool Barcode [Enter]') %>
+  <%= text_field_tag(
+        :barcode,
+        nil,
+        id: 'checkout_barcode',
+        autocomplete: :off,
+        autofocus: %w[participant_search checkin_barcode].exclude?(params[:focus])
+      ) %>
 <% end %>
 
 <h3>The Borrower</h3>
@@ -52,8 +59,14 @@
   <% end %>
 <% else %>
   <%= form_tag checkout_participant_tools_path do %>
+    <%= hidden_field_tag :focus, 'participant_search' %>
     <%= label_tag(:participant_search, 'Tap/Swipe/Type Andrew ID [Enter]') %>
-    <%= text_field_tag(:participant_search, nil, autocomplete: :off, autofocus: true) %>
+    <%= text_field_tag(
+          :participant_search,
+          nil,
+          autocomplete: :off,
+          autofocus: params[:focus] == 'participant_search'
+        ) %>
   <% end %>
 <% end %>
 <p class="alignright"><%= link_to 'Reset', reset_tools_path, class: 'cta' %></p>

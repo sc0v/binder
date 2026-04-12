@@ -4,19 +4,19 @@ class Tools::CheckinController < ApplicationController
   def create
     tool = Tool.find_by(barcode: params[:barcode])
     store_checkin_in_session(tool)
-    redirect_to checkout_tools_path
+    redirect_to checkout_tools_path(focus: 'checkin_barcode')
   end
 
   def update
     @tool = Tool.find_by(barcode: params[:barcode])
     if @tool.blank?
-      redirect_to checkout_tools_path,
+      redirect_to checkout_tools_path(focus: 'checkin_barcode'),
                   alert: "Tool #{params[:barcode]} does not exist."
     else
       checkin_tool
     end
   rescue StandardError
-    redirect_to checkout_tools_path,
+    redirect_to checkout_tools_path(focus: 'checkin_barcode'),
                 alert: "Tool #{params[:barcode]} was never checked out."
   end
 
@@ -67,7 +67,7 @@ class Tools::CheckinController < ApplicationController
     data = org_and_remaining_tools
     process_checkout
     get_checkin_tool_summary(data[:org], data[:remaining])
-    redirect_to checkout_tools_path,
+    redirect_to checkout_tools_path(focus: 'checkin_barcode'),
                 notice: "Tool #{params[:barcode]} successfully checked in."
   end
 end

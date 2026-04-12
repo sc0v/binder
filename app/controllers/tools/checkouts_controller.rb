@@ -8,7 +8,7 @@ class Tools::CheckoutsController < ApplicationController
     session[:tools] ||= []
     tool = Tool.find_by(barcode: params[:barcode])
     update_tool_session(tool)
-    redirect_to checkout_tools_path
+    redirect_to checkout_tools_path(focus: focus_param)
   end
 
   def remove
@@ -20,7 +20,7 @@ class Tools::CheckoutsController < ApplicationController
     store_borrower_in_session
     return redirect_to params[:url] if params[:url].present?
 
-    redirect_to checkout_tools_path
+    redirect_to checkout_tools_path(focus: focus_param)
   end
 
   def reset
@@ -55,6 +55,10 @@ class Tools::CheckoutsController < ApplicationController
   end
 
   private
+
+  def focus_param
+    params[:focus].presence_in(%w[checkout_barcode participant_search checkin_barcode])
+  end
 
   def update_tool_session(tool)
     if tool.nil?
