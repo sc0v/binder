@@ -57,7 +57,9 @@ class Tools::CheckoutsController < ApplicationController
   private
 
   def focus_param
-    params[:focus].presence_in(%w[checkout_barcode participant_search checkin_barcode])
+    params[:focus].presence_in(
+      %w[checkout_barcode participant_search checkin_barcode]
+    )
   end
 
   def update_tool_session(tool)
