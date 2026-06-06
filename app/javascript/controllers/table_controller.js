@@ -37,8 +37,11 @@ export default class extends Controller {
               "border-radius:4px;padding:4px;display:none;pointer-events:none;box-shadow:0 2px 8px rgba(0,0,0,.2);";
             const img = document.createElement("img");
             img.src = data.image_url;
-            img.style.cssText = "max-width:180px;max-height:180px;display:block;";
-            img.onerror = () => { tooltip.style.display = "none"; };
+            img.style.cssText =
+              "max-width:180px;max-height:180px;display:block;";
+            img.onerror = () => {
+              tooltip.style.display = "none";
+            };
             tooltip.appendChild(img);
             document.body.appendChild(tooltip);
             this._tooltips = this._tooltips || [];
