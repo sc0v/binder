@@ -5,14 +5,13 @@ class Charge < ApplicationRecord
   validates_associated :issuing_participant,
                        :organization,
                        :charge_type,
-                       :receiving_participant,
                        :creating_participant
   validates :amount, numericality: true
 
   belongs_to :organization
   belongs_to :charge_type
   belongs_to :issuing_participant, class_name: 'Participant'
-  belongs_to :receiving_participant, class_name: 'Participant'
+  belongs_to :receiving_participant, class_name: 'Participant', optional: true
   belongs_to :creating_participant, class_name: 'Participant'
 
   default_scope { order(charged_at: :desc) }

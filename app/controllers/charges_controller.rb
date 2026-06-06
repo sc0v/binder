@@ -40,8 +40,6 @@ class ChargesController < ApplicationController
   end
 
   def edit
-    @current_receiving_participant =
-      @charge.receiving_participant&.formatted_name || ''
   end
 
   def create
@@ -101,7 +99,6 @@ class ChargesController < ApplicationController
         amount
         description
         issuing_participant_id
-        receiving_participant_id
         organization_id
         charge_type_id
       ]
