@@ -37,6 +37,7 @@ class ToolsController < ApplicationController
             .offset(offset)
             .limit(size)
         data = tools.table_attrs.as_json(methods: %i[link])
+        data.each { |t| t['image_url'] = helpers.asset_path("tool_images/#{t['t_name']}.png") }
         render json: { last_page:, data: }
       end
     end

@@ -5,10 +5,7 @@ module ToolsHelper
     {
       title: 'Name',
       field: :t_name,
-      formatter: 'link',
-      formatterParams: {
-        urlField: :link
-      },
+      formatter: 'imageTooltip',
       frozen: true,
       headerFilter: 'input',
       headerFilterPlaceholder: 'Search',
