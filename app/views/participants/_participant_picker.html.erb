@@ -14,19 +14,13 @@
     <% end %>
     <p class="aligncenter">
       <% if Current.user == p %>
-        <%= link_to "(#{role}) #{p.name}",
-                    impersonate_path(participant_id: p.id),
-                    data: {
-                      turbo_method: :post
-                    },
-                    class: 'btn wide' %>
+        <%= button_to "(#{role}) #{p.name}",
+                      impersonate_path(participant_id: p.id),
+                      class: 'btn wide' %>
       <% else %>
-        <%= link_to "(#{role}) #{p.name}",
-                    impersonate_path(participant_id: p.id),
-                    data: {
-                      turbo_method: :post
-                    },
-                    class: 'btn ghost wide' %>
+        <%= button_to "(#{role}) #{p.name}",
+                      impersonate_path(participant_id: p.id),
+                      class: 'btn ghost wide' %>
       <% end %>
     </p>
   <% end %>

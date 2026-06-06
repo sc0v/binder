@@ -198,6 +198,7 @@ Rails.application.routes.draw do
               only: %i[new create update destroy]
     collection { post :upload_shift_csv, to: 'shifts#upload_csv' }
   end
+
   resources :tasks do
     member { post 'complete' }
   end
