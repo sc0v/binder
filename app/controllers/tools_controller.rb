@@ -7,16 +7,7 @@ class ToolsController < ApplicationController
   # The tools table gets data from here through AJAX, so we keep
   # compute last_page to tell table how many batches it needs
   def index
-    type = params[:type] || 'tool'
-
-    tools = Tool.just_tools
-
-    case type
-    when 'hardhat'
-      tools = Tool.hardhats
-    when 'radio'
-      tools = Tool.radios
-    end
+    tools = tools_for_type(params[:type])
 
     @json_url = url_for(params.permit(:type, :page, :size).merge(format: :json))
 
@@ -37,6 +28,9 @@ class ToolsController < ApplicationController
             .offset(offset)
             .limit(size)
         data = tools.table_attrs.as_json(methods: %i[link])
+        data.each do |t|
+          t['image_url'] = helpers.asset_path("tool_images/#{t['t_name']}.png")
+        end
         render json: { last_page:, data: }
       end
     end
@@ -74,6 +68,17 @@ class ToolsController < ApplicationController
   end
 
   private
+
+  def tools_for_type(type)
+    case type
+    when 'hardhat'
+      Tool.hardhats
+    when 'radio'
+      Tool.radios
+    else
+      Tool.just_tools
+    end
+  end
 
   def tool_params
     params.expect(tool: %i[name description barcode tool_type_id])
