@@ -6,12 +6,12 @@ module ShiftsHelper
   end
 
   # Parses the shift CSV, returning a hash with error if a problem occurs.
-  def parse_shift_csv(csv_file, organization)
+  def parse_shift_csv(csv_file)
     csv = CSV.parse(csv_file.read, headers: true)
     columns = header_columns(csv.headers)
     return { error: invalid_headers_message } if columns.nil?
 
-    csv.each { |row| process_csv_row(row, columns, organization) }
+    csv.each { |row| process_csv_row(row, columns) }
     { error: nil }
   rescue CSV::MalformedCSVError
     { error: 'Malformed CSV! Make sure you submit a CSV file.' }
@@ -21,7 +21,7 @@ module ShiftsHelper
 
   def invalid_headers_message
     'Incorrect Headers! Make sure your CSV has columns: ' \
-      '"starts_at", "ends_at", "required_number_of_participants", "description", "shift_type"'
+      '"organization", "starts_at", "ends_at", "required_number_of_participants", "description", "shift_type"'
   end
 
   # Check whether the shift CSV has the correct headers, and
@@ -29,6 +29,7 @@ module ShiftsHelper
   def header_columns(csv_headers)
     normalized = csv_headers.compact.map { |h| h.downcase.gsub(' ', '') }
     required = %w[
+      organization
       starts_at
       ends_at
       required_number_of_participants
@@ -40,18 +41,27 @@ module ShiftsHelper
     required.index_with { |h| normalized.index(h) }
   end
 
-  def process_csv_row(row, columns, organization)
+  def process_csv_row(row, columns)
     shift_type = ShiftType.find_by(name: row[columns['shift_type']])
     return if shift_type.nil?
+
+    organization = Organization.find_by(name: row[columns['organization']])
+    return if organization.nil?
 
     Shift.create!(shift_attrs(row, columns, organization, shift_type))
   end
 
+  def parse_datetime(value)
+    Time.zone.strptime(value.to_s.strip, '%m/%d/%Y, %I:%M %p')
+  rescue ArgumentError
+    Time.zone.parse(value.to_s.strip)
+  end
+
   def shift_attrs(row, columns, organization, shift_type)
     {
-      capacity: row[columns['capacity']],
-      starts_at: row[columns['starts_at']],
-      ends_at: row[columns['ends_at']],
+      capacity: row[columns['required_number_of_participants']],
+      starts_at: parse_datetime(row[columns['starts_at']]),
+      ends_at: parse_datetime(row[columns['ends_at']]),
       description: row[columns['description']],
       andrewids: row[columns['andrewids']],
       shift_type:,

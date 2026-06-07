@@ -143,10 +143,13 @@ en:
       create:
         no_borrower: Must specify who is checking out.
         notice: Checkout completed!
-  shifts: 
+  shifts:
     create:
       notice: Shift was added successfully
       error: Error adding shift
+    upload_csv:
+      csv_not_uploaded: No CSV file was uploaded
+      success: Shifts imported successfully
     destroy:
       notice: Shift deleted
       error: Error deleting shift

@@ -60,8 +60,6 @@ class ShiftsController < ApplicationController
     redirect_to shifts_path
   end
 
-  private
-
   def upload_csv
     csv_file = params[:csv_file]
     return redirect_csv_error(t('.csv_not_uploaded')) if csv_file.blank?
@@ -69,8 +67,11 @@ class ShiftsController < ApplicationController
     parse = helpers.parse_shift_csv(csv_file)
     return redirect_csv_error(parse[:error]) if parse[:error].present?
 
-    redirect_to new_shift_path(step: 'repair')
+    flash[:notice] = t('.success')
+    redirect_to shifts_path
   end
+
+  private
 
   def filtered_shifts(base)
     case params[:type]
@@ -117,6 +118,11 @@ class ShiftsController < ApplicationController
       .andrewids
       .split(';')
       .each { |andrewid| create_shift_participant(andrewid.strip) }
+  end
+
+  def redirect_csv_error(message)
+    flash[:error] = message
+    redirect_to new_shift_path
   end
 
   def create_shift_participant(andrewid)
