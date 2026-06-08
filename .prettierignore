@@ -19,6 +19,7 @@ app/assets/stylesheets/cmu.css
 app/views/home/search.html.erb
 app/views/participants/safety_briefings/_video.html.erb
 app/views/shifts/_list.html.erb
+app/views/store/items/index.html.erb
 app/views/store/items/show.html.erb
 app/views/tool_types/show.html.erb
 app/views/tools/_tool.html.erb
