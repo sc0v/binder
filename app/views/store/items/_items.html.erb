@@ -1,11 +1,6 @@
 <% page ||= 'default' %>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Price</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody> <%= render partial: 'item', collection: items %> </tbody>
-</table>
+<div style="display: grid; 
+            grid-template-columns: repeat(5, 1fr); 
+            gap: 0.5rem;">
+  <%= render partial: 'item', collection: items %>
+</div>
