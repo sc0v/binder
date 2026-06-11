@@ -1,6 +1,8 @@
 <% page ||= 'default' %>
-<div style="display: grid; 
+<div
+  style="display: grid; 
             grid-template-columns: repeat(5, 1fr); 
-            gap: 0.5rem;">
+            gap: 0.5rem;"
+>
   <%= render partial: 'item', collection: items %>
 </div>
