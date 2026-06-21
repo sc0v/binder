@@ -1,5 +1,6 @@
 #sitename a#sccWordmarkLink {
-  width: 30%;
+  width: 9%;
+  margin-left: auto;
 }
 
 @media only screen and (max-width: 767px) {
@@ -271,4 +272,246 @@ li.tab {
 #nfc-fab.nfc-hidden {
   opacity: 0;
   pointer-events: none;
+}
+
+/* Urgent Announcements */
+.urgent-widget {
+  padding-bottom: 1em;
+}
+
+.urgent-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.75em 1.25em;
+  margin-bottom: 0.75em;
+}
+
+.urgent-header h2 {
+  margin: 0;
+  padding: 0;
+}
+
+.urgent-p {
+  margin: 1em;
+}
+.urgent-cards-scroll {
+  max-height: 10em;
+  overflow-y: auto;
+}
+
+.urgent-card-inner {
+  background: #fff;
+  color: #333;
+  padding: 0.65em 1em;
+  margin: 0 auto 0.5em;
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1em;
+  width: 90%;
+}
+
+.urgent-card-preview__text {
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  flex: 1;
+  min-width: 0;
+}
+
+.urgent-fixed-popup {
+  position: fixed;
+  background: #fff;
+  color: #333;
+  border: 1px solid #ddd;
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+  padding: 0.75em 1em;
+  z-index: 9999;
+  min-width: 260px;
+  max-width: 420px;
+  pointer-events: none;
+}
+
+.urgent-fixed-popup p {
+  margin: 0 0 0.25em;
+  white-space: normal;
+  color: #333;
+}
+
+.urgent-card-popup__meta {
+  font-size: 0.8em;
+  color: #888 !important;
+  margin-bottom: 0.4em !important;
+}
+
+/* Urgent card (index / show / archived pages) */
+.urgent-card {
+  border-left: 5px solid #c41230;
+  background: #fff5f5;
+  padding: 1em 1.5em;
+  margin-bottom: 1.25em;
+}
+
+.urgent-card--archived {
+  border-color: #ccc;
+  background: #f9f9f9;
+  opacity: 0.8;
+}
+
+.urgent-card__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1em;
+  margin-bottom: 0.5em;
+}
+
+.urgent-card__title-row {
+  display: flex;
+  align-items: center;
+  gap: 0.4em;
+}
+
+.urgent-card__icon {
+  color: #c41230;
+  font-size: 1.1em;
+}
+
+.urgent-card__title {
+  font-weight: 700;
+  font-size: 1.05em;
+}
+
+.urgent-card__actions {
+  display: flex;
+  gap: 0.75em;
+  flex-shrink: 0;
+}
+
+.urgent-card__body {
+  margin: 0 0 0.5em;
+}
+
+.urgent-card__meta {
+  font-size: 0.8em;
+  color: #666;
+  margin: 0;
+}
+
+/* Electrical / Structural queue widget on landing page */
+.queue-widget {
+  margin: 1.5em 0;
+  background-color: #fffae6;
+}
+
+.queue-widget__header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 1em;
+  padding: 1em 1.25em;
+}
+
+.queue-widget__header h1 {
+  margin: 0;
+  font-size: 1.4em;
+}
+
+.queue-widget__tabs {
+  display: flex;
+  gap: 0.5em;
+}
+
+/* without this, the two buttons somehow look different even though
+   they both have "btn small" applied */
+.queue-widget__tabs .queue-widget__tab {
+  margin: 0;
+  padding: 0.4em 0.9em;
+  border: 0;
+  border-bottom: 2px solid rgba(0, 0, 0, 0.35);
+  line-height: 1.15;
+  font-size: 1em;
+  background: #6d6e71;
+  color: #fff;
+}
+
+.queue-widget__tabs .queue-widget__tab.is-active {
+  background: #c41230;
+}
+
+.queue-flow {
+  display: flex;
+  align-items: stretch;
+  overflow-x: auto;
+  padding: 1em 1.25em;
+}
+
+/* the `hidden` attribute must win over display:flex. */
+.queue-flow[hidden] {
+  display: none;
+}
+
+/* The arrow shape to show progress:
+   a block with a pointed left edge and a matching
+   notch cut out of its right edge, so consecutive blocks interlock. */
+.queue-chevron {
+  --notch: 22px;
+  flex: 1 0 8.5em;
+  min-height: 5.5em;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25em;
+  text-align: center;
+  padding: 0.6em 2em;
+  background: #e4e4e4;
+  margin-left: calc(var(--notch) * -1 + 3px);
+  clip-path: polygon(
+    var(--notch) 0,
+    100% 0,
+    calc(100% - var(--notch)) 50%,
+    100% 100%,
+    var(--notch) 100%,
+    0 50%
+  );
+}
+
+/* first in line */
+.queue-chevron:first-child {
+  margin-left: 0;
+  padding-left: 1.2em;
+  background: #fdb515;
+  clip-path: polygon(
+    0 0,
+    100% 0,
+    calc(100% - var(--notch)) 50%,
+    100% 100%,
+    0 100%
+  );
+}
+
+.queue-chevron--placeholder {
+  background: transparent;
+  border: 1px dashed #bbb;
+  color: #999;
+}
+
+.queue-chevron__status {
+  font-size: 0.8em;
+  color: #555;
+  line-height: 1.2;
+}
+
+.queue-chevron__org {
+  font-size: 1.5em;
+  font-weight: 700;
+  color: #1a1a1a;
+}
+
+.queue-flow__empty {
+  color: #999;
+  font-style: italic;
 }

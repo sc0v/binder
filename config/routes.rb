@@ -63,6 +63,15 @@ Rails.application.routes.draw do
     collection { get :archived }
   end
 
+  # Urgent Announcements
+  resources :urgents, only: %i[index show create new edit update] do
+    member do
+      patch :archive
+      patch :unarchive
+    end
+    collection { get :archived }
+  end
+
   # Participant Safety Briefing
   get 'safety-briefing',
       to: 'participants/safety_briefings#show',

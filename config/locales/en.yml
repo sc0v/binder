@@ -112,6 +112,21 @@ en:
       notice: Archived the note!
     unarchive:
       notice: Unarchived the note!
+  urgents:
+    create:
+      notice: Urgent announcement posted!
+      save_error: Could not post the announcement.
+    update:
+      notice: Announcement updated!
+      alert: Could not update the announcement.
+    destroy:
+      notice: Deleted the announcement.
+    show:
+      archived: That announcement has been archived.
+    archive:
+      notice: Announcement archived.
+    unarchive:
+      notice: Announcement restored.
       
   organization_build_steps:
     create:

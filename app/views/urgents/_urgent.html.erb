@@ -1,0 +1,27 @@
+<div class="urgent-card">
+  <div class="urgent-card__header">
+    <div class="urgent-card__title-row">
+      <span class="urgent-card__icon">&#9888;</span>
+      <span class="urgent-card__title"><%= urgent.title %></span>
+    </div>
+    <div class="urgent-card__actions">
+      <% if can?(:update, urgent) %>
+        <%= link_to 'Edit', edit_urgent_path(urgent), class: 'cta' %>
+      <% end %>
+      <% if can?(:archive, urgent) %>
+        <%= link_to 'Archive',
+                    archive_urgent_path(urgent),
+                    data: {
+                      turbo_method: :patch,
+                      turbo_confirm: 'Archive this announcement?'
+                    },
+                    class: 'btn-small' %>
+      <% end %>
+    </div>
+  </div>
+  <p class="urgent-card__body"><%= urgent.value %></p>
+  <p class="urgent-card__meta">
+    Posted by <%= urgent.participant_name %> &middot;
+    <%= urgent.created_at.strftime('%b %d at %l:%M %p') %>
+  </p>
+</div>

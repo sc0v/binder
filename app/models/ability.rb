@@ -218,6 +218,7 @@ class Ability
     # FAQ: Same as Builder
     can :manage, Membership
     can %i[create destroy archive unarchive], Note
+    can %i[create update destroy archive unarchive], Urgent
     can :manage, OrganizationBuildStatus
     can :manage, OrganizationBuildStep
     # OrganizationCategory: Same as Builder
