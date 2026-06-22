@@ -3,7 +3,6 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Price</th>
       <th>Quantity</th>
       <th>Subtotal</th>
       <th>Actions</th>
@@ -20,7 +19,6 @@
     <%# Summary row %>
     <tr>
       <td><strong>Total</strong></td>
-      <td></td> <%# Blank cell for Price column %>
       <td><%= items.sum(&:quantity_purchased) %></td>
       <td
         ><%= number_to_currency(
