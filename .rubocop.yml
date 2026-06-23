@@ -103,16 +103,19 @@ Metrics/AbcSize:
     - "app/controllers/store/purchases_controller.rb"
     - "app/controllers/tool_inventory_controller.rb"
     - "app/controllers/tools_controller.rb"
+    - "app/controllers/tools/checkouts_controller.rb"
 Metrics/CyclomaticComplexity:
   Exclude:
     - "app/models/ability.rb"
     - "app/controllers/applets/ppe_distribution_controller.rb"
     - "app/controllers/organization_timeline_entries_controller.rb"
+    - "app/controllers/tools/checkouts_controller.rb"
 Metrics/PerceivedComplexity:
   Exclude:
     - "app/models/ability.rb"
     - "app/controllers/applets/ppe_distribution_controller.rb"
     - "app/controllers/organization_timeline_entries_controller.rb"
+    - "app/controllers/tools/checkouts_controller.rb"
 
 # load_step_* methods in ppe_distribution_controller return booleans as a side
 # effect of loading data — they are not pure predicates and should not end with ?.
