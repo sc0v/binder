@@ -6,6 +6,7 @@ on:
     paths:
       - .devcontainer/Dockerfile
       - Gemfile.lock
+      - .ruby-version
   workflow_dispatch:
 
 env:
