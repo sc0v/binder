@@ -5,12 +5,9 @@
 
 <div class="content">
   <h1><%= @store_item.name %></h1>
-  <% begin %>
-    <dt>
-      <%= image_tag("store_images/#{@store_item.name}.png", id: "item-image-#{@store_item.name}", class: 'item-image', data: { item_name: @store_item.name, image_url: asset_path("store_images/#{@store_item.name}.png") }, size: '70x70') %>
-    </dt>
-  <% rescue %>
-  <% end %>
+  <dt>
+    <%= safe_image_tag("store_images/#{@store_item.name}.png", id: "item-image-#{@store_item.name}", class: 'item-image', data: { item_name: @store_item.name, image_url: safe_asset_path("store_images/#{@store_item.name}.png") }, size: '70x70') %>
+  </dt>
   <br/>
   <dt><strong>Price:</strong></dt>
   <dd><%= number_to_currency @store_item.price %></dd>

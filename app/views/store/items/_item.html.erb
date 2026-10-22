@@ -16,8 +16,8 @@
 </style>
 
 <div class="item-card">
-  <%= image_tag "store_images/#{item.name}.png",
-                style: 'height: 80px; object-fit: contain;' %>
+  <%= safe_image_tag "store_images/#{item.name}.png",
+                     style: 'height: 80px; object-fit: contain;' %>
   <div class="text"><%= link_to item.name, item %></div>
   <div class="text"><%= number_to_currency item.price %></div>
   <%= link_to t('.add_to_cart', default: t('helpers.links.add_to_cart')),
