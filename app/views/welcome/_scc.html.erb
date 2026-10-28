@@ -9,6 +9,9 @@
     <%= render 'welcome/queue_widget',
                electrical: @electrical_queue,
                structural: @structural_queue %>
+    <%= render 'welcome/scissor_lift_widget',
+               available: @available_scissor_lifts,
+               queue: @scissor_lift_queue %>
     <%= render 'notes/stickies', notes: @notes %> </div
   ><div class="sidebar"> <%= render 'layouts/sidebar_defaults' %> </div>
 </div>

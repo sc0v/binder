@@ -1,3 +1,52 @@
+/* ------------------------------------------------------------------
+   Global corner rounding. Overrides the CMU framework's flat edges
+   (border-radius: 0). Small radius for controls, larger for
+   containers — kept subtle on purpose.
+   ------------------------------------------------------------------ */
+:root {
+  --radius-sm: 4px;
+  --radius-md: 8px;
+}
+
+/* Small controls */
+a.btn,
+a.btn:visited,
+button,
+input[type="submit"],
+input[type="button"],
+input[type="text"],
+input[type="tel"],
+input[type="email"],
+input[type="password"],
+input[type="number"],
+input[type="search"],
+select,
+textarea,
+.cta-button,
+.scissor-lift-chip,
+.queue-widget__tabs .queue-widget__tab {
+  border-radius: var(--radius-sm);
+}
+
+/* Larger containers / panels */
+.queue-widget,
+.urgent-widget,
+.urgent-card,
+.urgent-card-inner,
+.urgent-fixed-popup,
+.item-card,
+div[role="alert"].flash,
+ul#site-search-results {
+  border-radius: var(--radius-md);
+}
+
+/* Circular elements stay circular (higher specificity keeps them safe,
+   listed here for clarity). */
+nav#nav a.avatar > img,
+#nfc-fab {
+  border-radius: 50%;
+}
+
 #sitename a#sccWordmarkLink {
   width: 9%;
   margin-left: auto;
@@ -401,21 +450,26 @@ li.tab {
 
 /* Electrical / Structural queue widget on landing page */
 .queue-widget {
-  margin: 1.5em 0;
+  margin: 0.75em 0;
   background-color: #fffae6;
+  border: 1px solid #ece3bf;
 }
 
 .queue-widget__header {
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   justify-content: space-between;
   gap: 1em;
-  padding: 1em 1.25em;
+  padding: 0.6em 1.25em;
 }
 
+/* Override cmu.css `h1 { padding: 1em 0 }` + `h1:first-child { padding-top: 0 }`,
+   whose asymmetric padding pushes the title above the centered header buttons. */
 .queue-widget__header h1 {
   margin: 0;
-  font-size: 1.4em;
+  padding: 0;
+  font-size: 1.3em;
+  line-height: 1.2;
 }
 
 .queue-widget__tabs {
@@ -444,7 +498,7 @@ li.tab {
   display: flex;
   align-items: stretch;
   overflow-x: auto;
-  padding: 1em 1.25em;
+  padding: 0.75em 1.25em;
 }
 
 /* the `hidden` attribute must win over display:flex. */
@@ -458,7 +512,7 @@ li.tab {
 .queue-chevron {
   --notch: 22px;
   flex: 1 0 8.5em;
-  min-height: 5.5em;
+  min-height: 4.25em;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -511,6 +565,32 @@ li.tab {
 }
 
 .queue-flow__empty {
+  color: #999;
+  font-style: italic;
+}
+
+/* Scissor lift queue: available lifts shown as chips above the chevron flow */
+.scissor-lift-available {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5em;
+  margin: 0;
+  padding: 0.75em 1.25em 0;
+}
+
+.scissor-lift-available__label {
+  font-weight: 700;
+}
+
+.scissor-lift-chip {
+  background: #e4e4e4;
+  border: 1px solid #d0d0d0;
+  padding: 0.3em 0.85em;
+  font-size: 0.9em;
+}
+
+.scissor-lift-available__empty {
   color: #999;
   font-style: italic;
 }
