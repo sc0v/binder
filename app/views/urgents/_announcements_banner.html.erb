@@ -1,0 +1,84 @@
+<div class="red invert urgent-widget">
+  <div class="urgent-header">
+    <h2>Important</h2>
+    <%# only SCC staff can post new announcements %>
+    <% if can?(:create, Urgent) %>
+      <%= link_to 'New Urgent Announcement', new_urgent_path, class: 'btn small' %>
+    <% end %>
+  </div>
+
+  <% if urgents.any? %>
+    <%# scrollable card list %>
+    <div class="urgent-cards-scroll">
+      <% urgents.each do |urgent| %>
+        <div
+          class="urgent-card-inner urgent-hoverable"
+          data-meta="<%= h "#{urgent.created_at.strftime('%m/%d/%y %l:%M %p')} · #{urgent.participant_name}" %>"
+          data-body="<%= h urgent.value %>"
+        >
+          <%# single truncated line %>
+          <p class="urgent-card-preview__text">
+            <%= urgent.created_at.strftime('%m/%d/%y %l:%M %p') %> &middot;
+            <%= urgent.participant_name %> &mdash; <%= urgent.value %>
+          </p>
+
+          <% if can?(:archive, urgent) %>
+            <%= link_to 'Archive',
+                        archive_urgent_path(urgent),
+                        data: {
+                          turbo_method: :patch
+                        },
+                        class: 'btn small' %>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <%# Hover pop up lives outside the scroll container so its easier to read,
+      using position:fixed %>
+    <div
+      id="urgent-hover-popup"
+      class="urgent-fixed-popup"
+      style="display:none;"
+    >
+      <p class="urgent-card-popup__meta" id="urgent-popup-meta"></p>
+      <p id="urgent-popup-body"></p>
+    </div>
+
+    <script>
+      (function () {
+        function initUrgentPopup() {
+          var popup = document.getElementById("urgent-hover-popup");
+          if (!popup) return;
+
+          document
+            .querySelectorAll(".urgent-hoverable")
+            .forEach(function (card) {
+              card.addEventListener("mouseenter", function () {
+                document.getElementById("urgent-popup-meta").textContent =
+                  card.dataset.meta;
+                document.getElementById("urgent-popup-body").textContent =
+                  card.dataset.body;
+
+                // position above the card; flip below if too close to top of viewport
+                popup.style.display = "block";
+                var rect = card.getBoundingClientRect();
+                var top = rect.top - popup.offsetHeight - 8;
+                if (top < 8) top = rect.bottom + 8;
+                popup.style.left = rect.left + "px";
+                popup.style.top = top + "px";
+              });
+              card.addEventListener("mouseleave", function () {
+                popup.style.display = "none";
+              });
+            });
+        }
+
+        document.addEventListener("turbo:load", initUrgentPopup);
+        document.addEventListener("DOMContentLoaded", initUrgentPopup);
+      })();
+    </script>
+  <% else %>
+    <p class="urgent-p">No active urgent announcements.</p>
+  <% end %>
+</div>
