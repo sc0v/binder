@@ -291,7 +291,6 @@ li.tab {
   margin: 0;
   padding: 0;
 }
-
 .urgent-p {
   margin: 1em;
 }
@@ -514,4 +513,35 @@ li.tab {
 .queue-flow__empty {
   color: #999;
   font-style: italic;
+}
+
+/* store card quantity controls, keep −, count, and + on one line. */
+.content .sidebar .cart-qty {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2em;
+  margin: 0;
+  padding: 0;
+}
+
+/* store: strip the button background for readibility,
+  using input[type=submit] to overwrite the orig button framework's styling */
+input[type="submit"].cart-qty-btn {
+  flex: none;
+  background: none;
+  border: 0;
+  margin: 0;
+  padding: 0.6em;
+  font-size: 1.3em;
+  font-weight: 700;
+  line-height: 1;
+  color: #6d6e71;
+  cursor: pointer;
+  vertical-align: middle;
+}
+
+input[type="submit"].cart-qty-btn:hover,
+input[type="submit"].cart-qty-btn:focus {
+  background: none;
+  color: #c41230;
 }
