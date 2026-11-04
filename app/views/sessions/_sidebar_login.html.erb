@@ -4,14 +4,16 @@
     <p>
       You must be logged in to watch the safety video and sign the waiver.
     </p>
-    <%= button_to 'Sign In',
-                  login_path,
-                  class: 'btn wide',
-                  form: {
-                    data: {
-                      turbo: false
-                    }
-                  } %>
+    <h4>
+      <%= button_to 'Sign In',
+                    login_path,
+                    class: 'btn ghost wide',
+                    form: {
+                      data: {
+                        turbo: false
+                      }
+                    } %>
+    </h4>
   </div>
   <div class="left-rule">
     <p>
