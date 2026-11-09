@@ -1,0 +1,25 @@
+<% update_document_title(add: 'Urgent Announcements') %>
+<% update_breadcrumbs(add: 'Urgent Announcements') %>
+<% nav %>
+
+<div class="content">
+  <div>
+    <div class="title-row">
+      <h1>Urgent Announcements</h1>
+      <div>
+        <%= if can?(:create, Urgent)
+              link_to 'New Announcement', new_urgent_path, class: 'cta-button'
+            end %>
+        <%= link_to 'See Archived', archived_urgents_path, class: 'cta' %>
+      </div>
+    </div>
+
+    <% if @urgents.any? %>
+      <% @urgents.each do |urgent| %>
+        <%= render 'urgent', urgent: urgent %>
+      <% end %>
+    <% else %>
+      <p class="urgent-p">No active urgent announcements.</p>
+    <% end %>
+  </div>
+</div>

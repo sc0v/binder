@@ -1,0 +1,53 @@
+<div class="queue-widget" data-controller="queue-toggle">
+  <div class="queue-widget__header">
+    <h1>Electrical &amp; Structural Queue</h1>
+    <div class="queue-widget__tabs">
+      <button
+        type="button"
+        class="btn small queue-widget__tab"
+        data-queue-toggle-target="tab"
+        data-queue="electrical"
+        data-action="queue-toggle#show"
+        >Electrical</button
+      >
+      <button
+        type="button"
+        class="btn small queue-widget__tab"
+        data-queue-toggle-target="tab"
+        data-queue="structural"
+        data-action="queue-toggle#show"
+        >Structural</button
+      >
+    </div>
+  </div>
+
+  <% {
+       'electrical' => electrical,
+       'structural' => structural
+     }.each do |type, entries| %>
+    <div
+      class="queue-flow"
+      data-queue-toggle-target="panel"
+      data-queue="<%= type %>"
+      hidden
+    >
+      <% if entries.any? %>
+        <% entries.each do |entry| %>
+          <div class="queue-chevron">
+            <span class="queue-chevron__status">
+              <%= entry.description.presence || 'In queue' %>
+            </span>
+            <span class="queue-chevron__org">
+              <%= entry.organization&.short_name %>
+            </span>
+          </div>
+        <% end %>
+        <div class="queue-chevron queue-chevron--placeholder">
+          <span class="queue-chevron__status">Next up</span>
+        </div>
+      <% else %>
+        <p class="queue-flow__empty">No one in the <%= type %> queue.</p>
+      <% end %>
+    </div>
+  <% end %>
+</div>

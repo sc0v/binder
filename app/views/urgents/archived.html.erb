@@ -1,0 +1,38 @@
+<% update_document_title(add: 'Archived Urgent Announcements') %>
+<% update_breadcrumbs(
+     add: [link_to('Urgent Announcements', urgents_path), 'Archived']
+   ) %>
+<% nav %>
+
+<div class="content">
+  <div>
+    <h1>Archived Urgent Announcements</h1>
+
+    <% if @urgents.any? %>
+      <% @urgents.each do |urgent| %>
+        <div class="urgent-card urgent-card--archived">
+          <div class="urgent-card__header">
+            <span class="urgent-card__title"><%= urgent.title %></span>
+            <span class="urgent-card__meta"
+              >Archived &middot; <%= urgent.participant_name %></span
+            >
+          </div>
+          <p class="urgent-card__body"><%= urgent.value %></p>
+          <% if can?(:unarchive, urgent) %>
+            <%= link_to 'Unarchive',
+                        unarchive_urgent_path(urgent),
+                        data: {
+                          turbo_method: :patch,
+                          turbo_confirm: 'Unarchive this announcement?'
+                        },
+                        class: 'cta' %>
+          <% end %>
+        </div>
+      <% end %>
+    <% else %>
+      <p>No archived urgent announcements.</p>
+    <% end %>
+
+    <%= link_to 'Back to Active', urgents_path, class: 'cta' %>
+  </div>
+</div>

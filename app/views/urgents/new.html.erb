@@ -1,0 +1,9 @@
+<% update_breadcrumbs(add: [link_to('Urgent Announcements', urgents_path), 'New']) %>
+<% nav %>
+
+<div class="content">
+  <div>
+    <h1>New Urgent Announcement</h1>
+    <%= render 'form', urgent: @urgent %>
+  </div>
+</div>
