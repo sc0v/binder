@@ -1,0 +1,13 @@
+<%# locals: (user:, items:, current:) -%>
+<%# nav#nav: the account first (menu only), then the sections %>
+<nav id="nav">
+  <ul>
+    <%= render 'layouts/account_menu', user: %>
+    <%= render partial: 'layouts/nav_item',
+               collection: items,
+               as: :item,
+               locals: {
+                 current:
+               } %>
+  </ul>
+</nav>

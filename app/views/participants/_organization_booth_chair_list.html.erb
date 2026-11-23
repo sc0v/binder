@@ -1,32 +1,34 @@
 <% if not organization_booth_chair_list.empty? %>
-  <table class="table table-striped">
-    <tr>
-      <th>Name</th>
-      <% if can?(:read_phone_number, Participant) %>
-        <th>Phone Number</th>
-      <% end %>
-      <th></th>
-    </tr>
-    <% organization_booth_chair_list.each do |chair| %>
+  <div class="table-scroll">
+    <table class="alternate cmu-full">
       <tr>
-        <td><%= link_to chair.formatted_name, chair %></td>
+        <th>Name</th>
         <% if can?(:read_phone_number, Participant) %>
-          <td
-            ><%= chair.formatted_phone_number if can?(:read_phone_number, chair) %></td
-          >
+          <th>Phone Number</th>
         <% end %>
-        <% @membership = chair.memberships.find_by(organization_id: @organization.id) %>
-        <% if can?(:destroy, @membership) %>
-          <td
-            ><%= link_to 'Remove',
-                        [@organization, @membership],
-                        method: :delete,
-                        class: 'btn btn-xs btn-danger' %></td
-          >
-        <% end %>
+        <th></th>
       </tr>
-    <% end %>
-  </table>
+      <% organization_booth_chair_list.each do |chair| %>
+        <tr>
+          <td><%= link_to chair.formatted_name, chair %></td>
+          <% if can?(:read_phone_number, Participant) %>
+            <td
+              ><%= chair.formatted_phone_number if can?(:read_phone_number, chair) %></td
+            >
+          <% end %>
+          <% @membership = chair.memberships.find_by(organization_id: @organization.id) %>
+          <% if can?(:destroy, @membership) %>
+            <td
+              ><%= link_to 'Remove',
+                          [@organization, @membership],
+                          method: :delete,
+                          class: 'btn small' %></td
+            >
+          <% end %>
+        </tr>
+      <% end %>
+    </table>
+  </div>
 <% else %>
   <br />
   This organization has no booth chairs.

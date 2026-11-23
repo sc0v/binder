@@ -1,69 +1,35 @@
 <!-- Step 1: CSV Upload -->
 <div class="content wide">
-  <h1>Add Shifts</h1>
-  <br/>
-  <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 3em; align-items: center;">
-    <div>
-      <p style="line-height: 1.7; color: #6D6E71;">
-        Shifts are scheduled time slots where designated members oversee Midway operations.
-        The three types of shifts are Watch Shifts, Security Shifts, and Coordinator Shifts,
-        each serving a different role in keeping Midway safe and organized during Spring Carnival.
-      </p>
-      <p style="line-height: 1.7; color: #6D6E71;">
-        Upload a CSV with the headers: <code>organization</code>, <code>starts_at</code>, <code>ends_at</code>, 
-         <code>description</code>, <code>shift_type</code>, and optionally semi-colon separated <code>andrewids<code>.
-      </p>
+  <div>
+    <h1>Add Shifts</h1>
+    <br/>
+    <div class="cmu-split">
+      <div>
+        <p>
+          Shifts are scheduled time slots where designated members oversee Midway operations.
+          The three types of shifts are watch shifts, security shifts and coordinator shifts,
+          each serving a different role in keeping Midway safe and organized during Spring Carnival.
+        </p>
+        <p>
+          Upload a CSV with the headers: <code>organization</code>, <code>starts_at</code>, <code>ends_at</code>,
+           <code>description</code>, <code>shift_type</code>, and optionally semicolon-separated <code>andrewids</code>.
+        </p>
+      </div>
+
+      <div>
+        <%= form_with url: upload_shift_csv_shifts_path do |f| %>
+          <%= f.hidden_field :step, value: 'csv_upload' %>
+          <label class="cmu-drop" data-csv-upload>
+            <span><span class="cmu-drop-pick">Choose a CSV</span> or drag it here.</span>
+            <%= f.file_field :csv_file, accept: '.csv,text/csv,text/plain', onchange: 'this.form.requestSubmit()' %>
+          </label>
+        <% end %>
+      </div>
     </div>
 
-    <div>
-      <%= form_with url: upload_shift_csv_shifts_path() do |f| %>
-        <%= f.hidden_field :step, value: 'csv_upload' %>
-        <div class='light grey file-upload'>
-          <p>Choose a CSV or drag it here.</p>
-          <%= f.file_field :csv_file, accept: 'text/plain,txt/csv', onchange: "this.form.submit()" %>
-        </div>
-      <% end %>
+    <br/>
+    <div class="alignright">
+      <%= link_to 'Add Shifts Manually', new_shift_path(step: 'repair'), class: 'cta' %>
     </div>
-  </div>
-
-  <br/>
-  <div style="display: flex; justify-content: right">
-    <%= link_to "...or add shifts manually", new_shift_path(step: 'repair'), class: 'cta'%>
   </div>
 </div>
-
-<style>
-  .file-upload {
-    position: relative;
-    width: 100%;
-    height: 22vh;
-    border-width: 0.2em;
-    border-style: dashed;
-    border-radius: 8px;
-    transition: background-color 0.2s;
-  }
-
-  .file-upload:hover {
-    background-color: #ddd;
-  }
-
-  .file-upload input {
-    position: absolute;
-    top: -0.25em;
-    width: calc(100% - 1em);
-    height: calc(100% - 0.75em);
-    opacity: 0%;
-    cursor: pointer;
-  }
-
-  .file-upload p {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1.4em;
-    color: #888;
-    width: 100%;
-    text-align: center;
-    pointer-events: none;
-  }
-</style>

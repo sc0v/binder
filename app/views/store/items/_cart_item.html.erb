@@ -1,26 +1,26 @@
 <tr>
-  <td><%= cart_item.store_item.name %></td>
+  <td>
+    <%= cart_item.store_item.name %>
+    <%= button_to t('.remove_from_cart', default: t('helpers.links.remove_from_cart')),
+                  remove_from_cart_store_item_path(cart_item),
+                  class: 'cmu-link-button',
+                  method: :post %>
+  </td>
   <td>
     <%# TODO: maybe change to best_in_place %>
     <div class="cart-qty">
       <%= form_with model: cart_item do |f| %>
         <%= f.hidden_field :quantity_purchased, value: cart_item.quantity_purchased - 1 %>
-        <%= f.submit '−', class: 'cart-qty-btn', 'aria-label': 'Decrease quantity' %>
+        <%= f.button '−', class: 'cmu-link-button', 'aria-label': 'Decrease quantity' %>
       <% end %>
-      <span class="cart-qty__count"><%= cart_item.quantity_purchased %></span>
+      <span><%= cart_item.quantity_purchased %></span>
       <%= form_with model: cart_item do |f| %>
         <%= f.hidden_field :quantity_purchased, value: cart_item.quantity_purchased + 1 %>
-        <%= f.submit '+', class: 'cart-qty-btn', 'aria-label': 'Increase quantity' %>
+        <%= f.button '+', class: 'cmu-link-button', 'aria-label': 'Increase quantity' %>
       <% end %>
     </div>
   </td>
   <td
     ><%= number_to_currency(cart_item.quantity_purchased * cart_item.price_at_purchase) %></td
-  >
-  <td
-    ><%= button_to t('.remove_from_cart', default: t('helpers.links.remove_from_cart')),
-                  remove_from_cart_store_item_path(cart_item),
-                  class: 'btn btn-danger btn-xs',
-                  method: :post %></td
   >
 </tr>

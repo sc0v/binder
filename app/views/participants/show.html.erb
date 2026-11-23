@@ -1,5 +1,5 @@
 <% update_document_title(add: 'People') %>
-<% update_breadcrumbs(add: link_to('Participants', participants_path)) %>
+<% update_breadcrumbs(add: link_to('People', participants_path)) %>
 <% update_breadcrumbs(add: @participant.name) %>
 <% nav(active: 'participants') %>
 
@@ -12,7 +12,7 @@
 <% unless @participant.signed_waiver? %>
   <div class="content wide red invert none">
     <div>
-      <h2>Has not signed waiver!</h2
+      <h2>Has Not Signed the Waiver</h2
       ><strong> No wristbands. No rentals. No PPE.</strong>
     </div>
   </div>
@@ -22,12 +22,14 @@
   <div>
     <% if @participant.signed_waiver? %>
       <p class="invert green" style="padding: 1em;">
-        HAS SIGNED WAIVER <i class="fa fa-camera-retro fa-lg"></i>
+        Has signed the waiver <i class="fa fa-camera-retro fa-lg"></i>
       </p>
     <% end %>
     <p>
       <strong>EPPN:</strong> <%= @participant.eppn %><br />
-      <strong>Phone:</strong> <%= @participant.formatted_phone_number %><br />
+      <% if can?(:read_phone_number, @participant) %>
+        <strong>Phone:</strong> <%= @participant.formatted_phone_number %><br />
+      <% end %>
       <strong>Department:</strong> <%= @participant.department %><br />
       <strong>Student Class:</strong> <%= @participant.student_class %>
     </p>

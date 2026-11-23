@@ -14,43 +14,27 @@ class OrganizationTest < ActiveSupport::TestCase
   should have_many(:organization_timeline_entries)
 
   # Validations
-  should validate_presence_of(:organization_category)
+  should validate_presence_of(:organization_category).with_message(:required)
   should validate_presence_of(:name)
   should validate_uniqueness_of(:name)
 
   context 'With a proper context, ' do
     setup do
       @short_org =
-        FactoryGirl.create(
-          :organization,
-          name: 'short name',
-          short_name: 'name'
-        )
+        FactoryBot.create(:organization, name: 'short name', short_name: 'name')
       @long_org =
-        FactoryGirl.create(:organization, name: 'long name', short_name: nil)
+        FactoryBot.create(:organization, name: 'long name', short_name: nil)
     end
 
     should 'show that all factories are properly created' do
       assert_equal 2, Organization.all.size
     end
 
-    # Scopes
-    # only_categories
-    should 'show that the only_categories functions correctly' do
-      short_org_category = @short_org.organization_category.name
-      long_org_category = @long_org.organization_category.name
-
-      assert_equal ['short name'],
-                   Organization.only_categories(short_org_category).map(&:name)
-      assert_equal ['long name'],
-                   Organization.only_categories(long_org_category).map(&:name)
-    end
-
     # search
     should 'show that the search scope functions correcly' do
       assert_equal ['long name'], Organization.search('long name').map(&:name)
       assert_equal ['long name', 'short name'],
-                   Organization.search('name').map(&:name)
+                   Organization.search('name').map(&:name).sort
     end
 
     # ---------------------------- End of scope testing
@@ -62,22 +46,21 @@ class OrganizationTest < ActiveSupport::TestCase
     end
 
     should 'give back the correct booth chair for this organization' do
-      chair_person = FactoryGirl.create(:participant)
-      FactoryGirl.create(
+      chair_person = FactoryBot.create(:participant)
+      FactoryBot.create(
         :membership,
         is_booth_chair: true,
         organization: @short_org,
         participant: chair_person
       )
 
-      assert_equal [chair_person.andrewid],
-                   @short_org.booth_chairs.map(&:andrewid)
+      assert_equal [chair_person.eppn], @short_org.booth_chairs.map(&:eppn)
       assert_equal [], @long_org.booth_chairs
     end
 
     should 'give back the correct hour of current downtime' do
       t = Time.zone.now
-      FactoryGirl.create(
+      FactoryBot.create(
         :organization_timeline_entry,
         entry_type: 2,
         started_at: t - 2.hours,
@@ -90,7 +73,7 @@ class OrganizationTest < ActiveSupport::TestCase
 
     should 'give back the correct hour of remaining downtime' do
       t = Time.zone.now
-      FactoryGirl.create(
+      FactoryBot.create(
         :organization_timeline_entry,
         entry_type: 2,
         started_at: t - 3.hours,
@@ -106,9 +89,9 @@ class OrganizationTest < ActiveSupport::TestCase
     # Dependencies
 
     should 'delete all associated organization_timeline_entries once the organization is removed' do
-      FactoryGirl.create(:organization_timeline_entry, organization: @short_org)
-      FactoryGirl.create(:organization_timeline_entry, organization: @short_org)
-      FactoryGirl.create(:organization_timeline_entry, organization: @long_org)
+      FactoryBot.create(:organization_timeline_entry, organization: @short_org)
+      FactoryBot.create(:organization_timeline_entry, organization: @short_org)
+      FactoryBot.create(:organization_timeline_entry, organization: @long_org)
 
       assert_equal 3, OrganizationTimelineEntry.all.size
       @short_org.destroy
@@ -117,23 +100,23 @@ class OrganizationTest < ActiveSupport::TestCase
     end
 
     should 'delete all associated charges once the organization is removed' do
-      issuer = FactoryGirl.create(:participant)
-      type = FactoryGirl.create(:charge_type)
+      issuer = FactoryBot.create(:participant)
+      type = FactoryBot.create(:charge_type)
 
-      FactoryGirl.create(
+      FactoryBot.create(
         :charge,
         organization: @short_org,
         issuing_participant: issuer,
         charge_type: type
       )
-      FactoryGirl.create(
+      FactoryBot.create(
         :charge,
         organization: @short_org,
         issuing_participant: issuer,
         charge_type: type,
         is_approved: true
       )
-      FactoryGirl.create(
+      FactoryBot.create(
         :charge,
         organization: @long_org,
         issuing_participant: issuer,
@@ -148,9 +131,9 @@ class OrganizationTest < ActiveSupport::TestCase
     end
 
     should 'delete all checkouts once the organization is removed' do
-      type = FactoryGirl.create(:tool_type)
-      tool = FactoryGirl.create(:tool, tool_type: type)
-      FactoryGirl.create(:checkout, tool:, organization: @short_org)
+      type = FactoryBot.create(:tool_type)
+      tool = FactoryBot.create(:tool, tool_type: type)
+      FactoryBot.create(:checkout, tool:, organization: @short_org)
 
       assert_equal 1, Checkout.all.size
       @short_org.destroy

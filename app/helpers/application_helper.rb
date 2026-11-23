@@ -36,14 +36,58 @@ module ApplicationHelper
   #
   # Map flash categories to css classes.
   def flash_css_class(name)
-    "flash-#{name} " +
-      case name
-      when 'notice'
-        'green invert'
-      when 'alert'
-        'red invert'
+    tone =
+      case name.to_s
+      when 'notice', 'success'
+        'success'
+      when 'alert', 'error'
+        'error'
       else
-        'gold'
+        'notice'
       end
+    "cmu-flash cmu-flash--#{tone}"
+  end
+
+  # An error interrupts a screen reader (alert); anything else waits its
+  # turn (status)
+  def flash_role(name)
+    %w[alert error].include?(name.to_s) ? 'alert' : 'status'
+  end
+
+  # A date in AP style: Jan. 11, Sept. 3, March 5 (no year)
+  def ap_date(time)
+    month = time.strftime('%B')
+    month = month == 'September' ? 'Sept.' : "#{month[0, 3]}." if month.length > 5
+    "#{month} #{time.day}"
+  end
+
+  # The day, when it isn't today: the weekday within a week, else the date
+  def ap_day(time)
+    days = (time.to_date - Time.zone.today).to_i
+    return if days.zero?
+
+    days.between?(-6, 6) ? time.strftime('%A') : ap_date(time)
+  end
+
+  # A span of time in AP style: 6-9 p.m.; 11 a.m.-2 p.m.;
+  # Thursday, 11 p.m.-Friday, 2 a.m.
+  def ap_time_range(starts, ends)
+    first = ap_time(starts)
+    last = ap_time(ends)
+    same_day = starts.to_date == ends.to_date
+    meridiem = last[/ [ap]\.m\.\z/]
+    first = first.delete_suffix(meridiem) if same_day && meridiem && first.end_with?(meridiem)
+    first = [ap_day(starts), first].compact.join(', ')
+    last = [ap_day(ends), last].compact.join(', ') unless same_day
+    "#{first}-#{last}"
+  end
+
+  # A time of day in AP style: 9 a.m., 2:30 p.m., noon, midnight
+  def ap_time(time)
+    return 'noon' if time.hour == 12 && time.min.zero?
+    return 'midnight' if time.hour.zero? && time.min.zero?
+
+    clock = time.min.zero? ? time.strftime('%-l') : time.strftime('%-l:%M')
+    "#{clock} #{time.hour < 12 ? 'a.m.' : 'p.m.'}"
   end
 end

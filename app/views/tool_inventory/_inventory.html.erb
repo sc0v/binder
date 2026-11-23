@@ -1,32 +1,63 @@
-<table class="table table-striped">
-  <%# content_tag :div,
-      data: { controller: 'table', config: tool_inventory_table_config } do
-      "Loading..."
-    end %>
-  <thead>
-    <tr>
-      <th>Barcode</th>
-      <th>Type</th>
-      <th>Description</th>
-      <th>Remove</th>
-    </tr>
-  </thead>
-  <tbody>
-    <% tools.each do |tool| %>
+<div class="cmu-search-bar">
+  <label for="inventory-table-search" class="sr-only">Find a Tool</label>
+  <input
+    type="text"
+    id="inventory-table-search"
+    autocomplete="off"
+    placeholder="Find a tool…"
+    data-cmu-filter="inventory-table"
+  />
+</div>
+<div class="table-scroll">
+  <table
+    class="alternate cmu-full cmu-sticky"
+    id="inventory-table"
+    data-cmu-table
+    data-cmu-noun="tool"
+  >
+    <thead>
       <tr>
-        <th><%= tool.barcode %></th>
-        <th><%= tool.name %></th>
-        <th><%= tool.description %></th>
-        <th>
-          <%= link_to 'Remove',
-                      [@inventory, tool],
-                      class: 'btn wide',
-                      data: {
-                        turbo_method: :delete,
-                        turbo_confirm: 'Are you sure?'
-                      } %>
-        </th>
+        <% [
+             %w[barcode Barcode],
+             %w[type Type],
+             %w[description Description]
+           ].each do |key, title| %>
+          <th scope="col" data-sort-key="<%= key %>">
+            <button type="button" class="cmu-sort">
+              <%= title %><span class="cmu-sort-arrow"></span>
+            </button>
+          </th>
+        <% end %>
+        <th scope="col" class="cmu-fit"
+          ><span class="sr-only">Actions</span></th
+        >
       </tr>
-    <% end %>
-  </tbody>
-</table>
+    </thead>
+    <tbody>
+      <% tools.each do |tool| %>
+        <tr>
+          <td class="cmu-fit"><%= tool.barcode %></td>
+          <td><%= tool.name %></td>
+          <td><%= tool.description %></td>
+          <td class="cmu-fit">
+            <%= link_to 'Remove',
+                        [@inventory, tool],
+                        class: 'btn small ghost',
+                        'aria-label': "Remove #{tool.name} #{tool.barcode}",
+                        data: {
+                          turbo_method: :delete,
+                          turbo_confirm: 'Are you sure?'
+                        } %>
+          </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<p
+  class="cmu-results-count"
+  data-cmu-count="inventory-table"
+  aria-live="polite"
+>
+  <%= tools.size == 1 ? 'Showing 1 tool' : "Showing all #{tools.size} tools" %>
+</p>

@@ -11,8 +11,8 @@ class Organization < ApplicationRecord
   has_many :organization_timeline_entries, dependent: :destroy
   has_many :participants, through: :memberships
   has_many :charges, dependent: :destroy
-  has_many :tools, through: :checkouts
   has_many :checkouts, dependent: :destroy
+  has_many :tools, through: :checkouts
   has_many :shifts, dependent: :destroy
 
   scope :ordered_by_name, -> { order(name: :asc) }

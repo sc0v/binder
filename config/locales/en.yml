@@ -44,8 +44,8 @@ en:
   applets:
     ppe_collection:
       index:
-        not_found: Hardhat not found
-        already_checked_in: Hardhat already checked in
+        not_found: That hardhat wasn't found. Scan it again.
+        already_checked_in: That hardhat is already checked in.
     wristband_lookup:
       index:
         no_participant: No participant found for that ID.
@@ -56,139 +56,139 @@ en:
         no_hardhat: No hardhat found with that information.
         no_organization: No organization selected.
   application:
-    not_registered: The Student ID you swiped is not yet activated with a user account. Please register with andrew eMail
-    auth_error: Cannot connect to CMU Authentication
+    not_registered: The ID card you swiped isn't linked to an account yet. Register with your Andrew email.
+    auth_error: Binder couldn't connect to CMU sign-in. Try again in a few minutes.
   charge_types:
     destroy:
       warn: Cannot delete a charge type until all charges of that type are deleted.
-      notice: Charge type deleted!
+      notice: The charge type was deleted.
   charges:
     create:
-      notice: Charge created!
+      notice: The charge was created.
   downtime:
     downtime:
-      alert: Cannot Access Downtime!
+      alert: You don't have access to downtime.
     toggle:
-      blank_organization: Must select an organization
+      blank_organization: Select an organization.
   event_types:
     create:
-      notice: Event type was successfully created.
+      notice: The event type was created.
     update:
-      notice: Event type was successfully updated.
+      notice: The event type was updated.
     destroy:
-      notice: Event type was successfully destroyed.
+      notice: The event type was deleted.
   events:
     create:
-      notice: Event was successfully created.
+      notice: The event was created.
     update:
-      notice: Event was successfully updated.
+      notice: The event was updated.
     destroy:
-      notice: Event was successfully destroyed.
+      notice: The event was deleted.
   home:
     search:
-      blank_query: Please enter a query
+      blank_query: Enter a search term.
   memberships:
     upload_csv:
-      csv_not_uploaded: CSV Not Uploaded!
+      csv_not_uploaded: The CSV wasn't uploaded. Choose a CSV file and try again.
     cancel:
-      notice: Cancelled!
+      notice: Canceled. No members were added.
     commit:
-      notice: Participants Added!
+      notice: The members were added.
     create:
-      notice: Member added
-      error: Error adding member
+      notice: The member was added.
+      error: The member couldn't be added. Check the entry and try again.
     old_create:
-      notice: Participant updated.
+      notice: Person updated.
   notes:
     create:
-      notice: Created the note!
-      save_error: Could not save the note!
+      notice: The note was created.
+      save_error: The note couldn't be saved. Check it and try again.
     destroy:
-      notice: Destroyed the note!
-      alert: Could not destroy the note
+      notice: The note was deleted.
+      alert: The note couldn't be deleted. Try again.
     show:
       archived: That note has been archived.
     archive:
-      notice: Archived the note!
+      notice: The note was archived.
     unarchive:
-      notice: Unarchived the note!
-      
+      notice: The note was unarchived.
+
   organization_build_steps:
     create:
-      notice: Added Build Task!
+      notice: The build step was added.
     update:
-      alert: type shit
+      alert: The build step couldn't be updated. Check it and try again.
     destroy:
-      notice: Destroyed Build Task!
+      notice: The build step was deleted.
   organization_members:
     create:
-      member_updated: Member updated!
+      member_updated: The member was updated.
     remove_staged:
-      notice: New Members Saved!
+      notice: The new members were saved.
   scissor_lift_checkouts:
     checkout:
-      unauthorized: Not authorized to checkout a Scissorlift.
-      no_scissor_lifts: Add at least one scissor lift to checkout.
-      no_participant: Select a valid participant to checkout.
+      unauthorized: You aren't authorized to check out a scissor lift.
+      no_scissor_lifts: Add at least one scissor lift to check out.
+      no_participant: Select a valid person to check out.
     renew:
-      no_scissor_lift: No Scissor Lift selected.
+      no_scissor_lift: Select a scissor lift.
       all_checked_out: All scissor lifts are currently checked out.
     checkin:
-      no_scissor_lift: No Scissor Lift selected.
-  sessions:
-    impersonate:
-      not_found: Participant not found.
+      no_scissor_lift: Select a scissor lift.
   store:
     purchases:
       create:
-        no_borrower: Must specify who is checking out.
-        notice: Checkout completed!
+        no_borrower: Enter who is checking out.
+        notice: The checkout is complete.
   shifts:
     create:
-      notice: Shift was added successfully
-      error: Error adding shift
+      notice: The shift was added.
+      error: The shift couldn't be added. Check it and try again.
     upload_csv:
-      csv_not_uploaded: No CSV file was uploaded
-      success: Shifts imported successfully
+      csv_not_uploaded: No CSV file was uploaded. Choose a CSV file and try again.
+      success: The shifts were imported.
     destroy:
-      notice: Shift deleted
-      error: Error deleting shift
+      notice: The shift was deleted.
+      error: The shift couldn't be deleted. Try again.
   tasks:
     complete:
-      notice: The task was successfully completed
+      notice: The task was completed.
   tool_inventory_tools:
     create:
-      notice: Added Tool!
+      notice: The tool was added.
     destroy:
-      notice: Removed Tool!
+      notice: The tool was removed.
   tool_types:
     destroy:
       no_delete: Cannot delete a tool type until all tools of that type are deleted.
   tools:
     create:
-      notice: Tool created successfully.
+      notice: The tool was created.
     update:
-      notice: Updated Tool!
-      alert: Could not update tool.
+      notice: The tool was updated.
+      alert: The tool couldn't be updated. Check it and try again.
   faq:
     index:
-      new: Add Question to FAQ
-      edit: Edit This FAQ
-      destroy: Delete This FAQ
-      confirm: Are you sure?
+      heading: Frequently Asked Questions
+      general: General Questions
+      empty: No questions yet.
+      new: Add Question
+      edit: Edit Question
+      destroy: Delete Question
+      confirm: Delete this question?
     new:
-      heading: Create New FAQ
+      heading: Add Question
     edit:
-      heading: Edit FAQ
+      heading: Edit Question
     create:
-      alert: Could not create FAQ. Please correct the issues below.
-      notice: FAQ %{name} created successfully.
+      alert: The question wasn't added. Correct the problems below.
+      notice: The question was added to the FAQ.
     update:
-      alert: Could not update FAQ. Please correct the issues below.
-      notice: FAQ %{name} updated successfully.
+      alert: The question wasn't updated. Correct the problems below.
+      notice: The question was updated.
     destroy:
-      alert: Problem deleting FAQ %{name}
-      notice: FAQ %{name} deleted successfully.
+      alert: The question couldn't be deleted. Try again.
+      notice: The question was deleted from the FAQ.
     form:
       cancel: Cancel
   participants:
@@ -199,44 +199,70 @@ en:
       form:
         cancel: Cancel
       update:
-        alert: Could not accept waiver. Please correct the issues below.
-        notice: Waiver for %{name} submitted.
+        alert: The waiver wasn't accepted. Correct the problems below.
+        notice: The waiver for %{name} was submitted.
   sessions:
     create:
-      alert: User could not be found. %{message}
+      alert: Binder couldn't find your account. %{message}
       help_link: Get help
     destroy:
-      notice: User logged out.
+      notice: You signed out.
+    impersonate:
+      not_found: Participant not found.
+      not_allowed: Only administrators can act as someone else.
   welcome:
     html: <h1>Welcome, %{name}!</h1>
   organization_timeline_entries:
     create:
-      alert: Failed to save organization timeline entry
-      already_queued: "You're already on the queue!"
-      structural_notice: Added to structural queue!
-      electrical_notice: Added to electrical queue!
-      downtime_notice: Started downtime!
+      alert: The entry couldn't be saved. Try again.
+      already_queued: "You're already in the queue."
+      structural_notice: Added to the structural queue.
+      electrical_notice: Added to the electrical queue.
+      downtime_notice: Downtime started.
     end:
-      notice: Removed from Queue!
+      notice: Removed from the queue.
     destroy:
-      notice: Successfully removed entry from downtime tracker
+      notice: The entry was removed from the downtime tracker.
 
   # Views: Form helpers
   helpers:
     label:
       faq:
-        question: Question text
-        answer: Answer to the question
-        organization_category: Show this question to
+        question: Question
+        answer: Answer
+        organization_category: Show This Question To
     submit:
-      create: Create New %{model}
-      update: Confirm Changes to %{model}
+      create: Create %{model}
+      update: Save Changes to %{model}
+    actions: Actions
+    links:
+      add: Add
+      edit: Edit
+      new: New
+      update: Update
+      show: View
+      destroy: Delete
+      back: Back
+      cancel: Cancel
+      submit: Save
+      checkout: Check Out
+      checkin: Check In
+      add_to_cart: Add to Cart
+      remove_from_cart: Remove From Cart
+      complete: Complete
+      confirm: Are you sure?
+      new_item: New Store Item
+      new_charge: New Charge
+      new_task: New Task
+      new_shift_participant: Clock In
 
   # Models
   activerecord:
     models:
       faq: Question
     attributes:
+      task:
+        due_at: Due At
       participant:
         safety_briefing_expected_end_at: Safety briefing completion time
     errors:
@@ -262,48 +288,27 @@ en:
         is_approved: Approved?
       organization:
         organization_category: Division
-  helpers_OLD:
-    actions: Actions
-    links:
-      add: Add
-      edit: Edit
-      new: New
-      update: Update
-      show: Show
-      destroy: Delete
-      back: Back
-      cancel: Cancel
-      checkout: Check-Out
-      checkin: Check-In
-      add_to_cart: Add to Cart
-      remove_from_cart: Remove from Cart
-      complete: Complete
-      confirm: Are you sure?
-      new_item: New Store Item
-      new_charge: New Charge
-      new_task: New Task
-      new_shift_participant: Clock In
   errors:
     messages:
-      tool_already_checked_out: The Tool you selected is already checked out. Please return it before continuing.
-      tool_already_checked_in: The Tool you selected is already checked in.
-      tool_does_not_exist: The Tool barcode you entered is not registered with the system. Please register it if desired.
-      tool_is_not_hardhat: This page can only be used to checkout/checkin hardhats.
-      participant_does_not_exist: The Participant or ID card you selected is invalid. Please try again or contact an admin if you think this message is in error
-      organization_does_not_exist: The Organization you selected does not exist.
+      tool_already_checked_out: The tool you selected is already checked out. Return it before continuing.
+      tool_already_checked_in: The tool you selected is already checked in.
+      tool_does_not_exist: The tool barcode you entered isn't registered. Register it first.
+      tool_is_not_hardhat: This page can only check hardhats out or in.
+      participant_does_not_exist: The participant or ID card you selected is invalid. Try again, or contact an administrator if you think this message is wrong.
+      organization_does_not_exist: The organization you selected does not exist.
   will_paginate:
     previous_label: «
     next_label: »
   flash:
     actions:
       create:
-        notice: "%{resource_name} was successfully created"
+        notice: "%{resource_name} was created."
       update:
-        notice: "%{resource_name} was successfully updated"
+        notice: "%{resource_name} was updated."
       destroy:
-        notice: "%{resource_name} was successfully deleted"
-        alert: "%{resource_name} could not be deleted"
+        notice: "%{resource_name} was deleted."
+        alert: "%{resource_name} could not be deleted."
     charges:
       approve:
-        notice: Charge was successfully approved/un-approved
-        alert: Charge could not be approved/un-approved
+        notice: The charge's approval was changed.
+        alert: The charge's approval couldn't be changed. Try again.

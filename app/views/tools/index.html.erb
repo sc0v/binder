@@ -1,38 +1,31 @@
 <% update_document_title(add: 'Tools') %>
 <% update_breadcrumbs(add: 'Tools') %>
-<%= nav(active: 'tools') %>
 <% content_for :head do %>
   <script></script>
 <% end %>
 
 <div class="content">
   <div>
-    <div class="title-row">
-      <h1>Tools</h1>
-      <div>
-        <%= label_tag 'type', 'Equipment Type' %>
-        <%= form_tag(tools_url, method: 'get') do %>
-          <%= select_tag 'type',
-                         options_for_select(
-                           [%w[Tool tool], %w[Hardhat hardhat], %w[Radio radio]],
-                           params[:type]
-                         ),
-                         onchange: 'this.form.submit()' %>
-        <% end %>
-      </div>
-    </div>
-    <%= content_tag :div,
-                    data: {
-                      controller: 'table',
-                      config: tools_table_config(@json_url)
-                    } do %>
-      Loading...
+    <h1>Tools</h1>
+    <%= form_tag(tools_url, method: 'get') do %>
+      <%= label_tag 'type', 'Equipment Type' %>
+      <%= select_tag 'type',
+                     options_for_select(
+                       [%w[Tool tool], %w[Hardhat hardhat], %w[Radio radio]],
+                       params[:type]
+                     ),
+                     onchange: 'this.form.submit()',
+                     class: 'inline' %>
     <% end %>
+    <%= data_table(
+          id: 'tools-table',
+          config: tools_table_config(@json_url),
+          rows: @table_rows,
+          noun: 'tool'
+        ) %>
     <div>
       <% if can?(:create, Tool) and @organization.blank? %>
-        <%= link_to t('.new', default: t('helpers.links.new')),
-                    new_tool_path,
-                    class: 'btn btn-primary' %>
+        <%= link_to t('.new', default: t('helpers.links.new')), new_tool_path, class: 'btn' %>
       <% end %>
     </div> </div
   ><div class="sidebar">

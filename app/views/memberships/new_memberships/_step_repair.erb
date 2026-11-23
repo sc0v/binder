@@ -2,19 +2,19 @@
   <div>
     <h1>Edit and Review</h1>
 
-    Here are the new participants we extracted from your CSV. 
-    Do these look correct? Any entries highlighted in red mean the Andrew ID is probably wrong, but make sure to check everything!
-    <%= render partial: "memberships/new_memberships/repair_table"%>
+    Here are the new people from your CSV.
+    Do these look correct? Any entries highlighted in red mean the Andrew ID is probably wrong, but check everything.
+    <%= render partial: 'memberships/new_memberships/repair_table' %>
     <div style="display: flex">
       <%= form_with url: organization_commit_membership_csv_path(@organization) do |f| %>
         <%= f.hidden_field :organization, value: @organization.id %>
         <!-- Setting padding-right to 2.35em (1 greater than default) to make button text look centered -->
-        <%= f.submit "Submit Changes", data: { turbo_confirm: "Are you sure you want to add these builders to #{@organization.name}?" }, style: "padding-right: 2.35em" %>
+        <%= f.submit 'Submit Changes', data: { turbo_confirm: "Are you sure you want to add these builders to #{@organization.name}?" }, style: 'padding-right: 2.35em' %>
       <% end %>
       <%= form_with url: organization_cancel_membership_csv_path(@organization) do |f| %>
         <%= f.hidden_field :organization, value: @organization.id %>
         <!-- Setting padding-right to 2.35em (1 greater than default) to make button text look centered -->
-        <%= f.submit "Cancel", data: { turbo_confirm: "Are you sure you want to cancel?" }, style: "padding-right: 2.35em" %>
+        <%= f.submit 'Cancel', data: { turbo_confirm: 'Are you sure you want to cancel?' }, style: 'padding-right: 2.35em' %>
       <% end %>
     </div>
   </div><div class="sidebar">
@@ -24,20 +24,20 @@
       <%= form_with url: organization_replace_membership_path(@organization) do |f| %>
         <%= f.hidden_field :organization, value: @organization.id %>
         Member
-        <%= f.collection_select(:old_membership, @members, :id, :participant_eppn)%>
+        <%= f.collection_select(:old_membership, @members, :id, :participant_eppn) %>
         New Andrew ID
         <%= f.text_field :new_participant %>
         Standing<br/>
-        <%= f.radio_button :fix_standing, "booth_chair_white_hardhat" %>
-        <%= f.label :fix_standing_booth_chair_white_hardhat, "Booth Chair (White Hardhat)" %><br/>
-        <%= f.radio_button :fix_standing, "booth_chair_red_hardhat" %>
-        <%= f.label :fix_standing_booth_chair_red_hardhat, "Booth Chair (Red Hardhat)" %><br/>
-        <%= f.radio_button :fix_standing, "booth_builder" %>
-        <%= f.label :fix_standing_booth_builder, "Booth Builder" %><br/>
-        <%= f.radio_button :fix_standing, "alumni" %>
-        <%= f.label :fix_standing_alumni, "Alumni" %><br/>
+        <%= f.radio_button :fix_standing, 'booth_chair_white_hardhat' %>
+        <%= f.label :fix_standing_booth_chair_white_hardhat, 'Booth Chair (White Hardhat)' %><br/>
+        <%= f.radio_button :fix_standing, 'booth_chair_red_hardhat' %>
+        <%= f.label :fix_standing_booth_chair_red_hardhat, 'Booth Chair (Red Hardhat)' %><br/>
+        <%= f.radio_button :fix_standing, 'booth_builder' %>
+        <%= f.label :fix_standing_booth_builder, 'Booth Builder' %><br/>
+        <%= f.radio_button :fix_standing, 'alumni' %>
+        <%= f.label :fix_standing_alumni, 'Alumni' %><br/>
         <br/>
-        <%= f.submit "Update Member"%>
+        <%= f.submit 'Update Member' %>
       <% end %>
     </div>
     <% end %>
@@ -48,16 +48,16 @@
         New Andrew ID
         <%= f.text_field :new_participant %>
         Standing<br/>
-        <%= f.radio_button :standing, "booth_chair_white_hardhat" %>
-        <%= f.label :standing_booth_chair_white_hardhat, "Booth Chair (White Hardhat)" %><br/>
-        <%= f.radio_button :standing, "booth_chair_red_hardhat" %>
-        <%= f.label :standing_booth_chair_red_hardhat, "Booth Chair (Red Hardhat)" %><br/>
-        <%= f.radio_button :standing, "booth_builder" %>
-        <%= f.label :standing_booth_builder, "Booth Builder" %><br/>
-        <%= f.radio_button :standing, "alumni" %>
-        <%= f.label :standing_alumni, "Alumni" %><br/>
+        <%= f.radio_button :standing, 'booth_chair_white_hardhat' %>
+        <%= f.label :standing_booth_chair_white_hardhat, 'Booth Chair (White Hardhat)' %><br/>
+        <%= f.radio_button :standing, 'booth_chair_red_hardhat' %>
+        <%= f.label :standing_booth_chair_red_hardhat, 'Booth Chair (Red Hardhat)' %><br/>
+        <%= f.radio_button :standing, 'booth_builder' %>
+        <%= f.label :standing_booth_builder, 'Booth Builder' %><br/>
+        <%= f.radio_button :standing, 'alumni' %>
+        <%= f.label :standing_alumni, 'Alumni' %><br/>
         <br/>
-        <%= f.submit "Add Member"%>
+        <%= f.submit 'Add Member' %>
       <% end %>
     </div>
   </div>

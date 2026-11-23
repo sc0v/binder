@@ -5,21 +5,17 @@
                       class: 'form-horizontal'
                     } do |f| %>
   <div class="form-inputs">
-    <div class="row">
-      <div class="col-md-8" style="margin-left:73px"> </div>
-    </div>
     <%= f.association :certification_type,
                       collection:
                         CertificationType.all.select { |c|
                           current_certs.exclude?(c.name)
-                        },
-                      style: 'margin-left:80px' %>
+                        } %>
     <%= f.input :participant_id, as: :hidden %>
   </div>
-  <div class="form-actions">
-    <%= f.button :submit, class: 'btn-primary' %>
+  <div class="cmu-button-note">
+    <%= f.button :submit, class: 'btn' %>
     <%= link_to t('.cancel', default: t('helpers.links.cancel')),
                 @participant,
-                class: 'btn btn-default' %>
+                class: 'btn ghost' %>
   </div>
 <% end %>

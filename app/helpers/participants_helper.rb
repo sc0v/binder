@@ -50,7 +50,7 @@ module ParticipantsHelper
       dataLoader: false,
       height: '90vh',
       paginationSize: 200,
-      placeholder: '<h2>No Participants Found</h2>',
+      placeholder: '<h2>No People Found</h2>',
       progressiveLoad: 'load',
       resizableColumnFit: true
     }.to_json

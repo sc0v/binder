@@ -1,26 +1,28 @@
 <% page ||= 'default' %>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Barcode</th>
-      <th>Type</th>
-      <th>Description</th>
-      <th>Image</th>
-      <th>Checked Out At</th>
-      <th class="hidden-xs <%= 'hidden' if page == 'org' %>">Organization</th>
-      <th class="visible-lg <%= 'visible-sm visible-md' if page == 'org' %>"
-        >Person</th
-      >
-    </tr>
-  </thead>
-  <tbody>
-    <% tools.each do |tool| %>
-      <% cache [page, tool] do %>
-        <%= render partial: tool, locals: { tool:, page: } %>
+<div class="table-scroll">
+  <table class="alternate cmu-full">
+    <thead>
+      <tr>
+        <th>Barcode</th>
+        <th>Type</th>
+        <th>Description</th>
+        <th>Image</th>
+        <th>Checked Out At</th>
+        <th class="hidden-xs <%= 'hidden' if page == 'org' %>">Organization</th>
+        <th class="visible-lg <%= 'visible-sm visible-md' if page == 'org' %>"
+          >Person</th
+        >
+      </tr>
+    </thead>
+    <tbody>
+      <% tools.each do |tool| %>
+        <% cache [page, tool] do %>
+          <%= render partial: tool, locals: { tool:, page: } %>
+        <% end %>
       <% end %>
-    <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>
 <% if tools.empty? %>
   <% if organization.present? %>
     <div class="alert alert-info">

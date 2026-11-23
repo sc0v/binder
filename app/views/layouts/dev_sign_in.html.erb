@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%= render 'layouts/head' %>
+  </head>
+  <%# The Web Kilt's Developer Sign-In: the Sign-In Page's layout, a roof with
+      only the wordmark, the page and a small footer. No caution tape across
+      the top: the card wears it. %>
+  <body class="no-js cmu-app" data-cmu-menu="closed">
+    <div id="container">
+      <header>
+        <div class="roof">
+          <div>
+            <%= link_to 'Carnegie Mellon University', 'https://www.cmu.edu/', class: 'wordmark' %>
+          </div>
+        </div>
+      </header>
+      <%= yield %>
+      <div class="cmu-sign-in-footer" role="contentinfo">
+        <ul>
+          <li>
+            Need help? Email
+            <%= link_to 'systems@springcarnival.org', contact_email_url %>
+          </li>
+          <li><%= link_to 'Legal Info', 'https://www.cmu.edu/legal/' %></li>
+        </ul>
+      </div>
+      <%# No menu, but the template's script expects one %>
+      <nav id="nav" hidden><ul></ul></nav>
+    </div>
+    <%= render 'layouts/template_scripts' %>
+  </body>
+</html>

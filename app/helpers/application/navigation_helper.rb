@@ -1,237 +1,66 @@
 # frozen_string_literal: true
 
-module Application::NavigationHelper # rubocop:disable Metrics/ModuleLength
-  # Navigation
-  #
-  # Construct navigation link structures and allow views to flag the active
-  # element, e.g.:
-  #   nav(active: 'organizations')
-  #   nav
+# The site's navigation: one list, drawn in the footer as nav#nav, which the
+# template's script copies into the header tabs and the menu. The layout
+# draws it on every page. The current item comes from the page's address;
+# a view can name it instead with nav(active: 'key'). Items the signed-in
+# user can't open are left out.
+module Application::NavigationHelper
+  NavItem = Data.define(:label, :url, :key, :secondary, :children)
+
+  # Names the current item when the address alone can't, such as a page
+  # under one section's address that belongs to another
   def nav(active: nil)
-    content_for :navigation do
-      sanitize(nav_section(items: nav_items, active: active).join)
-    end
+    content_for(:nav_active, active.to_s, flush: true)
+  end
+
+  # The items this user can open, with their sub-lists
+  def nav_items
+    visible_nav_items(nav_tree)
+  end
+
+  # The current item's key: the one a view named, or the deepest item whose
+  # address holds this page's
+  def nav_current(items = nav_items)
+    key = content_for(:nav_active).presence
+    named = key && nav_flatten(items).find { |item| item.key == key }
+    (named || nav_match(items))&.key
   end
 
   private
 
-  def nav_section(items: [], active: nil)
-    items.map do |item|
-      item[:class] = item[:class].to_a.append('active') if item[:key] == active
-      next if item[:can].blank?
-      next unless can?(item[:can][:action], item[:can][:subject])
+  # A hidden section's pages the user may open move up to its level, so
+  # hiding People doesn't hide Shifts from someone allowed to see them
+  def visible_nav_items(items)
+    items.flat_map do |item|
+      children = visible_nav_items(item.fetch(:children, []))
+      next children unless can?(item[:can].first, item[:can].last)
 
-      content_tag(
-        :li,
-        nav_link(item: item, active: active),
-        class: item[:class]
-      )
-    end
-  end
-
-  def nav_link(item:, active:)
-    if item[:children].present?
-      children =
-        content_tag(
-          :ul,
-          sanitize(nav_section(items: item[:children], active: active).join)
+      [
+        NavItem.new(
+          label: item[:label],
+          url: item[:url],
+          key: item[:key],
+          secondary: item.fetch(:secondary, false),
+          children: children
         )
+      ]
     end
-
-    link_to(item[:label], item[:url]) +
-      (children unless children == content_tag(:ul))
   end
 
-  def nav_items
-    [
-      {
-        label: 'Organizations',
-        url: organizations_path,
-        key: 'organizations',
-        can: {
-          action: :index,
-          subject: Organization
-        },
-        children: [
-          {
-            label: 'Build Progress',
-            url: organization_build_statuses_path,
-            key: 'build_progress',
-            can: {
-              action: :manage,
-              subject: OrganizationBuildStatus
-            }
-          }
-        ]
-      },
-      {
-        label: 'People',
-        url: participants_path,
-        key: 'participants',
-        can: {
-          action: :index,
-          subject: Participant
-        }
-      },
-      {
-        label: 'Tools',
-        url: tools_path,
-        key: 'tools',
-        can: {
-          action: :index,
-          subject: Tool
-        }
-      },
-      {
-        label: 'Store',
-        url: store_path,
-        key: 'store',
-        can: {
-          action: :index,
-          subject: StoreItem
-        }
-      },
-      {
-        label: 'Queues',
-        url: queues_path,
-        key: 'queues',
-        can: {
-          action: :index,
-          subject: OrganizationTimelineEntry
-        }
-      },
-      {
-        label: 'FAQ',
-        url: faq_index_path,
-        key: 'faq',
-        can: {
-          action: :index,
-          subject: FAQ
-        },
-        children: [
-          {
-            label: 'Add Question',
-            url: new_faq_path,
-            key: 'new_faq',
-            can: {
-              action: :create,
-              subject: FAQ
-            }
-          }
-        ]
-      },
-      {
-        label: 'Applets',
-        url: applets_path,
-        key: 'applets',
-        class: ['secondary'],
-        can: {
-          action: :index,
-          subject: AppletsController
-        },
-        children: [
-          {
-            label: 'PPE Distribution',
-            url: ppe_distribution_path,
-            key: 'ppe_distribution',
-            can: {
-              action: :create,
-              subject: Applets::PPEDistributionController
-            }
-          },
-          {
-            label: 'PPE Collection',
-            url: ppe_collection_path,
-            key: 'ppe_collection',
-            can: {
-              action: :create,
-              subject: Applets::PPECollectionController
-            }
-          }
-        ]
-      },
-      {
-        label: 'Charges',
-        url: charges_path,
-        key: 'charges',
-        class: ['secondary'],
-        can: {
-          action: :index,
-          subject: Charge
-        }
-      },
-      {
-        label: 'Downtime',
-        url: downtime_path,
-        key: 'downtime',
-        class: ['secondary'],
-        can: {
-          action: :index,
-          subject: OrganizationTimelineEntry
-        }
-      },
-      {
-        label: 'Notes',
-        url: notes_path,
-        key: 'notes',
-        class: ['secondary'],
-        can: {
-          action: :index,
-          subject: Note
-        },
-        children: [
-          {
-            label: 'New Note',
-            url: new_note_path,
-            key: 'new_note',
-            can: {
-              action: :create,
-              subject: Note
-            }
-          }
-        ]
-      },
-      {
-        label: 'Scissor Lifts',
-        url: scissor_lifts_path,
-        key: 'scissor_lifts',
-        class: ['secondary'],
-        can: {
-          action: :index,
-          subject: ScissorLift
-        }
-      },
-      {
-        label: 'Shifts',
-        url: shifts_path,
-        key: 'shifts',
-        class: ['secondary'],
-        can: {
-          action: :index,
-          subject: Shift
-        }
-      },
-      {
-        label: 'Tasks',
-        url: tasks_path,
-        key: 'tasks',
-        class: ['secondary'],
-        can: {
-          action: :index,
-          subject: Task
-        },
-        children: [
-          {
-            label: 'New Task',
-            url: new_task_path,
-            key: 'new_task',
-            can: {
-              action: :create,
-              subject: Task
-            }
-          }
-        ]
-      }
-    ]
+  def nav_match(items)
+    path = request.path
+    nav_flatten(items)
+      .select { |item| nav_holds?(item.url, path) }
+      .max_by { |item| item.url.length }
+  end
+
+  def nav_flatten(items)
+    items.flat_map { |item| [item, *nav_flatten(item.children)] }
+  end
+
+  # /tools holds /tools and /tools/5, but not /toolsets
+  def nav_holds?(url, path)
+    path == url || path.start_with?("#{url.chomp('/')}/")
   end
 end

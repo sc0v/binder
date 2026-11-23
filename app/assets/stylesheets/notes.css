@@ -101,7 +101,6 @@ ul.notes li {
   width: 80%;
   margin: 5% auto;
   padding: 2rem;
-  background-color: note_color;
   box-shadow: 5px 5px 10px rgba(33, 33, 33, 0.5);
   text-align: center;
   border-radius: 10px;
@@ -119,7 +118,6 @@ ul.notes li {
 }
 
 .creator-info {
-  position: right;
   text-align: right;
   font-family: "Patrick Hand";
   font-size: 1rem;
@@ -159,13 +157,11 @@ ul.notes li {
   z-index: 100;
   pointer-events: none;
   text-align: left;
-  font-family: Arial, sans-serif;
 }
 
 .note-info-tooltip p {
   margin: 5px 0;
   font-size: 0.75rem;
-  font-family: Arial, sans-serif;
   color: #fff;
   line-height: 1.2;
   display: block;
@@ -252,10 +248,6 @@ input[type="radio"][name="note[color]"]:checked + .color-option::after {
 }
 
 /* Dynamic note colors */
-ul.notes li a:not(.cta) {
-  background: #ffc;
-}
-
 ul.notes li a.color-green:not(.cta) {
   background: #cfc;
 }

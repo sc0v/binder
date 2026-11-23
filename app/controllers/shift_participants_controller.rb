@@ -61,12 +61,12 @@ class ShiftParticipantsController < ApplicationController
     return already_clocked_in if sp.clocked_in_at.present?
 
     sp.update!(clocked_in_at: Time.zone.now)
-    flash[:notice] = "#{params[:andrewid]} clocked in successfully"
+    flash[:notice] = "#{params[:andrewid]} clocked in."
     redirect_to shift_path(@shift)
   end
 
   def already_clocked_in
-    flash[:alert] = "#{params[:andrewid]} is already clocked in"
+    flash[:alert] = "#{params[:andrewid]} is already clocked in."
     redirect_to shift_path(@shift)
   end
 
@@ -87,7 +87,7 @@ class ShiftParticipantsController < ApplicationController
     andrewid = params[:andrewid].strip
     participant = Participant.find_by(eppn: "#{andrewid}@andrew.cmu.edu")
     unless participant
-      flash[:alert] = "Participant '#{andrewid}' not found"
+      flash[:alert] = "No participant has the Andrew ID #{andrewid}."
       redirect_to new_shift_participant_path(@shift) and return
     end
     participant

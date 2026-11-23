@@ -8,15 +8,13 @@ class ChargesController < ApplicationController
   before_action :set_charge, only: %i[show edit update destroy approve]
 
   def index
-    if params[:organization_id].blank?
-      @charges = Charge.all
-    else
+    if params[:organization_id].present?
       @organization = Organization.find(params[:organization_id])
-      @charges = @organization.charges
+      @charges = @charges.where(organization: @organization)
     end
 
     respond_to do |format|
-      format.html
+      format.html { @table_rows = charges_json_data }
       format.json { render json: { data: charges_json_data } }
     end
   end
@@ -107,16 +105,18 @@ class ChargesController < ApplicationController
 
   def charges_json_data
     data =
-      Charge.all.as_json(
+      @charges.includes(:charge_type, :organization).as_json(
         methods: %i[charge_type_name organization_name organization_link]
       )
     data.each { |d| enrich_charge_json(d) }
   end
 
   def enrich_charge_json(row)
-    charge = Charge.find(row['id'])
-    row['show_link'] = helpers.link_to 'show', charge, class: 'btn'
-    row['description_truncated'] = row['description'].truncate(
+    row['show_link'] = helpers.link_to 'View',
+                                       helpers.charge_path(row['id']),
+                                       class: 'btn small ghost',
+                                       'aria-label': "View charge #{row['id']}"
+    row['description_truncated'] = row['description'].to_s.truncate(
       85,
       separator: /\s/
     )

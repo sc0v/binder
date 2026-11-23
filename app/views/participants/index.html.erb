@@ -1,16 +1,14 @@
-<% update_document_title(add: 'Participants') %>
-<% update_breadcrumbs(add: 'Participants') %>
-<% nav(active: 'participants') %>
+<% update_document_title(add: 'People') %>
+<% update_breadcrumbs(add: 'People') %>
 
 <div class="content wide">
   <div>
     <h1>Event Participants</h1>
-    <%= content_tag :div,
-                    data: {
-                      controller: 'table',
-                      config: participants_table_config
-                    } do %>
-      Loading...
-    <% end %>
+    <%= data_table(
+          id: 'participants-table',
+          config: participants_table_config,
+          rows: @table_rows,
+          noun: 'participant'
+        ) %>
   </div>
 </div>

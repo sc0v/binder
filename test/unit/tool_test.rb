@@ -11,57 +11,57 @@ class ToolTest < ActiveSupport::TestCase
 
   # Validations
   should validate_uniqueness_of(:barcode)
-  should validate_presence_of(:tool_type_id)
+  should validate_presence_of(:tool_type).with_message(:required)
 
   context 'With a proper context, ' do
     setup do
       # Create 3 organizations
-      @theta = FactoryGirl.create(:organization)
-      @sdc = FactoryGirl.create(:organization)
+      @theta = FactoryBot.create(:organization)
+      @sdc = FactoryBot.create(:organization)
 
       # Create 6 participants
-      @shannon_participant = FactoryGirl.create(:participant)
+      @shannon_participant = FactoryBot.create(:participant)
 
       # Create 6 tools
-      @hammer = FactoryGirl.create(:tool, barcode: 12_811)
+      @hammer = FactoryBot.create(:tool, barcode: 12_811)
 
-      @saw_type = FactoryGirl.create(:tool_type, name: 'Saw')
+      @saw_type = FactoryBot.create(:tool_type, name: 'Saw')
       @saw =
-        FactoryGirl.create(
+        FactoryBot.create(
           :tool,
           barcode: 12_390,
           description: 'SAW',
           tool_type: @saw_type
         )
 
-      @ladder_type = FactoryGirl.create(:tool_type, name: 'Ladder')
+      @ladder_type = FactoryBot.create(:tool_type, name: 'Ladder')
       @ladder =
-        FactoryGirl.create(
+        FactoryBot.create(
           :tool,
           barcode: 12_012,
           description: 'LADDER',
           tool_type: @ladder_type
         )
 
-      @hard_hat_type = FactoryGirl.create(:tool_type, name: 'Hardhat')
+      @hard_hat_type = FactoryBot.create(:tool_type, name: 'Hardhat')
       @hard_hat_one =
-        FactoryGirl.create(
+        FactoryBot.create(
           :tool,
           barcode: 12_808,
           description: 'HARD HAT 1',
           tool_type: @hard_hat_type
         )
       @hard_hat_two =
-        FactoryGirl.create(
+        FactoryBot.create(
           :tool,
           barcode: 12_809,
           description: 'HARD HAT 2',
           tool_type: @hard_hat_type
         )
 
-      @radio_type = FactoryGirl.create(:tool_type, name: 'Radio')
+      @radio_type = FactoryBot.create(:tool_type, name: 'Radio')
       @radio =
-        FactoryGirl.create(
+        FactoryBot.create(
           :tool,
           barcode: 12_810,
           tool_type: @radio_type,
@@ -70,23 +70,23 @@ class ToolTest < ActiveSupport::TestCase
 
       # Create 4 checkouts
       @hammer_checkout1 =
-        FactoryGirl.create(
+        FactoryBot.create(
           :checkout,
           checked_in_at: DateTime.now + 3.days,
           tool: @hammer,
           organization: @sdc
         )
       @hammer_checkout2 =
-        FactoryGirl.create(:checkout, tool: @hammer, organization: @sdc)
+        FactoryBot.create(:checkout, tool: @hammer, organization: @sdc)
       @saw_checkout =
-        FactoryGirl.create(
+        FactoryBot.create(
           :checkout,
           tool: @saw,
           organization: @theta,
           participant: @shannon_participant
         )
       @hard_hat_one_checkout =
-        FactoryGirl.create(:checkout, tool: @hard_hat_one, organization: @theta)
+        FactoryBot.create(:checkout, tool: @hard_hat_one, organization: @theta)
     end
 
     # scopes
@@ -124,21 +124,21 @@ class ToolTest < ActiveSupport::TestCase
 
     should "have a scope 'checked_in' that works" do
       @radio_checkin =
-        FactoryGirl.create(
+        FactoryBot.create(
           :checkout,
           tool: @radio,
           checked_out_at: 1.hour.ago,
           checked_in_at: 1.hour.from_now
         )
       @ladder_checkin =
-        FactoryGirl.create(
+        FactoryBot.create(
           :checkout,
           tool: @ladder,
           checked_out_at: 1.hour.ago,
           checked_in_at: 1.hour.from_now
         )
       @hardhat2_checkin =
-        FactoryGirl.create(
+        FactoryBot.create(
           :checkout,
           tool: @hard_hat_two,
           checked_out_at: 1.hour.ago,

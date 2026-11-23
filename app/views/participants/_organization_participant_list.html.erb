@@ -1,39 +1,41 @@
 <%- model_class = Participant -%>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th><%= model_class.human_attribute_name(:eppn) %></th>
-      <th>Waiver Signed</th>
-      <% if can?(:read_phone_number, Participant) %>
-        <th><%= model_class.human_attribute_name(:phone_number) %></th>
-        <th></th>
-      <% end %>
-    </tr>
-  </thead>
-  <tbody>
-    <% @participants.each do |participant| %>
-      <% if can?(:read, participant) %>
-        <tr>
-          <td><%= link_to participant.name, participant %></td>
-          <td><%= link_to participant.eppn, participant %></td>
-          <td><%= participant.signed_waiver ? 'yes' : 'no' %></td>
-          <% if can?(:read_phone_number, Participant) %>
-            <td
-              ><%= participant.formatted_phone_number if can?(:read_phone_number, participant) %></td
-            >
-            <% @membership = participant.memberships.find_by(organization_id: @organization.id) %>
-            <% if can?(:destroy, @membership) %>
+<div class="table-scroll">
+  <table class="alternate cmu-full">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th><%= model_class.human_attribute_name(:eppn) %></th>
+        <th>Waiver Signed</th>
+        <% if can?(:read_phone_number, Participant) %>
+          <th><%= model_class.human_attribute_name(:phone_number) %></th>
+          <th></th>
+        <% end %>
+      </tr>
+    </thead>
+    <tbody>
+      <% @participants.each do |participant| %>
+        <% if can?(:read, participant) %>
+          <tr>
+            <td><%= link_to participant.name, participant %></td>
+            <td><%= link_to participant.eppn, participant %></td>
+            <td><%= participant.signed_waiver ? 'yes' : 'no' %></td>
+            <% if can?(:read_phone_number, Participant) %>
               <td
-                ><%= link_to 'Remove',
-                            [@organization, @membership],
-                            method: :delete,
-                            class: 'btn btn-xs btn-danger' %></td
+                ><%= participant.formatted_phone_number if can?(:read_phone_number, participant) %></td
               >
+              <% @membership = participant.memberships.find_by(organization_id: @organization.id) %>
+              <% if can?(:destroy, @membership) %>
+                <td
+                  ><%= link_to 'Remove',
+                              [@organization, @membership],
+                              method: :delete,
+                              class: 'btn small' %></td
+                >
+              <% end %>
             <% end %>
-          <% end %>
-        </tr>
+          </tr>
+        <% end %>
       <% end %>
-    <% end %>
-  </tbody>
-</table>
+    </tbody>
+  </table>
+</div>

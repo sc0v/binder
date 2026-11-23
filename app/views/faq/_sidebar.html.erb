@@ -1,0 +1,9 @@
+<div class="sidebar">
+  <%= render 'layouts/sidebar_defaults' %>
+
+  <% if can?(:create, FAQ) %>
+    <div>
+      <%= link_to t('faq.index.new'), new_faq_path, class: 'btn ghost wide' %>
+    </div>
+  <% end %>
+</div>

@@ -1,24 +1,16 @@
 // Configure your import map in config/importmap.rb. Read more: https://github.com/rails/importmap-rails
 import "@hotwired/turbo-rails";
 
-// TODO: Fix Luxan
-// import { DateTime as luxon } from "luxon";
-// console.log(luxon);
-
-import "list";
-import "jquery";
-
-// TODO: Convert document.ready to short syntax
-// n.b.: convert document.ready( to document.on('turbo:load',
-// `.ready(` => `.on('turbo:load',`
-import "custom/cmu";
+// CMU's template scripts load at the end of <body> (layouts/_template_scripts);
+// the kit's script handles Turbo visits itself.
+import "cmu-web-kilt";
+import "custom/csv-upload";
 import "controllers";
 
-// cmu.js wraps .collapsed elements in <a> tags on every page load.
-// Unwrap before Turbo caches the page to prevent arrows from accumulating.
-document.addEventListener("turbo:before-cache", () => {
-  document.querySelectorAll(".collapsed a").forEach((a) => {
-    a.replaceWith(...a.childNodes);
+// A countdown's timer would keep running after Turbo replaces its page
+document.addEventListener("turbo:before-render", () => {
+  document.querySelectorAll("[data-cmu-countdown]").forEach((countdown) => {
+    clearInterval(countdown.cmuCountdown);
   });
 });
 

@@ -6,7 +6,7 @@ class NotesController < ApplicationController
   def index
     notes = Note.accessible_by(Current.ability).ordered_by_created_at
     respond_to do |format|
-      format.html
+      format.html { @table_rows = load_json(notes) }
       format.json { render json: notes_json_page(notes) }
     end
   end

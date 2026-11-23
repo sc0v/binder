@@ -1,13 +1,9 @@
-<% content_for :head do %>
-  <%= stylesheet_link_tag 'organization_build_statuses' %>
-<% end %>
-
-<div class="step-row">
-  <div class="step-card <%= step.approver.present? ? 'approved' : 'pending' %>">
+<div class="cmu-note">
+  <div class="build-step-row">
     <div>
-      <%= link_to step.title, [@organization, @build_status, step], class: 'step-title' %>
+      <%= link_to step.title, [@organization, @build_status, step] %>
       <% if step.approver.present? %>
-        <div class="step-meta">
+        <div class="cmu-hint">
           Approved by <%= step.approver.send(:cached_name) %>
           <% if step.approved_at.present? %>
             · <%= step.approved_at.strftime('%b %-d at %-l:%M %p') %>
@@ -16,18 +12,18 @@
       <% end %>
     </div>
 
-    <div class="step-actions">
+    <div class="cmu-button-note">
       <% if step.approver.present? %>
-        <span class="badge-approved">Approved</span>
+        <span class="cmu-pill cmu-pill--green">Approved</span>
       <% else %>
-        <span class="badge-pending">Not approved</span>
+        <span class="cmu-pill cmu-pill--amber">Not Approved</span>
       <% end %>
 
       <% if can?(:update, step) %>
         <%= form_with model: [@organization, @build_status, step] do |f| %>
           <%= hidden_field_tag 'update_type', :enabled %>
           <%= hidden_field_tag 'url', request.original_fullpath %>
-          <%= f.button step.is_enabled ? 'Disable' : 'Enable', class: 'step-toggle-btn' %>
+          <%= f.button step.is_enabled ? 'Disable' : 'Enable', class: 'btn ghost small' %>
         <% end %>
       <% end %>
     </div>

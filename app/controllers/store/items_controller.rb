@@ -23,7 +23,7 @@ class Store::ItemsController < ApplicationController
     name = params[:store_item][:name]
     @store_item = StoreItem.create(store_item_params)
     @store_item.save!
-    redirect_to store_path, notice: "#{name} successfully added to the store!"
+    redirect_to store_path, notice: "#{name} was added to the store."
   rescue StandardError
     redirect_to store_path, alert: "#{name} could not be added to the store."
   end
@@ -33,7 +33,7 @@ class Store::ItemsController < ApplicationController
     begin
       @store_item.update!(store_item_params)
       redirect_to store_path,
-                  notice: "#{params[:store_item][:name]} successfully updated!"
+                  notice: "#{params[:store_item][:name]} was updated."
     rescue StandardError
       redirect_to store_path,
                   alert: "#{params[:store_item][:name]} could not be updated."
@@ -44,7 +44,7 @@ class Store::ItemsController < ApplicationController
     @store_item = StoreItem.find(params[:id])
     @name = @store_item.name
     if item_in_cart?
-      return redirect_to store_path, alert: "#{@name} is still in the cart!"
+      return redirect_to store_path, alert: "#{@name} is still in the cart. Clear the cart first."
     end
 
     perform_destroy
@@ -63,7 +63,7 @@ class Store::ItemsController < ApplicationController
   def perform_destroy
     @store_item.destroy!
     redirect_to store_path,
-                notice: "#{@name} successfully removed from the store!"
+                notice: "#{@name} was removed from the store."
   rescue StandardError
     redirect_to store_path,
                 alert: "#{@name} could not be removed from the store."

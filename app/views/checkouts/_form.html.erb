@@ -13,10 +13,10 @@
                        autocomplete: 'off' %>
     <div id="participant-info"></div>
   <% end %>
-  <div class="form-actions">
-    <%= f.button :submit, 'Check Tool Out', class: 'btn-primary' %>
+  <div class="cmu-button-note">
+    <%= f.button :submit, 'Check Tool Out', class: 'btn' %>
     <%= link_to t('.cancel', default: t('helpers.links.cancel')),
                 @tool,
-                class: 'btn btn-default' %>
+                class: 'btn ghost' %>
   </div>
 <% end %>

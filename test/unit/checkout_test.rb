@@ -9,21 +9,21 @@ class CheckoutTest < ActiveSupport::TestCase
   should belong_to(:tool)
 
   # Validations
-  should validate_presence_of(:tool)
-  should validate_presence_of(:organization)
+  should validate_presence_of(:tool).with_message(:required)
+  should validate_presence_of(:organization).with_message(:required)
 
   context 'With a proper context, ' do
     setup do
-      @org = FactoryGirl.create(:organization, name: 'bruce')
-      @person = FactoryGirl.create(:participant)
-      @type1 = FactoryGirl.create(:tool_type, name: 'hammer')
-      @type2 = FactoryGirl.create(:tool_type, name: 'drill')
-      @type3 = FactoryGirl.create(:tool_type, name: 'lmao')
-      @t1 = FactoryGirl.create(:tool, barcode: 1111, tool_type: @type1)
-      @t2 = FactoryGirl.create(:tool, barcode: 2222, tool_type: @type2)
-      @t3 = FactoryGirl.create(:tool, barcode: 3333, tool_type: @type3)
+      @org = FactoryBot.create(:organization, name: 'bruce')
+      @person = FactoryBot.create(:participant)
+      @type1 = FactoryBot.create(:tool_type, name: 'hammer')
+      @type2 = FactoryBot.create(:tool_type, name: 'drill')
+      @type3 = FactoryBot.create(:tool_type, name: 'lmao')
+      @t1 = FactoryBot.create(:tool, barcode: 1111, tool_type: @type1)
+      @t2 = FactoryBot.create(:tool, barcode: 2222, tool_type: @type2)
+      @t3 = FactoryBot.create(:tool, barcode: 3333, tool_type: @type3)
       @checkout1 =
-        FactoryGirl.create(
+        FactoryBot.create(
           :checkout,
           checked_in_at: Time.zone.now,
           organization: @org,
@@ -31,7 +31,7 @@ class CheckoutTest < ActiveSupport::TestCase
           tool: @t1
         )
       @checkout2 =
-        FactoryGirl.create(
+        FactoryBot.create(
           :checkout,
           checked_in_at: Time.zone.now,
           organization: @org,
@@ -39,7 +39,7 @@ class CheckoutTest < ActiveSupport::TestCase
           tool: @t2
         )
       @checkout3 =
-        FactoryGirl.create(
+        FactoryBot.create(
           :checkout,
           checked_in_at: nil,
           organization: @org,

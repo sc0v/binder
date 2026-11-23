@@ -1,0 +1,13 @@
+<%# locals: (messages:) -%>
+<%# After a form sends someone here: at the top of the page's content %>
+<% if messages.any? %>
+  <div class="content wide">
+    <div>
+      <% messages.each do |name, message| %>
+        <div class="<%= flash_css_class(name) %>" role="<%= flash_role(name) %>">
+          <%= sanitize message %>
+        </div>
+      <% end %>
+    </div>
+  </div>
+<% end %>

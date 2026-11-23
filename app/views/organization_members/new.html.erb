@@ -4,7 +4,6 @@
      add: link_to(@organization.name, organization_path(@organization))
    ) %>
 <% update_breadcrumbs(add: 'New Members') %>
-<% nav(active: 'organizations') %>
 
 <div class="content">
   <% if can?(:create, @participant) %>
@@ -21,12 +20,12 @@
         <% end %>
       </ul>
       <%= form_with model: [@organization, Participant.new] do |form| %>
-        <%= form.label :andrewid, 'AndrewID' %>
+        <%= form.label :andrewid, 'Andrew ID' %>
         <%= form.text_field :andrewid %>
         <%= form.check_box :booth_chair %>
         <%= form.label :booth_chair, 'Booth Chair' %>
         <br />
-        <%= form.submit 'Add Participant' %>
+        <%= form.submit 'Add Person' %>
       <% end %> </div
     ><div class="sidebar">
       <div class="red invert">
@@ -36,11 +35,11 @@
                       data: {
                         turbo_method: :patch
                       },
-                      class: 'cta ghost' %></h2
+                      class: 'btn cta ghost' %></h2
         >
       </div>
     </div>
   <% else %>
-    <h3>Not Authorized! (replace me with actual link back in controller!)</h3>
+    <div><h3>You Aren't Authorized to See This Page</h3></div>
   <% end %>
 </div>

@@ -6,7 +6,7 @@
 
     <%= form.label :answer %>
     <%= content_tag(:div, faq.errors[:answer].join(', '), role: 'alert') %>
-    <%= form.text_field :answer %>
+    <%= form.text_area :answer, rows: 6 %>
 
     <%= form.label :organization_category %>
     <%= content_tag(:div, faq.errors[:organization_category].join(', '), role: 'alert') %>
@@ -15,7 +15,7 @@
           OrganizationCategory.collection_select,
           :id,
           :name,
-          include_blank: 'All Participants'
+          include_blank: 'Everyone'
         ) %>
     <div aria-live></div>
   </div>

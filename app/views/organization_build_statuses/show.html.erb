@@ -4,7 +4,6 @@
      add: link_to(@organization.name, organization_path(@organization))
    ) %>
 <% update_breadcrumbs(add: "#{@status_name} Progress") %>
-<% nav(active: 'organizations') %>
 
 <div class="content">
   <div>
@@ -15,7 +14,7 @@
         <%= render partial: 'step_preview', locals: { step: step } %>
       <% end %>
     <% else %>
-      <h2>No Enabled Steps</h2>
+      <h2>No enabled steps.</h2>
     <% end %>
     <% if can?(:update, OrganizationBuildStep) %>
       <% if @show_disabled_steps %>
@@ -28,7 +27,7 @@
             <%= render partial: 'step_preview', locals: { step: step } %>
           <% end %>
         <% else %>
-          <h2>No Disabled Steps.</h2>
+          <h2>No disabled steps.</h2>
         <% end %>
       <% else %>
         <%= link_to 'Show Disabled Steps',
@@ -43,20 +42,19 @@
 
     <!-- Build Status Notes -->
     <turbo-frame id="notes_frame">
-      <div style="display: flex; align-items: center">
-        <h2 style="padding-bottom: 0px">Notes</h2>
-        <% if can?(:update, @build_status) %>
-          <%= link_to 'Edit',
+      <h2>Notes</h2>
+      <% if @notes %>
+        <div class="cmu-note"> <%= @notes %> </div>
+      <% elsif cannot?(:update, @build_status) %>
+        <p>No notes yet.</p>
+      <% end %>
+      <% if can?(:update, @build_status) %>
+        <p>
+          <%= link_to @notes ? 'Edit Notes' : 'Add Notes',
                       [:edit, @organization, @build_status],
-                      class: 'btn',
-                      style: 'margin-left: 1em; padding: 0.5em 1.35em' %>
-        <% end %>
-      </div>
-      <div
-        style="border: 1px solid; padding: 0.5em; margin-top: 0.5em; min-height: 5em"
-      >
-        <%= @notes %>
-      </div>
+                      class: 'btn ghost small' %>
+        </p>
+      <% end %>
     </turbo-frame>
 
     <!-- Form to Add Steps -->
@@ -70,7 +68,7 @@
         <%= f.text_field :title, placeholder: 'Enter Title...' %>
         <%= f.text_area :requirements, placeholder: 'Enter Requirements...' %>
         <%= hidden_field_tag 'url', request.original_fullpath %>
-        <%= f.submit 'Create Build Step', class: 'btn wide' %>
+        <%= f.submit 'Create Build Step', class: 'btn' %>
       <% end %>
     <% end %> </div
   ><div class="sidebar">

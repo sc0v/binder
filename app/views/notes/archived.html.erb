@@ -1,40 +1,41 @@
 <% update_breadcrumbs(add: %w[Notes Archived]) %>
-<% nav(active: 'notes') %>
 
 <div class="content wide">
-  <h1>Archived Notes</h1>
+  <div>
+    <h1>Archived Notes</h1>
 
-  <% if @notes.empty? %>
-    <p>No archived notes.</p>
-  <% else %>
-    <table>
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Value</th>
-          <th>Archived At</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <% @notes.each do |note| %>
+    <% if @notes.empty? %>
+      <p>No archived notes.</p>
+    <% else %>
+      <table>
+        <thead>
           <tr>
-            <td><%= note.title %></td>
-            <td><%= note.value %></td>
-            <td><%= note.archived_at.strftime('%B %d, %Y %I:%M %p') %></td>
-            <td
-              ><%= link_to 'UNARCHIVE',
-                          unarchive_note_path(note),
-                          data: {
-                            turbo_method: :patch
-                          },
-                          class: 'cta' %></td
-            >
+            <th>Title</th>
+            <th>Value</th>
+            <th>Archived At</th>
+            <th>Actions</th>
           </tr>
-        <% end %>
-      </tbody>
-    </table>
-  <% end %>
+        </thead>
+        <tbody>
+          <% @notes.each do |note| %>
+            <tr>
+              <td><%= note.title %></td>
+              <td><%= note.value %></td>
+              <td><%= note.archived_at.strftime('%B %d, %Y %I:%M %p') %></td>
+              <td
+                ><%= link_to 'Unarchive',
+                            unarchive_note_path(note),
+                            data: {
+                              turbo_method: :patch
+                            },
+                            class: 'cta' %></td
+              >
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    <% end %>
 
-  <%= link_to 'Back to Home', root_path %>
+    <%= link_to 'Back to Home', root_path %>
+  </div>
 </div>

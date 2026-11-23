@@ -1,6 +1,5 @@
 <% update_document_title(add: 'Store') %>
 <% update_breadcrumbs(add: 'Store') %>
-<% nav(active: 'store') %>
 
 <div class="content">
   <div>
@@ -11,7 +10,7 @@
     <%= render partial: 'items', object: @store_items %>
     <p>
       <% if can?(:create, StoreItem) and @organization.blank? %>
-        <%= link_to 'New Store Item', new_store_item_path, class: 'btn btn-primary' %>
+        <%= link_to 'New Store Item', new_store_item_path, class: 'btn' %>
       <% end %>
     </p> </div
   ><% if can?(:create, StorePurchase) %><div class="sidebar">

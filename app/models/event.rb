@@ -25,7 +25,7 @@ class Event < ApplicationRecord
     return unless participant.phone_number.length == 10
 
     # grab first 95 characters of description to serve as a preview
-    description_preview = description[0...95]
+    description_preview = description.to_s[0...95]
     send_sms(
       participant.phone_number,
       "An event in Binder has been assigned to you: #{description_preview}..."

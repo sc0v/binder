@@ -6,12 +6,10 @@
        add: link_to(@organization.name, organization_path(@organization))
      ) %>
   <% update_breadcrumbs(add: 'New Members') %>
-  <% nav(active: 'participants') %>
 <% else %>
-  <% update_document_title(add: 'Participants') %>
-  <% update_breadcrumbs(add: link_to('Participants', participants_path)) %>
-  <% update_breadcrumbs(add: 'New Participant') %>
-  <% nav(active: 'participants') %>
+  <% update_document_title(add: 'People') %>
+  <% update_breadcrumbs(add: link_to('People', participants_path)) %>
+  <% update_breadcrumbs(add: 'New Person') %>
 <% end %>
 
 <div class="content">
@@ -27,7 +25,7 @@
       </div>
       <%= render 'new_participant_form' %>
     <% else %>
-      <h3>Not Authorized! (replace me with actual link back in controller!)</h3>
+      <h3>You Aren't Authorized to See This Page</h3>
     <% end %> </div
-  ><div class="sidebar"> Add CSV stuff here... </div>
+  ><div class="sidebar"></div>
 </div>

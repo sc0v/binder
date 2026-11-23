@@ -13,8 +13,8 @@ class ChargeTypeTest < ActiveSupport::TestCase
 
   context 'With a proper context, ' do
     setup do
-      @charge = FactoryGirl.create(:charge_type)
-      @charge_type = FactoryGirl.create(:charge, charge_type: @charge)
+      @charge = FactoryBot.create(:charge_type)
+      @charge_type = FactoryBot.create(:charge, charge_type: @charge)
     end
 
     should 'show that all factories are properly created' do

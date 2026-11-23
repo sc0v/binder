@@ -12,7 +12,7 @@ class ParticipantsController < ApplicationController
   # compute last_page to tell table how many batches it needs
   def index
     respond_to do |format|
-      format.html
+      format.html { @table_rows = participant_rows(Participant.all) }
       format.json { render json: participants_json_page }
     end
   end
@@ -76,15 +76,18 @@ class ParticipantsController < ApplicationController
     offset = (page - 1) * size
     last_page =
       (Participant.count / size) + ((Participant.count % size).zero? ? 0 : 1)
-    participants =
-      Participant
-        .accessible_by(Current.ability)
-        .ordered_by_name
-        .offset(offset)
-        .limit(size)
-    data =
-      participants.table_attrs.as_json(methods: %i[link name signed_waiver?])
-    { last_page:, data: }
+    {
+      last_page:,
+      data: participant_rows(Participant.offset(offset).limit(size))
+    }
+  end
+
+  def participant_rows(participants)
+    participants
+      .accessible_by(Current.ability)
+      .ordered_by_name
+      .table_attrs
+      .as_json(only: %i[id eppn is_booth_chair], methods: %i[link name signed_waiver?])
   end
 
   def show_participant(uid = nil)
@@ -100,7 +103,7 @@ class ParticipantsController < ApplicationController
   rescue ActiveRecord::RecordInvalid => e
     # TODO: participants_url/did you mean? results
     # redirect_to('/',
-    flash['error'] = '<strong>Participant does not exist.</strong> ' \
+    flash['error'] = '<strong>That person couldn&#39;t be saved.</strong> ' \
       "#{e.record.errors.full_messages.join(', ')}"
     redirect_to root_url
   rescue ActiveRecord::RecordNotUnique

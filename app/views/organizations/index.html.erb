@@ -1,16 +1,14 @@
 <% update_document_title(add: 'Organizations') %>
 <% update_breadcrumbs(add: 'Organizations') %>
-<% nav(active: 'organizations') %>
 
 <div class="content wide">
   <div>
     <h1>Participating Organizations</h1>
-    <%= content_tag :div,
-                    data: {
-                      controller: 'table',
-                      config: organizations_table_config
-                    } do %>
-      Loading...
-    <% end %>
+    <%= data_table(
+          id: 'organizations-table',
+          config: organizations_table_config,
+          rows: @table_rows,
+          noun: 'organization'
+        ) %>
   </div>
 </div>

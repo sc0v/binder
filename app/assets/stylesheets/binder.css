@@ -1,3 +1,4 @@
+/* Binder-specific styles. Shared page and form styles come from the CMU Web Kit. */
 #sitename a#sccWordmarkLink {
   width: 30%;
 }
@@ -8,83 +9,8 @@
   }
 }
 
-nav#nav form.signIn button {
-  line-height: 1.5em;
-}
-
-nav#nav form.signIn {
-  display: block;
-  padding: 0.5em 2em;
-  position: relative;
-  text-align: right;
-}
-
-nav#nav .right > a {
-  text-align: right;
-}
-
-nav#nav a.avatar > img {
-  border-radius: 50%;
-}
-
-ul#site-search-results {
-  color: #000;
-  height: 100%;
-  margin: 40px 0 0 0;
-  padding: 0 0 0 8px;
-  width: 100%;
-  flex: 0 1 auto;
-  position: absolute;
-  border: 1px solid red;
-  z-index: 999;
-  display: none;
-}
-header ul#site-search-results li:first-child,
-header ul#site-search-results li {
-  background-color: #fff;
-  border: none;
-  border-bottom: 1px solid #ccc;
-  margin: 2px;
-  padding: 10px;
-  text-indent: 0;
-  list-style-type: none;
-}
-header ul#site-search-results li:last-child {
-  border: none;
-}
-header ul#site-search-results li a span.uid {
-  font-weight: 500;
-}
-#site-search-results a:hover {
-  color: #900 !important;
-  text-shadow: none;
-}
-
-#site-search-results a {
-  color: #000;
-  text-align: left;
-}
-
-/* Flash messages */
-div[role="alert"].flash,
-div[role="alert"].flash a {
-  border-color: #333;
-  color: #333 !important;
-}
-div[role="alert"].flash.invert,
-div[role="alert"].flash.invert a {
-  border-color: #fff;
-  color: #fff !important;
-}
-.breadcrumbs + div.content.flash {
-  padding-top: 2em;
-}
-.flash h2 {
-  padding-bottom: 0;
-}
-
 /* Validation error messages */
-.field_with_errors {
+.field_with_errors:not(.input) {
   display: inline;
 }
 .field_with_errors + div[role="alert"] {
@@ -92,80 +18,6 @@ div[role="alert"].flash.invert a {
 }
 .field_with_errors + div[role="alert"]::before {
   content: "\00a0";
-}
-
-input[type="checkbox"] {
-  max-width: 100%;
-  margin-right: 0.5em;
-}
-input[type="checkbox"] + label {
-  display: inline;
-}
-select,
-input[type="text"] {
-  width: 100%;
-  margin-bottom: 2em;
-}
-select.inline,
-input[type="text"].inline {
-  width: auto;
-}
-input[type="tel"] {
-  display: block;
-  width: 16em;
-  margin-bottom: 2em;
-}
-
-button.wide {
-  display: block;
-  padding: 1.5em;
-  width: 100%;
-}
-
-a:active,
-a:focus,
-a:focus:hover,
-button:active,
-button:focus,
-button:focus:hover,
-summary:active,
-summary:focus,
-summary:focus:hover {
-  overflow: visible;
-}
-
-/* Tabs */
-ul.tabs {
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  overflow: hidden;
-}
-
-li.tab {
-  float: left;
-}
-
-/* Override CMU default transitions on tables*/
-.tabulator,
-.tabulator-col,
-.tabulator-cell,
-.tabulator-selectable,
-.tabulator a {
-  transition: none !important;
-  transition-delay: none !important;
-}
-
-.title-row {
-  display: flex;
-  align-items: center;
-  width: full;
-  justify-content: space-between;
-}
-
-.title-row div {
-  min-width: 30%;
-  padding: 0.5rem;
 }
 
 .build-progress-grid {
@@ -273,33 +125,63 @@ li.tab {
   pointer-events: none;
 }
 
-/* store card quantity controls, keep −, count, and + on one line. */
-.content .sidebar .cart-qty {
+/* The store sits inside a content column, not a full-width template grid band. */
+.store-items {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 10rem), 1fr));
+  gap: 1em;
+  margin-bottom: 1.5em;
+}
+.store-item {
+  padding: 1em;
+  border: 1px solid var(--cmu-line);
+}
+
+/* Keep the quantity controls together in the narrow cart sidebar. */
+.cart-qty {
   display: inline-flex;
   align-items: center;
-  gap: 0.2em;
+  gap: 0.5em;
+  white-space: nowrap;
+}
+.cart-qty form {
   margin: 0;
-  padding: 0;
 }
 
-/* store: strip the button background for readibility,
-  using input[type=submit] to overwrite the orig button framework's styling */
-input[type="submit"].cart-qty-btn {
-  flex: none;
-  background: none;
-  border: 0;
-  margin: 0;
-  padding: 0.6em;
-  font-size: 1.3em;
-  font-weight: 700;
-  line-height: 1;
-  color: #6d6e71;
-  cursor: pointer;
-  vertical-align: middle;
+/* Product thumbnails share a size without stretching differently shaped items. */
+.store-item-image {
+  height: 80px;
+  object-fit: contain;
 }
 
-input[type="submit"].cart-qty-btn:hover,
-input[type="submit"].cart-qty-btn:focus {
-  background: none;
-  color: #c41230;
+/* Wide admin tables scroll inside their column instead of widening the page. */
+.table-scroll {
+  max-width: 100%;
+  overflow-x: auto;
+}
+/* From 768px a long table's head sticks to the top of the window
+   (cmu-sticky), which a scrolling container would stop */
+@media (min-width: 768px) {
+  .table-scroll:has(> table.cmu-sticky) {
+    overflow: visible;
+  }
+}
+
+/* A build step in the build status list: its title and approval on the left,
+   the status pill and Enable/Disable on the right */
+.build-step-row {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 0.5em 1em;
+}
+.build-step-row form {
+  margin: 0;
+}
+
+/* The Photo link after a tool's name in the tools table; it opens enlarged */
+.data-table-photo {
+  margin-left: 0.5em;
+  font-size: 0.85em;
 }

@@ -5,7 +5,7 @@ require 'test_helper'
 class StorePurchaseTest < ActiveSupport::TestCase
   # relationships
   should have_one(:organization).through(:charge)
-  should belong_to(:charge)
+  should belong_to(:charge).optional
   should belong_to(:store_item)
 
   # methods
@@ -14,10 +14,10 @@ class StorePurchaseTest < ActiveSupport::TestCase
     setup do
       # Create store
       @store_item =
-        FactoryGirl.create(:store_item, name: 'Hammer', price: 20, quantity: 3)
+        FactoryBot.create(:store_item, name: 'Hammer', price: 20, quantity: 3)
       # Create store_purchase
       @store_purchase =
-        FactoryGirl.create(
+        FactoryBot.create(
           :store_purchase,
           price_at_purchase: 20,
           quantity_purchased: 1,

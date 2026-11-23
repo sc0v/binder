@@ -18,8 +18,11 @@ class HomeController < ApplicationController
 
     @query = params[:query]
 
-    @participant_lookup = Participant.find_by_card(@query, true)
-    redirect_to @participant_lookup unless @participant_lookup.nil?
+    @participant_lookup = Participant.find_by_card(@query, lookup_only: true)
+    if @participant_lookup.present?
+      redirect_to @participant_lookup
+      return
+    end
 
     @tool_lookup = Tool.find_by(barcode: @query)
     unless @tool_lookup.nil?
@@ -39,7 +42,7 @@ class HomeController < ApplicationController
       return
     end
 
-    @faqs = Faq.search(@query) if can?(:read, Faq)
+    @faqs = FAQ.search(@query) if can?(:read, FAQ)
     @participants = Participant.search(@query)
     @tools = Tool.search(@query)
     @organizations = Organization.search(@query)

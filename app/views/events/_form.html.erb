@@ -12,9 +12,7 @@
       </div>
       <% if can?(:create, EventType) %>
         <div>
-          <%= link_to 'Or create a new event type',
-                      new_event_type_path,
-                      class: 'btn btn-primary' %>
+          <%= link_to 'Or create a new event type', new_event_type_path, class: 'btn' %>
         </div>
       <% end %>
     </div>
@@ -22,10 +20,10 @@
       <div class="col-xs-12 col-sm-9"><%= f.input :description %></div>
     </div>
   </div>
-  <div class="form-actions">
-    <%= f.button :submit, 'Create Note', class: 'btn-primary' %>
+  <div class="cmu-button-note">
+    <%= f.button :submit, 'Create Note', class: 'btn' %>
     <%= link_to t('.cancel', default: t('helpers.links.cancel')),
                 @event,
-                class: 'btn btn-default' %>
+                class: 'btn ghost' %>
   </div>
 <% end %>

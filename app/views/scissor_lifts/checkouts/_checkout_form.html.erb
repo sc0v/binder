@@ -1,4 +1,4 @@
-<h3>Checkout</h3>
+<h3>Check Out</h3>
 <ul>
   <% session[:scissor_lifts] = [] if session[:scissor_lifts].blank? %>
   <% if !session[:scissor_lifts].empty? %>
@@ -10,7 +10,7 @@
       >
     <% end %>
   <% else %>
-    <strong>No Scissor Lifts Selected</strong>
+    <strong>No scissor lifts selected.</strong>
   <% end %>
 </ul>
 <%= form_with url: add_scissor_lifts_path do |f| %>

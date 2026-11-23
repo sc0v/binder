@@ -1,0 +1,18 @@
+<%# locals: (tasks:) -%>
+<%# The operations hub's tasks: due in the next four hours or overdue %>
+<div class="left-rule">
+  <h2>Tasks Due</h2>
+  <% if tasks.any? %>
+    <ul>
+      <% tasks.each do |task| %>
+        <li>
+          <%= link_to task.name, task %><br />
+          <%= data_table_due(task.due_at) %>
+        </li>
+      <% end %>
+    </ul>
+  <% else %>
+    <p>Nothing due in the next four hours.</p>
+  <% end %>
+  <p><%= link_to 'See All Tasks', tasks_path, class: 'cta' %></p>
+</div>

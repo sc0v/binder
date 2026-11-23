@@ -43,7 +43,7 @@ module ToolsHelper
       headerFilterPlaceholder: 'Search'
     },
     {
-      title: 'Current Participant',
+      title: 'Checked Out To',
       field: :t_participant_name,
       sorter: 'string',
       headerFilter: 'input',

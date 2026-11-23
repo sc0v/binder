@@ -70,14 +70,13 @@ class Participant < ApplicationRecord
     participant_path(self)
   end
 
-  # scope :search,
-  #      lambda { |term|
-  #        where(
-  #          'lower(eppn) LIKE lower(?) OR lower(cached_name) LIKE lower(?)',
-  #          "%#{term}%",
-  #          "%#{term}%"
-  #        )
-  #      }
+  scope :search,
+        lambda { |term|
+          where(
+            'lower(eppn) LIKE :term OR lower(cached_name) LIKE :term',
+            { term: "%#{sanitize_sql_like(term.to_s.downcase)}%" }
+          )
+        }
 
   def self.find_by(*)
     # puts args

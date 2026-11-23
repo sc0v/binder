@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
-# Skip SAML setup during asset precompilation (no network access in Docker build)
-return if ENV['SECRET_KEY_BASE_DUMMY']
+# Skip SAML setup during asset precompilation (no network access in Docker
+# build), and in development and test, which sign in through the developer
+# sign-in page and never reach CMU's identity provider
+return if ENV['SECRET_KEY_BASE_DUMMY'] || Rails.env.local?
 
 sp_cert = Rails.root.join('config/private/sp-cert.pem')
 sp_key = Rails.root.join('config/private/sp-key.pem')

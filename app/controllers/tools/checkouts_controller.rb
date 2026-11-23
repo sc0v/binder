@@ -34,7 +34,7 @@ class Tools::CheckoutsController < ApplicationController
 
     @organization = Organization.find(params[:checkout][:organization_id])
     if session[:tools].blank?
-      flash.alert = 'Add at least one tool to checkout.'
+      flash.alert = 'Add at least one tool to check out.'
       return
     end
     perform_tool_checkout
@@ -67,7 +67,7 @@ class Tools::CheckoutsController < ApplicationController
       flash.alert =
         "No tool found with that barcode. #{helpers.link_to 'Create it', new_tool_path, class: 'cta'}"
     elsif tool.checked_out?
-      flash.alert = "#{tool.name} ##{tool.barcode} is already checked out!"
+      flash.alert = "#{tool.name} ##{tool.barcode} is already checked out."
     else
       session[:tools] |= [tool.id]
     end
@@ -109,7 +109,7 @@ class Tools::CheckoutsController < ApplicationController
   def apply_tool_checkout_flash(participant, bad_barcodes)
     if session[:tools].empty?
       session[:borrower_id] = nil
-      flash.notice = "Tools checked out to #{participant.name}"
+      flash.notice = "Tools checked out to #{participant.name}."
     else
       flash.alert = "Problem checking out tools #{bad_barcodes.join(', ')}"
     end

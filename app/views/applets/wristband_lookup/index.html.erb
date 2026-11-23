@@ -1,13 +1,12 @@
 <% update_document_title(add: 'Wristband Lookup') %>
 <% update_breadcrumbs(add: link_to('Applets', applets_path)) %>
 <% update_breadcrumbs(add: 'Wristband Lookup') %>
-<% nav(active: 'wristband_lookup') %>
 
 <div class="content">
   <div>
     <h1>Wristband Lookup</h1>
     <%= form_tag wristband_lookup_path, method: 'get' do %>
-      <%= label_tag :participant_search, 'Scan or enter CMU ID' %>
+      <%= label_tag :participant_search, 'Scan or Enter CMU ID' %>
       <%= text_field_tag :participant_search,
                          nil,
                          autocomplete: :off,

@@ -2,24 +2,26 @@
   <%= hidden_field(nil, :from_charge, value: params[:from_charge]) %>
   <div class="form-inputs"> <%= f.input :name %> </div>
   <%= f.input :default_amount do %>
-    <div class="input-group" style="display: flex">
-      <%= content_tag :span, '$', class: 'input-group-addon' %>
-      <%= f.input_field :default_amount,
-                        as: :string,
-                        value:
-                          number_to_currency(
-                            f.object.default_amount,
-                            unit: '',
-                            delimiter: ''
-                          ) %>
+    <div class="cmu-field-row">
+      <%= content_tag :span, '$' %>
+      <div>
+        <%= f.input_field :default_amount,
+                          as: :string,
+                          value:
+                            number_to_currency(
+                              f.object.default_amount,
+                              unit: '',
+                              delimiter: ''
+                            ) %>
+      </div>
     </div>
   <% end %>
   <%= f.input :description, as: :text, textarea: '{ font-size:16px; }' %>
   <%= f.input :requires_booth_chair_approval, as: :boolean %>
-  <div class="form-actions">
-    <%= f.button :submit, class: 'btn-primary' %>
+  <div class="cmu-button-note">
+    <%= f.button :submit, class: 'btn' %>
     <%= link_to t('.cancel', default: t('helpers.links.cancel')),
                 charge_types_path,
-                class: 'btn btn-default' %>
+                class: 'btn ghost' %>
   </div>
 <% end %>

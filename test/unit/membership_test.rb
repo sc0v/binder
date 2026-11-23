@@ -8,16 +8,16 @@ class MembershipTest < ActiveSupport::TestCase
   should belong_to(:participant)
 
   # Validations
-  should validate_presence_of(:participant)
-  should validate_presence_of(:organization)
+  should validate_presence_of(:participant).with_message(:required)
+  should validate_presence_of(:organization).with_message(:required)
 
   context 'With a proper context, ' do
     setup do
-      @org1 = FactoryGirl.create(:organization)
-      @org2 = FactoryGirl.create(:organization)
-      @nonchair = FactoryGirl.create(:membership, organization: @org1)
+      @org1 = FactoryBot.create(:organization)
+      @org2 = FactoryBot.create(:organization)
+      @nonchair = FactoryBot.create(:membership, organization: @org1)
       @chair =
-        FactoryGirl.create(
+        FactoryBot.create(
           :membership,
           organization: @org2,
           is_booth_chair: true

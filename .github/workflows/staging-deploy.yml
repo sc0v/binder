@@ -22,4 +22,14 @@ jobs:
             podman rm binder
             image_id=`podman images --format "table {{.Repository}} {{.ID}}" | grep "ghcr.io/sc0v/binder-staging" | grep -oE '[^ ]+$'`
             podman rmi "$image_id"
-            podman run --name binder -dt -p 3000:3000/tcp ghcr.io/sc0v/binder-staging:master
+            # Runs with RAILS_ENV=staging (set in the image): it needs its own
+            # MySQL database and settings, as production does
+            podman run \
+              --name binder \
+              --network binder-mysql-network \
+              -dt \
+              -p 3000:3000/tcp \
+              --env-file /home/sc0v/binder-staging.env \
+              -v binder-private:/build/config/private \
+              -v binder-logs:/build/log \
+              ghcr.io/sc0v/binder-staging:master

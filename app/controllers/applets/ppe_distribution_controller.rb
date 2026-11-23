@@ -29,7 +29,7 @@ class Applets::PPEDistributionController < ApplicationController
       )
       return false
     elsif !@participant.signed_waiver?
-      flash.now[:alert] = "#{@participant.name} did not sign the waiver yet."
+      flash.now[:alert] = "#{@participant.name} has not signed the waiver yet."
       return false
     elsif @participant.organizations.blank?
       flash.now[
