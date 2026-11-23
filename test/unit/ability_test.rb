@@ -3,7 +3,7 @@
 require 'test_helper'
 
 class AbilityTest < ActiveSupport::TestCase
-  include FactoryGirl::Syntax::Methods
+  include FactoryBot::Syntax::Methods
 
   context 'With a proper context, ' do
     setup do
@@ -44,7 +44,7 @@ class AbilityTest < ActiveSupport::TestCase
              'to not change a person'
       assert ability.cannot?(:manage, Charge), 'to not edit a charge'
       assert ability.cannot?(:manage, ChargeType), 'to not edit a charge type'
-      assert ability.cannot?(:manage, Faq), 'to not edit an FAQ'
+      assert ability.cannot?(:manage, FAQ), 'to not edit an FAQ'
       assert ability.cannot?(:manage, ShiftParticipant),
              'to not edit a shift participant'
       assert ability.cannot?(:manage, Task), 'to not edit a task'
@@ -121,10 +121,10 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.cannot?(:destroy, Checkout)
       assert ability.can?(:read, Checkout)
 
-      assert ability.cannot?(:create, Faq)
-      assert ability.cannot?(:update, Faq)
-      assert ability.cannot?(:destroy, Faq)
-      assert ability.cannot?(:read, Faq)
+      assert ability.cannot?(:create, FAQ)
+      assert ability.cannot?(:update, FAQ)
+      assert ability.cannot?(:destroy, FAQ)
+      assert ability.cannot?(:read, FAQ)
 
       assert ability.can?(:read_all_details, @org)
       assert ability.cannot?(:read_all_details, @scc)
@@ -166,7 +166,7 @@ class AbilityTest < ActiveSupport::TestCase
       assert ability.can?(:read, Charge)
       assert ability.can?(:read, ChargeType)
       assert ability.can?(:read, Checkout)
-      assert ability.can?(:read, Faq)
+      assert ability.can?(:read, FAQ)
       assert ability.can?(:read, Membership)
       assert ability.can?(:read, Organization)
       assert ability.can?(:read, OrganizationAlias)

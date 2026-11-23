@@ -6,16 +6,16 @@ class ChargeTest < ActiveSupport::TestCase
   # Relationships
   should belong_to(:organization)
   should belong_to(:issuing_participant)
-  should belong_to(:receiving_participant)
+  should belong_to(:receiving_participant).optional
   should belong_to(:creating_participant)
   should belong_to(:charge_type)
 
   # Validations
 
   should validate_presence_of(:charged_at)
-  should validate_presence_of(:issuing_participant)
-  should validate_presence_of(:organization)
-  should validate_presence_of(:charge_type)
+  should validate_presence_of(:issuing_participant).with_message(:required)
+  should validate_presence_of(:organization).with_message(:required)
+  should validate_presence_of(:charge_type).with_message(:required)
   should validate_presence_of(:amount)
 
   should validate_numericality_of(:amount)
@@ -24,9 +24,9 @@ class ChargeTest < ActiveSupport::TestCase
   context 'With a proper context, ' do
     setup do
       # Create a charges
-      @fine = FactoryGirl.create(:charge, is_approved: false)
-      @fine2 = FactoryGirl.create(:charge, is_approved: false)
-      @fine3 = FactoryGirl.create(:charge, is_approved: true)
+      @fine = FactoryBot.create(:charge, is_approved: false)
+      @fine2 = FactoryBot.create(:charge, is_approved: false)
+      @fine3 = FactoryBot.create(:charge, is_approved: true)
     end
 
     should 'show that all factories are properly created' do
@@ -43,7 +43,7 @@ class ChargeTest < ActiveSupport::TestCase
 
     context 'Testing charges' do
       should 'not let charge with string for amount value be created' do
-        charge1 = FactoryGirl.build(:charge, amount: 'a')
+        charge1 = FactoryBot.build(:charge, amount: 'a')
         deny charge1.valid?
       end
     end

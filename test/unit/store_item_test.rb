@@ -13,12 +13,12 @@ class StoreItemTest < ActiveSupport::TestCase
     setup do
       # Create store
       @store_item =
-        FactoryGirl.create(:store_item, name: 'Hammer', price: 20, quantity: 5)
+        FactoryBot.create(:store_item, name: 'Hammer', price: 20, quantity: 5)
       # Create charge
-      @charge = FactoryGirl.create(:charge, is_approved: true)
+      @charge = FactoryBot.create(:charge, is_approved: true)
       # Create store_purchase
       @store_purchase =
-        FactoryGirl.create(
+        FactoryBot.create(
           :store_purchase,
           price_at_purchase: 20,
           quantity_purchased: 1,

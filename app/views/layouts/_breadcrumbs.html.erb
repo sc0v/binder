@@ -1,0 +1,5 @@
+<%# locals: (trail:) -%>
+<%# First in the page's content; none on the home page %>
+<% if trail.present? && !current_page?(root_path) %>
+  <div class="breadcrumbs"><%= trail %></div>
+<% end %>

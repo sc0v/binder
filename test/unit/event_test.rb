@@ -7,12 +7,12 @@ class EventTest < ActiveSupport::TestCase
   # Scopes
   context 'With a proper context, ' do
     setup do
-      @type1 = FactoryGirl.create(:event_type, display: false)
-      @type2 = FactoryGirl.create(:event_type, display: true)
+      @type1 = FactoryBot.create(:event_type, display: false)
+      @type2 = FactoryBot.create(:event_type, display: true)
       @event1 =
-        FactoryGirl.create(:event, is_done: true, event_type_id: @type1.id)
+        FactoryBot.create(:event, is_done: true, event_type_id: @type1.id)
       @event2 =
-        FactoryGirl.create(:event, is_done: false, event_type_id: @type2.id)
+        FactoryBot.create(:event, is_done: false, event_type_id: @type2.id)
     end
 
     # scopes

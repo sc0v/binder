@@ -12,8 +12,8 @@ class OrganizationCategoryTest < ActiveSupport::TestCase
 
   context 'With a proper context, ' do
     setup do
-      @cat1 = FactoryGirl.create(:organization_category)
-      @cat2 = FactoryGirl.create(:organization_category)
+      @cat1 = FactoryBot.create(:organization_category)
+      @cat2 = FactoryBot.create(:organization_category)
     end
 
     teardown do
@@ -27,9 +27,9 @@ class OrganizationCategoryTest < ActiveSupport::TestCase
 
     # dependency
     should 'remove all associated organizations once this organization category is removed' do
-      @org1 = FactoryGirl.create(:organization, organization_category: @cat1)
-      @org2 = FactoryGirl.create(:organization, organization_category: @cat1)
-      @org3 = FactoryGirl.create(:organization, organization_category: @cat2)
+      @org1 = FactoryBot.create(:organization, organization_category: @cat1)
+      @org2 = FactoryBot.create(:organization, organization_category: @cat1)
+      @org3 = FactoryBot.create(:organization, organization_category: @cat2)
 
       assert_equal 3, Organization.all.size
       @cat1.destroy

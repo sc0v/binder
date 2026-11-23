@@ -6,5 +6,9 @@
   <div>
     <%= t('welcome.html', name: Current.user.name) %>
     <%= render 'notes/stickies', notes: @notes %> </div
-  ><div class="sidebar"> <%= render 'layouts/sidebar_defaults' %> </div>
+  ><div class="sidebar">
+    <%= render 'layouts/sidebar_defaults' %>
+    <%= render 'shifts', now: @shifts_now, coming: @shifts_next %>
+    <%= render 'tasks_due', tasks: @tasks_due %>
+  </div>
 </div>

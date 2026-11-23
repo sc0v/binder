@@ -97,7 +97,14 @@ class Ability
     can :read, OrganizationCategory
     # OrganizationTimelineEntry: No Access
     can :read, Organization
-    can %i[read read_phone_number], Participant
+    # The people in their own organizations, with phone numbers, and their
+    # own; someone in no organization sees only themselves. A list of ids,
+    # not a nested hash: CanCanCan's SQL for the people list joins
+    # memberships twice and checks the wrong one.
+    can %i[read read_phone_number],
+        Participant,
+        id: Membership.where(organization_id: user.organization_ids).pluck(:participant_id)
+    can :read_phone_number, Participant, id: user.id
     cannot :login, Participant
     can :skip_safety_video, Participant, id: user.id, watched_safety_video: true
     can :show, Participant, id: user.id
@@ -172,15 +179,7 @@ class Ability
             }
           }
       # Organization: Same as Builder
-      can :read,
-          Participant,
-          memberships: {
-            organization: {
-              memberships: {
-                participant_id: user.id
-              }
-            }
-          }
+      # Participant: Same as Builder
       # ScissorLiftCheckout: Same as Builder
       # ScissorLift: Same as Builder
       # ShiftParticipant                 -- Not currently used: Feature No Longer Used
@@ -204,7 +203,9 @@ class Ability
       # Tool: Same as Builder
     end
 
-    return unless user.scc?
+    # The committee's rules, then the administrators': administrators get
+    # everything whether or not they're on the committee
+    return unless user.scc? || user.admin?
 
     can :read, :all
 

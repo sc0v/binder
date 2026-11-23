@@ -1,0 +1,11 @@
+<%# locals: (user:) -%>
+<%# Acting as another user: the kit pins this bar to the bottom of the window
+    and frames the window (cmu-acting-as on body) %>
+<%= form_with url: unimpersonate_path, method: :get, class: 'cmu-acting-bar' do %>
+  <p>You're acting as <%= user.name %> (<%= user.eppn %>)</p>
+  <%= hidden_field_tag :return_url, request.url, id: nil %>
+  <%= button_tag "Stop Acting as #{user.name}",
+                 type: 'submit',
+                 name: nil,
+                 class: 'btn ghost small' %>
+<% end %>

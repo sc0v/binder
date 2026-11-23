@@ -1,8 +1,4 @@
 <% page ||= 'default' %>
-<div
-  style="display: grid;
-            grid-template-columns: repeat(5, 1fr);
-            gap: 0.5rem;"
->
+<div class="store-items">
   <%= render partial: 'item', collection: items %>
 </div>

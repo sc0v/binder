@@ -2,5 +2,7 @@
   <%- model_class = Shift -%>
   <%= render partial: 'shifts/new_shifts/step_repair', locals: { mode: 'edit' } %>
 <% else %>
-  <h3>Not Authorized!</h3>
+  <div class="content"
+    ><div><h3>You Aren't Authorized to See This Page</h3></div></div
+  >
 <% end %>

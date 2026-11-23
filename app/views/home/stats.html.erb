@@ -1,15 +1,19 @@
-<div class="page-header">
-  <h1>Stats</h1>
+<div class="content">
+  <div>
+    <div class="page-header">
+      <h1>Stats</h1>
+    </div>
+    <h2>Potty Stats</h2>
+    <ol>
+      <%= Participant
+            .joins(:checkouts)
+            .where('checkouts.tool_id=1995')
+            .find_each do |participant| %>
+        <li
+          ><%= participant.name %> -
+          <%= participant.checkouts.where('tool_id == 1995') %> poops
+        </li>
+      <% end %>
+    </ol>
+  </div>
 </div>
-<h2>Potty Stats</h2>
-<ol>
-  <%= Participant
-        .joins(:checkouts)
-        .where('checkouts.tool_id=1995')
-        .find_each do |participant| %>
-    <li
-      ><%= participant.name %> -
-      <%= participant.checkouts.where('tool_id == 1995') %> poops
-    </li>
-  <% end %>
-</ol>

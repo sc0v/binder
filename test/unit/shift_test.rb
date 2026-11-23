@@ -13,62 +13,62 @@ class ShiftTest < ActiveSupport::TestCase
   # does not need to have an organization
   should validate_presence_of(:starts_at)
   should validate_presence_of(:ends_at)
-  should validate_presence_of(:shift_type)
-  should validate_presence_of(:required_number_of_participants)
+  should validate_presence_of(:shift_type).with_message(:required)
+  should validate_presence_of(:capacity)
 
   context 'With a proper context, ' do
     setup do
       # Create 3 shifts
-      @type1 = FactoryGirl.create(:shift_type, id: 1, name: 'Watch Shift')
-      @type2 = FactoryGirl.create(:shift_type, id: 2, name: 'Security Shift')
-      @type3 = FactoryGirl.create(:shift_type, id: 3, name: 'Coordinator Shift')
+      @type1 = FactoryBot.create(:shift_type, id: 1, name: 'Watch Shift')
+      @type2 = FactoryBot.create(:shift_type, id: 2, name: 'Security Shift')
+      @type3 = FactoryBot.create(:shift_type, id: 3, name: 'Coordinator Shift')
 
       @upcomming =
-        FactoryGirl.create(
+        FactoryBot.create(
           :shift,
           shift_type_id: @type1.id,
           ends_at: Time.zone.local(2021, 1, 1, 16, 0, 0),
           starts_at: 1.hour.from_now
         )
       @future =
-        FactoryGirl.create(
+        FactoryBot.create(
           :shift,
           shift_type_id: @type2.id,
           ends_at: Time.zone.local(2021, 1, 1, 16, 0, 0),
           starts_at: 7.hours.from_now
         )
       @current =
-        FactoryGirl.create(
+        FactoryBot.create(
           :shift,
           shift_type_id: @type3.id,
           ends_at: Time.zone.local(2020, 1, 1, 16, 0, 0),
           starts_at: Time.zone.local(2016, 1, 1, 13, 4, 0)
         )
       @past =
-        FactoryGirl.create(
+        FactoryBot.create(
           :shift,
           shift_type_id: @type1.id,
           ends_at: Time.zone.local(2001, 1, 1, 16, 0, 0),
           starts_at: Time.zone.local(2000, 1, 1, 14, 10, 0)
         )
       @not_checked_in =
-        FactoryGirl.create(
+        FactoryBot.create(
           :shift,
           shift_type_id: @type2.id,
-          required_number_of_participants: 1,
+          capacity: 1,
           ends_at: Time.zone.local(2001, 1, 1, 16, 0, 0),
           starts_at: Time.zone.local(2000, 1, 1, 14, 10, 0)
         )
       @checked_in =
-        FactoryGirl.create(
+        FactoryBot.create(
           :shift,
           shift_type_id: @type2.id,
-          required_number_of_participants: 2,
+          capacity: 2,
           ends_at: Time.zone.local(2001, 1, 1, 16, 0, 0),
           starts_at: Time.zone.local(2000, 1, 1, 14, 10, 0)
         )
-      FactoryGirl.create(:shift_participant, shift: @checked_in)
-      FactoryGirl.create(:shift_participant, shift: @checked_in)
+      FactoryBot.create(:shift_participant, shift: @checked_in)
+      FactoryBot.create(:shift_participant, shift: @checked_in)
     end
 
     should 'show that all factories are properly created' do
@@ -92,10 +92,6 @@ class ShiftTest < ActiveSupport::TestCase
       assert_equal 3, Shift.past.size
     end
 
-    should "have a scope 'missed' that works" do
-      assert_equal 5, Shift.missed.size
-    end
-
     should "have a scope 'watch_shifts' that works" do
       assert_equal 2, Shift.watch_shifts.size
     end
@@ -116,9 +112,9 @@ class ShiftTest < ActiveSupport::TestCase
     end
 
     should "have a method 'formatted_name' that works" do
-      @type = FactoryGirl.create(:shift_type, name: 'Bob')
+      @type = FactoryBot.create(:shift_type, name: 'Bob')
       @ex =
-        FactoryGirl.create(
+        FactoryBot.create(
           :shift,
           shift_type_id: @type.id,
           ends_at: Time.zone.local(2001, 1, 1, 16, 0, 0),

@@ -12,6 +12,10 @@ class Membership < ApplicationRecord
         -> { where(is_booth_chair: true).order(:booth_chair_order) }
   scope :validated, -> { where(is_added_by_csv: [false, nil]) }
 
+  def booth_chair?
+    is_booth_chair?
+  end
+
   def organization_name_formatted
     booth_chair? ? "#{organization.name} - Booth Chair" : organization.name
   end

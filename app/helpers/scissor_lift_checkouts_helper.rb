@@ -15,7 +15,7 @@ module ScissorLiftCheckoutsHelper
       sorter: 'string'
     },
     {
-      title: 'Participant',
+      title: 'Person',
       field: :participant_name,
       formatter: 'link',
       formatterParams: {

@@ -24,7 +24,7 @@ class Tools::CheckinController < ApplicationController
 
   def store_checkin_in_session(tool)
     if tool.nil?
-      flash.alert = "No tool found with barcode #{params[:barcode]}"
+      flash.alert = "No tool found with barcode #{params[:barcode]}."
     elsif !tool.checked_out?
       flash.alert =
         "#{tool.name} ##{tool.barcode} is not currently checked out!"
@@ -68,6 +68,6 @@ class Tools::CheckinController < ApplicationController
     process_checkout
     get_checkin_tool_summary(data[:org], data[:remaining])
     redirect_to checkout_tools_path(focus: 'checkin_barcode'),
-                notice: "Tool #{params[:barcode]} successfully checked in."
+                notice: "Tool #{params[:barcode]} was checked in."
   end
 end

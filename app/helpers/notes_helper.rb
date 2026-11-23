@@ -32,7 +32,7 @@ module NotesHelper
       }
     },
     {
-      title: 'Participant Name',
+      title: 'Name',
       field: :participant_name,
       formatter: 'link',
       formatterParams: {

@@ -62,7 +62,7 @@ async function subscribeToNotifications() {
     });
 
     // Send subscription to backend
-    const response = await fetch("/push_notifications/subscribe", {
+    const response = await fetch("/push-notifications/subscribe", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -111,7 +111,7 @@ async function unsubscribeFromNotifications() {
       "pushNotificationSubscriptionId",
     );
     if (subscriptionId) {
-      await fetch(`/push_notifications/${subscriptionId}`, {
+      await fetch(`/push-notifications/${subscriptionId}`, {
         method: "DELETE",
       });
       localStorage.removeItem("pushNotificationSubscriptionId");

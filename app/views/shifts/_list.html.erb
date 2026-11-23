@@ -1,5 +1,6 @@
 <%- model_class = Shift -%>
-<table class="table table-striped">
+<div class="table-scroll">
+<table class="alternate cmu-full">
   <thead>
     <tr>
       <th></th>
@@ -32,7 +33,7 @@
           <tr>
         <% end %>
           <td><%= link_to t('.show', default: t('helpers.links.show')),
-                          shift_path(shift), class: 'btn btn-info btn-xs' %></td>
+                          shift_path(shift), class: 'btn small' %></td>
           <% if params[:type].blank? %>
             <td><%= shift.shift_type.name %></td>
           <% end %>
@@ -57,22 +58,22 @@
                 <% if sp.clocked_in_at %>
                   <small style="color: #888;">✓ <%= date_and_time(sp.clocked_in_at) %></small>
                 <% else %>
-                  <%= button_to 'Clock in',
+                  <%= button_to 'Clock In',
                                 shift_participant_path(shift, sp),
                                 method: :put,
-                                class: 'btn btn-danger btn-xs',
+                                class: 'btn small',
                                 form: { style: 'display: inline' } %>
                 <% end %>
               </div>
             <% end %>
             <% if shift.shift_participants.count < shift.capacity %>
               <% if shift.shift_participants.empty? %>
-                <small style="color: #c00;">Participant Not Specified</small>
+                <span class="cmu-pill cmu-pill--amber">No One Assigned</span>
               <% end %>
               <%= button_to 'Clock In',
                             new_shift_participant_path(shift),
                             method: :get,
-                            class: 'btn btn-danger btn-xs',
+                            class: 'btn small',
                             form: { style: 'display: inline' } %>
             <% end %>
           </td>
@@ -81,6 +82,7 @@
     <% end %>
   </tbody>
 </table>
+</div>
 <span class="smtext">
   <%#= will_paginate shifts, param_name: pagination_param, renderer: BootstrapPagination::Rails %>
 </span>

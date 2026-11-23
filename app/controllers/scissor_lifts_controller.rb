@@ -8,7 +8,7 @@ class ScissorLiftsController < ApplicationController
     @queue = OrganizationTimelineEntry.scissor_lift.current
 
     respond_to do |format|
-      format.html
+      format.html { @table_rows = scissor_lifts_json[:data] }
       format.json { render json: scissor_lifts_json }
     end
   end

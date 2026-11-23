@@ -4,16 +4,21 @@ class SessionsController < ApplicationController
   skip_before_action :verify_authenticity_token, only: :create
   before_action :setup_mock_auth,
                 if: -> { Rails.env.development? && params[:participant_key] }
+  # In development and test, anyone may act as anyone; on staging and in
+  # production, only admins
+  before_action :require_admin,
+                only: :impersonate,
+                unless: -> { Rails.env.local? }
 
   def create
-    Rails.env.production? ? create_production : create_development
+    Rails.env.local? ? create_development : create_production
   end
 
   def impersonate
     participant = Participant.find_by(id: params[:participant_id])
     if participant
       cookies.encrypted[:user_id] = participant.id
-      redirect_to root_path, notice: "Now impersonating #{participant.name}"
+      redirect_to root_path, notice: "You're now acting as #{participant.name}."
     else
       redirect_to root_path, alert: t('.not_found')
     end
@@ -33,6 +38,10 @@ class SessionsController < ApplicationController
 
   private
 
+  def require_admin
+    redirect_to root_path, alert: t('.not_allowed') unless Current.user&.admin?
+  end
+
   def create_production
     redirect_url = login_redirect_path(request.env['omniauth.origin'])
     cookies.encrypted[:user_id] = load_user(request.env['omniauth.auth'])
@@ -46,7 +55,7 @@ class SessionsController < ApplicationController
     participant = Participant.from_omniauth(auth_hash)
     # session[:user_id] = participant.id (not necessary???)
     cookies.encrypted[:user_id] = load_user(request.env['omniauth.auth'])
-    flash[:notice] = "Logged in as #{participant.name}"
+    flash[:notice] = "Signed in as #{participant.name}."
     redirect_to root_url
   end
 

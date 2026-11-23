@@ -12,9 +12,9 @@ class ShiftTypeTest < ActiveSupport::TestCase
   context 'With a proper context, ' do
     setup do
       # Create 3 shift types
-      @watch_shift = FactoryGirl.create(:shift_type)
-      @security_shift = FactoryGirl.create(:shift_type, name: 'Security Shift')
-      @ride_shift = FactoryGirl.create(:shift_type, name: 'Ride Shift')
+      @watch_shift = FactoryBot.create(:shift_type)
+      @security_shift = FactoryBot.create(:shift_type, name: 'Security Shift')
+      @ride_shift = FactoryBot.create(:shift_type, name: 'Ride Shift')
     end
 
     should 'show that all factories are properly created' do

@@ -3,14 +3,17 @@
 class OrganizationMembersController < ApplicationController
   def index
     @organization = Organization.find(params[:organization_id])
-    @members = Participant.in_organization(@organization).ordered_by_name
+    authorize! :read, Membership.new(organization: @organization)
+    members = Participant.accessible_by(Current.ability)
+                         .in_organization(@organization)
+                         .ordered_by_name
+    @table_rows = members.as_json(
+      only: %i[id eppn],
+      methods: %i[link name signed_waiver? booth_chair?]
+    )
     respond_to do |format|
       format.html
-      format.json do
-        data =
-          @members.as_json(methods: %i[link name signed_waiver? booth_chair?])
-        render json: { data: }
-      end
+      format.json { render json: { data: @table_rows } }
     end
   end
 
@@ -52,10 +55,10 @@ class OrganizationMembersController < ApplicationController
             is_staged: true
           )
         # Membership Doesn't Exist, try to add a new one
-        redirect_to back, notice: "Added #{params[:participant][:andrewid]}!"
+        redirect_to back, notice: "Added #{params[:participant][:andrewid]}."
       else
         redirect_to back,
-                    alert: "Failed to add #{params[:participant][:andrewid]}!"
+                    alert: "#{params[:participant][:andrewid]} couldn't be added. Check the Andrew ID and try again."
       end
     else
       redirect_to back,

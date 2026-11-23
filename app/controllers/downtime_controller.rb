@@ -57,10 +57,10 @@ class DowntimeController < ApplicationController
     entry.ended_at = DateTime.now
     if entry.save
       redirect_to params[:url],
-                  notice: "Stopped downtime for #{@organization.name}"
+                  notice: "Stopped downtime for #{@organization.name}."
     else
       redirect_to params[:url],
-                  alert: "Could not stop downtime for #{@organization.name}"
+                  alert: "Downtime for #{@organization.name} couldn't be stopped. Try again."
     end
   end
 
@@ -73,7 +73,7 @@ class DowntimeController < ApplicationController
       )
     if downtime.save
       redirect_to params[:url],
-                  notice: "Started downtime for #{@organization.name}"
+                  notice: "Started downtime for #{@organization.name}."
     else
       redirect_to params[:url], alert: start_downtime_error(downtime)
     end

@@ -10,9 +10,9 @@
       Downtime
     </h1>
     <% if @is_on_downtime %>
-      <h3><%= @organization.name %> is on downtime!</h3>
+      <h3><%= @organization.name %> is on downtime.</h3>
     <% else %>
-      <h3><%= @organization.name %> is NOT on downtime!</h3>
+      <h3><%= @organization.name %> is not on downtime.</h3>
     <% end %>
     Downtime Remaining: <%= format_duration @organization.remaining_downtime %>
 

@@ -12,7 +12,11 @@ class ToolsController < ApplicationController
     @json_url = url_for(params.permit(:type, :page, :size).merge(format: :json))
 
     respond_to do |format|
-      format.html { render :index }
+      format.html do
+        @table_rows =
+          tool_rows(tools.accessible_by(Current.ability).ordered_by_name)
+        render :index
+      end
       format.json do
         page = params[:page].present? ? params[:page].to_i : 1
         size = params[:size].present? ? params[:size].to_i : 1
@@ -27,11 +31,7 @@ class ToolsController < ApplicationController
             .ordered_by_name
             .offset(offset)
             .limit(size)
-        data = tools.table_attrs.as_json(methods: %i[link])
-        data.each do |t|
-          t['image_url'] = helpers.asset_path("tool_images/#{t['t_name']}.png")
-        end
-        render json: { last_page:, data: }
+        render json: { last_page:, data: tool_rows(tools) }
       end
     end
   end
@@ -68,6 +68,19 @@ class ToolsController < ApplicationController
   end
 
   private
+
+  # One row per tool for the tools table and its JSON
+  def tool_rows(tools)
+    data = tools.table_attrs.as_json(methods: %i[link])
+    data.each { |t| t['image_url'] = tool_image_url(t['t_name']) }
+  end
+
+  # The tool type's photo, or nil when there isn't one
+  def tool_image_url(type_name)
+    helpers.asset_path("tool_images/#{type_name}.png")
+  rescue Propshaft::MissingAssetError
+    nil
+  end
 
   def tools_for_type(type)
     case type

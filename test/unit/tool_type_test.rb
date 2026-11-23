@@ -8,7 +8,7 @@ class ToolTypeTest < ActiveSupport::TestCase
   should validate_uniqueness_of(:name)
 
   context 'With an existing tool type' do
-    setup { @hammer_type = FactoryGirl.create(:tool_type) }
+    setup { @hammer_type = FactoryBot.create(:tool_type) }
 
     should 'Not allow duplicate tool type names' do
       duplicate_type = ToolType.new(name: 'Hammer')

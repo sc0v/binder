@@ -29,14 +29,14 @@
     </p>
     <br />
 
-    <div class="form-actions">
+    <div class="cmu-button-note">
       <%= link_to t('.back', default: t('helpers.links.back')),
                   charges_path,
-                  class: 'btn btn-default' %>
+                  class: 'btn ghost' %>
       <% if can?(:update, @charge) %>
         <%= link_to t('.edit', default: t('helpers.links.edit')),
                     edit_charge_path(@charge),
-                    class: 'btn btn-primary' %>
+                    class: 'btn' %>
       <% end %>
       <% if can?(:destroy, @charge) %>
         <%= link_to t('.destroy', default: t('helpers.links.destroy')),

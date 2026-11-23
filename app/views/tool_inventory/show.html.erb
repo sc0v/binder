@@ -24,7 +24,7 @@
           <%= form.label :description, 'Description' %>
           <br /><%= form.text_area :description, value: params[:default_description] %><br />
           <%= hidden_field_tag 'override', params[:default_barcode] %>
-          <%= form.submit 'Add Tool', class: 'btn wide' %>
+          <%= form.submit 'Add Tool', class: 'btn' %>
         <% end %>
       </div>
       <div class="gold invert">
@@ -45,6 +45,6 @@
       </div>
     </div>
   <% else %>
-    <h3>Not Authorized!</h3>
+    <div><h3>You Aren't Authorized to See This Page</h3></div>
   <% end %>
 </div>

@@ -1,7 +1,6 @@
 <% update_document_title(add: 'Organizations') %>
 <% update_breadcrumbs(add: link_to('Organizations', organizations_path)) %>
 <% update_breadcrumbs(add: @organization.name) %>
-<% nav(active: 'organizations') %>
 <div class="content">
   <div>
     <!-- Buttons for Structural Progress and Electrical Progress -->
@@ -23,7 +22,7 @@
     <h2 class="collapsed">Tools (<%= @tools_checked_out.length %>)</h2>
     <div style="display: none">
       <% if @tools_checked_out.length() == 0 %>
-        <p>No Tools Checked Out!</p>
+        <p>No tools checked out.</p>
       <% else %>
         <ul>
           <% @tools_checked_out.each do |tool| %>
@@ -46,7 +45,7 @@
     <h2 class="collapsed">Hardhats (<%= @hardhats_checked_out.length %>)</h2>
     <div style="display: none">
       <% if @hardhats_checked_out.empty? %>
-        <p>No Hardhats Checked Out!</p>
+        <p>No hardhats checked out.</p>
       <% else %>
         <ul>
           <% @hardhats_checked_out.each do |tool| %>
@@ -69,7 +68,7 @@
     <h2 class="collapsed">Radios (<%= @radios_checked_out.length %>)</h2>
     <div style="display: none">
       <% if @radios_checked_out.empty? %>
-        <p>No Radios Checked Out!</p>
+        <p>No radios checked out.</p>
       <% else %>
         <ul>
           <% @radios_checked_out.each do |tool| %>
@@ -103,7 +102,7 @@
     >
     <div style="display: none; padding-top: 0px">
       <% if @booth_chairs.length() == 0 %>
-        <p>No Booth Chairs!</p>
+        <p>No booth chairs.</p>
       <% else %>
         <ul>
           <% @booth_chairs.each do |booth_chair| %>
@@ -121,7 +120,7 @@
     >
     <div style="display: none; padding-top: 0px">
       <% if @non_booth_chairs.length() == 0 %>
-        <p>No Builders!</p>
+        <p>No builders.</p>
       <% else %>
         <ul>
           <% @non_booth_chairs.each do |builder| %>

@@ -2,15 +2,16 @@
 <% update_breadcrumbs(add: link_to('Tools', tools_path)) %>
 <% update_breadcrumbs(add: link_to('Scissor Lifts', scissor_lifts_path)) %>
 <% update_breadcrumbs(add: 'Checkouts') %>
-<%= nav(active: 'tools') %>
+<% nav(active: 'scissor_lifts') %>
 
 <div class="content wide">
-  <h1>Scissor Lift Checkout Log</h1>
-  <%= content_tag :div,
-                  data: {
-                    controller: 'table',
-                    config: scissor_lift_checkouts_table_config
-                  } do %>
-    Loading...
-  <% end %>
+  <div>
+    <h1>Scissor Lift Checkout Log</h1>
+    <%= data_table(
+          id: 'checkouts-table',
+          config: scissor_lift_checkouts_table_config,
+          rows: @table_rows,
+          noun: 'checkout'
+        ) %>
+  </div>
 </div>

@@ -1,0 +1,22 @@
+<%# locals: (user:) -%>
+<%# First in the header: caution tape anywhere but production, then which
+    test account is signed in (development and test) %>
+<% if caution_tape? %>
+  <div class="cmu-site-bar cmu-site-bar--tape" aria-hidden="true"></div>
+<% end %>
+<% if test_account_bar? %>
+  <div class="cmu-site-bar">
+    <p>
+      <strong>Test account:</strong>
+      <%= user.name %>, <%= test_account_role(user) %>.
+    </p>
+    <p>
+      <%= link_to 'Switch Test Account',
+                  dev_login_path(return_to: request.fullpath),
+                  class: 'cta',
+                  data: {
+                    turbo: false
+                  } %>
+    </p>
+  </div>
+<% end %>

@@ -6,7 +6,7 @@ class OrganizationsController < ApplicationController
   def index
     organizations = Organization.accessible_by(Current.ability).ordered_by_name
     respond_to do |format|
-      format.html
+      format.html { @table_rows = organization_rows(organizations) }
       format.json do
         page = params[:page].present? ? params[:page].to_i : 1
         size = params[:size].present? ? params[:size].to_i : 1
@@ -16,22 +16,7 @@ class OrganizationsController < ApplicationController
           (organizations.count / size) +
             ((organizations.count % size).zero? ? 0 : 1)
         organizations = organizations.offset(offset).limit(size)
-        data =
-          organizations.as_json(
-            methods: %i[
-              building?
-              category_name
-              link
-              remaining_downtime
-              downtime_link
-            ]
-          )
-        data.each do |d|
-          d['remaining_downtime'] = helpers.format_duration d[
-                                    'remaining_downtime'
-                                  ]
-        end
-        render json: { last_page:, data: }
+        render json: { last_page:, data: organization_rows(organizations) }
       end
     end
   end
@@ -123,5 +108,22 @@ class OrganizationsController < ApplicationController
 
   def organization_params
     params.expect(organization: %i[name short_name organization_category_id])
+  end
+
+  # One row per organization for the organizations table and its JSON
+  def organization_rows(organizations)
+    data =
+      organizations.as_json(
+        methods: %i[
+          building?
+          category_name
+          link
+          remaining_downtime
+          downtime_link
+        ]
+      )
+    data.each do |d|
+      d['remaining_downtime'] = helpers.format_duration d['remaining_downtime']
+    end
   end
 end

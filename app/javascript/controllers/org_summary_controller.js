@@ -10,7 +10,7 @@ export default class extends Controller {
   update() {
     const orgId = this.selectTarget.value;
 
-    fetch(`/tools/org_summary?organization_id=${orgId}`)
+    fetch(`/tools/org-summary?organization_id=${orgId}`)
       .then((r) => r.json())
       .then((data) => {
         this.listTarget.innerHTML = "";

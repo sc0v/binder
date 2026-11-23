@@ -1,0 +1,45 @@
+<%# locals: (user:) -%>
+<%# The roof: the wordmark, Binder's search (administrators), the account and
+    the menu button. The search is the template's box pointed at Binder's
+    own search. Signed in, the name opens the menu. Signed out, Sign In is a
+    button in a form, since OmniAuth starts sign-in with a POST; the kit
+    styles it like a link. %>
+<div class="roof">
+  <div>
+    <a class="wordmark" href="https://www.cmu.edu/">Carnegie Mellon University</a>
+    <% if user&.admin? %>
+      <%= form_with url: search_path, method: :get, class: 'search search-form' do %>
+        <label
+          ><span>Search</span>
+          <input aria-label="Search" name="query" placeholder="Search"
+        /></label>
+        <button title="Search" type="submit">Search</button>
+      <% end %>
+    <% end %>
+    <% if user %>
+      <a
+        class="cmu-account cmu-account-open"
+        href="#nav"
+        aria-label="Menu for <%= user.name %>"
+        onclick="document.querySelector('.roof .menu-btn').click(); return false;"
+        ><%= render 'layouts/initials', name: user.name %><%= user.name %></a
+      >
+    <% else %>
+      <%# The block form always makes a <button>, which the kit styles %>
+      <%= button_to login_path,
+                    class: 'cmu-account',
+                    form: {
+                      data: {
+                        turbo: false
+                      }
+                    } do %>Sign In<% end %>
+    <% end %>
+    <button
+      aria-label="toggle menu"
+      aria-pressed="false"
+      class="menu-btn"
+      href="#nav"
+      ><b>&#8212;</b><b>&#8212;</b><b>&#8212;</b></button
+    >
+  </div>
+</div>

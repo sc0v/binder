@@ -21,7 +21,7 @@ class ApplicationController < ActionController::Base
     flash[:notice] = t('application.not_registered')
 
     # Event.new_event "Exception: #{exception.message}", current_user, request.remote_ip #deugging
-    redirect_to '/participants/new'
+    redirect_to new_participant_path
   end
 
   rescue_from 'CheckoutsController::CheckoutError' do |exception|

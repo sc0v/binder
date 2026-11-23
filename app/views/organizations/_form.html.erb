@@ -4,10 +4,10 @@
     <%= f.input :short_name %>
     <%= f.association :organization_category %>
   </div>
-  <div class="form-actions">
-    <%= f.button :submit, class: 'btn-primary' %>
+  <div class="cmu-button-note">
+    <%= f.button :submit, class: 'btn' %>
     <%= link_to t('.cancel', default: t('helpers.links.cancel')),
                 @organization,
-                class: 'btn btn-default' %>
+                class: 'btn ghost' %>
   </div>
 <% end %>

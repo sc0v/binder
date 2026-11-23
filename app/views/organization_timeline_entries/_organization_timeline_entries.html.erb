@@ -1,31 +1,33 @@
 <% unless entries.blank? %>
-  <table class="table table-striped">
-    <thead>
-      <th>Org</th>
-      <th>Notes</th>
-      <th>Entered</th>
-      <th>Wait Time</th>
-      <th>Remove</th>
-    </thead>
-    <tbody>
-      <% entries.each do |entry| %>
-        <tr>
-          <td
-            ><%= link_to entry.organization.short_name, entry.organization if entry.organization %></td
-          >
-          <td><%= h entry.description %></td>
-          <td><%= entry.started_at %></td>
-          <td><%= format_duration(Time.zone.now - entry.started_at) %></td>
-          <td>
-            <% if can?(:end, entry) %>
-              <%= form_tag end_organization_timeline_entry_path(entry), method: :put do %><%= hidden_field_tag 'url', request.original_fullpath %><%= submit_tag 'Remove', class: 'btn btn-xs btn-danger' %><% end %>
-            <% end %>
-          </td>
-        </tr>
-        <tr> </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <div class="table-scroll">
+    <table class="alternate cmu-full">
+      <thead>
+        <th>Organization</th>
+        <th>Notes</th>
+        <th>Entered</th>
+        <th>Wait Time</th>
+        <th>Remove</th>
+      </thead>
+      <tbody>
+        <% entries.each do |entry| %>
+          <tr>
+            <td
+              ><%= link_to entry.organization.short_name, entry.organization if entry.organization %></td
+            >
+            <td><%= h entry.description %></td>
+            <td><%= entry.started_at %></td>
+            <td><%= format_duration(Time.zone.now - entry.started_at) %></td>
+            <td>
+              <% if can?(:end, entry) %>
+                <%= form_tag end_organization_timeline_entry_path(entry), method: :put do %><%= hidden_field_tag 'url', request.original_fullpath %><%= submit_tag 'Remove', class: 'btn small' %><% end %>
+              <% end %>
+            </td>
+          </tr>
+          <tr> </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
 <% else %>
-  No one in the queue! YAY!
+  No one is in the queue.
 <% end %>

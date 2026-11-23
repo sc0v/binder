@@ -1,15 +1,12 @@
-<% content_for :head do %>
-  <%= stylesheet_link_tag('countdown', 'data-turbo-track': 'reload') %>
-<% end %>
-
 <div class="content">
   <div>
-    <h1>Move On Starts in</h1>
+    <h1>Move On Starts In</h1>
     <div
-      data-controller="countdown"
+      class="cmu-countdown"
       <%# TODO: Put countdowns in a config file or admin setting %>
-      data-countdown-end-at-value="2027-04-09T15:30:00-00:00"
+      data-cmu-countdown="2027-04-09T15:30:00Z"
     >
+      <p>Move On starts April 9, 2027, at 11:30 a.m. Eastern.</p>
     </div></div
   ><div class="sidebar"> <%= render 'layouts/sidebar_defaults' %> </div>
 </div>

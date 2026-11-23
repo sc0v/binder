@@ -78,10 +78,9 @@ class Shift < ApplicationRecord
     end
   end
 
+  # Everyone the shift calls for has checked in
   def checked_in?
-    participants.size
-    capacity
-    Rails.logger.debug { "size: #{participants.size}, required: #{capacity}" }
+    participants.size >= capacity.to_i
   end
 
   def self.for_organizations(organizations)

@@ -1,6 +1,6 @@
 <% @downtime_sidebar = OrganizationTimelineEntry.downtime.current %>
 <div class="teal invert">
-  <h2>Start/Stop Downtime:</h2>
+  <h2>Start or Stop Downtime</h2>
   <%= form_with url: toggle_downtime_path do |f| %>
     <%= f.label 'Organization' %>
     <%= f.collection_select :organization_id, Organization.ordered_by_name, :id, :name %>
@@ -11,30 +11,32 @@
 <div>
   <h1>Ongoing Downtime</h1>
   <% if !@downtime_sidebar.blank? %>
-    <table class="table">
-      <thead>
-        <th style="text-align: center;">Organization</th>
-        <th style="text-align: center;">Downtime Remaining</th>
-      </thead>
-      <tbody>
-        <% @downtime_sidebar.each do |entry| %>
-          <tr
-            class="<%= 'danger' if entry.organization.remaining_downtime.negative? %>"
-          >
-            <td style="text-align: center;"
-              ><%= link_to entry.organization.name,
-                          organization_downtime_index_path(entry.organization) %></td
+    <div class="table-scroll">
+      <table class="alternate cmu-full">
+        <thead>
+          <th class="aligncenter">Organization</th>
+          <th class="aligncenter">Downtime Remaining</th>
+        </thead>
+        <tbody>
+          <% @downtime_sidebar.each do |entry| %>
+            <tr
+              class="<%= 'danger' if entry.organization.remaining_downtime.negative? %>"
             >
-            <td style="text-align: center;"
-              ><span id="countdown"
-                ><%= format_duration entry.organization.remaining_downtime %></span
-              ></td
-            >
-          </tr>
-        <% end %>
-      </tbody>
-    </table>
+              <td class="aligncenter"
+                ><%= link_to entry.organization.name,
+                            organization_downtime_index_path(entry.organization) %></td
+              >
+              <td class="aligncenter"
+                ><span id="countdown"
+                  ><%= format_duration entry.organization.remaining_downtime %></span
+                ></td
+              >
+            </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
   <% else %>
-    <p style="text-align: center;">No one is taking downtime!</p>
+    <p class="aligncenter">No one is taking downtime.</p>
   <% end %>
 </div>

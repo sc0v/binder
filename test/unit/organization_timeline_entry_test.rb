@@ -9,19 +9,19 @@ class OrganizationTimelineEntryTest < ActiveSupport::TestCase
   # Validations
   should validate_presence_of(:started_at)
   should validate_presence_of(:entry_type)
-  should validate_presence_of(:organization)
+  should validate_presence_of(:organization).with_message(:required)
 
   context 'With a proper context, ' do
     setup do
       time = Time.zone.now
       @finished =
-        FactoryGirl.create(
+        FactoryBot.create(
           :organization_timeline_entry,
           started_at: time - 1.hour,
           ended_at: time
         )
       @not_finished =
-        FactoryGirl.create(
+        FactoryBot.create(
           :organization_timeline_entry,
           started_at: DateTime.now - 12.hours,
           ended_at: nil

@@ -71,6 +71,9 @@ gem 'font-awesome-sass'
 # Replace sprockets as asset pipeline
 gem 'propshaft'
 
+# Carnegie Mellon Web Kilt: the kit's CSS and browser script as Rails assets
+gem 'cmu-web-kilt', '0.8.22'
+
 gem 'csv'
 
 group :development, :test do
@@ -104,6 +107,11 @@ group :development do
 end
 
 group :test do
+  # Test data and the model tests' should/context style
+  gem 'factory_bot'
+  gem 'shoulda-context', '3.0.0.rc1'
+  gem 'shoulda-matchers'
+
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem 'capybara'
   gem 'selenium-webdriver'
@@ -111,6 +119,6 @@ group :test do
   gem 'webmock'
 end
 
-group :production do
+group :production, :staging do
   gem 'mysql2'
 end

@@ -1,0 +1,94 @@
+<% update_document_title(add: 'Sign In With a Test Account') %>
+<%# The Web Kilt's Developer Sign-In (accounts.html#developer-sign-in) %>
+<main
+  id="content"
+  class="cmu-sign-in-page cmu-sign-in-page--dev cmu-sign-in-page--photo"
+  style="--cmu-sign-in-photo: url('<%= image_path('spring-carnival-parade.webp') %>')"
+>
+  <div class="content">
+    <div>
+      <h1>Sign In</h1>
+      <p>
+        to&nbsp;<%= safe_join(request.host.split('.'), safe_join(['.', tag.wbr])) %>
+      </p>
+    </div>
+    <div class="cmu-sign-in-card">
+      <p class="cmu-label">Development Mode</p>
+      <h2>Pick a Test Account</h2>
+      <ul class="cmu-dev-people">
+        <% @people.each do |role, person, can| %>
+          <% if Current.user == person %>
+            <li aria-current="true">
+              <div class="cmu-dev-card">
+                <i
+                  class="cmu-profile-picture cmu-profile-initials"
+                  aria-hidden="true"
+                  data-cmu-name="<%= person.name %>"
+                  ><%= initials(person) %></i
+                >
+                <strong><%= person.name %></strong>
+                <span><%= role %></span>
+                <small><%= can %></small>
+                <span class="cmu-dev-you">You</span>
+              </div>
+            </li>
+          <% else %>
+            <li>
+              <%= form_with url: dev_login_as_path(person),
+                            method: :post,
+                            data: {
+                              turbo: false
+                            } do %>
+                <%= hidden_field_tag :return_to, @return_to, id: nil %>
+                <button type="submit" class="cmu-dev-card btn ghost">
+                  <i
+                    class="cmu-profile-picture cmu-profile-initials"
+                    aria-hidden="true"
+                    data-cmu-name="<%= person.name %>"
+                    ><%= initials(person) %></i
+                  >
+                  <strong
+                    ><span class="sr-only">Sign in as </span
+                    ><%= person.name %></strong
+                  >
+                  <span><%= role %></span>
+                  <small><%= can %></small>
+                </button>
+              <% end %>
+            </li>
+          <% end %>
+        <% end %>
+        <%= tag.li(**(Current.user ? {} : { 'aria-current': 'true' })) do %>
+          <% if Current.user %>
+            <%= form_with url: dev_logout_path, method: :post, data: { turbo: false } do %>
+              <%= hidden_field_tag :return_to, @return_to, id: nil %>
+              <button
+                type="submit"
+                class="cmu-dev-card cmu-dev-card--out btn ghost"
+              >
+                <i
+                  class="cmu-profile-picture cmu-profile-initials"
+                  aria-hidden="true"
+                ></i>
+                <strong>Signed Out</strong>
+                <span>Visitor</span>
+                <small>See what a visitor sees.</small>
+              </button>
+            <% end %>
+          <% else %>
+            <div class="cmu-dev-card cmu-dev-card--out">
+              <i
+                class="cmu-profile-picture cmu-profile-initials"
+                aria-hidden="true"
+              ></i>
+              <strong>Signed Out</strong>
+              <span>Visitor</span>
+              <small>See what a visitor sees.</small>
+              <span class="cmu-dev-you">You</span>
+            </div>
+          <% end %>
+        <% end %>
+      </ul>
+    </div>
+  </div>
+</main>

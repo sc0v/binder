@@ -69,7 +69,7 @@ class ScissorLiftCheckoutsController < ApplicationController
     checkouts = ScissorLiftCheckout.all
 
     respond_to do |format|
-      format.html
+      format.html { @table_rows = checkouts_json(checkouts) }
       format.json { render json: { data: checkouts_json(checkouts) } }
     end
   end
@@ -94,7 +94,7 @@ class ScissorLiftCheckoutsController < ApplicationController
   def require_update_permission
     return if can?(:update, ScissorLiftCheckout)
 
-    flash.alert = "Not authorized to #{action_name} a Scissorlift."
+    flash.alert = "You aren't authorized to #{action_name} a scissor lift."
     redirect_to scissor_lifts_path
   end
 
@@ -107,7 +107,7 @@ class ScissorLiftCheckoutsController < ApplicationController
     return if @scissor_lift
 
     redirect_to scissor_lifts_path,
-                alert: "Scissor Lift #{params[:name]} does not exist."
+                alert: "Scissor lift #{params[:name]} does not exist."
   end
 
   def find_current_checkout

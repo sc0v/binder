@@ -1,41 +1,30 @@
+<%# locals: (user:, items:, current:) -%>
+<%# The footer: the app's name and address, then the navigation in the third
+    column, where the template's script finds it %>
 <footer class="grid column3 invert">
   <div>
     <p>
+      Spring Carnival Binder<br />
       Spring Carnival Committee<br />
       Carnegie Mellon University<br />
-      5000 Forbes Avenue<br />
       Cohon University Center, Office 310<br />
+      5000 Forbes Avenue<br />
       Pittsburgh, PA 15213<br />
-      412-268-5226<br />
-      <br />
-      <%= link_to 'Contact Us', contact_email_url %>
+      412-268-5226
     </p>
     <ul>
       <li>
-        <%= link_to 'Legal Info', '//www.cmu.edu/legal/', target: :blank %>
+        <%= link_to 'systems@springcarnival.org', contact_email_url %>
       </li>
-      <li> <%= link_to 'www.cmu.edu', '//www.cmu.edu', target: :blank %></li>
+      <li><a href="https://www.cmu.edu/legal/">Legal Info</a></li>
+      <li><a href="https://www.cmu.edu/">www.cmu.edu</a></li>
     </ul>
     <ul>
-      <li>&#169; <%= Time.zone.today.year %> Carnegie Mellon University</li>
+      <li>&copy; <%= Time.zone.today.year %> Carnegie Mellon University</li>
     </ul>
   </div>
-  <nav id="nav">
-    <ul>
-      <li class="secondary right">
-        <% if Current.user.present? %>
-          <%= link_to(
-                image_tag(gravatar_url(Current.user.eppn, 50)),
-                profile_path,
-                class: 'avatar'
-              ) %>
-          <%= link_to(Current.user.name, profile_path) %>
-          <%= link_to 'Sign out', logout_path %>
-        <% else %>
-          <%= button_to 'Sign in', login_path, form_class: 'signIn' %>
-        <% end %>
-      </li>
-      <%= yield :navigation %>
-    </ul>
-  </nav>
+  <div></div>
+  <div>
+    <%= render 'layouts/navigation', user:, items:, current: %>
+  </div>
 </footer>

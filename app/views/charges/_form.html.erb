@@ -1,12 +1,12 @@
 <p>
-  When adding a charge, please ensure that you add a detailed description. This
-  allows us to defend the charge if and when an org protests it. Information to
-  include would be things like who, what, where, when, and why. If Dan wants to
-  add a charge to TriDelt for blowing their breaker for the second time, the
-  coordinator on duty should add a charge to Delta Delta Delta for a blown
-  breaker for $25 with the description "TriDelt plugged in too many space
-  heaters Wednesday night because they got cold, even though they were warned
-  against this." by Dan Miele to TriDelt's booth chair. <br />
+  When adding a charge, add a detailed description. This allows us to defend the
+  charge if and when an org protests it. Information to include would be things
+  like who, what, where, when, and why. If Dan wants to add a charge to TriDelt
+  for blowing their breaker for the second time, the coordinator on duty should
+  add a charge to Delta Delta Delta for a blown breaker for $25 with the
+  description "TriDelt plugged in too many space heaters Wednesday night because
+  they got cold, even though they were warned against this." by Dan Miele to
+  TriDelt's booth chair. <br />
   <br />
 </p>
 <%= form_with model: @charge, html: { class: 'form-horizontal' } do |f| %>
@@ -20,38 +20,34 @@
           {},
           id: 'organization-select'
         ) %>
-    <div class="row" style="display:flex;">
-      <div>
-        <%= f.label 'Charge Type' %>
-        <%= f.collection_select :charge_type_id,
-                                ChargeType.ordered_by_name,
-                                :id,
-                                :name,
-                                {},
-                                id: 'charge-type-select' %>
-        <div style="padding-bottom:2rem;">
-          <% if can?(:create, ChargeType) %>
-            <%= link_to 'Or create a new charge type',
-                        new_charge_type_path(from_charge: true),
-                        class: 'btn btn-primary' %>
-          <% end %>
-        </div>
-      </div>
-    </div>
+    <%= f.label 'Charge Type' %>
+    <%= f.collection_select :charge_type_id,
+                            ChargeType.ordered_by_name,
+                            :id,
+                            :name,
+                            {},
+                            id: 'charge-type-select' %>
+    <% if can?(:create, ChargeType) %>
+      <p
+        ><%= link_to 'Or create a new charge type', new_charge_type_path(from_charge: true) %></p
+      >
+    <% end %>
     <%= f.label 'Amount' %>
-    <div class="input-group" style="display: flex">
-      <%= content_tag :span, '$', class: 'input-group-addon' %>
-      <%= f.text_field :amount,
-                       as: :string,
-                       value:
-                         number_to_currency(
-                           f.object.amount,
-                           unit: '',
-                           delimiter: '',
-                           html: {
-                             id: 'amount'
-                           }
-                         ) %>
+    <div class="cmu-field-row">
+      <%= content_tag :span, '$' %>
+      <div>
+        <%= f.text_field :amount,
+                         as: :string,
+                         value:
+                           number_to_currency(
+                             f.object.amount,
+                             unit: '',
+                             delimiter: '',
+                             html: {
+                               id: 'amount'
+                             }
+                           ) %>
+      </div>
     </div>
     <%= f.label 'Description' %>
     <%= f.text_field :description,
@@ -63,11 +59,11 @@
     <%= f.label 'Issuer' %>
     <%= f.collection_select :issuing_participant_id, Participant.scc, :id, :name %>
   </div>
-  <div class="form-actions">
-    <%= f.button :submit, class: 'btn-primary' %>
+  <div class="cmu-button-note">
+    <%= f.button :submit, class: 'btn' %>
     <%= link_to t('.cancel', default: t('helpers.links.cancel')),
                 @charge,
-                class: 'btn btn-default' %>
+                class: 'btn ghost' %>
   </div>
 <% end %>
 

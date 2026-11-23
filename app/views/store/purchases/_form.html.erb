@@ -1,4 +1,4 @@
-<h2>Checkout</h2>
+<h2>Check Out</h2>
 <% if session[:borrower_id].present? %>
   <%= form_tag store_cart_checkout_path do %>
     <% borrower = Participant.find(session[:borrower_id]) %>

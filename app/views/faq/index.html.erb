@@ -1,41 +1,56 @@
-<% update_document_title(add: 'FAQ') %>
+<% update_document_title(add: 'Frequently Asked Questions') %>
 <% update_breadcrumbs(add: 'FAQ') %>
-<% nav(active: 'faq') %>
+<%# One section for each category; the first also holds the sidebar %>
+<% @category_faq.each_with_index do |(category, questions), index| %>
+  <div class="content">
+    <div>
+      <h1
+        ><span class="rule-bottom"
+          ><%= category.blank? ? t('.general') : category.name %></span
+        ></h1
+      >
+      <% questions.each do |faq| %>
+        <h2 class="collapsed" id="<%= dom_id(faq) %>"><%= faq.question %></h2>
+        <div>
+          <%= simple_format(faq.answer) %>
+          <% if can?(:update, faq) || can?(:destroy, faq) %>
+            <p>
+              <% if can?(:update, faq) %>
+                <%= link_to t('.edit'), edit_faq_path(faq) %>
+              <% end %>
+              <% if can?(:update, faq) && can?(:destroy, faq) %>
+                |
+              <% end %>
+              <% if can?(:destroy, faq) %>
+                <%= button_tag t('.destroy'),
+                               type: 'submit',
+                               form: dom_id(faq, :delete),
+                               class: 'cmu-link-button' %>
+              <% end %>
+            </p>
+            <% if can?(:destroy, faq) %>
+              <%= form_with url: faq_path(faq),
+                            method: :delete,
+                            id: dom_id(faq, :delete),
+                            data: {
+                              turbo_confirm: t('.confirm')
+                            } do %>
 
-<div class="content">
-  <div>
-    <% @category_faq.each do |c, faq| %>
-      <h1><%= c.blank? ? 'General Questions' : c.name %> </h1>
-      <div>
-        <% faq.each do |f| %>
-          <h2 class="collapsed"><%= f.question %> </h2>
-          <div style="display: none">
-            <%= f.answer %>
-            <% if can?(:update, f) %>
-              <br />
-              <%= link_to t('.edit'), edit_faq_path(f), class: 'cta' %>
+              <% end %>
             <% end %>
-            <% if can?(:destroy, f) %>
-              <br />
-              <%= link_to t('.destroy'),
-                          faq_path(f),
-                          data: {
-                            turbo_confirm: t('.confirm'),
-                            turbo_method: :delete
-                          },
-                          class: 'cta' %>
-            <% end %>
-          </div>
-        <% end %>
-      </div>
-    <% end %> </div
-  ><div class="sidebar">
-    <%= render 'layouts/sidebar_defaults' %>
-
-    <% if can?(:create, FAQ) %>
-      <div>
-        <%= link_to t('.new'), new_faq_path, class: 'btn ghost wide' %>
-      </div>
-    <% end %>
+          <% end %>
+        </div>
+      <% end %>
+    </div
+    ><%= render 'sidebar' if index.zero? %>
   </div>
-</div>
+<% end %>
+<% if @category_faq.empty? %>
+  <div class="content">
+    <div>
+      <h1><%= t('.heading') %></h1>
+      <p><%= t('.empty') %></p>
+    </div
+    ><%= render 'sidebar' %>
+  </div>
+<% end %>

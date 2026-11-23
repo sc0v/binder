@@ -4,6 +4,5 @@
      add: link_to(@organization.name, organization_path(@organization))
    ) %>
 <% update_breadcrumbs(add: 'Add Members') %>
-<% nav(active: 'organizations') %>
 
 <%= render partial: "memberships/new_memberships/step_#{@step}" %>

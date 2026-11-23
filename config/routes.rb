@@ -5,14 +5,25 @@ Rails.application.routes.draw do
   root to: 'welcome#index'
 
   # Session management
+  # Sign In is /login, the developer sign-in page, in development and test,
+  # and single sign-on everywhere else (see DevSessionsController)
   direct :login do
-    '/auth/saml'
+    Rails.env.local? ? '/login' : '/auth/saml'
   end
   scope module: :sessions do
     post 'auth/:provider/callback', action: :create
     get 'logout', as: :logout, action: :destroy
     post 'impersonate/:participant_id', as: :impersonate, action: :impersonate
     get 'unimpersonate'
+  end
+  # Developer sign-in, at the same addresses as the real one: drawn only in
+  # development and test (DevSessionsController refuses everywhere else too).
+  # GET /logout is the real sign-out everywhere; the developer page's Signed
+  # Out posts to /logout.
+  if Rails.env.local?
+    match 'login', to: 'dev_sessions#new', as: :dev_login, via: %i[get post]
+    post 'login/:participant_id', to: 'dev_sessions#create', as: :dev_login_as
+    post 'logout', to: 'dev_sessions#destroy', as: :dev_logout
   end
   direct :login_redirect do |origin|
     origin || root_url
@@ -31,10 +42,6 @@ Rails.application.routes.draw do
     params = options.map { |k, v| "#{k}=#{v}" }.join('&')
     params.presence&.prepend('?')
     "mailto:slice@andrew.cmu.edu#{params}"
-  end
-  direct :gravatar do |email, size = 50|
-    hash = Digest::MD5.hexdigest email
-    "https://www.gravatar.com/avatar/#{hash}?d=mp&s=#{size}"
   end
 
   # Applets/Workflows
@@ -67,8 +74,8 @@ Rails.application.routes.draw do
   get 'safety-briefing',
       to: 'participants/safety_briefings#show',
       as: :safety_briefing
-  namespace 'participants/:id', module: :participants, as: :participant do
-    resource :safety_briefing, only: [], path: '/safety-briefing' do
+  namespace 'people/:id', module: :participants, as: :participant do
+    resource :safety_briefing, only: [], path: 'safety-briefing' do
       member do
         get :show
         patch :update
@@ -78,7 +85,7 @@ Rails.application.routes.draw do
 
   # Participant Waivers
   get 'waiver', to: 'participants/waivers#show', as: :waiver
-  namespace 'participants/:id', module: :participants, as: :participant do
+  namespace 'people/:id', module: :participants, as: :participant do
     resource :waiver, only: [] do
       member do
         get :show
@@ -94,11 +101,11 @@ Rails.application.routes.draw do
   resources :tools do
     member { get :remove, to: 'tools/checkouts#remove' }
     collection do
-      get :org_summary, to: 'tools/org_summary#show'
-      post :add_checkin, to: 'tools/checkin#create'
+      get 'org-summary', to: 'tools/org_summary#show', as: :org_summary
+      post 'add-checkin', to: 'tools/checkin#create', as: :add_checkin
       post :checkin, to: 'tools/checkin#update'
       post :add, to: 'tools/checkouts#add'
-      post :checkout_participant, to: 'tools/checkouts#participant'
+      post 'checkout-participant', to: 'tools/checkouts#participant', as: :checkout_participant
       get :checkout, to: 'tools/checkouts#new'
       post :checkout, to: 'tools/checkouts#create'
       post :checkin, to: 'tools/checkouts#update'
@@ -108,17 +115,17 @@ Rails.application.routes.draw do
   end
 
   # Tool types
-  resources :tool_types
+  resources :tool_types, path: 'tool-types'
 
   # Tool Inventory
   resources :tool_inventory, path: 'inventory', only: [:show] do
-    resources :tool_inventory_tools, only: %i[new create index destroy]
+    resources :tool_inventory_tools, path: 'tools', only: %i[new create index destroy]
     post :complete, to: 'tool_inventory#complete'
   end
   get 'inventory', to: 'tool_inventory#show', as: :inventory
 
   # Scissor Lifts
-  resources :scissor_lifts, only: %i[index show] do
+  resources :scissor_lifts, path: 'scissor-lifts', only: %i[index show] do
     member { get :remove, to: 'scissor_lift_checkouts#remove' }
     collection do
       post :add, to: 'scissor_lift_checkouts#add'
@@ -128,25 +135,27 @@ Rails.application.routes.draw do
       post :renew, to: 'scissor_lift_checkouts#renew'
     end
   end
-  resources :scissor_lift_checkouts, only: [:index]
+  resources :scissor_lift_checkouts, path: 'scissor-lift-checkouts', only: [:index]
 
   # Downtime Index (other methods are organizations/downtime)
   get 'downtime', to: 'downtime#downtime'
-  post 'toggle_downtime', to: 'downtime#toggle'
+  post 'toggle-downtime', to: 'downtime#toggle', as: :toggle_downtime
 
   # TODO: Confirm everything below
-  resources :organization_build_statuses, only: [:index]
+  resources :organization_build_statuses, path: 'build-statuses', only: [:index]
 
   resources :organizations do
-    resources :organization_build_statuses, only: %i[show edit update] do
+    resources :organization_build_statuses, path: 'build-statuses', only: %i[show edit update] do
       resources :organization_build_steps,
+                path: 'steps',
                 only: %i[show create edit update destroy]
     end
 
     resources :participants,
+              path: 'people',
               only: %i[new create index],
               controller: 'organization_members'
-    patch 'remove_staged', to: 'organization_members#remove_staged'
+    patch 'remove-staged', to: 'organization_members#remove_staged', as: :remove_staged
 
     resources :shifts, only: [:index]
     resources :tools, only: [:index]
@@ -154,20 +163,21 @@ Rails.application.routes.draw do
     resources :downtime, controller: :downtime, only: [:index]
     resources :memberships, only: %i[new create destroy]
     # Membership bulk add operations
-    post 'upload_membership_csv', to: 'memberships#upload_csv'
-    post 'replace_membership', to: 'memberships#replace'
-    post 'insert_membership', to: 'memberships#insert'
-    post 'remove_membership', to: 'memberships#remove'
-    post 'cancel_membership_csv', to: 'memberships#cancel'
-    post 'commit_membership_csv', to: 'memberships#commit'
+    post 'upload-membership-csv', to: 'memberships#upload_csv', as: :upload_membership_csv
+    post 'replace-membership', to: 'memberships#replace', as: :replace_membership
+    post 'insert-membership', to: 'memberships#insert', as: :insert_membership
+    post 'remove-membership', to: 'memberships#remove', as: :remove_membership
+    post 'cancel-membership-csv', to: 'memberships#cancel', as: :cancel_membership_csv
+    post 'commit-membership-csv', to: 'memberships#commit', as: :commit_membership_csv
   end
 
   resources :organization_timeline_entries,
+            path: 'timeline-entries',
             only: %i[show edit create update destroy] do
     put 'end', on: :member
   end
 
-  resources :event_types
+  resources :event_types, path: 'event-types'
   resources :events do
     member { post 'approve' }
   end
@@ -177,12 +187,12 @@ Rails.application.routes.draw do
     get 'export', on: :collection
   end
 
-  resources :charge_types
+  resources :charge_types, path: 'charge-types'
 
   # Direct link to a participant's own resource
   get 'profile', to: 'participants#show', as: :profile
 
-  resources :participants do
+  resources :participants, path: 'people' do
     get 'search', on: :collection
 
     resources :memberships, except: %i[index show]
@@ -194,16 +204,17 @@ Rails.application.routes.draw do
 
   resources :shifts do
     resources :participants,
+              path: 'people',
               controller: :shift_participants,
               only: %i[new create update destroy]
-    collection { post :upload_shift_csv, to: 'shifts#upload_csv' }
+    collection { post 'upload-shift-csv', to: 'shifts#upload_csv', as: :upload_shift_csv }
   end
 
   resources :tasks do
     member { post 'complete' }
   end
 
-  resources :tool_types, except: [:show]
+  resources :tool_types, path: 'tool-types', except: [:show]
 
   resources :checkouts, only: [:create] do
     post 'checkin', on: :collection
@@ -213,16 +224,16 @@ Rails.application.routes.draw do
   get 'store' => 'store/items#index'
   namespace :store do
     resources 'items' do
-      post 'add_to_cart', on: :member, controller: 'purchases'
-      post 'remove_from_cart', on: :member, controller: 'purchases'
+      post 'add-to-cart', on: :member, controller: 'purchases', action: :add_to_cart, as: :add_to_cart
+      post 'remove-from-cart', on: :member, controller: 'purchases', action: :remove_from_cart, as: :remove_from_cart
     end
     resources 'purchase', controller: 'purchases', except: %i[create new index]
     scope 'cart', as: 'cart', controller: 'purchases' do
       get 'review', action: 'new'
       post 'checkout', action: 'create'
-      post 'choose_organization'
-      delete 'clear_cart', action: 'clear_cart', as: 'clear_cart'
-      get 'reset_participant', action: 'reset_participant'
+      post 'choose-organization', action: 'choose_organization', as: 'choose_organization'
+      delete 'clear-cart', action: 'clear_cart', as: 'clear_cart'
+      get 'reset-participant', action: 'reset_participant', as: 'reset_participant'
     end
   end
 
@@ -234,8 +245,8 @@ Rails.application.routes.draw do
 
   # Custom one-offs
   get 'hardhats' => 'home#hardhats', :as => 'hardhats'
-  get 'hardhat_return' => 'home#hardhat_return', :as => 'hardhat_return'
-  get 'charge_overview' => 'home#charge_overview', :as => 'charge_overview'
+  get 'hardhat-return' => 'home#hardhat_return', :as => 'hardhat_return'
+  get 'charge-overview' => 'home#charge_overview', :as => 'charge_overview'
   get 'structural' => 'organization_timeline_entries#structural',
       :as => 'structural'
   get 'electrical' => 'organization_timeline_entries#electrical',
@@ -252,6 +263,6 @@ Rails.application.routes.draw do
   get 'service-worker', to: 'pwa#service_worker', defaults: { format: :js }
 
   # Push Notifications
-  post 'push_notifications/subscribe', to: 'push_notifications#subscribe'
-  delete 'push_notifications/:id', to: 'push_notifications#unsubscribe'
+  post 'push-notifications/subscribe', to: 'push_notifications#subscribe'
+  delete 'push-notifications/:id', to: 'push_notifications#unsubscribe'
 end

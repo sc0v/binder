@@ -1,36 +1,29 @@
 <% page ||= 'default' %>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Name</th>
-      <th>Quantity</th>
-      <th>Subtotal</th>
-      <th>Actions</th>
-    </tr>
-  </thead>
-  <tbody>
-    <%= render partial: 'store/items/cart_item', collection: items %>
-    <%# Separator row %>
-    <tr>
-      <td colspan="5" style="height: 20px;"></td>
-      <%# Adjust the height as needed for desired separation %>
-    </tr>
-
-    <%# Summary row %>
-    <tr>
-      <td><strong>Total</strong></td>
-      <td><%= items.sum(&:quantity_purchased) %></td>
-      <td
-        ><%= number_to_currency(
-              items.sum { |item| item.quantity_purchased * item.price_at_purchase }
-            ) %></td
-      >
-      <td>
-        <%= button_to 'Clear Cart',
-                      store_cart_clear_cart_path,
-                      method: :delete,
-                      class: 'btn btn-danger btn-xs' %>
-      </td>
-    </tr>
-  </tbody>
-</table>
+<div class="table-scroll">
+  <table class="alternate cmu-full">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Quantity</th>
+        <th>Subtotal</th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render partial: 'store/items/cart_item', collection: items %>
+      <%# Summary row %>
+      <tr>
+        <td><strong>Total</strong></td>
+        <td><%= items.sum(&:quantity_purchased) %></td>
+        <td
+          ><%= number_to_currency(
+                items.sum { |item| item.quantity_purchased * item.price_at_purchase }
+              ) %></td
+        >
+      </tr>
+    </tbody>
+  </table>
+</div>
+<%= button_to 'Clear Cart',
+              store_cart_clear_cart_path,
+              method: :delete,
+              class: 'cmu-link-button' %>

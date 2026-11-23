@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-FactoryGirl.define do
+FactoryBot.define do
   # Tool Barcodes
   sequence :barcode do |n|
     "123#{n}"
@@ -13,13 +13,14 @@ FactoryGirl.define do
 
   # charge
   factory :charge do
-    amount 100.00
-    charged_at Time.zone.today
-    description 'Missed 10/2 meeting'
+    amount { 100.00 }
+    charged_at { Time.zone.today }
+    description { 'Missed 10/2 meeting' }
 
     association :charge_type
     association :organization
     association :issuing_participant
+    association :creating_participant
   end
 
   # charge_type
@@ -29,15 +30,17 @@ FactoryGirl.define do
 
   # checkout
   factory :checkout do
-    checked_out_at 1.hour.ago
+    checked_out_at { 1.hour.ago }
 
     association :tool
     association :organization
+    association :participant
   end
 
   # event
   factory :event do
     association :event_type
+    association :participant
   end
 
   # event_type
@@ -47,13 +50,13 @@ FactoryGirl.define do
 
   # faq
   factory :faq do
-    question 'MyText'
-    answer 'MyText'
+    question { 'MyText' }
+    answer { 'MyText' }
   end
 
   # membership
   factory :membership do
-    is_booth_chair false
+    is_booth_chair { false }
 
     association :organization
     association :participant
@@ -74,31 +77,38 @@ FactoryGirl.define do
   # organization_timeline_entry
   factory :organization_timeline_entry do
     description { generate(:random_string) }
-    started_at 2.hours.ago
-    entry_type 0
+    started_at { 2.hours.ago }
+    entry_type { 0 }
 
     association :organization
   end
 
   # participant
   factory :participant,
-          aliases: %i[completed_by issuing_participant receiving_participant] do
-    andrewid { generate(:random_string) }
-    waiver_start DateTime.now
+          aliases: %i[
+            completed_by
+            creating_participant
+            issuing_participant
+            receiving_participant
+          ] do
+    eppn { "#{generate(:random_string)}@andrew.cmu.edu" }
+    phone_number { '412-555-0100' }
+    signed_waiver { true }
   end
 
   # shift
   factory :shift do
-    ends_at 2.days.ago
-    required_number_of_participants 3
-    starts_at 3.days.ago
+    ends_at { 2.days.ago }
+    capacity { 3 }
+    starts_at { 3.days.ago }
 
+    association :organization
     association :shift_type
   end
 
   # shift_participant
   factory :shift_participant do
-    clocked_in_at Time.zone.local(2000, 1, 1, 12, 3, 0)
+    clocked_in_at { Time.zone.local(2000, 1, 1, 12, 3, 0) }
 
     association :participant
     association :shift
@@ -111,28 +121,20 @@ FactoryGirl.define do
 
   # task
   factory :task do
-    due_at Time.zone.today
-    name 'Assign rides'
+    due_at { Time.zone.today }
+    name { 'Assign rides' }
   end
 
   # tool type
   factory :tool_type do
-    name 'Hammer'
+    name { 'Hammer' }
   end
 
   # tool
   factory :tool do
     barcode { generate(:barcode) }
-    description 'HAMMER'
+    description { 'HAMMER' }
     association :tool_type
-  end
-
-  # user
-  factory :user do
-    name 'Default Factory User'
-    email { "#{generate(:random_string)}@andrew.cmu.edu" }
-
-    association :participant
   end
 
   # store_purchase
@@ -142,6 +144,7 @@ FactoryGirl.define do
 
   # store_item
   factory :store_item do
-    name 'Hammer'
+    name { generate(:random_string) }
+    price { 5.00 }
   end
 end

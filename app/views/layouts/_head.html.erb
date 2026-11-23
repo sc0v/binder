@@ -1,0 +1,65 @@
+<%# The <head> every layout shares: CMU's template first, then the kit, then
+    Binder's own styles %>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<%# Google tag for binder.springcarnival.org, in production only, so
+    development, test and staging visits stay out of the numbers. Every
+    page has the Legal Info link in its footer. %>
+<% if Rails.env.production? %>
+  <script
+    async
+    src="https://www.googletagmanager.com/gtm.js?id=GTM-TCFHNJXN"
+  ></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+    gtag("js", new Date());
+  </script>
+<% end %>
+<title><%= document_title %></title>
+<%= csrf_meta_tags %>
+<%= csp_meta_tag %>
+<%# The template's scripts rearrange the header and the menu when they run,
+    and Turbo runs them again on each page it shows. A page Turbo kept in its
+    cache is already rearranged, so Back fetches a fresh page instead. %>
+<meta name="turbo-cache-control" content="no-cache" />
+<link
+  href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,700,700italic"
+  rel="stylesheet"
+/>
+<link
+  href="https://www.cmu.edu/common/standard-v6/css/main.6.7.min.css"
+  media="screen"
+  rel="stylesheet"
+/>
+<link
+  href="https://www.cmu.edu/common/standard-v6/css/print.min.css"
+  media="print"
+  rel="stylesheet"
+/>
+<%= stylesheet_link_tag 'cmu-cms', 'cmu-app', 'data-turbo-track': 'reload' %>
+<link
+  rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css"
+/>
+<%= stylesheet_link_tag 'binder', 'application', 'data-turbo-track': 'reload' %>
+<%# Binder's own icon (the Spring Carnival tent), also the app's install icon %>
+<%= favicon_link_tag %>
+<%= favicon_link_tag 'favicon-152.png',
+                     rel: 'apple-touch-icon-precomposed',
+                     type: 'image/png' %>
+<meta content="#9f0000" name="msapplication-TileColor" />
+<meta
+  content="<%= image_url('favicon-144.png').to_s %>"
+  name="msapplication-TileImage"
+/>
+<link rel="manifest" href="/manifest.json" />
+<meta name="theme-color" content="#9F0000" />
+<meta
+  name="push-notification-key"
+  content="<%= Rails.application.config.vapid_public_key %>"
+/>
+<%= javascript_importmap_tags %>
+<%= yield :head %>

@@ -1,0 +1,19 @@
+<%# locals: (now:, coming:) -%>
+<%# The operations hub's shifts, in the sidebar: going on now, then the next
+    few %>
+<div class="left-rule">
+  <h2>Shifts</h2>
+  <h3>On Now</h3>
+  <% if now.any? %>
+    <ul><%= render partial: 'welcome/shift', collection: now %></ul>
+  <% else %>
+    <p>No shifts going on now.</p>
+  <% end %>
+  <h3>Coming Up</h3>
+  <% if coming.any? %>
+    <ul><%= render partial: 'welcome/shift', collection: coming %></ul>
+  <% else %>
+    <p>No more shifts scheduled.</p>
+  <% end %>
+  <p><%= link_to 'See All Shifts', shifts_path, class: 'cta' %></p>
+</div>

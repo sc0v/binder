@@ -1,0 +1,92 @@
+<%# A Web Kilt table from a *_TABLE_COLUMNS config. See DataTablesHelper. %>
+<% filters = columns.any? { |c| c[:headerFilter].present? } %>
+<% total = data_table_total(columns, rows) %>
+<% one = noun.split('|').first %>
+<% article = one.match?(/\A[aeiou]/i) ? 'an' : 'a' %>
+<% find = "Find #{article} #{one}" %>
+<div class="cmu-search-bar">
+  <%= label_tag "#{id}-search", "Find #{article} #{one.titleize}", class: 'sr-only' %>
+  <%= text_field_tag nil,
+                     nil,
+                     id: "#{id}-search",
+                     autocomplete: 'off',
+                     placeholder: "#{find}…",
+                     data: {
+                       cmu_filter: id
+                     } %>
+</div>
+<div class="table-scroll">
+  <table
+    class="alternate cmu-full cmu-sticky"
+    id="<%= id %>"
+    data-cmu-table
+    data-cmu-noun="<%= noun %>"
+  >
+    <thead>
+      <tr>
+        <% columns.each do |column| %>
+          <% key = data_table_key(column) %>
+          <% if column[:title].blank? %>
+            <th scope="col" class="cmu-fit"
+              ><span class="sr-only">Actions</span></th
+            >
+          <% elsif data_table_sortable?(column) %>
+            <th
+              scope="col"
+              data-sort-key="<%= key %>"
+              class="<%= 'aligncenter' if column[:hozAlign] == 'center' %>"
+            >
+              <button type="button" class="cmu-sort">
+                <%= column[:title] %><span class="cmu-sort-arrow"></span>
+              </button>
+            </th>
+          <% else %>
+            <th scope="col" data-cmu-column="<%= key %>"
+              ><%= column[:title] %></th
+            >
+          <% end %>
+        <% end %>
+      </tr>
+      <% if filters %>
+        <tr class="cmu-filter-row">
+          <% columns.each do |column| %>
+            <td><%= data_table_filter(column, id) %></td>
+          <% end %>
+        </tr>
+      <% end %>
+    </thead>
+    <tbody>
+      <% rows.each do |row| %>
+        <tr>
+          <% columns.each do |column| %>
+            <%= tag.td data_table_cell(column, row), **data_table_cell_attrs(column, row) %>
+          <% end %>
+        </tr>
+      <% end %>
+    </tbody>
+    <% if total && rows.any? %>
+      <tfoot>
+        <tr>
+          <% total.each_with_index do |cell, i| %>
+            <% if i.zero? && cell.blank? %>
+              <th scope="row">Total</th>
+            <% else %>
+              <td class="<%= 'num' if cell.present? %>"><%= cell %></td>
+            <% end %>
+          <% end %>
+        </tr>
+      </tfoot>
+    <% end %>
+  </table>
+</div>
+<% if rows.empty? && empty %>
+  <p><%= empty %></p>
+<% else %>
+  <p class="cmu-results-count" data-cmu-count="<%= id %>" aria-live="polite">
+    <%= if rows.one?
+          "Showing 1 #{noun.split('|').first}"
+        else
+          "Showing all #{rows.size} #{noun.split('|')[1] || "#{noun.split('|').first}s"}"
+        end %>
+  </p>
+<% end %>

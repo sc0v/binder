@@ -4,7 +4,7 @@ require 'test_helper'
 
 class TaskTest < ActiveSupport::TestCase
   # Relationships
-  should belong_to(:completed_by) # need something about Participants here? See model...
+  should belong_to(:completed_by).optional
 
   # Validations
   should validate_presence_of(:name)
@@ -13,10 +13,10 @@ class TaskTest < ActiveSupport::TestCase
   context 'With a proper context, ' do
     setup do
       # Create 3 tasks
-      @assign_rides = FactoryGirl.create(:task, due_at: 2.hours.ago)
-      @buy_wood = FactoryGirl.create(:task, due_at: 5.hours.from_now)
+      @assign_rides = FactoryBot.create(:task, due_at: 2.hours.ago)
+      @buy_wood = FactoryBot.create(:task, due_at: 5.hours.from_now)
       @takeout_trash =
-        FactoryGirl.create(:task, is_completed: true, due_at: 1.hour.from_now)
+        FactoryBot.create(:task, is_completed: true, due_at: 1.hour.from_now)
     end
 
     should 'show that all factories are properly created' do

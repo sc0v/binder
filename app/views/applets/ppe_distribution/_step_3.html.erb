@@ -4,8 +4,7 @@
   <%= hidden_field_tag(:participant_id, @participant.id) %>
   <ol>
     <li>
-      <strong>Please select</strong> <%= @participant.name %>'s primary
-      membership:<br />
+      <strong>Select</strong> <%= @participant.name %>'s primary membership:<br />
       <% @participant.organizations.each do |o| %>
         <% doghouse = o.organization_category.lookup_key == 'doghouse' %>
         <%= radio_button_tag 'organization_id', o.id, false, disabled: doghouse %>
@@ -38,13 +37,13 @@
 
     <% if hh %>
       <li>
-        <%= label_tag(:hardhat_search, 'Click on the search box below') %>
+        <%= label_tag(:hardhat_search, 'Select the search box below') %>
         <%= text_field_tag(:hardhat_search, nil, autocomplete: :off) %>
       </li>
       <li
         >Scan the SCC Barcode tag with the barcode reader.<br />
         If it's not working, find the SCC Barcode number on the tag and type it
-        in the search box above. Press enter on the keyboard.
+        in the search box above. Press Enter on the keyboard.
       </li>
     <% end %>
 

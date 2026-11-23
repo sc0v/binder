@@ -1,0 +1,63 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+# Source checks for the template's layout contract. This does not replace
+# rendering authenticated pages in a browser at desktop and phone widths.
+require 'action_view'
+require 'nokogiri'
+
+root = File.expand_path('..', __dir__)
+files =
+  Dir[File.join(root, 'app/views/**/*.erb')].reject do |file|
+    file.end_with?('.js.erb', '.json.erb')
+  end
+failures = []
+
+files.each do |file|
+  relative = file.delete_prefix("#{root}/")
+  source = File.read(file)
+  begin
+    ruby =
+      ActionView::Template::Handlers::ERB.erb_implementation.new(source).src
+    RubyVM::InstructionSequence.compile("def layout_check;\n#{ruby}\nend")
+  rescue SyntaxError => error
+    failures << "#{relative}: #{error.message.lines.first.strip}"
+    next
+  end
+
+  # Preserve literal HTML while removing Ruby and commented examples. Both
+  # sides of conditionals remain, so this cannot establish runtime coverage.
+  html = source.gsub(/<%.*?%>/m, '').gsub(/<!--.*?-->/m, '')
+  document = Nokogiri::HTML5.fragment(html)
+  document
+    .css('.content')
+    .each do |band|
+      unless band.element_children.all? { |child| child.name == 'div' }
+        failures << "#{relative}: content outside a column"
+      end
+      if band.at_css('.content, .grid')
+        failures << "#{relative}: a page band is nested inside a content column"
+      end
+    end
+  document
+    .css('table.cmu-full')
+    .each do |table|
+      unless table.parent['class'].to_s.split.include?('table-scroll')
+        failures << "#{relative}: a stretched table has no scrolling container"
+      end
+    end
+
+  next if File.basename(file).start_with?('_') || relative.include?('/layouts/')
+  next if document.element_children.empty?
+  next if document.at_css('.content, .grid, .full-screen-note, turbo-frame')
+
+  failures << "#{relative}: page content has no CMU layout band"
+end
+
+if failures.empty?
+  puts "Layout source checks passed for #{files.length} HTML templates."
+  puts 'Live rendering, responsive layout and application behavior still require browser checks.'
+else
+  warn failures.uniq.join("\n")
+  exit 1
+end

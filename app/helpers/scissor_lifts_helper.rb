@@ -62,7 +62,7 @@ module ScissorLiftsHelper
       }
     },
     {
-      title: 'Time remaining',
+      title: 'Time Remaining',
       field: :due_at_countdown,
       sorter: 'datetime',
       sorterParams: {

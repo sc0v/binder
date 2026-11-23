@@ -5,18 +5,19 @@
 <%- model_class = Charge -%>
 <div class="content">
   <div>
-    <div class="title-row">
-      <h1>
-        <%= link_to "#{@organization.name}'s", @organization if @organization.present? %>
-        <%= t '.title', default: model_class.model_name.human.pluralize %>
-      </h1>
-      <div>
-        <%= link_to 'Export Invoices', export_charges_path(format: :zip), class: 'cta' %>
-      </div>
-    </div>
-    <%= content_tag :div, data: { controller: 'table', config: charges_table_config } do %>
-      Loading...
-    <% end %> </div
+    <h1>
+      <%= link_to "#{@organization.name}'s", @organization if @organization.present? %>
+      <%= t '.title', default: model_class.model_name.human.pluralize %>
+    </h1>
+    <p>
+      <%= link_to 'Export Invoices', export_charges_path(format: :zip), class: 'btn' %>
+    </p>
+    <%= data_table(
+          id: 'charges-table',
+          config: charges_table_config,
+          rows: @table_rows,
+          noun: 'charge'
+        ) %> </div
   ><div class="sidebar">
     <% if can?(:create, Charge) %>
       <div class="invert red">

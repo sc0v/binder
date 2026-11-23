@@ -2,11 +2,11 @@
 <% update_breadcrumbs(add: link_to('All Shifts', shifts_path)) %>
 <% update_breadcrumbs(add: 'Add Shifts') %>
 
-<% nav(active: 'shifts') %>
-
 <% if can?(:create, @shift) %>
   <%- model_class = Shift -%>
   <%= render partial: "shifts/new_shifts/step_#{@step}", locals: { mode: 'new' } %>
 <% else %>
-  <h3>Not Authorized!</h3>
+  <div class="content"
+    ><div><h3>You Aren't Authorized to See This Page</h3></div></div
+  >
 <% end %>
