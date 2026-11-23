@@ -7,11 +7,13 @@ module Authentication
 
   private
 
-  # Set current user if one is authenticated
+  # Set current user if one is authenticated. A cookie for someone who no
+  # longer exists signs the browser out.
   def set_current_user
     return if (user_id = cookies.encrypted[:user_id]).blank?
 
-    Current.user = Participant.find(user_id)
+    Current.user = Participant.find_by(id: user_id)
+    cookies.delete(:user_id) if Current.user.nil?
   end
 
   # Redirect to default login when authentication is required
