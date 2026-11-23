@@ -60,7 +60,8 @@ class DowntimeController < ApplicationController
                   notice: "Stopped downtime for #{@organization.name}."
     else
       redirect_to params[:url],
-                  alert: "Downtime for #{@organization.name} couldn't be stopped. Try again."
+                  alert:
+                    "Downtime for #{@organization.name} couldn't be stopped. Try again."
     end
   end
 

@@ -35,13 +35,12 @@
                             data: {
                               turbo_confirm: t('.confirm')
                             } do %>
-
+                <%# Empty: the Delete button above submits it %>
               <% end %>
             <% end %>
           <% end %>
         </div>
-      <% end %>
-    </div
+      <% end %> </div
     ><%= render 'sidebar' if index.zero? %>
   </div>
 <% end %>
@@ -49,8 +48,7 @@
   <div class="content">
     <div>
       <h1><%= t('.heading') %></h1>
-      <p><%= t('.empty') %></p>
-    </div
+      <p><%= t('.empty') %></p> </div
     ><%= render 'sidebar' %>
   </div>
 <% end %>

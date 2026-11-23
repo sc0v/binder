@@ -103,7 +103,10 @@ class Ability
     # memberships twice and checks the wrong one.
     can %i[read read_phone_number],
         Participant,
-        id: Membership.where(organization_id: user.organization_ids).pluck(:participant_id)
+        id:
+          Membership.where(organization_id: user.organization_ids).pluck(
+            :participant_id
+          )
     can :read_phone_number, Participant, id: user.id
     cannot :login, Participant
     can :skip_safety_video, Participant, id: user.id, watched_safety_video: true

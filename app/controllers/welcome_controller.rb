@@ -7,7 +7,12 @@ class WelcomeController < ApplicationController
     return unless Current.user&.scc?
 
     @tasks_due = tasks_due
-    shifts = Shift.accessible_by(Current.ability).includes(:shift_type, :organization, :participants)
+    shifts =
+      Shift.accessible_by(Current.ability).includes(
+        :shift_type,
+        :organization,
+        :participants
+      )
     @shifts_now = shifts.current
     @shifts_next = shifts.future.limit(6)
   end

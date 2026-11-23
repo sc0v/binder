@@ -41,10 +41,7 @@ class DevSessionsControllerTest < ActionDispatch::IntegrationTest
   end
 
   test 'signs in and goes back to the page on this site it came from' do
-    post dev_login_as_path(@admin),
-         params: {
-           return_to: '/scissor_lifts?x=1'
-         }
+    post dev_login_as_path(@admin), params: { return_to: '/scissor_lifts?x=1' }
 
     assert_redirected_to '/scissor_lifts?x=1'
   end
