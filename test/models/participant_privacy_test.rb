@@ -94,9 +94,14 @@ class ParticipantPrivacyTest < ActiveSupport::TestCase
   end
 
   def person(andrew_id, organization = nil, booth_chair: false, admin: false)
-    participant = Participant.create!(eppn: "#{andrew_id}@andrew.cmu.edu", admin:)
+    participant =
+      Participant.create!(eppn: "#{andrew_id}@andrew.cmu.edu", admin:)
     if organization
-      Membership.create!(participant:, organization:, is_booth_chair: booth_chair)
+      Membership.create!(
+        participant:,
+        organization:,
+        is_booth_chair: booth_chair
+      )
     end
     participant
   end

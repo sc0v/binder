@@ -4,13 +4,16 @@ class OrganizationMembersController < ApplicationController
   def index
     @organization = Organization.find(params[:organization_id])
     authorize! :read, Membership.new(organization: @organization)
-    members = Participant.accessible_by(Current.ability)
-                         .in_organization(@organization)
-                         .ordered_by_name
-    @table_rows = members.as_json(
-      only: %i[id eppn],
-      methods: %i[link name signed_waiver? booth_chair?]
-    )
+    members =
+      Participant
+        .accessible_by(Current.ability)
+        .in_organization(@organization)
+        .ordered_by_name
+    @table_rows =
+      members.as_json(
+        only: %i[id eppn],
+        methods: %i[link name signed_waiver? booth_chair?]
+      )
     respond_to do |format|
       format.html
       format.json { render json: { data: @table_rows } }
@@ -58,7 +61,8 @@ class OrganizationMembersController < ApplicationController
         redirect_to back, notice: "Added #{params[:participant][:andrewid]}."
       else
         redirect_to back,
-                    alert: "#{params[:participant][:andrewid]} couldn't be added. Check the Andrew ID and try again."
+                    alert:
+                      "#{params[:participant][:andrewid]} couldn't be added. Check the Andrew ID and try again."
       end
     else
       redirect_to back,

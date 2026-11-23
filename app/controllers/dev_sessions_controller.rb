@@ -70,6 +70,7 @@ class DevSessionsController < ApplicationController
   end
 
   def local_path?(path)
-    path.start_with?('/') && !path.start_with?('//', '/login', '/logout', '/auth/')
+    path.start_with?('/') &&
+      !path.start_with?('//', '/login', '/logout', '/auth/')
   end
 end

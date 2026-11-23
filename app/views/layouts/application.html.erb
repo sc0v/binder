@@ -9,7 +9,9 @@
     <%= render 'layouts/head' %>
   </head>
   <%= tag.body class: ['no-js', 'cmu-app', { 'cmu-acting-as': Current.imposter }],
-               data: { cmu_menu: 'closed' } do %>
+               data: {
+                 cmu_menu: 'closed'
+               } do %>
     <div id="container">
       <header>
         <%= render 'layouts/site_bars', user: %>

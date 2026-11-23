@@ -1,7 +1,11 @@
-<%# locals: (shift:) -%>
+<%# locals: (shift:) %>
 <%# One shift in the sidebar: what, where, when and who %>
 <li>
   <%= link_to shift.shift_type.name, shift_path(shift) %><%= ", #{shift.organization.name}" if shift.organization %><br />
   <%= ap_time_range(shift.starts_at, shift.ends_at) %>:
-  <%= shift.participants.map(&:name).to_sentence(last_word_connector: ' and ').presence || 'no one yet' %>
+  <%= shift
+        .participants
+        .map(&:name)
+        .to_sentence(last_word_connector: ' and ')
+        .presence || 'no one yet' %>
 </li>

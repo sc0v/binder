@@ -112,10 +112,14 @@ class ChargesController < ApplicationController
   end
 
   def enrich_charge_json(row)
-    row['show_link'] = helpers.link_to 'View',
-                                       helpers.charge_path(row['id']),
-                                       class: 'btn small ghost',
-                                       'aria-label': "View charge #{row['id']}"
+    label = "View charge #{row['id']}"
+    path = helpers.charge_path(row['id'])
+    row['show_link'] = helpers.link_to(
+      'View',
+      path,
+      class: 'btn small ghost',
+      'aria-label': label
+    )
     row['description_truncated'] = row['description'].to_s.truncate(
       85,
       separator: /\s/

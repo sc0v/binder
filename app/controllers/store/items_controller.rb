@@ -44,7 +44,11 @@ class Store::ItemsController < ApplicationController
     @store_item = StoreItem.find(params[:id])
     @name = @store_item.name
     if item_in_cart?
-      return redirect_to store_path, alert: "#{@name} is still in the cart. Clear the cart first."
+      return(
+        redirect_to store_path,
+                    alert:
+                      "#{@name} is still in the cart. Clear the cart first."
+      )
     end
 
     perform_destroy
@@ -62,8 +66,7 @@ class Store::ItemsController < ApplicationController
 
   def perform_destroy
     @store_item.destroy!
-    redirect_to store_path,
-                notice: "#{@name} was removed from the store."
+    redirect_to store_path, notice: "#{@name} was removed from the store."
   rescue StandardError
     redirect_to store_path,
                 alert: "#{@name} could not be removed from the store."

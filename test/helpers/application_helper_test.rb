@@ -36,8 +36,10 @@ class ApplicationHelperTest < ActiveSupport::TestCase
   test 'time spans are AP style' do
     today = Time.zone.today.in_time_zone
 
-    assert_equal '6-9 p.m.', ap_time_range(today.change(hour: 18), today.change(hour: 21))
-    assert_equal '11 a.m.-2 p.m.', ap_time_range(today.change(hour: 11), today.change(hour: 14))
+    assert_equal '6-9 p.m.',
+                 ap_time_range(today.change(hour: 18), today.change(hour: 21))
+    assert_equal '11 a.m.-2 p.m.',
+                 ap_time_range(today.change(hour: 11), today.change(hour: 14))
   end
 
   test 'a span on another day names the day' do
@@ -45,9 +47,16 @@ class ApplicationHelperTest < ActiveSupport::TestCase
     day = tomorrow.strftime('%A')
     next_day = (tomorrow + 1.day).strftime('%A')
 
-    assert_equal "#{day}, 6-9 p.m.", ap_time_range(tomorrow.change(hour: 18), tomorrow.change(hour: 21))
+    assert_equal "#{day}, 6-9 p.m.",
+                 ap_time_range(
+                   tomorrow.change(hour: 18),
+                   tomorrow.change(hour: 21)
+                 )
     assert_equal "#{day}, 11 p.m.-#{next_day}, 2 a.m.",
-                 ap_time_range(tomorrow.change(hour: 23), (tomorrow + 1.day).change(hour: 2))
+                 ap_time_range(
+                   tomorrow.change(hour: 23),
+                   (tomorrow + 1.day).change(hour: 2)
+                 )
   end
 
   test 'noon and midnight are words' do

@@ -32,8 +32,12 @@ module DataTableCellsHelper
   end
 
   def data_table_money(value, _column, _row) = number_to_currency(value || 0)
+
   # SQL booleans arrive as 0 and 1, and 0 is true in Ruby
-  def data_table_yes_no(value, _column, _row) = ActiveModel::Type::Boolean.new.cast(value) ? 'Yes' : 'No'
+  def data_table_yes_no(value, _column, _row)
+    ActiveModel::Type::Boolean.new.cast(value) ? 'Yes' : 'No'
+  end
+
   def data_table_time_cell(value, _column, _row) = data_table_time(value)
 
   def data_table_text(value, _column, _row)

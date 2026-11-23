@@ -1,4 +1,4 @@
-<%# locals: (user:, items:, current:) -%>
+<%# locals: (user:, items:, current:) %>
 <%# The footer: the app's name and address, then the navigation in the third
     column, where the template's script finds it %>
 <footer class="grid column3 invert">
@@ -13,9 +13,7 @@
       412-268-5226
     </p>
     <ul>
-      <li>
-        <%= link_to 'systems@springcarnival.org', contact_email_url %>
-      </li>
+      <li> <%= link_to 'systems@springcarnival.org', contact_email_url %> </li>
       <li><a href="https://www.cmu.edu/legal/">Legal Info</a></li>
       <li><a href="https://www.cmu.edu/">www.cmu.edu</a></li>
     </ul>
@@ -24,7 +22,5 @@
     </ul>
   </div>
   <div></div>
-  <div>
-    <%= render 'layouts/navigation', user:, items:, current: %>
-  </div>
+  <div> <%= render 'layouts/navigation', user:, items:, current: %> </div>
 </footer>

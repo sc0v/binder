@@ -105,7 +105,9 @@ Rails.application.routes.draw do
       post 'add-checkin', to: 'tools/checkin#create', as: :add_checkin
       post :checkin, to: 'tools/checkin#update'
       post :add, to: 'tools/checkouts#add'
-      post 'checkout-participant', to: 'tools/checkouts#participant', as: :checkout_participant
+      post 'checkout-participant',
+           to: 'tools/checkouts#participant',
+           as: :checkout_participant
       get :checkout, to: 'tools/checkouts#new'
       post :checkout, to: 'tools/checkouts#create'
       post :checkin, to: 'tools/checkouts#update'
@@ -119,7 +121,9 @@ Rails.application.routes.draw do
 
   # Tool Inventory
   resources :tool_inventory, path: 'inventory', only: [:show] do
-    resources :tool_inventory_tools, path: 'tools', only: %i[new create index destroy]
+    resources :tool_inventory_tools,
+              path: 'tools',
+              only: %i[new create index destroy]
     post :complete, to: 'tool_inventory#complete'
   end
   get 'inventory', to: 'tool_inventory#show', as: :inventory
@@ -135,7 +139,9 @@ Rails.application.routes.draw do
       post :renew, to: 'scissor_lift_checkouts#renew'
     end
   end
-  resources :scissor_lift_checkouts, path: 'scissor-lift-checkouts', only: [:index]
+  resources :scissor_lift_checkouts,
+            path: 'scissor-lift-checkouts',
+            only: [:index]
 
   # Downtime Index (other methods are organizations/downtime)
   get 'downtime', to: 'downtime#downtime'
@@ -145,7 +151,9 @@ Rails.application.routes.draw do
   resources :organization_build_statuses, path: 'build-statuses', only: [:index]
 
   resources :organizations do
-    resources :organization_build_statuses, path: 'build-statuses', only: %i[show edit update] do
+    resources :organization_build_statuses,
+              path: 'build-statuses',
+              only: %i[show edit update] do
       resources :organization_build_steps,
                 path: 'steps',
                 only: %i[show create edit update destroy]
@@ -155,7 +163,9 @@ Rails.application.routes.draw do
               path: 'people',
               only: %i[new create index],
               controller: 'organization_members'
-    patch 'remove-staged', to: 'organization_members#remove_staged', as: :remove_staged
+    patch 'remove-staged',
+          to: 'organization_members#remove_staged',
+          as: :remove_staged
 
     resources :shifts, only: [:index]
     resources :tools, only: [:index]
@@ -163,12 +173,20 @@ Rails.application.routes.draw do
     resources :downtime, controller: :downtime, only: [:index]
     resources :memberships, only: %i[new create destroy]
     # Membership bulk add operations
-    post 'upload-membership-csv', to: 'memberships#upload_csv', as: :upload_membership_csv
-    post 'replace-membership', to: 'memberships#replace', as: :replace_membership
+    post 'upload-membership-csv',
+         to: 'memberships#upload_csv',
+         as: :upload_membership_csv
+    post 'replace-membership',
+         to: 'memberships#replace',
+         as: :replace_membership
     post 'insert-membership', to: 'memberships#insert', as: :insert_membership
     post 'remove-membership', to: 'memberships#remove', as: :remove_membership
-    post 'cancel-membership-csv', to: 'memberships#cancel', as: :cancel_membership_csv
-    post 'commit-membership-csv', to: 'memberships#commit', as: :commit_membership_csv
+    post 'cancel-membership-csv',
+         to: 'memberships#cancel',
+         as: :cancel_membership_csv
+    post 'commit-membership-csv',
+         to: 'memberships#commit',
+         as: :commit_membership_csv
   end
 
   resources :organization_timeline_entries,
@@ -207,7 +225,9 @@ Rails.application.routes.draw do
               path: 'people',
               controller: :shift_participants,
               only: %i[new create update destroy]
-    collection { post 'upload-shift-csv', to: 'shifts#upload_csv', as: :upload_shift_csv }
+    collection do
+      post 'upload-shift-csv', to: 'shifts#upload_csv', as: :upload_shift_csv
+    end
   end
 
   resources :tasks do
@@ -224,16 +244,28 @@ Rails.application.routes.draw do
   get 'store' => 'store/items#index'
   namespace :store do
     resources 'items' do
-      post 'add-to-cart', on: :member, controller: 'purchases', action: :add_to_cart, as: :add_to_cart
-      post 'remove-from-cart', on: :member, controller: 'purchases', action: :remove_from_cart, as: :remove_from_cart
+      post 'add-to-cart',
+           on: :member,
+           controller: 'purchases',
+           action: :add_to_cart,
+           as: :add_to_cart
+      post 'remove-from-cart',
+           on: :member,
+           controller: 'purchases',
+           action: :remove_from_cart,
+           as: :remove_from_cart
     end
     resources 'purchase', controller: 'purchases', except: %i[create new index]
     scope 'cart', as: 'cart', controller: 'purchases' do
       get 'review', action: 'new'
       post 'checkout', action: 'create'
-      post 'choose-organization', action: 'choose_organization', as: 'choose_organization'
+      post 'choose-organization',
+           action: 'choose_organization',
+           as: 'choose_organization'
       delete 'clear-cart', action: 'clear_cart', as: 'clear_cart'
-      get 'reset-participant', action: 'reset_participant', as: 'reset_participant'
+      get 'reset-participant',
+          action: 'reset_participant',
+          as: 'reset_participant'
     end
   end
 

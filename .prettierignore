@@ -12,7 +12,9 @@ package-lock.json
 config/locales/
 
 # ERB templates with patterns the prettier ERB plugin cannot parse:
-# begin/rescue/end blocks, ERB inside JS literals, conditional tr tags, for..in loops
+# begin/rescue/end blocks, ERB inside JS literals, conditional tr tags, for..in loops,
+# an empty form_with block
+app/views/faq/index.html.erb
 app/views/home/search.html.erb
 app/views/participants/safety_briefings/_video.html.erb
 app/views/shifts/_list.html.erb

@@ -57,7 +57,8 @@ module ApplicationHelper
   # A date in AP style: Jan. 11, Sept. 3, March 5 (no year)
   def ap_date(time)
     month = time.strftime('%B')
-    month = month == 'September' ? 'Sept.' : "#{month[0, 3]}." if month.length > 5
+    month = month == 'September' ? 'Sept.' : "#{month[0, 3]}." if month.length >
+      5
     "#{month} #{time.day}"
   end
 
@@ -76,7 +77,8 @@ module ApplicationHelper
     last = ap_time(ends)
     same_day = starts.to_date == ends.to_date
     meridiem = last[/ [ap]\.m\.\z/]
-    first = first.delete_suffix(meridiem) if same_day && meridiem && first.end_with?(meridiem)
+    first = first.delete_suffix(meridiem) if same_day && meridiem &&
+      first.end_with?(meridiem)
     first = [ap_day(starts), first].compact.join(', ')
     last = [ap_day(ends), last].compact.join(', ') unless same_day
     "#{first}-#{last}"

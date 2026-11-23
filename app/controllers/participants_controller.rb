@@ -87,7 +87,10 @@ class ParticipantsController < ApplicationController
       .accessible_by(Current.ability)
       .ordered_by_name
       .table_attrs
-      .as_json(only: %i[id eppn is_booth_chair], methods: %i[link name signed_waiver?])
+      .as_json(
+        only: %i[id eppn is_booth_chair],
+        methods: %i[link name signed_waiver?]
+      )
   end
 
   def show_participant(uid = nil)

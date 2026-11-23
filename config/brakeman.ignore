@@ -1,0 +1,12 @@
+{
+  "ignored_warnings": [
+    {
+      "warning_type": "Cross-Site Scripting",
+      "fingerprint": "3165eae9abcc492bfe800abe737fe803371b1be277db9513d6ffc0967559f4c5",
+      "file": "app/views/layouts/_nav_item.html.erb",
+      "line": 6,
+      "note": "NavItem urls come from route helpers in navigation_items_helper, never from user input"
+    }
+  ],
+  "brakeman_version": "8.0.2"
+}

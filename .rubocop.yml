@@ -35,7 +35,14 @@ Metrics/ClassLength:
     - "app/models/carnegie_mellon_id_card.rb"
     - "app/models/participant.rb"
     - "app/models/shift.rb"
+    - "app/controllers/participants_controller.rb"
+    - "lib/carnival/import.rb"
     - "test/**/*"
+
+# TODO: split navigation_items_helper's item lists by audience.
+Metrics/ModuleLength:
+  Exclude:
+    - "app/helpers/application/navigation_items_helper.rb"
 
 # Rake tasks, routes, seeds, environments, and test blocks are inherently
 # long and cannot be meaningfully split without losing context.
@@ -52,6 +59,7 @@ Metrics/BlockLength:
 # TODO: split ability.rb initialize across per-role modules (CanCanCan convention).
 # TODO: extract CarnegieMellonIdCard HTTP request chains to a service object.
 # TODO: refactor PPEDistributionController load_step_* methods into smaller helpers.
+# TODO: split Carnival::Import's per-file methods (one per CSV) into smaller steps.
 # TODO: refactor home#search, organizations#show/index, organization_members#create,
 #       organization_timeline_entries#create, store/purchases#create, tool_inventory#complete,
 #       tools#index, navigation_helper#nav_items into smaller methods or service objects.
@@ -87,6 +95,8 @@ Metrics/MethodLength:
     - "app/helpers/memberships_helper.rb"
     - "app/models/carnegie_mellon_person.rb"
     - "app/models/participant.rb"
+    - "app/controllers/welcome_controller.rb"
+    - "lib/carnival/import.rb"
 Metrics/AbcSize:
   Exclude:
     - "app/models/ability.rb"
