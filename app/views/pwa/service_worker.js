@@ -1,4 +1,4 @@
-const CACHE_NAME = "binder-v1";
+const CACHE_NAME = "binder-v2";
 const CACHED_URLS = ["/", "/offline.html"];
 
 self.addEventListener("install", (event) => {
