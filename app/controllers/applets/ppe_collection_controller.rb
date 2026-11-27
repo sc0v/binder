@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Applets::PPECollectionController < ApplicationController
+  before_action :require_scc
+
   def index
     return unless params[:hardhat_barcode]
 
@@ -40,5 +42,9 @@ class Applets::PPECollectionController < ApplicationController
 
   def no_current_checkout?
     @hardhat.checkouts.blank? || @hardhat.checkouts.current.blank?
+  end
+
+  def require_scc
+    authorize! :update, Checkout
   end
 end

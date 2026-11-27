@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
 class Applets::PPEDistributionController < ApplicationController
+  before_action :require_scc
+
   def index
     case params[:step]
     when '1'
@@ -119,6 +121,10 @@ class Applets::PPEDistributionController < ApplicationController
     return false if @hardhat.blank?
 
     true
+  end
+
+  def require_scc
+    authorize! :create, Checkout
   end
 
   def step_three
